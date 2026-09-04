@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# 影片/圖片素材靠 Google Drive 同步，不進 git
+media/*
+!media/.gitkeep
+
+# 執行期產生的個人紀錄
+data/progress.json

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "note": "三層結構：constraints 幾乎不動；styleRules 會被回饋自動增修；每個字的 concept 在 characters.json。",
+
+  "constraints": [
+    "Exactly 8 seconds long, single continuous shot.",
+    "The single Traditional Chinese character is the hero: it occupies the central 70% of the frame and is NEVER occluded, cropped, or pushed off-center.",
+    "3D Pixar / Disney toy render style. Vivid high-contrast colors, warm playful palette, soft studio lighting, glossy chunky toy materials.",
+    "Background is an extremely clean, minimal, solid light-colored backdrop. No environment, no props, no depth clutter.",
+    "0-2s: the physical object enters with bouncy squash-and-stretch jelly toy physics.",
+    "2-5s: the object smoothly and legibly morphs into the standard Traditional Chinese character. The morph must read clearly - the viewer should see each part of the object become a specific stroke.",
+    "5-8s: the finished character holds dead-center with a gentle breathing pulse. Strokes crisp, thick, high contrast, correct Traditional Chinese stroke structure.",
+    "Camera is locked off, or at most a very slow gentle push-in. No whip pans, no orbits, no shake.",
+    "NEGATIVE: no background story, no人物/characters/passersby, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the character, no simplified Chinese, no extra text, letters, numbers, or watermarks."
+  ],
+
+  "audio": "Audio: a warm, friendly, child-directed adult voice clearly pronounces the character in Mandarin with a Taiwanese accent. Repeat the pronunciation 3-4 times across the 8 seconds - once as the object appears, once mid-morph, and twice on the final hold. Clear, unhurried, no background music bed louder than the voice.",
+
+  "styleRules": [
+    {
+      "id": "stroke-contrast",
+      "text": "The character's strokes are a saturated solid color against a much lighter background - maximum readability for a young child.",
+      "reason": "預設：字要看得清楚是這個專案的第一目標",
+      "enabled": true
+    },
+    {
+      "id": "hold-length",
+      "text": "The final centered hold must last at least 3 full seconds so a child has time to recognise the shape.",
+      "reason": "預設：6 歲需要辨識時間",
+      "enabled": true
+    },
+    {
+      "id": "calm-palette",
+      "text": "Bright but not neon. Avoid pure white blowouts and avoid dark or moody grading.",
+      "reason": "預設：避免刺眼",
+      "enabled": true
+    }
+  ],
+
+  "outputTemplate": "【目標國字】：{char}\n【設計概念】：{concept}\n【8s Video Prompt】:\n```text\n{prompt}\n```"
+}

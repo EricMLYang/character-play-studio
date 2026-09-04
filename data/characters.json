@@ -1,0 +1,575 @@
+{
+  "version": 1,
+  "characters": [
+    {
+      "char": "日",
+      "zhuyin": "ㄖˋ",
+      "meaning": "sun",
+      "concept": {
+        "object": "a round glossy toy sun with a warm smiling glow",
+        "morph": "the sun squashes into an upright rounded rectangle and a single horizontal bar snaps across its middle",
+        "hook": "太陽會像果凍一樣被壓扁，中間啪一聲多一橫"
+      },
+      "status": "seed",
+      "priority": 1,
+      "media": [],
+      "feedback": [],
+      "emoji": "☀️"
+    },
+    {
+      "char": "月",
+      "zhuyin": "ㄩㄝˋ",
+      "meaning": "moon",
+      "concept": {
+        "object": "a chunky crescent moon toy, soft cream colored",
+        "morph": "the crescent tilts upright and two short horizontal bars slide in from the left to fill it",
+        "hook": "月亮站起來，兩條線咻咻滑進去"
+      },
+      "status": "seed",
+      "priority": 2,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌙"
+    },
+    {
+      "char": "山",
+      "zhuyin": "ㄕㄢ",
+      "meaning": "mountain",
+      "concept": {
+        "object": "three chunky toy mountain peaks in a row, the middle one tallest, snow caps on top",
+        "morph": "the three peaks straighten into three vertical strokes standing on one horizontal base",
+        "hook": "三座山站直變成三根柱子"
+      },
+      "status": "seed",
+      "priority": 3,
+      "media": [],
+      "feedback": [],
+      "emoji": "⛰️"
+    },
+    {
+      "char": "水",
+      "zhuyin": "ㄕㄨㄟˇ",
+      "meaning": "water",
+      "concept": {
+        "object": "a big glossy water droplet that lands and splashes",
+        "morph": "the splash arms fling outward into the left and right strokes while the core stretches into the central hook",
+        "hook": "水滴啪一下炸開，變成字"
+      },
+      "status": "seed",
+      "priority": 4,
+      "media": [],
+      "feedback": [],
+      "emoji": "💧"
+    },
+    {
+      "char": "火",
+      "zhuyin": "ㄏㄨㄛˇ",
+      "meaning": "fire",
+      "concept": {
+        "object": "a friendly campfire flame with two little sparks popping beside it",
+        "morph": "the flame body folds into the central 人 shape while the two sparks drop into place as the side strokes",
+        "hook": "火花啵啵兩下跳到旁邊"
+      },
+      "status": "seed",
+      "priority": 5,
+      "media": [],
+      "feedback": [],
+      "emoji": "🔥"
+    },
+    {
+      "char": "土",
+      "zhuyin": "ㄊㄨˇ",
+      "meaning": "earth",
+      "concept": {
+        "object": "a rounded mound of soil with a toy shovel stuck in it",
+        "morph": "the mound flattens into the bottom bar, the shovel handle stands as the vertical stroke, and a shorter bar snaps across",
+        "hook": "鏟子插進土裡就變成字"
+      },
+      "status": "seed",
+      "priority": 6,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌱"
+    },
+    {
+      "char": "木",
+      "zhuyin": "ㄇㄨˋ",
+      "meaning": "tree",
+      "concept": {
+        "object": "a small chunky toy tree with a straight trunk and two side branches",
+        "morph": "the branches droop into the two diagonal strokes and the roots spread into the base",
+        "hook": "樹枝垂下來變成手手"
+      },
+      "status": "seed",
+      "priority": 7,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌳"
+    },
+    {
+      "char": "人",
+      "zhuyin": "ㄖㄣˊ",
+      "meaning": "person",
+      "concept": {
+        "object": "a rounded toy figure standing and walking on the spot",
+        "morph": "the arms and head retract while the two legs stretch into the two diagonal strokes",
+        "hook": "小人把頭收起來，剩兩隻腳"
+      },
+      "status": "seed",
+      "priority": 8,
+      "media": [],
+      "feedback": [],
+      "emoji": "🧍"
+    },
+    {
+      "char": "口",
+      "zhuyin": "ㄎㄡˇ",
+      "meaning": "mouth",
+      "concept": {
+        "object": "a wide open cartoon mouth, glossy and bouncy",
+        "morph": "the mouth stretches square and its outline thickens into the four strokes of a box",
+        "hook": "嘴巴張超大變成方框"
+      },
+      "status": "seed",
+      "priority": 9,
+      "media": [],
+      "feedback": [],
+      "emoji": "👄"
+    },
+    {
+      "char": "手",
+      "zhuyin": "ㄕㄡˇ",
+      "meaning": "hand",
+      "concept": {
+        "object": "a chunky five-fingered toy hand waving",
+        "morph": "the fingers merge downward into three stacked horizontal bars while the wrist stretches into the vertical hook",
+        "hook": "五根手指疊成三條線"
+      },
+      "status": "seed",
+      "priority": 10,
+      "media": [],
+      "feedback": [],
+      "emoji": "✋"
+    },
+    {
+      "char": "足",
+      "zhuyin": "ㄗㄨˊ",
+      "meaning": "foot",
+      "concept": {
+        "object": "a chubby toy foot taking one big stomp",
+        "morph": "the ankle lifts and squares off into the top box while the foot splits into the lower strokes",
+        "hook": "腳踩一下，上面跳出一個框"
+      },
+      "status": "seed",
+      "priority": 11,
+      "media": [],
+      "feedback": [],
+      "emoji": "🦶"
+    },
+    {
+      "char": "目",
+      "zhuyin": "ㄇㄨˋ",
+      "meaning": "eye",
+      "concept": {
+        "object": "a big friendly cartoon eye that blinks twice",
+        "morph": "the eye rotates upright into a tall rectangle and two horizontal bars slide in across the pupil",
+        "hook": "眼睛轉直，裡面多兩條線"
+      },
+      "status": "seed",
+      "priority": 12,
+      "media": [],
+      "feedback": [],
+      "emoji": "👁️"
+    },
+    {
+      "char": "耳",
+      "zhuyin": "ㄦˇ",
+      "meaning": "ear",
+      "concept": {
+        "object": "a soft rounded toy ear that wiggles",
+        "morph": "the ear straightens and its folds flatten into the stacked horizontal bars",
+        "hook": "耳朵動一動就變平了"
+      },
+      "status": "seed",
+      "priority": 13,
+      "media": [],
+      "feedback": [],
+      "emoji": "👂"
+    },
+    {
+      "char": "大",
+      "zhuyin": "ㄉㄚˋ",
+      "meaning": "big",
+      "concept": {
+        "object": "a toy figure that inflates and throws both arms out wide",
+        "morph": "the outstretched arms become the top horizontal bar and the legs become the two big diagonals",
+        "hook": "小人張開手手變好大"
+      },
+      "status": "seed",
+      "priority": 14,
+      "media": [],
+      "feedback": [],
+      "emoji": "🙌"
+    },
+    {
+      "char": "小",
+      "zhuyin": "ㄒㄧㄠˇ",
+      "meaning": "small",
+      "concept": {
+        "object": "three tiny glossy blocks, the middle one slightly taller with a hook",
+        "morph": "the two outer blocks tip outward into the side dots while the middle stretches into the hooked vertical",
+        "hook": "三個小方塊，中間那個變長"
+      },
+      "status": "seed",
+      "priority": 15,
+      "media": [],
+      "feedback": [],
+      "emoji": "🤏"
+    },
+    {
+      "char": "上",
+      "zhuyin": "ㄕㄤˋ",
+      "meaning": "up",
+      "concept": {
+        "object": "a chunky arrow springing upward off a flat baseline",
+        "morph": "the arrow shaft becomes the vertical stroke, its head flattens into the short bar, and the ground becomes the base line",
+        "hook": "箭頭往上咻一下"
+      },
+      "status": "seed",
+      "priority": 16,
+      "media": [],
+      "feedback": [],
+      "emoji": "⬆️"
+    },
+    {
+      "char": "下",
+      "zhuyin": "ㄒㄧㄚˋ",
+      "meaning": "down",
+      "concept": {
+        "object": "a chunky arrow dropping downward under a flat ceiling bar",
+        "morph": "the ceiling becomes the top bar, the shaft becomes the vertical, and the arrowhead shrinks into the side dot",
+        "hook": "箭頭往下掉下來"
+      },
+      "status": "seed",
+      "priority": 17,
+      "media": [],
+      "feedback": [],
+      "emoji": "⬇️"
+    },
+    {
+      "char": "中",
+      "zhuyin": "ㄓㄨㄥ",
+      "meaning": "middle",
+      "concept": {
+        "object": "a glossy toy box with a rod spearing straight through its centre",
+        "morph": "the box squares into the rectangle and the rod stays as the vertical stroke through the middle",
+        "hook": "棒子從正中間穿過去"
+      },
+      "status": "seed",
+      "priority": 18,
+      "media": [],
+      "feedback": [],
+      "emoji": "🎯"
+    },
+    {
+      "char": "天",
+      "zhuyin": "ㄊㄧㄢ",
+      "meaning": "sky",
+      "concept": {
+        "object": "a toy figure with arms wide standing under a floating flat cloud-bar",
+        "morph": "the cloud bar drops onto the figure's arms making the two top bars, legs become the diagonals",
+        "hook": "雲變成一條線壓在頭上"
+      },
+      "status": "seed",
+      "priority": 19,
+      "media": [],
+      "feedback": [],
+      "emoji": "☁️"
+    },
+    {
+      "char": "田",
+      "zhuyin": "ㄊㄧㄢˊ",
+      "meaning": "field",
+      "concept": {
+        "object": "a top-down toy farm field split into four green plots",
+        "morph": "the outer edge thickens into a box and the two dividing paths become the inner cross",
+        "hook": "田裡的小路變成十字"
+      },
+      "status": "seed",
+      "priority": 20,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌾"
+    },
+    {
+      "char": "雨",
+      "zhuyin": "ㄩˇ",
+      "meaning": "rain",
+      "concept": {
+        "object": "a plump toy cloud with four raindrops falling from it",
+        "morph": "the cloud flattens into the top bar and roof, and the four drops line up as the four inner dots",
+        "hook": "四滴雨排排站進去"
+      },
+      "status": "seed",
+      "priority": 21,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌧️"
+    },
+    {
+      "char": "石",
+      "zhuyin": "ㄕˊ",
+      "meaning": "stone",
+      "concept": {
+        "object": "a round boulder rolling off a small cliff ledge",
+        "morph": "the ledge becomes the top-left angled strokes and the boulder squares into the box beneath",
+        "hook": "石頭從山邊滾下來"
+      },
+      "status": "seed",
+      "priority": 22,
+      "media": [],
+      "feedback": [],
+      "emoji": "🪨"
+    },
+    {
+      "char": "川",
+      "zhuyin": "ㄔㄨㄢ",
+      "meaning": "river",
+      "concept": {
+        "object": "three winding toy streams flowing side by side",
+        "morph": "the three streams straighten into three tall vertical strokes",
+        "hook": "三條河變成三條直線"
+      },
+      "status": "seed",
+      "priority": 23,
+      "media": [],
+      "feedback": [],
+      "emoji": "🏞️"
+    },
+    {
+      "char": "鳥",
+      "zhuyin": "ㄋㄧㄠˇ",
+      "meaning": "bird",
+      "concept": {
+        "object": "a chubby round toy bird that hops and flaps once",
+        "morph": "the head and beak fold into the top strokes, the wing flattens into the stacked bars, and the feet spread into the four bottom dots",
+        "hook": "小鳥的腳變成四個點點"
+      },
+      "status": "seed",
+      "priority": 24,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐦"
+    },
+    {
+      "char": "魚",
+      "zhuyin": "ㄩˊ",
+      "meaning": "fish",
+      "concept": {
+        "object": "a plump toy fish wiggling in mid air",
+        "morph": "the head folds into the top strokes, the body squares into the middle grid, and the tail fin spreads into the bottom strokes",
+        "hook": "魚尾巴啪一下變成底下的線"
+      },
+      "status": "seed",
+      "priority": 25,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐟"
+    },
+    {
+      "char": "牛",
+      "zhuyin": "ㄋㄧㄡˊ",
+      "meaning": "cow",
+      "concept": {
+        "object": "a toy cow head with two curved horns, nodding",
+        "morph": "the horns flatten into the angled top stroke and the face stretches into the vertical with two crossbars",
+        "hook": "牛角壓平變成一撇"
+      },
+      "status": "seed",
+      "priority": 26,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐮"
+    },
+    {
+      "char": "羊",
+      "zhuyin": "ㄧㄤˊ",
+      "meaning": "sheep",
+      "concept": {
+        "object": "a fluffy toy sheep head with two curled horns",
+        "morph": "the curled horns open into the top dots and the face stacks into three horizontal bars",
+        "hook": "羊角打開變成兩個點"
+      },
+      "status": "seed",
+      "priority": 27,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐑"
+    },
+    {
+      "char": "馬",
+      "zhuyin": "ㄇㄚˇ",
+      "meaning": "horse",
+      "concept": {
+        "object": "a galloping toy horse running on the spot",
+        "morph": "the mane becomes the top strokes, the body squares into the grid, and the four hooves become the four bottom dots",
+        "hook": "馬的四隻腳變成四個點"
+      },
+      "status": "seed",
+      "priority": 28,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐴"
+    },
+    {
+      "char": "犬",
+      "zhuyin": "ㄑㄩㄢˇ",
+      "meaning": "dog",
+      "concept": {
+        "object": "a happy toy puppy sitting and wagging its tail",
+        "morph": "the body opens into the 大 shape while one perked ear pops off as the small dot",
+        "hook": "小狗的耳朵飛出去變成一點"
+      },
+      "status": "seed",
+      "priority": 29,
+      "media": [],
+      "feedback": [],
+      "emoji": "🐶"
+    },
+    {
+      "char": "心",
+      "zhuyin": "ㄒㄧㄣ",
+      "meaning": "heart",
+      "concept": {
+        "object": "a glossy red toy heart beating with a soft thump",
+        "morph": "the heart splits open into the curved bowl and three little pieces pop up as the dots",
+        "hook": "心臟跳一下就裂開了"
+      },
+      "status": "seed",
+      "priority": 30,
+      "media": [],
+      "feedback": [],
+      "emoji": "❤️"
+    },
+    {
+      "char": "刀",
+      "zhuyin": "ㄉㄠ",
+      "meaning": "knife",
+      "concept": {
+        "object": "a chunky rounded toy knife, safe and cartoonish",
+        "morph": "the handle curves into the top hook and the blade sweeps into the long left stroke",
+        "hook": "玩具刀刷一聲揮出去"
+      },
+      "status": "seed",
+      "priority": 31,
+      "media": [],
+      "feedback": [],
+      "emoji": "🔪"
+    },
+    {
+      "char": "弓",
+      "zhuyin": "ㄍㄨㄥ",
+      "meaning": "bow",
+      "concept": {
+        "object": "an archery bow being drawn and released",
+        "morph": "the bowstring snaps away and the bow limbs fold into the three stacked bends",
+        "hook": "弓弦彈開，弓身摺三折"
+      },
+      "status": "seed",
+      "priority": 32,
+      "media": [],
+      "feedback": [],
+      "emoji": "🏹"
+    },
+    {
+      "char": "車",
+      "zhuyin": "ㄔㄜ",
+      "meaning": "car",
+      "concept": {
+        "object": "a chunky toy car seen from directly above",
+        "morph": "the wheels flatten into the horizontal bars, the chassis becomes the centre box, and the axle stands as the vertical",
+        "hook": "車輪壓平變成橫線"
+      },
+      "status": "seed",
+      "priority": 33,
+      "media": [],
+      "feedback": [],
+      "emoji": "🚗"
+    },
+    {
+      "char": "門",
+      "zhuyin": "ㄇㄣˊ",
+      "meaning": "door",
+      "concept": {
+        "object": "a pair of chunky toy saloon doors swinging open",
+        "morph": "the two door panels straighten and lock into the left and right halves of the character",
+        "hook": "兩扇門打開就是字"
+      },
+      "status": "seed",
+      "priority": 34,
+      "media": [],
+      "feedback": [],
+      "emoji": "🚪"
+    },
+    {
+      "char": "米",
+      "zhuyin": "ㄇㄧˇ",
+      "meaning": "rice",
+      "concept": {
+        "object": "a handful of glossy rice grains bursting outward in a star",
+        "morph": "the grains snap into place as four dots around a central cross",
+        "hook": "米粒噴出來排成星星"
+      },
+      "status": "seed",
+      "priority": 35,
+      "media": [],
+      "feedback": [],
+      "emoji": "🍚"
+    },
+    {
+      "char": "竹",
+      "zhuyin": "ㄓㄨˊ",
+      "meaning": "bamboo",
+      "concept": {
+        "object": "two chunky bamboo stalks side by side with leaves on top",
+        "morph": "the leaves fold down into the two short strokes and the stalks become the two vertical hooks",
+        "hook": "竹葉往下摺兩下"
+      },
+      "status": "seed",
+      "priority": 36,
+      "media": [],
+      "feedback": [],
+      "emoji": "🎋"
+    },
+    {
+      "char": "花",
+      "zhuyin": "ㄏㄨㄚ",
+      "meaning": "flower",
+      "concept": {
+        "object": "a bouncy toy flower blooming open on a short stem",
+        "morph": "the petals fold into the grass radical on top while the stem twists into the lower strokes",
+        "hook": "花瓣收起來蓋在頭上"
+      },
+      "status": "seed",
+      "priority": 37,
+      "media": [],
+      "feedback": [],
+      "emoji": "🌸"
+    },
+    {
+      "char": "力",
+      "zhuyin": "ㄌㄧˋ",
+      "meaning": "strength",
+      "concept": {
+        "object": "a chunky toy arm flexing a big round muscle",
+        "morph": "the flexed arm sweeps into the hooked stroke and the forearm becomes the diagonal",
+        "hook": "手臂用力一撇就是力"
+      },
+      "status": "seed",
+      "priority": 38,
+      "media": [],
+      "feedback": [],
+      "emoji": "💪"
+    }
+  ]
+}
