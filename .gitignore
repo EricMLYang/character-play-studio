@@ -9,3 +9,6 @@ media/*
 
 # 執行期產生的個人紀錄
 data/progress.json
+
+# build 產物
+*.tsbuildinfo
