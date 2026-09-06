@@ -3,6 +3,9 @@ import type { CharEntry, Library, Progress } from '../types'
 import { getLibrary, saveProgress } from '../lib/api'
 import { pickToday, todayKey } from '../lib/daily'
 import { blip } from '../lib/audio'
+import { completeWatch, taiwanDay } from '../../shared/domain.mjs'
+import { browseCharacters } from '../../shared/selection.mjs'
+import { pendingWatches, queueWatch, flushWatches } from '../lib/watchQueue'
 import Home from './Home'
 import Viewer from './Viewer'
 import Stickers from './Stickers'
@@ -15,21 +18,45 @@ export default function PlayApp() {
   const [progress, setProgress] = useState<Progress>(EMPTY)
   const [screen, setScreen] = useState<Screen>('gate')
   const [activeIdx, setActiveIdx] = useState(0)
+  const [mode, setMode] = useState<'all' | 'auto'>('all')
+  const [page, setPage] = useState(0)
+  const [day, setDay] = useState(todayKey())
+  const [error, setError] = useState('')
+  const [syncError, setSyncError] = useState(false)
+
+  const sync = useCallback(() => {
+    flushWatches().then(() => setSyncError(false)).catch(() => setSyncError(true))
+  }, [])
 
   useEffect(() => {
     getLibrary().then((l) => {
       setLib(l)
-      setProgress({ ...EMPTY, ...l.progress })
-    })
+      const pending = pendingWatches()
+      const completed = (l.progress as Progress & { completedEvents?: Record<string, string> }).completedEvents || {}
+      setProgress(pending.filter((e) => !completed[e.id]).reduce((p, e) => completeWatch(p, e.char, e.at), { ...EMPTY, ...l.progress }))
+      sync()
+    }).catch(() => setError('暫時開不起來，請確認服務已啟動後重新整理。'))
   }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = todayKey()
+      if (now !== day) { setDay(now); setScreen('gate') }
+    }, 30000)
+    window.addEventListener('online', sync)
+    return () => { clearInterval(timer); window.removeEventListener('online', sync) }
+  }, [day, sync])
 
   const today = useMemo(
     () => (lib ? pickToday(lib.characters, progress) : []),
     // 只在資料載入時算一次；看完一個字不該重排今天的清單
-    [lib], // eslint-disable-line react-hooks/exhaustive-deps
+    [lib, day], // eslint-disable-line react-hooks/exhaustive-deps
   )
 
-  // 今天的清單一決定就寫回去，重新整理不會換一批
+  const all = useMemo(() => browseCharacters(lib?.characters || []), [lib])
+  const items = mode === 'all' ? all : today
+
+  // 儲存自動推薦；重新載入時仍依目前上架狀態優先挑影片。
   useEffect(() => {
     if (!lib || !today.length) return
     const key = todayKey()
@@ -42,26 +69,20 @@ export default function PlayApp() {
   const doneSet = useMemo(() => {
     const key = todayKey()
     return new Set(
-      today.filter((c) => progress.watched[c.char]?.last?.startsWith(key)).map((c) => c.char),
+      all.filter((c) => progress.watched[c.char]?.last && taiwanDay(progress.watched[c.char].last) === key).map((c) => c.char),
     )
-  }, [today, progress])
+  }, [all, progress, day])
 
-  const markWatched = useCallback((entry: CharEntry) => {
-    setProgress((p) => {
-      const prev = p.watched[entry.char]
-      const next: Progress = {
-        ...p,
-        watched: { ...p.watched, [entry.char]: { count: (prev?.count ?? 0) + 1, last: new Date().toISOString() } },
-        stickers: p.stickers.includes(entry.char) ? p.stickers : [...p.stickers, entry.char],
-      }
-      saveProgress(next).catch(() => {})
-      return next
-    })
-  }, [])
+  const markWatched = useCallback((entry: CharEntry, id: string) => {
+    const at = new Date().toISOString()
+    queueWatch({ char: entry.char, id, at })
+    setProgress((p) => completeWatch(p, entry.char, at))
+    sync()
+  }, [sync])
 
   // ---- 小孩防呆：鎖鍵盤、擋右鍵、擋拖曳 ----
   useEffect(() => {
-    const allow = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' ', 'Enter', 'Escape'])
+    const allow = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' ', 'Enter', 'Escape', 'Tab'])
     const onKey = (e: KeyboardEvent) => { if (!allow.has(e.key)) e.preventDefault() }
     const stop = (e: Event) => e.preventDefault()
     window.addEventListener('keydown', onKey)
@@ -83,56 +104,54 @@ export default function PlayApp() {
 
   const openCard = (i: number) => { setActiveIdx(i); setScreen('viewer') }
 
-  const finishCard = (entry: CharEntry) => {
-    markWatched(entry)
-    const remaining = today.findIndex((c, i) => i !== activeIdx && !doneSet.has(c.char) && c.char !== entry.char)
-    if (remaining === -1) setScreen('done')
-    else setScreen('home')
+  const nextCard = () => {
+    const next = activeIdx + 1
+    if (next >= items.length) setScreen(mode === 'auto' ? 'done' : 'home')
+    else { setActiveIdx(next); setPage(Math.floor(next / 6)); setScreen('viewer') }
   }
 
-  const nextCard = (entry: CharEntry) => {
-    markWatched(entry)
-    const order = [...today.keys()].slice(activeIdx + 1).concat([...today.keys()].slice(0, activeIdx))
-    const nxt = order.find((i) => !doneSet.has(today[i].char) && today[i].char !== entry.char)
-    if (nxt === undefined) setScreen('done')
-    else { setActiveIdx(nxt); setScreen('viewer') }
-  }
-
-  if (!lib) return <div className="boot">載入中…</div>
+  if (!lib) return <div className="boot">{error || '載入中…'}</div>
 
   return (
     <div className="play">
       <Blobs />
-      {screen === 'gate' && <Gate count={today.length} onStart={enter} />}
+      {screen === 'gate' && <Gate count={all.length} onStart={enter} />}
       {screen === 'home' && (
         <Home
-          items={today}
+          items={items}
           done={doneSet}
           stickerCount={progress.stickers.length}
           onPick={openCard}
           onStickers={() => setScreen('stickers')}
+          mode={mode}
+          onModeChange={(next) => { setMode(next); setPage(0) }}
+          page={page}
+          onPageChange={setPage}
         />
       )}
-      {screen === 'viewer' && today[activeIdx] && (
+      {screen === 'viewer' && items[activeIdx] && (
         <Viewer
-          entry={today[activeIdx]}
+          key={`${day}-${items[activeIdx].char}`}
+          entry={items[activeIdx]}
           index={activeIdx}
-          onDone={finishCard}
+          onDone={() => setScreen('home')}
+          onComplete={markWatched}
           onNext={nextCard}
           onBack={() => setScreen('home')}
         />
       )}
       {screen === 'done' && (
-        <DoneScreen count={today.length} onStickers={() => setScreen('stickers')} />
+        <DoneScreen onChoose={() => setScreen('home')} onStickers={() => setScreen('stickers')} />
       )}
       {screen === 'stickers' && (
         <Stickers
           all={lib.characters}
           owned={progress.stickers}
-          onBack={() => setScreen(doneSet.size >= today.length ? 'done' : 'home')}
+          onBack={() => setScreen('home')}
         />
       )}
       <ExitDot />
+      {syncError && <button className="sync-note" onClick={sync}>觀看紀錄已暫存，點此重試儲存</button>}
     </div>
   )
 }
@@ -145,20 +164,20 @@ function Gate({ count, onStart }: { count: number; onStart: () => void }) {
         <span className="gate-btn-icon">▶</span>
         <span>開始</span>
       </button>
-      <div className="gate-sub">今天有 {count} 個字在等你</div>
+      <div className="gate-sub">{count} 個字，想看哪個就挑哪個</div>
     </div>
   )
 }
 
-function DoneScreen({ count, onStickers }: { count: number; onStickers: () => void }) {
+function DoneScreen({ onChoose, onStickers }: { onChoose: () => void; onStickers: () => void }) {
   useEffect(() => { blip(880, 0.2); setTimeout(() => blip(1320, 0.3), 150) }, [])
   return (
     <div className="done">
       <div className="done-star">🌟</div>
-      <div className="done-title">今天看完囉！</div>
-      <div className="done-sub">你今天學會了 {count} 個字</div>
-      <button className="big-btn" onClick={onStickers}>看我的字 📖</button>
-      <div className="done-note">明天再來喔</div>
+      <div className="done-title">這一輪看完囉！</div>
+      <div className="done-sub">想再看，可以回去挑喜歡的字</div>
+      <button className="big-btn" onClick={onChoose}>繼續選字 ↩︎</button>
+      <button className="big-btn ghost" onClick={onStickers}>看我的字 📖</button>
     </div>
   )
 }

@@ -1,20 +1,18 @@
 {
-  "version": 1,
-  "note": "三層結構：constraints 幾乎不動；styleRules 會被回饋自動增修；每個字的 concept 在 characters.json。",
+  "version": 3,
+  "note": "發音改為單字一次，再接一個包含該字的簡單詞彙；AI 與備用模板共用發音規則。送出時保存完整版本。",
 
   "constraints": [
     "Exactly 8 seconds long, single continuous shot.",
-    "The single Traditional Chinese character is the hero: it occupies the central 70% of the frame and is NEVER occluded, cropped, or pushed off-center.",
+    "Keep the teaching object and its transforming shape centered and uncropped throughout. Once formed, the single Traditional Chinese character occupies approximately 70% of the frame height with clear margins on all sides.",
     "3D Pixar / Disney toy render style. Vivid high-contrast colors, warm playful palette, soft studio lighting, glossy chunky toy materials.",
-    "Background is an extremely clean, minimal, solid light-colored backdrop. No environment, no props, no depth clutter.",
-    "0-2s: the physical object enters with bouncy squash-and-stretch jelly toy physics.",
-    "2-5s: the object smoothly and legibly morphs into the standard Traditional Chinese character. The morph must read clearly - the viewer should see each part of the object become a specific stroke.",
-    "5-8s: the finished character holds dead-center with a gentle breathing pulse. Strokes crisp, thick, high contrast, correct Traditional Chinese stroke structure.",
+    "Background is an extremely clean, minimal, solid light-colored backdrop. Only the teaching objects specified in the beats are allowed. No scenery or unrelated props.",
+    "Follow the timing of the three BEAT instructions exactly. Each object part should visibly become a specific stroke; the final glyph has crisp, separated strokes and correct Traditional Chinese structure.",
     "Camera is locked off, or at most a very slow gentle push-in. No whip pans, no orbits, no shake.",
-    "NEGATIVE: no background story, no人物/characters/passersby, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the character, no simplified Chinese, no extra text, letters, numbers, or watermarks."
+    "NEGATIVE: no background story, no unrelated people or passersby, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the glyph, no simplified Chinese, no extra text, letters, numbers, or watermarks. A toy figure is allowed only if explicitly required as the teaching object."
   ],
 
-  "audio": "Audio: a warm, friendly, child-directed adult voice clearly pronounces the character in Mandarin with a Taiwanese accent. Repeat the pronunciation 3-4 times across the 8 seconds - once as the object appears, once mid-morph, and twice on the final hold. Clear, unhurried, no background music bed louder than the voice.",
+  "audio": "Audio: a warm, friendly, child-directed adult voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" once, pause briefly, then say ONE simple everyday word containing that exact character once. Choose a familiar, concrete word suitable for a 6-year-old, preferably two characters, using the same reading and meaning of the target as taught in this clip. For example, for 木 the entire spoken line is \"木……木頭\". Do not repeatedly chant the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. Fit both utterances naturally within the 8 seconds without rushing, preferably while the finished glyph is clearly visible. The vocabulary word is audio only: keep only the single target glyph on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
 
   "styleRules": [
     {

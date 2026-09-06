@@ -45,6 +45,14 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* ---------- 首頁 ---------- */
 .home { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 2.4vh 3vw; }
 .home-bar { display: flex; align-items: center; justify-content: space-between; height: 9vh; min-height: 56px; }
+.home-modes { display: flex; gap: 10px; }
+.home-modes button, .home-pages button { padding: 12px 20px; border-radius: 20px; background: #fff; font-weight: 800; font-size: clamp(16px, 2.5vh, 24px); }
+.home-modes button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.home-hint { margin: 12px 0 6px; font-size: clamp(14px, 2vh, 20px); }
+.home-hint span { margin-left: 16px; opacity: .65; font-size: .85em; }
+.home-pages { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 4px 0 12px; }
+.home-pages button:disabled { opacity: .3; cursor: default; }
+.home-modes button:focus-visible, .home-pages button:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 .progress-dots { display: flex; gap: 12px; }
 .dot { width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,.12); transition: all .4s cubic-bezier(.2,1.6,.4,1); }
 .dot-on { background: var(--c2); box-shadow: 0 0 0 5px rgba(255,197,61,.28); transform: scale(1.15); }
@@ -53,7 +61,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .sticker-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.08); }
 .sticker-btn-icon { font-size: 28px; }
 
-.grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 2.2vw; padding: 1.4vh 0 2.4vh; }
+.grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 2.2vw; padding: 1.4vh 0 2.4vh; }
 
 .card { position: relative; border-radius: 40px; background: var(--hue); overflow: hidden; container-type: size;
   display: grid; place-items: center; outline: none;
@@ -70,8 +78,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .card-badge { position: absolute; top: 5cqh; right: 5cqw; font-size: min(11cqh, 9cqw); opacity: .85; }
 .card-star { position: absolute; bottom: 4cqh; right: 5cqw; font-size: min(18cqh, 16cqw);
   animation: pop .5s cubic-bezier(.2,1.8,.4,1) both; }
-.card-done { filter: saturate(.55); }
-.card-done .card-char { opacity: .75; }
+.card-done { filter: none; }
 
 /* ---------- 觀看 ---------- */
 .viewer { position: fixed; inset: 0; z-index: 5; background: color-mix(in oklab, var(--hue) 22%, #FFFDF8);
@@ -106,6 +113,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .finish-zhuyin { font-family: var(--bopomofo); font-size: min(7vh, 6vw); letter-spacing: .3em; opacity: .6; font-weight: 700; }
 .finish-actions { display: flex; gap: 22px; margin-top: 20px; }
 .finish-home { margin-top: 10px; font-size: min(2.6vh, 22px); opacity: .45; padding: 12px 24px; }
+.finish-sticker { font-size: 20px; color: var(--ink); }
+.finish-char { font-size: min(48vh, 42vw); }
+.sync-note { position: fixed; bottom: 8px; right: 12px; z-index: 30; font-size: 12px; background: #fff; padding: 8px 12px; border-radius: 12px; }
 
 .big-btn { padding: 22px 48px; border-radius: 999px; background: var(--c0); color: #fff; font-size: clamp(22px, 3.2vh, 34px);
   font-weight: 800; box-shadow: 0 9px 0 rgba(0,0,0,.18), 0 16px 30px rgba(0,0,0,.14); }

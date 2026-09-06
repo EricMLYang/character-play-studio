@@ -1,25 +1,44 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { blip, fanfare, sayRepeat } from '../lib/audio'
+import { publishedMedia } from '../../shared/domain.mjs'
+import { useVideoVoice } from '../lib/useVideoVoice'
 
 type Phase = 'object' | 'morph' | 'hold' | 'finished'
 
 export default function Viewer({
-  entry, index, onDone, onNext, onBack,
+  entry, index, onDone, onNext, onBack, onComplete,
 }: {
   entry: CharEntry
   index: number
   onDone: (e: CharEntry) => void
   onNext: (e: CharEntry) => void
   onBack: () => void
+  onComplete: (e: CharEntry, id: string) => void
 }) {
   const [failed, setFailed] = useState(false)   // 影片檔壞了 → 退回字卡動畫，不要留黑畫面
   const [blocked, setBlocked] = useState(false)  // 自動播放被擋 → 給一個大大的播放鍵
-  const video = failed ? undefined : entry.media?.find((m) => m.kind === 'video')
-  const image = entry.media?.find((m) => m.kind === 'image')
+  const media = publishedMedia(entry)
+  const video = failed ? undefined : media.find((m) => m.kind === 'video')
+  const [imageFailed, setImageFailed] = useState(false)
+  const image = imageFailed ? undefined : media.find((m) => m.kind === 'image')
   const [phase, setPhase] = useState<Phase>('object')
   const [round, setRound] = useState(0) // 重播用
   const videoEl = useRef<HTMLVideoElement>(null)
+  const completed = useRef(false)
+  const eventId = useRef(crypto.randomUUID())
+  const completeRef = useRef(onComplete)
+  completeRef.current = onComplete
+  const narration = video?.audioMode === 'narration'
+  const voice = useVideoVoice(entry.char, narration, video?.volume ?? 0.7)
+  const finish = () => {
+    if (completed.current) return
+    completed.current = true
+    setPhase('finished')
+    voice.stop()
+    fanfare()
+    completeRef.current(entry, eventId.current)
+  }
 
   // 沒有影片時：emoji → 國字的字卡動畫（影片的迷你版）
   useEffect(() => {
@@ -27,8 +46,8 @@ export default function Viewer({
     setPhase('object')
     const t1 = setTimeout(() => { setPhase('morph'); blip(660, 0.18, 'triangle') }, 1200)
     const t2 = setTimeout(() => setPhase('hold'), 2300)
-    const stop = sayRepeat(entry.char, 4, 1300)
-    const t3 = setTimeout(() => { setPhase('finished'); fanfare() }, 8000)
+    const stop = sayRepeat(entry.char, 4, 1700, image?.volume ?? 0.7)
+    const t3 = setTimeout(finish, 8000)
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); stop() }
   }, [entry.char, video, round])
 
@@ -36,6 +55,7 @@ export default function Viewer({
     if (!video) return
     setPhase('hold')
     setBlocked(false)
+    if (videoEl.current) { videoEl.current.currentTime = 0; videoEl.current.volume = video.volume ?? 0.7 }
     videoEl.current?.play().catch(() => setBlocked(true))
   }, [entry.char, video, round])
 
@@ -50,13 +70,22 @@ export default function Viewer({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onBack()
-      if ((e.key === ' ' || e.key === 'Enter') && phase === 'finished') onNext(entry)
+      // Focused buttons handle Enter/Space themselves (especially replay and return-to-picker).
+      if ((e.key === ' ' || e.key === 'Enter') && phase === 'finished' &&
+        !(e.target instanceof HTMLElement && e.target.closest('button'))) {
+        e.preventDefault(); onNext(entry)
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [phase, entry, onNext, onBack])
 
-  const replay = () => { blip(760); setPhase('object'); setRound((r) => r + 1) }
+  const replay = () => {
+    completed.current = false
+    eventId.current = crypto.randomUUID()
+    voice.reset()
+    blip(760); setPhase('object'); setRound((r) => r + 1)
+  }
 
   return (
     <div className="viewer" style={{ ['--hue' as any]: `var(--c${index % 8})` }}>
@@ -68,11 +97,13 @@ export default function Viewer({
             src={`/media/${encodeURIComponent(video.file)}`}
             autoPlay
             playsInline
-            onPlaying={() => setBlocked(false)}
+            muted={narration}
+            onPlaying={(e) => { setBlocked(false); voice.update(e.currentTarget) }}
+            onTimeUpdate={(e) => voice.update(e.currentTarget)}
             // 任何原因停住（被擋、被按到、系統中斷）都要給得回去的路
-            onPause={(e) => { if (!e.currentTarget.ended) setBlocked(true) }}
+            onPause={(e) => { voice.stop(); if (!e.currentTarget.ended) setBlocked(true) }}
             onError={() => setFailed(true)}
-            onEnded={() => { setPhase('finished'); fanfare() }}
+            onEnded={finish}
           />
           {blocked && (
             <button className="tap-play" onClick={startVideo} aria-label="播放">
@@ -81,7 +112,7 @@ export default function Viewer({
           )}
         </>
       ) : image ? (
-        <img className="viewer-video" src={`/media/${encodeURIComponent(image.file)}`} alt={entry.char} />
+        <img className="viewer-video" src={`/media/${encodeURIComponent(image.file)}`} alt={entry.char} onError={() => setImageFailed(true)} />
       ) : (
         <div className={`stage stage-${phase}`}>
           <div className="stage-emoji">{entry.emoji}</div>
@@ -95,7 +126,7 @@ export default function Viewer({
 
       {phase === 'finished' && (
         <div className="finish">
-          <Confetti />
+          <div className="finish-sticker">⭐ 收集到了</div>
           <div className="finish-char">{entry.char}</div>
           <div className="finish-zhuyin">{entry.zhuyin}</div>
           <div className="finish-actions">
@@ -105,25 +136,6 @@ export default function Viewer({
           <button className="finish-home" onClick={() => onDone(entry)}>回去選 ↩︎</button>
         </div>
       )}
-    </div>
-  )
-}
-
-function Confetti() {
-  const bits = Array.from({ length: 28 }, (_, i) => i)
-  return (
-    <div className="confetti" aria-hidden>
-      {bits.map((i) => (
-        <span
-          key={i}
-          style={{
-            ['--x' as any]: `${Math.random() * 100}%`,
-            ['--d' as any]: `${Math.random() * 0.6}s`,
-            ['--r' as any]: `${Math.random() * 720 - 360}deg`,
-            ['--k' as any]: `hsl(${Math.floor(Math.random() * 360)} 90% 62%)`,
-          }}
-        />
-      ))}
     </div>
   )
 }

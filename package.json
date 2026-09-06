@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "node --test tests/*.test.mjs",
+    "dev:test": "node scripts/test-server.mjs",
     "preview": "vite preview",
     "prompt": "node scripts/prompt.mjs",
     "kid": "bash scripts/kid.sh"

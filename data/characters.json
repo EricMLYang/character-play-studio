@@ -10,11 +10,29 @@
         "morph": "the sun squashes into an upright rounded rectangle and a single horizontal bar snaps across its middle",
         "hook": "太陽會像果凍一樣被壓扁，中間啪一聲多一橫"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 1,
-      "media": [],
+      "media": [
+        {
+          "file": "日-71adcbea-cb49-461a-90ce-74823b9da03c.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-05T11:53:45.778Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-05T15:16:34.807Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "☀️"
+      "emoji": "☀️",
+      "promptedAt": "2026-09-05T11:46:47.777Z",
+      "needsRedo": false
     },
     {
       "char": "月",
@@ -25,11 +43,29 @@
         "morph": "the crescent tilts upright and two short horizontal bars slide in from the left to fill it",
         "hook": "月亮站起來，兩條線咻咻滑進去"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 2,
-      "media": [],
+      "media": [
+        {
+          "file": "月-749d46d1-1384-4285-9a3d-70211379f9ed.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-05T11:58:25.174Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-05T15:17:00.312Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🌙"
+      "emoji": "🌙",
+      "promptedAt": "2026-09-05T11:53:49.899Z",
+      "needsRedo": false
     },
     {
       "char": "山",
@@ -40,11 +76,29 @@
         "morph": "the three peaks straighten into three vertical strokes standing on one horizontal base",
         "hook": "三座山站直變成三根柱子"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 3,
-      "media": [],
+      "media": [
+        {
+          "file": "山-b04c5873-007b-49e3-8328-25b8b47614bb.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-05T12:02:15.038Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-05T15:17:22.576Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "⛰️"
+      "emoji": "⛰️",
+      "promptedAt": "2026-09-05T11:55:35.733Z",
+      "needsRedo": false
     },
     {
       "char": "水",
@@ -55,11 +109,38 @@
         "morph": "the splash arms fling outward into the left and right strokes while the core stretches into the central hook",
         "hook": "水滴啪一下炸開，變成字"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 4,
       "media": [],
       "feedback": [],
-      "emoji": "💧"
+      "emoji": "💧",
+      "promptVersions": [
+        {
+          "char": "水",
+          "meaning": "water",
+          "zhuyin": "ㄕㄨㄟˇ",
+          "emoji": "💧",
+          "conceptZh": "「水」字化成四筆清楚的藍色小水道，紙船順著中央豎鉤漂流，在鉤尾輕輕轉彎。",
+          "object": "A cobalt-blue watercourse shaped precisely like 水, with one tiny yellow paper boat.",
+          "morph": "Begin with the complete glyph. Water moves inside its four fixed stroke silhouettes; the central vertical hook carries a tiny boat, while the three surrounding strokes remain separate, clearly defined channels. Surface details gradually disappear into a solid blue glyph.",
+          "creativeAngle": "從完整字形出發，把中央豎鉤變成紙船的轉彎水道；用小船轉向的驚喜凸顯鉤筆，避免水花變字造成筆畫模糊。",
+          "promptEn": "Create an exactly 8-second animation teaching the Traditional Chinese character 水 to a Taiwanese child aged 6–8. Use a locked, straight-on overhead view against a warm, pale cream background. From the first frame, show one correctly formed 水, centered and uncropped, approximately 70% of frame height with generous margins. Base its exact four-stroke silhouette on a standard Traditional Chinese educational typeface. Render those strokes as saturated cobalt-blue enamel water channels with shallow water inside; preserve every stroke boundary and the open spaces between strokes throughout.\n\nAt 0.6 seconds, a tiny yellow paper boat appears within the top of the central vertical stroke. It drifts downward, making the meaning of water tangible. Restrained ripples travel separately along the left bent stroke, upper-right short falling stroke, and lower-right sweeping stroke, without connecting their channels or extending beyond their silhouettes. At 2.8 seconds, the boat reaches the central hook: the current gently turns its pointed bow along the hook, giving it a charming little change of direction. Keep the boat small enough that the blue stroke remains clearly readable around it. By 4.2 seconds, dissolve the boat and internal ripples while smoothly flattening the enamel shading. From 4.2 through 8.0 seconds, hold the resulting solid cobalt-blue 水 completely still and unobstructed for 3.8 full seconds.\n\nA warm adult voice clearly pronounces 水 four times in Taiwanese Mandarin, shuǐ, ㄕㄨㄟˇ, with a natural isolated third tone, beginning at 0.2, 2.1, 4.6, and 6.6 seconds. Use soft water sounds beneath the action, quiet during speech and silent during the final hold. The watercourse is a playful visual metaphor, not an explanation of historical etymology. Keep the composition bright but not neon, with no camera movement, flashing effects, additional writing, subtitles, logos, watermarks, or background props.",
+          "provider": "codex",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-05T14:06:34.486Z",
+          "id": "5bf494c3-b184-41cd-81ed-e66fbd1b2019",
+          "direction": "",
+          "templateVersion": 2,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "d5b8cf4128af726efdcbfc68d4f2fafeeb0d227282f5c092bcef067278779a97",
+          "hash": "f39f33ea305096889c9a33f98d9ac66cd0c87ffd3c40c3af65d5f5d0b7df4fd4",
+          "formatted": "【目標國字】：水\n【設計概念】：「水」字化成四筆清楚的藍色小水道，紙船順著中央豎鉤漂流，在鉤尾輕輕轉彎。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animation teaching the Traditional Chinese character 水 to a Taiwanese child aged 6–8. Use a locked, straight-on overhead view against a warm, pale cream background. From the first frame, show one correctly formed 水, centered and uncropped, approximately 70% of frame height with generous margins. Base its exact four-stroke silhouette on a standard Traditional Chinese educational typeface. Render those strokes as saturated cobalt-blue enamel water channels with shallow water inside; preserve every stroke boundary and the open spaces between strokes throughout.\n\nAt 0.6 seconds, a tiny yellow paper boat appears within the top of the central vertical stroke. It drifts downward, making the meaning of water tangible. Restrained ripples travel separately along the left bent stroke, upper-right short falling stroke, and lower-right sweeping stroke, without connecting their channels or extending beyond their silhouettes. At 2.8 seconds, the boat reaches the central hook: the current gently turns its pointed bow along the hook, giving it a charming little change of direction. Keep the boat small enough that the blue stroke remains clearly readable around it. By 4.2 seconds, dissolve the boat and internal ripples while smoothly flattening the enamel shading. From 4.2 through 8.0 seconds, hold the resulting solid cobalt-blue 水 completely still and unobstructed for 3.8 full seconds.\n\nA warm adult voice clearly pronounces 水 four times in Taiwanese Mandarin, shuǐ, ㄕㄨㄟˇ, with a natural isolated third tone, beginning at 0.2, 2.1, 4.6, and 6.6 seconds. Use soft water sounds beneath the action, quiet during speech and silent during the final hold. The watercourse is a playful visual metaphor, not an explanation of historical etymology. Keep the composition bright but not neon, with no camera movement, flashing effects, additional writing, subtitles, logos, watermarks, or background props.\n```"
+        }
+      ],
+      "activePromptId": "5bf494c3-b184-41cd-81ed-e66fbd1b2019",
+      "promptedAt": "2026-09-05T14:06:34.486Z"
     },
     {
       "char": "火",
@@ -70,11 +151,55 @@
         "morph": "the flame body folds into the central 人 shape while the two sparks drop into place as the side strokes",
         "hook": "火花啵啵兩下跳到旁邊"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 5,
-      "media": [],
+      "media": [
+        {
+          "file": "火-3a164ac5-33e0-4ade-8020-7062ab9e6ccb.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-06T00:39:13.193Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-06T00:39:38.730Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🔥"
+      "emoji": "🔥",
+      "promptVersions": [
+        {
+          "char": "火",
+          "meaning": "fire",
+          "zhuyin": "ㄏㄨㄛˇ",
+          "emoji": "🔥",
+          "conceptZh": "以溫馨的手作紅陶柴火架與懸浮火花為主題。中央兩根交叉的紅碳柴火優雅伸展形成「火」字的主幹人字雙腿，左右兩顆靈動的亮紅點點火花隨之定格於兩側，組合成結構標準、線條飽滿的「火」字。",
+          "object": "A cozy handcrafted red hearth stove with two glowing ember drops floating beside a central burning twig frame",
+          "morph": "The burning twigs unclamp into a sweeping central leg arch while the two ember drops settle precisely into the left and right side strokes, resolving into the solid ruby-red '火' character",
+          "creativeAngle": "拋棄傳統營火與隨機爆開火花的模版，改用手作陶瓷感炭柴的幾何結構與定點落位的懸浮火星，讓左右點畫與中央撇捺的筆順關係更具體、動態更清晰平穩。",
+          "promptEn": "An 8-second children's literacy animation video teaching the Traditional Chinese character '火' (fire). The camera is fixed in a clean, centered front-facing view. Against a bright, solid light-cream background, a stylized handcrafted terracotta hearth features two glowing ruby charcoal sticks arranged in a central vertical arch and two soft ruby ember drops hovering on the left and right. From 0 to 2.5 seconds, the hearth glows gently. From 2.5 to 5 seconds, the charcoal sticks smoothly stretch into the long central left-falling sweep and right-sweeping leg of the character, while the two ember drops settle precisely onto the left and right sides to complete the stroke structure. The elements fuse into a single, perfectly proportioned, solid ruby-red Traditional Chinese glyph '火', filling 70% of the frame height with clean margins around it. From 5 to 8 seconds, the scene maintains a complete, motionless 3-second hold on the clear '火' glyph. Bright and warm studio lighting with high contrast and no dark shadows or neon glares. Audio features a clear, warm Taiwanese Mandarin voice pronouncing '火 (huǒ / ㄏㄨㄛˇ)' 3 times distinctly alongside gentle, soft embers crackling sound effects. No extra text, watermarks, or flashing effects.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-05T14:14:02.320Z",
+          "id": "1073b721-0af2-4ab8-92a0-5c556d4f5e1b",
+          "direction": "",
+          "templateVersion": 2,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "8bbc5ca2a2d4c53b0ef0be1fc5c2537daac748859902675904a7da08ceed434f",
+          "hash": "0043079e54bd11f4d2e4a46cc2a44ffcb29906e12568f8326c5a2aef65da04fb",
+          "formatted": "【目標國字】：火\n【設計概念】：以溫馨的手作紅陶柴火架與懸浮火花為主題。中央兩根交叉的紅碳柴火優雅伸展形成「火」字的主幹人字雙腿，左右兩顆靈動的亮紅點點火花隨之定格於兩側，組合成結構標準、線條飽滿的「火」字。\n【8s Video Prompt】:\n```text\nAn 8-second children's literacy animation video teaching the Traditional Chinese character '火' (fire). The camera is fixed in a clean, centered front-facing view. Against a bright, solid light-cream background, a stylized handcrafted terracotta hearth features two glowing ruby charcoal sticks arranged in a central vertical arch and two soft ruby ember drops hovering on the left and right. From 0 to 2.5 seconds, the hearth glows gently. From 2.5 to 5 seconds, the charcoal sticks smoothly stretch into the long central left-falling sweep and right-sweeping leg of the character, while the two ember drops settle precisely onto the left and right sides to complete the stroke structure. The elements fuse into a single, perfectly proportioned, solid ruby-red Traditional Chinese glyph '火', filling 70% of the frame height with clean margins around it. From 5 to 8 seconds, the scene maintains a complete, motionless 3-second hold on the clear '火' glyph. Bright and warm studio lighting with high contrast and no dark shadows or neon glares. Audio features a clear, warm Taiwanese Mandarin voice pronouncing '火 (huǒ / ㄏㄨㄛˇ)' 3 times distinctly alongside gentle, soft embers crackling sound effects. No extra text, watermarks, or flashing effects.\n```"
+        }
+      ],
+      "activePromptId": "1073b721-0af2-4ab8-92a0-5c556d4f5e1b",
+      "promptedAt": "2026-09-05T14:14:02.320Z",
+      "needsRedo": false
     },
     {
       "char": "土",
@@ -85,11 +210,55 @@
         "morph": "the mound flattens into the bottom bar, the shovel handle stands as the vertical stroke, and a shorter bar snaps across",
         "hook": "鏟子插進土裡就變成字"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 6,
-      "media": [],
+      "media": [
+        {
+          "file": "土-109d595f-d192-422a-95ba-f1c1394f09dd.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-06T00:53:40.065Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-06T00:53:58.564Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🌱"
+      "emoji": "🌱",
+      "promptVersions": [
+        {
+          "char": "土",
+          "meaning": "earth",
+          "zhuyin": "ㄊㄨˇ",
+          "emoji": "🌱",
+          "conceptZh": "在溫馨明亮的園藝工坊中，一塊長條狀的濕潤黑土作為寬大的底部橫畫。滴入一滴水後，黑土中央驚喜地向上抽出一根筆直的褐色幼苗幹（豎畫），接著幼苗頂端平緩展開一對小木牌般的水平橫枝（較短的上橫畫），三者自然融合成結構標準、線條飽滿的「土」字。",
+          "object": "A rich moist dark-soil garden bed with a sprouting terracotta stem and horizontal wooden plant marker.",
+          "morph": "The wide soil bed forms the longer bottom horizontal stroke; a single water droplet causes a central soil stem to grow upward as the vertical stroke, while two horizontal wooden leaf-tags extend out to create the shorter top horizontal stroke, seamlessly fusing into the character '土'.",
+          "creativeAngle": "擺脫過去「鏟子插土並壓平」的機械拼貼模式，改以「土壤發芽成長」的自然生態因果作為核心比喻。下長橫為養分土壤，中豎為茁壯幹莖，上短橫為水平伸展的雙枝，呈現生動且符合字形比例（上短下長）的筆順動態，搭配溫柔的台灣國語發音與長達 3.5 秒的靜止定格。",
+          "promptEn": "An 8-second 3D literacy animation designed for 6-8-year-old children teaching the Traditional Chinese character '土' (earth). Set in a warm, brightly lit garden workspace against a clean, uncluttered pastel beige background with soft studio shadows.\n\n[0.0s - 1.5s]: Centered in frame, a smooth, wide rectangular slab of dark, rich potting soil rests horizontally along the lower third of the scene, establishing the long bottom horizontal stroke. A single glossy water drop falls into the exact middle of the soil base with a gentle ripple.\n\n[1.5s - 3.0s]: Triggered by the drop, a sleek vertical sprout of rich brown terracotta clay grows straight upward from the center, forming the sturdy vertical stroke (丨). Near its upper section, two wooden garden marker tabs smoothly extend left and right, forming a neat, shorter horizontal crossbar (一).\n\n[3.0s - 4.5s]: The plant bed, terracotta stem, and wooden crossbar seamlessly merge and smooth into a crisp, vibrant, saturated chocolate-brown Traditional Chinese glyph '土'. The top horizontal stroke is visibly shorter than the wide bottom foundation stroke. The finished character fills approximately 70% of the screen height, perfectly centered with clean margins around all edges.\n\n[4.5s - 8.0s]: The character '土' remains completely static and rock-steady for a 3.5-second final hold. Clear, warm Taiwanese Mandarin voiceover distinctly pronounces 'ㄊㄨˇ' (tǔ) four times in a friendly, encouraging rhythm ('ㄊㄨˇ, ㄊㄨˇ, ㄊㄨˇ, ㄊㄨˇ'). Clean visual composition without watermarks, floating text, or flashing effects.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-06T00:36:25.213Z",
+          "id": "65b9e656-9ec1-4e4d-adeb-dae658087720",
+          "direction": "",
+          "templateVersion": 2,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "e01396f3b8c8cba5834e7cfd103b95d400b5dd530c808a8960028ff88f76f6d8",
+          "hash": "8b9a47ef28c79781c57d0fa7c24273be9f1ba0ce3036186986564a627a6ca17e",
+          "formatted": "【目標國字】：土\n【設計概念】：在溫馨明亮的園藝工坊中，一塊長條狀的濕潤黑土作為寬大的底部橫畫。滴入一滴水後，黑土中央驚喜地向上抽出一根筆直的褐色幼苗幹（豎畫），接著幼苗頂端平緩展開一對小木牌般的水平橫枝（較短的上橫畫），三者自然融合成結構標準、線條飽滿的「土」字。\n【8s Video Prompt】:\n```text\nAn 8-second 3D literacy animation designed for 6-8-year-old children teaching the Traditional Chinese character '土' (earth). Set in a warm, brightly lit garden workspace against a clean, uncluttered pastel beige background with soft studio shadows.\n\n[0.0s - 1.5s]: Centered in frame, a smooth, wide rectangular slab of dark, rich potting soil rests horizontally along the lower third of the scene, establishing the long bottom horizontal stroke. A single glossy water drop falls into the exact middle of the soil base with a gentle ripple.\n\n[1.5s - 3.0s]: Triggered by the drop, a sleek vertical sprout of rich brown terracotta clay grows straight upward from the center, forming the sturdy vertical stroke (丨). Near its upper section, two wooden garden marker tabs smoothly extend left and right, forming a neat, shorter horizontal crossbar (一).\n\n[3.0s - 4.5s]: The plant bed, terracotta stem, and wooden crossbar seamlessly merge and smooth into a crisp, vibrant, saturated chocolate-brown Traditional Chinese glyph '土'. The top horizontal stroke is visibly shorter than the wide bottom foundation stroke. The finished character fills approximately 70% of the screen height, perfectly centered with clean margins around all edges.\n\n[4.5s - 8.0s]: The character '土' remains completely static and rock-steady for a 3.5-second final hold. Clear, warm Taiwanese Mandarin voiceover distinctly pronounces 'ㄊㄨˇ' (tǔ) four times in a friendly, encouraging rhythm ('ㄊㄨˇ, ㄊㄨˇ, ㄊㄨˇ, ㄊㄨˇ'). Clean visual composition without watermarks, floating text, or flashing effects.\n```"
+        }
+      ],
+      "activePromptId": "65b9e656-9ec1-4e4d-adeb-dae658087720",
+      "promptedAt": "2026-09-06T00:36:25.213Z",
+      "needsRedo": false
     },
     {
       "char": "木",
@@ -100,11 +269,55 @@
         "morph": "the branches droop into the two diagonal strokes and the roots spread into the base",
         "hook": "樹枝垂下來變成手手"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 7,
-      "media": [],
+      "media": [
+        {
+          "file": "木-03d26195-a785-4dc9-bc64-9fda32004993.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-06T00:50:30.853Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-06T00:50:48.076Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🌳"
+      "emoji": "🌳",
+      "promptVersions": [
+        {
+          "char": "木",
+          "meaning": "tree",
+          "zhuyin": "ㄇㄨˋ",
+          "emoji": "🌳",
+          "conceptZh": "一棵頑皮的木頭玩具樹被松果頂到，驚訝地打直身軀並張開雙手雙腳，形成標準的「木」字。",
+          "object": "a comical carved-wood toy tree with a central trunk, upper cross-branch, and springy root legs",
+          "morph": "The top branches snap into a straight horizontal stroke, the trunk forms a sturdy vertical line, and the root legs pop outward into symmetrical left and right diagonal strokes.",
+          "creativeAngle": "專為低年級男童設計的肢體喜劇效果：利用松果掉落誘發玩具樹伸展出大字型搞笑姿勢，將樹枝與樹根精準對應至「木」字的一橫、一豎、一撇、一捺，兼具趣味性與正確字形結構。",
+          "promptEn": "An 8-second 3D animated educational video for Taiwanese children teaching the Traditional Chinese character '木' (mù, tree).\n\n[0:00-0:02] Staging: Against a soft, bright cream background, a cute chunky wooden toy tree stands centered. A comical acorn drops onto its head with a playful squeak.\n\n[0:02-0:05] Slapstick Morph: Startled, the toy tree hilariously freezes into a rigid gymnastic pose. Its top branch snaps flat into a solid horizontal stroke (一), its trunk straightens into a vertical line (丨), and its root legs pop outward into a left diagonal stroke (丿) and right diagonal stroke (乀). The object transforms cleanly into the dark, solid-colored Traditional Chinese character '木', centered and occupying about 70% of the frame height.\n\n[0:05-0:08] Static Hold & Audio: The scene holds completely still for a full 3 seconds on the legible, high-contrast glyph '木'. Clear Taiwanese Mandarin voiceover pronounces 'ㄇㄨˋ' (mù) four times: 'ㄇㄨˋ... ㄇㄨˋ... ㄇㄨˋ... ㄇㄨˋ!'. Pure composition with no extra text, clutter, or visual noise.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-06T00:37:01.589Z",
+          "id": "3025123c-c872-4b95-bcc1-866c457583da",
+          "direction": "帶一點小男孩會喜歡的搞笑",
+          "templateVersion": 2,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "1e13c73556c83a7d04c03690ddd01b54ece357839ac45d48571217aca3c3c252",
+          "hash": "b3a78e300e7f8a541d0aa748a2616ef2408cf6ee344286724df7eff223b93fe2",
+          "formatted": "【目標國字】：木\n【設計概念】：一棵頑皮的木頭玩具樹被松果頂到，驚訝地打直身軀並張開雙手雙腳，形成標準的「木」字。\n【8s Video Prompt】:\n```text\nAn 8-second 3D animated educational video for Taiwanese children teaching the Traditional Chinese character '木' (mù, tree).\n\n[0:00-0:02] Staging: Against a soft, bright cream background, a cute chunky wooden toy tree stands centered. A comical acorn drops onto its head with a playful squeak.\n\n[0:02-0:05] Slapstick Morph: Startled, the toy tree hilariously freezes into a rigid gymnastic pose. Its top branch snaps flat into a solid horizontal stroke (一), its trunk straightens into a vertical line (丨), and its root legs pop outward into a left diagonal stroke (丿) and right diagonal stroke (乀). The object transforms cleanly into the dark, solid-colored Traditional Chinese character '木', centered and occupying about 70% of the frame height.\n\n[0:05-0:08] Static Hold & Audio: The scene holds completely still for a full 3 seconds on the legible, high-contrast glyph '木'. Clear Taiwanese Mandarin voiceover pronounces 'ㄇㄨˋ' (mù) four times: 'ㄇㄨˋ... ㄇㄨˋ... ㄇㄨˋ... ㄇㄨˋ!'. Pure composition with no extra text, clutter, or visual noise.\n```"
+        }
+      ],
+      "activePromptId": "3025123c-c872-4b95-bcc1-866c457583da",
+      "promptedAt": "2026-09-06T00:37:01.589Z",
+      "needsRedo": false
     },
     {
       "char": "人",
@@ -570,6 +783,56 @@
       "media": [],
       "feedback": [],
       "emoji": "💪"
+    },
+    {
+      "char": "機",
+      "zhuyin": "",
+      "meaning": "",
+      "emoji": "✨",
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": ""
+      },
+      "status": "seed",
+      "priority": 39,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "器",
+      "zhuyin": "",
+      "meaning": "",
+      "emoji": "✨",
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": ""
+      },
+      "status": "seed",
+      "priority": 40,
+      "media": [],
+      "feedback": []
     }
-  ]
+  ],
+  "production": {
+    "days": {
+      "2026-09-05": {
+        "queue": [
+          "日",
+          "月",
+          "山"
+        ],
+        "attempts": []
+      },
+      "2026-09-06": {
+        "queue": [
+          "水",
+          "火",
+          "土"
+        ],
+        "attempts": []
+      }
+    }
+  }
 }
