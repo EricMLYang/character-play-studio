@@ -27,6 +27,7 @@ export default function StudioApp() {
   const selection = useRef(0)
   const submissionId = useRef(crypto.randomUUID())
   const [copiedHash, setCopiedHash] = useState('')
+  const promptText = useRef<HTMLTextAreaElement>(null)
   const [attemptId, setAttemptId] = useState('')
   const [feedbackFile, setFeedbackFile] = useState('')
   const [provider, setProvider] = useState('codex')
@@ -69,7 +70,16 @@ export default function StudioApp() {
 
   const copy = async () => {
     if (!prompt?.id || prompt.stale) return
-    await navigator.clipboard.writeText(prompt.formatted)
+    try {
+      await navigator.clipboard.writeText(prompt.formatted)
+    } catch {
+      const field = promptText.current
+      if (!field) throw new Error('無法複製，請重新選取這個字後再試。')
+      field.focus(); field.select()
+      let copied = false
+      try { copied = document.execCommand('copy') } catch { /* Keep the text selected for manual copying. */ }
+      if (!copied) throw new Error('瀏覽器未允許自動複製，已選取整份 prompt，請按 ⌘C（Windows：Ctrl+C）。')
+    }
     setCopiedHash(prompt.hash)
     flash('已複製，貼到你的影片 AI 就好')
   }
@@ -118,7 +128,7 @@ export default function StudioApp() {
       <header className="st-top">
         <b>Character Play Studio</b>
         <span className="st-stats">已上架 {stats.live} · 待餵 AI {stats.prompted} · 字庫 {stats.total}</span>
-        <a className="st-play" href="/">▶ 開小孩模式</a>
+        <a className="st-play" href="/">▶ 開播放器</a>
       </header>
 
       <div className="st-body">
@@ -184,7 +194,7 @@ export default function StudioApp() {
               <section className="st-card">
                 <div className="st-card-bar">
                   <h4>影片 Prompt</h4>
-                  <button className="st-btn" disabled={busy || !prompt?.id || prompt.stale} onClick={() => run(copy)}>複製</button>
+                  <button className="st-btn" disabled={busy || !prompt?.id || prompt.stale} onClick={() => run(copy)}>{prompt?.id && copiedHash === prompt.hash ? '已複製 ✓' : '複製'}</button>
                 </div>
                 <div className="st-ai-options">
                   <label className="st-field">生成工具<select value={provider} disabled={busy} onChange={(e) => { setProvider(e.target.value); setModel('') }}>
@@ -207,7 +217,13 @@ export default function StudioApp() {
                 {prompt?.stale && <p className="st-error">生成規則、字義或回饋已有更新，請重新生成，把新方向交給 AI。</p>}
                 {prompt?.id && <p className="st-hint">來源：{prompt.provider} · {prompt.actualModel || prompt.requestedModel || '工具預設模型'}{prompt.generatedAt ? ` · ${new Date(prompt.generatedAt).toLocaleString('zh-TW')}` : ''}</p>}
                 {prompt?.creativeAngle && <p className="st-angle">{prompt.creativeAngle}</p>}
-                <textarea className="st-prompt" aria-label="影片 Prompt" readOnly value={prompt?.id ? prompt.formatted : '選擇工具後按「用 AI 設計影片 prompt」。只填國字也可以開始。'} />
+                <textarea ref={promptText} className="st-prompt" aria-label="影片 Prompt" readOnly value={prompt?.id ? prompt.formatted : '選擇工具後按「用 AI 設計影片 prompt」。只填國字也可以開始。'} />
+                {prompt?.id && <div className="st-generation-actions">
+                  <button className="st-btn" disabled={busy || prompt.stale} onClick={() => run(copy)}>
+                    {copiedHash === prompt.hash ? '已複製 ✓' : '一鍵複製 Prompt'}
+                  </button>
+                  <span className="st-hint" role="status">{copiedHash === prompt.hash ? '可以直接貼到影片 AI。' : '複製完整內容，直接貼到影片 AI。'}</span>
+                </div>}
                 {!!prompt?.id && !!prompt.appliedFeedback.length && <p className="st-hint">已參考回饋：{prompt.appliedFeedback.map((tag) => TAGS.find((t) => t.id === tag)?.label).join('、')}</p>}
                 {!!entry.promptVersions?.length && <label className="st-field">已保存的創意版本
                   <select disabled={busy} value={prompt?.id || ''} onChange={(e) => run(async () => {

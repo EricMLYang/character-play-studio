@@ -17,7 +17,6 @@ export function completeWatch(progress, char, at = new Date().toISOString()) {
     ...progress,
     watched: { ...progress.watched, [char]: { count: (previous?.count || 0) + 1,
       last: previous?.last && Date.parse(previous.last) > Date.parse(at) ? previous.last : at } },
-    stickers: [...new Set([...(progress.stickers || []), char])],
   }
 }
 

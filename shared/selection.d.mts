@@ -1,5 +1,3 @@
-import type { CharEntry, Progress } from '../src/types'
-export const DAILY_LIMIT: number
+import type { CharEntry } from '../src/types'
 export function hasPublishedVideo(entry: CharEntry): boolean
 export function browseCharacters(characters: CharEntry[]): CharEntry[]
-export function pickToday(characters: CharEntry[], progress: Progress, now?: Date): CharEntry[]

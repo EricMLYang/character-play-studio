@@ -33,8 +33,9 @@ test('AI and backup prompts share character-then-word narration, without repeate
   const audio = template.audio.replaceAll('{char}', entry.char)
   for (const text of [creativeBrief(entry, []), buildPrompt(entry).promptEn]) {
     assert.ok(text.includes(audio))
-    assert.match(text, /木……木頭/)
-    assert.match(text, /character "木" once/)
+    assert.match(text, /木、木、木頭/)
+    assert.match(text, /人、人、機器人/)
+    assert.match(text, /character "木" twice/)
     assert.match(text, /same reading and meaning/)
     assert.match(text, /exact chosen spoken line/)
     assert.match(text, /audio only/)
@@ -68,12 +69,11 @@ test('Taiwan morning and midnight map to the correct local day', () => {
   assert.equal(taiwanDay('bad date'), '')
 })
 
-test('rewatches increment count once per completion and retain one sticker; delayed events never move last backwards', () => {
-  let progress = completeWatch({ watched: {}, stickers: [], days: {} }, '山', '2026-09-05T08:00:00Z')
+test('rewatches increment count once per completion; delayed events never move last backwards', () => {
+  let progress = completeWatch({ watched: {} }, '山', '2026-09-05T08:00:00Z')
   progress = completeWatch(progress, '山', '2026-09-04T23:30:00Z')
   assert.equal(progress.watched['山'].count, 2)
   assert.equal(progress.watched['山'].last, '2026-09-05T08:00:00Z')
-  assert.deepEqual(progress.stickers, ['山'])
 })
 
 test('negative feedback changes prompts; positive feedback preserves redo and fast uses one coherent timeline', () => {
@@ -169,16 +169,15 @@ test('API workflow: record → import draft → review → feedback → revised 
   assert.equal((await fetch(base + '/import?char=日&ext=exe', { method: 'POST', body: 'bad' })).status, 400)
 })
 
-test('watch retries are idempotent and a stale progress save cannot erase completed watches', async () => {
+test('watch retries are idempotent and completions persist', async () => {
   const event = { char: '山', id: 'watch-event-1', at: '2026-09-04T23:30:00Z' }
   const first = await request('/watch', event)
   const retry = await request('/watch', event)
   assert.equal(first.status, 200)
   assert.equal(retry.body.watched['山'].count, 1)
   assert.equal(taiwanDay(retry.body.watched['山'].last), '2026-09-05')
-  await request('/progress', { watched: {}, stickers: [], days: { '2026-09-05': ['山'] } })
   assert.equal(loadProgress().watched['山'].count, 1)
-  assert.deepEqual(loadProgress().stickers, ['山'])
+  assert.equal((await request('/watch', { ...event, id: 'watch-event-2', at: '2026-09-06T01:00:00Z' })).body.watched['山'].count, 2)
 })
 
 test('failed generation retains spent credit and releases the pending work for a retry', async () => {

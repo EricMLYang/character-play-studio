@@ -183,16 +183,7 @@ export function apiPlugin() {
             return json(res, 200, { ok: true, entry })
           }
 
-          // ---- 小孩的觀看紀錄 ----
-          if (route === '/progress' && req.method === 'POST') {
-            const body = JSON.parse((await readBody(req)).toString() || '{}')
-            const current = loadProgress()
-            // Persist only daily selections here; a stale tab cannot erase completed watches.
-            current.days = { ...body.days, ...current.days }
-            saveProgress(current)
-            return json(res, 200, { ok: true })
-          }
-
+          // ---- 觀看紀錄 ----
           if (route === '/watch' && req.method === 'POST') {
             const { char, id, at } = JSON.parse((await readBody(req)).toString())
             if (typeof id !== 'string' || !/^[a-zA-Z0-9-]{8,80}$/.test(id) ||

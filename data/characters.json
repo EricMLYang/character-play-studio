@@ -109,9 +109,25 @@
         "morph": "the splash arms fling outward into the left and right strokes while the core stretches into the central hook",
         "hook": "水滴啪一下炸開，變成字"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 4,
-      "media": [],
+      "media": [
+        {
+          "file": "水-fa1579d3-bbda-49d2-8af2-e94365c326f7.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-07T12:28:55.720Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-07T12:29:19.899Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "💧",
       "promptVersions": [
@@ -137,10 +153,34 @@
           "contextHash": "d5b8cf4128af726efdcbfc68d4f2fafeeb0d227282f5c092bcef067278779a97",
           "hash": "f39f33ea305096889c9a33f98d9ac66cd0c87ffd3c40c3af65d5f5d0b7df4fd4",
           "formatted": "【目標國字】：水\n【設計概念】：「水」字化成四筆清楚的藍色小水道，紙船順著中央豎鉤漂流，在鉤尾輕輕轉彎。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animation teaching the Traditional Chinese character 水 to a Taiwanese child aged 6–8. Use a locked, straight-on overhead view against a warm, pale cream background. From the first frame, show one correctly formed 水, centered and uncropped, approximately 70% of frame height with generous margins. Base its exact four-stroke silhouette on a standard Traditional Chinese educational typeface. Render those strokes as saturated cobalt-blue enamel water channels with shallow water inside; preserve every stroke boundary and the open spaces between strokes throughout.\n\nAt 0.6 seconds, a tiny yellow paper boat appears within the top of the central vertical stroke. It drifts downward, making the meaning of water tangible. Restrained ripples travel separately along the left bent stroke, upper-right short falling stroke, and lower-right sweeping stroke, without connecting their channels or extending beyond their silhouettes. At 2.8 seconds, the boat reaches the central hook: the current gently turns its pointed bow along the hook, giving it a charming little change of direction. Keep the boat small enough that the blue stroke remains clearly readable around it. By 4.2 seconds, dissolve the boat and internal ripples while smoothly flattening the enamel shading. From 4.2 through 8.0 seconds, hold the resulting solid cobalt-blue 水 completely still and unobstructed for 3.8 full seconds.\n\nA warm adult voice clearly pronounces 水 four times in Taiwanese Mandarin, shuǐ, ㄕㄨㄟˇ, with a natural isolated third tone, beginning at 0.2, 2.1, 4.6, and 6.6 seconds. Use soft water sounds beneath the action, quiet during speech and silent during the final hold. The watercourse is a playful visual metaphor, not an explanation of historical etymology. Keep the composition bright but not neon, with no camera movement, flashing effects, additional writing, subtitles, logos, watermarks, or background props.\n```"
+        },
+        {
+          "char": "水",
+          "meaning": "water",
+          "zhuyin": "ㄕㄨㄟˇ",
+          "emoji": "💧",
+          "conceptZh": "靜止的溫暖乳白瓷盤上方，竹管湧出清澈藍色泉水，順流而下形成「水」字中央豎鉤，再往兩旁分流填滿左右三筆，最後凝結成清晰穩定的鈷藍色標準正體「水」字。",
+          "object": "A miniature bamboo spring spout dispensing clear aqua water onto a pale cream porcelain surface.",
+          "morph": "The main stream flows downward to carve the central hooked vertical stroke, while branching streamlets fill the left angled stroke and right falling/sweeping strokes of the glyph.",
+          "creativeAngle": "區隔於前一版的紙船漂流設計，改採用竹管泉水自然湧流與動態分流的實體物理隱喻。藉由中央主水流與兩側分支水流精準勾勒出「水」字的四個筆畫，並在流動完成後迅速凝固為飽和的鈷藍色字體，達成筆順清晰度與長達3.2秒的穩定定格。",
+          "promptEn": "Create an exactly 8-second animation teaching the Traditional Chinese character 水 to a Taiwanese child aged 6–8. Use a locked, straight-on overhead camera angle against a warm, pale cream porcelain background. Centered in the frame, a smooth miniature bamboo spout positioned at the top center releases a sparkling stream of translucent aqua-blue spring water. At 0.4 seconds, the main water stream glides vertically downward, curving gently at the bottom to form the central hooked vertical stroke (豎鉤). At 1.8 seconds, two smaller trickles branch out from the main stream: one glides to the left to form the angled stroke (橫撇), while the other flows right, splitting into the upper-right falling stroke (撇) and lower-right sweeping stroke (捺). The water streams fill the precise four-stroke silhouette of a standard Traditional Chinese educational typeface for 水, maintaining distinct stroke boundaries without spilling over. At 3.6 seconds, the bamboo spout smoothly retracts upward out of frame while the flowing water inside the four strokes instantly settles into a solid, vibrant cobalt-blue enamel glyph. From 4.8 seconds to 8.0 seconds, hold the completed, solid blue 水 character completely still and unobstructed for a full 3.2-second final hold, occupying approximately 70% of the frame height with clean margins. A warm adult voice clearly pronounces 水 four times in Taiwanese Mandarin, shuǐ, ㄕㄨㄟˇ, with a natural isolated third tone, at 0.2, 2.0, 4.6, and 6.6 seconds. Soft, relaxing water trickling sounds accompany the liquid animation, turning silent during the final hold. Keep the lighting bright and warm, with zero camera motion, flashing effects, subtitles, extra text, logos, or watermarks.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:12:44.683Z",
+          "id": "df017f24-5699-46f5-b548-d05447702c5a",
+          "direction": "",
+          "templateVersion": 3,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "371dcce32a9b79d20278c1089492705ae26cb7b0ac5d27f95939ef823ceea410",
+          "hash": "a6783f846bcd966bbf3db3c3f32056da15c59f6b411f3ca37253160bd3452b5e",
+          "formatted": "【目標國字】：水\n【設計概念】：靜止的溫暖乳白瓷盤上方，竹管湧出清澈藍色泉水，順流而下形成「水」字中央豎鉤，再往兩旁分流填滿左右三筆，最後凝結成清晰穩定的鈷藍色標準正體「水」字。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animation teaching the Traditional Chinese character 水 to a Taiwanese child aged 6–8. Use a locked, straight-on overhead camera angle against a warm, pale cream porcelain background. Centered in the frame, a smooth miniature bamboo spout positioned at the top center releases a sparkling stream of translucent aqua-blue spring water. At 0.4 seconds, the main water stream glides vertically downward, curving gently at the bottom to form the central hooked vertical stroke (豎鉤). At 1.8 seconds, two smaller trickles branch out from the main stream: one glides to the left to form the angled stroke (橫撇), while the other flows right, splitting into the upper-right falling stroke (撇) and lower-right sweeping stroke (捺). The water streams fill the precise four-stroke silhouette of a standard Traditional Chinese educational typeface for 水, maintaining distinct stroke boundaries without spilling over. At 3.6 seconds, the bamboo spout smoothly retracts upward out of frame while the flowing water inside the four strokes instantly settles into a solid, vibrant cobalt-blue enamel glyph. From 4.8 seconds to 8.0 seconds, hold the completed, solid blue 水 character completely still and unobstructed for a full 3.2-second final hold, occupying approximately 70% of the frame height with clean margins. A warm adult voice clearly pronounces 水 four times in Taiwanese Mandarin, shuǐ, ㄕㄨㄟˇ, with a natural isolated third tone, at 0.2, 2.0, 4.6, and 6.6 seconds. Soft, relaxing water trickling sounds accompany the liquid animation, turning silent during the final hold. Keep the lighting bright and warm, with zero camera motion, flashing effects, subtitles, extra text, logos, or watermarks.\n```"
         }
       ],
-      "activePromptId": "5bf494c3-b184-41cd-81ed-e66fbd1b2019",
-      "promptedAt": "2026-09-05T14:06:34.486Z"
+      "activePromptId": "df017f24-5699-46f5-b548-d05447702c5a",
+      "promptedAt": "2026-09-07T12:12:44.683Z",
+      "needsRedo": false
     },
     {
       "char": "火",
@@ -328,11 +368,55 @@
         "morph": "the arms and head retract while the two legs stretch into the two diagonal strokes",
         "hook": "小人把頭收起來，剩兩隻腳"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 8,
-      "media": [],
+      "media": [
+        {
+          "file": "人-6fd488f2-6f01-4f93-9e0c-a1d9c55da8e6.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-07T12:34:26.065Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-07T12:36:11.688Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🧍"
+      "emoji": "🧍",
+      "promptVersions": [
+        {
+          "char": "人",
+          "meaning": "person",
+          "zhuyin": "ㄖㄣˊ",
+          "emoji": "🧑",
+          "conceptZh": "雙腳大步跨開的珊瑚紅木質工藝腿，一腳向左下劃出主筆，另一腳向右下靠緊撐住，展現互相依靠站立成「人」字的意象。",
+          "object": "A pair of sleek coral-red wooden craft legs on a clean cream-colored backdrop.",
+          "morph": "The left leg sweeps diagonally down-left to form the left stroke (撇), while the right leg leans against its top upper side and extends down-right (捺), forming the balanced structure of '人'.",
+          "creativeAngle": "不同於舊版公仔收縮頭手的做法，改以兩條大步踩踏的木質工藝腿。透過「一腳開步、一腳靠緊支撐」的物理動態，生動呈現「人」字筆劃互相依靠與獨立站立的意象。",
+          "promptEn": "An 8-second, 4K resolution educational animation for children aged 6-8 teaching the Traditional Chinese character '人' (person).\n\n0:00-0:02: On a clean, bright cream studio background, two sleek, polished coral-red wooden craft legs stand centered. A warm Taiwanese Mandarin voiceover clearly pronounces the target character ㄖㄣˊ (rén).\n\n0:02-0:05: The left wooden leg smoothly sweeps down and to the left, carving out a bold diagonal stroke (撇). Immediately after, the right leg tilts over, rests its top edge against the upper portion of the left stroke, and extends diagonally down to the right (捺) to form a wide, balanced stance. The wooden textures seamlessly smooth out into a single, clean, saturated coral-red Traditional Chinese glyph '人'. The voiceover pronounces ㄖㄣˊ (rén) again.\n\n0:05-0:08: The completed glyph '人' rests perfectly motionless in the center of the frame, filling approximately 70% of the frame height with generous background margins. The solid coral-red strokes stand out with rich contrast against the soft cream lighting. The voiceover clearly repeats ㄖㄣˊ (rén) two final times for memory retention.\n\nShot with a fixed centered studio camera, soft fill lighting, no camera motion, no text overlays, no watermarks, no flashes, and zero background clutter.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:09:45.672Z",
+          "id": "787fa2fa-498c-42d7-a758-d231d56df5ab",
+          "direction": "",
+          "templateVersion": 3,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "8ef9cc731452b32463d0e56518184b97bd017286862886474625f5fcd2c8ad2e",
+          "hash": "9d60d63ea8684a26434eeef92c4ace0829c26427248d1308507ef5144fffd34a",
+          "formatted": "【目標國字】：人\n【設計概念】：雙腳大步跨開的珊瑚紅木質工藝腿，一腳向左下劃出主筆，另一腳向右下靠緊撐住，展現互相依靠站立成「人」字的意象。\n【8s Video Prompt】:\n```text\nAn 8-second, 4K resolution educational animation for children aged 6-8 teaching the Traditional Chinese character '人' (person).\n\n0:00-0:02: On a clean, bright cream studio background, two sleek, polished coral-red wooden craft legs stand centered. A warm Taiwanese Mandarin voiceover clearly pronounces the target character ㄖㄣˊ (rén).\n\n0:02-0:05: The left wooden leg smoothly sweeps down and to the left, carving out a bold diagonal stroke (撇). Immediately after, the right leg tilts over, rests its top edge against the upper portion of the left stroke, and extends diagonally down to the right (捺) to form a wide, balanced stance. The wooden textures seamlessly smooth out into a single, clean, saturated coral-red Traditional Chinese glyph '人'. The voiceover pronounces ㄖㄣˊ (rén) again.\n\n0:05-0:08: The completed glyph '人' rests perfectly motionless in the center of the frame, filling approximately 70% of the frame height with generous background margins. The solid coral-red strokes stand out with rich contrast against the soft cream lighting. The voiceover clearly repeats ㄖㄣˊ (rén) two final times for memory retention.\n\nShot with a fixed centered studio camera, soft fill lighting, no camera motion, no text overlays, no watermarks, no flashes, and zero background clutter.\n```"
+        }
+      ],
+      "activePromptId": "787fa2fa-498c-42d7-a758-d231d56df5ab",
+      "promptedAt": "2026-09-07T12:09:45.672Z",
+      "needsRedo": false
     },
     {
       "char": "口",
@@ -343,11 +427,38 @@
         "morph": "the mouth stretches square and its outline thickens into the four strokes of a box",
         "hook": "嘴巴張超大變成方框"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 9,
       "media": [],
       "feedback": [],
-      "emoji": "👄"
+      "emoji": "👄",
+      "promptVersions": [
+        {
+          "char": "口",
+          "meaning": "mouth",
+          "zhuyin": "ㄎㄡˇ",
+          "emoji": "🪟",
+          "conceptZh": "溫馨木框窗戶簡化轉化為方形文字「口」",
+          "object": "A handcrafted oak wooden square window frame",
+          "morph": "The wooden window frame flattens and transforms into four saturated dark-navy strokes forming the character 口",
+          "creativeAngle": "跳脫傳統大張嘴巴的意象，採用兒童熟悉的方形窗戶切入。結合小鳥啼鳴的趣味小驚喜，將實體窗框流暢轉化為標準「口」字，兼具開口語意與高度幾何辨識度。",
+          "promptEn": "An 8-second educational animation for young Taiwanese children teaching the Traditional Chinese character 口. On a soft warm-cream background, a handcrafted oak square window frame sits perfectly centered. During 0 to 2 seconds, a small cartoon bird peeks through the square opening, chirps merrily, and flies off. Between 2 and 5 seconds, the wooden frame's texture melts into a bold, solid dark-navy color, reshaping into the exact four strokes of the Traditional Chinese character 口, perfectly proportioned to occupy 70% of the frame height with balanced margins. From 5 to 8 seconds, the character holds entirely still for a full 3-second final freeze. Clear Taiwanese Mandarin voiceover repeats the pronunciation 'ㄎㄡˇ' (kǒu) four times during the hold. Bright, high-contrast, child-friendly visual styling without neon glare, flashing, text overlays, or watermarks.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:54:14.885Z",
+          "id": "3c413b2f-d6be-4107-a9b2-0972b60cb401",
+          "direction": "",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "b7c2904129c7c2e493d72f1150f872368fc26aa1759e2616e6e42517ca86c354",
+          "hash": "41b99c3a85dfce27db58fbcd81de06a509622137f20817ef2873e11f97538238",
+          "formatted": "【目標國字】：口\n【設計概念】：溫馨木框窗戶簡化轉化為方形文字「口」\n【8s Video Prompt】:\n```text\nAn 8-second educational animation for young Taiwanese children teaching the Traditional Chinese character 口. On a soft warm-cream background, a handcrafted oak square window frame sits perfectly centered. During 0 to 2 seconds, a small cartoon bird peeks through the square opening, chirps merrily, and flies off. Between 2 and 5 seconds, the wooden frame's texture melts into a bold, solid dark-navy color, reshaping into the exact four strokes of the Traditional Chinese character 口, perfectly proportioned to occupy 70% of the frame height with balanced margins. From 5 to 8 seconds, the character holds entirely still for a full 3-second final freeze. Clear Taiwanese Mandarin voiceover repeats the pronunciation 'ㄎㄡˇ' (kǒu) four times during the hold. Bright, high-contrast, child-friendly visual styling without neon glare, flashing, text overlays, or watermarks.\n```"
+        }
+      ],
+      "activePromptId": "3c413b2f-d6be-4107-a9b2-0972b60cb401",
+      "promptedAt": "2026-09-07T12:54:14.885Z"
     },
     {
       "char": "手",
@@ -358,11 +469,38 @@
         "morph": "the fingers merge downward into three stacked horizontal bars while the wrist stretches into the vertical hook",
         "hook": "五根手指疊成三條線"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 10,
       "media": [],
       "feedback": [],
-      "emoji": "✋"
+      "emoji": "✋",
+      "promptVersions": [
+        {
+          "char": "手",
+          "meaning": "hand",
+          "zhuyin": "ㄕㄡˇ",
+          "emoji": "🖐️",
+          "conceptZh": "關節木手伸展動作：斜伸的大拇指化為首筆撇畫，張開的手指平伸分組形成長短兩道橫畫，手腕順勢向下延伸並向左勾起成為豎鉤，直觀對應「手」字的四筆結構。",
+          "object": "A playful jointed wooden toy hand with colorful accents",
+          "morph": "The angled thumb glides into the top diagonal slant stroke, the outstretched fingers form the short and long horizontal bars, and the wrist extends downward into the central vertical hook stroke.",
+          "creativeAngle": "捨棄舊案將五根手指硬生生壓成三條橫線的不合邏輯設計，改採手掌自然姿態的解剖對應：斜向拇指對應頂撇、兩組開展手指對應長短二橫、手腕下延為豎鉤。動態順暢且筆畫結構完全準確。",
+          "promptEn": "An 8-second 3D educational animation designed for Taiwanese children aged 6-8, teaching the Traditional Chinese character '手' (hand). Against a soft warm cream background, a bright jointed wooden toy hand catches a bouncing ball and presses flat against the surface (0:00-0:02). As it settles, the hand fluidly morphs into strokes: the angled thumb slides up-left into the top diagonal stroke (撇), the outstretched fingers align into two clean horizontal bars—a shorter upper bar and a longer lower bar—and the wrist pulls down through the center, smoothly hooking to the left at the bottom to form the vertical hook stroke (豎鉤) (0:02-0:05). The object resolves perfectly into the solid, saturated coral-red Traditional Chinese glyph '手'. The character sits precisely centered, filling 70% of the frame height with generous margins, holding still for a complete 3-second hold (0:05-0:08). Clear Taiwanese Mandarin child voiceover pronounces 'ㄕㄡˇ, 手!' at 0:02, 'ㄕㄡˇ, 手!' at 0:04, and '手!' during the hold. Bright, high-contrast lighting with gentle soft shadows, crisp readability, no watermarks, text overlays, or flashing effects.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:54:48.558Z",
+          "id": "47f6faa7-8767-4306-9254-0d978c1e99b2",
+          "direction": "",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "0068dfaa472586a2b0ab7393faba2f0ca046e7bface849981b0008f71d9ff690",
+          "hash": "411def6b5f63bf715c708ec051f3723439d089c8d3ce6d21dd0854ad8122f3f9",
+          "formatted": "【目標國字】：手\n【設計概念】：關節木手伸展動作：斜伸的大拇指化為首筆撇畫，張開的手指平伸分組形成長短兩道橫畫，手腕順勢向下延伸並向左勾起成為豎鉤，直觀對應「手」字的四筆結構。\n【8s Video Prompt】:\n```text\nAn 8-second 3D educational animation designed for Taiwanese children aged 6-8, teaching the Traditional Chinese character '手' (hand). Against a soft warm cream background, a bright jointed wooden toy hand catches a bouncing ball and presses flat against the surface (0:00-0:02). As it settles, the hand fluidly morphs into strokes: the angled thumb slides up-left into the top diagonal stroke (撇), the outstretched fingers align into two clean horizontal bars—a shorter upper bar and a longer lower bar—and the wrist pulls down through the center, smoothly hooking to the left at the bottom to form the vertical hook stroke (豎鉤) (0:02-0:05). The object resolves perfectly into the solid, saturated coral-red Traditional Chinese glyph '手'. The character sits precisely centered, filling 70% of the frame height with generous margins, holding still for a complete 3-second hold (0:05-0:08). Clear Taiwanese Mandarin child voiceover pronounces 'ㄕㄡˇ, 手!' at 0:02, 'ㄕㄡˇ, 手!' at 0:04, and '手!' during the hold. Bright, high-contrast lighting with gentle soft shadows, crisp readability, no watermarks, text overlays, or flashing effects.\n```"
+        }
+      ],
+      "activePromptId": "47f6faa7-8767-4306-9254-0d978c1e99b2",
+      "promptedAt": "2026-09-07T12:54:48.558Z"
     },
     {
       "char": "足",
@@ -373,11 +511,38 @@
         "morph": "the ankle lifts and squares off into the top box while the foot splits into the lower strokes",
         "hook": "腳踩一下，上面跳出一個框"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 11,
       "media": [],
       "feedback": [],
-      "emoji": "🦶"
+      "emoji": "🦶",
+      "promptVersions": [
+        {
+          "char": "足",
+          "meaning": "foot",
+          "zhuyin": "ㄗㄨˊ",
+          "emoji": "⚽",
+          "conceptZh": "圓滾滾的小選手起腳高高踢起足球，足球在空中頂部定格化為「口」字框，小選手伸展的身軀與腿部順勢凝結成「足」字下半部的筆劃。",
+          "object": "a playful character kicking a soccer ball high into the air",
+          "morph": "the soccer ball pauses at its apex to form the top square box '口', while the character's torso and outstretched legs stretch into the central stem and lower sweeping strokes of '足'",
+          "creativeAngle": "採用家長建議的踢足球情境，將動態踢球過程轉化為結構清晰的文字演變。頂部高飛的足球形成「口」，軀幹與踢球伸展的雙腳自然變成豎、橫與底部的撇捺，既生動又嚴謹呈現「足」字正確結構。",
+          "promptEn": "An 8-second 2D animation for children aged 6-8 featuring high-contrast, clean visual design on a light pastel background. From 0 to 2 seconds, a cheerful centered character kicks a soccer ball high up into the air. From 2 to 5 seconds, the soccer ball pauses at its peak in the upper-center and morphs into a crisp, solid indigo square box forming the top '口' radical of the Traditional Chinese character '足'. At the same time, the character's body and kicking legs stretch into solid indigo strokes, forming the lower central stem, horizontal bar, and bottom sweeping legs. By 5 seconds, the transformation completes into the accurate, bold Traditional Chinese character '足', centered and filling 70% of the frame height with comfortable margins. From 5 to 8 seconds, the animation holds entirely static on '足' for at least 3 seconds while a friendly Taiwanese Mandarin voiceover clearly pronounces 'zú, zú, zú, zú' four times. The composition remains clean, bright, without white blowouts, flashing effects, watermarks, or extra text.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:55:20.857Z",
+          "id": "34898501-0c58-495f-a3ec-d6706d9025fc",
+          "direction": "用踢足球當例子",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "6f08f3da9828ecc5cc113ccaa2b231e0620529d2c505960812f4b4f1156711d4",
+          "hash": "9eec7232a73f0285010c3c993aa0b7f69fdc9d2c986c0102d1f3a8aee2147e86",
+          "formatted": "【目標國字】：足\n【設計概念】：圓滾滾的小選手起腳高高踢起足球，足球在空中頂部定格化為「口」字框，小選手伸展的身軀與腿部順勢凝結成「足」字下半部的筆劃。\n【8s Video Prompt】:\n```text\nAn 8-second 2D animation for children aged 6-8 featuring high-contrast, clean visual design on a light pastel background. From 0 to 2 seconds, a cheerful centered character kicks a soccer ball high up into the air. From 2 to 5 seconds, the soccer ball pauses at its peak in the upper-center and morphs into a crisp, solid indigo square box forming the top '口' radical of the Traditional Chinese character '足'. At the same time, the character's body and kicking legs stretch into solid indigo strokes, forming the lower central stem, horizontal bar, and bottom sweeping legs. By 5 seconds, the transformation completes into the accurate, bold Traditional Chinese character '足', centered and filling 70% of the frame height with comfortable margins. From 5 to 8 seconds, the animation holds entirely static on '足' for at least 3 seconds while a friendly Taiwanese Mandarin voiceover clearly pronounces 'zú, zú, zú, zú' four times. The composition remains clean, bright, without white blowouts, flashing effects, watermarks, or extra text.\n```"
+        }
+      ],
+      "activePromptId": "34898501-0c58-495f-a3ec-d6706d9025fc",
+      "promptedAt": "2026-09-07T12:55:20.857Z"
     },
     {
       "char": "目",
@@ -703,11 +868,55 @@
         "morph": "the wheels flatten into the horizontal bars, the chassis becomes the centre box, and the axle stands as the vertical",
         "hook": "車輪壓平變成橫線"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 33,
-      "media": [],
+      "media": [
+        {
+          "file": "車-b9fadb79-5f39-4a0b-b6e7-259c2f58af96.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-07T12:47:13.694Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-07T12:47:36.478Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "emoji": "🚗"
+      "emoji": "🚗",
+      "promptVersions": [
+        {
+          "char": "車",
+          "meaning": "car",
+          "zhuyin": "ㄔㄜ",
+          "emoji": "🚗",
+          "conceptZh": "紅木小電車的頂篷、車廂與底盤組件順暢展平，中央立柱貫穿成為繁體字「車」。",
+          "object": "a vibrant red wooden toy trolley car with a central vertical pole",
+          "morph": "The top canopy sweeps into the upper horizontal line, the cabin forms the middle box, the lower chassis unfolds into the bottom horizontal line, and the central trolley pole slides down through all sections to complete the vertical axis.",
+          "creativeAngle": "捨棄舊版直接俯視壓平的模式，改用立體玩具電車的幾何展平與中央電聯桿縱向貫穿動效，提供具體的機械因果感與清晰筆畫對應。",
+          "promptEn": "An 8-second studio-quality 3D animated educational clip for Taiwanese children aged 6-8, illustrating the Traditional Chinese character '車'. The composition is super clean, bright, and centered against a seamless soft cream background.\n\n[0.0s - 2.0s] A stylized, bright crimson red toy wooden trolley sits neatly in the center of the frame. It has a flat top roof bar, a square central cabin with a window, a long lower chassis, and a polished metallic trolley pole passing vertically through its center.\n\n[2.0s - 5.0s] With a gentle click, the toy smoothly morphs: its roof bar flattens into a bold top horizontal stroke; the middle cabin snaps into a pristine rectangular box with a horizontal middle bar; the bottom chassis extends into a long, grounded horizontal stroke. The central metallic pole glides straight down through the entire assembly from top to bottom, finishing the vertical stroke and forming the exact Traditional Chinese character '車'.\n\n[5.0s - 8.0s] The target glyph '車' is displayed in a vibrant, saturated solid dark-red color, perfectly centered and occupying around 70% of the frame height with clean margins. The scene locks in a static final hold for 3 full seconds (5.0s to 8.0s) for clear visual recognition.\n\nAudio: A friendly, clear Taiwanese Mandarin narrator pronounces '車' (chē) four times in cadence with the transformation beats and final hold ('車... 車... 車, 車!'). Simple, pleasant acoustic sound effects accompany the mechanical morphing, with no text overlays, watermarks, or flashing visuals.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:39:41.934Z",
+          "id": "81f4eb4e-406d-4fc7-839a-f739769e71ab",
+          "direction": "",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "3c25ed03d975442a811bcab7b464a4e701a2cd52268ce6e607cb1b38fe0119cb",
+          "hash": "4726d6657e0e7cdf51cfb0b40b27a492163940661bb3feb0e2c11f90baf3cc63",
+          "formatted": "【目標國字】：車\n【設計概念】：紅木小電車的頂篷、車廂與底盤組件順暢展平，中央立柱貫穿成為繁體字「車」。\n【8s Video Prompt】:\n```text\nAn 8-second studio-quality 3D animated educational clip for Taiwanese children aged 6-8, illustrating the Traditional Chinese character '車'. The composition is super clean, bright, and centered against a seamless soft cream background.\n\n[0.0s - 2.0s] A stylized, bright crimson red toy wooden trolley sits neatly in the center of the frame. It has a flat top roof bar, a square central cabin with a window, a long lower chassis, and a polished metallic trolley pole passing vertically through its center.\n\n[2.0s - 5.0s] With a gentle click, the toy smoothly morphs: its roof bar flattens into a bold top horizontal stroke; the middle cabin snaps into a pristine rectangular box with a horizontal middle bar; the bottom chassis extends into a long, grounded horizontal stroke. The central metallic pole glides straight down through the entire assembly from top to bottom, finishing the vertical stroke and forming the exact Traditional Chinese character '車'.\n\n[5.0s - 8.0s] The target glyph '車' is displayed in a vibrant, saturated solid dark-red color, perfectly centered and occupying around 70% of the frame height with clean margins. The scene locks in a static final hold for 3 full seconds (5.0s to 8.0s) for clear visual recognition.\n\nAudio: A friendly, clear Taiwanese Mandarin narrator pronounces '車' (chē) four times in cadence with the transformation beats and final hold ('車... 車... 車, 車!'). Simple, pleasant acoustic sound effects accompany the mechanical morphing, with no text overlays, watermarks, or flashing visuals.\n```"
+        }
+      ],
+      "activePromptId": "81f4eb4e-406d-4fc7-839a-f739769e71ab",
+      "promptedAt": "2026-09-07T12:39:41.934Z",
+      "needsRedo": false
     },
     {
       "char": "門",
@@ -786,33 +995,182 @@
     },
     {
       "char": "機",
-      "zhuyin": "",
-      "meaning": "",
-      "emoji": "✨",
+      "zhuyin": "ㄐㄧ",
+      "meaning": "machine",
+      "emoji": "🤖",
       "concept": {
         "object": "",
         "morph": "",
         "hook": ""
       },
-      "status": "seed",
+      "status": "live",
       "priority": 39,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "機-5ec315fe-8e00-4a28-a71a-283437a7c031.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-08T12:26:15.972Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-08T12:26:35.252Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        },
+        {
+          "file": "機-e19bb4e6-790d-45dd-b8f4-44ac7b035b76.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-08T12:15:36.383Z",
+          "review": "paused",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-08T12:16:15.374Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "promptVersions": [
+        {
+          "char": "機",
+          "meaning": "machine",
+          "zhuyin": "ㄐㄧ",
+          "emoji": "🤖",
+          "conceptZh": "以精巧的木質齒輪連動發條玩具為意象，左側木架化為「木」部，右上雙絲線捲盤轉化為「𢆶」，右下擺錘槓桿卡榫舒展成「戍」，展現「機」關連動的科學趣味。",
+          "object": "A crafted wooden clockwork marble-run contraption featuring a vertical beam frame on the left, twin brass thread bobbins on the top right, and a mechanical pendulum lever on the bottom right.",
+          "morph": "A rolling marble triggers a kinetic chain reaction: the wooden beam locks into '木', the spinning bobbins flatten into twin looped strokes '𢆶', and the swinging pendulum lever forms the diagonal and hook strokes of '戍', unifying into the Traditional Chinese glyph '機'.",
+          "creativeAngle": "擺脫常見的膠狀物件或直接組裝，改用古樸精細的連動發條與滾珠連鎖反應，將複雜的「機」字拆解為左木、右上雙幺、右下戍的機械結構，既符合字義又富趣味。",
+          "promptEn": "An 8-second 3D literacy animation for kids on a clean, bright cream background. At 0s, a polished red marble drops into a wooden clockwork toy. From 0s to 2.5s, the marble rolls down a slender wooden beam structure on the left, causing it to snap into the solid strokes of radical '木'. From 2.5s to 5s, the marble hits two golden brass thread bobbins at top-right, which spin into twin looped strokes '𢆶', then triggers a mechanical pendulum lever at bottom-right that swings smoothly to form the strokes of '戍'. The complete assembly fuses perfectly into the single Traditional Chinese character '機' in saturated deep navy blue, filling 70% of frame height with ample clean margins. From 5s to 8s (3 full seconds), the glyph remains strictly centered and static against the bright, clutter-free background. Clear Taiwanese Mandarin audio pronounces 'jī' four times ('jī... jī... jī... jī') with gentle audio-visual clarity.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:53:31.511Z",
+          "id": "8160a87c-90ec-40bb-a96f-ae3d0e084d4c",
+          "direction": "",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "2095bbf5e33c4c28db4e720aad453132752d8d7ba685847b457c4e19b887d4d9",
+          "hash": "ac2a99b4895887352ea6e2c1814d801e5c9ecf413f2511c271de0ac0f8b28712",
+          "formatted": "【目標國字】：機\n【設計概念】：以精巧的木質齒輪連動發條玩具為意象，左側木架化為「木」部，右上雙絲線捲盤轉化為「𢆶」，右下擺錘槓桿卡榫舒展成「戍」，展現「機」關連動的科學趣味。\n【8s Video Prompt】:\n```text\nAn 8-second 3D literacy animation for kids on a clean, bright cream background. At 0s, a polished red marble drops into a wooden clockwork toy. From 0s to 2.5s, the marble rolls down a slender wooden beam structure on the left, causing it to snap into the solid strokes of radical '木'. From 2.5s to 5s, the marble hits two golden brass thread bobbins at top-right, which spin into twin looped strokes '𢆶', then triggers a mechanical pendulum lever at bottom-right that swings smoothly to form the strokes of '戍'. The complete assembly fuses perfectly into the single Traditional Chinese character '機' in saturated deep navy blue, filling 70% of frame height with ample clean margins. From 5s to 8s (3 full seconds), the glyph remains strictly centered and static against the bright, clutter-free background. Clear Taiwanese Mandarin audio pronounces 'jī' four times ('jī... jī... jī... jī') with gentle audio-visual clarity.\n```"
+        },
+        {
+          "char": "機",
+          "meaning": "machine",
+          "zhuyin": "ㄐㄧ",
+          "emoji": "🤖",
+          "conceptZh": "一隻逗趣的發條玩具機器人熱情地進行組裝示範。左側木積木堆疊成「木」字部；機器人頂頭射出兩條彈簧線圈化為右上「𢆶」部；隨後機器人太開心用力擺姿勢，腳底彈簧意外彈跳將自己發射出去，機械手臂與支架剛好斜斜卡在右下方形成「戍」部。全體緊密組合成一個深藍色「機」字。過程充滿玩具機器人的滑稽意外與機械趣味。",
+          "object": "A quirky wind-up toy robot with spring legs, metallic coiled cables, and wooden toy building blocks on a bright pastel background.",
+          "morph": "The wooden blocks align on the left into radical '木', two coiled spring cables extend at top-right for '𢆶', and the toy robot catapults itself into bottom-right forming '戍', snapping into the complete Traditional Chinese character '機'.",
+          "creativeAngle": "響應家長「用機器人生動搞笑」的建議，設計發條玩具機器人因興奮過度被腳底彈簧意外發射的喜劇彈跳，將機械組件與姿態順暢轉化為「機」字的「木、𢆶、戍」結構。語音嚴格遵循「機、機、機器人」格式，畫面純淨無字幕，結尾靜止展示3秒。",
+          "promptEn": "An 8-second 3D stylized toy animation on a clean, warm light-cream background. At 0s, on the left, rectangular wooden toy blocks stack smoothly to form the strokes of radical '木'. From 1.5s to 3s, a small, boxy wind-up toy robot shoots two golden coiled spring-cables from its head into the top-right area, looping into the strokes of '𢆶'. At 3s, the robot strikes an overly enthusiastic victory pose, but its spring feet recoil unexpectedly, catapulting it backwards; its metallic diagonal arm and lever bracket land perfectly across the bottom-right to form '戍'. At 5s, all parts lock into a single, perfectly proportioned Traditional Chinese character '機' in solid dark navy blue, filling 70% of frame height with generous margins. From 5s to 8s (3 full seconds), the completed glyph '機' remains completely centered and static. A warm, friendly off-screen voice speaks in clear Taiwanese Mandarin: \"機、機、機器人\". Audio is voice only without text or subtitles on screen.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-08T12:23:06.579Z",
+          "id": "00f98c2e-140c-40bf-93ad-2abea21367bf",
+          "direction": "用機器人的例子，生動搞笑",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "0047a9affac2d6f9759d1658c7c5ad4aa5b6aa6244d5c5077607de9169b0c85c",
+          "hash": "2bb6b4a7f5aaf33825b2dbb7e6403ef40f31a08ae7280eb8481a9aa5d56a2637",
+          "formatted": "【目標國字】：機\n【設計概念】：一隻逗趣的發條玩具機器人熱情地進行組裝示範。左側木積木堆疊成「木」字部；機器人頂頭射出兩條彈簧線圈化為右上「𢆶」部；隨後機器人太開心用力擺姿勢，腳底彈簧意外彈跳將自己發射出去，機械手臂與支架剛好斜斜卡在右下方形成「戍」部。全體緊密組合成一個深藍色「機」字。過程充滿玩具機器人的滑稽意外與機械趣味。\n【8s Video Prompt】:\n```text\nAn 8-second 3D stylized toy animation on a clean, warm light-cream background. At 0s, on the left, rectangular wooden toy blocks stack smoothly to form the strokes of radical '木'. From 1.5s to 3s, a small, boxy wind-up toy robot shoots two golden coiled spring-cables from its head into the top-right area, looping into the strokes of '𢆶'. At 3s, the robot strikes an overly enthusiastic victory pose, but its spring feet recoil unexpectedly, catapulting it backwards; its metallic diagonal arm and lever bracket land perfectly across the bottom-right to form '戍'. At 5s, all parts lock into a single, perfectly proportioned Traditional Chinese character '機' in solid dark navy blue, filling 70% of frame height with generous margins. From 5s to 8s (3 full seconds), the completed glyph '機' remains completely centered and static. A warm, friendly off-screen voice speaks in clear Taiwanese Mandarin: \"機、機、機器人\". Audio is voice only without text or subtitles on screen.\n```"
+        }
+      ],
+      "activePromptId": "00f98c2e-140c-40bf-93ad-2abea21367bf",
+      "promptedAt": "2026-09-08T12:23:06.579Z",
+      "needsRedo": false
     },
     {
       "char": "器",
-      "zhuyin": "",
-      "meaning": "",
-      "emoji": "✨",
+      "zhuyin": "ㄑㄧˋ",
+      "meaning": "vessels and tools",
+      "emoji": "🥣",
       "concept": {
         "object": "",
         "morph": "",
         "hook": ""
       },
-      "status": "seed",
+      "status": "live",
       "priority": 40,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "器-f42d706a-4fd4-4ff9-a080-d8298dbb5152.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-08T12:29:22.019Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-08T12:29:40.981Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "promptVersions": [
+        {
+          "char": "器",
+          "meaning": "vessels and tools",
+          "zhuyin": "ㄑㄧˋ",
+          "emoji": "🥣",
+          "conceptZh": "四個方形餐盤環繞一隻攜帶工具的守護小狗，小狗歡快點擊餐盤後，餐盤與小狗順暢演化為「器」字。",
+          "object": "Four square ceramic snack bowls arranged in a grid around a small helper puppy holding a wooden utensil.",
+          "morph": "The four square bowls flatten into the four corner '口' components, while the central puppy morphs into the central '犬' component, assembling the character '器'.",
+          "creativeAngle": "回歸「器」字本義與字形結構（四口一犬），以「四方形餐具+守護器皿的小狗」作為具象化隱喻，趣味展現器皿與工具概念，兼具文字學幾何特徵與兒童動畫視覺吸引力。",
+          "promptEn": "An 8-second 3D literacy animation for 6-8 year old Taiwanese children introducing the Traditional Chinese character 器 (qì, meaning vessels and tools).\n\n[00:00 - 02:00] Staging & Intro: On a clean, warm light-beige table, four square turquoise ceramic snack dishes are arranged in a balanced 2x2 grid. In the central space between them stands a playful brown puppy wearing a tiny red apron and holding a small wooden spoon, forming the central figure. The composition is brightly lit with soft warm lighting, keeping the scene uncluttered and perfectly centered.\n\n[00:02 - 04:00] Transformation & Metaphor: The puppy happily barks 'Qi! Qi!' while tapping each dish with its wooden spoon. The four square dishes cleanly flatten into four bold, saturated dark-navy square strokes (口 at top-left, top-right, bottom-left, and bottom-right). Simultaneously, the puppy stretches gracefully into the central stroke assembly of 犬 (a horizontal stroke, sweeping diagonal legs, and a distinct top-right dot stroke). Every stroke connects precisely according to Traditional Chinese orthography.\n\n[00:04 - 05:00] Final Assembly: The strokes lock together smoothly to form the complete, perfectly balanced Traditional Chinese glyph 器. The character fills 70% of the frame height, centered against the clean background with ample margins.\n\n[00:05 - 08:00] Extended Hold & Audio: The solid dark-navy character 器 holds completely static for 3 full seconds without camera motion, drift, or distracting effects. Over clear background ambience, an authentic Taiwanese Mandarin child voiceover clearly repeats 'ㄑㄧˋ! ㄑㄧˋ! ㄑㄧˋ! 器 (qì) - 器皿的器!' three to four times.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-07T12:53:50.665Z",
+          "id": "318e0af7-6c43-44c3-8210-79788984c41f",
+          "direction": "",
+          "templateVersion": 4,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "2b250484d78cf7d0879c69a29ff359c98a728cbab129fb9fc4258ab25049b622",
+          "hash": "10e0ae3cfcfe4a574a6fe64ca67139e85bdb96af1a9819b86ffa2b3bf3994d90",
+          "formatted": "【目標國字】：器\n【設計概念】：四個方形餐盤環繞一隻攜帶工具的守護小狗，小狗歡快點擊餐盤後，餐盤與小狗順暢演化為「器」字。\n【8s Video Prompt】:\n```text\nAn 8-second 3D literacy animation for 6-8 year old Taiwanese children introducing the Traditional Chinese character 器 (qì, meaning vessels and tools).\n\n[00:00 - 02:00] Staging & Intro: On a clean, warm light-beige table, four square turquoise ceramic snack dishes are arranged in a balanced 2x2 grid. In the central space between them stands a playful brown puppy wearing a tiny red apron and holding a small wooden spoon, forming the central figure. The composition is brightly lit with soft warm lighting, keeping the scene uncluttered and perfectly centered.\n\n[00:02 - 04:00] Transformation & Metaphor: The puppy happily barks 'Qi! Qi!' while tapping each dish with its wooden spoon. The four square dishes cleanly flatten into four bold, saturated dark-navy square strokes (口 at top-left, top-right, bottom-left, and bottom-right). Simultaneously, the puppy stretches gracefully into the central stroke assembly of 犬 (a horizontal stroke, sweeping diagonal legs, and a distinct top-right dot stroke). Every stroke connects precisely according to Traditional Chinese orthography.\n\n[00:04 - 05:00] Final Assembly: The strokes lock together smoothly to form the complete, perfectly balanced Traditional Chinese glyph 器. The character fills 70% of the frame height, centered against the clean background with ample margins.\n\n[00:05 - 08:00] Extended Hold & Audio: The solid dark-navy character 器 holds completely static for 3 full seconds without camera motion, drift, or distracting effects. Over clear background ambience, an authentic Taiwanese Mandarin child voiceover clearly repeats 'ㄑㄧˋ! ㄑㄧˋ! ㄑㄧˋ! 器 (qì) - 器皿的器!' three to four times.\n```"
+        },
+        {
+          "char": "器",
+          "meaning": "vessels and tools",
+          "zhuyin": "ㄑㄧˋ",
+          "emoji": "🤖",
+          "conceptZh": "一隻俏皮的機械玩具機器人興奮開啟四周四個方形工具盒，身體與工具盒順暢演變成「器」字。",
+          "object": "A colorful mechanical toy robot and four square tool trays",
+          "morph": "The four tool trays flatten into the four 口 square strokes, while the toy robot's springy frame stretches into the central 犬 strokes to form the character 器.",
+          "creativeAngle": "回應家長「機器人」與「生動搞笑」的需求，利用玩具機器人過度興奮引發的彈跳拉伸動作創造喜劇笑點，精準對應「器」字的四口一犬結構。",
+          "promptEn": "An 8-second 3D animation introducing the Traditional Chinese character 器 (qì).\n\n[00:00 - 00:02] Staging & Setup:\nOn a clean, brightly lit light-cream surface, four square turquoise toy tool trays are arranged in a symmetric 2x2 grid. In the center between the trays stands a chunky, colorful mechanical toy robot with springy joints and round glowing eyes. The composition is uncluttered, brightly lit with soft shadows, keeping the subjects centered.\n\n[00:02 - 00:04.5] Visual Gag & Transformation:\nThe toy robot enthusiastically presses a red chest button to showcase its gadgets. With a funny springy boing, the four square tool trays pop open and neatly flatten into four bold, dark-indigo square strokes (口 at top-left, top-right, bottom-left, and bottom-right). Surprised by the sudden pop, the toy robot's mechanical frame hilariously stretches out—its arms extend into a solid horizontal bar, its legs sweep into diagonal legs, and its antenna pops up as a neat top-right dot, forming the central 犬 component.\n\n[00:04.5 - 00:08.0] Assembly & 3.5-Second Hold:\nThe strokes lock together seamlessly to complete the precise Traditional Chinese glyph 器. The dark-indigo glyph fills roughly 70% of the frame height, centered against the warm, clean background with clear margins. The glyph stays completely static with no motion or camera drift for the final 3.5 seconds.\n\nAudio:\nAn off-screen voice speaks clearly in Taiwanese Mandarin: \"器、器、機器人\" (qì, qì, jī qì rén), timed naturally with the finished glyph display. There are no subtitles, on-screen vocabulary text, or distracting background music.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-08T12:24:34.564Z",
+          "id": "2b7b5646-3f09-419c-ba0a-c1d92f79dad9",
+          "direction": "用機器人的例子，生動搞笑",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "bbfb03ce3e68c73ab9043e20d068cc6314f47df7e80c44b195e39356adc39b09",
+          "hash": "d112f51721f0841ad142416ee1933460bdd9ca482ddda572f4b7bac274ff899a",
+          "formatted": "【目標國字】：器\n【設計概念】：一隻俏皮的機械玩具機器人興奮開啟四周四個方形工具盒，身體與工具盒順暢演變成「器」字。\n【8s Video Prompt】:\n```text\nAn 8-second 3D animation introducing the Traditional Chinese character 器 (qì).\n\n[00:00 - 00:02] Staging & Setup:\nOn a clean, brightly lit light-cream surface, four square turquoise toy tool trays are arranged in a symmetric 2x2 grid. In the center between the trays stands a chunky, colorful mechanical toy robot with springy joints and round glowing eyes. The composition is uncluttered, brightly lit with soft shadows, keeping the subjects centered.\n\n[00:02 - 00:04.5] Visual Gag & Transformation:\nThe toy robot enthusiastically presses a red chest button to showcase its gadgets. With a funny springy boing, the four square tool trays pop open and neatly flatten into four bold, dark-indigo square strokes (口 at top-left, top-right, bottom-left, and bottom-right). Surprised by the sudden pop, the toy robot's mechanical frame hilariously stretches out—its arms extend into a solid horizontal bar, its legs sweep into diagonal legs, and its antenna pops up as a neat top-right dot, forming the central 犬 component.\n\n[00:04.5 - 00:08.0] Assembly & 3.5-Second Hold:\nThe strokes lock together seamlessly to complete the precise Traditional Chinese glyph 器. The dark-indigo glyph fills roughly 70% of the frame height, centered against the warm, clean background with clear margins. The glyph stays completely static with no motion or camera drift for the final 3.5 seconds.\n\nAudio:\nAn off-screen voice speaks clearly in Taiwanese Mandarin: \"器、器、機器人\" (qì, qì, jī qì rén), timed naturally with the finished glyph display. There are no subtitles, on-screen vocabulary text, or distracting background music.\n```"
+        }
+      ],
+      "activePromptId": "2b7b5646-3f09-419c-ba0a-c1d92f79dad9",
+      "promptedAt": "2026-09-08T12:24:34.564Z",
+      "needsRedo": false
     }
   ],
   "production": {
@@ -830,6 +1188,22 @@
           "水",
           "火",
           "土"
+        ],
+        "attempts": []
+      },
+      "2026-09-07": {
+        "queue": [
+          "水",
+          "人",
+          "口"
+        ],
+        "attempts": []
+      },
+      "2026-09-08": {
+        "queue": [
+          "口",
+          "手",
+          "足"
         ],
         "attempts": []
       }

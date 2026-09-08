@@ -24,7 +24,7 @@ const writeJSON = (p, v) => {
 export const loadCharacters = () => readJSON(path.join(DATA, 'characters.json'), { version: 1, characters: [] })
 export const saveCharacters = (d) => writeJSON(path.join(DATA, 'characters.json'), d)
 export const loadTemplate = () => readJSON(path.join(ROOT, 'data/prompt-template.json'), null)
-export const loadProgress = () => readJSON(path.join(DATA, 'progress.json'), { watched: {}, days: {} })
+export const loadProgress = () => readJSON(path.join(DATA, 'progress.json'), { watched: {} })
 export const saveProgress = (d) => writeJSON(path.join(DATA, 'progress.json'), d)
 
 export function contextHash(entry, template = loadTemplate()) {
@@ -56,7 +56,8 @@ export function buildPrompt(entry, tpl = loadTemplate()) {
   }
 
   const promptEn = [
-    `Create an 8-second 3D animated clip that teaches ONE Traditional Chinese character to a 6-year-old child.`,
+    `Create a playful 8-second 3D animated clip that teaches ONE Traditional Chinese character.`,
+    tpl.scenePolicy || '',
     ``,
     `HERO SUBJECT: the Traditional Chinese character "${char}" (meaning: ${meaning}).`,
     ``,

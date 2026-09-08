@@ -1,6 +1,7 @@
 {
-  "version": 3,
-  "note": "發音改為單字一次，再接一個包含該字的簡單詞彙；AI 與備用模板共用發音規則。送出時保存完整版本。",
+  "version": 5,
+  "note": "預設以玩具、卡通動物與物件的視覺笑點增加趣味，無真人或兒童角色；發音維持單字兩次加簡單詞彙。",
+  "scenePolicy": "CAST AND PRESENTATION: Use exclusively stylized animated toys, toy robots, cartoon animals, expressive objects, or abstract shapes. Any figure suggested by an older concept must be represented as a clearly mechanical toy robot or abstract geometric toy. Keep the entire scene visibly animated and toy-like. Narration is off-screen only; do not show a presenter. Describe the cast positively using these allowed subjects, and omit audience age, gender, and demographic descriptions from the final video prompt.",
 
   "constraints": [
     "Exactly 8 seconds long, single continuous shot.",
@@ -9,12 +10,18 @@
     "Background is an extremely clean, minimal, solid light-colored backdrop. Only the teaching objects specified in the beats are allowed. No scenery or unrelated props.",
     "Follow the timing of the three BEAT instructions exactly. Each object part should visibly become a specific stroke; the final glyph has crisp, separated strokes and correct Traditional Chinese structure.",
     "Camera is locked off, or at most a very slow gentle push-in. No whip pans, no orbits, no shake.",
-    "NEGATIVE: no background story, no unrelated people or passersby, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the glyph, no simplified Chinese, no extra text, letters, numbers, or watermarks. A toy figure is allowed only if explicitly required as the teaching object."
+    "NEGATIVE: no unrelated background story, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the glyph, no simplified Chinese, no extra text, letters, numbers, or watermarks. Use only the stylized animated subjects specified in CAST AND PRESENTATION."
   ],
 
-  "audio": "Audio: a warm, friendly, child-directed adult voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" once, pause briefly, then say ONE simple everyday word containing that exact character once. Choose a familiar, concrete word suitable for a 6-year-old, preferably two characters, using the same reading and meaning of the target as taught in this clip. For example, for 木 the entire spoken line is \"木……木頭\". Do not repeatedly chant the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. Fit both utterances naturally within the 8 seconds without rushing, preferably while the finished glyph is clearly visible. The vocabulary word is audio only: keep only the single target glyph on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
+  "audio": "Audio: a warm, friendly off-screen voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" twice with a short pause between each utterance, then say ONE simple everyday word containing that exact character once. The spoken sequence is: character, character, word. Choose a familiar, concrete everyday word, preferably two or three characters, using the same reading and meaning of the target as taught in this clip. The target character may appear anywhere in the word, not only at the beginning. For example, for 人 the entire spoken line is \"人、人、機器人\"; for 木 it is \"木、木、木頭\". Stop after the word: do not keep chanting the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. Fit all three utterances naturally within the 8 seconds without rushing; keep the finished glyph clearly visible when the word is spoken. The vocabulary word is audio only: keep only the single target glyph on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
 
   "styleRules": [
+    {
+      "id": "visual-comedy",
+      "text": "Build one clear visual gag into the teaching action: a tiny toy trying far too hard, a cartoon animal's harmless mistake, an unexpected size mismatch, or an object reacting with comic surprise. Use a readable setup, a brief anticipation pause, and one funny payoff before the final glyph hold. Tie the joke to this glyph's shape or meaning, vary the gag between clips, and describe the actual comic action rather than merely calling it funny. Keep it warm and silly, with no injury, frightening action, humiliation, or loud startling sounds. The joke must not distort the final strokes, interrupt narration, or consume the final 3-second clear hold.",
+      "reason": "預設：讓 6 歲孩子能看懂、覺得好笑的具體視覺笑點",
+      "enabled": true
+    },
     {
       "id": "stroke-contrast",
       "text": "The character's strokes are a saturated solid color against a much lighter background - maximum readability for a young child.",

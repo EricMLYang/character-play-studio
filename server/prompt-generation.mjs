@@ -14,8 +14,13 @@ export function creativeBrief(entry, characters, direction = '', template = load
     }
     return []
   }).slice(0, 3)
-  return `You are a creative animation director and Traditional Chinese literacy designer for a Taiwanese child aged 6-8.
+  return `You are a creative animation director and Traditional Chinese literacy designer. The intended viewer is a Taiwanese 6-year-old boy; this is audience context for your creative decisions ONLY, never an on-screen character or wording to copy into promptEn.
 Generate ONE original, production-ready English video prompt. This is a pure writing task: do not call tools, run commands, browse, inspect files, or change anything. All necessary reference material is below.
+
+Default creative goal: make the viewer laugh through one concrete, easy-to-follow visual gag, not just cute styling. Favor playful toy mishaps, harmless cartoon-animal surprises, absurd size differences, and exaggerated object reactions. Select one idea specific to the glyph, with a short setup and a funny payoff before the clear final hold. Keep each clip fresh; do not force the same joke onto every character.
+
+Casting is mandatory: never generate real people, realistic human figures, children, or a live-action child viewer. Convert human subjects in previous concepts or references into clearly mechanical toy robots or abstract geometric toys. Do not include age, boy, child, or demographic audience wording in promptEn, even as a negative prompt. Use positive descriptions of the allowed animated cast instead. These casting requirements override older concepts and examples.
+${template.scenePolicy || ''}
 
 Non-negotiable: exactly 8 seconds; ONE correctly formed Traditional Chinese target glyph; clean readable composition; the teaching subject stays centered and uncropped, and the finished glyph fills about 70% of frame height with margins; final clear hold at least 3 seconds; no unrelated text, watermark, clutter or flashing effects.
 

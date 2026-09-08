@@ -32,8 +32,6 @@ export type CharEntry = {
 
 export type Progress = {
   watched: Record<string, { count: number; last: string }>
-  days: Record<string, string[]>
-  stickers: string[]
 }
 
 export type Library = {

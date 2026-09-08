@@ -12,8 +12,6 @@ export const generatePrompt = (body: { char: string; provider: string; model: st
   fetch('/api/prompt/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal }).then(j)
 export const selectPrompt = (char: string, id: string): Promise<Prompt> =>
   fetch('/api/prompt/select', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ char, id }) }).then(j)
-export const saveProgress = (p: Progress) =>
-  fetch('/api/progress', { method: 'POST', body: JSON.stringify(p) }).then(j)
 export const sendFeedback = (char: string, tags: string[], mediaFile?: string) =>
   fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ char, tags, mediaFile }) }).then(j)
 export const addCharacter = (body: Record<string, string>) =>
