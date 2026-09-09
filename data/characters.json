@@ -427,9 +427,25 @@
         "morph": "the mouth stretches square and its outline thickens into the four strokes of a box",
         "hook": "嘴巴張超大變成方框"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 9,
-      "media": [],
+      "media": [
+        {
+          "file": "口-89239f79-689a-4057-9e6c-0d5d0549bf01.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-09T11:07:30.433Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-09T11:07:49.638Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "👄",
       "promptVersions": [
@@ -455,10 +471,34 @@
           "contextHash": "b7c2904129c7c2e493d72f1150f872368fc26aa1759e2616e6e42517ca86c354",
           "hash": "41b99c3a85dfce27db58fbcd81de06a509622137f20817ef2873e11f97538238",
           "formatted": "【目標國字】：口\n【設計概念】：溫馨木框窗戶簡化轉化為方形文字「口」\n【8s Video Prompt】:\n```text\nAn 8-second educational animation for young Taiwanese children teaching the Traditional Chinese character 口. On a soft warm-cream background, a handcrafted oak square window frame sits perfectly centered. During 0 to 2 seconds, a small cartoon bird peeks through the square opening, chirps merrily, and flies off. Between 2 and 5 seconds, the wooden frame's texture melts into a bold, solid dark-navy color, reshaping into the exact four strokes of the Traditional Chinese character 口, perfectly proportioned to occupy 70% of the frame height with balanced margins. From 5 to 8 seconds, the character holds entirely still for a full 3-second final freeze. Clear Taiwanese Mandarin voiceover repeats the pronunciation 'ㄎㄡˇ' (kǒu) four times during the hold. Bright, high-contrast, child-friendly visual styling without neon glare, flashing, text overlays, or watermarks.\n```"
+        },
+        {
+          "char": "口",
+          "meaning": "mouth",
+          "zhuyin": "ㄎㄡˇ",
+          "emoji": "👄",
+          "conceptZh": "滑稽的機械玩具怪獸張大嘴巴卡成方形，轉化為標準的「口」字",
+          "object": "A comical mechanical toy monster with an oversized glossy mouth",
+          "morph": "The toy monster's mouth stretches wide around a toy block and snaps into a square frame, which thickens into the four navy-blue strokes of 口",
+          "creativeAngle": "回應「搞笑的口腔」需求，以機械玩具怪獸張大嘴巴咬方塊時意外卡成正方形的喜劇喜感作為視覺隱喻，流暢過渡至標準「口」字，並符合最後3秒靜止留白與「口、口、口袋」的臺灣國語語音規範。",
+          "promptEn": "An 8-second 3D stylized animation on a soft light cream background featuring a comical mechanical toy monster with a big glossy mouth. From 0 to 2 seconds, the toy monster opens its oversized rounded mouth wide to take a giant bite of a floating toy block, but its mouth unexpectedly pops into a rigid, perfectly symmetrical square frame in a funny cartoon shock. From 2 to 5 seconds, the monster's body gently dissolves away as its square mouth thickens and snaps cleanly into the four bold navy-blue strokes of the single Traditional Chinese character 口, centered, uncropped, and filling 70% of the frame height with balanced margins. From 5 to 8 seconds, the scene comes to a complete static freeze on the dark navy glyph 口 for a full 3-second final hold. A warm, friendly off-screen voiceover speaks clearly in Taiwanese Mandarin: '口、口、口袋'. The composition remains bright, clean, and minimal with soft studio lighting, containing no subtitles, no additional text, no watermarks, and no background noise louder than the narration.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-09T10:08:09.423Z",
+          "id": "dc381d70-fbf6-4a2c-9cb6-14265f46ca79",
+          "direction": "搞笑的口腔",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "eeddb5937d7e348122ca8779cc5afef2f7ce12a31e03e24e6d4f539ad125c23b",
+          "hash": "9423982ec513980411e02279b4aff1030480ce8707c5df87f3e2f0fe70d2f61b",
+          "formatted": "【目標國字】：口\n【設計概念】：滑稽的機械玩具怪獸張大嘴巴卡成方形，轉化為標準的「口」字\n【8s Video Prompt】:\n```text\nAn 8-second 3D stylized animation on a soft light cream background featuring a comical mechanical toy monster with a big glossy mouth. From 0 to 2 seconds, the toy monster opens its oversized rounded mouth wide to take a giant bite of a floating toy block, but its mouth unexpectedly pops into a rigid, perfectly symmetrical square frame in a funny cartoon shock. From 2 to 5 seconds, the monster's body gently dissolves away as its square mouth thickens and snaps cleanly into the four bold navy-blue strokes of the single Traditional Chinese character 口, centered, uncropped, and filling 70% of the frame height with balanced margins. From 5 to 8 seconds, the scene comes to a complete static freeze on the dark navy glyph 口 for a full 3-second final hold. A warm, friendly off-screen voiceover speaks clearly in Taiwanese Mandarin: '口、口、口袋'. The composition remains bright, clean, and minimal with soft studio lighting, containing no subtitles, no additional text, no watermarks, and no background noise louder than the narration.\n```"
         }
       ],
-      "activePromptId": "3c413b2f-d6be-4107-a9b2-0972b60cb401",
-      "promptedAt": "2026-09-07T12:54:14.885Z"
+      "activePromptId": "dc381d70-fbf6-4a2c-9cb6-14265f46ca79",
+      "promptedAt": "2026-09-09T10:08:09.423Z",
+      "needsRedo": false
     },
     {
       "char": "手",
@@ -469,9 +509,40 @@
         "morph": "the fingers merge downward into three stacked horizontal bars while the wrist stretches into the vertical hook",
         "hook": "五根手指疊成三條線"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 10,
-      "media": [],
+      "media": [
+        {
+          "file": "手-7c7300d7-e34f-4d1d-8be1-859563d05d92.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-09T11:10:08.958Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-09T11:10:36.696Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        },
+        {
+          "file": "手-663f7bce-f849-4172-aa16-9e2660b37352.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-09T11:06:36.531Z",
+          "review": "paused",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-09T11:06:52.993Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "✋",
       "promptVersions": [
@@ -497,10 +568,34 @@
           "contextHash": "0068dfaa472586a2b0ab7393faba2f0ca046e7bface849981b0008f71d9ff690",
           "hash": "411def6b5f63bf715c708ec051f3723439d089c8d3ce6d21dd0854ad8122f3f9",
           "formatted": "【目標國字】：手\n【設計概念】：關節木手伸展動作：斜伸的大拇指化為首筆撇畫，張開的手指平伸分組形成長短兩道橫畫，手腕順勢向下延伸並向左勾起成為豎鉤，直觀對應「手」字的四筆結構。\n【8s Video Prompt】:\n```text\nAn 8-second 3D educational animation designed for Taiwanese children aged 6-8, teaching the Traditional Chinese character '手' (hand). Against a soft warm cream background, a bright jointed wooden toy hand catches a bouncing ball and presses flat against the surface (0:00-0:02). As it settles, the hand fluidly morphs into strokes: the angled thumb slides up-left into the top diagonal stroke (撇), the outstretched fingers align into two clean horizontal bars—a shorter upper bar and a longer lower bar—and the wrist pulls down through the center, smoothly hooking to the left at the bottom to form the vertical hook stroke (豎鉤) (0:02-0:05). The object resolves perfectly into the solid, saturated coral-red Traditional Chinese glyph '手'. The character sits precisely centered, filling 70% of the frame height with generous margins, holding still for a complete 3-second hold (0:05-0:08). Clear Taiwanese Mandarin child voiceover pronounces 'ㄕㄡˇ, 手!' at 0:02, 'ㄕㄡˇ, 手!' at 0:04, and '手!' during the hold. Bright, high-contrast lighting with gentle soft shadows, crisp readability, no watermarks, text overlays, or flashing effects.\n```"
+        },
+        {
+          "char": "手",
+          "meaning": "hand",
+          "zhuyin": "ㄕㄡˇ",
+          "emoji": "✋",
+          "conceptZh": "可愛的小塊狀玩具機器人戴著一隻超大號玩具手套，試圖高揮手卻被重重的手套摔了個踉蹌。機器人搞笑彈起，大號手套解體平展，轉化為「手」字的四筆結構。",
+          "object": "A tiny blocky toy robot wearing an absurdly oversized jointed wooden toy hand.",
+          "morph": "The oversized toy hand detaches and unfolds cleanly: the angled thumb slides up-left into the top diagonal stroke, the fingers form two horizontal bars (shorter top, longer bottom), and the wrist pulls straight down through the center into a sharp left hook.",
+          "creativeAngle": "回應 parentDirection 指示，以「超大手的小塊物」為主角構思喜劇落差。透過巨型手套過重跌倒的滑稽動作帶出笑點，並精準將手套拇指、指骨與手腕拆解對應為「手」字的撇、雙橫與豎鉤。",
+          "promptEn": "An 8-second 3D educational animation centered on the Traditional Chinese character '手'. Against a soft, warm pastel teal background, a cute tiny blocky toy robot wearing an absurdly oversized wooden toy hand tries to wave enthusiastically (0:00-0:02). The top-heavy hand tips the little robot forward onto its belly with a harmless, funny wobble. In a comic surprise, the robot pops back onto its feet as the oversized toy hand detaches and fluidly transforms into glyph strokes (0:02-0:05): the angled thumb sweeps up to the left into the top diagonal stroke (撇), the blocky fingers line up into two horizontal parallel bars—a shorter top bar and a longer lower bar—and the wooden wrist extends straight down through the center, hooking sharply to the left at the base to form the vertical hook stroke (豎鉤). The strokes instantly fuse into the clean, vibrant coral-orange Traditional Chinese glyph '手', perfectly centered and occupying 70% of the frame height with generous margins (0:05-0:08). The glyph remains completely static for a solid 3-second hold. Warm, clear off-screen Taiwanese Mandarin voiceover pronounces '手' at 0:01, '手' at 0:03, and the everyday word '手套' cleanly at 0:05 during the static hold. High-contrast studio lighting with soft shadows; no on-screen text overlays, subtitles, or watermarks.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-09T10:18:23.862Z",
+          "id": "d4c49c8f-9e87-4b66-9e62-7d416f9f00f6",
+          "direction": "有著超大手的可愛小塊物",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "e22c7b237c776ede11c9a9cd22942171d8863bd28ed8b50c941eb751ddddc515",
+          "hash": "b70f1b05ec0434038b495e6256ede114c1a606f69db8fc4bc48830ee5ea839d3",
+          "formatted": "【目標國字】：手\n【設計概念】：可愛的小塊狀玩具機器人戴著一隻超大號玩具手套，試圖高揮手卻被重重的手套摔了個踉蹌。機器人搞笑彈起，大號手套解體平展，轉化為「手」字的四筆結構。\n【8s Video Prompt】:\n```text\nAn 8-second 3D educational animation centered on the Traditional Chinese character '手'. Against a soft, warm pastel teal background, a cute tiny blocky toy robot wearing an absurdly oversized wooden toy hand tries to wave enthusiastically (0:00-0:02). The top-heavy hand tips the little robot forward onto its belly with a harmless, funny wobble. In a comic surprise, the robot pops back onto its feet as the oversized toy hand detaches and fluidly transforms into glyph strokes (0:02-0:05): the angled thumb sweeps up to the left into the top diagonal stroke (撇), the blocky fingers line up into two horizontal parallel bars—a shorter top bar and a longer lower bar—and the wooden wrist extends straight down through the center, hooking sharply to the left at the base to form the vertical hook stroke (豎鉤). The strokes instantly fuse into the clean, vibrant coral-orange Traditional Chinese glyph '手', perfectly centered and occupying 70% of the frame height with generous margins (0:05-0:08). The glyph remains completely static for a solid 3-second hold. Warm, clear off-screen Taiwanese Mandarin voiceover pronounces '手' at 0:01, '手' at 0:03, and the everyday word '手套' cleanly at 0:05 during the static hold. High-contrast studio lighting with soft shadows; no on-screen text overlays, subtitles, or watermarks.\n```"
         }
       ],
-      "activePromptId": "47f6faa7-8767-4306-9254-0d978c1e99b2",
-      "promptedAt": "2026-09-07T12:54:48.558Z"
+      "activePromptId": "d4c49c8f-9e87-4b66-9e62-7d416f9f00f6",
+      "promptedAt": "2026-09-09T10:18:23.862Z",
+      "needsRedo": false
     },
     {
       "char": "足",
@@ -511,9 +606,40 @@
         "morph": "the ankle lifts and squares off into the top box while the foot splits into the lower strokes",
         "hook": "腳踩一下，上面跳出一個框"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 11,
-      "media": [],
+      "media": [
+        {
+          "file": "足-f0a5a71e-0351-43bb-b4bf-8037a27b648d.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-09T11:09:19.596Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-09T11:09:37.719Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        },
+        {
+          "file": "足-a7d1aae4-a923-433d-85ee-a25c137bb038.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-09T10:15:51.323Z",
+          "review": "paused",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-09T10:16:18.809Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🦶",
       "promptVersions": [
@@ -539,10 +665,34 @@
           "contextHash": "6f08f3da9828ecc5cc113ccaa2b231e0620529d2c505960812f4b4f1156711d4",
           "hash": "9eec7232a73f0285010c3c993aa0b7f69fdc9d2c986c0102d1f3a8aee2147e86",
           "formatted": "【目標國字】：足\n【設計概念】：圓滾滾的小選手起腳高高踢起足球，足球在空中頂部定格化為「口」字框，小選手伸展的身軀與腿部順勢凝結成「足」字下半部的筆劃。\n【8s Video Prompt】:\n```text\nAn 8-second 2D animation for children aged 6-8 featuring high-contrast, clean visual design on a light pastel background. From 0 to 2 seconds, a cheerful centered character kicks a soccer ball high up into the air. From 2 to 5 seconds, the soccer ball pauses at its peak in the upper-center and morphs into a crisp, solid indigo square box forming the top '口' radical of the Traditional Chinese character '足'. At the same time, the character's body and kicking legs stretch into solid indigo strokes, forming the lower central stem, horizontal bar, and bottom sweeping legs. By 5 seconds, the transformation completes into the accurate, bold Traditional Chinese character '足', centered and filling 70% of the frame height with comfortable margins. From 5 to 8 seconds, the animation holds entirely static on '足' for at least 3 seconds while a friendly Taiwanese Mandarin voiceover clearly pronounces 'zú, zú, zú, zú' four times. The composition remains clean, bright, without white blowouts, flashing effects, watermarks, or extra text.\n```"
+        },
+        {
+          "char": "足",
+          "meaning": "foot",
+          "zhuyin": "ㄗㄨˊ",
+          "emoji": "⚽",
+          "conceptZh": "一隻戴著運動頭帶的可愛玩具小老鼠奮力高高踢足球，足球被彈到頭頂上方變成「口」字框，小老鼠的身軀與雙腿順勢拉長結合成「足」字的下半部筆劃。",
+          "object": "a lively toy mouse and a bouncy soccer ball",
+          "morph": "the soccer ball ricochets straight up into a square '口' box while the toy mouse's body and extended legs freeze into the lower strokes of '足'",
+          "creativeAngle": "修復前版包含年齡字眼與舊語音問題。融入符合家長要求的帥氣老鼠踢球設定，並設計搞笑踢球彈頭動作：老鼠大力踢球卻使足球直衝頭頂變「口」框，身體與大球鞋向下舒展成「足」字筆劃，呈現充滿童趣與韻律感的一體化變形。",
+          "promptEn": "An 8-second 2D stylized toy animation featuring vibrant, high-contrast visual design on a bright pastel cream background. A lively cartoon toy mouse wearing oversized sneakers and a headband winds up for a powerful kick at a bouncy soccer ball. As the mouse kicks, the ball unexpectedly ricochets straight upward into the upper-center frame with a comic squash, forming a clean indigo square '口' box. Simultaneously, the mouse's upright body stretches into the central vertical stem, while its two legs extend outward into the bottom sweeping stroke pair. By 5 seconds, the character smoothly resolves into the perfectly centered Traditional Chinese character '足', filling 70% of the frame height with generous margins. From 5 to 8 seconds, the frame holds completely static on '足' for a full 3 seconds with zero extra text or clutter, while a warm, friendly off-screen voiceover speaks in clear Taiwanese Mandarin: '足、足、足球'.",
+          "provider": "agy",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-09T10:09:55.228Z",
+          "id": "4cc51484-cce4-4235-8565-939b2e7ed019",
+          "direction": "帥氣可愛小老鼠踢足球",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "f2b7c329dd2e65d8aad80debb244354aea2efed346db83ca0992fa85672cfcae",
+          "hash": "ef6aaf7bd6d943555f61ef0cfc851cece3b8071ad46b485b75aa6d0eb36549b9",
+          "formatted": "【目標國字】：足\n【設計概念】：一隻戴著運動頭帶的可愛玩具小老鼠奮力高高踢足球，足球被彈到頭頂上方變成「口」字框，小老鼠的身軀與雙腿順勢拉長結合成「足」字的下半部筆劃。\n【8s Video Prompt】:\n```text\nAn 8-second 2D stylized toy animation featuring vibrant, high-contrast visual design on a bright pastel cream background. A lively cartoon toy mouse wearing oversized sneakers and a headband winds up for a powerful kick at a bouncy soccer ball. As the mouse kicks, the ball unexpectedly ricochets straight upward into the upper-center frame with a comic squash, forming a clean indigo square '口' box. Simultaneously, the mouse's upright body stretches into the central vertical stem, while its two legs extend outward into the bottom sweeping stroke pair. By 5 seconds, the character smoothly resolves into the perfectly centered Traditional Chinese character '足', filling 70% of the frame height with generous margins. From 5 to 8 seconds, the frame holds completely static on '足' for a full 3 seconds with zero extra text or clutter, while a warm, friendly off-screen voiceover speaks in clear Taiwanese Mandarin: '足、足、足球'.\n```"
         }
       ],
-      "activePromptId": "34898501-0c58-495f-a3ec-d6706d9025fc",
-      "promptedAt": "2026-09-07T12:55:20.857Z"
+      "activePromptId": "4cc51484-cce4-4235-8565-939b2e7ed019",
+      "promptedAt": "2026-09-09T10:09:55.228Z",
+      "needsRedo": false
     },
     {
       "char": "目",
@@ -1200,6 +1350,14 @@
         "attempts": []
       },
       "2026-09-08": {
+        "queue": [
+          "口",
+          "手",
+          "足"
+        ],
+        "attempts": []
+      },
+      "2026-09-09": {
         "queue": [
           "口",
           "手",
