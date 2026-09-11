@@ -16,6 +16,8 @@ export const sendFeedback = (char: string, tags: string[], mediaFile?: string) =
   fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ char, tags, mediaFile }) }).then(j)
 export const addCharacter = (body: Record<string, string>) =>
   fetch('/api/character', { method: 'POST', body: JSON.stringify(body) }).then(j)
+export const setVisibility = (char: string, hidden: boolean) =>
+  fetch('/api/character/visibility', { method: 'POST', body: JSON.stringify({ char, hidden }) }).then(j)
 export const importFile = (char: string, file: File, attemptId = '') => {
   const ext = file.name.split('.').pop() || 'mp4'
   return fetch(`/api/import?char=${encodeURIComponent(char)}&ext=${encodeURIComponent(ext)}&attemptId=${encodeURIComponent(attemptId)}`, {

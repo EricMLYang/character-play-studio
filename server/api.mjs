@@ -206,15 +206,32 @@ export function apiPlugin() {
             body.char = body.char?.trim()
             if (!body.char || !/^\p{Script=Han}$/u.test(body.char)) return json(res, 400, { error: '請輸入一個國字' })
             const db = loadCharacters()
-            if (db.characters.some((c) => c.char === body.char)) return json(res, 409, { error: 'exists' })
+            if (db.characters.some((c) => c.char === body.char)) {
+              return json(res, 409, { error: `「${body.char}」已經在字庫裡了，可以直接在左邊清單選它繼續編輯。` })
+            }
             db.characters.push({
               char: body.char, zhuyin: body.zhuyin || '', meaning: body.meaning || '',
               emoji: body.emoji || '✨',
               concept: { object: body.object || '', morph: body.morph || '', hook: body.hook || '' },
               status: 'seed', priority: db.characters.length + 1, media: [], feedback: [],
+              // 新字先不進孩子端：注音、意思與素材都還沒備齊，要由家長決定何時開放
+              hidden: true,
             })
             saveCharacters(db)
             return json(res, 200, { ok: true })
+          }
+
+          // ---- 這個字要不要出現在孩子端 ----
+          if (route === '/character/visibility' && req.method === 'POST') {
+            const { char, hidden } = JSON.parse((await readBody(req)).toString() || '{}')
+            if (typeof hidden !== 'boolean') return json(res, 400, { error: '請指定要開放或隱藏' })
+            const db = loadCharacters()
+            const entry = db.characters.find((c) => c.char === char)
+            if (!entry) return json(res, 404, { error: '找不到這個字' })
+            if (hidden) entry.hidden = true
+            else delete entry.hidden
+            saveCharacters(db)
+            return json(res, 200, { ok: true, entry })
           }
 
           return next()

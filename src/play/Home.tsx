@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react'
+import type { Ref } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasPublishedVideo } from '../../shared/selection.mjs'
 import type { Filter } from './PlayApp'
@@ -9,7 +11,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, total, watched, query, onQuery, filter, onFilter, onPick,
+  items, total, watched, query, onQuery, filter, onFilter, onPick, onReset, rootRef,
 }: {
   items: CharEntry[]
   total: number
@@ -19,9 +21,11 @@ export default function Home({
   filter: Filter
   onFilter: (f: Filter) => void
   onPick: (char: string) => void
+  onReset: () => void
+  rootRef?: Ref<HTMLDivElement>
 }) {
   return (
-    <div className="home">
+    <div className="home" ref={rootRef}>
       <header className="home-bar">
         <h1 className="home-title">字字樂園</h1>
         <input
@@ -40,7 +44,7 @@ export default function Home({
           ))}
         </div>
         <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
-        <a className="home-studio" href="/studio">Studio</a>
+        <ParentGate />
       </header>
 
       <div className="grid">
@@ -50,6 +54,7 @@ export default function Home({
           return (
             <button
               key={c.char}
+              data-char={c.char}
               className={'card' + (video ? ' card-video' : '')}
               style={{ ['--hue' as any]: `var(--c${c.priority % 8})` }}
               aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
@@ -63,8 +68,67 @@ export default function Home({
             </button>
           )
         })}
-        {!items.length && <p className="home-empty">{total ? '沒有符合的字，換個關鍵字試試。' : '字庫還沒有字，請先到 Studio 加入。'}</p>}
+        {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
       </div>
     </div>
+  )
+}
+
+/** 每個空結果都要說清楚是哪一種空，並給一個回到全字庫的出口。 */
+function Empty({ total, query, filter, onReset }: { total: number; query: string; filter: Filter; onReset: () => void }) {
+  if (!total) return <p className="home-empty">字庫還沒有字，請大人到家長專區加入。</p>
+  const reason = query.trim()
+    ? `找不到「${query.trim()}」這個字。`
+    : filter === 'video' ? '還沒有上架影片的字，先看其他字卡也可以。'
+    : filter === 'unwatched' ? '每個字都看過了，好厲害！'
+    : '這裡還沒有字。'
+  return (
+    <p className="home-empty">
+      {reason}
+      <br />
+      <button onClick={onReset}>看全部 {total} 個字</button>
+    </p>
+  )
+}
+
+/** Studio 是家長的地方：要長按才進得去，孩子誤觸不會開到生成與回饋表單。 */
+function ParentGate() {
+  const [holding, setHolding] = useState(false)
+  const [hint, setHint] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
+  const hintTimer = useRef<number | undefined>(undefined)
+
+  const start = () => {
+    if (timer.current) return
+    setHolding(true)
+    timer.current = window.setTimeout(() => { timer.current = undefined; location.href = '/studio' }, 900)
+  }
+  const cancel = () => {
+    setHolding(false)
+    if (!timer.current) return
+    clearTimeout(timer.current)
+    timer.current = undefined
+    setHint(true)
+    clearTimeout(hintTimer.current)
+    hintTimer.current = window.setTimeout(() => setHint(false), 2400)
+  }
+  useEffect(() => () => { clearTimeout(timer.current); clearTimeout(hintTimer.current) }, [])
+
+  return (
+    <>
+      <button
+        className={'home-parent' + (holding ? ' holding' : '')}
+        aria-label="家長專區，長按一秒進入"
+        onPointerDown={start}
+        onPointerUp={cancel}
+        onPointerLeave={cancel}
+        onPointerCancel={cancel}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start() } }}
+        onKeyUp={cancel}
+        onBlur={cancel}
+        onContextMenu={(e) => e.preventDefault()}
+      >👪 家長（長按）</button>
+      {hint && <div className="home-parent-hint" role="status">長按一秒才會進入家長專區</div>}
+    </>
   )
 }

@@ -23,3 +23,14 @@ test('browsing includes every character, keeps video first, and does not mutate 
   assert.equal(new Set(sorted.map(c => c.char)).size, chars.length)
   assert.deepEqual(chars, original)
 })
+
+test('hidden characters stay out of the child library until a parent opens them', () => {
+  const chars = entries(), original = [...chars]
+  chars[0].hidden = true
+  const sorted = browseCharacters(chars)
+  assert.equal(sorted.some((c) => c.char === '日'), false)
+  assert.equal(sorted.length, chars.length - 1)
+  assert.deepEqual(chars, original)
+  delete chars[0].hidden
+  assert.equal(browseCharacters(chars).length, chars.length)
+})

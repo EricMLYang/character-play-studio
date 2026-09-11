@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { completeWatch } from '../../shared/domain.mjs'
@@ -18,6 +18,21 @@ export default function PlayApp() {
   const [active, setActive] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [syncError, setSyncError] = useState(false)
+  const home = useRef<HTMLDivElement>(null)
+  const lastActive = useRef<string | null>(null)
+
+  // 觀看層開著時，背後的字庫要完全退出（不能被 Tab 進去、讀屏也不該唸）；關閉後回到剛才那張字卡
+  useEffect(() => {
+    const el = home.current as (HTMLDivElement & { inert?: boolean }) | null
+    if (el) el.inert = Boolean(active)
+    if (active) { lastActive.current = active; return }
+    const char = lastActive.current
+    lastActive.current = null
+    if (!char || !el) return
+    const card = el.querySelector<HTMLButtonElement>(`.card[data-char="${CSS.escape(char)}"]`)
+    card?.scrollIntoView({ block: 'nearest' })
+    card?.focus()
+  }, [active])
 
   const sync = useCallback(() => {
     flushWatches().then(() => setSyncError(false)).catch(() => setSyncError(true))
@@ -58,6 +73,7 @@ export default function PlayApp() {
     <div className="play">
       <Blobs />
       <Home
+        rootRef={home}
         items={items}
         total={all.length}
         watched={progress.watched}
@@ -66,6 +82,7 @@ export default function PlayApp() {
         filter={filter}
         onFilter={setFilter}
         onPick={setActive}
+        onReset={() => { setQuery(''); setFilter('all') }}
       />
       {entry && (
         <Viewer

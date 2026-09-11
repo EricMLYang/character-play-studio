@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, Library, Prompt } from '../types'
-import { addCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt } from '../lib/api'
+import { addCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility } from '../lib/api'
 import MediaReview from './MediaReview'
 
 const STATUS: Record<string, string> = {
   seed: '待生成', prompted: '已出 prompt', live: '已上架',
 }
+const EMPTY_LIST: Record<string, string> = {
+  seed: '沒有待生成的字：每個字都出過 prompt 了。',
+  prompted: '沒有已出 prompt 的字。先選一個待生成的字，用 AI 產生 prompt。',
+  live: '還沒有任何字上架。匯入影片或圖片並完成三項確認後，就會出現在這裡。',
+  all: '字庫還沒有字，用下面的「＋ 加一個字」開始。',
+}
+const MEDIA_STATE: Record<string, string> = { published: '使用中', draft: '待確認', paused: '已停用' }
 const TAGS = [
   { id: 'love', label: '😍 他超愛' },
   { id: 'clear', label: '👍 字很清楚' },
@@ -34,6 +41,7 @@ export default function StudioApp() {
   const [model, setModel] = useState('')
   const [direction, setDirection] = useState('')
   const [generating, setGenerating] = useState(false)
+  const [listOpen, setListOpen] = useState(true)   // 手機單欄：選字 → 編輯
   const generation = useRef<AbortController | null>(null)
   useEffect(() => () => generation.current?.abort(), [])
 
@@ -59,7 +67,8 @@ export default function StudioApp() {
     if (working.current) return
     const request = ++selection.current
     setSel(char)
-    setPrompt(null); setCopiedHash(''); setAttemptId(''); setFeedbackFile(''); setError('')
+    setPrompt(null); setCopiedHash(''); setAttemptId(''); setFeedbackFile(''); setError(''); setDirection('')
+    setListOpen(false)
     submissionId.current = crypto.randomUUID()
     try {
       const p = await getPrompt(char)
@@ -128,10 +137,13 @@ export default function StudioApp() {
       <header className="st-top">
         <b>Character Play Studio</b>
         <span className="st-stats">已上架 {stats.live} · 待餵 AI {stats.prompted} · 字庫 {stats.total}</span>
+        <button className="st-mobile-nav" onClick={() => setListOpen((v) => !v)}>
+          {listOpen ? (sel ? `編輯「${sel}」` : '選一個字') : '☰ 換一個字'}
+        </button>
         <a className="st-play" href="/">▶ 開播放器</a>
       </header>
 
-      <div className="st-body">
+      <div className={'st-body' + (listOpen ? ' list-open' : '')}>
         <aside className="st-side">
           <section className="st-queue">
             <h3>{lib.production.date} · 今日建議</h3>
@@ -166,12 +178,19 @@ export default function StudioApp() {
               <button key={c.char} className={'st-item' + (sel === c.char ? ' on' : '')} onClick={() => pick(c.char)}>
                 <span className="st-item-char">{c.char}</span>
                 <span className="st-item-meta">
-                  <span>{c.emoji} {c.zhuyin}</span>
-                  <span className={'st-badge b-' + c.status}>{STATUS[c.status]}</span>
+                  <span>{c.emoji} {c.zhuyin || '（還沒有注音）'}</span>
+                  <span>
+                    <span className={'st-badge b-' + c.status}>{STATUS[c.status]}</span>
+                    {c.hidden && <span className="st-badge b-hidden">孩子端隱藏</span>}
+                  </span>
                 </span>
                 {c.needsRedo && <span className="st-redo">要重做</span>}
               </button>
             ))}
+            {!list.length && <p className="st-list-empty">
+              {EMPTY_LIST[filter]}
+              {filter !== 'all' && <button className="st-btn ghost" onClick={() => setFilter('all')}>看全部 {stats.total} 個字</button>}
+            </p>}
           </div>
 
           <AddChar busy={busy} onAdd={(b) => run(async () => { await addCharacter(b); await reload(); flash('已加入字庫') })} />
@@ -186,8 +205,19 @@ export default function StudioApp() {
               <div className="st-head">
                 <span className="st-head-char">{entry.char}</span>
                 <div>
-                  <div className="st-head-line">{entry.emoji} {entry.zhuyin} · {entry.meaning}</div>
+                  <div className="st-head-line">{entry.emoji} {entry.zhuyin || '（還沒有注音）'} · {entry.meaning || '（還沒有字義）'}</div>
                   <div className="st-dim">{prompt?.id ? prompt.conceptZh : entry.concept.hook}</div>
+                </div>
+                <div className="st-visibility">
+                  <span className={entry.hidden ? 'st-badge b-hidden' : 'st-badge b-live'}>
+                    {entry.hidden ? '孩子端隱藏中' : '孩子端看得到'}
+                  </span>
+                  <button className="st-btn ghost" disabled={busy} onClick={() => run(async () => {
+                    await setVisibility(entry.char, !entry.hidden)
+                    await reload()
+                    flash(entry.hidden ? `「${entry.char}」已開放給孩子` : `「${entry.char}」已從孩子端收起來`)
+                  })}>{entry.hidden ? '開放給孩子' : '先收起來'}</button>
+                  {entry.hidden && <p className="st-dim">新加的字預設不出現在字庫。注音、字義與素材確認好再開放。</p>}
                 </div>
               </div>
 
@@ -203,8 +233,8 @@ export default function StudioApp() {
                   </select></label>
                   {provider !== 'template' && <label className="st-field">模型（選填）<input aria-label="模型名稱" value={model} disabled={busy} onChange={(e) => setModel(e.target.value)} placeholder="留空使用工具預設模型" maxLength={120} /></label>}
                 </div>
-                <label className="st-field">這次想怎麼拍？（選填）
-                  <textarea className="st-direction" value={direction} disabled={busy} onChange={(e) => setDirection(e.target.value)} maxLength={3000}
+                <label className="st-field">{provider === 'template' ? '這次想怎麼拍？（離線模板不會讀這欄）' : '這次想怎麼拍？（選填）'}
+                  <textarea className="st-direction" value={direction} disabled={busy || provider === 'template'} onChange={(e) => setDirection(e.target.value)} maxLength={3000}
                     placeholder="例如：他喜歡工程車。山可以用積木搭起來，最後要看得清楚；這次不要果凍彈跳。" />
                 </label>
                 <div className="st-generation-actions">
@@ -213,9 +243,12 @@ export default function StudioApp() {
                   </button>
                   {generating && <button className="st-btn ghost" onClick={() => generation.current?.abort()}>取消生成</button>}
                 </div>
-                <p className="st-hint" aria-live="polite">{generating ? '正在參考字義、你的回饋與過往版本；通常需要數十秒到數分鐘。' : '透過本機 CLI 的登入帳號生成文字；不計入每日三支影片額度。'}</p>
+                <p className="st-hint" aria-live="polite">{generating ? '正在參考字義、你的回饋與過往版本；通常需要數十秒到數分鐘。'
+                  : provider === 'template' ? '離線固定模板：直接用這個字既有的概念組裝，不連線、不會重新創作，上面的拍攝方向不會被讀進去。'
+                  : '透過本機 CLI 的登入帳號生成文字；不計入每日三支影片額度。'}</p>
                 {prompt?.stale && <p className="st-error">生成規則、字義或回饋已有更新，請重新生成，把新方向交給 AI。</p>}
-                {prompt?.id && <p className="st-hint">來源：{prompt.provider} · {prompt.actualModel || prompt.requestedModel || '工具預設模型'}{prompt.generatedAt ? ` · ${new Date(prompt.generatedAt).toLocaleString('zh-TW')}` : ''}</p>}
+                {prompt?.id && <p className="st-hint">來源：{prompt.provider === 'template' ? '離線固定模板（沒有用到 AI 模型）'
+                  : `${prompt.provider} · ${prompt.actualModel || prompt.requestedModel || '工具預設模型'}`}{prompt.generatedAt ? ` · ${new Date(prompt.generatedAt).toLocaleString('zh-TW')}` : ''}</p>}
                 {prompt?.creativeAngle && <p className="st-angle">{prompt.creativeAngle}</p>}
                 <textarea ref={promptText} className="st-prompt" aria-label="影片 Prompt" readOnly value={prompt?.id ? prompt.formatted : '選擇工具後按「用 AI 設計影片 prompt」。只填國字也可以開始。'} />
                 {prompt?.id && <div className="st-generation-actions">
@@ -229,7 +262,7 @@ export default function StudioApp() {
                   <select disabled={busy} value={prompt?.id || ''} onChange={(e) => run(async () => {
                     setPrompt(await selectPrompt(entry.char, e.target.value)); setCopiedHash(''); await reload()
                   })}>
-                    {[...entry.promptVersions].reverse().map((p, i, all) => <option key={p.id} value={p.id}>版本 {all.length - i} · {p.provider} · {p.conceptZh}</option>)}
+                    {[...entry.promptVersions].reverse().map((p, i, all) => <option key={p.id} value={p.id}>版本 {all.length - i} · {p.provider === 'template' ? '離線模板' : p.provider} · {p.conceptZh}</option>)}
                   </select>
                 </label>}
                 <div className="st-submit">
@@ -283,7 +316,7 @@ export default function StudioApp() {
                 <label className="st-field">回饋對象
                   <select value={feedbackFile} onChange={(e) => setFeedbackFile(e.target.value)} disabled={busy}>
                     <option value="">這個字的整體概念</option>
-                    {entry.media.map((m, i) => <option key={m.file} value={m.file}>版本 {entry.media.length - i} · {m.kind === 'video' ? '影片' : '圖片'} · {m.review || 'published'}</option>)}
+                    {entry.media.map((m, i) => <option key={m.file} value={m.file}>版本 {entry.media.length - i} · {m.kind === 'video' ? '影片' : '圖片'} · {MEDIA_STATE[m.review || 'published']}</option>)}
                   </select>
                 </label>
                 <div className="st-tags">
@@ -324,7 +357,8 @@ function AddChar({ onAdd, busy }: { onAdd: (b: Record<string, string>) => Promis
   return (
     <div className="st-form">
       <input placeholder="字（例：雲）" value={f.char} onChange={set('char')} />
-      <p className="st-hint">只填國字即可加入；選字後用 AI 生成，會補齊注音、意思與動畫概念。</p>
+      <p className="st-hint">只填國字即可加入；選字後用 AI 生成，會補齊注音、意思與動畫概念。
+        新字會先隱藏起來，資料補齊後在右邊按「開放給孩子」才會出現在字庫。</p>
       <details><summary>選填字義與自己的概念</summary>
       <input placeholder="注音（ㄩㄣˊ）" value={f.zhuyin} onChange={set('zhuyin')} />
       <input placeholder="英文意思 (cloud)" value={f.meaning} onChange={set('meaning')} />
@@ -335,7 +369,10 @@ function AddChar({ onAdd, busy }: { onAdd: (b: Record<string, string>) => Promis
       </details>
       <div className="st-form-row">
         <button className="st-btn" disabled={busy} onClick={async () => { if (await onAdd(f)) { setOpen(false); setF({ char: '', zhuyin: '', meaning: '', emoji: '', object: '', morph: '', hook: '' }) } }}>加入</button>
-        <button className="st-btn ghost" onClick={() => setOpen(false)}>取消</button>
+        <button className="st-btn ghost" onClick={() => {
+          setOpen(false)
+          setF({ char: '', zhuyin: '', meaning: '', emoji: '', object: '', morph: '', hook: '' })
+        }}>取消</button>
       </div>
     </div>
   )

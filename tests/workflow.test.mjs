@@ -5,6 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { createServer } from 'vite'
 import { taiwanDay, completeWatch, addFeedback, publishMedia, publishedMedia } from '../shared/domain.mjs'
+import { browseCharacters } from '../shared/selection.mjs'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
 process.env.CPS_STORAGE_ROOT = storage
@@ -244,4 +245,26 @@ test('cross-origin websites cannot start a paid CLI generation', async () => {
   const response = await fetch(base + '/prompt/generate', { method: 'POST', headers: { Origin: 'https://unrelated.example' },
     body: JSON.stringify({ char: '日', provider: 'codex' }) })
   assert.equal(response.status, 403)
+})
+
+test('a new character is hidden from the child library until the parent opens it, and duplicates explain themselves', async () => {
+  const inLibrary = () => browseCharacters(loadCharacters().characters).some((c) => c.char === '雲')
+  assert.equal((await request('/character', { char: '雲' })).status, 200)
+  const duplicate = await request('/character', { char: '雲' })
+  assert.equal(duplicate.status, 409)
+  assert.match(duplicate.body.error, /雲/)
+  assert.doesNotMatch(duplicate.body.error, /exists/)
+
+  assert.equal(loadCharacters().characters.find((c) => c.char === '雲').hidden, true)
+  assert.equal(inLibrary(), false)
+
+  assert.equal((await request('/character/visibility', { char: '雲' })).status, 400)
+  assert.equal((await request('/character/visibility', { char: '霧', hidden: false })).status, 404)
+
+  assert.equal((await request('/character/visibility', { char: '雲', hidden: false })).status, 200)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '雲').hidden, undefined)
+  assert.equal(inLibrary(), true)
+
+  assert.equal((await request('/character/visibility', { char: '雲', hidden: true })).status, 200)
+  assert.equal(inLibrary(), false)
 })

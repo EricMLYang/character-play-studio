@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
-import { sayRepeat } from '../lib/audio'
+import { say, sayRepeat } from '../lib/audio'
 import { publishedMedia } from '../../shared/domain.mjs'
 import { useVideoVoice } from '../lib/useVideoVoice'
 
@@ -58,12 +58,13 @@ export default function Viewer({
     el.play().catch(() => setBlocked(true))
   }, [video, round])
 
-  // 圖片：停留 3 秒算看過一次
+  // 圖片：載入好才開始算停留（慢圖片不能還沒看到就記一次），並照家長審核過的音量唸這個字
   useEffect(() => {
-    if (video || !image) return
+    if (video || !image || !ready) return
+    const stop = image.audioMode === 'original' ? () => {} : sayRepeat(entry.char, 2, 1500, image.volume ?? 0.7)
     const t = setTimeout(finish, 3000)
-    return () => clearTimeout(t)
-  }, [video, image, round])
+    return () => { clearTimeout(t); stop() }
+  }, [entry.char, video, image, ready, round])
 
   // 沒有素材：emoji → 國字的字卡動畫，唸 4 次
   useEffect(() => {
@@ -95,16 +96,18 @@ export default function Viewer({
   }
 
   return (
-    <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-label={`看「${entry.char}」`}
+    <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
       style={{ ['--hue' as any]: `var(--c${entry.priority % 8})` }}>
       <header className="viewer-bar">
         <button className="viewer-close" onClick={onClose}>← 回字庫</button>
-        <div className="viewer-title">
+        <button className="viewer-title" aria-label={`再聽一次「${entry.char}」`}
+          onClick={() => say(entry.char, 0.7, video?.volume ?? image?.volume ?? 0.7)}>
           <span className="viewer-emoji">{entry.emoji}</span>
           <b className="viewer-char">{entry.char}</b>
           <span className="viewer-zhuyin">{entry.zhuyin}</span>
           <span className="viewer-meaning">{entry.meaning}</span>
-        </div>
+          <span className="viewer-say" aria-hidden>🔊</span>
+        </button>
         <span className={'viewer-count' + (done ? ' bump' : '')} key={count}>{count ? `看過 ${count} 次` : '第一次看'}</span>
       </header>
 
@@ -116,6 +119,8 @@ export default function Viewer({
               className={'viewer-media' + (ready ? '' : ' loading')}
               src={`/media/${encodeURIComponent(video.file)}`}
               controls
+              controlsList="nodownload noplaybackrate"
+              disablePictureInPicture
               playsInline
               preload="auto"
               muted={narration}

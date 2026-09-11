@@ -25,6 +25,8 @@ export type CharEntry = {
   media: Media[]
   feedback: { tags: string[]; at: string; mediaFile?: string }[]
   needsRedo?: boolean
+  /** 孩子端隱藏。新加入的字預設隱藏，等家長確認教材備齊才開放。 */
+  hidden?: boolean
   promptedAt?: string
   promptVersions?: Prompt[]
   activePromptId?: string
