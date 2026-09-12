@@ -45,3 +45,15 @@ export type Library = {
   pendingAttempts: Attempt[]
   cliProviders: { id: string; name: string; installed: boolean }[]
 }
+
+export type DailyBatch = {
+  date: string
+  queue: string[]
+  ready: string[]
+  pending: string[]
+  job: null | {
+    active: boolean; date: string; provider: string; total: number; done: number
+    current: string | null; startedAt: string; finishedAt?: string; cancelled?: boolean
+    results: { char: string; ok: boolean; error?: string; conceptZh?: string }[]
+  }
+}

@@ -1,4 +1,4 @@
-import type { Library, Progress, Prompt } from '../types'
+import type { DailyBatch, Library, Progress, Prompt } from '../types'
 
 const j = async (r: Response) => {
   const body = await r.json()
@@ -10,6 +10,10 @@ export const getLibrary = (): Promise<Library> => fetch('/api/library').then(j)
 export const getPrompt = (char: string): Promise<Prompt> => fetch(`/api/prompt?char=${encodeURIComponent(char)}`).then(j)
 export const generatePrompt = (body: { char: string; provider: string; model: string; direction: string }, signal: AbortSignal): Promise<Prompt> =>
   fetch('/api/prompt/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal }).then(j)
+export const getDailyBatch = (): Promise<DailyBatch> => fetch('/api/prompt/today').then(j)
+export const startDailyBatch = (provider: string, model: string): Promise<DailyBatch> =>
+  fetch('/api/prompt/today', { method: 'POST', body: JSON.stringify({ provider, model }) }).then(j)
+export const cancelDailyBatch = (): Promise<DailyBatch> => fetch('/api/prompt/today/cancel', { method: 'POST' }).then(j)
 export const selectPrompt = (char: string, id: string): Promise<Prompt> =>
   fetch('/api/prompt/select', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ char, id }) }).then(j)
 export const sendFeedback = (char: string, tags: string[], mediaFile?: string) =>

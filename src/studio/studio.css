@@ -18,10 +18,21 @@
 .st-queue { padding: 16px; border-bottom: 1px solid var(--line); }
 .st-queue h3 { margin: 0 0 10px; font-size: 13px; letter-spacing: .05em; color: var(--dim); }
 .st-queue-row { display: flex; gap: 10px; }
-.st-q { width: 58px; height: 58px; border-radius: 16px; background: #fff3e8; border: 2px solid #ffd9bd;
+.st-q { position: relative; width: 58px; height: 58px; border-radius: 16px; background: #fff3e8; border: 2px solid #ffd9bd;
   font-size: 30px; font-family: "BiauKai", "Kaiti TC", serif; }
 .st-q.on { background: #FF8A4C; color: #fff; border-color: #FF8A4C; }
 .st-hint { margin: 10px 0 0; font-size: 12px; color: var(--dim); }
+/* 今天三支：一鍵補齊 + 背景進度 */
+.st-daily { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.st-daily .st-btn { margin-left: 0; }
+.st-daily .st-hint { flex: 1 1 100%; margin: 0; line-height: 1.7; }
+.st-daily-results { flex: 1 1 100%; margin: 0; padding: 0; list-style: none; font-size: 12px; line-height: 1.9; }
+.st-daily-results .ok { color: #1f6b31; }
+.st-daily-results .bad { color: #c0392b; }
+.st-daily-results button { font-family: "BiauKai", "Kaiti TC", serif; font-size: 18px; vertical-align: -2px; }
+.st-q.ready { border-color: #1f6b31; }
+.st-q.ready::after { content: '✓'; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
+  background: #1f6b31; color: #fff; font-size: 11px; line-height: 18px; }
 
 .st-filters { display: flex; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--line); }
 .st-chip { padding: 5px 12px; border-radius: 999px; font-size: 12px; background: #f0ece5; color: var(--dim); }

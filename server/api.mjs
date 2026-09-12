@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto'
 import { addFeedback, publishMedia, completeWatch, isPublished } from '../shared/domain.mjs'
 import { cliProviders } from './ai-cli.mjs'
 import { generatePrompt } from './prompt-generation.mjs'
+import { dailyBatch, startDailyBatch, cancelDailyBatch } from './daily-prompts.mjs'
 import {
   MEDIA, loadCharacters, saveCharacters, loadTemplate,
   loadProgress, saveProgress, currentPrompt, productionDay, recordSubmission,
@@ -84,6 +85,16 @@ export function apiPlugin() {
               return
             } finally { res.off('close', abort) }
           }
+
+          // ---- 今天三支：一次把建議清單缺的 prompt 補齊，背景跑 ----
+          if (route === '/prompt/today' && req.method === 'GET') return json(res, 200, dailyBatch())
+
+          if (route === '/prompt/today' && req.method === 'POST') {
+            const { provider, model } = JSON.parse((await readBody(req)).toString() || '{}')
+            return json(res, 200, startDailyBatch({ provider, model }))
+          }
+
+          if (route === '/prompt/today/cancel' && req.method === 'POST') return json(res, 200, cancelDailyBatch())
 
           if (route === '/prompt/select' && req.method === 'POST') {
             const { char, id } = JSON.parse((await readBody(req)).toString())

@@ -12,6 +12,7 @@ process.env.CPS_STORAGE_ROOT = storage
 const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash } = await import('../server/core.mjs')
 const { generatePrompt, creativeBrief } = await import('../server/prompt-generation.mjs')
 const { apiPlugin } = await import('../server/api.mjs')
+const { dailyTargets, dailyBatch, startDailyBatch, cancelDailyBatch, whenDailyBatchIdle } = await import('../server/daily-prompts.mjs')
 const seed = JSON.parse(fs.readFileSync(new URL('../data/characters.json', import.meta.url), 'utf8'))
 const fixture = () => ({ version: 1, characters: structuredClone(seed.characters).map((c) => ({ ...c, status: 'seed', media: [], feedback: [], needsRedo: false, promptVersions: [], activePromptId: undefined })) })
 let server, base
@@ -267,4 +268,66 @@ test('a new character is hidden from the child library until the parent opens it
 
   assert.equal((await request('/character/visibility', { char: '雲', hidden: true })).status, 200)
   assert.equal(inLibrary(), false)
+})
+
+const dailyBatchResults = () => dailyBatch().job.results
+const fakeFor = (char, id) => ({ id, char, provider: 'codex', requestedModel: null, actualModel: null,
+  generatedAt: new Date().toISOString(), meaning: 'x', zhuyin: 'ㄨ', emoji: '✨',
+  conceptZh: `${char} 的積木概念`, object: 'blocks', morph: `blocks form ${char}`,
+  creativeAngle: '積木', promptEn: `An 8-second creative clip of ${char}, ${id}.` })
+
+test('one click fills only the missing prompts of today’s three, and one failure does not stop the rest', async () => {
+  saveCharacters(fixture())
+  const first = dailyTargets()
+  assert.deepEqual(first.queue, first.pending)
+  assert.deepEqual(first.pending, ['日', '月', '山'])
+
+  // 先手動產生「日」，批次就不該再花一次生成
+  await generatePrompt({ char: '日', provider: 'codex' }, async () => fakeFor('日', 'manual-1'))
+  assert.deepEqual(dailyTargets().ready, ['日'])
+  assert.deepEqual(dailyTargets().pending, ['月', '山'])
+
+  const asked = []
+  startDailyBatch({ provider: 'codex' }, async ({ char }) => {
+    asked.push(char)
+    if (char === '月') throw new Error('login failed')
+    return fakeFor(char, 'batch-1')
+  })
+  await whenDailyBatchIdle()
+
+  assert.deepEqual(asked, ['月', '山'])
+  const state = dailyTargets()
+  assert.deepEqual(state.ready, ['日', '山'])
+  assert.deepEqual(state.pending, ['月'])
+
+  const done = dailyBatchResults()
+  assert.deepEqual(done.map((r) => [r.char, r.ok]), [['月', false], ['山', true]])
+  assert.match(done[0].error, /login failed/)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '山').status, 'prompted')
+
+  // 沒有缺的字就不該再啟動
+  await generatePrompt({ char: '月', provider: 'codex' }, async () => fakeFor('月', 'manual-2'))
+  assert.throws(() => startDailyBatch({ provider: 'codex' }, async () => fakeFor('月', 'never')), /都已經有最新/)
+})
+
+test('a running daily batch can be stopped, and the prompts already produced are kept', async () => {
+  saveCharacters(fixture())
+  let started = 0, secondStarted
+  const reachedSecond = new Promise((resolve) => { secondStarted = resolve })
+  startDailyBatch({ provider: 'codex' }, async ({ char, signal }) => {
+    started++
+    if (started === 1) return fakeFor(char, 'kept-1')
+    secondStarted()
+    // 停在第二個字，直到批次被取消
+    return new Promise((_, reject) => signal.addEventListener('abort', () => reject(new Error('已取消生成')), { once: true }))
+  })
+  await reachedSecond
+  cancelDailyBatch()
+  await whenDailyBatchIdle()
+
+  assert.equal(started, 2)
+  assert.equal(dailyBatch().job.cancelled, true)
+  assert.deepEqual(dailyTargets().ready, ['日'])
+  assert.deepEqual(dailyTargets().pending, ['月', '山'])
+  assert.deepEqual(dailyBatchResults().map((r) => [r.char, r.ok]), [['日', true]])
 })

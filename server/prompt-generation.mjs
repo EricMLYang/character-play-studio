@@ -64,6 +64,7 @@ export function saveGeneratedPrompt(char, generated, snapshot, direction) {
 }
 
 let running = false
+export const isGenerating = () => running
 export async function generatePrompt({ char, provider, model = '', direction = '', signal }, runner = generateWithCli) {
   if (running) throw new Error('正在生成另一份 prompt，請稍候再試')
   if (typeof direction !== 'string' || direction.length > 3000) throw new Error('補充方向請保持在 3000 字以內')

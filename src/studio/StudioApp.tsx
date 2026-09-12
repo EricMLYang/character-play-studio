@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CharEntry, Library, Prompt } from '../types'
-import { addCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility } from '../lib/api'
+import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
+import { addCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
 import MediaReview from './MediaReview'
 
 const STATUS: Record<string, string> = {
@@ -42,11 +42,32 @@ export default function StudioApp() {
   const [direction, setDirection] = useState('')
   const [generating, setGenerating] = useState(false)
   const [listOpen, setListOpen] = useState(true)   // 手機單欄：選字 → 編輯
+  const [batch, setBatch] = useState<DailyBatch | null>(null)
   const generation = useRef<AbortController | null>(null)
   useEffect(() => () => generation.current?.abort(), [])
 
   const reload = () => getLibrary().then(setLib)
   useEffect(() => { reload().catch((e) => setError(e.message)) }, [])
+  useEffect(() => { getDailyBatch().then(setBatch).catch(() => {}) }, [])
+
+  const active = batch?.job?.active
+  useEffect(() => {
+    if (!active) return
+    const timer = setInterval(async () => {
+      const next = await getDailyBatch().catch(() => null)
+      if (!next) return
+      setBatch(next)
+      if (next.job?.active) return
+      await reload().catch(() => {})
+      if (sel && next.job?.results.some((r) => r.char === sel && r.ok)) {
+        await getPrompt(sel).then(setPrompt).catch(() => {})
+        setCopiedHash('')
+      }
+      const ok = next.job?.results.filter((r) => r.ok).length || 0
+      flash(next.job?.cancelled ? `已停止，已完成 ${ok} 支` : `今天的 prompt 產生完成（${ok} 支）`)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [active, sel])
   useEffect(() => {
     const refresh = () => { if (!working.current) reload().catch((e) => setError(e.message)) }
     const timer = setInterval(refresh, 60000)
@@ -149,10 +170,35 @@ export default function StudioApp() {
             <h3>{lib.production.date} · 今日建議</h3>
             <div className="st-queue-row">
               {lib.queue.map((c) => (
-                <button key={c} className={'st-q' + (sel === c ? ' on' : '')} onClick={() => pick(c)}>{c}</button>
+                <button key={c} className={'st-q' + (sel === c ? ' on' : '') + (batch?.ready.includes(c) ? ' ready' : '')}
+                  title={batch?.ready.includes(c) ? '已有最新 prompt' : '還沒有 prompt'} onClick={() => pick(c)}>{c}</button>
               ))}
               {!lib.queue.length && <span className="st-dim">沒有新的待製作字，可先處理待匯入與待確認版本。</span>}
             </div>
+
+            {!!lib.queue.length && <div className="st-daily">
+              <button className="st-btn" disabled={busy || active || !batch?.pending.length ||
+                (provider !== 'template' && !lib.cliProviders.find((p) => p.id === provider)?.installed)}
+                onClick={() => run(async () => setBatch(await startDailyBatch(provider, model)))}>
+                {batch?.pending.length ? `⚡ 一鍵產生今天 ${batch.pending.length} 支` : '⚡ 一鍵產生今天三支'}
+              </button>
+              {active && <button className="st-btn ghost" disabled={busy}
+                onClick={() => run(async () => setBatch(await cancelDailyBatch()))}>停止</button>}
+              <p className="st-hint" aria-live="polite">
+                {active ? `正在設計「${batch?.job?.current}」…（${Math.min((batch?.job?.done ?? 0) + 1, batch?.job?.total ?? 1)} / ${batch?.job?.total}）可以先去忙別的，回來就好了。`
+                  : !batch ? '讀取今天的狀態…'
+                  : !batch.pending.length ? '今天建議的字都已經有最新的 prompt，直接選字複製就好。'
+                  : `還缺 ${batch.pending.join('、')}；用目前選的生成工具依序產生，不計影片額度。`}
+              </p>
+              {!active && !!batch?.job?.results.length && <ul className="st-daily-results">
+                {batch.job.results.map((r) => (
+                  <li key={r.char} className={r.ok ? 'ok' : 'bad'}>
+                    <button onClick={() => pick(r.char)}>{r.char}</button>
+                    {r.ok ? ` ✓ ${r.conceptZh || '已產生'}` : ` ✗ ${r.error}`}
+                  </li>
+                ))}
+              </ul>}
+            </div>}
             <p className="st-hint">今日已送出 {lib.production.attempts.length} / {lib.production.limit} 支 · 台灣時間</p>
             <p className="st-hint">清單整天固定；複製不扣額度，按「已送出 AI」才記錄。</p>
             {!!lib.pendingAttempts.length && <div className="st-pending">
@@ -238,8 +284,8 @@ export default function StudioApp() {
                     placeholder="例如：他喜歡工程車。山可以用積木搭起來，最後要看得清楚；這次不要果凍彈跳。" />
                 </label>
                 <div className="st-generation-actions">
-                  <button className="st-btn" disabled={busy || (provider !== 'template' && !lib.cliProviders.find((p) => p.id === provider)?.installed)} onClick={createPrompt}>
-                    {generating ? '正在設計動畫…' : provider === 'template' ? '產生備用模板' : prompt?.id ? '換個創意，重新生成' : '用 AI 設計影片 prompt'}
+                  <button className="st-btn" disabled={busy || active || (provider !== 'template' && !lib.cliProviders.find((p) => p.id === provider)?.installed)} onClick={createPrompt}>
+                    {generating ? '正在設計動畫…' : active ? '今天三支產生中…' : provider === 'template' ? '產生備用模板' : prompt?.id ? '換個創意，重新生成' : '用 AI 設計影片 prompt'}
                   </button>
                   {generating && <button className="st-btn ghost" onClick={() => generation.current?.abort()}>取消生成</button>}
                 </div>
