@@ -20,6 +20,14 @@ export const sendFeedback = (char: string, tags: string[], mediaFile?: string) =
   fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ char, tags, mediaFile }) }).then(j)
 export const addCharacter = (body: Record<string, string>) =>
   fetch('/api/character', { method: 'POST', body: JSON.stringify(body) }).then(j)
+export const updateCharacter = (body: Record<string, string>) =>
+  fetch('/api/character/update', { method: 'POST', body: JSON.stringify(body) }).then(j)
+export const deleteCharacter = (char: string) =>
+  fetch('/api/character/delete', { method: 'POST', body: JSON.stringify({ char }) }).then(j)
+export const restoreCharacter = (char: string) =>
+  fetch('/api/character/restore', { method: 'POST', body: JSON.stringify({ char }) }).then(j)
+export const suggestCharacter = (body: { char: string; provider: string; model: string }, signal: AbortSignal): Promise<{ char: string; zhuyin: string; meaning: string; emoji: string }> =>
+  fetch('/api/character/suggest', { method: 'POST', body: JSON.stringify(body), signal }).then(j)
 export const setVisibility = (char: string, hidden: boolean) =>
   fetch('/api/character/visibility', { method: 'POST', body: JSON.stringify({ char, hidden }) }).then(j)
 export const importFile = (char: string, file: File, attemptId = '') => {

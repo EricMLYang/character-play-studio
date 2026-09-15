@@ -19,6 +19,8 @@ export default function MediaReview({ entry, media, busy, run, onSaved }: {
   const [playing, setPlaying] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [playError, setPlayError] = useState('')
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
   const video = useRef<HTMLVideoElement>(null)
   const voice = useVideoVoice(entry.char, audioMode === 'narration', volume)
   useEffect(() => {
@@ -87,7 +89,22 @@ export default function MediaReview({ entry, media, busy, run, onSaved }: {
         video.current?.pause(); stopSpeech()
         await reviewMedia({ char: entry.char, file: media.file, action: 'pause' }); await onSaved()
       })}>暫停使用</button>}
+      {!isPublished(media) && <button className="st-btn st-danger" disabled={busy} onClick={() => {
+        video.current?.pause(); stopSpeech(); setDeleteError(''); setConfirmDelete(true)
+      }}>刪除{media.kind === 'video' ? '影片' : '圖片'}</button>}
     </div>
+    {confirmDelete && <div className="st-delete-confirm" role="group" aria-label="確認刪除素材">
+      <p>確定永久刪除「{entry.char}」的這個{media.kind === 'video' ? '影片' : '圖片'}版本？檔案將從電腦移除，無法還原；其他版本、製作與回饋紀錄會保留。</p>
+      <p className="st-delete-file">{media.file}</p>
+      {deleteError && <p className="st-error" role="alert">{deleteError}</p>}
+      <button className="st-btn st-danger" disabled={busy} onClick={() => run(async () => {
+        setDeleteError(''); video.current?.pause(); stopSpeech()
+        try { await reviewMedia({ char: entry.char, file: media.file, action: 'delete' }) }
+        catch (error) { setDeleteError((error as Error).message); throw error }
+        await onSaved()
+      })}>確認永久刪除</button>
+      <button className="st-btn ghost" disabled={busy} onClick={() => setConfirmDelete(false)}>取消</button>
+    </div>}
     {!failed && <p className="st-review-next" role="status">
       {!previewed ? media.kind === 'video' ? '下一步：按「播放預覽」，播完後下方三項確認才會解鎖。' : '下一步：看過圖片後按「試聽」，即可勾選三項確認。'
         : !ready ? '正在載入預覽，請稍候。'

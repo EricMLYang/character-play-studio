@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
-import { addCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
+import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
 import MediaReview from './MediaReview'
+import CharacterEditor from './CharacterEditor'
 
 const STATUS: Record<string, string> = {
   seed: '待生成', prompted: '已出 prompt', live: '已上架',
@@ -239,7 +240,15 @@ export default function StudioApp() {
             </p>}
           </div>
 
-          <AddChar busy={busy} onAdd={(b) => run(async () => { await addCharacter(b); await reload(); flash('已加入字庫') })} />
+          <CharacterEditor providers={lib.cliProviders} disabled={busy} onSaved={async (char) => {
+            await reload(); setFilter('all'); await pick(char); flash(`「${char}」已加入，可隨時編輯資料`)
+          }} />
+          {!!lib.deletedCharacters?.length && <details className="st-deleted">
+            <summary>已刪除的字（{lib.deletedCharacters.length}）</summary>
+            {lib.deletedCharacters.map((c) => <button key={c.char} className="st-btn ghost" disabled={busy || active} onClick={() => run(async () => {
+              await restoreCharacter(c.char); await reload(); flash(`「${c.char}」已還原，確認後可開放給孩子`)
+            })}>還原「{c.char}」</button>)}
+          </details>}
         </aside>
 
         <main className="st-main">
@@ -266,6 +275,15 @@ export default function StudioApp() {
                   {entry.hidden && <p className="st-dim">新加的字預設不出現在字庫。注音、字義與素材確認好再開放。</p>}
                 </div>
               </div>
+
+              <section className="st-card">
+                <CharacterEditor key={entry.char} entry={entry} providers={lib.cliProviders} disabled={busy || Boolean(active)}
+                  onSaved={async (char) => { await reload(); await pick(char); flash('字卡資料已儲存') }}
+                  onDeleted={async () => {
+                    ++selection.current; setSel(null); setPrompt(null); setCopiedHash(''); setAttemptId('');
+                    await reload(); setBatch(await getDailyBatch()); setListOpen(true); flash('已移到已刪除清單，可隨時還原')
+                  }} />
+              </section>
 
               <section className="st-card">
                 <div className="st-card-bar">
@@ -348,7 +366,7 @@ export default function StudioApp() {
                   <div className="st-media">
                     {entry.media.map((m) => (
                       <MediaReview key={`${m.file}-${m.review}`} entry={entry} media={m} busy={busy}
-                        run={run} onSaved={async () => { await reload(); flash('已更新觀看版本') }} />
+                        run={run} onSaved={async () => { setFeedbackFile(''); await reload(); flash('已更新素材清單') }} />
                     ))}
                   </div>
                 )}
@@ -391,35 +409,6 @@ export default function StudioApp() {
       </div>
 
       {toast && <div className="st-toast">{toast}</div>}
-    </div>
-  )
-}
-
-function AddChar({ onAdd, busy }: { onAdd: (b: Record<string, string>) => Promise<boolean>; busy: boolean }) {
-  const [open, setOpen] = useState(false)
-  const [f, setF] = useState({ char: '', zhuyin: '', meaning: '', emoji: '', object: '', morph: '', hook: '' })
-  const set = (k: string) => (e: any) => setF({ ...f, [k]: e.target.value })
-  if (!open) return <button className="st-add" onClick={() => setOpen(true)}>+ 加一個字</button>
-  return (
-    <div className="st-form">
-      <input placeholder="字（例：雲）" value={f.char} onChange={set('char')} />
-      <p className="st-hint">只填國字即可加入；選字後用 AI 生成，會補齊注音、意思與動畫概念。
-        新字會先隱藏起來，資料補齊後在右邊按「開放給孩子」才會出現在字庫。</p>
-      <details><summary>選填字義與自己的概念</summary>
-      <input placeholder="注音（ㄩㄣˊ）" value={f.zhuyin} onChange={set('zhuyin')} />
-      <input placeholder="英文意思 (cloud)" value={f.meaning} onChange={set('meaning')} />
-      <input placeholder="emoji ☁️" value={f.emoji} onChange={set('emoji')} />
-      <input placeholder="登場物件 (英文)" value={f.object} onChange={set('object')} />
-      <input placeholder="形變方式 (英文)" value={f.morph} onChange={set('morph')} />
-      <input placeholder="一句話設計概念（中文）" value={f.hook} onChange={set('hook')} />
-      </details>
-      <div className="st-form-row">
-        <button className="st-btn" disabled={busy} onClick={async () => { if (await onAdd(f)) { setOpen(false); setF({ char: '', zhuyin: '', meaning: '', emoji: '', object: '', morph: '', hook: '' }) } }}>加入</button>
-        <button className="st-btn ghost" onClick={() => {
-          setOpen(false)
-          setF({ char: '', zhuyin: '', meaning: '', emoji: '', object: '', morph: '', hook: '' })
-        }}>取消</button>
-      </div>
     </div>
   )
 }

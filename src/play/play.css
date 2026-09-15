@@ -42,7 +42,7 @@ button:disabled { cursor: default; }
 .search:focus { border-color: var(--c0); }
 .search::placeholder { color: rgba(46,42,38,.55); }
 .home-filters { display: flex; gap: 6px; }
-.chip { padding: 9px 16px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 14px;
+.chip { min-height: 44px; padding: 9px 14px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 14px;
   box-shadow: 0 3px 0 rgba(0,0,0,.05); }
 .chip.on { background: var(--ink); color: #fff; }
 .home-stat { margin-left: auto; font-size: 14px; color: rgba(46,42,38,.72); }
@@ -55,29 +55,43 @@ button:disabled { cursor: default; }
 
 /* 列高一定要寫死：auto 列會跟著容器高度被攤平，而字卡自己算高度，兩邊不一致就會整片互相蓋住 */
 .grid { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start;
-  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); grid-auto-rows: 182px; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); grid-auto-rows: 260px; gap: 18px;
   padding: 8px 28px calc(48px + env(safe-area-inset-bottom)); }
 .home-empty { grid-column: 1 / -1; align-self: start; padding: 28px 0; text-align: center; color: rgba(46,42,38,.75); font-size: 18px; line-height: 1.8; }
 .home-empty button { margin-top: 14px; padding: 10px 20px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 15px;
   box-shadow: 0 3px 0 rgba(0,0,0,.06); }
 
 .card { position: relative; height: 100%; border-radius: 28px; background: var(--hue); overflow: hidden;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; outline: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 8px; padding: 18px 10px 30px; outline: none;
   box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12);
   transition: transform .2s cubic-bezier(.2,1.7,.4,1), box-shadow .2s; }
-.card::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+.card::before { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.42), transparent 60%); }
+.card > span { position: relative; }
+.card > .card-badge, .card > .card-count { position: absolute; }
 .card:hover, .card:focus-visible { transform: translateY(-6px) scale(1.03); box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18); }
 .card:focus-visible { outline: 4px solid var(--ink); outline-offset: 3px; }
 .card:active { transform: translateY(2px) scale(.98); }
 /* 深色字：白字在這八個亮色上只有 1.6–2.8:1，孩子看不清楚 */
-.card-char { font-family: var(--kai); font-size: clamp(64px, 6.2vw, 100px); font-weight: 700; color: var(--ink); line-height: 1;
+.card-char { font-family: var(--kai); font-size: clamp(64px, 6.2vw, 80px); font-weight: 700; color: var(--ink); line-height: 1;
   text-shadow: 0 2px 0 rgba(255,255,255,.45); }
-.card-zhuyin { font-family: var(--bopomofo); font-size: 16px; font-weight: 700; letter-spacing: .2em; color: var(--ink); }
-.card-emoji { position: absolute; top: 12px; left: 14px; font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
-.card-badge { position: absolute; top: 12px; right: 14px; font-size: 18px; }
+.card-zhuyin { font-family: var(--bopomofo); font-size: 24px; line-height: 1.4; font-weight: 700; letter-spacing: .08em; color: var(--ink);
+  padding: 2px 12px; border-radius: 12px; background: rgba(255,255,255,.85); }
+.card-emoji { display: grid; place-items: center; width: 66px; height: 66px; flex-shrink: 0; font-size: 44px; line-height: 1;
+  border-radius: 24px; background: rgba(255,255,255,.65); transform: rotate(-6deg); transition: transform .2s; }
+.card:hover .card-emoji, .card:focus-visible .card-emoji { transform: rotate(6deg) scale(1.08); }
+.card-badge { position: absolute; top: 10px; right: 8px; padding: 4px 6px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; }
 .card-count { position: absolute; bottom: 10px; right: 12px; padding: 3px 10px; border-radius: 999px;
   background: rgba(255,255,255,.92); color: var(--ink); font-size: 12px; font-weight: 700; }
+
+.home-invite { display: flex; align-items: center; gap: 16px; padding: 10px 28px 20px; }
+.home-invite h2 { margin: 0; font-size: 25px; }
+.home-invite p { margin: 4px 0 0; font-size: 15px; color: #645449; }
+.home-mascot { font-size: 46px; transform: rotate(-8deg); }
+.home :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.viewer-exits { display: flex; flex-wrap: wrap; gap: 8px; }
+.viewer-close { min-height: 46px; }
+.viewer-close.viewer-browse { background: #ffe28b; font-size: 17px; box-shadow: 0 4px 0 #ddba60; }
 
 /* ---------- 觀看 ---------- */
 .viewer { position: fixed; inset: 0; z-index: 5; outline: none;
@@ -91,7 +105,7 @@ button:disabled { cursor: default; }
 .viewer-title:hover { background: #fff; }
 .viewer-emoji { font-size: 26px; }
 .viewer-char { font-family: var(--kai); font-size: 44px; line-height: 1; color: var(--ink); }
-.viewer-zhuyin { font-family: var(--bopomofo); font-size: 20px; font-weight: 700; letter-spacing: .2em; color: rgba(46,42,38,.85); }
+.viewer-zhuyin { font-family: var(--bopomofo); font-size: 26px; font-weight: 700; letter-spacing: .2em; color: rgba(46,42,38,.85); }
 .viewer-meaning { font-size: 16px; color: rgba(46,42,38,.7); }
 .viewer-say { font-size: 20px; }
 .viewer-count { margin-left: auto; padding: 8px 16px; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 700; color: rgba(46,42,38,.9);
@@ -126,7 +140,7 @@ button:disabled { cursor: default; }
 .stage-char { font-family: var(--kai); font-size: min(64vh, 56vw); font-weight: 700;
   color: color-mix(in oklab, var(--hue) 38%, var(--ink));
   text-shadow: 0 10px 0 rgba(0,0,0,.06); line-height: 1; }
-.stage-zhuyin { position: absolute; bottom: 2vh; font-family: var(--bopomofo); font-size: min(5vh, 4vw); font-weight: 700; letter-spacing: .3em;
+.stage-zhuyin { position: absolute; bottom: 2vh; font-family: var(--bopomofo); font-size: clamp(24px, 4vw, 40px); font-weight: 700; letter-spacing: .3em;
   color: rgba(46,42,38,.9); animation: pop .6s .4s cubic-bezier(.2,1.6,.4,1) both; }
 .stage-object .stage-emoji { animation: dropIn .9s cubic-bezier(.2,1.7,.4,1) both, wobble 1.4s .9s ease-in-out infinite; }
 .stage-object .stage-char { opacity: 0; transform: scale(.4); }
@@ -151,17 +165,24 @@ button:disabled { cursor: default; }
   .home-filters { order: 4; flex: 1 1 auto; }
   .home-stat { order: 5; margin-left: auto; }
   .home-parent { margin-left: auto; }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); grid-auto-rows: 164px; gap: 12px;
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); grid-auto-rows: 218px; gap: 12px;
     padding: 6px 14px calc(32px + env(safe-area-inset-bottom)); }
-  .card { border-radius: 22px; }
+  .card { border-radius: 22px; padding-top: 14px; gap: 6px; }
   .card-char { font-size: 60px; }
-  .card-emoji { font-size: 22px; top: 9px; left: 10px; }
-  .card-badge { top: 9px; right: 10px; font-size: 15px; }
+  .card-emoji { font-size: 38px; width: 58px; height: 58px; border-radius: 20px; }
+  .card-zhuyin { font-size: 22px; }
+  .card-badge { top: 8px; right: 6px; font-size: 10px; }
 
   .viewer-bar { gap: 8px; padding: 10px 12px; }
+  .viewer-exits { flex-basis: 100%; }
+  .viewer-close { padding: 10px 12px; }
+  .home-invite { padding: 6px 14px 14px; gap: 10px; }
+  .home-invite h2 { font-size: 20px; }
+  .home-invite p { font-size: 13px; }
+  .home-mascot { font-size: 32px; }
   .viewer-title { gap: 8px; padding: 5px 10px; }
   .viewer-char { font-size: 32px; }
-  .viewer-zhuyin { font-size: 16px; }
+  .viewer-zhuyin { font-size: 22px; }
   .viewer-emoji { font-size: 22px; }
   .viewer-meaning { display: none; }
   .viewer-count { padding: 7px 12px; font-size: 13px; }
@@ -183,3 +204,13 @@ button:disabled { cursor: default; }
   100% { opacity: 1; transform: scale(1) } }
 
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-invite { display: none; }
+  .viewer-exits { flex-basis: auto; }
+  .viewer-bar { padding: 6px 12px; }
+  .viewer-nav { padding-top: 6px; padding-bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .card-emoji { transition: none; }
+}

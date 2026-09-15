@@ -38,6 +38,7 @@ export type Progress = {
 
 export type Library = {
   characters: CharEntry[]
+  deletedCharacters?: { char: string; deletedAt: string }[]
   template: any
   progress: Progress
   queue: string[]

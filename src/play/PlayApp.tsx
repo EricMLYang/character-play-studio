@@ -30,8 +30,12 @@ export default function PlayApp() {
     lastActive.current = null
     if (!char || !el) return
     const card = el.querySelector<HTMLButtonElement>(`.card[data-char="${CSS.escape(char)}"]`)
-    card?.scrollIntoView({ block: 'nearest' })
-    card?.focus()
+    if (card) {
+      card.scrollIntoView({ block: 'nearest' })
+      card.focus({ preventScroll: true })
+    } else {
+      el.querySelector<HTMLButtonElement>('.chip[aria-pressed="true"]')?.focus()
+    }
   }, [active])
 
   const sync = useCallback(() => {
@@ -93,6 +97,7 @@ export default function PlayApp() {
           next={index >= 0 && index < items.length - 1 ? items[index + 1] : undefined}
           onGo={(c) => setActive(c.char)}
           onClose={() => setActive(null)}
+          onBrowseVideos={() => { setQuery(''); setFilter('video'); setActive(null) }}
           onComplete={markWatched}
         />
       )}

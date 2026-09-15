@@ -331,3 +331,133 @@ test('a running daily batch can be stopped, and the prompts already produced are
   assert.deepEqual(dailyTargets().pending, ['月', '山'])
   assert.deepEqual(dailyBatchResults().map((r) => [r.char, r.ok]), [['日', true]])
 })
+
+test('metadata can be corrected after creation without replacing media or saved prompts', async () => {
+  saveCharacters(fixture())
+  const entry = loadCharacters().characters.find((c) => c.char === '山')
+  await generatePrompt({ char: '山', provider: 'codex' }, async () => fakeGenerated('before-edit'))
+  const before = loadCharacters().characters.find((c) => c.char === '山')
+  const result = await request('/character/update', { char: '山', zhuyin: 'ㄕㄢ', emoji: '🏔️', meaning: 'mountain peak', ...entry.concept })
+  assert.equal(result.status, 200)
+  const saved = loadCharacters().characters.find((c) => c.char === '山')
+  assert.equal(saved.emoji, '🏔️')
+  assert.equal(currentPrompt(saved).stale, true)
+  assert.deepEqual(saved.promptVersions, before.promptVersions)
+  assert.deepEqual(saved.media, before.media)
+  assert.equal((await request('/character/update', { char: '山', zhuyin: 'not bopomofo' })).status, 400)
+  assert.equal((await request('/character', { char: '雲', emoji: {} })).status, 400)
+  assert.equal((await request('/character/update', { char: '不存在' })).status, 400)
+})
+
+test('delete and restore preserve media, progress and quota history, and prevent accidental duplicate recreation', async () => {
+  const db = fixture()
+  const entry = db.characters.find((c) => c.char === '山')
+  entry.media = [{ file: 'keep.mp4', kind: 'video', review: 'published' }]
+  const day = productionDay(db)
+  db.production.days[day.date].queue = ['山']
+  db.production.days[day.date].attempts = [{ id: 'keep-attempt', char: '山', at: new Date().toISOString() }]
+  saveCharacters(db)
+  const progressBefore = loadProgress()
+  assert.equal((await request('/character/delete', { char: '山' })).status, 200)
+  let library = (await request('/library', undefined, 'GET')).body
+  assert.equal(library.characters.some((c) => c.char === '山'), false)
+  assert.ok(library.deletedCharacters.some((c) => c.char === '山'))
+  assert.equal(library.queue.includes('山'), false)
+  assert.equal(library.pendingAttempts.some((a) => a.char === '山'), false)
+  assert.equal(library.production.attempts.length, 1)
+  assert.deepEqual(loadProgress(), progressBefore)
+  assert.equal((await request('/character', { char: '山' })).status, 409)
+  assert.equal((await request('/character/update', { char: '山' })).status, 404)
+  assert.equal((await request('/character/restore', { char: '山' })).status, 200)
+  library = (await request('/library', undefined, 'GET')).body
+  const restored = library.characters.find((c) => c.char === '山')
+  assert.deepEqual(restored.media, entry.media)
+  assert.equal(restored.hidden, true)
+  assert.equal(library.deletedCharacters.some((c) => c.char === '山'), false)
+  assert.equal(library.pendingAttempts.some((a) => a.char === '山'), true)
+})
+
+test('AI metadata suggestions are validated previews and never save over a parent entry', async () => {
+  const { suggestCharacterMetadata } = await import('../server/character-metadata.mjs')
+  const before = loadCharacters()
+  const suggested = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘' }
+  assert.deepEqual(await suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async (input) => {
+    assert.equal(input.metadataOnly, true)
+    assert.match(input.brief, /Taiwanese/)
+    return suggested
+  }), suggested)
+  await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, char: '日' })), /不符/)
+  await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, zhuyin: 'ren3' })), /注音/)
+  await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => { throw new Error('AI unavailable') }), /unavailable/)
+  const controller = new AbortController()
+  await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex', signal: controller.signal }, async () => {
+    controller.abort(); return suggested
+  }), /取消/)
+  assert.deepEqual(loadCharacters(), before)
+  for (const route of ['/character/suggest', '/character/update', '/character/delete', '/character/restore']) {
+    const response = await fetch(base + route, { method: 'POST', headers: { Origin: 'https://unrelated.example' }, body: JSON.stringify({ char: '忍' }) })
+    assert.equal(response.status, 403)
+  }
+})
+
+test('deleting inactive videos and images removes files but preserves feedback, sources, quota and other versions', async () => {
+  const db = fixture(), entry = db.characters.find((c) => c.char === '山')
+  const mediaRoot = path.join(storage, 'media')
+  fs.mkdirSync(mediaRoot, { recursive: true })
+  entry.media = [
+    { file: 'delete-old.mp4', kind: 'video', review: 'paused', prompt: { formatted: 'loved mountain scene' } },
+    { file: 'delete-draft.png', kind: 'image', review: 'draft' },
+    { file: 'keep-current.mp4', kind: 'video', review: 'published' },
+  ]
+  entry.feedback = [{ tags: ['love'], mediaFile: 'delete-old.mp4', at: new Date().toISOString() }]
+  for (const media of entry.media) fs.writeFileSync(path.join(mediaRoot, media.file), 'test fixture')
+  const day = productionDay(db)
+  db.production.days[day.date].attempts = [{ id: 'deleted-media-attempt', char: '山', mediaFile: 'delete-old.mp4' }]
+  saveCharacters(db)
+  const beforeProgress = loadProgress()
+  for (const file of ['delete-old.mp4', 'delete-draft.png']) {
+    assert.equal((await request('/media-review', { char: '山', file, action: 'delete' })).status, 200)
+    assert.equal(fs.existsSync(path.join(mediaRoot, file)), false)
+  }
+  const saved = loadCharacters(), after = saved.characters.find((c) => c.char === '山')
+  assert.deepEqual(after.media.map((m) => m.file), ['keep-current.mp4'])
+  assert.equal(after.status, 'live')
+  assert.equal(fs.existsSync(path.join(mediaRoot, 'keep-current.mp4')), true)
+  assert.equal(after.deletedMedia.length, 2)
+  assert.deepEqual(after.feedback, entry.feedback)
+  assert.deepEqual(saved.production, db.production)
+  assert.deepEqual(loadProgress(), beforeProgress)
+  assert.match(creativeBrief(saved.characters.find((c) => c.char === '日'), saved.characters), /loved mountain scene/)
+  const library = (await request('/library', undefined, 'GET')).body
+  assert.equal(library.pendingAttempts.some((a) => a.id === 'deleted-media-attempt'), false)
+})
+
+test('media deletion rejects published, unknown, shared and unsafe paths; missing inactive files can be cleaned up', async () => {
+  const db = fixture(), entry = db.characters.find((c) => c.char === '山')
+  entry.media = [{ file: 'legacy.mp4', kind: 'video' }, { file: 'missing.png', kind: 'image', review: 'paused' },
+    { file: 'shared.png', kind: 'image', review: 'paused' }]
+  db.characters.find((c) => c.char === '日').media = [{ file: 'shared.png', kind: 'image', review: 'draft' }]
+  saveCharacters(db)
+  for (const file of ['legacy.mp4', 'unknown.mp4', '../characters.json', '/tmp/file', 'shared.png']) {
+    assert.equal((await request('/media-review', { char: '山', file, action: 'delete' })).status, 400)
+    assert.deepEqual(loadCharacters(), JSON.parse(JSON.stringify(db)))
+  }
+  assert.equal((await request('/media-review', { char: '山', file: 'missing.png', action: 'delete' })).status, 200)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '山').media.some((m) => m.file === 'missing.png'), false)
+  const response = await fetch(base + '/media-review', { method: 'POST', headers: { Origin: 'https://unrelated.example' },
+    body: JSON.stringify({ char: '山', file: 'legacy.mp4', action: 'delete' }) })
+  assert.equal(response.status, 403)
+})
+
+test('failed metadata persistence restores the staged file and leaves the library unchanged', async () => {
+  const { deleteInactiveMedia } = await import('../server/media-deletion.mjs')
+  const db = fixture(), entry = db.characters.find((c) => c.char === '山')
+  entry.media = [{ file: 'rollback.mp4', kind: 'video', review: 'paused' }]
+  const file = path.join(storage, 'media', 'rollback.mp4')
+  fs.writeFileSync(file, 'keep these bytes')
+  saveCharacters(db)
+  assert.throws(() => deleteInactiveMedia({ char: '山', file: 'rollback.mp4' }, () => { throw new Error('disk write failed') }), /disk write failed/)
+  assert.equal(fs.readFileSync(file, 'utf8'), 'keep these bytes')
+  assert.deepEqual(loadCharacters(), JSON.parse(JSON.stringify(db)))
+  assert.equal(fs.readdirSync(path.dirname(file)).some((f) => f.startsWith('.deleting-')), false)
+})

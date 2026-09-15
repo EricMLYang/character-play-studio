@@ -3,7 +3,9 @@ import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { addFeedback, publishMedia, completeWatch, isPublished } from '../shared/domain.mjs'
 import { cliProviders } from './ai-cli.mjs'
-import { generatePrompt } from './prompt-generation.mjs'
+import { generatePrompt, isGenerating } from './prompt-generation.mjs'
+import { suggestCharacterMetadata, validateCharacterFields } from './character-metadata.mjs'
+import { deleteInactiveMedia } from './media-deletion.mjs'
 import { dailyBatch, startDailyBatch, cancelDailyBatch } from './daily-prompts.mjs'
 import {
   MEDIA, loadCharacters, saveCharacters, loadTemplate,
@@ -65,11 +67,12 @@ export function apiPlugin() {
             saveCharacters(db)
             return json(res, 200, {
               characters: db.characters,
+              deletedCharacters: (db.deletedCharacters || []).map((c) => ({ char: c.char, deletedAt: c.deletedAt })),
               template: loadTemplate(),
               progress: loadProgress(),
               queue: production.queue,
               production,
-              pendingAttempts: Object.values(db.production.days).flatMap((d) => d.attempts).filter((a) => !a.mediaFile && !a.failedAt),
+              pendingAttempts: Object.values(db.production.days).flatMap((d) => d.attempts).filter((a) => !a.mediaFile && !a.failedAt && db.characters.some((c) => c.char === a.char)),
               cliProviders: cliProviders(),
             })
           }
@@ -167,6 +170,7 @@ export function apiPlugin() {
 
           if (route === '/media-review' && req.method === 'POST') {
             const body = JSON.parse((await readBody(req)).toString())
+            if (body.action === 'delete') return json(res, 200, deleteInactiveMedia(body))
             const db = loadCharacters()
             const entry = db.characters.find((c) => c.char === body.char)
             if (!entry) return json(res, 404, { error: '找不到這個字' })
@@ -213,10 +217,9 @@ export function apiPlugin() {
 
           // ---- 新增字 ----
           if (route === '/character' && req.method === 'POST') {
-            const body = JSON.parse((await readBody(req)).toString() || '{}')
-            body.char = body.char?.trim()
-            if (!body.char || !/^\p{Script=Han}$/u.test(body.char)) return json(res, 400, { error: '請輸入一個國字' })
+            const body = validateCharacterFields(JSON.parse((await readBody(req)).toString() || '{}'))
             const db = loadCharacters()
+            if (db.deletedCharacters?.some((c) => c.char === body.char)) return json(res, 409, { error: `「${body.char}」在已刪除清單中，請先還原再編輯。` })
             if (db.characters.some((c) => c.char === body.char)) {
               return json(res, 409, { error: `「${body.char}」已經在字庫裡了，可以直接在左邊清單選它繼續編輯。` })
             }
@@ -228,6 +231,54 @@ export function apiPlugin() {
               // 新字先不進孩子端：注音、意思與素材都還沒備齊，要由家長決定何時開放
               hidden: true,
             })
+            saveCharacters(db)
+            return json(res, 200, { ok: true })
+          }
+
+          if (route === '/character/suggest' && req.method === 'POST') {
+            const body = JSON.parse((await readBody(req)).toString() || '{}')
+            const controller = new AbortController()
+            const abort = () => controller.abort()
+            res.on('close', abort)
+            try {
+              const result = await suggestCharacterMetadata({ ...body, signal: controller.signal })
+              if (!res.destroyed) return json(res, 200, result)
+              return
+            } finally { res.off('close', abort) }
+          }
+
+          if (route === '/character/update' && req.method === 'POST') {
+            const body = validateCharacterFields(JSON.parse((await readBody(req)).toString() || '{}'))
+            const db = loadCharacters()
+            const entry = db.characters.find((c) => c.char === body.char)
+            if (!entry) return json(res, 404, { error: '找不到這個字，可能已刪除' })
+            Object.assign(entry, { zhuyin: body.zhuyin, meaning: body.meaning, emoji: body.emoji || '✨',
+              concept: { object: body.object, morph: body.morph, hook: body.hook } })
+            saveCharacters(db)
+            return json(res, 200, { ok: true, entry })
+          }
+
+          if (['/character/delete', '/character/restore'].includes(route) && req.method === 'POST') {
+            const { char } = validateCharacterFields(JSON.parse((await readBody(req)).toString() || '{}'))
+            if (isGenerating()) return json(res, 409, { error: '請等目前的影片 prompt 生成完成，再刪除或還原字卡' })
+            const db = loadCharacters()
+            db.deletedCharacters ||= []
+            if (route === '/character/delete') {
+              const entry = db.characters.find((c) => c.char === char)
+              if (!entry) return json(res, 404, { error: '找不到這個字' })
+              db.deletedCharacters.push({ ...entry, deletedAt: new Date().toISOString() })
+              db.characters = db.characters.filter((c) => c.char !== char)
+              // Keep attempts and their quota history; only remove the deleted card from recommendations.
+              for (const day of Object.values(db.production?.days || {})) day.queue = day.queue.filter((c) => c !== char)
+            } else {
+              const entry = db.deletedCharacters.find((c) => c.char === char)
+              if (!entry) return json(res, 404, { error: '找不到已刪除的字' })
+              if (db.characters.some((c) => c.char === char)) return json(res, 409, { error: '字庫已經有這個字' })
+              delete entry.deletedAt
+              entry.hidden = true
+              db.characters.push(entry)
+              db.deletedCharacters = db.deletedCharacters.filter((c) => c.char !== char)
+            }
             saveCharacters(db)
             return json(res, 200, { ok: true })
           }

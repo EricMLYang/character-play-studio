@@ -7,7 +7,7 @@ import { useVideoVoice } from '../lib/useVideoVoice'
 type Phase = 'object' | 'morph' | 'hold' | 'finished'
 
 export default function Viewer({
-  entry, count, prev, next, onGo, onClose, onComplete,
+  entry, count, prev, next, onGo, onClose, onBrowseVideos, onComplete,
 }: {
   entry: CharEntry
   count: number
@@ -15,6 +15,7 @@ export default function Viewer({
   next?: CharEntry
   onGo: (e: CharEntry) => void
   onClose: () => void
+  onBrowseVideos: () => void
   onComplete: (e: CharEntry, id: string) => void
 }) {
   const media = publishedMedia(entry)
@@ -99,7 +100,10 @@ export default function Viewer({
     <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
       style={{ ['--hue' as any]: `var(--c${entry.priority % 8})` }}>
       <header className="viewer-bar">
-        <button className="viewer-close" onClick={onClose}>← 回字庫</button>
+        <div className="viewer-exits">
+          <button className="viewer-close viewer-browse" onClick={onBrowseVideos}>← 🎬 回影片字卡</button>
+          <button className="viewer-close" onClick={onClose}>回剛才的字卡</button>
+        </div>
         <button className="viewer-title" aria-label={`再聽一次「${entry.char}」`}
           onClick={() => say(entry.char, 0.7, video?.volume ?? image?.volume ?? 0.7)}>
           <span className="viewer-emoji">{entry.emoji}</span>

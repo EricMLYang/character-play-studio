@@ -8,7 +8,7 @@ export function creativeBrief(entry, characters, direction = '', template = load
     const loved = (c.feedback || []).filter((f) => f.tags.includes('love')).reverse()
     for (const feedback of loved) {
       const prompt = feedback.mediaFile
-        ? c.media?.find((m) => m.file === feedback.mediaFile)?.prompt
+        ? [...(c.media || []), ...(c.deletedMedia || [])].find((m) => m.file === feedback.mediaFile)?.prompt
         : c.promptVersions?.filter((p) => p.generatedAt <= feedback.at).at(-1)
       if (prompt?.formatted) return [{ char: c.char, prompt: prompt.formatted }]
     }
@@ -48,6 +48,10 @@ export function saveGeneratedPrompt(char, generated, snapshot, direction) {
     entry.meaning ||= generated.meaning
     entry.zhuyin ||= generated.zhuyin
     if (!entry.emoji || entry.emoji === '✨') entry.emoji = generated.emoji
+    entry.concept ||= { object: '', morph: '', hook: '' }
+    entry.concept.object ||= generated.object
+    entry.concept.morph ||= generated.morph
+    entry.concept.hook ||= generated.conceptZh
   }
   const prompt = { ...generated, char, direction, templateVersion: loadTemplate().version,
     appliedFeedback: revisionTags(entry), feedbackCount: entry.feedback.length,

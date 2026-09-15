@@ -5,9 +5,9 @@ import { hasPublishedVideo } from '../../shared/selection.mjs'
 import type { Filter } from './PlayApp'
 
 const FILTERS: { id: Filter; label: string }[] = [
-  { id: 'all', label: '全部' },
-  { id: 'video', label: '有影片' },
-  { id: 'unwatched', label: '還沒看過' },
+  { id: 'all', label: '🌈 全部字卡' },
+  { id: 'video', label: '🎬 有影片' },
+  { id: 'unwatched', label: '✨ 還沒看過' },
 ]
 
 export default function Home({
@@ -31,7 +31,6 @@ export default function Home({
         <input
           className="search"
           type="search"
-          autoFocus
           value={query}
           onChange={(e) => onQuery(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && items[0]) onPick(items[0].char) }}
@@ -40,14 +39,22 @@ export default function Home({
         />
         <div className="home-filters" aria-label="篩選">
           {FILTERS.map((f) => (
-            <button key={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
+            <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
           ))}
         </div>
         <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
         <ParentGate />
       </header>
 
-      <div className="grid">
+      <div className="home-invite">
+        <span className="home-mascot" aria-hidden="true">🌟</span>
+        <div>
+          <h2>{filter === 'video' ? '選一張，來看小影片！' : '今天想認識哪個字？'}</h2>
+          <p>看看小圖，點點字卡，自己選！</p>
+        </div>
+      </div>
+
+      <div className="grid" aria-label="字卡瀏覽">
         {items.map((c) => {
           const count = watched[c.char]?.count || 0
           const video = hasPublishedVideo(c)
@@ -60,10 +67,10 @@ export default function Home({
               aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
               onClick={() => onPick(c.char)}
             >
-              <span className="card-emoji">{c.emoji}</span>
+              <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
               <span className="card-char">{c.char}</span>
               <span className="card-zhuyin">{c.zhuyin}</span>
-              {video && <span className="card-badge">🎬</span>}
+              {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
               {count > 0 && <span className="card-count">看過 {count} 次</span>}
             </button>
           )

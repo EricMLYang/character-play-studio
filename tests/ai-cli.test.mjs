@@ -47,3 +47,18 @@ test('timeouts and cancellation stop the CLI process', async () => {
   controller.abort()
   await assert.rejects(promise, /取消/)
 })
+
+test('metadata-only replies work through each CLI envelope without requiring a video prompt', async () => {
+  const { METADATA_SCHEMA } = await import('../server/ai-cli.mjs')
+  const metadata = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘' }
+  const replies = {
+    codex: { type: 'item.completed', item: { type: 'agent_message', text: JSON.stringify(metadata) } },
+    claude: { type: 'result', structured_output: metadata },
+    agy: { result: JSON.stringify(metadata) },
+  }
+  for (const [provider, reply] of Object.entries(replies)) {
+    assert.deepEqual(parseCliOutput(provider, JSON.stringify(reply), 'zhuyin').result, metadata)
+    const args = commandArgs(provider, '', '/tmp/metadata-schema.json', 'brief', METADATA_SCHEMA)
+    if (provider !== 'codex') assert.deepEqual(JSON.parse(args[args.indexOf('--json-schema') + 1]), METADATA_SCHEMA)
+  }
+})

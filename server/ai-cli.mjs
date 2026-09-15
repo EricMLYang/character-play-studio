@@ -12,6 +12,11 @@ export const OUTPUT_SCHEMA = {
 }
 
 const PROVIDERS = { codex: 'Codex', claude: 'Claude Code', agy: 'Google agy' }
+export const METADATA_SCHEMA = {
+  type: 'object', additionalProperties: false,
+  properties: Object.fromEntries(['char', 'meaning', 'zhuyin', 'emoji'].map((key) => [key, { type: 'string' }])),
+  required: ['char', 'meaning', 'zhuyin', 'emoji'],
+}
 export function executable(provider) {
   if (!Object.hasOwn(PROVIDERS, provider)) throw new Error('請選擇 Codex、Claude Code 或 Google agy')
   const override = process.env[`CPS_${provider.toUpperCase()}_BIN`]
@@ -24,8 +29,8 @@ export function cliProviders() {
   return Object.entries(PROVIDERS).map(([id, name]) => ({ id, name, installed: Boolean(executable(id)) }))
 }
 
-export function commandArgs(provider, model, schemaPath, brief) {
-  const schema = JSON.stringify(OUTPUT_SCHEMA)
+export function commandArgs(provider, model, schemaPath, brief, outputSchema = OUTPUT_SCHEMA) {
+  const schema = JSON.stringify(outputSchema)
   const modelArgs = model ? ['--model', model] : []
   if (provider === 'codex') return ['exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check',
     '--sandbox', 'read-only', '-c', 'approval_policy="never"', '--output-schema', schemaPath, '--json', ...modelArgs, '-']
@@ -43,7 +48,7 @@ function parseObject(value) {
   try { return JSON.parse(value.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')) } catch { return null }
 }
 
-export function parseCliOutput(provider, stdout) {
+export function parseCliOutput(provider, stdout, resultKey = 'promptEn') {
   const envelope = parseObject(stdout)
   const events = envelope ? [envelope] : stdout.split('\n').map(parseObject).filter(Boolean)
   const failed = events.find((event) => event.is_error || event.type === 'turn.failed' || event.type === 'error')
@@ -57,7 +62,7 @@ export function parseCliOutput(provider, stdout) {
     if (event.item?.type === 'agent_message') candidates.push(parseObject(event.item.text))
     if (event.type === 'result' && event.content) candidates.push(parseObject(event.content))
   }
-  const result = candidates.filter(Boolean).reverse().find((value) => typeof value.promptEn === 'string')
+  const result = candidates.filter(Boolean).reverse().find((value) => typeof value[resultKey] === 'string')
   if (!result) throw new Error(`${PROVIDERS[provider]} 沒有回傳可用的 prompt；請重試或換一個模型`)
   return { result, actualModel }
 }
@@ -107,18 +112,20 @@ export function runProcess(file, args, { cwd, input, signal, timeoutMs = 240000,
   })
 }
 
-export async function generateWithCli({ provider, model = '', brief, char, signal }) {
+export async function generateWithCli({ provider, model = '', brief, char, signal, metadataOnly = false }) {
   if (typeof model !== 'string' || model.length > 120 || (model && !/^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$/.test(model))) throw new Error('模型名稱格式不正確')
   const file = executable(provider)
   if (!file) throw new Error(`找不到 ${PROVIDERS[provider]}，請先安裝並登入，再重新啟動 Studio`)
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-prompt-'))
   try {
     const schemaPath = path.join(temporary, 'output-schema.json')
-    fs.writeFileSync(schemaPath, JSON.stringify(OUTPUT_SCHEMA))
-    const stdout = await runProcess(file, commandArgs(provider, model, schemaPath, brief), {
+    const schema = metadataOnly ? METADATA_SCHEMA : OUTPUT_SCHEMA
+    fs.writeFileSync(schemaPath, JSON.stringify(schema))
+    const stdout = await runProcess(file, commandArgs(provider, model, schemaPath, brief, schema), {
       cwd: temporary, input: provider === 'agy' ? '' : brief, signal,
     })
-    const { result, actualModel } = parseCliOutput(provider, stdout)
+    const { result, actualModel } = parseCliOutput(provider, stdout, metadataOnly ? 'zhuyin' : 'promptEn')
+    if (metadataOnly) return result
     return { ...validateResult(result, char), provider, requestedModel: model || null,
       actualModel: actualModel || null, generatedAt: new Date().toISOString(), id: randomUUID() }
   } finally { fs.rmSync(temporary, { recursive: true, force: true }) }
