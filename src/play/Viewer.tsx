@@ -36,6 +36,7 @@ export default function Viewer({
   const [traced, setTraced] = useState(false)
   const root = useRef<HTMLDivElement>(null)
   const videoEl = useRef<HTMLVideoElement>(null)
+  const toTrace = useRef<number | undefined>(undefined)
   const completed = useRef(false)
   const eventId = useRef(crypto.randomUUID())
   const completeRef = useRef(onComplete)
@@ -56,8 +57,20 @@ export default function Viewer({
     completeRef.current(entry, eventId.current)
   }
 
+  /** 影片播完自動接筆順。留一拍給彩帶與音效落在影片最後一格上，不要硬切。 */
+  const endVideo = () => {
+    finish()
+    clearTimeout(toTrace.current)
+    toTrace.current = window.setTimeout(() => setTrace(true), 900)
+  }
+  const toggleTrace = () => {
+    clearTimeout(toTrace.current)   // 手動切回影片時，別讓排程把他又推回筆順
+    setTrace((t) => !t)
+  }
+
   // 把焦點從搜尋框拿過來，方向鍵才會是上一個／下一個
   useEffect(() => { root.current?.focus() }, [])
+  useEffect(() => () => clearTimeout(toTrace.current), [])
 
   useEffect(() => {
     if (!video || trace) return
@@ -109,6 +122,7 @@ export default function Viewer({
   const replay = () => {
     completed.current = false
     eventId.current = crypto.randomUUID()
+    clearTimeout(toTrace.current)
     setDone(false)
     setTrace(false)
     setTraced(false)
@@ -161,7 +175,7 @@ export default function Viewer({
               onPause={() => voice.stop()}
               onSeeking={() => voice.reset()}
               onError={() => setFailed(true)}
-              onEnded={finish}
+              onEnded={endVideo}
             />
             {blocked && (
               <button className="tap-play" aria-label="播放"
@@ -197,7 +211,7 @@ export default function Viewer({
         </button>
         <button className="nav-btn primary" onClick={replay}>🔁 再看一次</button>
         {!bare && (
-          <button className="nav-btn write" onClick={() => setTrace((t) => !t)}>
+          <button className="nav-btn write" onClick={toggleTrace}>
             {trace ? '🎬 回去看' : '✏️ 換你寫'}
           </button>
         )}
