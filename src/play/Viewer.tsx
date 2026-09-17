@@ -57,8 +57,8 @@ export default function Viewer({
     completeRef.current(entry, eventId.current)
   }
 
-  /** 影片播完自動接筆順。留一拍給彩帶與音效落在影片最後一格上，不要硬切。 */
-  const endVideo = () => {
+  /** 素材看完自動接筆順。留一拍給彩帶與音效落在最後一格上，不要硬切。 */
+  const endMedia = () => {
     finish()
     clearTimeout(toTrace.current)
     toTrace.current = window.setTimeout(() => setTrace(true), 900)
@@ -86,7 +86,7 @@ export default function Viewer({
   useEffect(() => {
     if (video || !image || !ready || trace) return
     const stop = image.audioMode === 'original' ? () => {} : sayRepeat(entry.char, 2, 1500, image.volume ?? 0.7)
-    const t = setTimeout(finish, 3000)
+    const t = setTimeout(endMedia, 3000)
     return () => { clearTimeout(t); stop() }
   }, [entry.char, video, image, ready, trace, round])
 
@@ -175,7 +175,7 @@ export default function Viewer({
               onPause={() => voice.stop()}
               onSeeking={() => voice.reset()}
               onError={() => setFailed(true)}
-              onEnded={endVideo}
+              onEnded={endMedia}
             />
             {blocked && (
               <button className="tap-play" aria-label="播放"
