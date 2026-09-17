@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
-import { completeWatch } from '../../shared/domain.mjs'
+import { completeWatch, taiwanDay } from '../../shared/domain.mjs'
 import { browseCharacters, hasPublishedVideo } from '../../shared/selection.mjs'
 import { pendingWatches, queueWatch, flushWatches } from '../lib/watchQueue'
 import Home from './Home'
@@ -61,6 +61,19 @@ export default function PlayApp() {
       (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
   }, [all, query, filter, progress])
 
+  // 今天看過幾個「不同的字」：重播同一個字不會多一顆星，鼓勵他往下一個字走
+  const todayCount = useMemo(() => {
+    const today = taiwanDay()
+    return Object.values(progress.watched).filter((w) => taiwanDay(w.last) === today).length
+  }, [progress])
+
+  // 選擇困難時的出口：優先給還沒看過的字，都看過了就在目前清單裡隨機
+  const surprise = useCallback(() => {
+    const pool = items.filter((c) => !progress.watched[c.char])
+    const from = pool.length ? pool : items
+    if (from.length) setActive(from[Math.floor(Math.random() * from.length)].char)
+  }, [items, progress])
+
   const markWatched = useCallback((entry: CharEntry, id: string) => {
     const at = new Date().toISOString()
     queueWatch({ char: entry.char, id, at })
@@ -81,11 +94,13 @@ export default function PlayApp() {
         items={items}
         total={all.length}
         watched={progress.watched}
+        todayCount={todayCount}
         query={query}
         onQuery={setQuery}
         filter={filter}
         onFilter={setFilter}
         onPick={setActive}
+        onSurprise={surprise}
         onReset={() => { setQuery(''); setFilter('all') }}
       />
       {entry && (

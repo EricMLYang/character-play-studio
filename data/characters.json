@@ -899,10 +899,33 @@
           "contextHash": "5dd1b78fc28dc33b7f36868257576ffeafbb0fcf1e8d30f6b3b33c4d0b6bf01e",
           "hash": "d81c5212b274dd128a3cffd97d48282dd887fb7f896febd38fa85b8955df8683",
           "formatted": "【目標國字】：耳\n【設計概念】：巨型玩具兔的超級大耳朵聽到聲音嚇一大跳，雙耳直立展開並組合成傳統漢字「耳」，玩具身體滑出鏡頭外。\n【8s Video Prompt】:\n```text\nAn 8-second 3D animated educational video in a bright, clean aesthetic. Set against a light-cream studio backdrop, a cheerful mechanical toy bunny robot with absurdly giant oversized ears stands in the center. At 0 to 2 seconds, a funny squeak sounds off-screen, making the bunny's giant ears pop straight up in dramatic comic surprise. From 2 to 5 seconds, the oversized ears unfold and snap smoothly into rigid, saturated golden-yellow strokes—two outer vertical columns and four horizontal crossbars—forming the exact Traditional Chinese character \"耳\". The toy bunny's body comically drops downward out of frame, leaving the target glyph perfectly centered and uncropped, filling 70% of frame height. From 5 to 8 seconds, the scene maintains a clean 3-second static hold on the clear glyph \"耳\". Warm off-screen Taiwanese Mandarin narration speaks: \"耳、耳、耳朵\". No subtitles, no on-screen text other than the target glyph, and no visual clutter.\n```"
+        },
+        {
+          "char": "耳",
+          "meaning": "ear",
+          "zhuyin": "ㄦˇ",
+          "emoji": "👂",
+          "conceptZh": "「耳」字戴著機械玩具耳朵，一顆小鈴鐺只發出細細的吱聲，耳朵卻誇張地展開成巨大收音碟。",
+          "object": "A solid teal 耳 glyph with detachable mechanical listening ears and a miniature wind-up bell.",
+          "morph": "The correctly formed glyph stays unchanged; separate toy ears unfold into oversized listening dishes, then retract completely behind it.",
+          "creativeAngle": "用小聲音配超大耳朵的尺寸反差製造笑點；字形從頭保持完整，避免耳朵變筆畫造成結構混淆。",
+          "promptEn": "Create an exactly 8-second animated toy-comedy clip in a softly lit peach studio. Center one correctly formed Traditional Chinese glyph, 耳, in saturated solid teal, occupying about 70% of frame height with generous margins. Use a clean, standard Traditional Chinese typeface, preserving its exact stroke lengths and intersections throughout. The glyph is a rigid toy sculpture, viewed straight on with a locked camera. Separate orange mechanical toy ears sit beside it on short hinged arms, visibly distinct from the teal strokes. A miniature wind-up bell stands in the lower-right margin. At 0.0–1.4 seconds, the bell proudly winds its little crank and rocks backward in preparation for an impressive ring; the listening ears incline toward it. At 1.4–2.0 seconds, its clapper swings, but produces only a tiny, soft rubber squeak. After a brief anticipation pause, at 2.2–3.4 seconds both mechanical ears unfold like toy satellite dishes to absurdly oversized proportions, eagerly trying to hear that ridiculously small sound. Keep the entire assembly inside the frame and the glyph fully exposed. At 3.4–4.4 seconds, the ears fold neatly away behind the sculpture while the bell rolls out of view. From 4.4–8.0 seconds, hold the single finished 耳 completely still, centered and unobstructed against the empty peach background. Audio: a warm, friendly off-screen voice speaks clear Taiwanese Mandarin, saying exactly “耳、耳、耳朵”: first 耳 at approximately 0.4 seconds, second 耳 at 3.6 seconds, and 耳朵 at 5.5 seconds during the clear final hold. Allow natural pauses and stop after the word. Keep the squeak gentle and separate from the narration; use no background music. Only 耳 appears as visible text, with no vocabulary captions, subtitles, additional lettering, watermark, clutter, or flashing effects.",
+          "provider": "codex",
+          "requestedModel": null,
+          "actualModel": null,
+          "generatedAt": "2026-09-17T12:03:25.935Z",
+          "id": "234eafff-899c-4e85-81aa-9e9598f34801",
+          "direction": "",
+          "templateVersion": 5,
+          "appliedFeedback": [],
+          "feedbackCount": 0,
+          "contextHash": "5dd1b78fc28dc33b7f36868257576ffeafbb0fcf1e8d30f6b3b33c4d0b6bf01e",
+          "hash": "2840e4de9fe0a62aecfc36dcc4318f305385a1c82a79f38c6456c20d5b0530b2",
+          "formatted": "【目標國字】：耳\n【設計概念】：「耳」字戴著機械玩具耳朵，一顆小鈴鐺只發出細細的吱聲，耳朵卻誇張地展開成巨大收音碟。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated toy-comedy clip in a softly lit peach studio. Center one correctly formed Traditional Chinese glyph, 耳, in saturated solid teal, occupying about 70% of frame height with generous margins. Use a clean, standard Traditional Chinese typeface, preserving its exact stroke lengths and intersections throughout. The glyph is a rigid toy sculpture, viewed straight on with a locked camera. Separate orange mechanical toy ears sit beside it on short hinged arms, visibly distinct from the teal strokes. A miniature wind-up bell stands in the lower-right margin. At 0.0–1.4 seconds, the bell proudly winds its little crank and rocks backward in preparation for an impressive ring; the listening ears incline toward it. At 1.4–2.0 seconds, its clapper swings, but produces only a tiny, soft rubber squeak. After a brief anticipation pause, at 2.2–3.4 seconds both mechanical ears unfold like toy satellite dishes to absurdly oversized proportions, eagerly trying to hear that ridiculously small sound. Keep the entire assembly inside the frame and the glyph fully exposed. At 3.4–4.4 seconds, the ears fold neatly away behind the sculpture while the bell rolls out of view. From 4.4–8.0 seconds, hold the single finished 耳 completely still, centered and unobstructed against the empty peach background. Audio: a warm, friendly off-screen voice speaks clear Taiwanese Mandarin, saying exactly “耳、耳、耳朵”: first 耳 at approximately 0.4 seconds, second 耳 at 3.6 seconds, and 耳朵 at 5.5 seconds during the clear final hold. Allow natural pauses and stop after the word. Keep the squeak gentle and separate from the narration; use no background music. Only 耳 appears as visible text, with no vocabulary captions, subtitles, additional lettering, watermark, clutter, or flashing effects.\n```"
         }
       ],
-      "activePromptId": "fd198687-7c77-4676-84d0-dee5376ca07b",
-      "promptedAt": "2026-09-10T11:31:20.358Z",
+      "activePromptId": "234eafff-899c-4e85-81aa-9e9598f34801",
+      "promptedAt": "2026-09-17T12:03:25.935Z",
       "needsRedo": false
     },
     {
@@ -2524,7 +2547,6 @@
       "priority": 42,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "球",
@@ -2563,11 +2585,26 @@
         "morph": "the glyph 超 stands still as a solid sculpture while the super-jump gag plays out along its base",
         "hook": "披紅斗篷的小玩具機器人蹲低要來個超級起飛，結果只彈起一點點；就在他不好意思的時候，一隻小烏龜玩具「咻」地高速從他旁邊衝過去，還回頭看他一眼。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 43,
-      "media": [],
+      "media": [
+        {
+          "file": "超-c6985676-770b-4187-8e49-76e2b21ce9e8.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-16T12:24:58.693Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-16T12:25:15.234Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "超",
@@ -2594,7 +2631,8 @@
         }
       ],
       "activePromptId": "d66af893-5899-4a4e-90bb-672902a24c63",
-      "promptedAt": "2026-09-15T15:59:53.071Z"
+      "promptedAt": "2026-09-15T15:59:53.071Z",
+      "needsRedo": false
     },
     {
       "char": "飛",
@@ -2606,11 +2644,26 @@
         "morph": "the glyph 飛 stands still as a solid sculpture while the take-off gag plays out in front of it",
         "hook": "胖胖的玩具飛機在原地猛催油門、機身抖個不停卻黏在地上；它洩氣地垂下機鼻，這時螺旋槳終於轉對邊，它整台倒著咻一聲飛出去。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 44,
-      "media": [],
+      "media": [
+        {
+          "file": "飛-5c49101c-0340-49c3-8974-86bd6be736ab.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-16T12:39:18.527Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-16T12:39:37.446Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "飛",
@@ -2637,7 +2690,8 @@
         }
       ],
       "activePromptId": "c38ce95e-c7a2-4650-aaee-891e9f9054b1",
-      "promptedAt": "2026-09-15T15:59:53.075Z"
+      "promptedAt": "2026-09-15T15:59:53.075Z",
+      "needsRedo": false
     },
     {
       "char": "電",
@@ -2649,11 +2703,26 @@
         "morph": "the glyph 電 stands still as a solid sculpture while the recharging gag plays out at its base",
         "hook": "沒電的小玩具機器人整個垮下來，手臂軟趴趴；一顆胖電池自己滾過來喀一聲插進他背後，他瞬間彈直、跳起一段超級浮誇的機器人舞，然後再度沒電垮掉。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 45,
-      "media": [],
+      "media": [
+        {
+          "file": "電-8df1d40b-d6cd-450f-b2bd-17cb858d705d.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-16T12:20:02.763Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-17T12:09:51.201Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "電",
@@ -2680,7 +2749,8 @@
         }
       ],
       "activePromptId": "7f707e76-942b-4de2-83b3-123209015acd",
-      "promptedAt": "2026-09-15T15:59:53.080Z"
+      "promptedAt": "2026-09-15T15:59:53.080Z",
+      "needsRedo": false
     },
     {
       "char": "笑",
@@ -2692,11 +2762,26 @@
         "morph": "the glyph 笑 stands still as a solid sculpture while the trying-not-to-laugh gag plays out beside it",
         "hook": "一臉嚴肅的玩具機器人裁判努力板著臉，旁邊小企鵝玩具在平地上莫名其妙滑倒、四腳朝天；裁判的面板憋到裂出一道笑紋，最後整個抖起來無聲大笑，帽子都掉了。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 46,
-      "media": [],
+      "media": [
+        {
+          "file": "笑-0d226230-af1e-4655-be1d-1844bd587b0e.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-17T12:11:59.593Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-17T12:12:16.829Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "笑",
@@ -2723,7 +2808,20 @@
         }
       ],
       "activePromptId": "9f581d44-57c8-43a1-92c7-829bdb15155a",
-      "promptedAt": "2026-09-15T15:59:53.084Z"
+      "promptedAt": "2026-09-15T15:59:53.084Z",
+      "deletedMedia": [
+        {
+          "file": "笑-be598353-f265-4570-9955-d22586f9d280.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-17T12:11:40.078Z",
+          "review": "draft",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "deletedAt": "2026-09-17T12:11:53.313Z"
+        }
+      ],
+      "needsRedo": false
     },
     {
       "char": "戰",
@@ -2739,7 +2837,6 @@
       "priority": 47,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "戰",
@@ -2782,7 +2879,6 @@
       "priority": 48,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "跑",
@@ -2825,7 +2921,6 @@
       "priority": 49,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "豬",
@@ -2868,7 +2963,6 @@
       "priority": 50,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "王",
@@ -2911,7 +3005,6 @@
       "priority": 51,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "金",
@@ -2954,7 +3047,6 @@
       "priority": 52,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "龍",
@@ -2997,7 +3089,6 @@
       "priority": 53,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "玩",
@@ -3040,7 +3131,6 @@
       "priority": 54,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "畫",
@@ -3083,7 +3173,6 @@
       "priority": 55,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "跳",
@@ -3126,7 +3215,6 @@
       "priority": 56,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "打",
@@ -3169,7 +3257,6 @@
       "priority": 57,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "星",
@@ -3212,7 +3299,6 @@
       "priority": 58,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "光",
@@ -3255,7 +3341,6 @@
       "priority": 59,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "劍",
@@ -3298,7 +3383,6 @@
       "priority": 60,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "快",
@@ -3341,7 +3425,6 @@
       "priority": 61,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "腳",
@@ -3384,7 +3467,6 @@
       "priority": 62,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "走",
@@ -3427,7 +3509,6 @@
       "priority": 63,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "吃",
@@ -3470,7 +3551,6 @@
       "priority": 64,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "喝",
@@ -3513,7 +3593,6 @@
       "priority": 65,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "眼",
@@ -3556,7 +3635,6 @@
       "priority": 66,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "頭",
@@ -3599,7 +3677,6 @@
       "priority": 67,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "家",
@@ -3642,7 +3719,6 @@
       "priority": 68,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "書",
@@ -3685,7 +3761,6 @@
       "priority": 69,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "果",
@@ -3728,7 +3803,6 @@
       "priority": 70,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "高",
@@ -3771,7 +3845,6 @@
       "priority": 71,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "promptVersions": [
         {
           "char": "黑",
@@ -3888,6 +3961,22 @@
           "雨",
           "川",
           "鳥"
+        ],
+        "attempts": []
+      },
+      "2026-09-16": {
+        "queue": [
+          "馬",
+          "犬",
+          "刀"
+        ],
+        "attempts": []
+      },
+      "2026-09-17": {
+        "queue": [
+          "馬",
+          "犬",
+          "刀"
         ],
         "attempts": []
       }

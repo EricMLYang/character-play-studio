@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Ref } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasPublishedVideo } from '../../shared/selection.mjs'
+import { tap } from '../lib/sfx'
 import type { Filter } from './PlayApp'
 
 const FILTERS: { id: Filter; label: string }[] = [
@@ -11,16 +12,18 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, total, watched, query, onQuery, filter, onFilter, onPick, onReset, rootRef,
+  items, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, rootRef,
 }: {
   items: CharEntry[]
   total: number
   watched: Progress['watched']
+  todayCount: number
   query: string
   onQuery: (q: string) => void
   filter: Filter
   onFilter: (f: Filter) => void
   onPick: (char: string) => void
+  onSurprise: () => void
   onReset: () => void
   rootRef?: Ref<HTMLDivElement>
 }) {
@@ -42,6 +45,8 @@ export default function Home({
             <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
           ))}
         </div>
+        {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口 */}
+        <button className="chip surprise" onClick={() => { tap(); onSurprise() }} disabled={!items.length}>🎲 隨便給我一個</button>
         <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
         <ParentGate />
       </header>
@@ -52,10 +57,11 @@ export default function Home({
           <h2>{filter === 'video' ? '選一張，來看小影片！' : '今天想認識哪個字？'}</h2>
           <p>看看小圖，點點字卡，自己選！</p>
         </div>
+        <TodayStars count={todayCount} />
       </div>
 
       <div className="grid" aria-label="字卡瀏覽">
-        {items.map((c) => {
+        {items.map((c, i) => {
           const count = watched[c.char]?.count || 0
           const video = hasPublishedVideo(c)
           return (
@@ -63,9 +69,9 @@ export default function Home({
               key={c.char}
               data-char={c.char}
               className={'card' + (video ? ' card-video' : '')}
-              style={{ ['--hue' as any]: `var(--c${c.priority % 8})` }}
+              style={{ ['--hue' as any]: `var(--c${c.priority % 8})`, ['--i' as any]: i }}
               aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
-              onClick={() => onPick(c.char)}
+              onClick={() => { tap(); onPick(c.char) }}
             >
               <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
               <span className="card-char">{c.char}</span>
@@ -77,6 +83,20 @@ export default function Home({
         })}
         {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
       </div>
+    </div>
+  )
+}
+
+/** 今天看了幾個字。六歲看不懂累計數字，星星看得懂；滿五顆就換一行重新集。 */
+function TodayStars({ count }: { count: number }) {
+  if (!count) return null
+  const row = count % 5 || 5
+  return (
+    <div className="today" aria-label={`今天看了 ${count} 個字`}>
+      <div className="today-stars" aria-hidden>
+        {Array.from({ length: row }, (_, i) => <span key={i} style={{ ['--i' as any]: i }}>⭐</span>)}
+      </div>
+      <span className="today-label">今天看了 {count} 個字</span>
     </div>
   )
 }
