@@ -164,8 +164,11 @@ export default function Viewer({
       {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
         <div className="band">
           {words.map((word) => (
-            <button key={word} className="word" onClick={() => say(word, 0.8, volume)} aria-label={`唸「${word}」`}>
-              {[...word].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
+            <button key={word.text} className="word" onClick={() => say(word.text, 0.8, volume)} aria-label={`唸「${word.text}」`}>
+              {word.emoji && <span className="word-emoji" aria-hidden>{word.emoji}</span>}
+              <span className="word-text">
+                {[...(word.text || '')].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
+              </span>
               <span className="word-say" aria-hidden>🔊</span>
             </button>
           ))}

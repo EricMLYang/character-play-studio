@@ -1,17 +1,25 @@
 import { generateWithCli } from './ai-cli.mjs'
 
+/** 存好的語詞變回輸入框看得懂的一行字。 */
+export const formatWords = (words) => (words || []).map((w) => w.text + (w.emoji || '')).join('、')
+
 /**
- * 語詞給孩子端用來把字放回熟悉的語境（日 → 生日、日出）。
- * 一定要含目標字，否則畫面上看不出關聯，等於白給。
+ * 語詞給孩子端用來把字放回熟悉的語境（日 → 生日🎂、日出🌅）。
+ * 寫法是「詞＋一個 emoji」，emoji 可以省略。
+ * 詞一定要含目標字，否則畫面上看不出關聯，等於白給。
  */
 export function parseWords(value, char) {
-  const words = [...new Set(String(value || '').split(/[、,，\s/／]+/).map((w) => w.trim()).filter(Boolean))]
-  if (words.length > 4) throw new Error('語詞最多四個')
-  for (const word of words) {
-    if (!/^\p{Script=Han}{2,4}$/u.test(word)) throw new Error(`語詞「${word}」請用二到四個國字`)
-    if (!word.includes(char)) throw new Error(`語詞「${word}」裡面沒有「${char}」，孩子看不出關聯`)
-  }
-  return words
+  const tokens = [...new Set(String(value || '').split(/[、,，\s/／]+/).map((w) => w.trim()).filter(Boolean))]
+  if (tokens.length > 4) throw new Error('語詞最多四個')
+  return tokens.map((token) => {
+    const [, text = '', emoji = ''] = token.match(/^(\p{Script=Han}+)(.*)$/u) || []
+    if (text.length < 2 || text.length > 4) throw new Error(`語詞「${token}」請用二到四個國字`)
+    if (!text.includes(char)) throw new Error(`語詞「${text}」裡面沒有「${char}」，孩子看不出關聯`)
+    if (emoji && (emoji.length > 12 || /[\p{Script=Han}\p{L}\p{N}]/u.test(emoji))) {
+      throw new Error(`語詞「${text}」後面請只接一個圖示，例如 ${text}🎂`)
+    }
+    return emoji ? { text, emoji } : { text }
+  })
 }
 
 export function validateCharacterFields(body) {
@@ -35,7 +43,7 @@ export async function suggestCharacterMetadata({ char, provider, model = '', sig
     brief: `You help a parent prepare Traditional Chinese flashcards for Taiwanese children.
 This is a text-only task. Do not use tools, browse, run commands or inspect files.
 Return JSON with char, zhuyin, meaning, emoji and words. Give the usual Taiwanese Mandarin Bopomofo reading with correct tone marks (first tone unmarked), a concise English meaning, and one concrete emoji that reminds a child of that meaning. For a polyphonic character choose one common reading and its matching meaning. For abstract meanings choose an understandable visual association.
-For "words" give two or three everyday Traditional Chinese words separated by "、". Every word must be two to four characters, must contain the target character, must keep the same reading you gave in zhuyin, and must be something a six-year-old in Taiwan already says out loud. The target character may sit anywhere in the word. Do not generate a video prompt.
+For "words" give two or three everyday Traditional Chinese words separated by "、", each word followed immediately by one emoji that pictures it, like 生日🎂、日出🌅. Every word must be two to four characters, must contain the target character, must keep the same reading you gave in zhuyin, and must be something a six-year-old in Taiwan already says out loud. The target character may sit anywhere in the word. Pick a different emoji for each word so the child can tell them apart. Do not generate a video prompt.
 Target character: ${fields.char}`,
   })
   if (signal?.aborted) throw new Error('已取消補齊')
@@ -45,5 +53,5 @@ Target character: ${fields.char}`,
   const suggested = validateCharacterFields(result)
   if (!suggested.zhuyin || !suggested.meaning || !suggested.emoji) throw incomplete
   return { char: suggested.char, zhuyin: suggested.zhuyin, meaning: suggested.meaning, emoji: suggested.emoji,
-    words: suggested.words.join('、') }
+    words: formatWords(suggested.words) }
 }

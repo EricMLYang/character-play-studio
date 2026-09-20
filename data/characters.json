@@ -60,8 +60,14 @@
       ],
       "activePromptId": "093ea0f7-114e-457c-ae1a-42109912ef7a",
       "words": [
-        "生日",
-        "日出"
+        {
+          "text": "生日",
+          "emoji": "🎂"
+        },
+        {
+          "text": "日出",
+          "emoji": "🌅"
+        }
       ]
     },
     {
@@ -123,8 +129,14 @@
       ],
       "activePromptId": "98d1f24a-c021-485c-83bd-303df4847db9",
       "words": [
-        "月亮",
-        "月餅"
+        {
+          "text": "月亮",
+          "emoji": "🌙"
+        },
+        {
+          "text": "月餅",
+          "emoji": "🥮"
+        }
       ]
     },
     {
@@ -186,8 +198,14 @@
       ],
       "activePromptId": "605ee7df-4d43-44c8-832a-8813e90b24f6",
       "words": [
-        "爬山",
-        "火山"
+        {
+          "text": "爬山",
+          "emoji": "🧗"
+        },
+        {
+          "text": "火山",
+          "emoji": "🌋"
+        }
       ]
     },
     {
@@ -272,8 +290,14 @@
       "promptedAt": "2026-09-07T12:12:44.683Z",
       "needsRedo": false,
       "words": [
-        "喝水",
-        "水果"
+        {
+          "text": "喝水",
+          "emoji": "🥤"
+        },
+        {
+          "text": "水果",
+          "emoji": "🍉"
+        }
       ]
     },
     {
@@ -335,8 +359,14 @@
       "promptedAt": "2026-09-05T14:14:02.320Z",
       "needsRedo": false,
       "words": [
-        "火車",
-        "火山"
+        {
+          "text": "火車",
+          "emoji": "🚂"
+        },
+        {
+          "text": "火山",
+          "emoji": "🌋"
+        }
       ]
     },
     {
@@ -398,8 +428,14 @@
       "promptedAt": "2026-09-06T00:36:25.213Z",
       "needsRedo": false,
       "words": [
-        "泥土",
-        "土地"
+        {
+          "text": "泥土",
+          "emoji": "🟤"
+        },
+        {
+          "text": "土地",
+          "emoji": "🌏"
+        }
       ]
     },
     {
@@ -461,8 +497,14 @@
       "promptedAt": "2026-09-06T00:37:01.589Z",
       "needsRedo": false,
       "words": [
-        "木頭",
-        "木馬"
+        {
+          "text": "木頭",
+          "emoji": "🪵"
+        },
+        {
+          "text": "木馬",
+          "emoji": "🎠"
+        }
       ]
     },
     {
@@ -524,8 +566,14 @@
       "promptedAt": "2026-09-07T12:09:45.672Z",
       "needsRedo": false,
       "words": [
-        "大人",
-        "機器人"
+        {
+          "text": "大人",
+          "emoji": "🧑"
+        },
+        {
+          "text": "機器人",
+          "emoji": "🤖"
+        }
       ]
     },
     {
@@ -610,8 +658,14 @@
       "promptedAt": "2026-09-09T10:08:09.423Z",
       "needsRedo": false,
       "words": [
-        "門口",
-        "入口"
+        {
+          "text": "門口",
+          "emoji": "🚪"
+        },
+        {
+          "text": "入口",
+          "emoji": "➡️"
+        }
       ]
     },
     {
@@ -711,8 +765,14 @@
       "promptedAt": "2026-09-09T10:18:23.862Z",
       "needsRedo": false,
       "words": [
-        "手機",
-        "洗手"
+        {
+          "text": "手機",
+          "emoji": "📱"
+        },
+        {
+          "text": "洗手",
+          "emoji": "🧼"
+        }
       ]
     },
     {
@@ -827,8 +887,14 @@
       "promptedAt": "2026-09-09T10:09:55.228Z",
       "needsRedo": false,
       "words": [
-        "足球",
-        "滿足"
+        {
+          "text": "足球",
+          "emoji": "⚽"
+        },
+        {
+          "text": "滿足",
+          "emoji": "😌"
+        }
       ]
     },
     {
@@ -890,8 +956,14 @@
       "promptedAt": "2026-09-12T12:43:47.486Z",
       "needsRedo": false,
       "words": [
-        "題目",
-        "目標"
+        {
+          "text": "題目",
+          "emoji": "📝"
+        },
+        {
+          "text": "目標",
+          "emoji": "🎯"
+        }
       ]
     },
     {
@@ -976,8 +1048,14 @@
       "promptedAt": "2026-09-17T12:03:25.935Z",
       "needsRedo": false,
       "words": [
-        "耳朵",
-        "木耳"
+        {
+          "text": "耳朵",
+          "emoji": "👂"
+        },
+        {
+          "text": "木耳",
+          "emoji": "🍄"
+        }
       ]
     },
     {
@@ -1039,8 +1117,14 @@
       "promptedAt": "2026-09-10T12:17:20.564Z",
       "needsRedo": false,
       "words": [
-        "大家",
-        "大象"
+        {
+          "text": "大家",
+          "emoji": "👪"
+        },
+        {
+          "text": "大象",
+          "emoji": "🐘"
+        }
       ]
     },
     {
@@ -1102,8 +1186,14 @@
       "promptedAt": "2026-09-10T12:35:34.154Z",
       "needsRedo": false,
       "words": [
-        "小心",
-        "小狗"
+        {
+          "text": "小心",
+          "emoji": "⚠️"
+        },
+        {
+          "text": "小狗",
+          "emoji": "🐶"
+        }
       ]
     },
     {
@@ -1165,8 +1255,14 @@
       "promptedAt": "2026-09-11T11:45:14.610Z",
       "needsRedo": false,
       "words": [
-        "上面",
-        "上學"
+        {
+          "text": "上面",
+          "emoji": "⬆️"
+        },
+        {
+          "text": "上學",
+          "emoji": "🎒"
+        }
       ]
     },
     {
@@ -1228,8 +1324,14 @@
       "promptedAt": "2026-09-12T12:44:35.774Z",
       "needsRedo": false,
       "words": [
-        "下面",
-        "下雨"
+        {
+          "text": "下面",
+          "emoji": "⬇️"
+        },
+        {
+          "text": "下雨",
+          "emoji": "🌧️"
+        }
       ]
     },
     {
@@ -1291,8 +1393,14 @@
       "promptedAt": "2026-09-12T12:45:27.844Z",
       "needsRedo": false,
       "words": [
-        "中間",
-        "中午"
+        {
+          "text": "中間",
+          "emoji": "↔️"
+        },
+        {
+          "text": "中午",
+          "emoji": "🕛"
+        }
       ]
     },
     {
@@ -1354,8 +1462,14 @@
       "promptedAt": "2026-09-13T02:41:56.078Z",
       "needsRedo": false,
       "words": [
-        "今天",
-        "天空"
+        {
+          "text": "今天",
+          "emoji": "📅"
+        },
+        {
+          "text": "天空",
+          "emoji": "☁️"
+        }
       ]
     },
     {
@@ -1417,8 +1531,14 @@
       "promptedAt": "2026-09-13T02:43:02.464Z",
       "needsRedo": false,
       "words": [
-        "稻田",
-        "水田"
+        {
+          "text": "稻田",
+          "emoji": "🌾"
+        },
+        {
+          "text": "水田",
+          "emoji": "🌱"
+        }
       ]
     },
     {
@@ -1480,8 +1600,14 @@
       "promptedAt": "2026-09-15T12:20:01.955Z",
       "needsRedo": false,
       "words": [
-        "下雨",
-        "雨傘"
+        {
+          "text": "下雨",
+          "emoji": "🌧️"
+        },
+        {
+          "text": "雨傘",
+          "emoji": "☂️"
+        }
       ]
     },
     {
@@ -1543,8 +1669,14 @@
       "promptedAt": "2026-09-11T11:41:22.276Z",
       "needsRedo": false,
       "words": [
-        "石頭",
-        "石油"
+        {
+          "text": "石頭",
+          "emoji": "🪨"
+        },
+        {
+          "text": "石油",
+          "emoji": "🛢️"
+        }
       ]
     },
     {
@@ -1606,8 +1738,14 @@
       "promptedAt": "2026-09-15T12:20:41.843Z",
       "needsRedo": false,
       "words": [
-        "河川",
-        "冰川"
+        {
+          "text": "河川",
+          "emoji": "🏞️"
+        },
+        {
+          "text": "冰川",
+          "emoji": "🧊"
+        }
       ]
     },
     {
@@ -1681,8 +1819,14 @@
       ],
       "needsRedo": false,
       "words": [
-        "小鳥",
-        "鳥巢"
+        {
+          "text": "小鳥",
+          "emoji": "🐦"
+        },
+        {
+          "text": "鳥巢",
+          "emoji": "🪹"
+        }
       ]
     },
     {
@@ -1744,8 +1888,14 @@
       "promptedAt": "2026-09-11T13:17:34.977Z",
       "needsRedo": false,
       "words": [
-        "金魚",
-        "魚湯"
+        {
+          "text": "金魚",
+          "emoji": "🐠"
+        },
+        {
+          "text": "魚湯",
+          "emoji": "🍲"
+        }
       ]
     },
     {
@@ -1807,8 +1957,14 @@
       "promptedAt": "2026-09-15T12:53:18.232Z",
       "needsRedo": false,
       "words": [
-        "牛奶",
-        "蝸牛"
+        {
+          "text": "牛奶",
+          "emoji": "🥛"
+        },
+        {
+          "text": "蝸牛",
+          "emoji": "🐌"
+        }
       ]
     },
     {
@@ -1869,8 +2025,14 @@
       "activePromptId": "15306324-77ad-4692-8625-e6fb1745856a",
       "promptedAt": "2026-09-15T14:23:30.578Z",
       "words": [
-        "綿羊",
-        "山羊"
+        {
+          "text": "綿羊",
+          "emoji": "🐑"
+        },
+        {
+          "text": "山羊",
+          "emoji": "🐐"
+        }
       ]
     },
     {
@@ -1932,8 +2094,14 @@
       "promptedAt": "2026-09-15T15:33:08.727Z",
       "needsRedo": false,
       "words": [
-        "馬路",
-        "斑馬"
+        {
+          "text": "馬路",
+          "emoji": "🛣️"
+        },
+        {
+          "text": "斑馬",
+          "emoji": "🦓"
+        }
       ]
     },
     {
@@ -1995,8 +2163,14 @@
       "promptedAt": "2026-09-15T15:33:43.838Z",
       "needsRedo": false,
       "words": [
-        "警犬",
-        "導盲犬"
+        {
+          "text": "警犬",
+          "emoji": "🐕‍🦺"
+        },
+        {
+          "text": "導盲犬",
+          "emoji": "🦮"
+        }
       ]
     },
     {
@@ -2058,8 +2232,14 @@
       "promptedAt": "2026-09-13T02:55:36.086Z",
       "needsRedo": false,
       "words": [
-        "小心",
-        "開心"
+        {
+          "text": "小心",
+          "emoji": "⚠️"
+        },
+        {
+          "text": "開心",
+          "emoji": "😄"
+        }
       ]
     },
     {
@@ -2121,8 +2301,14 @@
       "promptedAt": "2026-09-15T15:34:14.325Z",
       "needsRedo": false,
       "words": [
-        "小刀",
-        "菜刀"
+        {
+          "text": "小刀",
+          "emoji": "🔪"
+        },
+        {
+          "text": "菜刀",
+          "emoji": "🥬"
+        }
       ]
     },
     {
@@ -2184,8 +2370,14 @@
       "promptedAt": "2026-09-15T15:34:55.119Z",
       "needsRedo": false,
       "words": [
-        "弓箭",
-        "拉弓"
+        {
+          "text": "弓箭",
+          "emoji": "🏹"
+        },
+        {
+          "text": "拉弓",
+          "emoji": "💪"
+        }
       ]
     },
     {
@@ -2247,8 +2439,14 @@
       "promptedAt": "2026-09-07T12:39:41.934Z",
       "needsRedo": false,
       "words": [
-        "火車",
-        "汽車"
+        {
+          "text": "火車",
+          "emoji": "🚂"
+        },
+        {
+          "text": "汽車",
+          "emoji": "🚗"
+        }
       ]
     },
     {
@@ -2310,8 +2508,14 @@
       "promptedAt": "2026-09-15T15:36:22.527Z",
       "needsRedo": false,
       "words": [
-        "開門",
-        "大門"
+        {
+          "text": "開門",
+          "emoji": "🚪"
+        },
+        {
+          "text": "大門",
+          "emoji": "🏛️"
+        }
       ]
     },
     {
@@ -2373,8 +2577,14 @@
       "promptedAt": "2026-09-15T15:36:56.891Z",
       "needsRedo": false,
       "words": [
-        "白米",
-        "玉米"
+        {
+          "text": "白米",
+          "emoji": "🍚"
+        },
+        {
+          "text": "玉米",
+          "emoji": "🌽"
+        }
       ]
     },
     {
@@ -2436,8 +2646,14 @@
       "promptedAt": "2026-09-15T15:37:38.472Z",
       "needsRedo": false,
       "words": [
-        "竹子",
-        "竹筍"
+        {
+          "text": "竹子",
+          "emoji": "🎋"
+        },
+        {
+          "text": "竹筍",
+          "emoji": "🌱"
+        }
       ]
     },
     {
@@ -2499,8 +2715,14 @@
       "promptedAt": "2026-09-14T12:29:04.883Z",
       "needsRedo": false,
       "words": [
-        "花朵",
-        "開花"
+        {
+          "text": "花朵",
+          "emoji": "🌸"
+        },
+        {
+          "text": "開花",
+          "emoji": "🌼"
+        }
       ]
     },
     {
@@ -2562,8 +2784,14 @@
       "promptedAt": "2026-09-14T12:20:09.472Z",
       "needsRedo": false,
       "words": [
-        "用力",
-        "力氣"
+        {
+          "text": "用力",
+          "emoji": "💪"
+        },
+        {
+          "text": "力氣",
+          "emoji": "🏋️"
+        }
       ]
     },
     {
@@ -2663,8 +2891,14 @@
       "promptedAt": "2026-09-08T12:23:06.579Z",
       "needsRedo": false,
       "words": [
-        "飛機",
-        "手機"
+        {
+          "text": "飛機",
+          "emoji": "✈️"
+        },
+        {
+          "text": "手機",
+          "emoji": "📱"
+        }
       ]
     },
     {
@@ -2749,8 +2983,14 @@
       "promptedAt": "2026-09-08T12:24:34.564Z",
       "needsRedo": false,
       "words": [
-        "機器人",
-        "樂器"
+        {
+          "text": "機器人",
+          "emoji": "🤖"
+        },
+        {
+          "text": "樂器",
+          "emoji": "🎹"
+        }
       ]
     },
     {
@@ -2812,8 +3052,14 @@
       "promptedAt": "2026-09-14T12:18:12.859Z",
       "needsRedo": false,
       "words": [
-        "忍者",
-        "忍住"
+        {
+          "text": "忍者",
+          "emoji": "🥷"
+        },
+        {
+          "text": "忍住",
+          "emoji": "🤐"
+        }
       ]
     },
     {
@@ -2875,8 +3121,14 @@
       "promptedAt": "2026-09-15T15:59:53.064Z",
       "needsRedo": false,
       "words": [
-        "足球",
-        "皮球"
+        {
+          "text": "足球",
+          "emoji": "⚽"
+        },
+        {
+          "text": "皮球",
+          "emoji": "🏐"
+        }
       ]
     },
     {
@@ -2938,8 +3190,14 @@
       "promptedAt": "2026-09-15T15:59:53.071Z",
       "needsRedo": false,
       "words": [
-        "超人",
-        "超級"
+        {
+          "text": "超人",
+          "emoji": "🦸"
+        },
+        {
+          "text": "超級",
+          "emoji": "🚀"
+        }
       ]
     },
     {
@@ -3001,8 +3259,14 @@
       "promptedAt": "2026-09-15T15:59:53.075Z",
       "needsRedo": false,
       "words": [
-        "飛機",
-        "飛走"
+        {
+          "text": "飛機",
+          "emoji": "✈️"
+        },
+        {
+          "text": "飛走",
+          "emoji": "🕊️"
+        }
       ]
     },
     {
@@ -3064,8 +3328,14 @@
       "promptedAt": "2026-09-15T15:59:53.080Z",
       "needsRedo": false,
       "words": [
-        "電話",
-        "電視"
+        {
+          "text": "電話",
+          "emoji": "☎️"
+        },
+        {
+          "text": "電視",
+          "emoji": "📺"
+        }
       ]
     },
     {
@@ -3139,8 +3409,14 @@
       ],
       "needsRedo": false,
       "words": [
-        "微笑",
-        "好笑"
+        {
+          "text": "微笑",
+          "emoji": "🙂"
+        },
+        {
+          "text": "好笑",
+          "emoji": "😂"
+        }
       ]
     },
     {
@@ -3185,8 +3461,14 @@
       "activePromptId": "f3109f21-ac37-445a-97c8-e851f90d93ab",
       "promptedAt": "2026-09-15T15:59:53.090Z",
       "words": [
-        "戰士",
-        "挑戰"
+        {
+          "text": "戰士",
+          "emoji": "⚔️"
+        },
+        {
+          "text": "挑戰",
+          "emoji": "🏆"
+        }
       ]
     },
     {
@@ -3231,8 +3513,14 @@
       "activePromptId": "69e5c19f-99e6-4316-a0bb-02e22de37a3e",
       "promptedAt": "2026-09-15T15:59:53.095Z",
       "words": [
-        "跑步",
-        "賽跑"
+        {
+          "text": "跑步",
+          "emoji": "🏃"
+        },
+        {
+          "text": "賽跑",
+          "emoji": "🏁"
+        }
       ]
     },
     {
@@ -3277,8 +3565,14 @@
       "activePromptId": "ce3c192f-c5fc-4b76-9ab3-eeecabd20916",
       "promptedAt": "2026-09-15T15:59:53.101Z",
       "words": [
-        "小豬",
-        "豬肉"
+        {
+          "text": "小豬",
+          "emoji": "🐷"
+        },
+        {
+          "text": "豬肉",
+          "emoji": "🥓"
+        }
       ]
     },
     {
@@ -3323,8 +3617,14 @@
       "activePromptId": "d84b8574-8af8-4f26-9cbb-d712ee8e67eb",
       "promptedAt": "2026-09-15T15:59:53.106Z",
       "words": [
-        "國王",
-        "大王"
+        {
+          "text": "國王",
+          "emoji": "👑"
+        },
+        {
+          "text": "大王",
+          "emoji": "🤴"
+        }
       ]
     },
     {
@@ -3369,8 +3669,14 @@
       "activePromptId": "a6618b56-c181-4e1d-8878-8cfcbbe42c0c",
       "promptedAt": "2026-09-15T15:59:53.111Z",
       "words": [
-        "金魚",
-        "金色"
+        {
+          "text": "金魚",
+          "emoji": "🐠"
+        },
+        {
+          "text": "金色",
+          "emoji": "🥇"
+        }
       ]
     },
     {
@@ -3415,8 +3721,14 @@
       "activePromptId": "1eb77034-92be-4f78-acfb-5c4267f95ece",
       "promptedAt": "2026-09-15T16:09:04.543Z",
       "words": [
-        "恐龍",
-        "劍龍"
+        {
+          "text": "恐龍",
+          "emoji": "🦖"
+        },
+        {
+          "text": "劍龍",
+          "emoji": "🦕"
+        }
       ]
     },
     {
@@ -3461,8 +3773,14 @@
       "activePromptId": "28b2a917-d537-48ba-9373-e9d1f6131bf8",
       "promptedAt": "2026-09-15T16:09:04.552Z",
       "words": [
-        "玩具",
-        "好玩"
+        {
+          "text": "玩具",
+          "emoji": "🧸"
+        },
+        {
+          "text": "好玩",
+          "emoji": "🎉"
+        }
       ]
     },
     {
@@ -3507,8 +3825,14 @@
       "activePromptId": "9a89f811-d644-488b-8315-e5db9fad4acf",
       "promptedAt": "2026-09-15T16:09:04.559Z",
       "words": [
-        "畫畫",
-        "圖畫"
+        {
+          "text": "畫畫",
+          "emoji": "🎨"
+        },
+        {
+          "text": "圖畫",
+          "emoji": "🖼️"
+        }
       ]
     },
     {
@@ -3553,8 +3877,14 @@
       "activePromptId": "7b838ffb-ebb5-4edd-8c3b-9bd2b0e41afe",
       "promptedAt": "2026-09-15T16:09:04.565Z",
       "words": [
-        "跳舞",
-        "跳高"
+        {
+          "text": "跳舞",
+          "emoji": "💃"
+        },
+        {
+          "text": "跳高",
+          "emoji": "🤸"
+        }
       ]
     },
     {
@@ -3599,8 +3929,14 @@
       "activePromptId": "ae747a47-97c2-4a4d-aa05-ec3c0410f3b0",
       "promptedAt": "2026-09-15T16:09:04.571Z",
       "words": [
-        "打球",
-        "打開"
+        {
+          "text": "打球",
+          "emoji": "🏀"
+        },
+        {
+          "text": "打開",
+          "emoji": "📂"
+        }
       ]
     },
     {
@@ -3645,8 +3981,14 @@
       "activePromptId": "366dab2f-ca5e-4818-93fd-6fac31acc493",
       "promptedAt": "2026-09-15T16:09:04.578Z",
       "words": [
-        "星星",
-        "星期"
+        {
+          "text": "星星",
+          "emoji": "⭐"
+        },
+        {
+          "text": "星期",
+          "emoji": "🗓️"
+        }
       ]
     },
     {
@@ -3691,8 +4033,14 @@
       "activePromptId": "4a69cd30-8104-4505-ad1c-e091384d7e9e",
       "promptedAt": "2026-09-15T16:09:04.583Z",
       "words": [
-        "陽光",
-        "月光"
+        {
+          "text": "陽光",
+          "emoji": "☀️"
+        },
+        {
+          "text": "月光",
+          "emoji": "🌝"
+        }
       ]
     },
     {
@@ -3737,8 +4085,14 @@
       "activePromptId": "3a42e411-60e2-4df7-8df4-c9c3d6eb767d",
       "promptedAt": "2026-09-15T16:09:04.589Z",
       "words": [
-        "寶劍",
-        "劍龍"
+        {
+          "text": "寶劍",
+          "emoji": "🗡️"
+        },
+        {
+          "text": "劍龍",
+          "emoji": "🦕"
+        }
       ]
     },
     {
@@ -3783,8 +4137,14 @@
       "activePromptId": "8982580c-13a8-47a7-9c92-b87df61fd294",
       "promptedAt": "2026-09-15T16:09:04.596Z",
       "words": [
-        "快樂",
-        "很快"
+        {
+          "text": "快樂",
+          "emoji": "🥳"
+        },
+        {
+          "text": "很快",
+          "emoji": "💨"
+        }
       ]
     },
     {
@@ -3829,8 +4189,14 @@
       "activePromptId": "895663d9-74a1-4bf2-91b5-10196f57334e",
       "promptedAt": "2026-09-15T16:09:04.602Z",
       "words": [
-        "腳踏車",
-        "赤腳"
+        {
+          "text": "腳踏車",
+          "emoji": "🚲"
+        },
+        {
+          "text": "赤腳",
+          "emoji": "🦶"
+        }
       ]
     },
     {
@@ -3875,8 +4241,14 @@
       "activePromptId": "8a0b391b-6b46-4755-b3a5-08e9eeb2170b",
       "promptedAt": "2026-09-15T16:09:04.608Z",
       "words": [
-        "走路",
-        "走開"
+        {
+          "text": "走路",
+          "emoji": "🚶"
+        },
+        {
+          "text": "走開",
+          "emoji": "👋"
+        }
       ]
     },
     {
@@ -3921,8 +4293,14 @@
       "activePromptId": "30fbe950-4336-4e89-803d-b018c1a37ad8",
       "promptedAt": "2026-09-15T16:09:04.615Z",
       "words": [
-        "吃飯",
-        "好吃"
+        {
+          "text": "吃飯",
+          "emoji": "🍚"
+        },
+        {
+          "text": "好吃",
+          "emoji": "😋"
+        }
       ]
     },
     {
@@ -3967,8 +4345,14 @@
       "activePromptId": "50dfdc67-f487-4c47-8b92-d7a803e0c386",
       "promptedAt": "2026-09-15T16:09:04.622Z",
       "words": [
-        "喝水",
-        "喝湯"
+        {
+          "text": "喝水",
+          "emoji": "🥤"
+        },
+        {
+          "text": "喝湯",
+          "emoji": "🥣"
+        }
       ]
     },
     {
@@ -4013,8 +4397,14 @@
       "activePromptId": "46e5d79b-ab33-4566-aea3-94a7d1422e97",
       "promptedAt": "2026-09-15T16:09:04.629Z",
       "words": [
-        "眼睛",
-        "眼淚"
+        {
+          "text": "眼睛",
+          "emoji": "👀"
+        },
+        {
+          "text": "眼淚",
+          "emoji": "😢"
+        }
       ]
     },
     {
@@ -4059,8 +4449,14 @@
       "activePromptId": "952861ce-304e-4ebf-961f-f513a5acc884",
       "promptedAt": "2026-09-15T16:09:04.635Z",
       "words": [
-        "頭髮",
-        "點頭"
+        {
+          "text": "頭髮",
+          "emoji": "💇"
+        },
+        {
+          "text": "點頭",
+          "emoji": "✅"
+        }
       ]
     },
     {
@@ -4105,8 +4501,14 @@
       "activePromptId": "cf527686-642f-43db-8131-ddc7f721dc27",
       "promptedAt": "2026-09-15T16:09:04.642Z",
       "words": [
-        "回家",
-        "大家"
+        {
+          "text": "回家",
+          "emoji": "🏠"
+        },
+        {
+          "text": "大家",
+          "emoji": "👪"
+        }
       ]
     },
     {
@@ -4151,8 +4553,14 @@
       "activePromptId": "a29e2dc4-4287-4cf5-b8cc-3ff39d9737c9",
       "promptedAt": "2026-09-15T16:09:04.649Z",
       "words": [
-        "看書",
-        "書包"
+        {
+          "text": "看書",
+          "emoji": "📖"
+        },
+        {
+          "text": "書包",
+          "emoji": "🎒"
+        }
       ]
     },
     {
@@ -4197,8 +4605,14 @@
       "activePromptId": "5d41602a-1c50-48d3-8296-de8c9a5a87af",
       "promptedAt": "2026-09-15T16:09:04.656Z",
       "words": [
-        "水果",
-        "蘋果"
+        {
+          "text": "水果",
+          "emoji": "🍉"
+        },
+        {
+          "text": "蘋果",
+          "emoji": "🍎"
+        }
       ]
     },
     {
@@ -4243,8 +4657,14 @@
       "activePromptId": "bba16cea-c2fd-4ebc-8661-576291c706ad",
       "promptedAt": "2026-09-15T16:09:04.662Z",
       "words": [
-        "高興",
-        "長高"
+        {
+          "text": "高興",
+          "emoji": "😁"
+        },
+        {
+          "text": "長高",
+          "emoji": "📏"
+        }
       ]
     },
     {
@@ -4289,8 +4709,14 @@
       "activePromptId": "7689f39e-0b58-4e1b-a429-0eacdf5c8b22",
       "promptedAt": "2026-09-15T16:09:04.669Z",
       "words": [
-        "黑色",
-        "黑板"
+        {
+          "text": "黑色",
+          "emoji": "⬛"
+        },
+        {
+          "text": "黑板",
+          "emoji": "🏫"
+        }
       ]
     }
   ],

@@ -136,10 +136,17 @@ button:disabled { cursor: default; }
 .band > :nth-child(3) { animation-delay: .12s; }
 .band > :nth-child(4) { animation-delay: .18s; }
 
-.word { display: inline-flex; align-items: center; gap: 10px; min-height: 58px; padding: 6px 10px 6px 20px; border-radius: 999px;
+/* 每個詞自己的圖示：他還不會讀「生日」，但看得懂蛋糕 */
+.word-emoji { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; font-size: 28px; line-height: 1;
+  border-radius: 15px; background: color-mix(in oklab, var(--hue) 30%, #fff); transform: rotate(-5deg); }
+.word:hover .word-emoji { transform: rotate(5deg) scale(1.08); }
+.word-text { display: inline-flex; align-items: baseline; }
+.word { display: inline-flex; align-items: center; gap: 10px; min-height: 58px; padding: 6px 10px 6px 8px; border-radius: 999px;
   background: #fff; font-family: var(--kai); font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1;
   box-shadow: 0 5px 0 rgba(0,0,0,.09), 0 12px 22px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+/* 沒有圖示的詞不要靠左邊那麼近 */
+.word:not(:has(.word-emoji)) { padding-left: 20px; }
 .word:hover { transform: translateY(-2px); }
 .word:active { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
 /* 目標字在詞裡面放大加色：他一眼就看到「這個詞裡有我學的字」 */
@@ -324,7 +331,8 @@ button:disabled { cursor: default; }
   .nav-btn.write { flex: 1 1 100%; order: -1; max-width: none; }
 
   .band { gap: 7px; padding: 0 14px 9px; }
-  .word { font-size: 27px; min-height: 50px; gap: 7px; padding: 5px 7px 5px 14px; }
+  .word { font-size: 27px; min-height: 50px; gap: 7px; padding: 5px 7px 5px 6px; }
+  .word-emoji { width: 38px; height: 38px; font-size: 24px; border-radius: 13px; }
   .word-say { width: 34px; height: 34px; font-size: 18px; }
   .part { font-size: 28px; min-width: 44px; min-height: 40px; }
   .band-group { min-height: 50px; gap: 6px; padding: 5px 9px 5px 13px; }

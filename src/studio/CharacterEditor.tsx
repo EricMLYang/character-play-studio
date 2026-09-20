@@ -23,7 +23,7 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
 }) {
   const [fields, setFields] = useState({ char: entry?.char || '', zhuyin: entry?.zhuyin || '',
     meaning: entry?.meaning || '', emoji: entry?.emoji === '✨' ? '' : entry?.emoji || '',
-    words: (entry?.words || []).join('、'),
+    words: (entry?.words || []).map((w) => w.text + (w.emoji || '')).join('、'),
     object: entry?.concept.object || '', morph: entry?.concept.morph || '', hook: entry?.concept.hook || '' })
   const [provider, setProvider] = useState(providers.find((p) => p.installed)?.id || '')
   const [model, setModel] = useState('')
@@ -86,9 +86,9 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
         <label className="st-field">英文意思<input value={fields.meaning} onChange={set('meaning')} placeholder="例如 endure" maxLength={300} /></label>
       </div>
       <label className="st-field">語詞（最多四個，用、分隔）
-        <input value={fields.words} onChange={set('words')} placeholder="例：生日、日出" maxLength={200} />
+        <input value={fields.words} onChange={set('words')} placeholder="例：生日🎂、日出🌅" maxLength={200} />
       </label>
-      <p className="st-hint">孩子端會把這些詞顯示在字卡旁邊並唸出來，把字放回他已經會說的話裡。每個詞都必須含這個字，讀音也要跟上面的注音一致。</p>
+      <p className="st-hint">孩子端會把這些詞顯示在字卡旁邊並唸出來，把字放回他已經會說的話裡。每個詞後面接一個圖示（可省略），孩子看圖就知道那是什麼。每個詞都必須含這個字，讀音也要跟上面的注音一致。</p>
       <details><summary>動畫概念（選填，可留給影片 AI 設計）</summary>
         <label className="st-field">登場物件（英文）<input value={fields.object} onChange={set('object')} maxLength={3000} /></label>
         <label className="st-field">形變方式（英文）<input value={fields.morph} onChange={set('morph')} maxLength={3000} /></label>
