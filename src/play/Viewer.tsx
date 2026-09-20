@@ -163,7 +163,7 @@ export default function Viewer({
 
       {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
         <div className="band">
-          {words.map((word) => (
+          <div className="band-words">{words.map((word) => (
             <button key={word.text} className="word" onClick={() => say(word.text, 0.8, volume)} aria-label={`唸「${word.text}」`}>
               {word.emoji && <span className="word-emoji" aria-hidden>{word.emoji}</span>}
               <span className="word-text">
@@ -171,7 +171,8 @@ export default function Viewer({
               </span>
               <span className="word-say" aria-hidden>🔊</span>
             </button>
-          ))}
+          ))}</div>
+          <div className="band-links">
           {parts.length > 0 && (
             <span className="band-group">
               <span className="band-label">裡面有</span>
@@ -191,6 +192,7 @@ export default function Viewer({
               {hides.length > 3 && <span className="band-label">等 {hides.length} 個字裡</span>}
             </span>
           )}
+          </div>
         </div>
       )}
 

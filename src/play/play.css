@@ -131,35 +131,37 @@ button:disabled { cursor: default; }
 
 /* ---------- 語詞與部件：把字放回他會說的話，以及他已經認識的字 ---------- */
 .band { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 28px 12px; }
-.band > *, .band-group > * { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; }
-.band > :nth-child(2) { animation-delay: .06s; }
-.band > :nth-child(3) { animation-delay: .12s; }
-.band > :nth-child(4) { animation-delay: .18s; }
+.band-words, .band-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-width: 0; }
+.band :is(.word, .band-group) { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; }
+.band-words > :nth-child(2) { animation-delay: .06s; }
+.band-words > :nth-child(3) { animation-delay: .12s; }
+.band-links > :nth-child(1) { animation-delay: .18s; }
+.band-links > :nth-child(2) { animation-delay: .24s; }
 
 /* 每個詞自己的圖示：他還不會讀「生日」，但看得懂蛋糕 */
-.word-emoji { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; font-size: 28px; line-height: 1;
-  border-radius: 15px; background: color-mix(in oklab, var(--hue) 30%, #fff); transform: rotate(-5deg); }
+.word-emoji { display: grid; place-items: center; width: 60px; height: 60px; flex-shrink: 0; font-size: 39px; line-height: 1;
+  border-radius: 20px; background: color-mix(in oklab, var(--hue) 30%, #fff); transform: rotate(-5deg); }
 .word:hover .word-emoji { transform: rotate(5deg) scale(1.08); }
 .word-text { display: inline-flex; align-items: baseline; }
-.word { display: inline-flex; align-items: center; gap: 10px; min-height: 58px; padding: 6px 10px 6px 8px; border-radius: 999px;
-  background: #fff; font-family: var(--kai); font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1;
-  box-shadow: 0 5px 0 rgba(0,0,0,.09), 0 12px 22px rgba(0,0,0,.08);
+.word { display: inline-flex; align-items: center; gap: 11px; min-height: 76px; padding: 8px 12px 8px 8px; border-radius: 999px;
+  background: #fff; font-family: var(--kai); font-size: 48px; font-weight: 700; color: var(--ink); line-height: 1;
+  box-shadow: 0 6px 0 rgba(0,0,0,.09), 0 14px 26px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
 /* 沒有圖示的詞不要靠左邊那麼近 */
-.word:not(:has(.word-emoji)) { padding-left: 20px; }
+.word:not(:has(.word-emoji)) { padding-left: 26px; }
 .word:hover { transform: translateY(-2px); }
 .word:active { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
 /* 目標字在詞裡面放大加色：他一眼就看到「這個詞裡有我學的字」 */
 .word-hit { font-size: 1.2em; color: var(--c0); text-shadow: 0 2px 0 rgba(255,138,76,.18); }
 /* 喇叭要長得像按鈕，不是像標點符號 */
-.word-say { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; font-size: 21px;
+.word-say { display: grid; place-items: center; width: 46px; height: 46px; flex-shrink: 0; font-size: 24px;
   border-radius: 50%; background: color-mix(in oklab, var(--hue) 42%, #fff); }
 
 .band-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px;
-  min-height: 58px; padding: 6px 12px 6px 18px; border-radius: 999px; background: rgba(255,255,255,.66); }
+  min-height: 62px; padding: 6px 12px 6px 18px; border-radius: 999px; background: rgba(255,255,255,.66); }
 .band-label { font-size: 16px; font-weight: 700; color: rgba(46,42,38,.78); }
-.part { display: inline-grid; place-items: center; min-width: 52px; min-height: 46px; padding: 2px 10px;
-  border-radius: 15px; background: #fff; font-family: var(--kai); font-size: 34px; font-weight: 700;
+.part { display: inline-grid; place-items: center; min-width: 56px; min-height: 50px; padding: 2px 10px;
+  border-radius: 16px; background: #fff; font-family: var(--kai); font-size: 38px; font-weight: 700;
   color: var(--ink); line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.09);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
 .part:hover { transform: translateY(-2px); }
@@ -330,12 +332,20 @@ button:disabled { cursor: default; }
   /* 四顆按鈕擠在 390px 會被裁掉，寫字獨立成一整排放在上面 */
   .nav-btn.write { flex: 1 1 100%; order: -1; max-width: none; }
 
-  .band { gap: 7px; padding: 0 14px 9px; }
-  .word { font-size: 27px; min-height: 50px; gap: 7px; padding: 5px 7px 5px 6px; }
-  .word-emoji { width: 38px; height: 38px; font-size: 24px; border-radius: 13px; }
-  .word-say { width: 34px; height: 34px; font-size: 18px; }
-  .part { font-size: 28px; min-width: 44px; min-height: 40px; }
-  .band-group { min-height: 50px; gap: 6px; padding: 5px 9px 5px 13px; }
+  /* 三張放大的詞卡在 390px 排不進一行；橫向滑動比疊成四行好，畫面要留給影片 */
+  .band { flex-direction: column; align-items: stretch; gap: 8px; padding: 0 14px 9px; }
+  /* max-width 一定要寫：column flex 的 stretch 會照內容把這一列撐成 670px，
+     不夾住它就不會變成捲動容器，而是整條溢出畫面外 */
+  .band-words { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scroll-snap-type: x proximity;
+    padding-bottom: 2px; scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  .band-words::-webkit-scrollbar { display: none; }
+  .word { flex-shrink: 0; scroll-snap-align: center;
+    font-size: 36px; min-height: 62px; gap: 8px; padding: 6px 8px 6px 6px; }
+  .word-emoji { width: 48px; height: 48px; font-size: 31px; border-radius: 16px; }
+  .word-say { width: 38px; height: 38px; font-size: 20px; }
+  .part { font-size: 30px; min-width: 46px; min-height: 42px; }
+  .band-group { min-height: 52px; gap: 6px; padding: 5px 9px 5px 13px; }
   .band-label { font-size: 14px; }
   .today-stars { font-size: 20px; }
   .today-label { font-size: 12px; }
