@@ -225,7 +225,7 @@ export function apiPlugin() {
             }
             db.characters.push({
               char: body.char, zhuyin: body.zhuyin || '', meaning: body.meaning || '',
-              emoji: body.emoji || '✨',
+              emoji: body.emoji || '✨', words: body.words,
               concept: { object: body.object || '', morph: body.morph || '', hook: body.hook || '' },
               status: 'seed', priority: db.characters.length + 1, media: [], feedback: [],
               // 新字先不進孩子端：注音、意思與素材都還沒備齊，要由家長決定何時開放
@@ -253,7 +253,7 @@ export function apiPlugin() {
             const entry = db.characters.find((c) => c.char === body.char)
             if (!entry) return json(res, 404, { error: '找不到這個字，可能已刪除' })
             Object.assign(entry, { zhuyin: body.zhuyin, meaning: body.meaning, emoji: body.emoji || '✨',
-              concept: { object: body.object, morph: body.morph, hook: body.hook } })
+              words: body.words, concept: { object: body.object, morph: body.morph, hook: body.hook } })
             saveCharacters(db)
             return json(res, 200, { ok: true, entry })
           }

@@ -26,7 +26,7 @@ export const deleteCharacter = (char: string) =>
   fetch('/api/character/delete', { method: 'POST', body: JSON.stringify({ char }) }).then(j)
 export const restoreCharacter = (char: string) =>
   fetch('/api/character/restore', { method: 'POST', body: JSON.stringify({ char }) }).then(j)
-export const suggestCharacter = (body: { char: string; provider: string; model: string }, signal: AbortSignal): Promise<{ char: string; zhuyin: string; meaning: string; emoji: string }> =>
+export const suggestCharacter = (body: { char: string; provider: string; model: string }, signal: AbortSignal): Promise<{ char: string; zhuyin: string; meaning: string; emoji: string; words: string }> =>
   fetch('/api/character/suggest', { method: 'POST', body: JSON.stringify(body), signal }).then(j)
 export const setVisibility = (char: string, hidden: boolean) =>
   fetch('/api/character/visibility', { method: 'POST', body: JSON.stringify({ char, hidden }) }).then(j)

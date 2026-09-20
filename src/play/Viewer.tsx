@@ -1,22 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { say, sayRepeat } from '../lib/audio'
 import { publishedMedia } from '../../shared/domain.mjs'
 import { useVideoVoice } from '../lib/useVideoVoice'
 import { cheer, swipe } from '../lib/sfx'
 import { sceneFor, SCENE_PIECES } from './scenes'
+import { partsOf, hidesIn } from './parts'
 import Strokes from './Strokes'
 
 type Phase = 'object' | 'morph' | 'hold' | 'write' | 'finished'
 
 export default function Viewer({
-  entry, count, prev, next, onGo, onClose, onBrowseVideos, onComplete,
+  entry, count, library, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete,
 }: {
   entry: CharEntry
   count: number
+  /** 孩子端看得到的字，用來決定部件字卡能不能點過去。 */
+  library: CharEntry[]
   prev?: CharEntry
   next?: CharEntry
   onGo: (e: CharEntry) => void
+  onJump: (char: string) => void
   onClose: () => void
   onBrowseVideos: () => void
   onComplete: (e: CharEntry, id: string) => void
@@ -131,6 +135,12 @@ export default function Viewer({
   }
 
   const hook = entry.concept?.hook
+  const known = useMemo(() => new Set(library.map((c) => c.char)), [library])
+  // 只推薦他在孩子端看得到的字，點下去才不會撲空
+  const parts = useMemo(() => partsOf(entry.char).filter((p) => known.has(p.char)), [entry.char, known])
+  const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
+  const words = entry.words || []
+  const volume = video?.volume ?? image?.volume ?? 0.7
 
   return (
     <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
@@ -141,7 +151,7 @@ export default function Viewer({
           <button className="viewer-close" onClick={onClose}>回剛才的字卡</button>
         </div>
         <button className="viewer-title" aria-label={`再聽一次「${entry.char}」`}
-          onClick={() => say(entry.char, 0.7, video?.volume ?? image?.volume ?? 0.7)}>
+          onClick={() => say(entry.char, 0.7, volume)}>
           <span className="viewer-emoji">{entry.emoji}</span>
           <b className="viewer-char">{entry.char}</b>
           <span className="viewer-zhuyin">{entry.zhuyin}</span>
@@ -151,11 +161,40 @@ export default function Viewer({
         <span className={'viewer-count' + (done ? ' bump' : '')} key={count}>{count ? `看過 ${count} 次` : '第一次看'}</span>
       </header>
 
+      {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
+        <div className="band">
+          {words.map((word) => (
+            <button key={word} className="word" onClick={() => say(word, 0.8, volume)} aria-label={`唸「${word}」`}>
+              {[...word].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
+              <span className="word-say" aria-hidden>🔊</span>
+            </button>
+          ))}
+          {parts.length > 0 && (
+            <span className="band-group">
+              <span className="band-label">裡面有</span>
+              {parts.map((p, i) => (
+                <button key={p.char} className={'part' + (i === 0 ? ' part-on' : '')} onClick={() => onJump(p.char)}
+                  aria-label={`去看「${p.char}」`}>{p.char}</button>
+              ))}
+            </span>
+          )}
+          {hides.length > 0 && (
+            <span className="band-group">
+              <span className="band-label">躲在</span>
+              {hides.slice(0, 5).map((c) => (
+                <button key={c} className="part" onClick={() => onJump(c)} aria-label={`去看「${c}」`}>{c}</button>
+              ))}
+              {hides.length > 5 && <span className="band-label">等 {hides.length} 個字裡</span>}
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="viewer-frame">
         {trace ? (
           <div className="stage stage-write">
             <Scene char={entry.char} />
-            <Strokes char={entry.char} onTraced={() => setTraced(true)} onUnavailable={() => setTrace(false)} />
+            <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={() => setTraced(true)} onUnavailable={() => setTrace(false)} />
           </div>
         ) : video ? (
           <>
@@ -193,7 +232,7 @@ export default function Viewer({
             <div className="stage-emoji">{entry.emoji}</div>
             <div className="stage-char">{entry.char}</div>
             {phase === 'write' && !noStrokes
-              ? <Strokes char={entry.char} onWritten={finish} onTraced={() => setTraced(true)} onUnavailable={() => setNoStrokes(true)} />
+              ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={() => setTraced(true)} onUnavailable={() => setNoStrokes(true)} />
               : <div className="stage-zhuyin">{entry.zhuyin}</div>}
           </div>
         )}

@@ -58,7 +58,11 @@
           "formatted": "【目標國字】：日\n【設計概念】：豬探長舉著超大放大鏡辦案，鏡片把他的眼睛放大成爆笑巨眼；他湊得太近撞到太陽，太陽被壓成直立的圓角方塊，脫手的放大鏡橫飛過來「喀」一聲卡進中間變成那一橫，合成「日」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second 3D stylized toy animation as one continuous locked-off shot on a clean solid light-cream background. Centered stands a chubby glossy toy sun: a round tangerine ball with a calm smiling face. A stout cartoon detective pig in a checked deerstalker hat and a tiny trench coat waddles in from the left, holding a magnifying glass far too big for him. From 0.6 to 2.2 seconds he leans in to inspect the sun and, seen through the lens, his one eye balloons to a comically enormous size and blinks twice while the rest of him stays small. Hold that silly pose for a beat. At 2.6 seconds he leans one step too close, bonks the sun with the lens rim, and the sun squashes with a soft jelly wobble into an upright rounded rectangle of saturated vermilion. The magnifying glass pops out of his hands, spins once through the air, and snaps horizontally across the middle of that rectangle with a satisfying click, its rim and handle smoothing into one clean straight stroke. The detective pig tips his hat, very pleased with himself, and hops out of frame to the left by 4.6 seconds. By 5.0 seconds the shape has resolved into one correctly formed Traditional Chinese character 日 in saturated vermilion, perfectly centered and uncropped, filling about 70% of the frame height with generous margins on all sides, its outer box and single middle bar crisp, straight and clearly separated. From 5.0 to 8.0 seconds the frame holds completely still on 日 with nothing else moving in the shot. Style: Pixar-like glossy chunky toy materials, soft studio lighting, bright high-contrast but not neon colors, no dark or moody grading. Audio: a warm, friendly off-screen voice speaks clear Taiwanese Mandarin and says exactly 「日、日、生日」, using the reading ㄖˋ for 日 both times and in the word. Speak the first 日 around 0.5 seconds, the second around 2.0 seconds, and 生日 around 5.6 seconds during the still hold, with natural pauses, then stop; do not keep chanting the character or repeat the line. Keep the bonk and the click soft and clear of the voice, and use no music louder than the voice. The spoken word is audio only and must not appear as imagery. The only writing anywhere in the frame is the single character 日: no subtitles, no vocabulary text, no other letters, numbers, watermarks, scenery, extra props, particles, lens flare, motion blur on the glyph, or flashing effects.\n```"
         }
       ],
-      "activePromptId": "093ea0f7-114e-457c-ae1a-42109912ef7a"
+      "activePromptId": "093ea0f7-114e-457c-ae1a-42109912ef7a",
+      "words": [
+        "生日",
+        "日出"
+      ]
     },
     {
       "char": "月",
@@ -117,7 +121,11 @@
           "formatted": "【目標國字】：月\n【設計概念】：戴尖耳朵、披紅斗篷的小玩具英雄爬上躺平的月亮想倒掛耍帥，結果月亮被他壓得立起來，他咻地滑到底、屁股著地、斗篷蓋住頭；腰帶上兩塊積木這時滑進來卡成中間兩橫，變出「月」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second 3D stylized toy animation as one continuous locked-off shot on a clean solid pale-lilac background. Centered lies a chunky cream-colored crescent moon toy resting on its back like a little hammock. From 0.4 seconds a small boxy toy robot hero with pointed ears, round friendly eyes and a short red cape struts in, climbs onto the crescent, and strikes an extremely dramatic pose with his cape flaring, trying to hang upside down from the tip. At 2.0 seconds his weight tips the crescent: it swings upright with a slow comic creak until it stands tall as the two outer strokes, and the tiny hero slides all the way down the inside of the curve and lands on his backside with a soft bonk, his cape flopping over his head. He peeks out from under the cape for a beat. At 3.2 seconds two chunky interlocking plastic bricks pop off his utility belt and glide in from the left, clicking into place one above the other inside the crescent to become the two short horizontal strokes. The hero gives a tiny satisfied thumbs-up and hops out of frame to the right by 4.7 seconds. By 5.0 seconds everything has resolved into one correctly formed Traditional Chinese character 月 in saturated deep indigo, perfectly centered and uncropped, filling about 70% of the frame height with generous margins on all sides, its long left stroke, hooked right stroke and two inner bars crisp and clearly separated. From 5.0 to 8.0 seconds the frame holds completely still on 月 with nothing else moving in the shot. Style: Pixar-like glossy chunky toy materials, soft studio lighting, bright high-contrast but not neon colors, no dark or moody night grading. Audio: a warm, friendly off-screen voice speaks clear Taiwanese Mandarin and says exactly 「月、月、月亮」, using the reading ㄩㄝˋ for 月 both times and in the word. Speak the first 月 around 0.5 seconds, the second around 2.0 seconds, and 月亮 around 5.6 seconds during the still hold, with natural pauses, then stop; do not keep chanting the character or repeat the line. Keep the creak, bonk and brick clicks soft and clear of the voice, and use no music louder than the voice. The spoken word is audio only and must not appear as imagery. The only writing anywhere in the frame is the single character 月: no subtitles, no vocabulary text, no other letters, numbers, watermarks, scenery, extra props, particles, lens flare, motion blur on the glyph, or flashing effects.\n```"
         }
       ],
-      "activePromptId": "98d1f24a-c021-485c-83bd-303df4847db9"
+      "activePromptId": "98d1f24a-c021-485c-83bd-303df4847db9",
+      "words": [
+        "月亮",
+        "月餅"
+      ]
     },
     {
       "char": "山",
@@ -176,7 +184,11 @@
           "formatted": "【目標國字】：山\n【設計概念】：矮胖的戰鬥機器人用積木蓋山：左右兩根疊得剛剛好，他站上中間那根想再加一塊，結果中間柱子一直往上長，把他舉得超高，他在頂端手忙腳亂地揮手，最後滑桿溜下來；一條長積木從底下滑進來把三根接起來，變成「山」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second 3D stylized toy animation as one continuous locked-off shot on a clean solid light-cream background. A stubby, friendly toy battle robot with rounded armored shoulders and stompy feet is busy building with chunky interlocking plastic bricks, centered in frame. From 0.3 to 1.6 seconds he snaps together a short column of deep teal bricks on the left and a matching short column on the right, dusts off his hands, and nods with satisfaction. At 1.8 seconds he climbs onto the low middle stack to add one more brick on top, but the middle column keeps growing under his feet, brick after brick, lifting him far too high above his own building; he wobbles at the top, pedals his little arms in comic surprise, and freezes wide-eyed for a beat. At 3.2 seconds he gives up, hugs the column and slides all the way down it like a fire pole, landing with a soft thump and a puff of pride. At 3.8 seconds one long flat brick glides in from below and clicks across the feet of all three columns, joining them into a single base. The robot stomps out of frame to the left by 4.7 seconds. By 5.0 seconds the build has resolved into one correctly formed Traditional Chinese character 山 in saturated deep teal, perfectly centered and uncropped, filling about 70% of the frame height with generous margins on all sides: one tall centre stroke, a shorter stroke on each side, and one clean horizontal base, all crisp and clearly separated. From 5.0 to 8.0 seconds the frame holds completely still on 山 with nothing else moving in the shot. Style: Pixar-like glossy chunky toy materials, soft studio lighting, bright high-contrast but not neon colors, no dark or moody grading. Audio: a warm, friendly off-screen voice speaks clear Taiwanese Mandarin and says exactly 「山、山、火山」, using the reading ㄕㄢ for 山 both times and in the word. Speak the first 山 around 0.5 seconds, the second around 2.0 seconds, and 火山 around 5.6 seconds during the still hold, with natural pauses, then stop; do not keep chanting the character or repeat the line. Keep the brick clicks and the thump soft and clear of the voice, and use no music louder than the voice. The spoken word is audio only: add no volcano, lava, smoke or fire imagery of any kind. The only writing anywhere in the frame is the single character 山: no subtitles, no vocabulary text, no other letters, numbers, watermarks, scenery, extra props, particles, lens flare, motion blur on the glyph, or flashing effects.\n```"
         }
       ],
-      "activePromptId": "605ee7df-4d43-44c8-832a-8813e90b24f6"
+      "activePromptId": "605ee7df-4d43-44c8-832a-8813e90b24f6",
+      "words": [
+        "爬山",
+        "火山"
+      ]
     },
     {
       "char": "水",
@@ -258,7 +270,11 @@
       ],
       "activePromptId": "df017f24-5699-46f5-b548-d05447702c5a",
       "promptedAt": "2026-09-07T12:12:44.683Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "喝水",
+        "水果"
+      ]
     },
     {
       "char": "火",
@@ -317,7 +333,11 @@
       ],
       "activePromptId": "1073b721-0af2-4ab8-92a0-5c556d4f5e1b",
       "promptedAt": "2026-09-05T14:14:02.320Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "火車",
+        "火山"
+      ]
     },
     {
       "char": "土",
@@ -376,7 +396,11 @@
       ],
       "activePromptId": "65b9e656-9ec1-4e4d-adeb-dae658087720",
       "promptedAt": "2026-09-06T00:36:25.213Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "泥土",
+        "土地"
+      ]
     },
     {
       "char": "木",
@@ -435,7 +459,11 @@
       ],
       "activePromptId": "3025123c-c872-4b95-bcc1-866c457583da",
       "promptedAt": "2026-09-06T00:37:01.589Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "木頭",
+        "木馬"
+      ]
     },
     {
       "char": "人",
@@ -494,7 +522,11 @@
       ],
       "activePromptId": "787fa2fa-498c-42d7-a758-d231d56df5ab",
       "promptedAt": "2026-09-07T12:09:45.672Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "大人",
+        "機器人"
+      ]
     },
     {
       "char": "口",
@@ -576,7 +608,11 @@
       ],
       "activePromptId": "dc381d70-fbf6-4a2c-9cb6-14265f46ca79",
       "promptedAt": "2026-09-09T10:08:09.423Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "門口",
+        "入口"
+      ]
     },
     {
       "char": "手",
@@ -673,7 +709,11 @@
       ],
       "activePromptId": "d4c49c8f-9e87-4b66-9e62-7d416f9f00f6",
       "promptedAt": "2026-09-09T10:18:23.862Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "手機",
+        "洗手"
+      ]
     },
     {
       "char": "足",
@@ -785,7 +825,11 @@
       ],
       "activePromptId": "4cc51484-cce4-4235-8565-939b2e7ed019",
       "promptedAt": "2026-09-09T10:09:55.228Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "足球",
+        "滿足"
+      ]
     },
     {
       "char": "目",
@@ -844,7 +888,11 @@
       ],
       "activePromptId": "ef786641-c0cc-43e9-a6c5-7c8e4400decb",
       "promptedAt": "2026-09-12T12:43:47.486Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "題目",
+        "目標"
+      ]
     },
     {
       "char": "耳",
@@ -855,18 +903,18 @@
         "morph": "the ear straightens and its folds flatten into the stacked horizontal bars",
         "hook": "耳朵動一動就變平了"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 13,
       "media": [
         {
           "file": "耳-b5051aa6-d522-4000-8168-a167cc334563.mp4",
           "kind": "video",
           "addedAt": "2026-09-10T12:15:41.732Z",
-          "review": "paused",
+          "review": "published",
           "audioMode": "original",
           "volume": 0.7,
           "feedbackCount": 0,
-          "checkedAt": "2026-09-10T12:15:59.437Z",
+          "checkedAt": "2026-09-18T13:09:19.572Z",
           "checks": {
             "shape": true,
             "pronunciation": true,
@@ -926,7 +974,11 @@
       ],
       "activePromptId": "234eafff-899c-4e85-81aa-9e9598f34801",
       "promptedAt": "2026-09-17T12:03:25.935Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "耳朵",
+        "木耳"
+      ]
     },
     {
       "char": "大",
@@ -985,7 +1037,11 @@
       ],
       "activePromptId": "014d874e-e07d-475a-b311-968e7c7cc7d4",
       "promptedAt": "2026-09-10T12:17:20.564Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "大家",
+        "大象"
+      ]
     },
     {
       "char": "小",
@@ -1044,7 +1100,11 @@
       ],
       "activePromptId": "d6cdf57f-b008-4dc0-942a-58db4a3be321",
       "promptedAt": "2026-09-10T12:35:34.154Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "小心",
+        "小狗"
+      ]
     },
     {
       "char": "上",
@@ -1103,7 +1163,11 @@
       ],
       "activePromptId": "12519cb7-f0b8-46ca-b99b-d0f309d08768",
       "promptedAt": "2026-09-11T11:45:14.610Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "上面",
+        "上學"
+      ]
     },
     {
       "char": "下",
@@ -1162,7 +1226,11 @@
       ],
       "activePromptId": "e0cc0560-45fa-419a-95dd-f8db1b1897f4",
       "promptedAt": "2026-09-12T12:44:35.774Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "下面",
+        "下雨"
+      ]
     },
     {
       "char": "中",
@@ -1221,7 +1289,11 @@
       ],
       "activePromptId": "183f95aa-6521-4166-8963-9a6663ae544d",
       "promptedAt": "2026-09-12T12:45:27.844Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "中間",
+        "中午"
+      ]
     },
     {
       "char": "天",
@@ -1280,7 +1352,11 @@
       ],
       "activePromptId": "20fdfdc7-a8ac-42c1-ac0c-069fdbdcee49",
       "promptedAt": "2026-09-13T02:41:56.078Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "今天",
+        "天空"
+      ]
     },
     {
       "char": "田",
@@ -1339,7 +1415,11 @@
       ],
       "activePromptId": "90773978-5fba-455f-a07b-4dcd127e3844",
       "promptedAt": "2026-09-13T02:43:02.464Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "稻田",
+        "水田"
+      ]
     },
     {
       "char": "雨",
@@ -1398,7 +1478,11 @@
       ],
       "activePromptId": "c2048b31-72ed-4cc0-95bb-96586003c614",
       "promptedAt": "2026-09-15T12:20:01.955Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "下雨",
+        "雨傘"
+      ]
     },
     {
       "char": "石",
@@ -1457,7 +1541,11 @@
       ],
       "activePromptId": "75bc2b63-eafd-41be-b435-c1eec0be8506",
       "promptedAt": "2026-09-11T11:41:22.276Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "石頭",
+        "石油"
+      ]
     },
     {
       "char": "川",
@@ -1516,7 +1604,11 @@
       ],
       "activePromptId": "498f45ed-43e0-4fa8-9c45-4f53bcc6cd6e",
       "promptedAt": "2026-09-15T12:20:41.843Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "河川",
+        "冰川"
+      ]
     },
     {
       "char": "鳥",
@@ -1587,7 +1679,11 @@
           "deletedAt": "2026-09-15T14:22:28.695Z"
         }
       ],
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "小鳥",
+        "鳥巢"
+      ]
     },
     {
       "char": "魚",
@@ -1646,7 +1742,11 @@
       ],
       "activePromptId": "cd420573-79a3-4190-849d-78d6db1e9a06",
       "promptedAt": "2026-09-11T13:17:34.977Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "金魚",
+        "魚湯"
+      ]
     },
     {
       "char": "牛",
@@ -1705,7 +1805,11 @@
       ],
       "activePromptId": "879fbdc9-2983-4735-9080-3c15cee8dbc0",
       "promptedAt": "2026-09-15T12:53:18.232Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "牛奶",
+        "蝸牛"
+      ]
     },
     {
       "char": "羊",
@@ -1763,7 +1867,11 @@
         }
       ],
       "activePromptId": "15306324-77ad-4692-8625-e6fb1745856a",
-      "promptedAt": "2026-09-15T14:23:30.578Z"
+      "promptedAt": "2026-09-15T14:23:30.578Z",
+      "words": [
+        "綿羊",
+        "山羊"
+      ]
     },
     {
       "char": "馬",
@@ -1774,9 +1882,25 @@
         "morph": "the mane becomes the top strokes, the body squares into the grid, and the four hooves become the four bottom dots",
         "hook": "馬的四隻腳變成四個點"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 28,
-      "media": [],
+      "media": [
+        {
+          "file": "馬-e4899ea1-d263-468b-abf1-046301f09a8b.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-18T13:13:29.271Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-18T13:13:46.757Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🐴",
       "promptVersions": [
@@ -1805,7 +1929,12 @@
         }
       ],
       "activePromptId": "0acceaea-41d8-4b14-83d6-0c682bb20827",
-      "promptedAt": "2026-09-15T15:33:08.727Z"
+      "promptedAt": "2026-09-15T15:33:08.727Z",
+      "needsRedo": false,
+      "words": [
+        "馬路",
+        "斑馬"
+      ]
     },
     {
       "char": "犬",
@@ -1816,9 +1945,25 @@
         "morph": "the body opens into the 大 shape while one perked ear pops off as the small dot",
         "hook": "小狗的耳朵飛出去變成一點"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 29,
-      "media": [],
+      "media": [
+        {
+          "file": "犬-cc4be978-2085-477e-abf2-fad3340df223.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-19T08:54:31.516Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-19T08:55:08.276Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🐶",
       "promptVersions": [
@@ -1847,7 +1992,12 @@
         }
       ],
       "activePromptId": "d1675712-07af-42e7-a2eb-a4e9460ca165",
-      "promptedAt": "2026-09-15T15:33:43.838Z"
+      "promptedAt": "2026-09-15T15:33:43.838Z",
+      "needsRedo": false,
+      "words": [
+        "警犬",
+        "導盲犬"
+      ]
     },
     {
       "char": "心",
@@ -1906,7 +2056,11 @@
       ],
       "activePromptId": "1ed3513e-6dd5-4e72-b469-6f0669c0d0bc",
       "promptedAt": "2026-09-13T02:55:36.086Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "小心",
+        "開心"
+      ]
     },
     {
       "char": "刀",
@@ -1917,9 +2071,25 @@
         "morph": "the handle curves into the top hook and the blade sweeps into the long left stroke",
         "hook": "玩具刀刷一聲揮出去"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 31,
-      "media": [],
+      "media": [
+        {
+          "file": "刀-52eebf8c-73f1-4246-a765-4d4d409ea236.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-19T12:05:41.972Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-19T12:05:59.487Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🔪",
       "promptVersions": [
@@ -1948,7 +2118,12 @@
         }
       ],
       "activePromptId": "ad6dcb6c-eb9c-409f-aa2a-062fbf0303dc",
-      "promptedAt": "2026-09-15T15:34:14.325Z"
+      "promptedAt": "2026-09-15T15:34:14.325Z",
+      "needsRedo": false,
+      "words": [
+        "小刀",
+        "菜刀"
+      ]
     },
     {
       "char": "弓",
@@ -1959,9 +2134,25 @@
         "morph": "the bowstring snaps away and the bow limbs fold into the three stacked bends",
         "hook": "弓弦彈開，弓身摺三折"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 32,
-      "media": [],
+      "media": [
+        {
+          "file": "弓-cfbb58a5-62a5-4c08-a326-ceb4f4d5af04.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-18T13:17:48.875Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-18T13:18:07.607Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🏹",
       "promptVersions": [
@@ -1990,7 +2181,12 @@
         }
       ],
       "activePromptId": "2f0020d9-5184-49f3-8e45-c0e540e8473d",
-      "promptedAt": "2026-09-15T15:34:55.119Z"
+      "promptedAt": "2026-09-15T15:34:55.119Z",
+      "needsRedo": false,
+      "words": [
+        "弓箭",
+        "拉弓"
+      ]
     },
     {
       "char": "車",
@@ -2049,7 +2245,11 @@
       ],
       "activePromptId": "81f4eb4e-406d-4fc7-839a-f739769e71ab",
       "promptedAt": "2026-09-07T12:39:41.934Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "火車",
+        "汽車"
+      ]
     },
     {
       "char": "門",
@@ -2060,9 +2260,25 @@
         "morph": "the two door panels straighten and lock into the left and right halves of the character",
         "hook": "兩扇門打開就是字"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 34,
-      "media": [],
+      "media": [
+        {
+          "file": "門-91a39507-0e1e-407c-9049-a9f764cab8cc.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-19T12:09:18.758Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-19T12:09:34.694Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🚪",
       "promptVersions": [
@@ -2091,7 +2307,12 @@
         }
       ],
       "activePromptId": "42fcfaa5-1001-407b-88df-f7437f5daf0d",
-      "promptedAt": "2026-09-15T15:36:22.527Z"
+      "promptedAt": "2026-09-15T15:36:22.527Z",
+      "needsRedo": false,
+      "words": [
+        "開門",
+        "大門"
+      ]
     },
     {
       "char": "米",
@@ -2102,9 +2323,25 @@
         "morph": "the grains snap into place as four dots around a central cross",
         "hook": "米粒噴出來排成星星"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 35,
-      "media": [],
+      "media": [
+        {
+          "file": "米-2d2154b3-f645-4a7a-84bc-e437961d8417.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-20T03:06:21.779Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-20T03:06:41.780Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🍚",
       "promptVersions": [
@@ -2133,7 +2370,12 @@
         }
       ],
       "activePromptId": "74400ba3-44ec-493b-b0c9-7021c2e5b11a",
-      "promptedAt": "2026-09-15T15:36:56.891Z"
+      "promptedAt": "2026-09-15T15:36:56.891Z",
+      "needsRedo": false,
+      "words": [
+        "白米",
+        "玉米"
+      ]
     },
     {
       "char": "竹",
@@ -2144,9 +2386,25 @@
         "morph": "the leaves fold down into the two short strokes and the stalks become the two vertical hooks",
         "hook": "竹葉往下摺兩下"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 36,
-      "media": [],
+      "media": [
+        {
+          "file": "竹-6f3c18e2-2b3f-46a1-89e3-a9aaee5009a8.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-20T03:09:55.941Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-20T03:10:11.828Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "emoji": "🎋",
       "promptVersions": [
@@ -2175,7 +2433,12 @@
         }
       ],
       "activePromptId": "e20e98da-d0f0-4b74-83a1-a824f2b91b17",
-      "promptedAt": "2026-09-15T15:37:38.472Z"
+      "promptedAt": "2026-09-15T15:37:38.472Z",
+      "needsRedo": false,
+      "words": [
+        "竹子",
+        "竹筍"
+      ]
     },
     {
       "char": "花",
@@ -2234,7 +2497,11 @@
       ],
       "activePromptId": "0da6b0cb-b9a4-46a7-b2a8-0307663f10b1",
       "promptedAt": "2026-09-14T12:29:04.883Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "花朵",
+        "開花"
+      ]
     },
     {
       "char": "力",
@@ -2293,7 +2560,11 @@
       ],
       "activePromptId": "8bf8e76f-f81b-4286-a634-8c41453cb497",
       "promptedAt": "2026-09-14T12:20:09.472Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "用力",
+        "力氣"
+      ]
     },
     {
       "char": "機",
@@ -2390,7 +2661,11 @@
       ],
       "activePromptId": "00f98c2e-140c-40bf-93ad-2abea21367bf",
       "promptedAt": "2026-09-08T12:23:06.579Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "飛機",
+        "手機"
+      ]
     },
     {
       "char": "器",
@@ -2472,7 +2747,11 @@
       ],
       "activePromptId": "2b7b5646-3f09-419c-ba0a-c1d92f79dad9",
       "promptedAt": "2026-09-08T12:24:34.564Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "機器人",
+        "樂器"
+      ]
     },
     {
       "char": "忍",
@@ -2531,7 +2810,11 @@
       ],
       "activePromptId": "844913aa-b693-4493-927a-0e77648c16f3",
       "promptedAt": "2026-09-14T12:18:12.859Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "忍者",
+        "忍住"
+      ]
     },
     {
       "char": "球",
@@ -2543,9 +2826,25 @@
         "morph": "the glyph 球 stands still as a solid sculpture while the goalkeeper gag plays out in front of its lower edge",
         "hook": "玩具機器人守門員擺出超認真的架式，飛撲出去撲了個空，足球慢悠悠地從他身下滾過去；他趴在地上抬頭看球，尷尬地比個讚。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 42,
-      "media": [],
+      "media": [
+        {
+          "file": "球-80b316f2-34f6-4576-8c0e-c8fa168504b8.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-20T03:13:03.613Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-20T03:13:27.115Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -2573,7 +2872,12 @@
         }
       ],
       "activePromptId": "c9980537-3cd2-435a-9e24-f1183fd36243",
-      "promptedAt": "2026-09-15T15:59:53.064Z"
+      "promptedAt": "2026-09-15T15:59:53.064Z",
+      "needsRedo": false,
+      "words": [
+        "足球",
+        "皮球"
+      ]
     },
     {
       "char": "超",
@@ -2632,7 +2936,11 @@
       ],
       "activePromptId": "d66af893-5899-4a4e-90bb-672902a24c63",
       "promptedAt": "2026-09-15T15:59:53.071Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "超人",
+        "超級"
+      ]
     },
     {
       "char": "飛",
@@ -2691,7 +2999,11 @@
       ],
       "activePromptId": "c38ce95e-c7a2-4650-aaee-891e9f9054b1",
       "promptedAt": "2026-09-15T15:59:53.075Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "飛機",
+        "飛走"
+      ]
     },
     {
       "char": "電",
@@ -2750,7 +3062,11 @@
       ],
       "activePromptId": "7f707e76-942b-4de2-83b3-123209015acd",
       "promptedAt": "2026-09-15T15:59:53.080Z",
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "電話",
+        "電視"
+      ]
     },
     {
       "char": "笑",
@@ -2821,7 +3137,11 @@
           "deletedAt": "2026-09-17T12:11:53.313Z"
         }
       ],
-      "needsRedo": false
+      "needsRedo": false,
+      "words": [
+        "微笑",
+        "好笑"
+      ]
     },
     {
       "char": "戰",
@@ -2863,7 +3183,11 @@
         }
       ],
       "activePromptId": "f3109f21-ac37-445a-97c8-e851f90d93ab",
-      "promptedAt": "2026-09-15T15:59:53.090Z"
+      "promptedAt": "2026-09-15T15:59:53.090Z",
+      "words": [
+        "戰士",
+        "挑戰"
+      ]
     },
     {
       "char": "跑",
@@ -2905,7 +3229,11 @@
         }
       ],
       "activePromptId": "69e5c19f-99e6-4316-a0bb-02e22de37a3e",
-      "promptedAt": "2026-09-15T15:59:53.095Z"
+      "promptedAt": "2026-09-15T15:59:53.095Z",
+      "words": [
+        "跑步",
+        "賽跑"
+      ]
     },
     {
       "char": "豬",
@@ -2947,7 +3275,11 @@
         }
       ],
       "activePromptId": "ce3c192f-c5fc-4b76-9ab3-eeecabd20916",
-      "promptedAt": "2026-09-15T15:59:53.101Z"
+      "promptedAt": "2026-09-15T15:59:53.101Z",
+      "words": [
+        "小豬",
+        "豬肉"
+      ]
     },
     {
       "char": "王",
@@ -2989,7 +3321,11 @@
         }
       ],
       "activePromptId": "d84b8574-8af8-4f26-9cbb-d712ee8e67eb",
-      "promptedAt": "2026-09-15T15:59:53.106Z"
+      "promptedAt": "2026-09-15T15:59:53.106Z",
+      "words": [
+        "國王",
+        "大王"
+      ]
     },
     {
       "char": "金",
@@ -3031,7 +3367,11 @@
         }
       ],
       "activePromptId": "a6618b56-c181-4e1d-8878-8cfcbbe42c0c",
-      "promptedAt": "2026-09-15T15:59:53.111Z"
+      "promptedAt": "2026-09-15T15:59:53.111Z",
+      "words": [
+        "金魚",
+        "金色"
+      ]
     },
     {
       "char": "龍",
@@ -3073,7 +3413,11 @@
         }
       ],
       "activePromptId": "1eb77034-92be-4f78-acfb-5c4267f95ece",
-      "promptedAt": "2026-09-15T16:09:04.543Z"
+      "promptedAt": "2026-09-15T16:09:04.543Z",
+      "words": [
+        "恐龍",
+        "劍龍"
+      ]
     },
     {
       "char": "玩",
@@ -3115,7 +3459,11 @@
         }
       ],
       "activePromptId": "28b2a917-d537-48ba-9373-e9d1f6131bf8",
-      "promptedAt": "2026-09-15T16:09:04.552Z"
+      "promptedAt": "2026-09-15T16:09:04.552Z",
+      "words": [
+        "玩具",
+        "好玩"
+      ]
     },
     {
       "char": "畫",
@@ -3157,7 +3505,11 @@
         }
       ],
       "activePromptId": "9a89f811-d644-488b-8315-e5db9fad4acf",
-      "promptedAt": "2026-09-15T16:09:04.559Z"
+      "promptedAt": "2026-09-15T16:09:04.559Z",
+      "words": [
+        "畫畫",
+        "圖畫"
+      ]
     },
     {
       "char": "跳",
@@ -3199,7 +3551,11 @@
         }
       ],
       "activePromptId": "7b838ffb-ebb5-4edd-8c3b-9bd2b0e41afe",
-      "promptedAt": "2026-09-15T16:09:04.565Z"
+      "promptedAt": "2026-09-15T16:09:04.565Z",
+      "words": [
+        "跳舞",
+        "跳高"
+      ]
     },
     {
       "char": "打",
@@ -3241,7 +3597,11 @@
         }
       ],
       "activePromptId": "ae747a47-97c2-4a4d-aa05-ec3c0410f3b0",
-      "promptedAt": "2026-09-15T16:09:04.571Z"
+      "promptedAt": "2026-09-15T16:09:04.571Z",
+      "words": [
+        "打球",
+        "打開"
+      ]
     },
     {
       "char": "星",
@@ -3283,7 +3643,11 @@
         }
       ],
       "activePromptId": "366dab2f-ca5e-4818-93fd-6fac31acc493",
-      "promptedAt": "2026-09-15T16:09:04.578Z"
+      "promptedAt": "2026-09-15T16:09:04.578Z",
+      "words": [
+        "星星",
+        "星期"
+      ]
     },
     {
       "char": "光",
@@ -3325,7 +3689,11 @@
         }
       ],
       "activePromptId": "4a69cd30-8104-4505-ad1c-e091384d7e9e",
-      "promptedAt": "2026-09-15T16:09:04.583Z"
+      "promptedAt": "2026-09-15T16:09:04.583Z",
+      "words": [
+        "陽光",
+        "月光"
+      ]
     },
     {
       "char": "劍",
@@ -3367,7 +3735,11 @@
         }
       ],
       "activePromptId": "3a42e411-60e2-4df7-8df4-c9c3d6eb767d",
-      "promptedAt": "2026-09-15T16:09:04.589Z"
+      "promptedAt": "2026-09-15T16:09:04.589Z",
+      "words": [
+        "寶劍",
+        "劍龍"
+      ]
     },
     {
       "char": "快",
@@ -3409,7 +3781,11 @@
         }
       ],
       "activePromptId": "8982580c-13a8-47a7-9c92-b87df61fd294",
-      "promptedAt": "2026-09-15T16:09:04.596Z"
+      "promptedAt": "2026-09-15T16:09:04.596Z",
+      "words": [
+        "快樂",
+        "很快"
+      ]
     },
     {
       "char": "腳",
@@ -3451,7 +3827,11 @@
         }
       ],
       "activePromptId": "895663d9-74a1-4bf2-91b5-10196f57334e",
-      "promptedAt": "2026-09-15T16:09:04.602Z"
+      "promptedAt": "2026-09-15T16:09:04.602Z",
+      "words": [
+        "腳踏車",
+        "赤腳"
+      ]
     },
     {
       "char": "走",
@@ -3493,7 +3873,11 @@
         }
       ],
       "activePromptId": "8a0b391b-6b46-4755-b3a5-08e9eeb2170b",
-      "promptedAt": "2026-09-15T16:09:04.608Z"
+      "promptedAt": "2026-09-15T16:09:04.608Z",
+      "words": [
+        "走路",
+        "走開"
+      ]
     },
     {
       "char": "吃",
@@ -3535,7 +3919,11 @@
         }
       ],
       "activePromptId": "30fbe950-4336-4e89-803d-b018c1a37ad8",
-      "promptedAt": "2026-09-15T16:09:04.615Z"
+      "promptedAt": "2026-09-15T16:09:04.615Z",
+      "words": [
+        "吃飯",
+        "好吃"
+      ]
     },
     {
       "char": "喝",
@@ -3577,7 +3965,11 @@
         }
       ],
       "activePromptId": "50dfdc67-f487-4c47-8b92-d7a803e0c386",
-      "promptedAt": "2026-09-15T16:09:04.622Z"
+      "promptedAt": "2026-09-15T16:09:04.622Z",
+      "words": [
+        "喝水",
+        "喝湯"
+      ]
     },
     {
       "char": "眼",
@@ -3619,7 +4011,11 @@
         }
       ],
       "activePromptId": "46e5d79b-ab33-4566-aea3-94a7d1422e97",
-      "promptedAt": "2026-09-15T16:09:04.629Z"
+      "promptedAt": "2026-09-15T16:09:04.629Z",
+      "words": [
+        "眼睛",
+        "眼淚"
+      ]
     },
     {
       "char": "頭",
@@ -3661,7 +4057,11 @@
         }
       ],
       "activePromptId": "952861ce-304e-4ebf-961f-f513a5acc884",
-      "promptedAt": "2026-09-15T16:09:04.635Z"
+      "promptedAt": "2026-09-15T16:09:04.635Z",
+      "words": [
+        "頭髮",
+        "點頭"
+      ]
     },
     {
       "char": "家",
@@ -3703,7 +4103,11 @@
         }
       ],
       "activePromptId": "cf527686-642f-43db-8131-ddc7f721dc27",
-      "promptedAt": "2026-09-15T16:09:04.642Z"
+      "promptedAt": "2026-09-15T16:09:04.642Z",
+      "words": [
+        "回家",
+        "大家"
+      ]
     },
     {
       "char": "書",
@@ -3745,7 +4149,11 @@
         }
       ],
       "activePromptId": "a29e2dc4-4287-4cf5-b8cc-3ff39d9737c9",
-      "promptedAt": "2026-09-15T16:09:04.649Z"
+      "promptedAt": "2026-09-15T16:09:04.649Z",
+      "words": [
+        "看書",
+        "書包"
+      ]
     },
     {
       "char": "果",
@@ -3787,7 +4195,11 @@
         }
       ],
       "activePromptId": "5d41602a-1c50-48d3-8296-de8c9a5a87af",
-      "promptedAt": "2026-09-15T16:09:04.656Z"
+      "promptedAt": "2026-09-15T16:09:04.656Z",
+      "words": [
+        "水果",
+        "蘋果"
+      ]
     },
     {
       "char": "高",
@@ -3829,7 +4241,11 @@
         }
       ],
       "activePromptId": "bba16cea-c2fd-4ebc-8661-576291c706ad",
-      "promptedAt": "2026-09-15T16:09:04.662Z"
+      "promptedAt": "2026-09-15T16:09:04.662Z",
+      "words": [
+        "高興",
+        "長高"
+      ]
     },
     {
       "char": "黑",
@@ -3871,7 +4287,11 @@
         }
       ],
       "activePromptId": "7689f39e-0b58-4e1b-a429-0eacdf5c8b22",
-      "promptedAt": "2026-09-15T16:09:04.669Z"
+      "promptedAt": "2026-09-15T16:09:04.669Z",
+      "words": [
+        "黑色",
+        "黑板"
+      ]
     }
   ],
   "production": {
@@ -3977,6 +4397,30 @@
           "馬",
           "犬",
           "刀"
+        ],
+        "attempts": []
+      },
+      "2026-09-18": {
+        "queue": [
+          "馬",
+          "犬",
+          "刀"
+        ],
+        "attempts": []
+      },
+      "2026-09-19": {
+        "queue": [
+          "犬",
+          "刀",
+          "門"
+        ],
+        "attempts": []
+      },
+      "2026-09-20": {
+        "queue": [
+          "米",
+          "竹",
+          "球"
         ],
         "attempts": []
       }

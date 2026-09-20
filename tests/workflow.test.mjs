@@ -345,6 +345,15 @@ test('metadata can be corrected after creation without replacing media or saved 
   assert.deepEqual(saved.promptVersions, before.promptVersions)
   assert.deepEqual(saved.media, before.media)
   assert.equal((await request('/character/update', { char: '山', zhuyin: 'not bopomofo' })).status, 400)
+
+  // 語詞：存成陣列、去重，而且一定要含這個字，否則孩子看不出關聯
+  assert.equal((await request('/character/update', { char: '山', zhuyin: 'ㄕㄢ', words: '爬山、火山、爬山' })).status, 200)
+  assert.deepEqual(loadCharacters().characters.find((c) => c.char === '山').words, ['爬山', '火山'])
+  assert.match((await request('/character/update', { char: '山', words: '跑步' })).body.error, /沒有「山」/)
+  assert.match((await request('/character/update', { char: '山', words: '山' })).body.error, /二到四個國字/)
+  assert.match((await request('/character/update', { char: '山', words: '爬山、火山、高山、山頂、山路' })).body.error, /最多四個/)
+  assert.equal((await request('/character/update', { char: '山', zhuyin: 'ㄕㄢ', words: '' })).status, 200)
+  assert.deepEqual(loadCharacters().characters.find((c) => c.char === '山').words, [])
   assert.equal((await request('/character', { char: '雲', emoji: {} })).status, 400)
   assert.equal((await request('/character/update', { char: '不存在' })).status, 400)
 })
@@ -380,14 +389,18 @@ test('delete and restore preserve media, progress and quota history, and prevent
 test('AI metadata suggestions are validated previews and never save over a parent entry', async () => {
   const { suggestCharacterMetadata } = await import('../server/character-metadata.mjs')
   const before = loadCharacters()
-  const suggested = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘' }
+  const suggested = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘', words: '忍者、忍住' }
   assert.deepEqual(await suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async (input) => {
     assert.equal(input.metadataOnly, true)
     assert.match(input.brief, /Taiwanese/)
     return suggested
   }), suggested)
+  // 語詞是選填的：AI 沒給也不該讓整次補齊失敗，家長自己打就好
+  assert.deepEqual(await suggestCharacterMetadata({ char: '忍', provider: 'codex' },
+    async () => ({ ...suggested, words: undefined })), { ...suggested, words: '' })
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, char: '日' })), /不符/)
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, zhuyin: 'ren3' })), /注音/)
+  await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, words: '忍者、跑步' })), /跑步.*沒有/)
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => { throw new Error('AI unavailable') }), /unavailable/)
   const controller = new AbortController()
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex', signal: controller.signal }, async () => {

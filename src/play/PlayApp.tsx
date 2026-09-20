@@ -108,9 +108,11 @@ export default function PlayApp() {
           key={entry.char}
           entry={entry}
           count={progress.watched[entry.char]?.count || 0}
+          library={all}
           prev={index > 0 ? items[index - 1] : undefined}
           next={index >= 0 && index < items.length - 1 ? items[index + 1] : undefined}
           onGo={(c) => setActive(c.char)}
+          onJump={setActive}
           onClose={() => setActive(null)}
           onBrowseVideos={() => { setQuery(''); setFilter('video'); setActive(null) }}
           onComplete={markWatched}

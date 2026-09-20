@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "test": "node --test tests/*.test.mjs",
     "strokes": "node scripts/strokes.mjs",
+    "parts": "node scripts/parts.mjs",
     "dev:test": "node scripts/test-server.mjs",
     "preview": "vite preview",
     "prompt": "node scripts/prompt.mjs"

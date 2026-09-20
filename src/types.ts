@@ -19,6 +19,8 @@ export type CharEntry = {
   zhuyin: string
   meaning: string
   emoji: string
+  /** 把字放回孩子已經會說的話裡：日 → 生日、日出。每個詞都含這個字。 */
+  words?: string[]
   concept: { object: string; morph: string; hook: string }
   status: 'seed' | 'prompted' | 'live'
   priority: number

@@ -104,7 +104,7 @@ button:disabled { cursor: default; }
 
 /* ---------- 觀看 ---------- */
 .viewer { position: fixed; inset: 0; z-index: 5; outline: none;
-  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  display: flex; flex-direction: column;
   background: color-mix(in oklab, var(--hue) 14%, #FFFDF8); animation: fade .2s both; }
 .viewer-bar { display: flex; align-items: center; gap: 18px; padding: 14px 28px; flex-wrap: wrap; }
 .viewer-close { padding: 10px 18px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 15px;
@@ -123,7 +123,26 @@ button:disabled { cursor: default; }
 .viewer :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* 框要大要舒服：素材撐到剩餘空間的最大尺寸，保留邊距與圓角，不裁切 */
-.viewer-frame { position: relative; min-height: 0; min-width: 0; }
+.viewer-frame { position: relative; flex: 1; min-height: 0; min-width: 0; }
+
+/* ---------- 語詞與部件：把字放回他會說的話，以及他已經認識的字 ---------- */
+.band { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 28px 10px; }
+.word { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px;
+  background: #fff; font-family: var(--kai); font-size: 23px; font-weight: 700; color: var(--ink); line-height: 1;
+  box-shadow: 0 3px 0 rgba(0,0,0,.07); }
+.word:active { transform: translateY(2px); box-shadow: none; }
+/* 目標字在詞裡面標出來，他才看得到「這個詞裡有我學的字」 */
+.word-hit { color: var(--c0); }
+.word-say { margin-left: 6px; font-size: 14px; }
+.band-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 4px 10px 4px 14px; border-radius: 999px; background: rgba(255,255,255,.6); }
+.band-label { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.72); }
+.part { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; padding: 2px 10px;
+  border-radius: 13px; background: #fff; font-family: var(--kai); font-size: 25px; font-weight: 700;
+  color: var(--ink); line-height: 1; box-shadow: 0 3px 0 rgba(0,0,0,.07); }
+.part:active { transform: translateY(2px); box-shadow: none; }
+/* 跟筆順裡被標色的那幾筆同一個顏色，他才對得起來 */
+.part-on { color: #0F7FA8; }
 /* 絕對定位 + margin:auto：百分比一定對著框本身算，直式或超大素材也不會撐爆版面 */
 .viewer-media { position: absolute; inset: 0; margin: auto; max-width: calc(100% - 80px); max-height: calc(100% - 12px);
   border-radius: 22px; background: #000; box-shadow: 0 24px 60px rgba(0,0,0,.22); transition: opacity .25s; }
@@ -287,6 +306,10 @@ button:disabled { cursor: default; }
   /* 四顆按鈕擠在 390px 會被裁掉，寫字獨立成一整排放在上面 */
   .nav-btn.write { flex: 1 1 100%; order: -1; max-width: none; }
 
+  .band { gap: 6px; padding: 0 14px 8px; }
+  .word { font-size: 20px; padding: 5px 11px; }
+  .part { font-size: 22px; min-width: 38px; min-height: 38px; }
+  .band-group { padding: 3px 8px 3px 11px; }
   .today-stars { font-size: 20px; }
   .today-label { font-size: 12px; }
   .stroke-canvas { width: min(36vh, 70vw); height: min(36vh, 70vw); border-radius: 20px; }
@@ -331,6 +354,7 @@ button:disabled { cursor: default; }
   .viewer-bar { padding: 6px 12px; }
   .viewer-nav { padding-top: 6px; padding-bottom: 8px; }
   .nav-btn.write { flex: 1 1 0; order: 0; max-width: 240px; }
+  .band { display: none; }
   .strokes { gap: 6px; }
   .stroke-canvas { width: min(30vh, 34vw); height: min(30vh, 34vw); }
   .stroke-dots { max-width: min(30vh, 34vw); }

@@ -22,8 +22,10 @@ function loadChar(char: string) {
  * 筆順動畫 + 手指描字。資料在 public/strokes/，不必等影片產線，也不用連外網。
  * 沒有筆順資料的字會回報 onUnavailable，讓呼叫端退回原本的字卡動畫。
  */
-export default function Strokes({ char, onWritten, onTraced, onUnavailable }: {
+export default function Strokes({ char, highlight, onWritten, onTraced, onUnavailable }: {
   char: string
+  /** 這個字裡面那個他已經學過的字佔掉的筆畫，會用另一個顏色寫出來。 */
+  highlight?: number[]
   /** 筆順示範播完：這時就算「看完」，不要讓觀看紀錄卡在孩子描不描得出來。 */
   onWritten?: () => void
   onTraced?: () => void
@@ -40,6 +42,8 @@ export default function Strokes({ char, onWritten, onTraced, onUnavailable }: {
   written.current = onWritten
   traced.current = onTraced
   unavailable.current = onUnavailable
+  // 陣列每次 render 都是新的，用內容當 key 才不會一直重建 writer
+  const marked = highlight?.length ? highlight.join(',') : ''
 
   useEffect(() => {
     const host = box.current
@@ -59,11 +63,13 @@ export default function Strokes({ char, onWritten, onTraced, onUnavailable }: {
         showCharacter: false, showOutline: true,
         strokeColor: '#2E2A26', outlineColor: 'rgba(46,42,38,.16)',
         drawingColor: '#FF6B6B', highlightColor: '#FFC53D',
+        // hanzi-writer 只會把 radStrokes 那幾筆畫成 radicalColor，所以直接餵它我們要標的筆
+        radicalColor: marked ? '#0F7FA8' : null,
         // 筆畫多的字（像「龍」16 筆）用預設速度會拖到二十幾秒，孩子等不住
         strokeAnimationSpeed: 1.4, delayBetweenStrokes: 250, drawingWidth: 26,
         // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆
         leniency: 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
-        charDataLoader: () => data,
+        charDataLoader: () => (marked ? { ...data, radStrokes: marked.split(',').map(Number) } : data),
       })
       observer = new ResizeObserver(() => {
         writer?.updateDimensions({ width: size(), height: size(), padding: Math.round(size() * 0.05) })
@@ -107,7 +113,7 @@ export default function Strokes({ char, onWritten, onTraced, onUnavailable }: {
       try { writer?.cancelQuiz() } catch { /* 還沒建好就卸載，忽略 */ }
       host.replaceChildren()
     }
-  }, [char, round])
+  }, [char, round, marked])
 
   if (stage === 'unavailable') return null
 

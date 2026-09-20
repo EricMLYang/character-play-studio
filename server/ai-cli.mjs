@@ -14,8 +14,8 @@ export const OUTPUT_SCHEMA = {
 const PROVIDERS = { codex: 'Codex', claude: 'Claude Code', agy: 'Google agy' }
 export const METADATA_SCHEMA = {
   type: 'object', additionalProperties: false,
-  properties: Object.fromEntries(['char', 'meaning', 'zhuyin', 'emoji'].map((key) => [key, { type: 'string' }])),
-  required: ['char', 'meaning', 'zhuyin', 'emoji'],
+  properties: Object.fromEntries(['char', 'meaning', 'zhuyin', 'emoji', 'words'].map((key) => [key, { type: 'string' }])),
+  required: ['char', 'meaning', 'zhuyin', 'emoji', 'words'],
 }
 export function executable(provider) {
   if (!Object.hasOwn(PROVIDERS, provider)) throw new Error('請選擇 Codex、Claude Code 或 Google agy')
