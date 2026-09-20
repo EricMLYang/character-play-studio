@@ -181,10 +181,11 @@ export default function Viewer({
           {hides.length > 0 && (
             <span className="band-group">
               <span className="band-label">躲在</span>
-              {hides.slice(0, 5).map((c) => (
+              {/* 這是發現的提示，不是清單：手機上列太多會把整條擠成三行，吃掉看影片的空間 */}
+              {hides.slice(0, 3).map((c) => (
                 <button key={c} className="part" onClick={() => onJump(c)} aria-label={`去看「${c}」`}>{c}</button>
               ))}
-              {hides.length > 5 && <span className="band-label">等 {hides.length} 個字裡</span>}
+              {hides.length > 3 && <span className="band-label">等 {hides.length} 個字裡</span>}
             </span>
           )}
         </div>

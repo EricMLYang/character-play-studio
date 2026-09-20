@@ -110,13 +110,17 @@ button:disabled { cursor: default; }
 .viewer-close { padding: 10px 18px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 15px;
   box-shadow: 0 3px 0 rgba(0,0,0,.06); }
 .viewer-close:active { transform: translateY(2px); box-shadow: none; }
-.viewer-title { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.7); }
+.viewer-title { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 6px 16px 6px 8px; border-radius: 999px; background: rgba(255,255,255,.7); }
 .viewer-title:hover { background: #fff; }
-.viewer-emoji { font-size: 26px; }
+.viewer-emoji { display: grid; place-items: center; width: 54px; height: 54px; flex-shrink: 0; font-size: 34px; line-height: 1;
+  border-radius: 18px; background: color-mix(in oklab, var(--hue) 34%, #fff); transform: rotate(-6deg);
+  animation: nudge 5s ease-in-out infinite; }
+.viewer-title:hover .viewer-emoji { animation: none; transform: rotate(6deg) scale(1.08); }
 .viewer-char { font-family: var(--kai); font-size: 44px; line-height: 1; color: var(--ink); }
 .viewer-zhuyin { font-family: var(--bopomofo); font-size: 26px; font-weight: 700; letter-spacing: .2em; color: rgba(46,42,38,.85); }
 .viewer-meaning { font-size: 16px; color: rgba(46,42,38,.7); }
-.viewer-say { font-size: 20px; }
+.viewer-say { display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; font-size: 19px;
+  border-radius: 50%; background: color-mix(in oklab, var(--hue) 40%, #fff); }
 .viewer-count { margin-left: auto; padding: 8px 16px; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 700; color: rgba(46,42,38,.9);
   box-shadow: 0 3px 0 rgba(0,0,0,.06); }
 .viewer-count.bump { animation: pop .45s cubic-bezier(.2,1.8,.4,1) both; background: var(--c2); color: var(--ink); }
@@ -126,23 +130,35 @@ button:disabled { cursor: default; }
 .viewer-frame { position: relative; flex: 1; min-height: 0; min-width: 0; }
 
 /* ---------- 語詞與部件：把字放回他會說的話，以及他已經認識的字 ---------- */
-.band { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 28px 10px; }
-.word { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px;
-  background: #fff; font-family: var(--kai); font-size: 23px; font-weight: 700; color: var(--ink); line-height: 1;
-  box-shadow: 0 3px 0 rgba(0,0,0,.07); }
-.word:active { transform: translateY(2px); box-shadow: none; }
-/* 目標字在詞裡面標出來，他才看得到「這個詞裡有我學的字」 */
-.word-hit { color: var(--c0); }
-.word-say { margin-left: 6px; font-size: 14px; }
-.band-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px;
-  padding: 4px 10px 4px 14px; border-radius: 999px; background: rgba(255,255,255,.6); }
-.band-label { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.72); }
-.part { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; padding: 2px 10px;
-  border-radius: 13px; background: #fff; font-family: var(--kai); font-size: 25px; font-weight: 700;
-  color: var(--ink); line-height: 1; box-shadow: 0 3px 0 rgba(0,0,0,.07); }
-.part:active { transform: translateY(2px); box-shadow: none; }
+.band { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 28px 12px; }
+.band > *, .band-group > * { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; }
+.band > :nth-child(2) { animation-delay: .06s; }
+.band > :nth-child(3) { animation-delay: .12s; }
+.band > :nth-child(4) { animation-delay: .18s; }
+
+.word { display: inline-flex; align-items: center; gap: 10px; min-height: 58px; padding: 6px 10px 6px 20px; border-radius: 999px;
+  background: #fff; font-family: var(--kai); font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1;
+  box-shadow: 0 5px 0 rgba(0,0,0,.09), 0 12px 22px rgba(0,0,0,.08);
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.word:hover { transform: translateY(-2px); }
+.word:active { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
+/* 目標字在詞裡面放大加色：他一眼就看到「這個詞裡有我學的字」 */
+.word-hit { font-size: 1.2em; color: var(--c0); text-shadow: 0 2px 0 rgba(255,138,76,.18); }
+/* 喇叭要長得像按鈕，不是像標點符號 */
+.word-say { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; font-size: 21px;
+  border-radius: 50%; background: color-mix(in oklab, var(--hue) 42%, #fff); }
+
+.band-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  min-height: 58px; padding: 6px 12px 6px 18px; border-radius: 999px; background: rgba(255,255,255,.66); }
+.band-label { font-size: 16px; font-weight: 700; color: rgba(46,42,38,.78); }
+.part { display: inline-grid; place-items: center; min-width: 52px; min-height: 46px; padding: 2px 10px;
+  border-radius: 15px; background: #fff; font-family: var(--kai); font-size: 34px; font-weight: 700;
+  color: var(--ink); line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.09);
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.part:hover { transform: translateY(-2px); }
+.part:active { transform: translateY(3px) scale(.96); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
 /* 跟筆順裡被標色的那幾筆同一個顏色，他才對得起來 */
-.part-on { color: #0F7FA8; }
+.part-on { color: #0F7FA8; background: #EAF6FB; box-shadow: 0 4px 0 #BEDDEA; }
 /* 絕對定位 + margin:auto：百分比一定對著框本身算，直式或超大素材也不會撐爆版面 */
 .viewer-media { position: absolute; inset: 0; margin: auto; max-width: calc(100% - 80px); max-height: calc(100% - 12px);
   border-radius: 22px; background: #000; box-shadow: 0 24px 60px rgba(0,0,0,.22); transition: opacity .25s; }
@@ -296,7 +312,8 @@ button:disabled { cursor: default; }
   .viewer-title { gap: 8px; padding: 5px 10px; }
   .viewer-char { font-size: 32px; }
   .viewer-zhuyin { font-size: 22px; }
-  .viewer-emoji { font-size: 22px; }
+  .viewer-emoji { width: 42px; height: 42px; font-size: 26px; border-radius: 14px; }
+  .viewer-say { width: 28px; height: 28px; font-size: 16px; }
   .viewer-meaning { display: none; }
   .viewer-count { padding: 7px 12px; font-size: 13px; }
   .viewer-media { max-width: calc(100% - 20px); }
@@ -306,10 +323,12 @@ button:disabled { cursor: default; }
   /* 四顆按鈕擠在 390px 會被裁掉，寫字獨立成一整排放在上面 */
   .nav-btn.write { flex: 1 1 100%; order: -1; max-width: none; }
 
-  .band { gap: 6px; padding: 0 14px 8px; }
-  .word { font-size: 20px; padding: 5px 11px; }
-  .part { font-size: 22px; min-width: 38px; min-height: 38px; }
-  .band-group { padding: 3px 8px 3px 11px; }
+  .band { gap: 7px; padding: 0 14px 9px; }
+  .word { font-size: 27px; min-height: 50px; gap: 7px; padding: 5px 7px 5px 14px; }
+  .word-say { width: 34px; height: 34px; font-size: 18px; }
+  .part { font-size: 28px; min-width: 44px; min-height: 40px; }
+  .band-group { min-height: 50px; gap: 6px; padding: 5px 9px 5px 13px; }
+  .band-label { font-size: 14px; }
   .today-stars { font-size: 20px; }
   .today-label { font-size: 12px; }
   .stroke-canvas { width: min(36vh, 70vw); height: min(36vh, 70vw); border-radius: 20px; }
