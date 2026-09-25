@@ -3,11 +3,11 @@ import HanziWriter from 'hanzi-writer'
 import { cheer, stroke as strokeSfx } from '../lib/sfx'
 
 type Stage = 'loading' | 'writing' | 'tracing' | 'done' | 'unavailable'
-type CharData = { strokes: string[]; medians: number[][][] }
+export type CharData = { strokes: string[]; medians: number[][][] }
 
 // 同一個字在 StrictMode 下會掛載兩次，快取讓它只抓一次檔案
 const cache = new Map<string, Promise<CharData>>()
-function loadChar(char: string) {
+export function loadChar(char: string) {
   let pending = cache.get(char)
   if (!pending) {
     pending = fetch(`/strokes/${encodeURIComponent(char)}.json`)
@@ -16,6 +16,21 @@ function loadChar(char: string) {
     cache.set(char, pending)
   }
   return pending
+}
+
+/** 他畫的一筆：隔太近的點丟掉、最多留 64 點，存得下又保留手抖的樣子。 */
+function keepStroke(points: { x: number; y: number }[]): number[] {
+  const kept: { x: number; y: number }[] = []
+  for (const p of points) {
+    const last = kept[kept.length - 1]
+    if (!last || Math.hypot(p.x - last.x, p.y - last.y) >= 14) kept.push(p)
+  }
+  const end = points[points.length - 1]
+  if (end && kept[kept.length - 1] !== end) kept.push(end)
+  const step = Math.max(1, Math.ceil(kept.length / 64))
+  const sampled = kept.filter((_, i) => i % step === 0 || i === kept.length - 1).slice(-64)
+  if (sampled.length === 1) sampled.push(sampled[0])
+  return sampled.flatMap((p) => [Math.round(p.x), Math.round(p.y)])
 }
 
 /**
@@ -28,7 +43,8 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
   highlight?: number[]
   /** 筆順示範播完：這時就算「看完」，不要讓觀看紀錄卡在孩子描不描得出來。 */
   onWritten?: () => void
-  onTraced?: () => void
+  /** 描完整個字，帶著他自己寫的每一筆（搬進小鎮用）。 */
+  onTraced?: (strokes: number[][]) => void
   onUnavailable?: () => void
 }) {
   const box = useRef<HTMLDivElement>(null)
@@ -82,12 +98,14 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
           if (!alive) return
           written.current?.()
           setStage('tracing')
+          const hand: number[][] = []
           // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
           // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
           writer?.quiz({
             onCorrectStroke: (s) => {
               if (!alive) return
               try {
+                hand[s.strokeNum] = keepStroke(s.drawnPath.points)
                 setDrawn(data.strokes.length - s.strokesRemaining)
                 strokeSfx(data.strokes.length - s.strokesRemaining, data.strokes.length)
               } catch { /* 少一聲音效沒關係，不能卡住描字 */ }
@@ -96,7 +114,8 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
               if (!alive) return
               try { cheer() } catch { /* 同上 */ }
               setStage('done')
-              traced.current?.()
+              // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
+              try { traced.current?.(Array.from(hand, (s) => s || [])) } catch { /* 存不了筆跡也要能慶祝 */ }
             },
           })
         },

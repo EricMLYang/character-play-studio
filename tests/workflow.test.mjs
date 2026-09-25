@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { createServer } from 'vite'
-import { taiwanDay, completeWatch, addFeedback, publishMedia, publishedMedia } from '../shared/domain.mjs'
+import { taiwanDay, completeWatch, addFeedback, publishMedia, publishedMedia, addTrace, discover, validStrokes } from '../shared/domain.mjs'
 import { browseCharacters } from '../shared/selection.mjs'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
@@ -180,6 +180,39 @@ test('watch retries are idempotent and completions persist', async () => {
   assert.equal(taiwanDay(retry.body.watched['山'].last), '2026-09-05')
   assert.equal(loadProgress().watched['山'].count, 1)
   assert.equal((await request('/watch', { ...event, id: 'watch-event-2', at: '2026-09-06T01:00:00Z' })).body.watched['山'].count, 2)
+})
+
+test('tracing moves a character into town with the newest handwriting and grows it', () => {
+  const older = [[100, 700, 900, 700]], newer = [[120, 690, 880, 710]]
+  let p = addTrace({ watched: {} }, '火', older, '2026-09-20T10:00:00Z')
+  p = addTrace(p, '火', newer, '2026-09-21T10:00:00Z')
+  // 離線補送的舊事件：次數要算，但不能蓋掉比較新的筆跡
+  p = addTrace(p, '火', [[0, 0, 1, 1]], '2026-09-19T10:00:00Z')
+  assert.deepEqual(p.town['火'], { traces: 3, first: '2026-09-19T10:00:00Z', last: '2026-09-21T10:00:00Z', strokes: newer })
+  assert.equal(validStrokes(newer), true)
+  for (const bad of [[], [[1, 2, 3]], [[1.5, 2]], [['1', '2']], [[0, 99999]], 'x']) assert.equal(validStrokes(bad), false)
+})
+
+test('the magic pot records the first discovery only', () => {
+  let p = discover({ watched: {} }, '日', '2026-09-21T10:00:00Z')
+  p = discover(p, '日', '2026-09-22T10:00:00Z')
+  assert.equal(p.lab['日'], '2026-09-21T10:00:00Z')
+  assert.equal(discover(p, '日', '2026-09-20T10:00:00Z').lab['日'], '2026-09-20T10:00:00Z')
+})
+
+test('trace and discover events persist, retry idempotently and reject bad input', async () => {
+  const trace = { char: '木', id: 'trace-event-1', at: '2026-09-21T10:00:00Z', strokes: [[100, 500, 900, 500], [512, 850, 512, -50]] }
+  assert.equal((await request('/trace', trace)).status, 200)
+  const retry = await request('/trace', trace)
+  assert.equal(retry.body.town['木'].traces, 1)
+  assert.deepEqual(loadProgress().town['木'].strokes, trace.strokes)
+  assert.equal((await request('/trace', { ...trace, id: 'trace-event-2', strokes: [[1.5, 2]] })).status, 400)
+  assert.equal((await request('/trace', { ...trace, id: 'trace-event-3', char: '不存在' })).status, 400)
+  // 同一個事件編號不能拿去記別的字
+  assert.equal((await request('/discover', { char: '日', id: 'trace-event-1', at: trace.at })).status, 400)
+  const found = await request('/discover', { char: '日', id: 'discover-event-1', at: trace.at })
+  assert.equal(found.body.lab['日'], trace.at)
+  assert.equal(loadProgress().watched['山'].count, 2, 'watch history is untouched')
 })
 
 test('failed generation retains spent credit and releases the pending work for a retry', async () => {

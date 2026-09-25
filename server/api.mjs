@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { addFeedback, publishMedia, completeWatch, isPublished } from '../shared/domain.mjs'
+import { addFeedback, publishMedia, completeWatch, addTrace, discover, validStrokes, isPublished } from '../shared/domain.mjs'
 import { cliProviders } from './ai-cli.mjs'
 import { generatePrompt, isGenerating } from './prompt-generation.mjs'
 import { suggestCharacterMetadata, validateCharacterFields } from './character-metadata.mjs'
@@ -199,17 +199,27 @@ export function apiPlugin() {
           }
 
           // ---- 觀看紀錄 ----
-          if (route === '/watch' && req.method === 'POST') {
-            const { char, id, at } = JSON.parse((await readBody(req)).toString())
+          // ---- 孩子端的紀錄：觀看、描字搬進小鎮、魔法鍋發現。都帶事件編號，離線重送不會重複算 ----
+          const playEvents = {
+            '/watch': { error: '觀看紀錄不正確', apply: (p, body) => completeWatch(p, body.char, body.at) },
+            '/trace': { error: '描字紀錄不正確', valid: (body) => validStrokes(body.strokes),
+              apply: (p, body) => addTrace(p, body.char, body.strokes, body.at) },
+            '/discover': { error: '發現紀錄不正確', apply: (p, body) => discover(p, body.char, body.at) },
+          }
+          if (playEvents[route] && req.method === 'POST') {
+            const event = playEvents[route]
+            const body = JSON.parse((await readBody(req)).toString())
+            const { char, id, at } = body
             if (typeof id !== 'string' || !/^[a-zA-Z0-9-]{8,80}$/.test(id) ||
               typeof at !== 'string' || !Number.isFinite(Date.parse(at)) || Date.parse(at) > Date.now() + 60000 ||
-              !loadCharacters().characters.some((c) => c.char === char)) return json(res, 400, { error: '觀看紀錄不正確' })
+              (event.valid && !event.valid(body)) ||
+              !loadCharacters().characters.some((c) => c.char === char)) return json(res, 400, { error: event.error })
             const current = loadProgress()
             if (current.completedEvents?.[id]) {
-              if (current.completedEvents[id] !== char) return json(res, 400, { error: '觀看紀錄編號已使用' })
+              if (current.completedEvents[id] !== char) return json(res, 400, { error: '紀錄編號已使用' })
               return json(res, 200, current)
             }
-            const nextProgress = completeWatch(current, char, at)
+            const nextProgress = event.apply(current, body)
             nextProgress.completedEvents = { ...current.completedEvents, [id]: char }
             saveProgress(nextProgress)
             return json(res, 200, nextProgress)

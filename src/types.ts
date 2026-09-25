@@ -36,8 +36,14 @@ export type CharEntry = {
   activePromptId?: string
 }
 
+/** 小鎮居民：他描完的字。strokes 是他自己的筆跡，hanzi-writer 內部座標。 */
+export type Resident = { traces: number; first: string; last: string; strokes: number[][] }
+
 export type Progress = {
   watched: Record<string, { count: number; last: string }>
+  town?: Record<string, Resident>
+  /** 魔法鍋變出來過的字 → 第一次發現的時間 */
+  lab?: Record<string, string>
 }
 
 export type Library = {

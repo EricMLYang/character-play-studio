@@ -42,5 +42,5 @@ export const markSubmissionFailed = (id: string) =>
   fetch('/api/submission-failed', { method: 'POST', body: JSON.stringify({ id }) }).then(j)
 export const reviewMedia = (body: Record<string, unknown>) =>
   fetch('/api/media-review', { method: 'POST', body: JSON.stringify(body) }).then(j)
-export const recordWatch = (char: string, id: string, at: string): Promise<Progress> =>
-  fetch('/api/watch', { method: 'POST', body: JSON.stringify({ char, id, at }), keepalive: true }).then(j)
+export const recordPlay = (route: 'watch' | 'trace' | 'discover', body: Record<string, unknown>): Promise<Progress> =>
+  fetch(`/api/${route}`, { method: 'POST', body: JSON.stringify(body), keepalive: true }).then(j)

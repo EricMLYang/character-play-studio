@@ -20,7 +20,39 @@ export function completeWatch(progress, char, at = new Date().toISOString()) {
   }
 }
 
-export const negativeTags = ['unclear', 'noisy', 'confusing', 'fast']
+/**
+ * 描完一個字，它就搬進孩子的小鎮。筆跡存最新的一次（字是他寫的，不是字型），
+ * 次數決定居民長多大。strokes 是 hanzi-writer 內部座標（0–1024，y 朝上）。
+ */
+export function addTrace(progress, char, strokes, at = new Date().toISOString()) {
+  const previous = progress.town?.[char]
+  const newer = !previous || Date.parse(at) >= Date.parse(previous.last)
+  return {
+    ...progress,
+    town: { ...progress.town, [char]: {
+      traces: (previous?.traces || 0) + 1,
+      first: previous?.first && Date.parse(previous.first) < Date.parse(at) ? previous.first : at,
+      last: newer ? at : previous.last,
+      strokes: newer ? strokes : previous.strokes,
+    } },
+  }
+}
+
+/** 魔法鍋第一次變出這個字的時間。之後再變出來不改，圖鑑記的是「發現」。 */
+export function discover(progress, char, at = new Date().toISOString()) {
+  const previous = progress.lab?.[char]
+  if (previous && Date.parse(previous) <= Date.parse(at)) return progress
+  return { ...progress, lab: { ...progress.lab, [char]: at } }
+}
+
+/** 筆跡只收合理的形狀：最多 40 筆，每筆最多 64 個點，座標在字框附近。 */
+export function validStrokes(strokes) {
+  return Array.isArray(strokes) && strokes.length > 0 && strokes.length <= 40 && strokes.every((s) =>
+    Array.isArray(s) && s.length >= 2 && s.length <= 128 && s.length % 2 === 0 &&
+    s.every((n) => Number.isInteger(n) && n >= -400 && n <= 1500))
+}
+
+export const negativeTags =['unclear', 'noisy', 'confusing', 'fast']
 export const feedbackTags = ['love', 'clear', ...negativeTags]
 export const revisionTags = (entry) => negativeTags.filter((tag) =>
   (entry.feedback || []).some((feedback) => feedback.tags.includes(tag)))

@@ -11,10 +11,12 @@ import Strokes from './Strokes'
 type Phase = 'object' | 'morph' | 'hold' | 'write' | 'finished'
 
 export default function Viewer({
-  entry, count, library, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete,
+  entry, count, traces, library, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
 }: {
   entry: CharEntry
   count: number
+  /** 在小鎮裡已經寫過幾次，決定描完要說「搬進來了」還是「長大了」。 */
+  traces: number
   /** 孩子端看得到的字，用來決定部件字卡能不能點過去。 */
   library: CharEntry[]
   prev?: CharEntry
@@ -24,6 +26,8 @@ export default function Viewer({
   onClose: () => void
   onBrowseVideos: () => void
   onComplete: (e: CharEntry, id: string) => void
+  onTraced: (e: CharEntry, strokes: number[][]) => void
+  onTown: () => void
 }) {
   const media = publishedMedia(entry)
   const [failed, setFailed] = useState(false)       // 影片檔壞了 → 退回字卡
@@ -38,6 +42,8 @@ export default function Viewer({
   const [noStrokes, setNoStrokes] = useState(false) // 這個字沒有筆順資料 → 退回純字卡動畫
   const [trace, setTrace] = useState(false)         // 有影片的字，看完之後自己描一次
   const [traced, setTraced] = useState(false)
+  // 描完那一刻的小鎮次數；之後 traces 會 +1，但訊息要照描之前的狀態說
+  const [moved, setMoved] = useState<number | null>(null)
   const root = useRef<HTMLDivElement>(null)
   const videoEl = useRef<HTMLVideoElement>(null)
   const toTrace = useRef<number | undefined>(undefined)
@@ -45,6 +51,11 @@ export default function Viewer({
   const eventId = useRef(crypto.randomUUID())
   const completeRef = useRef(onComplete)
   completeRef.current = onComplete
+  const traceDone = (strokes: number[][]) => {
+    setTraced(true)
+    setMoved(traces)
+    onTraced(entry, strokes)
+  }
   const narration = video?.audioMode === 'narration'
   const voice = useVideoVoice(entry.char, narration, video?.volume ?? 0.7)
   const bare = !video && !image
@@ -130,6 +141,7 @@ export default function Viewer({
     setDone(false)
     setTrace(false)
     setTraced(false)
+    setMoved(null)
     voice.reset()
     setRound((r) => r + 1)
   }
@@ -200,7 +212,7 @@ export default function Viewer({
         {trace ? (
           <div className="stage stage-write">
             <Scene char={entry.char} />
-            <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={() => setTraced(true)} onUnavailable={() => setTrace(false)} />
+            <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={traceDone} onUnavailable={() => setTrace(false)} />
           </div>
         ) : video ? (
           <>
@@ -238,7 +250,7 @@ export default function Viewer({
             <div className="stage-emoji">{entry.emoji}</div>
             <div className="stage-char">{entry.char}</div>
             {phase === 'write' && !noStrokes
-              ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={() => setTraced(true)} onUnavailable={() => setNoStrokes(true)} />
+              ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={traceDone} onUnavailable={() => setNoStrokes(true)} />
               : <div className="stage-zhuyin">{entry.zhuyin}</div>}
           </div>
         )}
@@ -248,6 +260,13 @@ export default function Viewer({
           </button>
         )}
         {((done && !bare) || traced) && <Confetti key={`${round}-${traced}`} />}
+        {moved !== null && (
+          <button className="moved-in" onClick={onTown}>
+            <span aria-hidden>🏡</span>
+            {moved === 0 ? `「${entry.char}」搬進你的小鎮了！` : moved + 1 === 5 ? `「${entry.char}」戴上皇冠了！👑` : `「${entry.char}」在小鎮長大了！`}
+            <b>去看看 →</b>
+          </button>
+        )}
       </div>
 
       <footer className="viewer-nav">

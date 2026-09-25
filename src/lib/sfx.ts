@@ -51,3 +51,14 @@ export function stroke(index: number, total: number) {
 export function cheer() {
   ;[523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(i * 0.11, f, f, 0.26, 'triangle', 0.1))
 }
+/** 丟進鍋子：噗通。 */
+export const plop = () => tone(0, 320, 140, 0.18, 'sine', 0.14)
+/** 攪一攪：一串往上冒的泡泡。 */
+export function bubble() {
+  ;[0, 0.14, 0.26, 0.4, 0.5, 0.62, 0.72].forEach((t, i) => tone(t, 300 + i * 70 + (i % 2) * 90, 600 + i * 90, 0.09, 'sine', 0.08))
+}
+/** 變出來了：碰的一聲接一個亮音。 */
+export function poof() {
+  tone(0, 180, 60, 0.22, 'triangle', 0.14)
+  tone(0.12, 880, 1760, 0.3, 'sine', 0.09)
+}

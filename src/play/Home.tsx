@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Ref } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasPublishedVideo } from '../../shared/selection.mjs'
 import { tap } from '../lib/sfx'
-import type { Filter } from './PlayApp'
+import type { Filter, Screen } from './PlayApp'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -12,7 +11,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, rootRef,
+  items, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen,
 }: {
   items: CharEntry[]
   total: number
@@ -25,10 +24,11 @@ export default function Home({
   onPick: (char: string) => void
   onSurprise: () => void
   onReset: () => void
-  rootRef?: Ref<HTMLDivElement>
+  residents: number
+  onScreen: (s: Screen) => void
 }) {
   return (
-    <div className="home" ref={rootRef}>
+    <div className="home">
       <header className="home-bar">
         <h1 className="home-title">字字樂園</h1>
         <input
@@ -56,6 +56,17 @@ export default function Home({
         <div>
           <h2>{filter === 'video' ? '選一張，來看小影片！' : '今天想認識哪個字？'}</h2>
           <p>看看小圖，點點字卡，自己選！</p>
+        </div>
+        {/* 看完字卡之後還有地方可以去：他寫的字住在小鎮，字丟進鍋子會變出別的字 */}
+        <div className="home-places">
+          <button className="place place-town" onClick={() => { tap(); onScreen('town') }}>
+            <span className="place-icon" aria-hidden>🏡</span>
+            <span><b>我的小鎮</b><small>{residents ? `住了 ${residents} 個字` : '寫一個字搬進來'}</small></span>
+          </button>
+          <button className="place place-lab" onClick={() => { tap(); onScreen('lab') }}>
+            <span className="place-icon" aria-hidden>🧪</span>
+            <span><b>魔法鍋</b><small>字會變成別的字</small></span>
+          </button>
         </div>
         <TodayStars count={todayCount} />
       </div>
