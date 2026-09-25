@@ -5343,9 +5343,25 @@
         "morph": "the glyph 畫 stands still as a solid sculpture while the paintbrush gag plays out beside it",
         "hook": "玩具機器人專心拿刷子作畫，刷子卡住後突然彈回來，在他自己臉上刷出一撇翹鬍子；他愣了一下，照照小鏡子，反而超滿意地摸摸鬍子鞠了個躬。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 54,
-      "media": [],
+      "media": [
+        {
+          "file": "畫-8a07d94f-ba62-4a1b-8c2d-44bb616d1aa9.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-23T14:21:04.317Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-23T14:21:21.076Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5410,7 +5426,8 @@
           "text": "漫畫",
           "emoji": "📚"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "跳",
@@ -5422,9 +5439,25 @@
         "morph": "the glyph 跳 stands still as a solid sculpture while the trampoline gag plays out along its base",
         "hook": "一台小玩具機器人和一隻胖企鵝站在小彈簧床兩端，機器人只是輕輕踩了一下，胖企鵝就被彈飛出畫面；等了好久好久，企鵝才慢慢掉回來，剛好端端正正坐好。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 55,
-      "media": [],
+      "media": [
+        {
+          "file": "跳-2d1d6269-bf13-4f4f-b816-fc2c78c2565f.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-24T12:42:36.449Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-24T13:22:17.100Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5489,7 +5522,8 @@
           "text": "跳繩",
           "emoji": "🪢"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "打",
@@ -5501,9 +5535,25 @@
         "morph": "the flying bat lands upright as the 丁 on the right while three bricks slide in to form the 扌 radical on the left of 打",
         "hook": "玩具機器人擺出全壘打架式，使盡全力揮棒——球紋風不動地掉在地上，飛出去的是球棒；球棒直直插進地面變成「丁」，三塊積木滑過來排成提手旁，合成「打」。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 56,
-      "media": [],
+      "media": [
+        {
+          "file": "打-d5e1e9dd-4d4c-4adf-b709-a782c123b238.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-24T13:41:38.794Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-24T13:41:54.530Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5545,7 +5595,8 @@
           "text": "打雷",
           "emoji": "⛈️"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "星",
@@ -5557,9 +5608,25 @@
         "morph": "the glyph 星 stands still as a solid sculpture while the star quietly settles on the searching robot",
         "hook": "玩具機器人拿著望遠鏡到處找星星，翻來翻去都找不到；其實有一顆小星星早就悄悄飄到他頭上坐好，還轉頭對鏡頭揮揮手，他卻完全沒發現，繼續認真地找。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 57,
-      "media": [],
+      "media": [
+        {
+          "file": "星-4210ed33-4f51-40d3-b73c-6dc0a7fee700.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-24T14:12:52.466Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-24T14:13:32.708Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5601,7 +5668,8 @@
           "text": "火星",
           "emoji": "🪐"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "光",
@@ -5613,9 +5681,25 @@
         "morph": "the beam folds into the two dots and short upright on top, the torch body flattens into the horizontal bar, and the robot’s legs become the two strokes of 儿 below, forming 光",
         "hook": "玩具機器人打開一支胖手電筒，興奮地照來照去，最後不小心照到自己眼睛、瞇成一條線；他關掉手電筒後，光束收成上面的兩點與短豎，手電筒身體壓成中間那一橫，他的兩條腿則變成下面的「儿」，合成「光」。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 58,
-      "media": [],
+      "media": [
+        {
+          "file": "光-ed9f1d46-02e2-465e-b755-0ba83f2b4430.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-25T02:41:37.416Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-25T02:41:53.467Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5657,7 +5741,8 @@
           "text": "燈光",
           "emoji": "💡"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "劍",
@@ -5669,9 +5754,25 @@
         "morph": "the glyph 劍 stands still as a solid sculpture while the drawing-the-sword gag plays out beside it",
         "hook": "玩具騎士擺出超帥的架式緩緩拔劍，拔出來的卻是一支牙刷；他整個僵住、若無其事地把牙刷放回鞘裡，重新擺一次架式，這回才順利拔出真正的寶劍，帥氣地舉高敬禮。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 59,
-      "media": [],
+      "media": [
+        {
+          "file": "劍-ca3c1a92-3999-444f-a062-6d72c7e6d490.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-25T02:47:36.882Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-25T02:47:54.648Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5713,7 +5814,8 @@
           "text": "劍客",
           "emoji": "🤺"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "快",
@@ -5725,9 +5827,25 @@
         "morph": "the glyph 快 stands still as a solid sculpture while the race car overshoots and reverses back",
         "hook": "一台玩具賽車「咻」地衝過畫面消失，畫面外傳來撞進軟墊的悶悶一聲；接著它用極慢的速度倒車回到畫面中央，保險桿上還黏著一朵被撞下來的小花，它停好、抖了一下，花就掉下來。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 60,
-      "media": [],
+      "media": [
+        {
+          "file": "快-0712d0d9-21e4-4eb5-966b-56a27dbeef13.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-25T02:53:51.822Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-25T02:54:12.904Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "promptVersions": [
         {
@@ -5769,7 +5887,8 @@
           "text": "快車",
           "emoji": "🚄"
         }
-      ]
+      ],
+      "needsRedo": false
     },
     {
       "char": "腳",
@@ -6539,6 +6658,22 @@
           "戰",
           "王",
           "畫"
+        ],
+        "attempts": []
+      },
+      "2026-09-24": {
+        "queue": [
+          "跳",
+          "打",
+          "星"
+        ],
+        "attempts": []
+      },
+      "2026-09-25": {
+        "queue": [
+          "光",
+          "劍",
+          "快"
         ],
         "attempts": []
       }
