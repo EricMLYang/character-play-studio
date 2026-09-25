@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
 import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
+import { feedbackTags } from '../../shared/domain.mjs'
 import MediaReview from './MediaReview'
 import CharacterEditor from './CharacterEditor'
 
@@ -14,14 +15,13 @@ const EMPTY_LIST: Record<string, string> = {
   all: '字庫還沒有字，用下面的「＋ 加一個字」開始。',
 }
 const MEDIA_STATE: Record<string, string> = { published: '使用中', draft: '待確認', paused: '已停用' }
-const TAGS = [
-  { id: 'love', label: '😍 他超愛' },
-  { id: 'clear', label: '👍 字很清楚' },
-  { id: 'unclear', label: '🔍 字看不清' },
-  { id: 'noisy', label: '🌀 太吵太亂' },
-  { id: 'confusing', label: '❓ 形變沒看懂' },
-  { id: 'fast', label: '⏩ 太快了' },
-]
+// 標籤 id 跟後端驗證共用 shared/domain.mjs 的 feedbackTags，這裡只補顯示用的文字，
+// 避免兩邊各自維護一份標籤清單、加漏了互相對不上。
+const TAG_LABELS: Record<string, string> = {
+  love: '😍 他超愛', clear: '👍 字很清楚', unclear: '🔍 字看不清',
+  noisy: '🌀 太吵太亂', confusing: '❓ 形變沒看懂', fast: '⏩ 太快了',
+}
+const TAGS = feedbackTags.map((id) => ({ id, label: TAG_LABELS[id] || id }))
 
 export default function StudioApp() {
   const [lib, setLib] = useState<Library | null>(null)

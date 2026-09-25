@@ -7,7 +7,7 @@ import { loadCharacters, saveCharacters, currentPrompt, recordSubmission } from 
 export const promptRoutes = {
   'GET /prompt': ({ url }) => {
     const entry = loadCharacters().characters.find((c) => c.char === url.searchParams.get('char'))
-    if (!entry) fail(404, 'not found')
+    if (!entry) fail(404, '找不到這個字')
     return currentPrompt(entry)
   },
 

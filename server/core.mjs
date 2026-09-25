@@ -169,10 +169,3 @@ export function recordSubmission(db, { char, id, hash }, date = taiwanDay()) {
   day.attempts.push(attempt)
   return attempt
 }
-
-export function todaysQueue(limit = 3) {
-  const db = loadCharacters()
-  const day = productionDay(db)
-  saveCharacters(db)
-  return day.queue.slice(0, limit).map((char) => db.characters.find((c) => c.char === char)).filter(Boolean)
-}

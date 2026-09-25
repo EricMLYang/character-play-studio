@@ -15,7 +15,7 @@ export const mediaRoutes = {
     if (!buffer.length) fail(400, '檔案是空的')
     const db = loadCharacters()
     const entry = db.characters.find((c) => c.char === char)
-    if (!entry) fail(404, 'unknown char')
+    if (!entry) fail(404, '找不到這個字')
     const attemptId = url.searchParams.get('attemptId')
     const attempt = Object.values(db.production?.days || {}).flatMap((d) => d.attempts)
       .find((a) => a.id === attemptId && a.char === char)
@@ -56,7 +56,7 @@ export const mediaRoutes = {
   'POST /feedback': ({ body: { char, tags, mediaFile } }) => {
     const db = loadCharacters()
     const entry = db.characters.find((c) => c.char === char)
-    if (!entry) fail(404, 'unknown char')
+    if (!entry) fail(404, '找不到這個字')
     if (mediaFile && !entry.media.some((m) => m.file === mediaFile)) fail(400, '找不到回饋版本')
     addFeedback(entry, tags, new Date().toISOString(), mediaFile)
     saveCharacters(db)

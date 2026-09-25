@@ -7,3 +7,4 @@ export function addTrace(progress: Progress, char: string, strokes: number[][], 
 export function discover(progress: Progress, char: string, at?: string): Progress
 export function validStrokes(strokes: unknown): strokes is number[][]
 export const SCENES: Scene[]
+export const feedbackTags: string[]
