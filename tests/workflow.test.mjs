@@ -282,10 +282,10 @@ test('trace and discover events persist, retry idempotently and reject bad input
   const retry = await request('/trace', trace)
   assert.equal(retry.body.town['木'].traces, 1)
   assert.deepEqual(loadProgress().town['木'].strokes, trace.strokes)
-  assert.equal((await request('/trace', { ...trace, id: 'trace-event-2', strokes: [[1.5, 2]] })).status, 400)
-  assert.equal((await request('/trace', { ...trace, id: 'trace-event-3', char: '不存在' })).status, 400)
+  assert.equal((await request('/trace', { ...trace, id: 'trace-event-2', strokes: [[1.5, 2]] })).status, 422)
+  assert.equal((await request('/trace', { ...trace, id: 'trace-event-3', char: '不存在' })).status, 422)
   // 同一個事件編號不能拿去記別的字
-  assert.equal((await request('/discover', { char: '日', id: 'trace-event-1', at: trace.at })).status, 400)
+  assert.equal((await request('/discover', { char: '日', id: 'trace-event-1', at: trace.at })).status, 422)
   const found = await request('/discover', { char: '日', id: 'discover-event-1', at: trace.at })
   assert.equal(found.body.lab['日'], trace.at)
   assert.equal(loadProgress().watched['山'].count, 2, 'watch history is untouched')

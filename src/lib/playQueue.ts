@@ -1,4 +1,4 @@
-import { recordPlay } from './api'
+import { recordPlay, ApiError } from './api'
 import { completeWatch, addTrace, discover } from '../../shared/domain.mjs'
 import type { Progress } from '../types'
 
@@ -39,7 +39,13 @@ export function flushEvents(): Promise<void> {
   flushing = (async () => {
     while (pendingEvents().length) {
       const { kind = 'watch', ...body } = pendingEvents()[0]
-      await recordPlay(kind, body)
+      try {
+        await recordPlay(kind, body)
+      } catch (error) {
+        // 422：伺服器永遠不會收這筆（例如字已經被家長刪掉），留著只會擋住後面的紀錄
+        if (!(error instanceof ApiError && error.status === 422)) throw error
+        console.warn('丟掉伺服器不收的紀錄', body, error.message)
+      }
       save(pendingEvents().filter((e) => e.id !== body.id))
     }
   })().finally(() => { flushing = undefined })

@@ -3,9 +3,18 @@ import type { CharEntry, DailyBatch, Library, Progress, Prompt } from '../types'
 /** 字庫變動後伺服器順便更新的筆順與字的家族 */
 export type AssetReport = { missingStrokes: string[]; partsError?: string }
 
+/** 伺服器回的錯誤，帶狀態碼，呼叫端才分得出「再試一次」跟「永遠不會成功」。 */
+export class ApiError extends Error {
+  status: number
+  constructor(message: string, status: number) {
+    super(message)
+    this.status = status
+  }
+}
+
 const j = async (r: Response) => {
   const body = await r.json()
-  if (!r.ok) throw new Error(body.error || '操作失敗，請再試一次')
+  if (!r.ok) throw new ApiError(body.error || '操作失敗，請再試一次', r.status)
   return body
 }
 
