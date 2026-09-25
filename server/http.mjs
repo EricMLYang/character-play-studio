@@ -13,10 +13,24 @@ export const json = (res, code, body) => {
   res.end(JSON.stringify(body))
 }
 
-export const readBody = (req) => new Promise((resolve) => {
+// 最大的合法上傳是影片素材（現有最大約 2.4MB），50MB 留了充分空間，
+// 同時擋掉壞掉或惡意的超大請求把整個伺服器記憶體吃光。
+const MAX_BODY_BYTES = 50 * 1024 * 1024
+
+export const readBody = (req) => new Promise((resolve, reject) => {
   const chunks = []
-  req.on('data', (c) => chunks.push(c))
+  let size = 0
+  req.on('data', (c) => {
+    size += c.length
+    if (size > MAX_BODY_BYTES) {
+      req.destroy()
+      reject(new HttpError(413, '檔案太大了'))
+      return
+    }
+    chunks.push(c)
+  })
   req.on('end', () => resolve(Buffer.concat(chunks)))
+  req.on('error', reject)
 })
 
 /**
