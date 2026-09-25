@@ -66,7 +66,9 @@ export function apiPlugin() {
             const production = productionDay(db)
             saveCharacters(db)
             return json(res, 200, {
-              characters: db.characters,
+              // 版本全文只在 /prompt 給；這裡給下拉選單用的摘要，孩子端也不必下載整份
+              characters: db.characters.map(({ promptVersions, ...entry }) => ({ ...entry,
+                promptVersions: (promptVersions || []).map(({ id, provider, conceptZh, generatedAt }) => ({ id, provider, conceptZh, generatedAt })) })),
               deletedCharacters: (db.deletedCharacters || []).map((c) => ({ char: c.char, deletedAt: c.deletedAt })),
               template: loadTemplate(),
               progress: loadProgress(),

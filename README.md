@@ -168,7 +168,8 @@ CLI 預設生成並保存版本，新國字會自動加入字庫。`--today` 與
 ## 檔案放哪
 
 ```
-data/characters.json       字庫 + 狀態 + 每日製作／prompt 快照（進 git，可 diff）
+data/characters.json       字庫 + 狀態 + 每日製作紀錄（進 git，可 diff）
+data/prompts/<字>.json     每個字保存過的 AI prompt 版本全文（進 git）
 data/prompt-template.json  prompt 三層
 data/progress.json         觀看紀錄、小鎮居民（他的筆跡）、魔法鍋發現（不進 git）
 media/                     影片圖片（不進 git，靠 Google Drive 同步）

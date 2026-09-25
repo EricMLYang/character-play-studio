@@ -182,6 +182,31 @@ test('watch retries are idempotent and completions persist', async () => {
   assert.equal((await request('/watch', { ...event, id: 'watch-event-2', at: '2026-09-06T01:00:00Z' })).body.watched['山'].count, 2)
 })
 
+test('prompt versions live in one file per character, migrate from inline data and never leak to a new card', async () => {
+  const dir = path.join(storage, 'data', 'prompts')
+  // 後面的測試接著用現在的字庫狀態，做完要原封不動放回去
+  const before = loadCharacters()
+  const db = fixture()
+  // 舊格式：版本還寫在 characters.json 裡
+  db.characters[0].promptVersions = [{ id: 'legacy-1', promptEn: 'LEGACY' }]
+  fs.writeFileSync(path.join(storage, 'data', 'characters.json'), JSON.stringify(db))
+  const loaded = loadCharacters()
+  assert.equal(loaded.characters[0].promptVersions[0].promptEn, 'LEGACY')
+  saveCharacters(loaded)
+  const char = db.characters[0].char
+  const raw = JSON.parse(fs.readFileSync(path.join(storage, 'data', 'characters.json'), 'utf8'))
+  assert.ok(raw.characters.every((c) => !('promptVersions' in c)), 'library file carries no prompt text')
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, `${char}.json`), 'utf8')), [{ id: 'legacy-1', promptEn: 'LEGACY' }])
+  assert.equal(loadCharacters().characters[0].promptVersions[0].id, 'legacy-1')
+  // /library 只給下拉選單要的摘要，不帶全文
+  const listed = (await request('/library', undefined, 'GET')).body.characters[0].promptVersions
+  assert.deepEqual(listed, [{ id: 'legacy-1' }])
+  // 字被移走後，同名新字不能撿到舊版本
+  saveCharacters({ ...loaded, characters: loaded.characters.slice(1) })
+  assert.equal(fs.existsSync(path.join(dir, `${char}.json`)), false)
+  saveCharacters(before)
+})
+
 test('tracing moves a character into town with the newest handwriting and grows it', () => {
   const older = [[100, 700, 900, 700]], newer = [[120, 690, 880, 710]]
   let p = addTrace({ watched: {} }, '火', older, '2026-09-20T10:00:00Z')

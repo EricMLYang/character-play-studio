@@ -32,7 +32,8 @@ export type CharEntry = {
   /** 孩子端隱藏。新加入的字預設隱藏，等家長確認教材備齊才開放。 */
   hidden?: boolean
   promptedAt?: string
-  promptVersions?: Prompt[]
+  /** /api/library 只給摘要；全文用 getPrompt 取 */
+  promptVersions?: Pick<Prompt, 'id' | 'provider' | 'conceptZh' | 'generatedAt'>[]
   activePromptId?: string
 }
 

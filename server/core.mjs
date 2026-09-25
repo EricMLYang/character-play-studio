@@ -21,8 +21,44 @@ const writeJSON = (p, v) => {
   fs.renameSync(temporary, p)
 }
 
-export const loadCharacters = () => readJSON(path.join(DATA, 'characters.json'), { version: 1, characters: [] })
-export const saveCharacters = (d) => writeJSON(path.join(DATA, 'characters.json'), d)
+/**
+ * 每個字的 prompt 版本存在 data/prompts/<字>.json，不塞進 characters.json：
+ * 版本每按一次「換個創意」就多一份全文，放在一起會讓字庫檔越長越大、
+ * 孩子端每次開都要下載、每次存檔都整份重寫。
+ * 對程式來說 entry.promptVersions 照舊可用：載入時補回、存檔時拆出去。
+ */
+const PROMPTS = () => path.join(DATA, 'prompts')
+const promptFile = (char) => path.join(PROMPTS(), `${char}.json`)
+
+export function loadCharacters() {
+  const db = readJSON(path.join(DATA, 'characters.json'), { version: 1, characters: [] })
+  for (const entry of db.characters) {
+    // 還沒搬出去的舊資料留在 entry 上，第一次存檔時才會搬
+    entry.promptVersions = readJSON(promptFile(entry.char), null) || entry.promptVersions || []
+  }
+  return db
+}
+
+export function saveCharacters(db) {
+  fs.mkdirSync(PROMPTS(), { recursive: true })
+  const active = new Set()
+  for (const entry of db.characters) {
+    const versions = entry.promptVersions || []
+    if (!versions.length) continue
+    active.add(`${entry.char}.json`)
+    const next = JSON.stringify(versions, null, 2) + '\n'
+    const file = promptFile(entry.char)
+    let current = null
+    try { current = fs.readFileSync(file, 'utf8') } catch (error) { if (error.code !== 'ENOENT') throw error }
+    if (current !== next) writeJSON(file, versions)
+  }
+  // 字被刪掉（版本跟著進 deletedCharacters）或版本清空：檔案不能留著，不然同名新字會撿到舊版本
+  for (const name of fs.readdirSync(PROMPTS())) {
+    if (name.endsWith('.json') && !active.has(name)) fs.rmSync(path.join(PROMPTS(), name))
+  }
+  const stored = { ...db, characters: db.characters.map(({ promptVersions, ...entry }) => entry) }
+  writeJSON(path.join(DATA, 'characters.json'), stored)
+}
 export const loadTemplate = () => readJSON(path.join(ROOT, 'data/prompt-template.json'), null)
 export const loadProgress = () => readJSON(path.join(DATA, 'progress.json'), { watched: {} })
 export const saveProgress = (d) => writeJSON(path.join(DATA, 'progress.json'), d)
