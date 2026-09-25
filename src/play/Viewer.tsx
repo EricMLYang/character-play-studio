@@ -152,7 +152,9 @@ export default function Viewer({
   const parts = useMemo(() => partsOf(entry.char).filter((p) => known.has(p.char)), [entry.char, known])
   const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
   const words = entry.words || []
-  const volume = video?.volume ?? image?.volume ?? 0.7
+  // 唸字／唸語詞按鈕跟 media.volume 無關：media.volume 是家長審核過的「影片／圖片播放音量」，
+  // 按鈕是隨時可點的系統朗讀，兩者混在一起會讓影片調小聲時語詞也跟著變小聲。
+  const speechVolume = 0.7
 
   return (
     <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
@@ -163,7 +165,7 @@ export default function Viewer({
           <button className="viewer-close" onClick={onClose}>回剛才的字卡</button>
         </div>
         <button className="viewer-title" aria-label={`再聽一次「${entry.char}」`}
-          onClick={() => say(entry.char, 0.7, volume)}>
+          onClick={() => say(entry.char, 0.7, speechVolume)}>
           <span className="viewer-emoji">{entry.emoji}</span>
           <b className="viewer-char">{entry.char}</b>
           <span className="viewer-zhuyin">{entry.zhuyin}</span>
@@ -176,7 +178,7 @@ export default function Viewer({
       {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
-            <button key={word.text} className="word" onClick={() => say(word.text, 0.8, volume)} aria-label={`唸「${word.text}」`}>
+            <button key={word.text} className="word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
               {word.emoji && <span className="word-emoji" aria-hidden>{word.emoji}</span>}
               <span className="word-text">
                 {[...(word.text || '')].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
