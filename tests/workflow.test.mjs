@@ -207,6 +207,14 @@ test('prompt versions live in one file per character, migrate from inline data a
   saveCharacters(before)
 })
 
+test('prompt selection and daily batch routes answer through the route table', async () => {
+  assert.equal((await request('/prompt/select', { char: '山', id: 'no-such-version' })).status, 404)
+  const today = await request('/prompt/today', undefined, 'GET')
+  assert.equal(today.status, 200)
+  assert.ok(Array.isArray(today.body.queue))
+  assert.equal((await request('/prompt/today/cancel', {})).status, 200)
+})
+
 test('tracing moves a character into town with the newest handwriting and grows it', () => {
   const older = [[100, 700, 900, 700]], newer = [[120, 690, 880, 710]]
   let p = addTrace({ watched: {} }, '火', older, '2026-09-20T10:00:00Z')
