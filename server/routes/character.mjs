@@ -2,12 +2,17 @@ import { fail } from '../http.mjs'
 import { isGenerating } from '../prompt-generation.mjs'
 import { suggestCharacterMetadata, validateCharacterFields } from '../character-metadata.mjs'
 import { loadCharacters, saveCharacters } from '../core.mjs'
+import { refreshCharacterAssets } from '../char-assets.mjs'
 
 const findEntry = (db, char, message = '找不到這個字') => db.characters.find((c) => c.char === char) || fail(404, message)
 
-/** 字卡：新增、AI 補齊、編輯、刪除／還原、開放給孩子。 */
+/**
+ * 字卡：新增、AI 補齊、編輯、刪除／還原、開放給孩子。
+ * 會改變字庫成員或孩子看得到哪些字的操作，存檔後順便更新筆順與字的家族，
+ * 回應裡的 assets 告訴 Studio 有沒有字缺筆順、字的家族有沒有算成功。
+ */
 export const characterRoutes = {
-  'POST /character': ({ body: raw }) => {
+  'POST /character': async ({ body: raw }) => {
     const body = validateCharacterFields(raw)
     const db = loadCharacters()
     if (db.deletedCharacters?.some((c) => c.char === body.char)) fail(409, `「${body.char}」在已刪除清單中，請先還原再編輯。`)
@@ -22,7 +27,7 @@ export const characterRoutes = {
       hidden: true,
     })
     saveCharacters(db)
-    return { ok: true }
+    return { ok: true, assets: await refreshCharacterAssets() }
   },
 
   'POST /character/suggest': ({ body, signal }) => suggestCharacterMetadata({ ...body, signal }),
@@ -39,7 +44,7 @@ export const characterRoutes = {
     return { ok: true, entry }
   },
 
-  'POST /character/delete': ({ body }) => {
+  'POST /character/delete': async ({ body }) => {
     const { char } = validateCharacterFields(body)
     if (isGenerating()) fail(409, '請等目前的影片 prompt 生成完成，再刪除或還原字卡')
     const db = loadCharacters()
@@ -49,10 +54,10 @@ export const characterRoutes = {
     // Keep attempts and their quota history; only remove the deleted card from recommendations.
     for (const day of Object.values(db.production?.days || {})) day.queue = day.queue.filter((c) => c !== char)
     saveCharacters(db)
-    return { ok: true }
+    return { ok: true, assets: await refreshCharacterAssets() }
   },
 
-  'POST /character/restore': ({ body }) => {
+  'POST /character/restore': async ({ body }) => {
     const { char } = validateCharacterFields(body)
     if (isGenerating()) fail(409, '請等目前的影片 prompt 生成完成，再刪除或還原字卡')
     const db = loadCharacters()
@@ -63,17 +68,17 @@ export const characterRoutes = {
     db.characters.push(entry)
     db.deletedCharacters = db.deletedCharacters.filter((c) => c.char !== char)
     saveCharacters(db)
-    return { ok: true }
+    return { ok: true, assets: await refreshCharacterAssets() }
   },
 
   // ---- 這個字要不要出現在孩子端 ----
-  'POST /character/visibility': ({ body: { char, hidden } }) => {
+  'POST /character/visibility': async ({ body: { char, hidden } }) => {
     if (typeof hidden !== 'boolean') fail(400, '請指定要開放或隱藏')
     const db = loadCharacters()
     const entry = findEntry(db, char)
     if (hidden) entry.hidden = true
     else delete entry.hidden
     saveCharacters(db)
-    return { ok: true, entry }
+    return { ok: true, entry, assets: await refreshCharacterAssets() }
   },
 }

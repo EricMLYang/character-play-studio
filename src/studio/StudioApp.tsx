@@ -83,7 +83,7 @@ export default function StudioApp() {
     finally { working.current = false; setBusy(false) }
   }
 
-  const flash = (m: string) => { setToast(m); setTimeout(() => setToast(''), 2200) }
+  const flash = (m: string, ms = 2200) => { setToast(m); setTimeout(() => setToast(''), ms) }
 
   const pick = async (char: string) => {
     if (working.current) return
@@ -268,9 +268,15 @@ export default function StudioApp() {
                     {entry.hidden ? '孩子端隱藏中' : '孩子端看得到'}
                   </span>
                   <button className="st-btn ghost" disabled={busy} onClick={() => run(async () => {
-                    await setVisibility(entry.char, !entry.hidden)
+                    const { assets } = await setVisibility(entry.char, !entry.hidden)
                     await reload()
-                    flash(entry.hidden ? `「${entry.char}」已開放給孩子` : `「${entry.char}」已從孩子端收起來`)
+                    // 開放的那一刻才要提醒：孩子端缺了什麼，他會看到什麼替代畫面
+                    const notes = [
+                      entry.hidden && assets.missingStrokes.includes(entry.char) && '這個字沒有筆順資料，孩子端會用字卡動畫、不能描字',
+                      assets.partsError,
+                    ].filter(Boolean)
+                    flash((entry.hidden ? `「${entry.char}」已開放給孩子` : `「${entry.char}」已從孩子端收起來`)
+                      + (notes.length ? `。${notes.join('；')}` : ''), notes.length ? 6000 : 2200)
                   })}>{entry.hidden ? '開放給孩子' : '先收起來'}</button>
                   {entry.hidden && <p className="st-dim">新加的字預設不出現在字庫。注音、字義與素材確認好再開放。</p>}
                 </div>

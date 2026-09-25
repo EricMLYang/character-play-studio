@@ -14,6 +14,9 @@ for (const c of db.characters) {
   c.promptVersions = []; delete c.activePromptId
 }
 saveCharacters(db)
+// 孩子端要的筆順與字的家族也放一份進暫存資料夾；之後在 Studio 增刪字只會改這一份
+fs.cpSync(path.join(ROOT, 'public/strokes'), path.join(storage, 'public/strokes'), { recursive: true })
+fs.copyFileSync(path.join(ROOT, 'data/parts.json'), path.join(storage, 'data/parts.json'))
 const server = await createServer({ server: { host: '127.0.0.1', port: 5181, strictPort: true, open: false } })
 await server.listen()
 console.log(`Test studio: http://127.0.0.1:5181/studio\nIsolated storage: ${storage}`)

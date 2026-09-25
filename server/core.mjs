@@ -5,8 +5,11 @@ import { createHash } from 'node:crypto'
 import { taiwanDay, revisionTags } from '../shared/domain.mjs'
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-export const DATA = path.join(process.env.CPS_STORAGE_ROOT || ROOT, 'data')
-export const MEDIA = path.join(process.env.CPS_STORAGE_ROOT || ROOT, 'media')
+/** 會被改寫的東西都跟著儲存根目錄走：測試與 dev:test 用暫存資料夾，絕不碰真的字庫。 */
+export const STORAGE = process.env.CPS_STORAGE_ROOT || ROOT
+export const DATA = path.join(STORAGE, 'data')
+export const MEDIA = path.join(STORAGE, 'media')
+export const STROKES = path.join(STORAGE, 'public', 'strokes')
 
 const readJSON = (p, fallback) => {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')) } catch (error) {

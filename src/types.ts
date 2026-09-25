@@ -56,6 +56,8 @@ export type Library = {
   deletedCharacters?: { char: string; deletedAt: string }[]
   template: any
   progress: Progress
+  /** 哪個字裡面有哪個字，以及那個部件佔的筆畫 */
+  parts: Record<string, { char: string; strokes: number[]; role?: string }[]>
   queue: string[]
   production: { date: string; limit: number; queue: string[]; attempts: Attempt[] }
   pendingAttempts: Attempt[]

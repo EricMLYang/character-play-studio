@@ -12,6 +12,9 @@ process.env.CPS_STORAGE_ROOT = storage
 const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash } = await import('../server/core.mjs')
 const { generatePrompt, creativeBrief } = await import('../server/prompt-generation.mjs')
 const { apiPlugin } = await import('../server/api.mjs')
+const { setDictionaryLoader } = await import('../server/char-assets.mjs')
+// 字的家族要用的拆字資料：測試不連網，只放要驗的那個字
+setDictionaryLoader(async () => JSON.stringify({ character: '林', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
 const { dailyTargets, dailyBatch, startDailyBatch, cancelDailyBatch, whenDailyBatchIdle } = await import('../server/daily-prompts.mjs')
 const seed = JSON.parse(fs.readFileSync(new URL('../data/characters.json', import.meta.url), 'utf8'))
 const fixture = () => ({ version: 1, characters: structuredClone(seed.characters).map((c) => ({ ...c, status: 'seed', media: [], feedback: [], needsRedo: false, promptVersions: [], activePromptId: undefined })) })
@@ -224,6 +227,35 @@ test('scene lives on the card: saved on add and edit, cleared when unset, valida
   assert.equal('scene' in loadCharacters().characters.find((c) => c.char === '霞'), false)
   assert.match((await request('/character/update', { char: '霞', scene: 'volcano' })).body.error, /場景/)
   assert.equal((await request('/character/delete', { char: '霞' })).status, 200)
+})
+
+test('adding, opening and deleting a character refreshes its strokes and family without running scripts', async () => {
+  const strokes = path.join(storage, 'public', 'strokes')
+  const added = await request('/character', { char: '林' })
+  assert.deepEqual(added.body.assets, { missingStrokes: [] })
+  assert.ok(fs.existsSync(path.join(strokes, '林.json')), 'strokes extracted into the storage root, not the real public/')
+  let library = (await request('/library', undefined, 'GET')).body
+  assert.deepEqual(library.parts['林'], [{ char: '木', strokes: [0, 1, 2, 3] }])
+  const served = await fetch(base.replace('/api', '/strokes/') + encodeURIComponent('林') + '.json')
+  assert.equal((await served.json()).strokes.length, 8)
+  assert.equal((await request('/character/visibility', { char: '林', hidden: false })).body.assets.missingStrokes.length, 0)
+  assert.equal((await request('/character/delete', { char: '林' })).status, 200)
+  assert.equal(fs.existsSync(path.join(strokes, '林.json')), false)
+  library = (await request('/library', undefined, 'GET')).body
+  assert.equal(library.parts['林'], undefined)
+})
+
+test('offline family lookup still saves the parent action and says what was skipped', async () => {
+  setDictionaryLoader(async () => { throw new Error('offline') })
+  try {
+    const added = await request('/character', { char: '森' })
+    assert.equal(added.status, 200)
+    assert.match(added.body.assets.partsError, /offline/)
+    assert.ok(loadCharacters().characters.some((c) => c.char === '森'))
+    await request('/character/delete', { char: '森' })
+  } finally {
+    setDictionaryLoader(async () => JSON.stringify({ character: '林', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
+  }
 })
 
 test('tracing moves a character into town with the newest handwriting and grows it', () => {

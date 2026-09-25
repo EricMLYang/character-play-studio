@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { json, dispatch } from './http.mjs'
-import { MEDIA } from './core.mjs'
+import { MEDIA, STROKES } from './core.mjs'
 import { libraryRoutes } from './routes/library.mjs'
 import { promptRoutes } from './routes/prompt.mjs'
 import { mediaRoutes } from './routes/media.mjs'
@@ -45,6 +45,17 @@ export function apiPlugin() {
           return fs.createReadStream(file, { start, end }).pipe(res)
         }
         res.setHeader('Content-Length', stat.size)
+        fs.createReadStream(file).pipe(res)
+      })
+
+      // 筆順從儲存根目錄給：平常就是 public/strokes/，測試時是暫存資料夾裡新抽的那一份
+      server.middlewares.use('/strokes', (req, res, next) => {
+        const name = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '')
+        const file = path.join(STROKES, name)
+        if (!file.startsWith(STROKES + path.sep) || !name.endsWith('.json')) return next()
+        // 沒有筆順的字要明確回 404，不要落到網頁本身；孩子端據此退回字卡動畫
+        if (!fs.existsSync(file)) return json(res, 404, { error: '沒有筆順資料' })
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
         fs.createReadStream(file).pipe(res)
       })
 

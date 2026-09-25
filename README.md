@@ -78,23 +78,17 @@ AI 沒有產出可用結果時，按待匯入紀錄旁的 **沒有可用影片**
 ### 筆順資料
 
 筆順來自 [hanzi-writer](https://github.com/chanind/hanzi-writer)，資料是 [Make Me a Hanzi](https://github.com/skishore/makemeahanzi)（衍生自文鼎字型，Arphic Public License）。
-`npm install` 之後跑一次，只把**字庫實際用到的字**抽進 `public/strokes/`，完全離線、不連 CDN：
+只把**字庫實際用到的字**抽進 `public/strokes/`，完全離線、不連 CDN。
 
-```bash
-npm run strokes
-```
-
-加了新字之後要再跑一次；已經移除的字會一併清掉。沒有筆順資料的字會自動退回原本的 emoji 字卡動畫，定格幾秒一樣記一次。
+**不用手動跑**：在 Studio 新增、刪除、還原字，或按「開放給孩子」時，伺服器會自動抽新字的筆順、清掉移除的字。開放一個沒有筆順資料的字時，Studio 會提示；孩子端會自動退回原本的 emoji 字卡動畫，定格幾秒一樣記一次。要手動重抽也可以跑 `npm run strokes`。
 
 ### 字的家族（哪個字裡面有哪個字）
 
-`data/parts.json` 記錄「跑裡面有足」這種關係，以及那個部件佔掉哪幾筆（決定藍色標在哪）。拆字資料同樣出自 Make Me a Hanzi，這支腳本要連網：
+`data/parts.json` 記錄「跑裡面有足」這種關係，以及那個部件佔掉哪幾筆（決定藍色標在哪）。拆字資料同樣出自 Make Me a Hanzi。
 
-```bash
-npm run parts
-```
+跟筆順一樣，**字庫一變動就自動重算**，孩子端重新整理就看得到。拆字資料第一次要連網下載（之後讀 `node_modules/.cache` 的快取）；沒網路時家長的操作照樣完成，Studio 會提示字的家族這次沒更新，下次變動時再算。要手動重算可以跑 `npm run parts`。
 
-只收**字庫裡已經有的字**當部件，孩子點下去才不會撲空。有兩道防呆：部件佔的筆數必須等於那個字本身的筆數，對不上就丟掉（例如「果」裡的「田」少一筆，就不會標）；另外有一小張人工排除表寫在 `scripts/parts.mjs` 裡，擋掉拆得出來但不適合教的組合（像「火裡面有人」），要改直接編那張表。加了新字之後跑一次。
+只收**字庫裡已經有的字**當部件，孩子點下去才不會撲空。有兩道防呆：部件佔的筆數必須等於那個字本身的筆數，對不上就丟掉（例如「果」裡的「田」少一筆，就不會標）；另外有一小張人工排除表 `SKIP` 寫在 `server/char-assets.mjs` 裡，擋掉拆得出來但不適合教的組合（像「火裡面有人」），要改直接編那張表，再跑一次 `npm run parts`。
 
 ## 看完之後還有地方去：我的小鎮、魔法鍋
 
@@ -120,7 +114,7 @@ npm run parts
 
 變出來的字會一筆一畫寫出來，**丟進去的那個字用藍色**（跟筆順裡的藍色同一個意思）。下方「📖 魔法圖鑑」記錄發現過的字；還沒發現的格子是 ？，右下角小字提示從哪個字開始丟。
 
-配方直接來自 `data/parts.json`，加了新字、跑完 `npm run parts`，鍋子就會多出新的變化。兩個場景相遇的反應表在 `src/play/brew.ts`。
+配方直接來自 `data/parts.json`，開放新字之後，鍋子就會自動多出新的變化。兩個場景相遇的反應表在 `src/play/brew.ts`。
 
 ## AI Prompt 生成
 
@@ -173,8 +167,8 @@ data/prompts/<字>.json     每個字保存過的 AI prompt 版本全文（進 g
 data/prompt-template.json  prompt 三層
 data/progress.json         觀看紀錄、小鎮居民（他的筆跡）、魔法鍋發現（不進 git）
 media/                     影片圖片（不進 git，靠 Google Drive 同步）
-public/strokes/            筆順資料，npm run strokes 產生（進 git，離線可用）
-data/parts.json            哪個字裡面有哪個字，npm run parts 產生（進 git）
+public/strokes/            筆順資料，字庫變動時自動更新（進 git，離線可用）
+data/parts.json            哪個字裡面有哪個字，字庫變動時自動重算（進 git）
 ```
 
 觀看完成、描字搬進小鎮、魔法鍋發現都採用唯一事件編號避免重複記錄；重播看完會增加次數。尚未成功儲存的事件會留在瀏覽器暫存，重試或重開後再同步。
@@ -184,8 +178,8 @@ data/parts.json            哪個字裡面有哪個字，npm run parts 產生（
 ```bash
 npm test          # 隔離暫存字庫，驗證日期、額度、回饋、上架、觀看／描字／發現紀錄 API
 npm run build     # TypeScript + 前端編譯
-npm run strokes   # 重抽筆順資料（加了新字之後）
-npm run parts     # 重算字的家族（加了新字之後，需要連網）
+npm run strokes   # 手動重抽筆順（平常 Studio 增刪、開放字時會自動做）
+npm run parts     # 手動重算字的家族（改了 SKIP 排除表之後；第一次需要連網）
 npm run dev:test  # http://127.0.0.1:5181/studio，獨立測試字庫，Ctrl+C 後清理
 ```
 

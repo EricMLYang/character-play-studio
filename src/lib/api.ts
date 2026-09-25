@@ -1,4 +1,7 @@
-import type { DailyBatch, Library, Progress, Prompt } from '../types'
+import type { CharEntry, DailyBatch, Library, Progress, Prompt } from '../types'
+
+/** 字庫變動後伺服器順便更新的筆順與字的家族 */
+export type AssetReport = { missingStrokes: string[]; partsError?: string }
 
 const j = async (r: Response) => {
   const body = await r.json()
@@ -28,7 +31,7 @@ export const restoreCharacter = (char: string) =>
   fetch('/api/character/restore', { method: 'POST', body: JSON.stringify({ char }) }).then(j)
 export const suggestCharacter = (body: { char: string; provider: string; model: string }, signal: AbortSignal): Promise<{ char: string; zhuyin: string; meaning: string; emoji: string; words: string; scene: string }> =>
   fetch('/api/character/suggest', { method: 'POST', body: JSON.stringify(body), signal }).then(j)
-export const setVisibility = (char: string, hidden: boolean) =>
+export const setVisibility = (char: string, hidden: boolean): Promise<{ ok: true; entry: CharEntry; assets: AssetReport }> =>
   fetch('/api/character/visibility', { method: 'POST', body: JSON.stringify({ char, hidden }) }).then(j)
 export const importFile = (char: string, file: File, attemptId = '') => {
   const ext = file.name.split('.').pop() || 'mp4'

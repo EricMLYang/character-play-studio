@@ -8,6 +8,7 @@ import Home from './Home'
 import Viewer from './Viewer'
 import Town from './Town'
 import Lab from './Lab'
+import { setParts } from './parts'
 
 export type Filter = 'all' | 'video' | 'unwatched'
 export type Screen = 'home' | 'town' | 'lab'
@@ -48,6 +49,7 @@ export default function PlayApp() {
 
   useEffect(() => {
     getLibrary().then((l) => {
+      setParts(l.parts)
       setLib(l)
       const completed = (l.progress as Progress & { completedEvents?: Record<string, string> }).completedEvents || {}
       setProgress(pendingEvents().filter((e) => !completed[e.id]).reduce(applyEvent, { ...EMPTY, ...l.progress }))
