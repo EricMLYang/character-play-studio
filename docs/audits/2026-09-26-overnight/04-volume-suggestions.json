@@ -1,0 +1,292 @@
+{
+ "忍": {
+  "integratedLUFS": -27,
+  "currentVolume": 0.7,
+  "suggestedVolume": 1
+ },
+ "跑": {
+  "integratedLUFS": -25.5,
+  "currentVolume": 0.7,
+  "suggestedVolume": 1
+ },
+ "豬": {
+  "integratedLUFS": -25.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 1
+ },
+ "雨": {
+  "integratedLUFS": -25.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 1
+ },
+ "口": {
+  "integratedLUFS": -23.5,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.94
+ },
+ "竹": {
+  "integratedLUFS": -23,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.89
+ },
+ "心": {
+  "integratedLUFS": -22.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.87
+ },
+ "水": {
+  "integratedLUFS": -22.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.86
+ },
+ "耳": {
+  "integratedLUFS": -22.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.86
+ },
+ "龍": {
+  "integratedLUFS": -22.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.86
+ },
+ "牛": {
+  "integratedLUFS": -22.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.83
+ },
+ "玩": {
+  "integratedLUFS": -22.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.83
+ },
+ "星": {
+  "integratedLUFS": -22.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.83
+ },
+ "石": {
+  "integratedLUFS": -22.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.82
+ },
+ "田": {
+  "integratedLUFS": -22.2,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.81
+ },
+ "鳥": {
+  "integratedLUFS": -22.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.8
+ },
+ "戰": {
+  "integratedLUFS": -22,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.79
+ },
+ "笑": {
+  "integratedLUFS": -21.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.78
+ },
+ "馬": {
+  "integratedLUFS": -21.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.76
+ },
+ "犬": {
+  "integratedLUFS": -21.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.76
+ },
+ "球": {
+  "integratedLUFS": -21.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.76
+ },
+ "門": {
+  "integratedLUFS": -21.5,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.75
+ },
+ "大": {
+  "integratedLUFS": -21.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.73
+ },
+ "器": {
+  "integratedLUFS": -21.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.73
+ },
+ "日": {
+  "integratedLUFS": -21.2,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.72
+ },
+ "木": {
+  "integratedLUFS": -21.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.72
+ },
+ "打": {
+  "integratedLUFS": -21.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.72
+ },
+ "米": {
+  "integratedLUFS": -20.9,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.7
+ },
+ "魚": {
+  "integratedLUFS": -20.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.69
+ },
+ "王": {
+  "integratedLUFS": -20.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.69
+ },
+ "車": {
+  "integratedLUFS": -20.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.68
+ },
+ "手": {
+  "integratedLUFS": -20.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.66
+ },
+ "劍": {
+  "integratedLUFS": -20.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.66
+ },
+ "力": {
+  "integratedLUFS": -20.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.65
+ },
+ "小": {
+  "integratedLUFS": -20.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.64
+ },
+ "金": {
+  "integratedLUFS": -20,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.63
+ },
+ "土": {
+  "integratedLUFS": -19.9,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.62
+ },
+ "月": {
+  "integratedLUFS": -19.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.62
+ },
+ "中": {
+  "integratedLUFS": -19.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.62
+ },
+ "電": {
+  "integratedLUFS": -19.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.62
+ },
+ "機": {
+  "integratedLUFS": -19.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.61
+ },
+ "弓": {
+  "integratedLUFS": -19.3,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.58
+ },
+ "人": {
+  "integratedLUFS": -19.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.57
+ },
+ "火": {
+  "integratedLUFS": -18.9,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.56
+ },
+ "山": {
+  "integratedLUFS": -18.8,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.55
+ },
+ "快": {
+  "integratedLUFS": -18.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.54
+ },
+ "飛": {
+  "integratedLUFS": -18.5,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.53
+ },
+ "花": {
+  "integratedLUFS": -18.4,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.52
+ },
+ "川": {
+  "integratedLUFS": -17.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.48
+ },
+ "上": {
+  "integratedLUFS": -17.2,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.46
+ },
+ "下": {
+  "integratedLUFS": -17.2,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.46
+ },
+ "光": {
+  "integratedLUFS": -17.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.45
+ },
+ "目": {
+  "integratedLUFS": -16.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.43
+ },
+ "天": {
+  "integratedLUFS": -16.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.4
+ },
+ "超": {
+  "integratedLUFS": -16.1,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.4
+ },
+ "跳": {
+  "integratedLUFS": -15.7,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.38
+ },
+ "畫": {
+  "integratedLUFS": -15,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.35
+ },
+ "刀": {
+  "integratedLUFS": -14.6,
+  "currentVolume": 0.7,
+  "suggestedVolume": 0.34
+ }
+}
