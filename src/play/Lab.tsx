@@ -5,6 +5,7 @@ import { bubble, plop, poof, tap } from '../lib/sfx'
 import { hidesIn } from './parts'
 import { brew, recipes, type Brew } from './brew'
 import { CharArt } from './Glyphs'
+import { sceneFor } from './scenes'
 
 /**
  * 魔法鍋：丟一兩個字進去攪一攪，看會變出什麼。
@@ -48,7 +49,7 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
 
   const stir = () => {
     if (!picked.length || stirring) return
-    const made = brew(picked, known, found)
+    const made = brew(picked, known, found, (c) => sceneFor(byChar.get(c)))
     const fresh = made.kind === 'make' && !found[made.char]
     setStirring(true)
     bubble()

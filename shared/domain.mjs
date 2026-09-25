@@ -7,6 +7,12 @@ export function taiwanDay(value = new Date()) {
   }).format(date)
 }
 
+/**
+ * 每個字的場景：決定孩子端的背景小動畫，以及魔法鍋裡兩個字相遇的反應。
+ * 存在字卡的 scene 欄位；沒填的字（含還沒分類的新字）一律是 sparkle。
+ */
+export const SCENES = ['rain', 'fire', 'glow', 'grow', 'fly', 'bounce', 'zap', 'sparkle']
+
 // Existing imported media predates review; preserve its published behavior.
 export const isPublished = (media) => media.review === undefined || media.review === 'published'
 export const publishedMedia = (entry) => (entry.media || []).filter(isPublished)

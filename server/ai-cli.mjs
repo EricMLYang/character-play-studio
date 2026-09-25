@@ -3,6 +3,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
+import { SCENES } from '../shared/domain.mjs'
 
 export const OUTPUT_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -14,8 +15,9 @@ export const OUTPUT_SCHEMA = {
 const PROVIDERS = { codex: 'Codex', claude: 'Claude Code', agy: 'Google agy' }
 export const METADATA_SCHEMA = {
   type: 'object', additionalProperties: false,
-  properties: Object.fromEntries(['char', 'meaning', 'zhuyin', 'emoji', 'words'].map((key) => [key, { type: 'string' }])),
-  required: ['char', 'meaning', 'zhuyin', 'emoji', 'words'],
+  properties: { ...Object.fromEntries(['char', 'meaning', 'zhuyin', 'emoji', 'words'].map((key) => [key, { type: 'string' }])),
+    scene: { type: 'string', enum: SCENES } },
+  required: ['char', 'meaning', 'zhuyin', 'emoji', 'words', 'scene'],
 }
 export function executable(provider) {
   if (!Object.hasOwn(PROVIDERS, provider)) throw new Error('請選擇 Codex、Claude Code 或 Google agy')

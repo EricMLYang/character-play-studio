@@ -16,6 +16,7 @@ export const characterRoutes = {
       char: body.char, zhuyin: body.zhuyin || '', meaning: body.meaning || '',
       emoji: body.emoji || '✨', words: body.words,
       concept: { object: body.object || '', morph: body.morph || '', hook: body.hook || '' },
+      ...(body.scene ? { scene: body.scene } : {}),
       status: 'seed', priority: db.characters.length + 1, media: [], feedback: [],
       // 新字先不進孩子端：注音、意思與素材都還沒備齊，要由家長決定何時開放
       hidden: true,
@@ -32,6 +33,8 @@ export const characterRoutes = {
     const entry = findEntry(db, body.char, '找不到這個字，可能已刪除')
     Object.assign(entry, { zhuyin: body.zhuyin, meaning: body.meaning, emoji: body.emoji || '✨',
       words: body.words, concept: { object: body.object, morph: body.morph, hook: body.hook } })
+    if (body.scene) entry.scene = body.scene
+    else delete entry.scene
     saveCharacters(db)
     return { ok: true, entry }
   },

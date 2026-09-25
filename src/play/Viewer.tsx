@@ -211,7 +211,7 @@ export default function Viewer({
       <div className="viewer-frame">
         {trace ? (
           <div className="stage stage-write">
-            <Scene char={entry.char} />
+            <Scene entry={entry} />
             <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={traceDone} onUnavailable={() => setTrace(false)} />
           </div>
         ) : video ? (
@@ -246,7 +246,7 @@ export default function Viewer({
             onLoad={() => setReady(true)} onError={() => setImageFailed(true)} />
         ) : (
           <div className={`stage stage-${phase}`}>
-            <Scene char={entry.char} />
+            <Scene entry={entry} />
             <div className="stage-emoji">{entry.emoji}</div>
             <div className="stage-char">{entry.char}</div>
             {phase === 'write' && !noStrokes
@@ -288,8 +288,8 @@ export default function Viewer({
 }
 
 /** 每個字專屬的背景小動畫：純 CSS，不佔素材產線。 */
-function Scene({ char }: { char: string }) {
-  const kind = sceneFor(char)
+function Scene({ entry }: { entry: CharEntry }) {
+  const kind = sceneFor(entry)
   return (
     <div className={`scene scene-${kind}`} aria-hidden>
       {Array.from({ length: SCENE_PIECES[kind] }, (_, i) => <span key={i} style={{ ['--i' as any]: i }} />)}

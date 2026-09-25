@@ -1,5 +1,5 @@
 import { partsOf, hidesIn } from './parts'
-import { sceneFor, type Scene } from './scenes'
+import type { Scene } from './scenes'
 
 /**
  * 魔法鍋：把字丟進鍋子攪一攪。
@@ -23,7 +23,8 @@ export const recipes = (known: Set<string>) =>
   [...known].filter((c) => partsOf(c).some((p) => known.has(p.char)))
     .map((char) => ({ char, from: partsOf(char).filter((p) => known.has(p.char)).map((p) => p.char) }))
 
-export function brew(picked: string[], known: Set<string>, found: Record<string, string>, random = Math.random): Brew {
+export function brew(picked: string[], known: Set<string>, found: Record<string, string>,
+  sceneOf: (char: string) => Scene, random = Math.random): Brew {
   const [a, b] = picked
   if (b === undefined) {
     const wholes = hidesIn(a).filter((c) => known.has(c))
@@ -41,7 +42,7 @@ export function brew(picked: string[], known: Set<string>, found: Record<string,
   for (const [part, whole] of [[a, b], [b, a]]) {
     if (partsOf(whole).some((p) => p.char === part)) return { kind: 'inside', char: whole, part, strokes: strokesOf(whole, [part]) }
   }
-  return react(sceneFor(a), sceneFor(b), random)
+  return react(sceneOf(a), sceneOf(b), random)
 }
 
 // 兩個場景相遇會發生什麼。key 是排序後的兩個場景，所以火＋水跟水＋火一樣

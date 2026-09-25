@@ -14,6 +14,8 @@ export type Media = {
   feedbackCount?: number
 }
 
+export type Scene = 'rain' | 'fire' | 'glow' | 'grow' | 'fly' | 'bounce' | 'zap' | 'sparkle'
+
 export type CharWord = { text: string; emoji?: string }
 
 export type CharEntry = {
@@ -24,6 +26,8 @@ export type CharEntry = {
   /** 把字放回孩子已經會說的話裡：日 → 生日🎂、日出🌅。每個詞都含這個字。 */
   words?: CharWord[]
   concept: { object: string; morph: string; hook: string }
+  /** 背景小動畫與魔法鍋反應用的分類；沒填就是 sparkle */
+  scene?: Scene
   status: 'seed' | 'prompted' | 'live'
   priority: number
   media: Media[]

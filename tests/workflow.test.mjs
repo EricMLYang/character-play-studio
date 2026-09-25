@@ -215,6 +215,17 @@ test('prompt selection and daily batch routes answer through the route table', a
   assert.equal((await request('/prompt/today/cancel', {})).status, 200)
 })
 
+test('scene lives on the card: saved on add and edit, cleared when unset, validated', async () => {
+  assert.equal((await request('/character', { char: '霞', scene: 'glow' })).status, 200)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '霞').scene, 'glow')
+  assert.equal((await request('/character/update', { char: '霞', scene: 'rain' })).status, 200)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '霞').scene, 'rain')
+  assert.equal((await request('/character/update', { char: '霞', scene: '' })).status, 200)
+  assert.equal('scene' in loadCharacters().characters.find((c) => c.char === '霞'), false)
+  assert.match((await request('/character/update', { char: '霞', scene: 'volcano' })).body.error, /場景/)
+  assert.equal((await request('/character/delete', { char: '霞' })).status, 200)
+})
+
 test('tracing moves a character into town with the newest handwriting and grows it', () => {
   const older = [[100, 700, 900, 700]], newer = [[120, 690, 880, 710]]
   let p = addTrace({ watched: {} }, '火', older, '2026-09-20T10:00:00Z')
@@ -460,7 +471,7 @@ test('delete and restore preserve media, progress and quota history, and prevent
 test('AI metadata suggestions are validated previews and never save over a parent entry', async () => {
   const { suggestCharacterMetadata } = await import('../server/character-metadata.mjs')
   const before = loadCharacters()
-  const suggested = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘', words: '忍者🥷、忍住🤐' }
+  const suggested = { char: '忍', zhuyin: 'ㄖㄣˇ', meaning: 'endure', emoji: '🧘', words: '忍者🥷、忍住🤐', scene: 'zap' }
   assert.deepEqual(await suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async (input) => {
     assert.equal(input.metadataOnly, true)
     assert.match(input.brief, /Taiwanese/)
@@ -469,6 +480,10 @@ test('AI metadata suggestions are validated previews and never save over a paren
   // 語詞是選填的：AI 沒給也不該讓整次補齊失敗，家長自己打就好
   assert.deepEqual(await suggestCharacterMetadata({ char: '忍', provider: 'codex' },
     async () => ({ ...suggested, words: undefined })), { ...suggested, words: '' })
+  // 場景猜錯或給閃亮：留空讓家長選，不讓整次補齊失敗
+  for (const scene of ['volcano', undefined, 'sparkle']) {
+    assert.equal((await suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, scene }))).scene, '')
+  }
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, char: '日' })), /不符/)
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, zhuyin: 'ren3' })), /注音/)
   await assert.rejects(suggestCharacterMetadata({ char: '忍', provider: 'codex' }, async () => ({ ...suggested, words: '忍者🥷、跑步🏃' })), /跑步.*沒有/)

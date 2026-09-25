@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, Library } from '../types'
 import { addCharacter, updateCharacter, deleteCharacter, suggestCharacter } from '../lib/api'
+import { SCENE_LABELS } from '../play/scenes'
 
 export default function CharacterEditor({ entry, providers, disabled, onSaved, onDeleted }: {
   entry?: CharEntry
@@ -24,7 +25,8 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
   const [fields, setFields] = useState({ char: entry?.char || '', zhuyin: entry?.zhuyin || '',
     meaning: entry?.meaning || '', emoji: entry?.emoji === '✨' ? '' : entry?.emoji || '',
     words: (entry?.words || []).map((w) => w.text + (w.emoji || '')).join('、'),
-    object: entry?.concept.object || '', morph: entry?.concept.morph || '', hook: entry?.concept.hook || '' })
+    object: entry?.concept.object || '', morph: entry?.concept.morph || '', hook: entry?.concept.hook || '',
+    scene: entry?.scene || '' })
   const [provider, setProvider] = useState(providers.find((p) => p.installed)?.id || '')
   const [model, setModel] = useState('')
   const [busy, setBusy] = useState(false)
@@ -36,10 +38,10 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
   const working = useRef(false)
   useEffect(() => () => request.current?.abort(), [])
   const locked = busy || disabled
-  const set = (key: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const set = (key: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.value
     setFields((previous) => key === 'char'
-      ? { char: value, zhuyin: '', meaning: '', emoji: '', words: '', object: '', morph: '', hook: '' }
+      ? { char: value, zhuyin: '', meaning: '', emoji: '', words: '', object: '', morph: '', hook: '', scene: '' }
       : { ...previous, [key]: value })
     setNote('')
   }
@@ -59,12 +61,13 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
       meaning: previous.meaning.trim() || result.meaning,
       emoji: previous.emoji.trim() || result.emoji,
       words: previous.words.trim() || result.words,
+      scene: previous.scene || result.scene || '',
     }))
     setNote('AI 建議已填入空白欄位，尚未儲存。請確認讀音、圖示與語詞，尤其是多音字——語詞的讀音要跟你要教的一致。')
   })
   return <section className="st-character-form">
     <h4>{entry ? `編輯「${entry.char}」` : '新增字卡'}</h4>
-    <p className="st-hint">只需填國字，再讓 AI 補齊注音、英文意思、圖示與語詞。已有內容會保留；想重選的欄位可先清空。</p>
+    <p className="st-hint">只需填國字，再讓 AI 補齊注音、英文意思、圖示、語詞與場景。已有內容會保留；想重選的欄位可先清空。</p>
     {error && <div className="st-error" role="alert">{error}</div>}
     <fieldset disabled={locked}>
       <label className="st-field">國字<input value={fields.char} readOnly={Boolean(entry)} onChange={set('char')} placeholder="例：忍" /></label>
@@ -75,8 +78,8 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
         </select></label>
         <label className="st-field">模型（選填）<input value={model} onChange={(e) => setModel(e.target.value)} maxLength={120} placeholder="使用工具預設模型" /></label>
       </div>
-      <button className="st-btn" disabled={!provider || !/^\p{Script=Han}$/u.test(fields.char.trim()) || [fields.zhuyin, fields.meaning, fields.emoji, fields.words].every((v) => v.trim())} onClick={suggest}>
-        {generating ? 'AI 正在補齊…' : '✨ AI 補齊注音、圖示與語詞'}
+      <button className="st-btn" disabled={!provider || !/^\p{Script=Han}$/u.test(fields.char.trim()) || [fields.zhuyin, fields.meaning, fields.emoji, fields.words, fields.scene].every((v) => v.trim())} onClick={suggest}>
+        {generating ? 'AI 正在補齊…' : '✨ AI 補齊注音、圖示、語詞與場景'}
       </button>
       {!provider && <p className="st-hint">尚未找到已安裝的 AI 工具，可以先手動填寫或只加入國字。</p>}
       <p className="st-hint">產生文字建議，不會製作影片，也不占每日三支影片額度。</p>
@@ -89,6 +92,12 @@ function CharacterForm({ entry, providers, disabled, onSaved, onDeleted, onClose
         <input value={fields.words} onChange={set('words')} placeholder="例：生日🎂、日出🌅" maxLength={200} />
       </label>
       <p className="st-hint">孩子端會把這些詞顯示在字卡旁邊並唸出來，把字放回他已經會說的話裡。每個詞後面接一個圖示（可省略），孩子看圖就知道那是什麼。每個詞都必須含這個字，讀音也要跟上面的注音一致。</p>
+      <label className="st-field">場景（背景小動畫、魔法鍋反應）
+        <select value={fields.scene} onChange={set('scene')}>
+          <option value="">未分類（閃亮）</option>
+          {Object.entries(SCENE_LABELS).filter(([id]) => id !== 'sparkle').map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+        </select>
+      </label>
       <details><summary>動畫概念（選填，可留給影片 AI 設計）</summary>
         <label className="st-field">登場物件（英文）<input value={fields.object} onChange={set('object')} maxLength={3000} /></label>
         <label className="st-field">形變方式（英文）<input value={fields.morph} onChange={set('morph')} maxLength={3000} /></label>
