@@ -14,7 +14,7 @@ const { generatePrompt, creativeBrief } = await import('../server/prompt-generat
 const { apiPlugin } = await import('../server/api.mjs')
 const { setDictionaryLoader } = await import('../server/char-assets.mjs')
 // 字的家族要用的拆字資料：測試不連網，只放要驗的那個字
-setDictionaryLoader(async () => JSON.stringify({ character: '林', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
+setDictionaryLoader(async () => JSON.stringify({ character: '串', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
 const { dailyTargets, dailyBatch, startDailyBatch, cancelDailyBatch, whenDailyBatchIdle } = await import('../server/daily-prompts.mjs')
 const seed = JSON.parse(fs.readFileSync(new URL('../data/characters.json', import.meta.url), 'utf8'))
 const fixture = () => ({ version: 1, characters: structuredClone(seed.characters).map((c) => ({ ...c, status: 'seed', media: [], feedback: [], needsRedo: false, promptVersions: [], activePromptId: undefined })) })
@@ -231,30 +231,30 @@ test('scene lives on the card: saved on add and edit, cleared when unset, valida
 
 test('adding, opening and deleting a character refreshes its strokes and family without running scripts', async () => {
   const strokes = path.join(storage, 'public', 'strokes')
-  const added = await request('/character', { char: '林' })
+  const added = await request('/character', { char: '串' })
   assert.deepEqual(added.body.assets, { missingStrokes: [] })
-  assert.ok(fs.existsSync(path.join(strokes, '林.json')), 'strokes extracted into the storage root, not the real public/')
+  assert.ok(fs.existsSync(path.join(strokes, '串.json')), 'strokes extracted into the storage root, not the real public/')
   let library = (await request('/library', undefined, 'GET')).body
-  assert.deepEqual(library.parts['林'], [{ char: '木', strokes: [0, 1, 2, 3] }])
-  const served = await fetch(base.replace('/api', '/strokes/') + encodeURIComponent('林') + '.json')
-  assert.equal((await served.json()).strokes.length, 8)
-  assert.equal((await request('/character/visibility', { char: '林', hidden: false })).body.assets.missingStrokes.length, 0)
-  assert.equal((await request('/character/delete', { char: '林' })).status, 200)
-  assert.equal(fs.existsSync(path.join(strokes, '林.json')), false)
+  assert.deepEqual(library.parts['串'], [{ char: '木', strokes: [0, 1, 2, 3] }])
+  const served = await fetch(base.replace('/api', '/strokes/') + encodeURIComponent('串') + '.json')
+  assert.equal((await served.json()).strokes.length, 7)
+  assert.equal((await request('/character/visibility', { char: '串', hidden: false })).body.assets.missingStrokes.length, 0)
+  assert.equal((await request('/character/delete', { char: '串' })).status, 200)
+  assert.equal(fs.existsSync(path.join(strokes, '串.json')), false)
   library = (await request('/library', undefined, 'GET')).body
-  assert.equal(library.parts['林'], undefined)
+  assert.equal(library.parts['串'], undefined)
 })
 
 test('offline family lookup still saves the parent action and says what was skipped', async () => {
   setDictionaryLoader(async () => { throw new Error('offline') })
   try {
-    const added = await request('/character', { char: '森' })
+    const added = await request('/character', { char: '皿' })
     assert.equal(added.status, 200)
     assert.match(added.body.assets.partsError, /offline/)
-    assert.ok(loadCharacters().characters.some((c) => c.char === '森'))
-    await request('/character/delete', { char: '森' })
+    assert.ok(loadCharacters().characters.some((c) => c.char === '皿'))
+    await request('/character/delete', { char: '皿' })
   } finally {
-    setDictionaryLoader(async () => JSON.stringify({ character: '林', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
+    setDictionaryLoader(async () => JSON.stringify({ character: '串', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
   }
 })
 
@@ -358,24 +358,24 @@ test('cross-origin websites cannot start a paid CLI generation', async () => {
 })
 
 test('a new character is hidden from the child library until the parent opens it, and duplicates explain themselves', async () => {
-  const inLibrary = () => browseCharacters(loadCharacters().characters).some((c) => c.char === '雲')
-  assert.equal((await request('/character', { char: '雲' })).status, 200)
-  const duplicate = await request('/character', { char: '雲' })
+  const inLibrary = () => browseCharacters(loadCharacters().characters).some((c) => c.char === '甫')
+  assert.equal((await request('/character', { char: '甫' })).status, 200)
+  const duplicate = await request('/character', { char: '甫' })
   assert.equal(duplicate.status, 409)
-  assert.match(duplicate.body.error, /雲/)
+  assert.match(duplicate.body.error, /甫/)
   assert.doesNotMatch(duplicate.body.error, /exists/)
 
-  assert.equal(loadCharacters().characters.find((c) => c.char === '雲').hidden, true)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '甫').hidden, true)
   assert.equal(inLibrary(), false)
 
-  assert.equal((await request('/character/visibility', { char: '雲' })).status, 400)
+  assert.equal((await request('/character/visibility', { char: '甫' })).status, 400)
   assert.equal((await request('/character/visibility', { char: '霧', hidden: false })).status, 404)
 
-  assert.equal((await request('/character/visibility', { char: '雲', hidden: false })).status, 200)
-  assert.equal(loadCharacters().characters.find((c) => c.char === '雲').hidden, undefined)
+  assert.equal((await request('/character/visibility', { char: '甫', hidden: false })).status, 200)
+  assert.equal(loadCharacters().characters.find((c) => c.char === '甫').hidden, undefined)
   assert.equal(inLibrary(), true)
 
-  assert.equal((await request('/character/visibility', { char: '雲', hidden: true })).status, 200)
+  assert.equal((await request('/character/visibility', { char: '甫', hidden: true })).status, 200)
   assert.equal(inLibrary(), false)
 })
 
@@ -468,7 +468,7 @@ test('metadata can be corrected after creation without replacing media or saved 
   assert.match((await request('/character/update', { char: '山', words: '爬山、火山、高山、山頂、山路' })).body.error, /最多四個/)
   assert.equal((await request('/character/update', { char: '山', zhuyin: 'ㄕㄢ', words: '' })).status, 200)
   assert.deepEqual(words(), [])
-  assert.equal((await request('/character', { char: '雲', emoji: {} })).status, 400)
+  assert.equal((await request('/character', { char: '甫', emoji: {} })).status, 400)
   assert.equal((await request('/character/update', { char: '不存在' })).status, 400)
 })
 

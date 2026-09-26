@@ -3034,9 +3034,25 @@
         "morph": "the glyph 腳 stands still as a solid sculpture while the centipede struggles into its shoes below",
         "hook": "一隻卡通蜈蚣玩具坐在地上努力穿鞋，一隻、兩隻、三隻…穿到第五隻就累到整個癱平，後面還有一長排鞋子在等；一台小機器人走過來，默默幫牠穿上第六隻，牠感動地舉起一隻腳。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 61,
-      "media": [],
+      "media": [
+        {
+          "file": "腳-85800c4a-7413-4f74-9455-3561e0c1e5de.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-26T00:16:28.655Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-26T00:16:47.708Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "895663d9-74a1-4bf2-91b5-10196f57334e",
       "promptedAt": "2026-09-15T16:09:04.602Z",
@@ -3054,7 +3070,8 @@
           "emoji": "👣"
         }
       ],
-      "scene": "bounce"
+      "scene": "bounce",
+      "needsRedo": false
     },
     {
       "char": "走",
@@ -3066,9 +3083,25 @@
         "morph": "the toy’s path settles into the 土 on top and the 龰 below, forming 走",
         "hook": "一個發條玩具人昂首闊步地往前走，發條轉到底後越走越慢，最後整個定格在抬腳的姿勢動彈不得；一隻手伸進來幫牠重新上緊發條，牠立刻「噠噠噠」精神抖擻地繼續走，走過的路線就變成「走」字。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 62,
-      "media": [],
+      "media": [
+        {
+          "file": "走-25919a69-b0be-456b-8bc3-caf76e12ae13.mp4",
+          "kind": "video",
+          "addedAt": "2026-09-26T00:23:08.673Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-09-26T00:23:27.276Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "8a0b391b-6b46-4755-b3a5-08e9eeb2170b",
       "promptedAt": "2026-09-15T16:09:04.608Z",
@@ -3086,7 +3119,8 @@
           "emoji": "🏛️"
         }
       ],
-      "scene": "bounce"
+      "scene": "bounce",
+      "needsRedo": false
     },
     {
       "char": "吃",
@@ -3375,6 +3409,6564 @@
         }
       ],
       "scene": "fire"
+    },
+    {
+      "char": "明",
+      "zhuyin": "ㄇㄧㄥˊ",
+      "meaning": "bright",
+      "emoji": "💡",
+      "words": [
+        {
+          "text": "明天",
+          "emoji": "📅"
+        },
+        {
+          "text": "聰明",
+          "emoji": "🧠"
+        },
+        {
+          "text": "明亮",
+          "emoji": "💡"
+        }
+      ],
+      "concept": {
+        "object": "a round glossy toy sun-lamp beside a soft glowing toy crescent-moon nightlight, standing side by side",
+        "morph": "the glyph 明 stands still as a solid sculpture while the toy sun-lamp and moon nightlight click on together, flooding the little stage with warm light",
+        "hook": "一顆亮晶晶的玩具太陽燈和一彎溫柔發光的玩具月亮夜燈並肩站著，「啪」一聲同時亮起來，把小舞台照得又暖又亮。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 72,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "看",
+      "zhuyin": "ㄎㄢˋ",
+      "meaning": "to look",
+      "emoji": "👀",
+      "words": [
+        {
+          "text": "看書",
+          "emoji": "📖"
+        },
+        {
+          "text": "好看",
+          "emoji": "😍"
+        },
+        {
+          "text": "看到",
+          "emoji": "👀"
+        }
+      ],
+      "concept": {
+        "object": "a chubby toy explorer figure holding a tiny pair of toy binoculars up to its eyes",
+        "morph": "the glyph 看 stands still as a solid sculpture while the toy explorer slowly swivels side to side, binoculars glinting in the light",
+        "hook": "一個胖胖的玩具小探險家舉起迷你望遠鏡貼在眼睛上，慢慢地左看看、右看看，鏡片還閃了一下光。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 73,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "哭",
+      "zhuyin": "ㄎㄨ",
+      "meaning": "to cry",
+      "emoji": "😢",
+      "words": [
+        {
+          "text": "哭了",
+          "emoji": "😢"
+        },
+        {
+          "text": "大哭",
+          "emoji": "😭"
+        },
+        {
+          "text": "愛哭鬼",
+          "emoji": "👻"
+        }
+      ],
+      "concept": {
+        "object": "a small plush toy bear with a shiny blue teardrop sticker on its cheek",
+        "morph": "the glyph 哭 stands still as a solid sculpture while two tiny glass teardrop beads roll down the toy bear's cheek and plink onto the stage",
+        "hook": "一隻絨毛玩具小熊臉上貼著亮亮的藍色淚珠貼紙，兩顆小玻璃珠眼淚順著絨毛滾下來，「叮」地一聲輕輕落在舞台上。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 74,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "男",
+      "zhuyin": "ㄋㄢˊ",
+      "meaning": "male, boy",
+      "emoji": "👦",
+      "words": [
+        {
+          "text": "男生",
+          "emoji": "👦"
+        },
+        {
+          "text": "男孩",
+          "emoji": "🧒"
+        },
+        {
+          "text": "男人",
+          "emoji": "👨"
+        }
+      ],
+      "concept": {
+        "object": "a toy boy action figure wearing a blue baseball cap and a big cheerful grin",
+        "morph": "the glyph 男 stands still as a solid sculpture while the toy boy figure waves proudly and gives a happy little spin",
+        "hook": "一個戴著藍色棒球帽、臉上掛著笑容的玩具男孩公仔，開心地揮揮手，還轉了一個小圈圈。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 75,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "尖",
+      "zhuyin": "ㄐㄧㄢ",
+      "meaning": "pointed, sharp",
+      "emoji": "🔺",
+      "words": [
+        {
+          "text": "尖叫",
+          "emoji": "😱"
+        },
+        {
+          "text": "尖尖的",
+          "emoji": "🔺"
+        },
+        {
+          "text": "筆尖",
+          "emoji": "✏️"
+        }
+      ],
+      "concept": {
+        "object": "a small glossy toy ice-cream cone with a perfectly pointed tip, beside a tiny toy mountain peak",
+        "morph": "the glyph 尖 stands still as a solid sculpture while the toy cone and the toy mountain peak slowly spin to show off their matching sharp points",
+        "hook": "一支尖尖的玩具冰淇淋甜筒和一座小玩具山峰擺在一起，兩個尖尖的頭慢慢轉了一圈，比比看誰比較尖。"
+      },
+      "status": "seed",
+      "priority": 76,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "問",
+      "zhuyin": "ㄨㄣˋ",
+      "meaning": "to ask",
+      "emoji": "❓",
+      "words": [
+        {
+          "text": "問問題",
+          "emoji": "❓"
+        },
+        {
+          "text": "請問",
+          "emoji": "🙋"
+        },
+        {
+          "text": "問好",
+          "emoji": "👋"
+        }
+      ],
+      "concept": {
+        "object": "a curious toy owl figure with a big glossy yellow question-mark balloon floating above its head",
+        "morph": "the glyph 問 stands still as a solid sculpture while the toy owl tilts its head side to side and the balloon bobs gently overhead",
+        "hook": "一隻好奇的玩具貓頭鷹頭上飄著一顆黃色問號氣球，牠歪著頭東看看、西看看，氣球也跟著輕輕晃來晃去。"
+      },
+      "status": "seed",
+      "priority": 77,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "間",
+      "zhuyin": "ㄐㄧㄢ",
+      "meaning": "room, between",
+      "emoji": "🚪",
+      "words": [
+        {
+          "text": "房間",
+          "emoji": "🚪"
+        },
+        {
+          "text": "中間",
+          "emoji": "↔️"
+        },
+        {
+          "text": "時間",
+          "emoji": "⏰"
+        }
+      ],
+      "concept": {
+        "object": "a tiny dollhouse room furnished with miniature toy furniture, open on one side like a diorama",
+        "morph": "the glyph 間 stands still as a solid sculpture while a tiny toy figure walks into the little room and switches on a miniature lamp",
+        "hook": "一間迷你玩具房間裡擺著小小的家具，一個玩具小人走進去，「啪」地打開一盞迷你檯燈，房間立刻亮了起來。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 78,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "雷",
+      "zhuyin": "ㄌㄟˊ",
+      "meaning": "thunder",
+      "emoji": "🌩️",
+      "words": [
+        {
+          "text": "打雷",
+          "emoji": "🌩️"
+        },
+        {
+          "text": "雷聲",
+          "emoji": "⚡"
+        },
+        {
+          "text": "雷雨",
+          "emoji": "🌧️"
+        }
+      ],
+      "concept": {
+        "object": "a round, fluffy grey toy storm-cloud plush with a hidden light tucked inside",
+        "morph": "the glyph 雷 stands still as a solid sculpture while the toy cloud flashes bright yellow and gives a soft, muffled rumble",
+        "hook": "一朵毛絨絨的灰色玩具烏雲，肚子裡的小燈突然「啪」地閃了一下黃光，還發出悶悶的一聲「轟」。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 79,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "美",
+      "zhuyin": "ㄇㄟˇ",
+      "meaning": "beautiful",
+      "emoji": "🌸",
+      "words": [
+        {
+          "text": "美麗",
+          "emoji": "🌸"
+        },
+        {
+          "text": "美術",
+          "emoji": "🎨"
+        },
+        {
+          "text": "美食",
+          "emoji": "🍜"
+        }
+      ],
+      "concept": {
+        "object": "a sparkly toy vanity mirror in a frame decorated with tiny plastic flowers",
+        "morph": "the glyph 美 stands still as a solid sculpture while a beam of glittery light sweeps across the little mirror, making it shimmer",
+        "hook": "一面鑲著小塑膠花的閃亮玩具鏡框立在舞台上，一道亮晶晶的光掃過鏡面，鏡子跟著閃閃發光。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 80,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "加",
+      "zhuyin": "ㄐㄧㄚ",
+      "meaning": "to add",
+      "emoji": "➕",
+      "words": [
+        {
+          "text": "加油",
+          "emoji": "⛽"
+        },
+        {
+          "text": "加法",
+          "emoji": "➕"
+        },
+        {
+          "text": "參加",
+          "emoji": "🙋"
+        }
+      ],
+      "concept": {
+        "object": "a tiny toy gas-pump nozzle resting beside two colorful toy building blocks",
+        "morph": "the glyph 加 stands still as a solid sculpture while a second toy block floats over and clicks neatly onto the first with a cheerful pop",
+        "hook": "玩具加油槍旁邊擺著一塊積木，另一塊積木緩緩飄過來，「啪」地一聲疊上去，變成兩塊疊在一起的積木。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 81,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "閃",
+      "zhuyin": "ㄕㄢˇ",
+      "meaning": "to flash, dodge",
+      "emoji": "⚡",
+      "words": [
+        {
+          "text": "閃電",
+          "emoji": "⚡"
+        },
+        {
+          "text": "閃亮",
+          "emoji": "✨"
+        },
+        {
+          "text": "閃開",
+          "emoji": "🙅"
+        }
+      ],
+      "concept": {
+        "object": "a small chrome toy lightning bolt mounted on a coiled spring, standing on a little stage",
+        "morph": "the glyph 閃 stands still as a solid sculpture while the chrome bolt springs sideways in one quick zigzag flash and freezes again",
+        "hook": "一根裝在彈簧上的亮晶晶玩具閃電，「咻」地往旁邊快速一閃，又立刻定住不動。"
+      },
+      "scene": "fire",
+      "status": "seed",
+      "priority": 82,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "東",
+      "zhuyin": "ㄉㄨㄥ",
+      "meaning": "east",
+      "emoji": "🧭",
+      "words": [
+        {
+          "text": "東西",
+          "emoji": "🎁"
+        },
+        {
+          "text": "東邊",
+          "emoji": "🧭"
+        },
+        {
+          "text": "東方",
+          "emoji": "🌅"
+        }
+      ],
+      "concept": {
+        "object": "a small toy compass with a glossy red needle, set beside a miniature toy sunrise backdrop",
+        "morph": "the glyph 東 stands still as a solid sculpture while the compass needle wobbles and finally settles pointing straight at the tiny sunrise",
+        "hook": "一個玩具指南針的紅色指針晃了又晃，最後穩穩地指向舞台上一個迷你玩具日出背景。"
+      },
+      "status": "seed",
+      "priority": 83,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "相",
+      "zhuyin": "ㄒㄧㄤ",
+      "meaning": "each other, mutual",
+      "emoji": "🤝",
+      "words": [
+        {
+          "text": "相信",
+          "emoji": "🤝"
+        },
+        {
+          "text": "互相",
+          "emoji": "🤗"
+        },
+        {
+          "text": "相同",
+          "emoji": "🟰"
+        }
+      ],
+      "concept": {
+        "object": "two small toy figures shaking hands warmly, with a tiny golden heart charm glowing between them",
+        "morph": "the glyph 相 stands still as a solid sculpture while the two toy figures' hands meet in a warm handshake and the little heart charm gives a soft glow",
+        "hook": "兩個玩具小人伸出手互相握了握，中間一顆金色小愛心跟著微微發亮。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 84,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "聞",
+      "zhuyin": "ㄨㄣˊ",
+      "meaning": "to smell",
+      "emoji": "👃",
+      "words": [
+        {
+          "text": "聞一聞",
+          "emoji": "👃"
+        },
+        {
+          "text": "新聞",
+          "emoji": "📰"
+        },
+        {
+          "text": "聞到",
+          "emoji": "🌼"
+        }
+      ],
+      "concept": {
+        "object": "a small toy puppy figure with an oversized glossy black nose, sniffing toward a tiny toy flower",
+        "morph": "the glyph 聞 stands still as a solid sculpture while the toy puppy's nose wiggles and little scent swirls drift up from the toy flower",
+        "hook": "一隻玩具小狗鼻子誇張地抽動著，幾道小小的香氣線條從旁邊的玩具小花飄向牠的鼻子。"
+      },
+      "status": "seed",
+      "priority": 85,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "岩",
+      "zhuyin": "ㄧㄢˊ",
+      "meaning": "rock",
+      "emoji": "🪨",
+      "words": [
+        {
+          "text": "岩石",
+          "emoji": "🪨"
+        },
+        {
+          "text": "火山岩",
+          "emoji": "🌋"
+        },
+        {
+          "text": "岩漿",
+          "emoji": "🔥"
+        }
+      ],
+      "concept": {
+        "object": "a chunky grey toy rock studded with sparkly mineral flecks, perched on a miniature toy volcano",
+        "morph": "the glyph 岩 stands still as a solid sculpture while the toy rock tumbles off the little volcano and thuds onto the stage",
+        "hook": "一顆閃著礦石亮片的玩具灰岩石，從迷你玩具火山上滾下來，「咚」地一聲落在舞台上。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 86,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "呆",
+      "zhuyin": "ㄉㄞ",
+      "meaning": "dazed, silly",
+      "emoji": "😶",
+      "words": [
+        {
+          "text": "呆呆的",
+          "emoji": "😶"
+        },
+        {
+          "text": "發呆",
+          "emoji": "😵‍💫"
+        },
+        {
+          "text": "呆萌",
+          "emoji": "🐼"
+        }
+      ],
+      "concept": {
+        "object": "a round toy panda figure with wide glassy eyes staring blankly straight ahead",
+        "morph": "the glyph 呆 stands still as a solid sculpture while the toy panda blinks slowly, frozen in place, as a tiny dust mote drifts past its nose",
+        "hook": "一隻圓滾滾的玩具熊貓瞪大眼睛呆呆地看著前方，一粒小灰塵慢慢飄過牠的鼻子，牠還是動也不動。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 87,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "一",
+      "zhuyin": "ㄧ",
+      "meaning": "one",
+      "emoji": "☝️",
+      "words": [
+        {
+          "text": "一個",
+          "emoji": "☝️"
+        },
+        {
+          "text": "第一",
+          "emoji": "🥇"
+        },
+        {
+          "text": "一起",
+          "emoji": "🤝"
+        }
+      ],
+      "concept": {
+        "object": "a stretchy round toy rubber band pulled taut between two little wooden pegs",
+        "morph": "the rubber band snaps taut and flattens down into one long straight horizontal bar",
+        "hook": "一條圓圓的玩具橡皮筋原本繃在兩根小木釘之間，「啪」地一聲鬆開拉直，變成一條長長的橫線。"
+      },
+      "status": "seed",
+      "priority": 88,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "二",
+      "zhuyin": "ㄦˋ",
+      "meaning": "two",
+      "emoji": "2️⃣",
+      "words": [
+        {
+          "text": "二月",
+          "emoji": "📅"
+        },
+        {
+          "text": "第二",
+          "emoji": "🥈"
+        },
+        {
+          "text": "星期二",
+          "emoji": "🗓️"
+        }
+      ],
+      "concept": {
+        "object": "two identical glossy toy drumsticks lying side by side on the little stage",
+        "morph": "the two drumsticks glide into place one above the other, forming two even horizontal bars stacked with a small gap between them",
+        "hook": "兩根一模一樣的亮亮玩具鼓棒本來並排躺著，慢慢滑動疊成上下兩條橫線，中間留著一點小小的空隙。"
+      },
+      "status": "seed",
+      "priority": 89,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "三",
+      "zhuyin": "ㄙㄢ",
+      "meaning": "three",
+      "emoji": "3️⃣",
+      "words": [
+        {
+          "text": "三角形",
+          "emoji": "📐"
+        },
+        {
+          "text": "三明治",
+          "emoji": "🥪"
+        },
+        {
+          "text": "第三",
+          "emoji": "🥉"
+        }
+      ],
+      "concept": {
+        "object": "three identical glossy toy drumsticks resting side by side on the little stage",
+        "morph": "the three drumsticks glide into place, stacking neatly into three even horizontal bars one above another",
+        "hook": "三根一樣的亮亮玩具鼓棒本來並排放著，一根一根滑上去疊成三條整整齊齊的橫線。"
+      },
+      "status": "seed",
+      "priority": 90,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "四",
+      "zhuyin": "ㄙˋ",
+      "meaning": "four",
+      "emoji": "4️⃣",
+      "words": [
+        {
+          "text": "四月",
+          "emoji": "📅"
+        },
+        {
+          "text": "四季",
+          "emoji": "🍂"
+        },
+        {
+          "text": "四方形",
+          "emoji": "⬜"
+        }
+      ],
+      "concept": {
+        "object": "three identical toy rubber ducks lined up in a neat row, with a fourth duck waiting at the edge of the stage",
+        "morph": "the glyph 四 stands still as a solid sculpture while the fourth toy duck waddles in to complete the row and all four quack together",
+        "hook": "三隻玩具小黃鴨已經排成一排，第四隻搖搖擺擺地跑進來排好，四隻一起「嘎」地叫了一聲。"
+      },
+      "status": "seed",
+      "priority": 91,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "五",
+      "zhuyin": "ㄨˇ",
+      "meaning": "five",
+      "emoji": "5️⃣",
+      "words": [
+        {
+          "text": "五月",
+          "emoji": "📅"
+        },
+        {
+          "text": "五顏六色",
+          "emoji": "🌈"
+        },
+        {
+          "text": "五官",
+          "emoji": "👀"
+        }
+      ],
+      "concept": {
+        "object": "four identical toy rubber ducks lined up in a row, with a fifth duck waiting at the edge of the stage",
+        "morph": "the glyph 五 stands still as a solid sculpture while the fifth toy duck waddles in and completes the row of five",
+        "hook": "四隻玩具小黃鴨已經排成一排，第五隻在舞台邊等著，搖搖擺擺地走進來排好，變成整整齊齊的五隻。"
+      },
+      "status": "seed",
+      "priority": 92,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "六",
+      "zhuyin": "ㄌㄧㄡˋ",
+      "meaning": "six",
+      "emoji": "6️⃣",
+      "words": [
+        {
+          "text": "六月",
+          "emoji": "📅"
+        },
+        {
+          "text": "六邊形",
+          "emoji": "⬡"
+        },
+        {
+          "text": "六個",
+          "emoji": "🔢"
+        }
+      ],
+      "concept": {
+        "object": "six identical toy rubber ducks lined up in a neat row on the little stage",
+        "morph": "the glyph 六 stands still as a solid sculpture while all six toy ducks hop up and down together in one happy bounce",
+        "hook": "六隻玩具小黃鴨排成一排，忽然一起跳了一下，咚咚咚地彈起來又輕輕落下。"
+      },
+      "status": "seed",
+      "priority": 93,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "七",
+      "zhuyin": "ㄑㄧ",
+      "meaning": "seven",
+      "emoji": "7️⃣",
+      "words": [
+        {
+          "text": "七月",
+          "emoji": "📅"
+        },
+        {
+          "text": "七彩",
+          "emoji": "🌈"
+        },
+        {
+          "text": "七個",
+          "emoji": "🔢"
+        }
+      ],
+      "concept": {
+        "object": "a bendy toy pipe-cleaner wand lying straight across the little stage",
+        "morph": "the pipe-cleaner bends sharply near one end, forming a short flat top bar with a long hooked stroke sweeping down",
+        "hook": "一根軟軟的玩具扭扭棒原本直直躺著，一端突然彎折，變成上面一小橫、下面拖著一條長長彎鉤的形狀。"
+      },
+      "status": "seed",
+      "priority": 94,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "八",
+      "zhuyin": "ㄅㄚ",
+      "meaning": "eight",
+      "emoji": "8️⃣",
+      "words": [
+        {
+          "text": "八月",
+          "emoji": "📅"
+        },
+        {
+          "text": "八字鬍",
+          "emoji": "👨"
+        },
+        {
+          "text": "八個",
+          "emoji": "🔢"
+        }
+      ],
+      "concept": {
+        "object": "two short glossy toy sticks leaning together like a tiny closed tent",
+        "morph": "the two sticks swing outward and apart, forming two strokes that splay open like an upside-down V",
+        "hook": "兩根亮亮的玩具小木棍本來像帳篷一樣靠在一起，慢慢往外撐開，變成一個開口朝下的八字形狀。"
+      },
+      "status": "seed",
+      "priority": 95,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "九",
+      "zhuyin": "ㄐㄧㄡˇ",
+      "meaning": "nine",
+      "emoji": "9️⃣",
+      "words": [
+        {
+          "text": "九月",
+          "emoji": "📅"
+        },
+        {
+          "text": "九個",
+          "emoji": "🔢"
+        },
+        {
+          "text": "九層塔",
+          "emoji": "🌿"
+        }
+      ],
+      "concept": {
+        "object": "a springy toy hook shape standing upright on the little stage",
+        "morph": "the toy hook curls sharply at the bottom, forming a long stroke with a small curved hook at its end",
+        "hook": "一個有彈性的玩具小掛鉤立在舞台上，底部突然往內一捲，變成一條長線尾端帶著小彎鉤的形狀。"
+      },
+      "status": "seed",
+      "priority": 96,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "十",
+      "zhuyin": "ㄕˊ",
+      "meaning": "ten",
+      "emoji": "🔟",
+      "words": [
+        {
+          "text": "十月",
+          "emoji": "📅"
+        },
+        {
+          "text": "十字路口",
+          "emoji": "🚦"
+        },
+        {
+          "text": "十分鐘",
+          "emoji": "⏰"
+        }
+      ],
+      "concept": {
+        "object": "two identical glossy toy sticks resting on the little stage, one lying flat and one standing upright nearby",
+        "morph": "the upright stick tips over and crosses the flat one exactly in the middle, forming a plus-shaped cross",
+        "hook": "兩根一樣的亮亮玩具小木棍，一根橫放、一根直立在旁邊，直的那根倒下來剛好壓在橫的正中間，變成一個十字形狀。"
+      },
+      "status": "seed",
+      "priority": 97,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "百",
+      "zhuyin": "ㄅㄞˇ",
+      "meaning": "hundred",
+      "emoji": "💯",
+      "words": [
+        {
+          "text": "一百",
+          "emoji": "💯"
+        },
+        {
+          "text": "百分百",
+          "emoji": "✅"
+        },
+        {
+          "text": "百貨公司",
+          "emoji": "🏬"
+        }
+      ],
+      "concept": {
+        "object": "a glossy gold toy trophy topped with a big shiny sunburst medallion",
+        "morph": "the glyph 百 stands still as a solid sculpture while the trophy spins once, its medallion catching the light with a bright glint",
+        "hook": "一座亮晶晶的玩具金色獎盃頂著一個閃亮的太陽形勳章，獎盃轉了一圈，勳章跟著閃了一下光。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 98,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "千",
+      "zhuyin": "ㄑㄧㄢ",
+      "meaning": "thousand",
+      "emoji": "🧧",
+      "words": [
+        {
+          "text": "一千",
+          "emoji": "🧧"
+        },
+        {
+          "text": "千萬",
+          "emoji": "⚠️"
+        },
+        {
+          "text": "千層麵",
+          "emoji": "🍝"
+        }
+      ],
+      "concept": {
+        "object": "a tall stack of tiny glossy toy coins forming a shimmering golden tower",
+        "morph": "the glyph 千 stands still as a solid sculpture while the coin tower wobbles precariously and a few coins clink off the top",
+        "hook": "一疊玩具金幣堆成一座閃亮的高塔，塔身搖搖晃晃，幾枚金幣「叮叮」地滾落下來。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 99,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "我",
+      "zhuyin": "ㄨㄛˇ",
+      "meaning": "I, me",
+      "emoji": "🙋",
+      "words": [
+        {
+          "text": "我的",
+          "emoji": "🙋"
+        },
+        {
+          "text": "我們",
+          "emoji": "👨‍👩‍👧‍👦"
+        },
+        {
+          "text": "自我介紹",
+          "emoji": "🎤"
+        }
+      ],
+      "concept": {
+        "object": "a small toy standing mirror reflecting a cheerful toy figure pointing proudly at itself",
+        "morph": "the glyph 我 stands still as a solid sculpture while the toy figure in the mirror waves and taps its own chest happily",
+        "hook": "一面小玩具鏡子前站著一個開心的玩具小人，牠對著鏡子裡的自己揮揮手，還拍了拍自己的胸口。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 100,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "你",
+      "zhuyin": "ㄋㄧˇ",
+      "meaning": "you",
+      "emoji": "👉",
+      "words": [
+        {
+          "text": "你好",
+          "emoji": "👋"
+        },
+        {
+          "text": "你的",
+          "emoji": "👉"
+        },
+        {
+          "text": "謝謝你",
+          "emoji": "🙏"
+        }
+      ],
+      "concept": {
+        "object": "two small toy figures facing each other, one reaching out a friendly pointed finger toward the other",
+        "morph": "the glyph 你 stands still as a solid sculpture while the pointing toy figure waves and the other toy figure waves right back",
+        "hook": "兩個玩具小人面對面站著，一個伸手指向對方揮揮手，另一個也開心地揮手回應。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 101,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "他",
+      "zhuyin": "ㄊㄚ",
+      "meaning": "he, him",
+      "emoji": "🧍‍♂️",
+      "words": [
+        {
+          "text": "他的",
+          "emoji": "🧍‍♂️"
+        },
+        {
+          "text": "他們",
+          "emoji": "👨‍👦"
+        },
+        {
+          "text": "其他",
+          "emoji": "📦"
+        }
+      ],
+      "concept": {
+        "object": "a small toy figure standing quietly off to the side of the little stage",
+        "morph": "the glyph 他 stands still as a solid sculpture while a soft spotlight swings over and clicks on, lighting up the distant toy figure",
+        "hook": "一個玩具小人靜靜站在舞台的角落，一道小小的聚光燈慢慢移過去，「啪」地照亮了他。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 102,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "好",
+      "zhuyin": "ㄏㄠˇ",
+      "meaning": "good",
+      "emoji": "👍",
+      "words": [
+        {
+          "text": "好吃",
+          "emoji": "😋"
+        },
+        {
+          "text": "好玩",
+          "emoji": "🎮"
+        },
+        {
+          "text": "好棒",
+          "emoji": "👍"
+        }
+      ],
+      "concept": {
+        "object": "a chunky toy thumbs-up hand sculpture, painted a bright cheerful gold",
+        "morph": "the glyph 好 stands still as a solid sculpture while the golden thumbs-up hand gives two enthusiastic little bounces",
+        "hook": "一隻金黃色亮晶晶的玩具大拇指立在舞台上，「咚咚」地開心比了兩下讚。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 103,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "是",
+      "zhuyin": "ㄕˋ",
+      "meaning": "to be, yes",
+      "emoji": "✅",
+      "words": [
+        {
+          "text": "是的",
+          "emoji": "✅"
+        },
+        {
+          "text": "不是",
+          "emoji": "❌"
+        },
+        {
+          "text": "就是",
+          "emoji": "💯"
+        }
+      ],
+      "concept": {
+        "object": "a small toy gavel resting beside a big glossy green button shaped like a checkmark",
+        "morph": "the glyph 是 stands still as a solid sculpture while the toy gavel taps down and the green button lights up with a cheerful chime",
+        "hook": "一個玩具小槌子放在一顆綠色亮晶晶的勾形按鈕旁邊，槌子「叩」地敲下去，按鈕跟著發出愉快的「叮」一聲亮起來。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 104,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "不",
+      "zhuyin": "ㄅㄨˋ",
+      "meaning": "not",
+      "emoji": "🚫",
+      "words": [
+        {
+          "text": "不要",
+          "emoji": "🙅"
+        },
+        {
+          "text": "不會",
+          "emoji": "🤷"
+        },
+        {
+          "text": "不對",
+          "emoji": "❌"
+        }
+      ],
+      "concept": {
+        "object": "a round red toy button with a bold diagonal bar painted across its face",
+        "morph": "the glyph 不 stands still as a solid sculpture while a tiny toy hand reaches up, presses the button, and it buzzes with a flash of red",
+        "hook": "一顆畫著白色斜線的紅色玩具按鈕立在舞台上，一隻小玩具手伸過去按下去，按鈕「嗶」地一聲閃了紅燈。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 105,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "有",
+      "zhuyin": "ㄧㄡˇ",
+      "meaning": "to have",
+      "emoji": "🎁",
+      "words": [
+        {
+          "text": "有的",
+          "emoji": "📦"
+        },
+        {
+          "text": "沒有",
+          "emoji": "🙅"
+        },
+        {
+          "text": "有趣",
+          "emoji": "😄"
+        }
+      ],
+      "concept": {
+        "object": "a small glossy toy treasure chest with its lid slightly open, a warm golden glow peeking out",
+        "morph": "the glyph 有 stands still as a solid sculpture while the chest lid pops all the way open, revealing tiny shiny toy coins inside",
+        "hook": "一個亮晶晶的玩具寶箱蓋子半開，透出溫暖的金光，蓋子突然「啪」地整個打開，裡面滿滿都是小小的玩具金幣。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 106,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "來",
+      "zhuyin": "ㄌㄞˊ",
+      "meaning": "to come",
+      "emoji": "🏃",
+      "words": [
+        {
+          "text": "來了",
+          "emoji": "🏃"
+        },
+        {
+          "text": "過來",
+          "emoji": "👋"
+        },
+        {
+          "text": "未來",
+          "emoji": "🚀"
+        }
+      ],
+      "concept": {
+        "object": "a small toy race car parked at the far edge of a little stage track",
+        "morph": "the glyph 來 stands still as a solid sculpture while the toy car zooms forward along the track and skids to a stop right beside it",
+        "hook": "一台玩具小車停在舞台的最遠端，「咻」地往前衝過來，在舞台中央煞車停住。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 107,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "去",
+      "zhuyin": "ㄑㄩˋ",
+      "meaning": "to go",
+      "emoji": "🚶",
+      "words": [
+        {
+          "text": "去哪裡",
+          "emoji": "🗺️"
+        },
+        {
+          "text": "出去",
+          "emoji": "🚪"
+        },
+        {
+          "text": "回去",
+          "emoji": "🏠"
+        }
+      ],
+      "concept": {
+        "object": "a small toy race car parked at the center of a little stage track",
+        "morph": "the glyph 去 stands still as a solid sculpture while the toy car zooms off toward the far edge and disappears off the side of the stage",
+        "hook": "玩具小車原本停在舞台中間，突然「咻」地往旁邊衝出去，一下子就消失在舞台邊緣。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 108,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "在",
+      "zhuyin": "ㄗㄞˋ",
+      "meaning": "at, in",
+      "emoji": "📍",
+      "words": [
+        {
+          "text": "在這裡",
+          "emoji": "📍"
+        },
+        {
+          "text": "現在",
+          "emoji": "⏰"
+        },
+        {
+          "text": "在家",
+          "emoji": "🏠"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy map-pin planted firmly on a miniature tabletop map",
+        "morph": "the glyph 在 stands still as a solid sculpture while a tiny spotlight clicks on, shining down right on the planted map-pin",
+        "hook": "一根亮亮的玩具地圖釘穩穩插在迷你地圖桌上，一道小聚光燈「啪」地打開，正好照在釘子上。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 109,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "很",
+      "zhuyin": "ㄏㄣˇ",
+      "meaning": "very",
+      "emoji": "‼️",
+      "words": [
+        {
+          "text": "很好",
+          "emoji": "👍"
+        },
+        {
+          "text": "很多",
+          "emoji": "🎈"
+        },
+        {
+          "text": "很棒",
+          "emoji": "💪"
+        }
+      ],
+      "concept": {
+        "object": "a small toy balloon attached to a tiny hand-pump on the little stage",
+        "morph": "the glyph 很 stands still as a solid sculpture while the toy balloon puffs up bigger and bigger with each squeaky pump",
+        "hook": "一顆玩具氣球接在打氣筒上，隨著「唧唧」的打氣聲，氣球一下子變得又大又鼓。"
+      },
+      "status": "seed",
+      "priority": 110,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "太",
+      "zhuyin": "ㄊㄞˋ",
+      "meaning": "too, very",
+      "emoji": "❗",
+      "words": [
+        {
+          "text": "太好了",
+          "emoji": "🎉"
+        },
+        {
+          "text": "太陽",
+          "emoji": "☀️"
+        },
+        {
+          "text": "太棒了",
+          "emoji": "👏"
+        }
+      ],
+      "concept": {
+        "object": "a small toy party-popper mid-burst, with a few glittery paper strips frozen in the air",
+        "morph": "the glyph 太 stands still as a solid sculpture while the toy popper goes off with a soft pop, scattering tiny confetti everywhere",
+        "hook": "一個玩具拉炮「啵」地一聲炸開，噴出好多亮晶晶的小紙片，灑滿了整個舞台。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 111,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "也",
+      "zhuyin": "ㄧㄝˇ",
+      "meaning": "also",
+      "emoji": "➕",
+      "words": [
+        {
+          "text": "也許",
+          "emoji": "🤔"
+        },
+        {
+          "text": "也是",
+          "emoji": "😊"
+        },
+        {
+          "text": "也好",
+          "emoji": "👌"
+        },
+        {
+          "text": "再也不",
+          "emoji": "🙅"
+        }
+      ],
+      "concept": {
+        "object": "a pair of glossy toy rubber ducks lined up neatly on a wooden shelf",
+        "morph": "the glyph 也 stands still as a solid sculpture while a third tiny duck waddles up and squeezes in beside the other two",
+        "hook": "架子上站著兩隻黃色玩具小鴨，正得意地排排站；突然第三隻小鴨搖搖晃晃跑來，用力擠進隊伍裡，說「我也要站在這裡！」"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 112,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "都",
+      "zhuyin": "ㄉㄡ",
+      "meaning": "all",
+      "emoji": "🙌",
+      "words": [
+        {
+          "text": "都是",
+          "emoji": "🙌"
+        },
+        {
+          "text": "都要",
+          "emoji": "🙋"
+        },
+        {
+          "text": "都好",
+          "emoji": "👌"
+        },
+        {
+          "text": "全都",
+          "emoji": "💯"
+        }
+      ],
+      "concept": {
+        "object": "a tidy row of identical toy soldiers standing shoulder to shoulder on a toy shelf",
+        "morph": "the glyph 都 stands still as a solid sculpture while every single toy soldier in the row lifts its arm at exactly the same moment",
+        "hook": "玩具兵一個接一個站在架子上，排得整整齊齊；主人喊了一聲口令，所有玩具兵竟然「刷」地同時舉起手來，一個都沒有慢半拍。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 113,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "要",
+      "zhuyin": "ㄧㄠˋ",
+      "meaning": "want",
+      "emoji": "🙋",
+      "words": [
+        {
+          "text": "我要",
+          "emoji": "🙋"
+        },
+        {
+          "text": "要不要",
+          "emoji": "🤔"
+        },
+        {
+          "text": "想要",
+          "emoji": "💭"
+        },
+        {
+          "text": "不要",
+          "emoji": "🙅"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy claw machine with a bright red button and a shiny toy prize inside",
+        "morph": "the glyph 要 stands still as a solid sculpture while a small toy hand reaches out and presses the button again and again",
+        "hook": "玩具夾娃娃機亮著燈，裡面躺著一隻閃亮的小玩偶；一隻小手伸過來，按了按鈕，又按了一次，嘴裡念著「我要、我要」，眼睛直盯著那個小玩偶。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 114,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "可",
+      "zhuyin": "ㄎㄜˇ",
+      "meaning": "can",
+      "emoji": "✅",
+      "words": [
+        {
+          "text": "可以",
+          "emoji": "✅"
+        },
+        {
+          "text": "可愛",
+          "emoji": "🥰"
+        },
+        {
+          "text": "可是",
+          "emoji": "🤷"
+        },
+        {
+          "text": "可怕",
+          "emoji": "😱"
+        }
+      ],
+      "concept": {
+        "object": "a glossy green toy traffic light with a round go-light lit up bright",
+        "morph": "the glyph 可 stands still as a solid sculpture while the go light blinks on and a tiny toy car rolls happily through",
+        "hook": "玩具紅綠燈「叮」地一聲亮起了綠燈，旁邊的玩具小車立刻開心地往前開過去，車輪上還沾著一點點陽光的顏色。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 115,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "會",
+      "zhuyin": "ㄏㄨㄟˋ",
+      "meaning": "to know how",
+      "emoji": "💡",
+      "words": [
+        {
+          "text": "會不會",
+          "emoji": "🤔"
+        },
+        {
+          "text": "學會",
+          "emoji": "🎓"
+        },
+        {
+          "text": "開會",
+          "emoji": "📋"
+        },
+        {
+          "text": "機會",
+          "emoji": "🍀"
+        }
+      ],
+      "concept": {
+        "object": "a small shiny toy robot standing beside a miniature bicycle",
+        "morph": "the glyph 會 stands still as a solid sculpture while the toy robot hops on the bicycle and pedals off in a perfect wobble-free line",
+        "hook": "小機器人玩具站在腳踏車旁邊，看起來有點緊張；牠深吸一口氣跳上車，踩了兩下，居然穩穩地騎走了，一點都沒有搖晃，好像本來就會騎車一樣。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 116,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "給",
+      "zhuyin": "ㄍㄟˇ",
+      "meaning": "to give",
+      "emoji": "🎁",
+      "words": [
+        {
+          "text": "給你",
+          "emoji": "🎁"
+        },
+        {
+          "text": "送給",
+          "emoji": "💝"
+        },
+        {
+          "text": "還給",
+          "emoji": "↩️"
+        },
+        {
+          "text": "交給",
+          "emoji": "🤝"
+        }
+      ],
+      "concept": {
+        "object": "a glossy wrapped toy gift box with a big shiny ribbon bow on top",
+        "morph": "the glyph 給 stands still as a solid sculpture while two small toy hands appear and pass the gift box gently from one to the other",
+        "hook": "一個包著閃亮蝴蝶結的禮物盒放在桌上，一雙小手捧起它，輕輕地遞給另一雙伸出來的小手，兩雙手笑咪咪地說「這個給你」。"
+      },
+      "status": "seed",
+      "priority": 117,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "爸",
+      "zhuyin": "ㄅㄚˋ",
+      "meaning": "father",
+      "emoji": "👨",
+      "words": [
+        {
+          "text": "爸爸",
+          "emoji": "👨"
+        },
+        {
+          "text": "爸媽",
+          "emoji": "👨‍👩‍👧‍👦"
+        },
+        {
+          "text": "爸比",
+          "emoji": "👶"
+        },
+        {
+          "text": "老爸",
+          "emoji": "🧔"
+        }
+      ],
+      "concept": {
+        "object": "a tall toy figure wearing a cozy sweater, holding a tiny toy briefcase and a rolled-up newspaper",
+        "morph": "the glyph 爸 stands still as a solid sculpture while the toy figure crouches down and swings a tiny giggling toy child up onto its shoulders",
+        "hook": "一個穿著毛衣、拿著小公事包的玩偶站在旁邊；他蹲下身子，把一個咯咯笑的小玩偶抱起來，穩穩地扛上肩膀，兩個人笑得東倒西歪。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 118,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "媽",
+      "zhuyin": "ㄇㄚ",
+      "meaning": "mother",
+      "emoji": "👩",
+      "words": [
+        {
+          "text": "媽媽",
+          "emoji": "👩"
+        },
+        {
+          "text": "爸媽",
+          "emoji": "👨‍👩‍👧"
+        },
+        {
+          "text": "媽咪",
+          "emoji": "🤱"
+        },
+        {
+          "text": "老媽",
+          "emoji": "👵"
+        }
+      ],
+      "concept": {
+        "object": "a toy figure wearing a warm apron, holding a tiny wooden spoon over a miniature toy cooking pot",
+        "morph": "the glyph 媽 stands still as a solid sculpture while the toy figure leans down and wraps both arms gently around a small toy child",
+        "hook": "玩偶媽媽繫著圍裙，手裡拿著小湯匙，正在小鍋子前忙來忙去；她轉過身，張開雙手，把跑過來的小玩偶緊緊抱進懷裡，兩個人臉貼著臉笑了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 119,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "哥",
+      "zhuyin": "ㄍㄜ",
+      "meaning": "older brother",
+      "emoji": "👦",
+      "words": [
+        {
+          "text": "哥哥",
+          "emoji": "👦"
+        },
+        {
+          "text": "大哥",
+          "emoji": "🧑"
+        },
+        {
+          "text": "表哥",
+          "emoji": "🙆‍♂️"
+        },
+        {
+          "text": "堂哥",
+          "emoji": "🙋‍♂️"
+        }
+      ],
+      "concept": {
+        "object": "a toy figure slightly taller than a smaller matching toy figure, both wearing matching striped shirts",
+        "morph": "the glyph 哥 stands still as a solid sculpture while the taller toy figure reaches down and pats the smaller one on the head",
+        "hook": "兩個穿著條紋衫的玩偶站在一起，一個比較高、一個比較矮；高的那個伸出手，輕輕拍了拍矮的那個的頭，矮的那個仰起頭嘻嘻笑。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 120,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "姐",
+      "zhuyin": "ㄐㄧㄝˇ",
+      "meaning": "older sister",
+      "emoji": "👧",
+      "words": [
+        {
+          "text": "姐姐",
+          "emoji": "👧"
+        },
+        {
+          "text": "大姐",
+          "emoji": "🙋‍♀️"
+        },
+        {
+          "text": "表姐",
+          "emoji": "🙆‍♀️"
+        },
+        {
+          "text": "堂姐",
+          "emoji": "💁‍♀️"
+        }
+      ],
+      "concept": {
+        "object": "a toy figure with two small ponytails standing slightly taller beside a smaller matching toy figure",
+        "morph": "the glyph 姐 stands still as a solid sculpture while the taller toy figure ties a tiny ribbon into the smaller one's hair",
+        "hook": "綁著兩根小馬尾的玩偶站得比較高，她拿起一條小緞帶，仔細地幫旁邊比較矮的玩偶綁上蝴蝶結，矮的那個開心地轉了一圈。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 121,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "妹",
+      "zhuyin": "ㄇㄟˋ",
+      "meaning": "younger sister",
+      "emoji": "👧",
+      "words": [
+        {
+          "text": "妹妹",
+          "emoji": "👧"
+        },
+        {
+          "text": "表妹",
+          "emoji": "💁‍♀️"
+        },
+        {
+          "text": "堂妹",
+          "emoji": "🙋‍♀️"
+        },
+        {
+          "text": "小妹",
+          "emoji": "👶"
+        }
+      ],
+      "concept": {
+        "object": "a small toy figure with pigtails, noticeably shorter, hugging a stuffed toy bunny",
+        "morph": "the glyph 妹 stands still as a solid sculpture while the small toy figure tugs on a taller toy figure's sleeve asking to be picked up",
+        "hook": "綁著兩根小辮子的小玩偶抱著布娃娃兔子，伸手拉一拉旁邊比較高的玩偶的袖子，踮起腳尖，眼巴巴地看著，想要被抱起來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 122,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "弟",
+      "zhuyin": "ㄉㄧˋ",
+      "meaning": "younger brother",
+      "emoji": "👦",
+      "words": [
+        {
+          "text": "弟弟",
+          "emoji": "👦"
+        },
+        {
+          "text": "表弟",
+          "emoji": "🙋‍♂️"
+        },
+        {
+          "text": "堂弟",
+          "emoji": "💁‍♂️"
+        },
+        {
+          "text": "小弟",
+          "emoji": "👶"
+        }
+      ],
+      "concept": {
+        "object": "a small toy figure in overalls, noticeably shorter, clutching a toy dinosaur",
+        "morph": "the glyph 弟 stands still as a solid sculpture while the small toy figure races ahead and trips over its own oversized toy dinosaur",
+        "hook": "穿吊帶褲的小玩偶抱著玩具恐龍，跑得飛快，一不小心被恐龍的尾巴絆到，「噗通」摔坐在地上，還笑嘻嘻地舉高恐龍說「牠沒事！」"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 123,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "公",
+      "zhuyin": "ㄍㄨㄥ",
+      "meaning": "grandfather",
+      "emoji": "👴",
+      "words": [
+        {
+          "text": "阿公",
+          "emoji": "👴"
+        },
+        {
+          "text": "外公",
+          "emoji": "👴🏻"
+        },
+        {
+          "text": "老公公",
+          "emoji": "🎅"
+        },
+        {
+          "text": "土地公",
+          "emoji": "⛩️"
+        }
+      ],
+      "concept": {
+        "object": "a small toy old man figure with a white beard, wearing round glasses and a warm cardigan, sitting in a tiny rocking chair",
+        "morph": "the glyph 公 stands still as a solid sculpture while the toy figure rocks gently and pulls a small toy child onto his lap",
+        "hook": "戴著圓眼鏡、留著白鬍子的玩偶爺爺坐在小搖椅上輕輕搖啊搖；他伸出手，把跑過來的小玩偶抱上膝蓋，兩個人一起望著窗外笑咪咪的。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 124,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "婆",
+      "zhuyin": "ㄆㄛˊ",
+      "meaning": "grandmother",
+      "emoji": "👵",
+      "words": [
+        {
+          "text": "阿婆",
+          "emoji": "👵"
+        },
+        {
+          "text": "外婆",
+          "emoji": "👵🏻"
+        },
+        {
+          "text": "老婆婆",
+          "emoji": "🧓"
+        },
+        {
+          "text": "巫婆",
+          "emoji": "🧙‍♀️"
+        }
+      ],
+      "concept": {
+        "object": "a small toy old woman figure with silver hair in a bun, wearing a floral shawl, holding a tiny woven basket",
+        "morph": "the glyph 婆 stands still as a solid sculpture while the toy figure opens the basket and a warm little toy bun rolls out for a waiting toy child",
+        "hook": "綁著銀白髮髻、披著碎花披肩的玩偶奶奶提著小竹籃，慢慢走過來；她打開籃子蓋子，一顆熱呼呼的小饅頭滾了出來，旁邊等著的小玩偶馬上笑著接住。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 125,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "孫",
+      "zhuyin": "ㄙㄨㄣ",
+      "meaning": "grandchild",
+      "emoji": "🧒",
+      "words": [
+        {
+          "text": "孫子",
+          "emoji": "🧒"
+        },
+        {
+          "text": "孫女",
+          "emoji": "👧"
+        },
+        {
+          "text": "外孫",
+          "emoji": "👦"
+        },
+        {
+          "text": "子孫",
+          "emoji": "👨‍👩‍👧‍👦"
+        }
+      ],
+      "concept": {
+        "object": "a small toy child figure holding hands with a taller toy grandparent figure with silver hair, both mid-step on a garden path",
+        "morph": "the glyph 孫 stands still as a solid sculpture while the small toy figure tugs the grandparent figure toward a toy ice cream cart",
+        "hook": "小玩偶牽著銀髮爺爺奶奶的手，走在小花園的小路上；小玩偶突然用力拉了拉手，指著前面的冰淇淋推車，爺爺奶奶笑著跟著被拉走了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 126,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "叔",
+      "zhuyin": "ㄕㄨ",
+      "meaning": "uncle",
+      "emoji": "🧔",
+      "words": [
+        {
+          "text": "叔叔",
+          "emoji": "🧔"
+        },
+        {
+          "text": "阿叔",
+          "emoji": "👨"
+        },
+        {
+          "text": "警察叔叔",
+          "emoji": "👮"
+        },
+        {
+          "text": "大叔",
+          "emoji": "🙎‍♂️"
+        }
+      ],
+      "concept": {
+        "object": "a friendly toy figure with a short beard, wearing a bright collared shirt, holding a small toy fishing rod",
+        "morph": "the glyph 叔 stands still as a solid sculpture while the toy figure swings the fishing rod back and a tiny toy fish flops onto the ground beside him",
+        "hook": "留著短鬍子、穿花襯衫的玩偶叔叔拿著小釣竿甩了一下，「咻」一聲，一條小玩具魚就跳到了他腳邊，他驚喜地張大嘴笑了出來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 127,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "姑",
+      "zhuyin": "ㄍㄨ",
+      "meaning": "aunt",
+      "emoji": "👩",
+      "words": [
+        {
+          "text": "姑姑",
+          "emoji": "🙎‍♀️"
+        },
+        {
+          "text": "阿姑",
+          "emoji": "👩"
+        },
+        {
+          "text": "姑丈",
+          "emoji": "🧑"
+        },
+        {
+          "text": "姑婆",
+          "emoji": "👵"
+        }
+      ],
+      "concept": {
+        "object": "a cheerful toy figure with curly hair, wearing a polka-dot dress, holding a small round toy cake tin",
+        "morph": "the glyph 姑 stands still as a solid sculpture while the toy figure lifts the tin lid and a tiny toy cake pops up with a candle already lit",
+        "hook": "燙著捲髮、穿著圓點洋裝的玩偶姑姑端著小小的蛋糕盒，「啵」地打開蓋子，一個插著蠟燭的小蛋糕彈了出來，她眨眨眼笑著說「生日快樂」。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 128,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "鼻",
+      "zhuyin": "ㄅㄧˊ",
+      "meaning": "nose",
+      "emoji": "👃",
+      "words": [
+        {
+          "text": "鼻子",
+          "emoji": "👃"
+        },
+        {
+          "text": "鼻涕",
+          "emoji": "🤧"
+        },
+        {
+          "text": "鼻孔",
+          "emoji": "🕳️"
+        },
+        {
+          "text": "流鼻血",
+          "emoji": "🩸"
+        }
+      ],
+      "concept": {
+        "object": "a small round toy pig snout attached to a plush toy face, painted glossy pink",
+        "morph": "the glyph 鼻 stands still as a solid sculpture while the toy snout wiggles and lets out a tiny puff of glitter dust like a sneeze",
+        "hook": "絨毛玩偶臉上那個圓滾滾、亮粉紅色的豬鼻子突然抖了一下，「哈啾」一聲，噴出一小陣亮晶晶的金粉，逗得旁邊的玩偶咯咯直笑。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 129,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "嘴",
+      "zhuyin": "ㄗㄨㄟˇ",
+      "meaning": "mouth",
+      "emoji": "👄",
+      "words": [
+        {
+          "text": "嘴巴",
+          "emoji": "👄"
+        },
+        {
+          "text": "嘴唇",
+          "emoji": "💋"
+        },
+        {
+          "text": "多嘴",
+          "emoji": "🗣️"
+        },
+        {
+          "text": "嘴饞",
+          "emoji": "🍬"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy pair of wind-up chattering lips that hop across a table",
+        "morph": "the glyph 嘴 stands still as a solid sculpture while the wind-up toy lips chatter open and shut and hop right off the table edge",
+        "hook": "發條玩具嘴唇「喀啦喀啦」地開開合合，蹦蹦跳跳地在桌上前進，跳到桌子邊緣還「啵」地張大了一下，好像在跟大家說再見，就掉進了準備好的小枕頭裡。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 130,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "牙",
+      "zhuyin": "ㄧㄚˊ",
+      "meaning": "tooth",
+      "emoji": "🦷",
+      "words": [
+        {
+          "text": "牙齒",
+          "emoji": "🦷"
+        },
+        {
+          "text": "刷牙",
+          "emoji": "🪥"
+        },
+        {
+          "text": "蛀牙",
+          "emoji": "😬"
+        },
+        {
+          "text": "門牙",
+          "emoji": "😁"
+        }
+      ],
+      "concept": {
+        "object": "a glossy white toy tooth character with a tiny toothbrush hat, standing on a bathroom shelf",
+        "morph": "the glyph 牙 stands still as a solid sculpture while the toy tooth character does a happy little spin and flashes a sparkle across its surface",
+        "hook": "浴室架子上站著一顆亮晶晶的白色玩具牙齒，頭上還戴著小牙刷帽子；牠開心地轉了一圈，表面「叮」地閃過一道亮光，好像在說「刷得好乾淨」。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 131,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "腦",
+      "zhuyin": "ㄋㄠˇ",
+      "meaning": "brain",
+      "emoji": "🧠",
+      "words": [
+        {
+          "text": "頭腦",
+          "emoji": "🧠"
+        },
+        {
+          "text": "電腦",
+          "emoji": "💻"
+        },
+        {
+          "text": "腦筋",
+          "emoji": "🤔"
+        },
+        {
+          "text": "動腦",
+          "emoji": "💡"
+        }
+      ],
+      "concept": {
+        "object": "a squishy glossy pink toy brain stress-ball sitting on a tiny toy pedestal with little cartoon eyes",
+        "morph": "the glyph 腦 stands still as a solid sculpture while the squishy toy brain bounces and its little cartoon eyes light up with a bright idea spark",
+        "hook": "底座上的Q彈粉紅色玩具腦袋瓜長著兩顆卡通眼睛，它彈了一下，頭上突然「叮」地冒出一個亮亮的小燈泡，好像想到了什麼好點子。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 132,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "背",
+      "zhuyin": "ㄅㄟˋ",
+      "meaning": "back (body part)",
+      "emoji": "🎒",
+      "words": [
+        {
+          "text": "背後",
+          "emoji": "👀"
+        },
+        {
+          "text": "背心",
+          "emoji": "🦺"
+        },
+        {
+          "text": "駝背",
+          "emoji": "🙇"
+        },
+        {
+          "text": "背部",
+          "emoji": "💪"
+        }
+      ],
+      "concept": {
+        "object": "a small glossy toy turtle with a round shiny shell sitting still on a wooden block",
+        "morph": "the glyph 背 stands still as a solid sculpture while the toy turtle's shell suddenly grows a tiny cape that flutters behind it",
+        "hook": "一隻圓滾滾、殼閃閃發亮的玩具烏龜靜靜地趴在木頭積木上；牠的背殼上忽然冒出一件小披風，被風吹得啪啦啪啦飄動，烏龜得意地挺起胸膛。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 133,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "肚",
+      "zhuyin": "ㄉㄨˋ",
+      "meaning": "belly",
+      "emoji": "🫃",
+      "words": [
+        {
+          "text": "肚子",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "肚臍",
+          "emoji": "🔘"
+        },
+        {
+          "text": "肚皮",
+          "emoji": "🫄"
+        },
+        {
+          "text": "大肚子",
+          "emoji": "🤰"
+        }
+      ],
+      "concept": {
+        "object": "a round glossy toy piggy bank shaped like a chubby pink pig with a coin slot on top",
+        "morph": "the glyph 肚 stands still as a solid sculpture while the toy piggy bank's belly jiggles and a coin drops in with a cheerful clink",
+        "hook": "圓滾滾、亮粉紅色的玩具撲滿豬肚子鼓鼓的，一枚硬幣「叮」地一聲投進背上的小縫；豬肚子跟著晃了兩下，好像在說「謝謝，我吃飽了」。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 134,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "臉",
+      "zhuyin": "ㄌㄧㄢˇ",
+      "meaning": "face",
+      "emoji": "😊",
+      "words": [
+        {
+          "text": "臉頰",
+          "emoji": "😊"
+        },
+        {
+          "text": "笑臉",
+          "emoji": "😄"
+        },
+        {
+          "text": "洗臉",
+          "emoji": "🧼"
+        },
+        {
+          "text": "紅臉",
+          "emoji": "😳"
+        }
+      ],
+      "concept": {
+        "object": "a round glossy toy mirror with a cheerful smiling face sticker in the middle of the glass",
+        "morph": "the glyph 臉 stands still as a solid sculpture while the smiling sticker face in the toy mirror winks and puffs out its cheeks",
+        "hook": "圓圓的玩具鏡子上貼著一張笑咪咪的貼紙臉，鏡子裡的臉突然眨了眨眼，還把兩邊臉頰鼓得圓滾滾的，逗得照鏡子的小玩偶哈哈大笑。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 135,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "指",
+      "zhuyin": "ㄓˇ",
+      "meaning": "finger",
+      "emoji": "👆",
+      "words": [
+        {
+          "text": "手指",
+          "emoji": "👆"
+        },
+        {
+          "text": "指甲",
+          "emoji": "💅"
+        },
+        {
+          "text": "戒指",
+          "emoji": "💍"
+        },
+        {
+          "text": "指著",
+          "emoji": "👉"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy hand puppet with one finger painted bright, wearing a tiny sparkly ring",
+        "morph": "the glyph 指 stands still as a solid sculpture while the toy hand's one finger lights up and swivels to point directly at a shiny toy star",
+        "hook": "玩具手偶伸出一根塗了亮漆的手指，指尖突然「叮」地亮了起來，慢慢轉向，穩穩指向桌上一顆閃亮的玩具星星，好像在說「看那裡！」"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 136,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "甲",
+      "zhuyin": "ㄐㄧㄚˇ",
+      "meaning": "fingernail",
+      "emoji": "💅",
+      "words": [
+        {
+          "text": "指甲",
+          "emoji": "💅"
+        },
+        {
+          "text": "剪指甲",
+          "emoji": "✂️"
+        },
+        {
+          "text": "甲蟲",
+          "emoji": "🪲"
+        },
+        {
+          "text": "指甲油",
+          "emoji": "💄"
+        }
+      ],
+      "concept": {
+        "object": "a tiny glossy toy nail clipper shaped like a friendly ladybug, sitting beside ten miniature glossy pink fingertip caps",
+        "morph": "the glyph 甲 stands still as a solid sculpture while the ladybug clipper gives a happy little snip and a tiny nail-shaped confetti flutters down",
+        "hook": "瓢蟲造型的玩具指甲剪待在一排塗成亮粉色的小指甲蓋旁邊，牠「喀嚓」開心地剪了一下，一小片指甲形狀的亮片飄落下來，像下了一場小雪。"
+      },
+      "status": "seed",
+      "priority": 137,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "髮",
+      "zhuyin": "ㄈㄚˇ",
+      "meaning": "hair",
+      "emoji": "💇",
+      "words": [
+        {
+          "text": "頭髮",
+          "emoji": "💇"
+        },
+        {
+          "text": "髮夾",
+          "emoji": "📎"
+        },
+        {
+          "text": "剪髮",
+          "emoji": "✂️"
+        },
+        {
+          "text": "長髮",
+          "emoji": "👱‍♀️"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy hairbrush beside a bundle of shiny yarn hair strands clipped into a sparkly toy hair clip",
+        "morph": "the glyph 髮 stands still as a solid sculpture while the yarn hair strands puff up into a bouncy toy ponytail tied with a ribbon",
+        "hook": "玩具梳子旁邊夾著一把亮晶晶的毛線頭髮，用閃亮的髮夾夾著；毛線頭髮忽然蓬鬆地彈起來，變成一束綁著緞帶的馬尾，隨風輕輕晃動。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 138,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "肩",
+      "zhuyin": "ㄐㄧㄢ",
+      "meaning": "shoulder",
+      "emoji": "🤷",
+      "words": [
+        {
+          "text": "肩膀",
+          "emoji": "🤷"
+        },
+        {
+          "text": "肩並肩",
+          "emoji": "🤝"
+        },
+        {
+          "text": "聳肩",
+          "emoji": "🙆"
+        },
+        {
+          "text": "肩帶",
+          "emoji": "🎒"
+        }
+      ],
+      "concept": {
+        "object": "two glossy toy teddy bears standing side by side, their round shoulders touching, both wearing tiny scarves",
+        "morph": "the glyph 肩 stands still as a solid sculpture while the two teddy bears lean in until their shoulders bump together with a soft squeak",
+        "hook": "兩隻圍著小圍巾的玩具熊肩並肩地站著；牠們慢慢往中間靠過去，圓圓的肩膀「啾」地碰在一起，發出軟軟的聲音，兩隻熊笑得東倒西歪。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 139,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "腿",
+      "zhuyin": "ㄊㄨㄟˇ",
+      "meaning": "leg",
+      "emoji": "🦵",
+      "words": [
+        {
+          "text": "大腿",
+          "emoji": "🦵"
+        },
+        {
+          "text": "小腿",
+          "emoji": "🚶"
+        },
+        {
+          "text": "腿軟",
+          "emoji": "😵"
+        },
+        {
+          "text": "翹腿",
+          "emoji": "🪑"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy flamingo balancing on one long thin leg, its other leg tucked up neatly",
+        "morph": "the glyph 腿 stands still as a solid sculpture while the toy flamingo wobbles, puts its second leg down, and steadies itself with a happy little bounce",
+        "hook": "粉紅色的玩具紅鶴一開始只用一隻細細長長的腿站著，搖搖晃晃的；牠把另一隻腿也放下來，穩穩地站好，還開心地蹦了一下，像在慶祝自己站穩了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 140,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "膝",
+      "zhuyin": "ㄒㄧ",
+      "meaning": "knee",
+      "emoji": "🦵",
+      "words": [
+        {
+          "text": "膝蓋",
+          "emoji": "🦵"
+        },
+        {
+          "text": "護膝",
+          "emoji": "🩹"
+        },
+        {
+          "text": "膝關節",
+          "emoji": "🦴"
+        },
+        {
+          "text": "屈膝",
+          "emoji": "🙇"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy robot with bright round knee joints that click and bend, kneeling beside a tiny toy football",
+        "morph": "the glyph 膝 stands still as a solid sculpture while the toy robot's knee joints bend with a click and it kicks the tiny football forward",
+        "hook": "玩具機器人的膝蓋關節閃閃發亮，牠彎下膝蓋，「喀」地一聲蹲低，接著用力一踢，把旁邊的小玩具足球踢得老遠，膝蓋關節還一閃一閃的。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 141,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "眉",
+      "zhuyin": "ㄇㄟˊ",
+      "meaning": "eyebrow",
+      "emoji": "🤨",
+      "words": [
+        {
+          "text": "眉毛",
+          "emoji": "🤨"
+        },
+        {
+          "text": "眉開眼笑",
+          "emoji": "😄"
+        },
+        {
+          "text": "皺眉",
+          "emoji": "😠"
+        },
+        {
+          "text": "濃眉",
+          "emoji": "🧔"
+        }
+      ],
+      "concept": {
+        "object": "two small glossy toy caterpillar-shaped eyebrow pieces that can lift and wiggle above a plush toy face",
+        "morph": "the glyph 眉 stands still as a solid sculpture while the two fuzzy toy eyebrow pieces waggle up and down and curl into a happy arch",
+        "hook": "絨毛玩偶臉上兩條毛毛蟲造型的眉毛忽然動了起來，一下往上挑、一下往下皺，最後彎成一對開心的小彎月，玩偶整張臉都跟著笑開了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 142,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "紅",
+      "zhuyin": "ㄏㄨㄥˊ",
+      "meaning": "red",
+      "emoji": "🔴",
+      "words": [
+        {
+          "text": "紅色",
+          "emoji": "🔴"
+        },
+        {
+          "text": "紅豆",
+          "emoji": "🫘"
+        },
+        {
+          "text": "紅包",
+          "emoji": "🧧"
+        },
+        {
+          "text": "臉紅",
+          "emoji": "😳"
+        }
+      ],
+      "concept": {
+        "object": "a glossy red toy fire truck with shiny round wheels and a little bell on top",
+        "morph": "the glyph 紅 stands still as a solid sculpture while the toy fire truck's bell dings and its paint gleams brighter under a sudden spotlight",
+        "hook": "亮紅色的玩具消防車停在原地，車頂的小鈴鐺「叮」地響了一聲，一道燈光照過來，車身的紅色瞬間變得閃閃發亮，像剛打過蠟一樣。"
+      },
+      "scene": "fire",
+      "status": "seed",
+      "priority": 143,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "黃",
+      "zhuyin": "ㄏㄨㄤˊ",
+      "meaning": "yellow",
+      "emoji": "🟡",
+      "words": [
+        {
+          "text": "黃色",
+          "emoji": "🟡"
+        },
+        {
+          "text": "黃瓜",
+          "emoji": "🥒"
+        },
+        {
+          "text": "蛋黃",
+          "emoji": "🍳"
+        },
+        {
+          "text": "黃昏",
+          "emoji": "🌇"
+        }
+      ],
+      "concept": {
+        "object": "a glossy yellow toy rubber duck with a bright orange beak floating in a tiny toy bathtub",
+        "morph": "the glyph 黃 stands still as a solid sculpture while sunlight beams down and the toy duck's yellow shell gleams like polished gold",
+        "hook": "亮黃色的玩具小鴨浮在小澡盆裡，一道陽光灑下來，鴨子身上的黃色瞬間亮得像金子一樣，牠還得意地「嘎」了一聲，晃了晃尾巴。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 144,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "藍",
+      "zhuyin": "ㄌㄢˊ",
+      "meaning": "blue",
+      "emoji": "🔵",
+      "words": [
+        {
+          "text": "藍色",
+          "emoji": "🔵"
+        },
+        {
+          "text": "藍天",
+          "emoji": "☁️"
+        },
+        {
+          "text": "藍莓",
+          "emoji": "🫐"
+        },
+        {
+          "text": "深藍",
+          "emoji": "🌌"
+        }
+      ],
+      "concept": {
+        "object": "a glossy blue toy whale with a round smiling face, spouting a tiny fountain of water from its blowhole",
+        "morph": "the glyph 藍 stands still as a solid sculpture while the toy whale spouts a little water fountain that sparkles like the ocean under the sun",
+        "hook": "藍色的玩具鯨魚圓圓的臉上笑咪咪的，頭頂的噴水孔忽然「咻」地噴出一道小水柱，水花在陽光下閃著藍藍的光，像把整片海洋都噴了出來。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 145,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "綠",
+      "zhuyin": "ㄌㄩˋ",
+      "meaning": "green",
+      "emoji": "🟢",
+      "words": [
+        {
+          "text": "綠色",
+          "emoji": "🟢"
+        },
+        {
+          "text": "綠豆",
+          "emoji": "🫛"
+        },
+        {
+          "text": "綠燈",
+          "emoji": "🚦"
+        },
+        {
+          "text": "綠葉",
+          "emoji": "🍃"
+        }
+      ],
+      "concept": {
+        "object": "a glossy green toy frog sitting on a round lily-pad shaped block, mid-croak with puffed cheeks",
+        "morph": "the glyph 綠 stands still as a solid sculpture while the toy frog's cheeks puff up bright green and tiny green leaves sprout around its lily pad",
+        "hook": "綠色的玩具青蛙坐在圓圓的荷葉積木上，鼓起腮幫子「呱」地叫了一聲，牠身邊的荷葉積木周圍竟冒出一圈嫩綠色的小葉子，越長越茂盛。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 146,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "白",
+      "zhuyin": "ㄅㄞˊ",
+      "meaning": "white",
+      "emoji": "⚪",
+      "words": [
+        {
+          "text": "白色",
+          "emoji": "⚪"
+        },
+        {
+          "text": "白雲",
+          "emoji": "☁️"
+        },
+        {
+          "text": "白天",
+          "emoji": "☀️"
+        },
+        {
+          "text": "蛋白",
+          "emoji": "🥚"
+        }
+      ],
+      "concept": {
+        "object": "a fluffy glossy white toy sheep with round black button eyes, standing on a tiny green hill block",
+        "morph": "the glyph 白 stands still as a solid sculpture while the fluffy toy sheep's wool puffs up bigger and brighter like a little cloud",
+        "hook": "圓滾滾的白色玩具綿羊站在小山丘積木上，牠身上的毛忽然蓬鬆地脹大了起來，變得又大又白，像一朵飄下來的雲，牠還滿意地咩了一聲。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 147,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "紫",
+      "zhuyin": "ㄗˇ",
+      "meaning": "purple",
+      "emoji": "🟣",
+      "words": [
+        {
+          "text": "紫色",
+          "emoji": "🟣"
+        },
+        {
+          "text": "紫菜",
+          "emoji": "🍙"
+        },
+        {
+          "text": "紫外線",
+          "emoji": "☀️"
+        },
+        {
+          "text": "淺紫",
+          "emoji": "🔮"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy grape cluster made of round plump purple beads, sitting in a tiny wicker basket",
+        "morph": "the glyph 紫 stands still as a solid sculpture while the toy grape beads jiggle and shine under a twinkling light like tiny gems",
+        "hook": "小竹籃裡裝著一串圓滾滾、亮紫色的玩具葡萄，燈光一照，葡萄珠子跟著輕輕晃動，閃閃發亮，像一串會發光的紫色寶石。"
+      },
+      "status": "seed",
+      "priority": 148,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "橙",
+      "zhuyin": "ㄔㄥˊ",
+      "meaning": "orange",
+      "emoji": "🟠",
+      "words": [
+        {
+          "text": "橙色",
+          "emoji": "🟠"
+        },
+        {
+          "text": "柳橙",
+          "emoji": "🍊"
+        },
+        {
+          "text": "橙汁",
+          "emoji": "🧃"
+        },
+        {
+          "text": "柳橙汁",
+          "emoji": "🥤"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy orange fruit with a tiny green stem leaf, sitting beside a small carton of toy juice",
+        "morph": "the glyph 橙 stands still as a solid sculpture while the toy orange rolls over, gives a gentle squeeze, and a stream of bright juice fills the tiny carton",
+        "hook": "亮橙色的玩具橘子滾到小果汁盒旁邊，輕輕一擠，「咕嚕咕嚕」流出一道亮晶晶的橙色果汁，把小紙盒裝得滿滿的，橘子還開心地眨了眨葉子。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 149,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "粉",
+      "zhuyin": "ㄈㄣˇ",
+      "meaning": "pink",
+      "emoji": "🩷",
+      "words": [
+        {
+          "text": "粉紅",
+          "emoji": "🩷"
+        },
+        {
+          "text": "粉色",
+          "emoji": "🌸"
+        },
+        {
+          "text": "粉筆",
+          "emoji": "✏️"
+        },
+        {
+          "text": "麵粉",
+          "emoji": "🍞"
+        }
+      ],
+      "concept": {
+        "object": "a fluffy glossy pink toy cotton candy swirl on a small white stick, sitting in a tiny paper cone",
+        "morph": "the glyph 粉 stands still as a solid sculpture while the fluffy pink toy cotton candy puffs up bigger and softer, glowing faintly like a sunset cloud",
+        "hook": "紙筒裡插著一球蓬鬆的粉紅色玩具棉花糖，它忽然又蓬又軟地脹大了一圈，還隱隱發著淡淡的光，像一朵飄下來的晚霞雲。"
+      },
+      "status": "seed",
+      "priority": 150,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "棕",
+      "zhuyin": "ㄗㄨㄥ",
+      "meaning": "brown",
+      "emoji": "🟤",
+      "words": [
+        {
+          "text": "棕色",
+          "emoji": "🟤"
+        },
+        {
+          "text": "棕熊",
+          "emoji": "🐻"
+        },
+        {
+          "text": "棕櫚樹",
+          "emoji": "🌴"
+        },
+        {
+          "text": "棕髮",
+          "emoji": "👱"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy brown teddy bear made of soft chocolate-colored fabric, sitting on a small wooden log block",
+        "morph": "the glyph 棕 stands still as a solid sculpture while the toy brown bear rolls off the log and lands in a soft pile of toy autumn leaves",
+        "hook": "巧克力色的玩具棕熊坐在小木頭積木上，一個重心不穩「咕嚕」滾了下來，正好掉進一堆棕黃色的玩具落葉堆裡，只露出兩隻圓耳朵，笑呵呵地探出頭來。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 151,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "灰",
+      "zhuyin": "ㄏㄨㄟ",
+      "meaning": "gray / ash",
+      "emoji": "🩶",
+      "words": [
+        {
+          "text": "灰塵",
+          "emoji": "💨"
+        },
+        {
+          "text": "灰色",
+          "emoji": "🩶"
+        },
+        {
+          "text": "灰姑娘",
+          "emoji": "👗"
+        }
+      ],
+      "concept": {
+        "object": "a small pile of soft gray toy ash-dust with a fluffy gray toy bunny sitting on top of it",
+        "morph": "the glyph 灰 stands still as a solid sculpture while a puff of gray dust drifts up and tickles the bunny's nose, making it sneeze",
+        "hook": "一堆蓬鬆的灰色玩具灰塵旁邊坐著一隻灰灰的兔子，風一吹，灰塵飄到兔子鼻子上，牠「哈啾」打了一個噴嚏，耳朵都抖了一下。"
+      },
+      "status": "seed",
+      "priority": 152,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "坐",
+      "zhuyin": "ㄗㄨㄛˋ",
+      "meaning": "to sit",
+      "emoji": "🪑",
+      "words": [
+        {
+          "text": "坐下",
+          "emoji": "🪑"
+        },
+        {
+          "text": "坐車",
+          "emoji": "🚗"
+        },
+        {
+          "text": "坐墊",
+          "emoji": "🛋️"
+        }
+      ],
+      "concept": {
+        "object": "a round wooden toy bear figure settling onto a tiny round stool",
+        "morph": "the glyph 坐 stands still as a solid sculpture while the bear wiggles and plants itself firmly on the stool",
+        "hook": "一隻圓滾滾的玩具小熊搖搖晃晃走到小板凳前，「咚」地一聲坐了下去，屁股穩穩地黏在板凳上，滿意地晃了晃小短腿。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 153,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "睡",
+      "zhuyin": "ㄕㄨㄟˋ",
+      "meaning": "to sleep",
+      "emoji": "😴",
+      "words": [
+        {
+          "text": "睡覺",
+          "emoji": "😴"
+        },
+        {
+          "text": "睡衣",
+          "emoji": "👘"
+        },
+        {
+          "text": "睡午覺",
+          "emoji": "🛏️"
+        }
+      ],
+      "concept": {
+        "object": "a fuzzy toy koala tucked into a tiny striped hammock with a small crescent-moon night light beside it",
+        "morph": "the glyph 睡 stands still as a solid sculpture while the koala's eyes slowly close and a tiny paper zzz balloon puffs up above its head",
+        "hook": "一隻毛茸茸的玩具無尾熊窩進小吊床，旁邊的月亮小夜燈輕輕發亮，牠的眼睛慢慢瞇起來，頭上冒出一個又一個小小的「Z」，越來越大。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 154,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "唱",
+      "zhuyin": "ㄔㄤˋ",
+      "meaning": "to sing",
+      "emoji": "🎤",
+      "words": [
+        {
+          "text": "唱歌",
+          "emoji": "🎤"
+        },
+        {
+          "text": "合唱",
+          "emoji": "🎶"
+        },
+        {
+          "text": "唱片",
+          "emoji": "💿"
+        }
+      ],
+      "concept": {
+        "object": "a bright yellow toy duckling standing on a tiny stage holding a miniature microphone",
+        "morph": "the glyph 唱 stands still as a solid sculpture while the duckling opens its beak wide and colorful musical notes pop out and float away",
+        "hook": "一隻黃色玩具小鴨站上小舞台，抓著迷你麥克風，嘴巴一張開，一顆顆彩色的音符就「噗噗噗」地從嘴裡冒出來，飄向空中轉圈圈。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 155,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "游",
+      "zhuyin": "ㄧㄡˊ",
+      "meaning": "to swim",
+      "emoji": "🏊",
+      "words": [
+        {
+          "text": "游泳",
+          "emoji": "🏊"
+        },
+        {
+          "text": "游泳圈",
+          "emoji": "🍩"
+        },
+        {
+          "text": "游泳池",
+          "emoji": "🌊"
+        }
+      ],
+      "concept": {
+        "object": "a small rubber toy fish wearing a tiny inflatable ring, paddling in a blue toy pool",
+        "morph": "the glyph 游 stands still as a solid sculpture while the toy fish paddles a lap and splashes a tiny wave onto the sculpture's base",
+        "hook": "一條橡皮玩具小魚套著迷你游泳圈，在藍色玩具泳池裡「咕嚕咕嚕」游了一圈，尾巴一甩，濺起一小片水花，剛好打溼了旁邊的石頭。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 156,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "爬",
+      "zhuyin": "ㄆㄚˊ",
+      "meaning": "to climb / crawl",
+      "emoji": "🧗",
+      "words": [
+        {
+          "text": "爬山",
+          "emoji": "⛰️"
+        },
+        {
+          "text": "爬樹",
+          "emoji": "🌳"
+        },
+        {
+          "text": "爬行",
+          "emoji": "👶"
+        }
+      ],
+      "concept": {
+        "object": "a small plush toy koala gripping the bark of a miniature toy tree trunk",
+        "morph": "the glyph 爬 stands still as a solid sculpture while the koala inches upward paw over paw, wobbling on a branch",
+        "hook": "一隻玩具無尾熊抱著迷你樹幹，一手一手慢慢往上爬，爬到一根小樹枝時晃了一下，牠緊緊抱住，才沒有掉下來，接著又繼續往上爬。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 157,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "拍",
+      "zhuyin": "ㄆㄞ",
+      "meaning": "to clap / pat",
+      "emoji": "👏",
+      "words": [
+        {
+          "text": "拍手",
+          "emoji": "👏"
+        },
+        {
+          "text": "拍照",
+          "emoji": "📷"
+        },
+        {
+          "text": "拍球",
+          "emoji": "🏀"
+        }
+      ],
+      "concept": {
+        "object": "a round toy panda clapping its two paws together with tiny sparkle stickers flying off",
+        "morph": "the glyph 拍 stands still as a solid sculpture while the panda's paws clap together and confetti-like sparkles burst outward",
+        "hook": "一隻圓滾滾的玩具貓熊舉起兩隻手掌，「啪、啪、啪」拍了三下，每拍一下就有幾片亮晶晶的小紙片從手掌間飛出來，像迷你煙火一樣。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 158,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "抱",
+      "zhuyin": "ㄅㄠˋ",
+      "meaning": "to hug",
+      "emoji": "🤗",
+      "words": [
+        {
+          "text": "抱抱",
+          "emoji": "🤗"
+        },
+        {
+          "text": "擁抱",
+          "emoji": "💞"
+        },
+        {
+          "text": "抱枕",
+          "emoji": "🛏️"
+        }
+      ],
+      "concept": {
+        "object": "two small plush toy bears wrapping their arms around each other in a tight hug",
+        "morph": "the glyph 抱 stands still as a solid sculpture while the two bears squeeze closer and little pink hearts pop up between them",
+        "hook": "兩隻玩具小熊張開手臂，緊緊抱在一起，越抱越用力，牠們中間突然「啵」地冒出幾顆粉紅色小愛心，慢慢往上飄走。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 159,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "親",
+      "zhuyin": "ㄑㄧㄣ",
+      "meaning": "to kiss",
+      "emoji": "😘",
+      "words": [
+        {
+          "text": "親一下",
+          "emoji": "😘"
+        },
+        {
+          "text": "親愛",
+          "emoji": "💕"
+        },
+        {
+          "text": "親人",
+          "emoji": "👨‍👩‍👧"
+        }
+      ],
+      "concept": {
+        "object": "a small toy giraffe leaning down to touch its nose gently to a tiny toy giraffe calf",
+        "morph": "the glyph 親 stands still as a solid sculpture while the giraffe dips down for a gentle nuzzle and a small heart pops up",
+        "hook": "一隻玩具長頸鹿媽媽彎下長長的脖子，輕輕碰一下小長頸鹿的臉頰，「啾」一聲親了一下，旁邊立刻冒出一顆小小的愛心，轉了一圈才消失。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 160,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "洗",
+      "zhuyin": "ㄒㄧˇ",
+      "meaning": "to wash",
+      "emoji": "🧼",
+      "words": [
+        {
+          "text": "洗手",
+          "emoji": "🧼"
+        },
+        {
+          "text": "洗澡",
+          "emoji": "🛁"
+        },
+        {
+          "text": "洗臉",
+          "emoji": "🚿"
+        }
+      ],
+      "concept": {
+        "object": "a small rubber toy duck sitting in a round tub full of bubbly soap foam",
+        "morph": "the glyph 洗 stands still as a solid sculpture while soap bubbles pile up around the duck and one big bubble floats away and pops",
+        "hook": "一隻黃色玩具小鴨坐進圓圓的澡盆裡，泡泡越堆越高，蓋住了半個身體，一顆最大的泡泡飄起來，飛到空中「啵」一聲破掉，鴨子眨了眨眼睛。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 161,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "穿",
+      "zhuyin": "ㄔㄨㄢ",
+      "meaning": "to wear / put on",
+      "emoji": "👕",
+      "words": [
+        {
+          "text": "穿衣服",
+          "emoji": "👕"
+        },
+        {
+          "text": "穿鞋",
+          "emoji": "👟"
+        },
+        {
+          "text": "穿褲子",
+          "emoji": "👖"
+        }
+      ],
+      "concept": {
+        "object": "a small wooden toy bear figure with a tiny felt shirt being pulled over its head",
+        "morph": "the glyph 穿 stands still as a solid sculpture while the tiny shirt slides down over the bear and its head pops out the top",
+        "hook": "一隻木頭玩具小熊舉高雙手，一件迷你毛氈小上衣慢慢從頭上套下來，「咻」一下滑到身上，小熊的頭剛好從領口探出來，還歪了一下才站好。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 162,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "脫",
+      "zhuyin": "ㄊㄨㄛ",
+      "meaning": "to take off",
+      "emoji": "🧦",
+      "words": [
+        {
+          "text": "脫掉",
+          "emoji": "🧦"
+        },
+        {
+          "text": "脫鞋",
+          "emoji": "👞"
+        },
+        {
+          "text": "脫衣服",
+          "emoji": "👕"
+        }
+      ],
+      "concept": {
+        "object": "a small wooden toy bear figure with a tiny sock being pulled off one foot",
+        "morph": "the glyph 脫 stands still as a solid sculpture while the tiny sock slips off and flies backward off the bear's foot",
+        "hook": "木頭玩具小熊抬起一隻腳，用力一拉，小小的襪子「咻」地飛了出去，掉在地上打了個轉，小熊光著腳丫子，晃了晃腳趾頭。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 163,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "叫",
+      "zhuyin": "ㄐㄧㄠˋ",
+      "meaning": "to call / shout",
+      "emoji": "📢",
+      "words": [
+        {
+          "text": "大叫",
+          "emoji": "😱"
+        },
+        {
+          "text": "叫聲",
+          "emoji": "📢"
+        },
+        {
+          "text": "叫醒",
+          "emoji": "⏰"
+        }
+      ],
+      "concept": {
+        "object": "a small toy rooster standing on a tiny fence post with its beak wide open",
+        "morph": "the glyph 叫 stands still as a solid sculpture while the rooster puffs up and lets out a loud crow that ruffles its own feathers",
+        "hook": "一隻玩具小公雞站上籬笆，抬頭挺胸，嘴巴張得好大，「咕咕咕」大叫一聲，聲音太大聲，把自己頭上的羽毛都震得翹了起來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 164,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "摸",
+      "zhuyin": "ㄇㄛ",
+      "meaning": "to touch",
+      "emoji": "🖐️",
+      "words": [
+        {
+          "text": "摸摸",
+          "emoji": "🖐️"
+        },
+        {
+          "text": "摸頭",
+          "emoji": "🤲"
+        },
+        {
+          "text": "觸摸",
+          "emoji": "✋"
+        }
+      ],
+      "concept": {
+        "object": "a small toy hand reaching out to gently touch a soft fuzzy toy cat's fur",
+        "morph": "the glyph 摸 stands still as a solid sculpture while the tiny hand pats the fuzzy cat and a few soft fur puffs drift off",
+        "hook": "一隻小小的玩具手輕輕伸過去，摸了摸毛茸茸的玩具貓，「呼」地飄起幾根軟軟的貓毛，貓咪瞇起眼睛，好像很舒服的樣子。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 165,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "推",
+      "zhuyin": "ㄊㄨㄟ",
+      "meaning": "to push",
+      "emoji": "🤚",
+      "words": [
+        {
+          "text": "推車",
+          "emoji": "🛒"
+        },
+        {
+          "text": "推門",
+          "emoji": "🚪"
+        },
+        {
+          "text": "推鞦韆",
+          "emoji": "🎠"
+        }
+      ],
+      "concept": {
+        "object": "a small toy hand pushing a tiny red toy shopping cart across a table",
+        "morph": "the glyph 推 stands still as a solid sculpture while the toy hand shoves the cart forward and it rolls off wobbling",
+        "hook": "一隻玩具小手用力一推，紅色的迷你玩具推車就「嘰嘰」滾了出去，輪子搖搖晃晃地往前跑，最後撞到一顆小石頭才停下來。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 166,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "拉",
+      "zhuyin": "ㄌㄚ",
+      "meaning": "to pull",
+      "emoji": "✊",
+      "words": [
+        {
+          "text": "拉鍊",
+          "emoji": "🧥"
+        },
+        {
+          "text": "拉開",
+          "emoji": "🚪"
+        },
+        {
+          "text": "手拉手",
+          "emoji": "🤝"
+        }
+      ],
+      "concept": {
+        "object": "a small toy hand gripping a tiny red wagon's handle and tugging it backward",
+        "morph": "the glyph 拉 stands still as a solid sculpture while the toy hand tugs the wagon and it scoots backward in little jerks",
+        "hook": "一隻玩具小手抓住紅色小拖車的把手，「用力、用力」一下一下往後拉，小拖車就一格一格地往後挪，輪子發出「喀噠喀噠」的聲音。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 167,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "丟",
+      "zhuyin": "ㄉㄧㄡ",
+      "meaning": "to throw",
+      "emoji": "🤾",
+      "words": [
+        {
+          "text": "丟球",
+          "emoji": "⚾"
+        },
+        {
+          "text": "丟垃圾",
+          "emoji": "🚮"
+        },
+        {
+          "text": "丟掉",
+          "emoji": "🗑️"
+        }
+      ],
+      "concept": {
+        "object": "a small toy hand tossing a little orange ball up into the air",
+        "morph": "the glyph 丟 stands still as a solid sculpture while the toy hand flings the ball and it arcs away off the top of the frame",
+        "hook": "一隻玩具小手把橘色小球往上一丟，球「咻」地飛出畫面，過了一下子又從旁邊蹦蹦跳跳地滾回來，好像在說「換你丟」。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 168,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "接",
+      "zhuyin": "ㄐㄧㄝ",
+      "meaning": "to catch",
+      "emoji": "🧤",
+      "words": [
+        {
+          "text": "接住",
+          "emoji": "🧤"
+        },
+        {
+          "text": "接球",
+          "emoji": "⚾"
+        },
+        {
+          "text": "接電話",
+          "emoji": "☎️"
+        }
+      ],
+      "concept": {
+        "object": "a small toy hand cupped open, catching a little orange ball as it falls",
+        "morph": "the glyph 接 stands still as a solid sculpture while the ball drops from above and lands neatly in the toy hand's palm",
+        "hook": "橘色小球從上面「咻」地掉下來，一隻玩具小手穩穩地張開，「啪」一聲穩穩接住了球，還晃了晃，好像在說「接到囉」。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 169,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "樂",
+      "zhuyin": "ㄌㄜˋ",
+      "meaning": "happy",
+      "emoji": "😄",
+      "words": [
+        {
+          "text": "快樂",
+          "emoji": "😄"
+        },
+        {
+          "text": "可樂",
+          "emoji": "🥤"
+        },
+        {
+          "text": "樂園",
+          "emoji": "🎡"
+        }
+      ],
+      "concept": {
+        "object": "a small toy dog bouncing on its hind legs with its tongue out and tail wagging in a blur",
+        "morph": "the glyph 樂 stands still as a solid sculpture while the dog bounces higher and higher, sending sparkles flying off its wagging tail",
+        "hook": "一隻玩具小狗開心地蹦蹦跳跳，尾巴搖得像風扇一樣快，跳得越來越高，尾巴甩出的小星星「唰唰唰」灑了一地，閃閃發亮。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 170,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "喜",
+      "zhuyin": "ㄒㄧˇ",
+      "meaning": "happy / to like",
+      "emoji": "😊",
+      "words": [
+        {
+          "text": "喜歡",
+          "emoji": "❤️"
+        },
+        {
+          "text": "恭喜",
+          "emoji": "🎉"
+        },
+        {
+          "text": "歡喜",
+          "emoji": "😊"
+        }
+      ],
+      "concept": {
+        "object": "a small toy panda hugging a heart-shaped red pillow with sparkly stars around it",
+        "morph": "the glyph 喜 stands still as a solid sculpture while the panda squeezes the heart pillow and tiny stars twinkle around its head",
+        "hook": "一隻玩具貓熊抱著一個紅色愛心抱枕，笑得眼睛都瞇成一條線，頭頂上冒出幾顆閃閃發亮的小星星，一閃一閃轉呀轉。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 171,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "愛",
+      "zhuyin": "ㄞˋ",
+      "meaning": "to love",
+      "emoji": "💖",
+      "words": [
+        {
+          "text": "愛心",
+          "emoji": "💖"
+        },
+        {
+          "text": "可愛",
+          "emoji": "🥰"
+        },
+        {
+          "text": "愛你",
+          "emoji": "💗"
+        }
+      ],
+      "concept": {
+        "object": "a small plush toy bunny hugging a big glossy red heart-shaped balloon",
+        "morph": "the glyph 愛 stands still as a solid sculpture while the bunny squeezes the heart balloon and it gently bobs up and down",
+        "hook": "一隻玩具兔子緊緊抱住一顆又大又亮的紅色愛心氣球，越抱越開心，愛心氣球就跟著一上一下輕輕晃動，好像在跳舞一樣。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 172,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "醜",
+      "zhuyin": "ㄔㄡˇ",
+      "meaning": "ugly",
+      "emoji": "😖",
+      "words": [
+        {
+          "text": "醜小鴨",
+          "emoji": "🦆"
+        },
+        {
+          "text": "醜八怪",
+          "emoji": "👹"
+        },
+        {
+          "text": "好醜",
+          "emoji": "😝"
+        }
+      ],
+      "concept": {
+        "object": "a lumpy toy monster with mismatched button eyes and a crooked stitched grin sitting next to a shiny toy trophy",
+        "morph": "the glyph 醜 stands still as a solid sculpture while the lumpy monster tries on the trophy's ribbon and it tangles into a funny knot",
+        "hook": "一隻歪歪扭扭、鈕釦眼睛裝反了的玩具怪獸，笨拙地想戴上小獎盃旁邊的彩帶，結果彩帶纏成一團，牠自己也忍不住呵呵笑了出來。"
+      },
+      "status": "seed",
+      "priority": 173,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "胖",
+      "zhuyin": "ㄆㄤˋ",
+      "meaning": "fat / chubby",
+      "emoji": "🐷",
+      "words": [
+        {
+          "text": "胖胖",
+          "emoji": "🐷"
+        },
+        {
+          "text": "胖嘟嘟",
+          "emoji": "🐻"
+        },
+        {
+          "text": "小胖",
+          "emoji": "😊"
+        }
+      ],
+      "concept": {
+        "object": "a round, plump toy piglet with a soft belly that jiggles, sitting on a tiny toy scale",
+        "morph": "the glyph 胖 stands still as a solid sculpture while the piglet plops down and its round belly wobbles side to side",
+        "hook": "一隻圓滾滾的玩具小豬跳上小磅秤，「咚」地坐下去，肚子一下子晃到左邊，一下子又晃到右邊，晃啊晃地才停下來，牠滿足地笑了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 174,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "瘦",
+      "zhuyin": "ㄕㄡˋ",
+      "meaning": "thin / skinny",
+      "emoji": "🦒",
+      "words": [
+        {
+          "text": "瘦瘦",
+          "emoji": "🦒"
+        },
+        {
+          "text": "瘦高",
+          "emoji": "📏"
+        },
+        {
+          "text": "瘦巴巴",
+          "emoji": "🦴"
+        }
+      ],
+      "concept": {
+        "object": "a long, slender toy giraffe with skinny legs standing beside a small potted toy cactus",
+        "morph": "the glyph 瘦 stands still as a solid sculpture while the skinny giraffe tries to hide behind the thin cactus and barely fits",
+        "hook": "一隻瘦瘦高高的玩具長頸鹿想躲到一根細細的玩具仙人掌後面，結果身體太瘦了，剛好完全躲得住，牠得意地探出頭來眨眨眼。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 175,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "矮",
+      "zhuyin": "ㄞˇ",
+      "meaning": "short (height)",
+      "emoji": "🐢",
+      "words": [
+        {
+          "text": "矮矮",
+          "emoji": "🐢"
+        },
+        {
+          "text": "矮小",
+          "emoji": "🐁"
+        },
+        {
+          "text": "矮凳",
+          "emoji": "🪑"
+        }
+      ],
+      "concept": {
+        "object": "a small round toy tortoise standing next to a very tall toy giraffe, barely reaching its knee",
+        "morph": "the glyph 矮 stands still as a solid sculpture while the short tortoise stretches on tiptoe and still can't reach the high shelf",
+        "hook": "一隻矮矮胖胖的玩具烏龜踮起腳尖，伸長脖子想拿高高架子上的餅乾，怎麼伸都差一點點，急得原地轉了一圈，又試了一次。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 176,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "長",
+      "zhuyin": "ㄔㄤˊ",
+      "meaning": "long",
+      "emoji": "🐍",
+      "words": [
+        {
+          "text": "長長",
+          "emoji": "🐍"
+        },
+        {
+          "text": "長頸鹿",
+          "emoji": "🦒"
+        },
+        {
+          "text": "長髮",
+          "emoji": "💇"
+        }
+      ],
+      "concept": {
+        "object": "a stretchy toy snake winding across the floor in long wavy loops",
+        "morph": "the glyph 長 stands still as a solid sculpture while the toy snake stretches out longer and longer until it loops around the whole scene",
+        "hook": "一條玩具長蛇一節一節地往前伸展，越伸越長，繞過小石頭、繞過小樹，最後繞了整個畫面一圈，尾巴才終於跟上前面的頭。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 177,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "短",
+      "zhuyin": "ㄉㄨㄢˇ",
+      "meaning": "short (length)",
+      "emoji": "🐹",
+      "words": [
+        {
+          "text": "短短",
+          "emoji": "🐹"
+        },
+        {
+          "text": "短褲",
+          "emoji": "🩳"
+        },
+        {
+          "text": "短髮",
+          "emoji": "💇"
+        }
+      ],
+      "concept": {
+        "object": "a round toy hamster with a stubby little tail standing next to a short stubby toy pencil",
+        "morph": "the glyph 短 stands still as a solid sculpture while the hamster measures itself against the pencil and they turn out to be exactly the same tiny length",
+        "hook": "一隻圓滾滾的玩具倉鼠站到一枝短短的玩具鉛筆旁邊比身高，量了半天，發現牠的尾巴跟鉛筆一樣短，牠驚訝地張大了嘴巴。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 178,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "老",
+      "zhuyin": "ㄌㄠˇ",
+      "meaning": "old",
+      "emoji": "👴",
+      "words": [
+        {
+          "text": "老師",
+          "emoji": "👩‍🏫"
+        },
+        {
+          "text": "老虎",
+          "emoji": "🐯"
+        },
+        {
+          "text": "老人",
+          "emoji": "👴"
+        }
+      ],
+      "concept": {
+        "object": "a small wooden toy grandpa figure with a tiny carved cane and a soft gray yarn beard",
+        "morph": "the glyph 老 stands still as a solid sculpture while the toy grandpa shuffles forward slowly, leaning on his tiny cane, and waves warmly",
+        "hook": "一個木頭玩具老爺爺拄著小拐杖，慢慢地、一步一步往前走，灰白色的鬍子隨著腳步輕輕晃動，走到定點時，他停下來笑咪咪地揮揮手。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 179,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "新",
+      "zhuyin": "ㄒㄧㄣ",
+      "meaning": "new",
+      "emoji": "✨",
+      "words": [
+        {
+          "text": "新的",
+          "emoji": "✨"
+        },
+        {
+          "text": "新年",
+          "emoji": "🎊"
+        },
+        {
+          "text": "新鞋",
+          "emoji": "👟"
+        }
+      ],
+      "concept": {
+        "object": "a shiny, unwrapped toy fire truck still gleaming, sitting on a sparkly gift ribbon",
+        "morph": "the glyph 新 stands still as a solid sculpture while the toy fire truck's paint gleams and little sparkle stars twinkle around it",
+        "hook": "一台亮晶晶的玩具消防車放在閃亮的緞帶上，紅色的烤漆閃閃發光，車身周圍冒出幾顆一閃一閃的小星星，好像在說「我是全新的」。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 180,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "舊",
+      "zhuyin": "ㄐㄧㄡˋ",
+      "meaning": "old (used)",
+      "emoji": "🧸",
+      "words": [
+        {
+          "text": "舊的",
+          "emoji": "📦"
+        },
+        {
+          "text": "舊書",
+          "emoji": "📖"
+        },
+        {
+          "text": "舊衣服",
+          "emoji": "👕"
+        }
+      ],
+      "concept": {
+        "object": "a worn, faded plush toy bear with a patched ear and a loose button eye sitting on a shelf",
+        "morph": "the glyph 舊 stands still as a solid sculpture while dust puffs softly off the old bear's fur as it gives a comfy, familiar wave",
+        "hook": "一隻舊舊的玩具熊，耳朵上還縫著一塊小補丁，坐在架子上輕輕拍了拍自己身上的灰塵，「噗」地揚起一小陣灰，牠瞇著眼睛笑得很溫暖。"
+      },
+      "status": "seed",
+      "priority": 181,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "冷",
+      "zhuyin": "ㄌㄥˇ",
+      "meaning": "cold",
+      "emoji": "🥶",
+      "words": [
+        {
+          "text": "冷氣",
+          "emoji": "❄️"
+        },
+        {
+          "text": "冷水",
+          "emoji": "💧"
+        },
+        {
+          "text": "冷冷",
+          "emoji": "🥶"
+        }
+      ],
+      "concept": {
+        "object": "a small toy penguin shivering on a tiny iceberg with icicle-shaped toy blocks around it",
+        "morph": "the glyph 冷 stands still as a solid sculpture while the penguin hugs itself and shivers, and a little puff of frosty breath drifts from its beak",
+        "hook": "一隻玩具企鵝站在小小的冰山上，冷得縮起脖子、抱緊身體，一開口說話，嘴巴就冒出一小團白白的霧氣，牠又抖了一下才站穩。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 182,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "熱",
+      "zhuyin": "ㄖㄜˋ",
+      "meaning": "hot",
+      "emoji": "🥵",
+      "words": [
+        {
+          "text": "熱水",
+          "emoji": "♨️"
+        },
+        {
+          "text": "熱狗",
+          "emoji": "🌭"
+        },
+        {
+          "text": "熱熱",
+          "emoji": "🥵"
+        }
+      ],
+      "concept": {
+        "object": "a small toy bear character fanning itself with a tiny leaf beside a steaming toy teapot",
+        "morph": "the glyph 熱 stands still as a solid sculpture while steam puffs up from the teapot and the toy bear fans itself faster and faster",
+        "hook": "一隻玩具小熊坐在冒著熱氣的玩具茶壺旁邊，熱氣「咻咻」地往上冒，小熊拿起一片葉子拚命搧風，臉都紅通通的，還吐了吐舌頭。"
+      },
+      "scene": "fire",
+      "status": "seed",
+      "priority": 183,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "累",
+      "zhuyin": "ㄌㄟˋ",
+      "meaning": "tired",
+      "emoji": "😪",
+      "words": [
+        {
+          "text": "累了",
+          "emoji": "😪"
+        },
+        {
+          "text": "好累",
+          "emoji": "😩"
+        },
+        {
+          "text": "累死了",
+          "emoji": "🥱"
+        }
+      ],
+      "concept": {
+        "object": "a small plush toy puppy flopped over sideways on a soft cushion with its tongue lolling out",
+        "morph": "the glyph 累 stands still as a solid sculpture while the puppy's eyes droop lower and lower until it flops over with a soft sigh",
+        "hook": "一隻玩具小狗跑了好久好久，四隻腳一軟，「咚」地整隻趴倒在軟墊上，舌頭吐得長長的，打了一個好大的哈欠，眼睛也慢慢閉了起來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 184,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "乖",
+      "zhuyin": "ㄍㄨㄞ",
+      "meaning": "well-behaved",
+      "emoji": "😇",
+      "words": [
+        {
+          "text": "乖乖",
+          "emoji": "😇"
+        },
+        {
+          "text": "乖巧",
+          "emoji": "🎀"
+        },
+        {
+          "text": "乖孩子",
+          "emoji": "👶"
+        }
+      ],
+      "concept": {
+        "object": "a small toy puppy sitting perfectly still with its paws neatly together and a shiny gold star sticker on its collar",
+        "morph": "the glyph 乖 stands still as a solid sculpture while the puppy sits patiently without moving and a little sparkle badge appears on its collar",
+        "hook": "一隻玩具小狗乖乖地坐得直挺挺，兩隻前腳併得整整齊齊，一動也不動，過了一會兒，牠的項圈上突然「叮」一聲冒出一顆亮亮的星星貼紙。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 185,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "勇",
+      "zhuyin": "ㄩㄥˇ",
+      "meaning": "brave",
+      "emoji": "🦁",
+      "words": [
+        {
+          "text": "勇敢",
+          "emoji": "🦁"
+        },
+        {
+          "text": "勇氣",
+          "emoji": "💪"
+        },
+        {
+          "text": "勇士",
+          "emoji": "🛡️"
+        }
+      ],
+      "concept": {
+        "object": "a small toy lion cub puffing out its chest and standing tall in front of a tiny cardboard toy mountain",
+        "morph": "the glyph 勇 stands still as a solid sculpture while the lion cub squares its shoulders and takes one bold step forward",
+        "hook": "一隻玩具小獅子挺起胸膛，抬頭看著眼前紙做的小山，深呼吸一口氣，勇敢地跨出一大步往前走，尾巴也跟著驕傲地翹了起來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 186,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "怕",
+      "zhuyin": "ㄆㄚˋ",
+      "meaning": "afraid",
+      "emoji": "😨",
+      "words": [
+        {
+          "text": "怕怕",
+          "emoji": "😨"
+        },
+        {
+          "text": "害怕",
+          "emoji": "😱"
+        },
+        {
+          "text": "不怕",
+          "emoji": "💪"
+        }
+      ],
+      "concept": {
+        "object": "a small toy bunny peeking out from behind a soft round toy cushion with wide eyes",
+        "morph": "the glyph 怕 stands still as a solid sculpture while the bunny's ears droop and it ducks back behind the cushion, then peeks out again with a giggle",
+        "hook": "一隻玩具小兔子躲在圓圓的抱枕後面，只露出兩隻眼睛偷看，看到一顆彈跳的小球滾過去，牠嚇得縮回去，過了一下子又忍不住探出頭來笑。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 187,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "急",
+      "zhuyin": "ㄐㄧˊ",
+      "meaning": "anxious / urgent",
+      "emoji": "😰",
+      "words": [
+        {
+          "text": "著急",
+          "emoji": "😰"
+        },
+        {
+          "text": "急忙",
+          "emoji": "🏃"
+        },
+        {
+          "text": "緊急",
+          "emoji": "🚨"
+        }
+      ],
+      "concept": {
+        "object": "a small toy rabbit hopping in tight little circles while checking a tiny wristwatch on its paw",
+        "morph": "the glyph 急 stands still as a solid sculpture while the rabbit hops faster and faster in place, glancing at the clock again and again",
+        "hook": "一隻玩具兔子看著手上的小手錶，急得原地跳來跳去，一下看時間，一下轉圈圈，耳朵都跟著上下晃動，好像在說「快來不及了」。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 188,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "慢",
+      "zhuyin": "ㄇㄢˋ",
+      "meaning": "slow",
+      "emoji": "🐌",
+      "words": [
+        {
+          "text": "慢慢",
+          "emoji": "🐌"
+        },
+        {
+          "text": "慢吞吞",
+          "emoji": "🐢"
+        },
+        {
+          "text": "慢跑",
+          "emoji": "🏃"
+        }
+      ],
+      "concept": {
+        "object": "a small toy snail inching along a leaf, leaving a tiny glittery trail behind it",
+        "morph": "the glyph 慢 stands still as a solid sculpture while the snail creeps forward so slowly that a toy turtle zooms right past it",
+        "hook": "一隻玩具蝸牛在葉子上慢慢地、一點一點地往前爬，留下一條亮亮的小路，一旁的玩具烏龜「咻」一下就超過牠了，蝸牛還在原地慢慢移動。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 189,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "年",
+      "zhuyin": "ㄋㄧㄢˊ",
+      "meaning": "year",
+      "emoji": "🧧",
+      "words": [
+        {
+          "text": "過年",
+          "emoji": "🧧"
+        },
+        {
+          "text": "今年",
+          "emoji": "📅"
+        },
+        {
+          "text": "年紀",
+          "emoji": "🎂"
+        }
+      ],
+      "concept": {
+        "object": "a small toy red envelope character sitting beside a tiny calendar block flipping its pages",
+        "morph": "the glyph 年 stands still as a solid sculpture while the calendar block flips through twelve little pages and confetti bursts on the last one",
+        "hook": "一個迷你玩具日曆一頁一頁「唰唰唰」地翻過去，紅包玩偶在旁邊笑咪咪地等著，翻到最後一頁時，「碰」一聲飄出好多彩色小紙片，過年了！"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 190,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "時",
+      "zhuyin": "ㄕˊ",
+      "meaning": "time",
+      "emoji": "⏰",
+      "words": [
+        {
+          "text": "時間",
+          "emoji": "⏰"
+        },
+        {
+          "text": "時候",
+          "emoji": "⏳"
+        },
+        {
+          "text": "準時",
+          "emoji": "⌚"
+        }
+      ],
+      "concept": {
+        "object": "a small round toy clock character with stubby wind-up legs, ticking along a tiny track",
+        "morph": "the glyph 時 stands still as a solid sculpture while the toy clock's hands spin around and its little legs march steadily forward",
+        "hook": "一個圓滾滾的玩具時鐘長出兩隻小短腿，滴答滴答地在軌道上往前走，指針跟著一圈一圈轉，走到定點時「叮」一聲響，停下來對大家眨眨眼。"
+      },
+      "status": "seed",
+      "priority": 191,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "分",
+      "zhuyin": "ㄈㄣ",
+      "meaning": "minute",
+      "emoji": "⏰",
+      "words": [
+        {
+          "text": "分享",
+          "emoji": "🎁"
+        },
+        {
+          "text": "分開",
+          "emoji": "👋"
+        },
+        {
+          "text": "十分鐘",
+          "emoji": "⏱️"
+        },
+        {
+          "text": "分數",
+          "emoji": "💯"
+        }
+      ],
+      "concept": {
+        "object": "a smiling round toy alarm clock with big minute and hour hands, sitting beside a colorful toy pizza sliced on a tiny wooden board",
+        "morph": "the glyph 分 stands still as a solid sculpture while the toy clock's minute hand nudges forward and two small toy hands slide the pizza's slices apart to share them",
+        "hook": "圓滾滾的玩具鬧鐘笑咪咪地站在一旁，旁邊擺著切好的玩具披薩，鬧鐘的分針輕輕一撥，兩隻小手就把披薩一片一片地分開，分給站得直挺挺的分字旁邊排排坐的大家。"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 192,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "秒",
+      "zhuyin": "ㄇㄧㄠˇ",
+      "meaning": "second",
+      "emoji": "⏱️",
+      "words": [
+        {
+          "text": "一秒",
+          "emoji": "⏱️"
+        },
+        {
+          "text": "秒針",
+          "emoji": "⏰"
+        },
+        {
+          "text": "三秒鐘",
+          "emoji": "⏳"
+        }
+      ],
+      "concept": {
+        "object": "a small colorful toy stopwatch with a bright red button and a fast-ticking second hand",
+        "morph": "the glyph 秒 stands still as a solid sculpture while the stopwatch's second hand races around its face in a blur, and a tiny toy runner dashes past before it even finishes one full circle",
+        "hook": "小小的玩具碼錶一按下紅色按鈕，就「滴滴滴」地飛快轉動秒針，一個迷你玩具小跑者咻地衝過站得直挺挺的秒字，才剛起跑，秒針已經轉了一整圈，逗得旁邊的人哈哈大笑。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 193,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "早",
+      "zhuyin": "ㄗㄠˇ",
+      "meaning": "morning",
+      "emoji": "🌅",
+      "words": [
+        {
+          "text": "早安",
+          "emoji": "☀️"
+        },
+        {
+          "text": "早餐",
+          "emoji": "🍳"
+        },
+        {
+          "text": "早上",
+          "emoji": "🌅"
+        },
+        {
+          "text": "提早",
+          "emoji": "⏰"
+        }
+      ],
+      "concept": {
+        "object": "a small round toy sun with a bright cheerful smiling face, perched on top of a tall wooden peg",
+        "morph": "the sun toy squashes flat into a small square with one horizontal line through its middle, then slides down to balance on top of a tall straight stem crossed by a short horizontal bar",
+        "hook": "圓圓的玩具太陽笑咪咪地掛在高高的木頭柱子上，慢慢把自己壓成一個小方塊，中間多了一條橫線，接著滑下來穩穩地站在一根直直的柱子上，柱子中間也多了一小橫，變成了早字的樣子。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 194,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "晚",
+      "zhuyin": "ㄨㄢˇ",
+      "meaning": "evening",
+      "emoji": "🌇",
+      "words": [
+        {
+          "text": "晚安",
+          "emoji": "🌙"
+        },
+        {
+          "text": "晚餐",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "晚上",
+          "emoji": "🌃"
+        },
+        {
+          "text": "太晚",
+          "emoji": "⏰"
+        }
+      ],
+      "concept": {
+        "object": "a miniature toy night-market diorama with tiny glowing lantern stalls, a small toy ferris wheel, and a sleepy toy owl perched nearby",
+        "morph": "the glyph 晚 stands still as a solid sculpture while the tiny toy ferris wheel lights up one lantern at a time and the toy owl blinks sleepily beside it",
+        "hook": "迷你的玩具夜市模型裡亮著一盞盞小燈籠，小小的摩天輪一格一格地亮起燈來，旁邊一隻玩具貓頭鷹眨呀眨地打著呵欠，站得直挺挺的晚字旁邊也跟著暗了下來，只剩暖暖的燈光閃爍。"
+      },
+      "scene": "fire",
+      "status": "seed",
+      "priority": 195,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "今",
+      "zhuyin": "ㄐㄧㄣ",
+      "meaning": "today",
+      "emoji": "📅",
+      "words": [
+        {
+          "text": "今天",
+          "emoji": "📅"
+        },
+        {
+          "text": "今年",
+          "emoji": "🎊"
+        },
+        {
+          "text": "今晚",
+          "emoji": "🌙"
+        }
+      ],
+      "concept": {
+        "object": "a small toy calendar standing on a desk with today's page flipped open, and a tiny party confetti popper beside it",
+        "morph": "the glyph 今 stands still as a solid sculpture while the tiny confetti popper goes off with a soft pop, scattering little paper stars over today's open page",
+        "hook": "小小的玩具日曆翻開了今天這一頁，旁邊的迷你拉炮「啵」地一聲彈開，灑下一片片小紙星星，剛好落在站得直挺挺的今字上，好像在慶祝今天是特別的一天。"
+      },
+      "status": "seed",
+      "priority": 196,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "昨",
+      "zhuyin": "ㄗㄨㄛˊ",
+      "meaning": "yesterday",
+      "emoji": "📆",
+      "words": [
+        {
+          "text": "昨天",
+          "emoji": "📆"
+        },
+        {
+          "text": "昨晚",
+          "emoji": "🌛"
+        }
+      ],
+      "concept": {
+        "object": "the same small toy calendar, with yesterday's page gently folded over behind today's, and a tiny sleepy toy moon resting on top of it",
+        "morph": "the glyph 昨 stands still as a solid sculpture while the tiny toy moon slowly rolls off yesterday's folded page and tucks itself away to sleep",
+        "hook": "玩具日曆昨天的那一頁輕輕被翻過去，摺在今天的後面，一顆小小的玩具月亮打著呵欠，從昨天那一頁慢慢滾下來，滾到站得直挺挺的昨字旁邊，蜷成一團睡著了。"
+      },
+      "status": "seed",
+      "priority": 197,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "夜",
+      "zhuyin": "ㄧㄝˋ",
+      "meaning": "night",
+      "emoji": "🌙",
+      "words": [
+        {
+          "text": "夜市",
+          "emoji": "🎪"
+        },
+        {
+          "text": "半夜",
+          "emoji": "🌙"
+        },
+        {
+          "text": "夜燈",
+          "emoji": "💡"
+        },
+        {
+          "text": "夜晚",
+          "emoji": "🌌"
+        }
+      ],
+      "concept": {
+        "object": "a miniature toy night-market diorama glowing with tiny string lights and food-stall signs, with a small toy lantern hovering above it",
+        "morph": "the glyph 夜 stands still as a solid sculpture while the tiny toy lantern rises slowly into the air, its warm glow spreading over the sleepy little market below",
+        "hook": "迷你的玩具夜市模型掛滿一整排小燈泡，暖暖的光照著一攤攤小吃招牌，一顆小燈籠玩具慢慢飄上高空，把溫暖的光灑在站得直挺挺的夜字上，整個夜市都亮了起來。"
+      },
+      "scene": "fire",
+      "status": "seed",
+      "priority": 198,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "午",
+      "zhuyin": "ㄨˇ",
+      "meaning": "noon",
+      "emoji": "☀️",
+      "words": [
+        {
+          "text": "中午",
+          "emoji": "☀️"
+        },
+        {
+          "text": "午餐",
+          "emoji": "🍱"
+        },
+        {
+          "text": "午睡",
+          "emoji": "😴"
+        },
+        {
+          "text": "下午",
+          "emoji": "🌇"
+        }
+      ],
+      "concept": {
+        "object": "a small toy sundial standing in bright sunlight, its little shadow shrinking to a thin sliver right beneath it",
+        "morph": "the glyph 午 stands still as a solid sculpture while the sundial's shadow spins slowly around and shrinks to its very shortest, pointing straight down at noon",
+        "hook": "小小的玩具日晷立在大太陽底下，影子隨著時間慢慢轉呀轉，轉到中午的時候影子縮得好短好短，直直地指向站得直挺挺的午字下面，好像在說「現在是中午囉」。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 199,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "貓",
+      "zhuyin": "ㄇㄠ",
+      "meaning": "cat",
+      "emoji": "🐱",
+      "words": [
+        {
+          "text": "貓咪",
+          "emoji": "🐱"
+        },
+        {
+          "text": "貓熊",
+          "emoji": "🐼"
+        },
+        {
+          "text": "小貓",
+          "emoji": "😺"
+        },
+        {
+          "text": "野貓",
+          "emoji": "🙀"
+        }
+      ],
+      "concept": {
+        "object": "a fluffy orange plush kitten with a pink bow and a tiny ball of yarn",
+        "morph": "the glyph 貓 stands still as a solid sculpture while the plush kitten paws at the yarn ball, rolling it in circles around the glyph's feet",
+        "hook": "橘色的貓咪玩偶戴著粉紅蝴蝶結，伸出小小的手掌把毛線球一圈一圈地滾過站得直挺挺的貓字旁邊，滾著滾著，自己也跟著打滾翻了一圈。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 200,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "兔",
+      "zhuyin": "ㄊㄨˋ",
+      "meaning": "rabbit",
+      "emoji": "🐰",
+      "words": [
+        {
+          "text": "兔子",
+          "emoji": "🐰"
+        },
+        {
+          "text": "小兔",
+          "emoji": "🐇"
+        },
+        {
+          "text": "玉兔",
+          "emoji": "🌕"
+        },
+        {
+          "text": "兔耳朵",
+          "emoji": "👂"
+        }
+      ],
+      "concept": {
+        "object": "a soft white plush bunny with long floppy ears and a round cotton-ball tail",
+        "morph": "the glyph 兔 stands still as a solid sculpture while the plush bunny hops up and down, its floppy ears flapping like little wings each time it lands",
+        "hook": "白白的兔子玩偶長著長長的耳朵，蹦、蹦、蹦地跳過站得直挺挺的兔字旁邊，每跳一下耳朵就飛起來一次，最後一跳還打了個小噴嚏，尾巴跟著抖了一下。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 201,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "虎",
+      "zhuyin": "ㄏㄨˇ",
+      "meaning": "tiger",
+      "emoji": "🐯",
+      "words": [
+        {
+          "text": "老虎",
+          "emoji": "🐯"
+        },
+        {
+          "text": "小虎",
+          "emoji": "🐅"
+        },
+        {
+          "text": "虎牙",
+          "emoji": "🦷"
+        },
+        {
+          "text": "虎斑貓",
+          "emoji": "🐈"
+        }
+      ],
+      "concept": {
+        "object": "a chubby orange-and-black striped plush tiger cub with round soft paws and a little bell collar",
+        "morph": "the glyph 虎 stands still as a solid sculpture while the plush tiger cub tries to tiptoe past it quietly, but its bell collar keeps jingling and gives it away",
+        "hook": "圓滾滾的橘黑條紋小老虎玩偶想要偷偷踮著腳尖走過站得直挺挺的虎字，可是脖子上的小鈴鐺叮叮噹噹響個不停，牠只好摀著鈴鐺，不好意思地笑了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 202,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "象",
+      "zhuyin": "ㄒㄧㄤˋ",
+      "meaning": "elephant",
+      "emoji": "🐘",
+      "words": [
+        {
+          "text": "大象",
+          "emoji": "🐘"
+        },
+        {
+          "text": "象鼻",
+          "emoji": "👃"
+        },
+        {
+          "text": "象牙",
+          "emoji": "🦷"
+        },
+        {
+          "text": "小飛象",
+          "emoji": "✈️"
+        }
+      ],
+      "concept": {
+        "object": "a round grey plush elephant with big floppy ears and a curly soft trunk",
+        "morph": "the glyph 象 stands still as a solid sculpture while the plush elephant uses its curly trunk to spray a tiny shower of confetti over itself",
+        "hook": "灰灰圓圓的大象玩偶甩著長長的鼻子，對著自己噴出一陣彩色小紙花，紙花落在站得直挺挺的象字上，牠得意地晃了晃大耳朵，紙花又飄了下來。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 203,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "猴",
+      "zhuyin": "ㄏㄡˊ",
+      "meaning": "monkey",
+      "emoji": "🐵",
+      "words": [
+        {
+          "text": "猴子",
+          "emoji": "🐒"
+        },
+        {
+          "text": "小猴",
+          "emoji": "🙈"
+        },
+        {
+          "text": "猴年",
+          "emoji": "🧧"
+        },
+        {
+          "text": "猴急",
+          "emoji": "😆"
+        }
+      ],
+      "concept": {
+        "object": "a small brown plush monkey with long dangly arms and a curled tail, holding a tiny yellow banana",
+        "morph": "the glyph 猴 stands still as a solid sculpture while the plush monkey swings from an invisible branch above and lands with a silly somersault beside it",
+        "hook": "棕色的猴子玩偶手裡抓著一根小香蕉，用尾巴勾住樹枝盪來盪去，「咻」地一聲翻了個筋斗，剛好落在站得直挺挺的猴字旁邊，還對著它眨眨眼。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 204,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "熊",
+      "zhuyin": "ㄒㄩㄥˊ",
+      "meaning": "bear",
+      "emoji": "🐻",
+      "words": [
+        {
+          "text": "小熊",
+          "emoji": "🐻"
+        },
+        {
+          "text": "熊貓",
+          "emoji": "🐼"
+        },
+        {
+          "text": "北極熊",
+          "emoji": "🐻‍❄️"
+        },
+        {
+          "text": "熊熊",
+          "emoji": "🧸"
+        }
+      ],
+      "concept": {
+        "object": "a round brown plush teddy bear with a honey-colored belly patch and a little red scarf",
+        "morph": "the glyph 熊 stands still as a solid sculpture while the plush bear wobbles side to side hugging a tiny honey pot, leaving sticky golden paw prints",
+        "hook": "圓滾滾的棕色小熊玩偶戴著紅色小圍巾，抱著一小罐蜂蜜搖搖晃晃地走過站得直挺挺的熊字，一路上留下一個個黏黏的蜜色小腳印。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 205,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蛇",
+      "zhuyin": "ㄕㄜˊ",
+      "meaning": "snake",
+      "emoji": "🐍",
+      "words": [
+        {
+          "text": "大蛇",
+          "emoji": "🐍"
+        },
+        {
+          "text": "蛇年",
+          "emoji": "🧧"
+        },
+        {
+          "text": "毒蛇",
+          "emoji": "☠️"
+        }
+      ],
+      "concept": {
+        "object": "a long, soft, brightly striped plush snake curled into a friendly spiral with a cheerful smiling face",
+        "morph": "the glyph 蛇 stands still as a solid sculpture while the plush snake wiggles playfully and ties its own soft body into a loose, wobbly bow",
+        "hook": "彩色條紋的長長蛇娃娃笑咪咪地扭來扭去，把自己軟軟的身體打成一個歪歪的蝴蝶結，繞著站得直挺挺的蛇字轉了一圈，還得意地吐了吐舌頭。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 206,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蝶",
+      "zhuyin": "ㄉㄧㄝˊ",
+      "meaning": "butterfly",
+      "emoji": "🦋",
+      "words": [
+        {
+          "text": "蝴蝶",
+          "emoji": "🦋"
+        },
+        {
+          "text": "蝴蝶結",
+          "emoji": "🎀"
+        },
+        {
+          "text": "蝶式",
+          "emoji": "🏊"
+        },
+        {
+          "text": "蝶豆花",
+          "emoji": "🌸"
+        }
+      ],
+      "concept": {
+        "object": "a delicate toy butterfly with big glittery wings painted in pink and purple swirls, perched on a flower",
+        "morph": "the glyph 蝶 stands still as a solid sculpture while the toy butterfly flutters its sparkly wings and drifts in lazy loops around it before landing gently on top",
+        "hook": "粉紫色亮片翅膀的蝴蝶玩具輕輕拍著翅膀，繞著站得直挺挺的蝶字轉了好幾個圈圈，最後輕輕停在它頭頂上，翅膀還一開一合地眨呀眨。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 207,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蜂",
+      "zhuyin": "ㄈㄥ",
+      "meaning": "bee",
+      "emoji": "🐝",
+      "words": [
+        {
+          "text": "蜜蜂",
+          "emoji": "🐝"
+        },
+        {
+          "text": "蜂蜜",
+          "emoji": "🍯"
+        },
+        {
+          "text": "蜂窩",
+          "emoji": "🏠"
+        },
+        {
+          "text": "虎頭蜂",
+          "emoji": "😱"
+        }
+      ],
+      "concept": {
+        "object": "a round plush bumblebee with fuzzy yellow-and-black stripes and see-through wings, holding a tiny honey jar",
+        "morph": "the glyph 蜂 stands still as a solid sculpture while the plush bee buzzes in a wobbly zigzag path around it, humming a tiny tune",
+        "hook": "毛茸茸的黃黑條紋小蜜蜂玩偶抱著一小罐蜂蜜，嗡嗡嗡地繞著站得直挺挺的蜂字飛來飛去，飛得歪歪扭扭，最後一頭撞進花朵裡，才滿足地停下來。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 208,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蟲",
+      "zhuyin": "ㄔㄨㄥˊ",
+      "meaning": "bug",
+      "emoji": "🐛",
+      "words": [
+        {
+          "text": "毛毛蟲",
+          "emoji": "🐛"
+        },
+        {
+          "text": "螢火蟲",
+          "emoji": "✨"
+        },
+        {
+          "text": "昆蟲",
+          "emoji": "🦗"
+        },
+        {
+          "text": "蟲蟲",
+          "emoji": "🐜"
+        }
+      ],
+      "concept": {
+        "object": "a cute green plush caterpillar with a round segmented body and tiny sneakers on each of its many feet",
+        "morph": "the glyph 蟲 stands still as a solid sculpture while the plush caterpillar inches along beside it, its little sneakers pattering one after another",
+        "hook": "綠色的毛毛蟲玩偶身上每一節都穿著小小的運動鞋，一節一節地扭動，啪嗒啪嗒地爬過站得直挺挺的蟲字，爬到一半還打了個小哈欠，伸了個懶腰。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 209,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "鴨",
+      "zhuyin": "ㄧㄚ",
+      "meaning": "duck",
+      "emoji": "🦆",
+      "words": [
+        {
+          "text": "鴨子",
+          "emoji": "🦆"
+        },
+        {
+          "text": "小鴨",
+          "emoji": "🐥"
+        },
+        {
+          "text": "鴨舌帽",
+          "emoji": "🧢"
+        },
+        {
+          "text": "烤鴨",
+          "emoji": "🍖"
+        }
+      ],
+      "concept": {
+        "object": "a round yellow rubber duck toy with a bright orange beak and a little sailor hat",
+        "morph": "the glyph 鴨 stands still as a solid sculpture while the rubber duck bobs up and down on an invisible wave, squeaking each time it dips",
+        "hook": "黃澄澄的小鴨玩具戴著水手帽，一上一下地在水面漂呀漂，每次沉下去就「呱」地叫一聲，剛好漂到站得直挺挺的鴨字旁邊，還吐了個小泡泡。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 210,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "鵝",
+      "zhuyin": "ㄜˊ",
+      "meaning": "goose",
+      "emoji": "🪿",
+      "words": [
+        {
+          "text": "天鵝",
+          "emoji": "🦢"
+        },
+        {
+          "text": "鵝肉",
+          "emoji": "🍗"
+        },
+        {
+          "text": "大鵝",
+          "emoji": "🪿"
+        }
+      ],
+      "concept": {
+        "object": "a plump white plush goose with an orange beak and webbed feet, wearing a tiny red bowtie",
+        "morph": "the glyph 鵝 stands still as a solid sculpture while the plush goose waddles proudly around it with its long neck held high, honking softly",
+        "hook": "白白胖胖的鵝娃娃戴著紅色小領結，抬頭挺胸地繞著站得直挺挺的鵝字大搖大擺地走，一邊走一邊「嘎、嘎」地叫，好像在說牠是這裡最神氣的。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 211,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "獅",
+      "zhuyin": "ㄕ",
+      "meaning": "lion",
+      "emoji": "🦁",
+      "words": [
+        {
+          "text": "獅子",
+          "emoji": "🦁"
+        },
+        {
+          "text": "舞獅",
+          "emoji": "🥁"
+        },
+        {
+          "text": "獅子座",
+          "emoji": "♌"
+        },
+        {
+          "text": "小獅子",
+          "emoji": "😺"
+        }
+      ],
+      "concept": {
+        "object": "a fluffy golden plush lion cub with a soft round mane like a dandelion puff",
+        "morph": "the glyph 獅 stands still as a solid sculpture while the plush lion cub shakes its fluffy mane and a few soft puffs drift off like dandelion seeds",
+        "hook": "金黃色蓬蓬鬃毛的小獅子玩偶用力甩甩頭，鬃毛上的絨毛就像蒲公英一樣一朵一朵飄起來，飄過站得直挺挺的獅字，牠自己也被搔得咯咯笑。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 212,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "狼",
+      "zhuyin": "ㄌㄤˊ",
+      "meaning": "wolf",
+      "emoji": "🐺",
+      "words": [
+        {
+          "text": "大野狼",
+          "emoji": "🐺"
+        },
+        {
+          "text": "狼狗",
+          "emoji": "🐕"
+        },
+        {
+          "text": "小狼",
+          "emoji": "🐾"
+        }
+      ],
+      "concept": {
+        "object": "a fluffy grey plush wolf pup with oversized floppy paws, tipping its head back in a howling pose and holding a tiny toy microphone",
+        "morph": "the glyph 狼 stands still as a solid sculpture while the plush wolf pup tips its head back to howl into the tiny microphone, but only a squeaky little bark comes out",
+        "hook": "灰灰的小狼玩偶抱著一支迷你麥克風，抬頭想要「嗚——」地大聲嚎叫，結果只發出了一聲軟軟的「汪」，牠自己都愣住了，站得直挺挺的狼字旁邊安靜一秒才傳來笑聲。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 213,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "鹿",
+      "zhuyin": "ㄌㄨˋ",
+      "meaning": "deer",
+      "emoji": "🦌",
+      "words": [
+        {
+          "text": "小鹿",
+          "emoji": "🦌"
+        },
+        {
+          "text": "梅花鹿",
+          "emoji": "🌸"
+        },
+        {
+          "text": "麋鹿",
+          "emoji": "🎄"
+        },
+        {
+          "text": "鹿角",
+          "emoji": "🤎"
+        }
+      ],
+      "concept": {
+        "object": "a slender white-spotted plush fawn with tiny felt antler buds and thin graceful legs",
+        "morph": "the glyph 鹿 stands still as a solid sculpture while the plush fawn takes a few wobbly, bouncy steps around it on its thin legs, nearly tripping but catching itself",
+        "hook": "白色小斑點的梅花鹿寶寶玩偶用細細的腿搖搖晃晃地邁著步伐，走過站得直挺挺的鹿字，差點滑倒，還好穩穩地站住了，抖了抖耳朵繼續蹦跳。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 214,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "龜",
+      "zhuyin": "ㄍㄨㄟ",
+      "meaning": "turtle",
+      "emoji": "🐢",
+      "words": [
+        {
+          "text": "烏龜",
+          "emoji": "🐢"
+        },
+        {
+          "text": "龜兔賽跑",
+          "emoji": "🏃"
+        },
+        {
+          "text": "海龜",
+          "emoji": "🌊"
+        },
+        {
+          "text": "龜速",
+          "emoji": "🐌"
+        }
+      ],
+      "concept": {
+        "object": "a round green plush turtle with a soft patterned shell and a tiny party hat perched on top",
+        "morph": "the glyph 龜 stands still as a solid sculpture while the plush turtle very slowly pokes its head out, blinks, and tucks back into its shell again",
+        "hook": "圓圓綠綠的烏龜玩偶背上頂著一頂小派對帽，慢～慢～地把頭伸出來，對著站得直挺挺的龜字眨眨眼，然後又慢慢地把頭縮回殼裡，帽子還晃了兩下。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 215,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蟹",
+      "zhuyin": "ㄒㄧㄝˋ",
+      "meaning": "crab",
+      "emoji": "🦀",
+      "words": [
+        {
+          "text": "螃蟹",
+          "emoji": "🦀"
+        },
+        {
+          "text": "蟹腳",
+          "emoji": "🦵"
+        },
+        {
+          "text": "大閘蟹",
+          "emoji": "🍜"
+        }
+      ],
+      "concept": {
+        "object": "a round red plush crab with two oversized fluffy pincer claws and googly eyes",
+        "morph": "the glyph 蟹 stands still as a solid sculpture while the plush crab sidesteps back and forth, clicking its fluffy claws together like tiny castanets",
+        "hook": "紅通通的螃蟹玩偶頂著兩隻毛茸茸的大螯，橫著走來走去，喀嗒喀嗒地互相敲打大螯，像在打拍子，繞著站得直挺挺的蟹字轉了個圈，還撞到自己的腳。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 216,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蝦",
+      "zhuyin": "ㄒㄧㄚ",
+      "meaning": "shrimp",
+      "emoji": "🦐",
+      "words": [
+        {
+          "text": "蝦子",
+          "emoji": "🍤"
+        },
+        {
+          "text": "龍蝦",
+          "emoji": "🦞"
+        },
+        {
+          "text": "蝦餅",
+          "emoji": "🍘"
+        }
+      ],
+      "concept": {
+        "object": "a small curled pink plush shrimp with long whiskers and tiny bright antennae",
+        "morph": "the glyph 蝦 stands still as a solid sculpture while the plush shrimp flicks its curled tail and hops backward in little surprised jumps",
+        "hook": "粉紅色彎彎的蝦子玩偶甩了甩尾巴，「咻」地往後跳了一下，又跳了一下，一路彈跳著繞過站得直挺挺的蝦字，觸鬚還一直抖呀抖的。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 217,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蛙",
+      "zhuyin": "ㄨㄚ",
+      "meaning": "frog",
+      "emoji": "🐸",
+      "words": [
+        {
+          "text": "青蛙",
+          "emoji": "🐸"
+        },
+        {
+          "text": "蛙式",
+          "emoji": "🏊"
+        },
+        {
+          "text": "蛙鏡",
+          "emoji": "🥽"
+        }
+      ],
+      "concept": {
+        "object": "a round green plush frog with big bulging eyes and bright yellow swim goggles",
+        "morph": "the glyph 蛙 stands still as a solid sculpture while the plush frog crouches low, then boings straight up into the air and lands with a soft squeaky bounce",
+        "hook": "圓圓的綠色青蛙玩偶戴著黃色泳鏡，蹲低身體「噗」地一聲跳得老高，「啪」地一聲又落回地上，彈跳著繞過站得直挺挺的蛙字，逗得旁邊的人都笑了。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 218,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "豹",
+      "zhuyin": "ㄅㄠˋ",
+      "meaning": "leopard",
+      "emoji": "🐆",
+      "words": [
+        {
+          "text": "花豹",
+          "emoji": "🐆"
+        },
+        {
+          "text": "獵豹",
+          "emoji": "💨"
+        },
+        {
+          "text": "豹紋",
+          "emoji": "👗"
+        }
+      ],
+      "concept": {
+        "object": "a sleek golden plush leopard cub covered in soft black spots, mid-pounce pose on a tiny cushion",
+        "morph": "the glyph 豹 stands still as a solid sculpture while the plush leopard cub tries to pounce dramatically onto a feather toy but tumbles into a fluffy somersault instead",
+        "hook": "金黃色黑斑點的小豹玩偶擺出帥氣的撲跳姿勢，用力一躍想撲向一根羽毛玩具，結果「咕嚕」一聲滾成一團，滾到站得直挺挺的豹字腳邊才停下來，還有點頭暈。"
+      },
+      "scene": "bounce",
+      "status": "seed",
+      "priority": 219,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "燕",
+      "zhuyin": "ㄧㄢˋ",
+      "meaning": "swallow (bird)",
+      "emoji": "🐦",
+      "words": [
+        {
+          "text": "燕子",
+          "emoji": "🐦"
+        },
+        {
+          "text": "小燕子",
+          "emoji": "🎵"
+        },
+        {
+          "text": "燕窩",
+          "emoji": "🥣"
+        }
+      ],
+      "concept": {
+        "object": "a small blue-and-white plush swallow with a forked tail and a tiny embroidered flower on its wing",
+        "morph": "the glyph 燕 stands still as a solid sculpture while the plush swallow swoops in a graceful arc around it and perches lightly on top, its tail feathers swaying",
+        "hook": "藍白色的小燕子玩偶穿著花衣裳，「咻」地一聲畫出一道優雅的弧線，繞過站得直挺挺的燕字，最後輕輕停在它頭頂上，尾巴像剪刀一樣輕輕搖擺。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 220,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "雲",
+      "zhuyin": "ㄩㄣˊ",
+      "meaning": "cloud",
+      "emoji": "☁️",
+      "words": [
+        {
+          "text": "雲朵",
+          "emoji": "☁️"
+        },
+        {
+          "text": "烏雲",
+          "emoji": "⛈️"
+        },
+        {
+          "text": "雲霄飛車",
+          "emoji": "🎢"
+        }
+      ],
+      "concept": {
+        "object": "a big fluffy white toy cloud, soft and puffy like cotton candy, with a gentle smiling face",
+        "morph": "the fluffy cloud's top flattens into a small line-topped box with four little drops dangling beneath it, while its puffy body underneath coils into two short flat lines resting above a small curling hook",
+        "hook": "軟綿綿的白雲玩偶像棉花糖一樣蓬蓬的，慢慢把身體壓扁變成一個小屋頂，屋頂下滴下四滴小水珠，下面的雲朵身體又捲呀捲，捲成一個圓圓的漩渦，變成了雲字的樣子。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 221,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "風",
+      "zhuyin": "ㄈㄥ",
+      "meaning": "wind",
+      "emoji": "🌬️",
+      "words": [
+        {
+          "text": "風箏",
+          "emoji": "🪁"
+        },
+        {
+          "text": "颱風",
+          "emoji": "🌀"
+        },
+        {
+          "text": "電風扇",
+          "emoji": "🌬️"
+        },
+        {
+          "text": "麥克風",
+          "emoji": "🎤"
+        }
+      ],
+      "concept": {
+        "object": "a colorful toy pinwheel with rainbow-striped blades, spinning gently on a wooden stick",
+        "morph": "the pinwheel's spinning blades slow down and curve into one wide sweeping hook-shaped sail, while a small loose ribbon curls up and tucks in neatly near its base",
+        "hook": "彩虹色的玩具風車呼呼地轉呀轉，轉著轉著葉片慢慢合起來，變成一片彎彎的大帆，帆角下垂著的緞帶捲成一個小圈圈，就變成了風字的樣子，風車最後輕輕「呼」了一口氣才停下來。"
+      },
+      "scene": "fly",
+      "status": "seed",
+      "priority": 222,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "雪",
+      "zhuyin": "ㄒㄩㄝˇ",
+      "meaning": "snow",
+      "emoji": "❄️",
+      "words": [
+        {
+          "text": "雪人",
+          "emoji": "⛄"
+        },
+        {
+          "text": "下雪",
+          "emoji": "🌨️"
+        },
+        {
+          "text": "雪花",
+          "emoji": "❄️"
+        },
+        {
+          "text": "雪糕",
+          "emoji": "🍦"
+        }
+      ],
+      "concept": {
+        "object": "a glass snow-globe with a tiny cottage inside and swirling white glitter snow",
+        "morph": "the snow-globe's rounded dome flattens into a small line-topped box with three little drops dangling beneath it, while the swirling glitter inside gathers into a stack of short curved lines topped with a small hook",
+        "hook": "玻璃雪球裡有一間小房子，輕輕搖一搖裡面的雪花就飛舞起來，圓圓的球頂慢慢壓平變成一個小屋頂，屋頂下滴著三滴小雪珠，裡面打轉的雪花全都聚成一把彎彎的小掃帚，變成了雪字的樣子。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 223,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "冰",
+      "zhuyin": "ㄅㄧㄥ",
+      "meaning": "ice",
+      "emoji": "🧊",
+      "words": [
+        {
+          "text": "冰淇淋",
+          "emoji": "🍦"
+        },
+        {
+          "text": "剉冰",
+          "emoji": "🍧"
+        },
+        {
+          "text": "冰塊",
+          "emoji": "🧊"
+        },
+        {
+          "text": "冰棒",
+          "emoji": "🍭"
+        }
+      ],
+      "concept": {
+        "object": "a clear sparkling toy ice cube with tiny air bubbles frozen inside, sitting on a little tray",
+        "morph": "two icy droplets flick off to one side of the cube, while the cube itself softens into a tall rising stroke with two wavy lines branching gently out to either side",
+        "hook": "亮晶晶的玩具冰塊裡凍著小小的氣泡，「啪」地一聲，兩滴小冰珠彈到旁邊，冰塊自己也慢慢融化成兩條彎彎的波浪線，貼在冰珠旁邊，就變成了冰字的樣子。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 224,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "河",
+      "zhuyin": "ㄏㄜˊ",
+      "meaning": "river",
+      "emoji": "🏞️",
+      "words": [
+        {
+          "text": "河流",
+          "emoji": "🏞️"
+        },
+        {
+          "text": "河馬",
+          "emoji": "🦛"
+        },
+        {
+          "text": "河邊",
+          "emoji": "🌊"
+        },
+        {
+          "text": "護城河",
+          "emoji": "🏰"
+        }
+      ],
+      "concept": {
+        "object": "a miniature toy river diorama with a winding blue stream, tiny pebbles, and a chubby toy hippo wading in it",
+        "morph": "the glyph 河 stands still as a solid sculpture while the toy hippo wades along the winding stream, blowing little bubbles that float past it",
+        "hook": "小小的河流模型裡有一條彎彎的藍色小溪，胖胖的玩具河馬泡在水裡，慢慢地走過站得直挺挺的河字，嘴巴一張一合地吹出一串圓圓的泡泡，飄呀飄地飄走了。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 225,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "海",
+      "zhuyin": "ㄏㄞˇ",
+      "meaning": "sea",
+      "emoji": "🌊",
+      "words": [
+        {
+          "text": "大海",
+          "emoji": "🌊"
+        },
+        {
+          "text": "海邊",
+          "emoji": "🏖️"
+        },
+        {
+          "text": "海豚",
+          "emoji": "🐬"
+        },
+        {
+          "text": "海洋",
+          "emoji": "🐋"
+        }
+      ],
+      "concept": {
+        "object": "a miniature toy beach diorama with turquoise water, tiny waves, and a small toy dolphin leaping",
+        "morph": "the glyph 海 stands still as a solid sculpture while the toy dolphin leaps out of the tiny waves in a graceful arc and splashes back down beside it",
+        "hook": "小小的海邊模型裡有一片藍綠色的海水，迷你的玩具海豚「咻」地一聲跳出水面，畫出一道漂亮的弧線，「啪」地落回站得直挺挺的海字旁邊，濺起一朵小小的水花。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 226,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "湖",
+      "zhuyin": "ㄏㄨˊ",
+      "meaning": "lake",
+      "emoji": "💧",
+      "words": [
+        {
+          "text": "湖水",
+          "emoji": "💧"
+        },
+        {
+          "text": "湖邊",
+          "emoji": "🛶"
+        },
+        {
+          "text": "湖泊",
+          "emoji": "🏞️"
+        }
+      ],
+      "concept": {
+        "object": "a miniature toy lake diorama with calm blue water, lily pads, and a tiny toy canoe with a paddle",
+        "morph": "the glyph 湖 stands still as a solid sculpture while the tiny toy canoe glides slowly across the calm water, leaving gentle ripples behind it",
+        "hook": "小小的湖泊模型裡鋪著平靜的藍色湖水，還有幾片荷葉，迷你的玩具獨木舟輕輕划過站得直挺挺的湖字，划過的地方漾起一圈一圈的小水紋。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 227,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "林",
+      "zhuyin": "ㄌㄧㄣˊ",
+      "meaning": "woods",
+      "emoji": "🌲🌲",
+      "words": [
+        {
+          "text": "樹林",
+          "emoji": "🌳"
+        },
+        {
+          "text": "森林",
+          "emoji": "🌲"
+        },
+        {
+          "text": "竹林",
+          "emoji": "🎋"
+        }
+      ],
+      "concept": {
+        "object": "two small identical toy trees with round pom-pom leaves and short brown trunks, planted in little pots side by side",
+        "morph": "the two toy trees stay planted right next to each other, each trunk straightening into a matching upright shape with a branch-like crossbar, standing side by side as a mirrored pair",
+        "hook": "兩棵一模一樣的玩具小樹，頭上頂著圓圓的綠色絨球葉子，並排種在小花盆裡，兩棵樹一起挺直了身體，肩並肩地站好，就變成了林字的樣子。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 228,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "森",
+      "zhuyin": "ㄙㄣ",
+      "meaning": "forest",
+      "emoji": "🌲🌲🌲",
+      "words": [
+        {
+          "text": "森林",
+          "emoji": "🌲"
+        },
+        {
+          "text": "森林浴",
+          "emoji": "🌳"
+        }
+      ],
+      "concept": {
+        "object": "three small identical toy trees with round pom-pom leaves, planted close together in a little wooden box",
+        "morph": "one toy tree straightens tall in front while the other two stand side by side just behind it, all three trunks forming matching upright branch-crossed shapes stacked into a small triangle",
+        "hook": "三棵一樣可愛的玩具小樹種在小木箱裡，一棵站在前面，另外兩棵並肩站在後面，三棵樹一起挺直身體排排站好，就變成了森字的樣子。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 229,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "草",
+      "zhuyin": "ㄘㄠˇ",
+      "meaning": "grass",
+      "emoji": "🌱",
+      "words": [
+        {
+          "text": "小草",
+          "emoji": "🌱"
+        },
+        {
+          "text": "草莓",
+          "emoji": "🍓"
+        },
+        {
+          "text": "草地",
+          "emoji": "🏞️"
+        },
+        {
+          "text": "花草",
+          "emoji": "🌼"
+        }
+      ],
+      "concept": {
+        "object": "a small patch of toy grass with soft green blades and a tiny plush ladybug resting on top",
+        "morph": "the glyph 草 stands still as a solid sculpture while the tiny plush ladybug climbs up one blade of grass and tumbles down the other side in a happy somersault",
+        "hook": "軟軟的玩具草地上長著一根根綠色的小草，一隻迷你瓢蟲玩偶慢慢爬上草尖，「咕嚕」一聲從另一邊翻滾下來，滾到了站得直挺挺的草字旁邊才停住。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 230,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "樹",
+      "zhuyin": "ㄕㄨˋ",
+      "meaning": "tree",
+      "emoji": "🌳",
+      "words": [
+        {
+          "text": "大樹",
+          "emoji": "🌳"
+        },
+        {
+          "text": "樹葉",
+          "emoji": "🍃"
+        },
+        {
+          "text": "樹枝",
+          "emoji": "🌿"
+        },
+        {
+          "text": "聖誕樹",
+          "emoji": "🎄"
+        }
+      ],
+      "concept": {
+        "object": "a big sturdy toy oak tree with a round leafy canopy and a tiny wooden birdhouse tucked in its branches",
+        "morph": "the glyph 樹 stands still as a solid sculpture while a small plush bird flies up to the tiny birdhouse, pokes its head out the round hole, and chirps happily",
+        "hook": "粗壯的玩具大樹頂著圓圓的綠色樹冠，樹枝間掛著一間小木頭鳥屋，一隻小鳥玩偶「咻」地飛過去，從圓圓的小洞探出頭來，「啾啾」地開心叫了兩聲，才鑽進去休息。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 231,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "葉",
+      "zhuyin": "ㄧㄝˋ",
+      "meaning": "leaf",
+      "emoji": "🍃",
+      "words": [
+        {
+          "text": "葉子",
+          "emoji": "🍃"
+        },
+        {
+          "text": "樹葉",
+          "emoji": "🌳"
+        },
+        {
+          "text": "茶葉",
+          "emoji": "🍵"
+        },
+        {
+          "text": "落葉",
+          "emoji": "🍂"
+        }
+      ],
+      "concept": {
+        "object": "a plump toy green leaf with a glossy shine and a tiny curled stem, sitting on a soft moss cushion",
+        "morph": "the glyph 葉 stands still as a solid wooden sculpture while a tiny snail slowly climbs up the curled stem and pokes its head out at the very top",
+        "hook": "一片胖胖的玩具葉子亮晶晶地躺在軟綿綿的苔蘚上，一隻小蝸牛慢慢爬上它捲捲的葉柄，爬到最頂端才探出頭來，東張西望。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 232,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "根",
+      "zhuyin": "ㄍㄣ",
+      "meaning": "root",
+      "emoji": "🥕",
+      "words": [
+        {
+          "text": "樹根",
+          "emoji": "🌳"
+        },
+        {
+          "text": "根本",
+          "emoji": "🙅"
+        },
+        {
+          "text": "牙根",
+          "emoji": "🦷"
+        }
+      ],
+      "concept": {
+        "object": "a chunky toy tree root shaped like a friendly brown gnome with tangled wooden fingers, half-buried in a sandbox",
+        "morph": "the glyph 根 stands still as a solid wooden sculpture while the tangled root toy wiggles its wooden fingers deeper into the sand, searching for water",
+        "hook": "一根胖胖的玩具樹根，長得像個棕色小精靈，手指糾纏在一起，半埋在沙坑裡；它的小手指一邊唱歌一邊往沙子更深處鑽，找呀找，終於摸到一滴水，開心地扭了一下。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 233,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "枝",
+      "zhuyin": "ㄓ",
+      "meaning": "branch",
+      "emoji": "🌿",
+      "words": [
+        {
+          "text": "樹枝",
+          "emoji": "🌿"
+        },
+        {
+          "text": "花枝丸",
+          "emoji": "🦑"
+        },
+        {
+          "text": "一枝筆",
+          "emoji": "✏️"
+        }
+      ],
+      "concept": {
+        "object": "a bendy toy tree branch with tiny bumpy knots, wrapped in soft velvet bark, propped up like a small drumstick",
+        "morph": "the glyph 枝 stands still as a solid wooden sculpture while a fuzzy toy bird hops along the bendy branch, making it bounce gently up and down",
+        "hook": "一根軟軟的玩具樹枝，表面像絨布一樣毛毛的，上面還有幾個小疙瘩；一隻毛絨絨的玩具小鳥跳上去，樹枝跟著一上一下地彈呀彈，小鳥開心地啾啾叫。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 234,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "空",
+      "zhuyin": "ㄎㄨㄥ",
+      "meaning": "empty / sky",
+      "emoji": "🌌",
+      "words": [
+        {
+          "text": "天空",
+          "emoji": "☁️"
+        },
+        {
+          "text": "空氣",
+          "emoji": "💨"
+        },
+        {
+          "text": "太空",
+          "emoji": "🚀"
+        },
+        {
+          "text": "空白",
+          "emoji": "📄"
+        }
+      ],
+      "concept": {
+        "object": "a giant fluffy toy cloud with a hollow see-through middle, floating on a string above a toy sky-blue table",
+        "morph": "the glyph 空 stands still as a solid puffy sculpture while the hollow cloud toy drifts by, empty in the middle, and a tiny toy airplane flies straight through the hole",
+        "hook": "一朵蓬蓬的玩具雲，中間挖空、可以透光，用一條線吊在天藍色的小桌子上方輕輕飄；一架小玩具飛機咻地一聲，直直穿過雲朵中間的空洞飛走了。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 235,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "沙",
+      "zhuyin": "ㄕㄚ",
+      "meaning": "sand",
+      "emoji": "🏖️",
+      "words": [
+        {
+          "text": "沙子",
+          "emoji": "🏖️"
+        },
+        {
+          "text": "沙發",
+          "emoji": "🛋️"
+        },
+        {
+          "text": "沙拉",
+          "emoji": "🥗"
+        },
+        {
+          "text": "沙灘",
+          "emoji": "🌊"
+        }
+      ],
+      "concept": {
+        "object": "a bucket of soft toy golden sand shaped like sparkling grains, with a tiny toy shovel and a red bucket beside a mini beach umbrella",
+        "morph": "the glyph 沙 stands still as a solid sculpture while the sparkly toy sand grains slowly pour and pile into a tiny wobbly sandcastle beside it",
+        "hook": "一桶亮晶晶的玩具金沙，配著小鏟子和紅色小水桶，旁邊還有一把迷你海灘傘；沙子一粒一粒慢慢倒下來，堆成一座歪歪的小沙堡，堡頂還插了一片小貝殼。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 236,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "島",
+      "zhuyin": "ㄉㄠˇ",
+      "meaning": "island",
+      "emoji": "🏝️",
+      "words": [
+        {
+          "text": "小島",
+          "emoji": "🏝️"
+        },
+        {
+          "text": "海島",
+          "emoji": "🌊"
+        },
+        {
+          "text": "無人島",
+          "emoji": "🏴‍☠️"
+        }
+      ],
+      "concept": {
+        "object": "a small round toy island bobbing in a mini blue water table, covered in tiny plastic palm trees and a ring of golden toy sand",
+        "morph": "the glyph 島 stands still as a solid sculpture while the toy island slowly spins on the water like a merry-go-round, its little palm trees swaying",
+        "hook": "一座圓圓的玩具小島，漂浮在藍色的迷你水桌上，上面種著好幾棵小小的塑膠椰子樹，周圍圍著一圈金色玩具沙；小島慢慢在水上轉圈圈，像旋轉木馬一樣，椰子樹跟著搖搖晃晃。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 237,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "洞",
+      "zhuyin": "ㄉㄨㄥˋ",
+      "meaning": "hole",
+      "emoji": "🕳️",
+      "words": [
+        {
+          "text": "山洞",
+          "emoji": "🏔️"
+        },
+        {
+          "text": "樹洞",
+          "emoji": "🌳"
+        },
+        {
+          "text": "黑洞",
+          "emoji": "🌑"
+        },
+        {
+          "text": "洞穴",
+          "emoji": "🦇"
+        }
+      ],
+      "concept": {
+        "object": "a lumpy toy cave rock with a round dark hole cut through the middle, sitting on a soft brown play mat",
+        "morph": "the glyph 洞 stands still as a solid sculpture while a tiny toy mouse pokes its head out of the round hole, looks around, then ducks back in",
+        "hook": "一顆凹凸不平的玩具石頭，中間挖了一個圓圓的黑洞，放在軟軟的棕色地墊上；一隻玩具小老鼠從洞口探出頭來，東張西望一下，又咻地縮回去躲起來。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 238,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "浪",
+      "zhuyin": "ㄌㄤˋ",
+      "meaning": "wave",
+      "emoji": "🌊",
+      "words": [
+        {
+          "text": "海浪",
+          "emoji": "🌊"
+        },
+        {
+          "text": "浪花",
+          "emoji": "💦"
+        },
+        {
+          "text": "流浪狗",
+          "emoji": "🐕"
+        },
+        {
+          "text": "衝浪",
+          "emoji": "🏄"
+        }
+      ],
+      "concept": {
+        "object": "a curling toy ocean wave made of smooth blue glossy plastic, frozen mid-curl with tiny white foam bubbles on top",
+        "morph": "the glyph 浪 stands still as a solid sculpture while the glossy toy wave slowly curls higher and higher, then gently flops back down with a soft plop",
+        "hook": "一道亮晶晶的玩具海浪，藍色滑滑的，正捲到一半，上面還沾著白色小泡泡；浪頭慢慢捲得越來越高，「啪」地輕輕一聲又攤平下來，泡泡跳了一下就消失了。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 239,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "露",
+      "zhuyin": "ㄌㄨˋ",
+      "meaning": "dew",
+      "emoji": "💧",
+      "words": [
+        {
+          "text": "露水",
+          "emoji": "💧"
+        },
+        {
+          "text": "露營",
+          "emoji": "⛺"
+        },
+        {
+          "text": "露珠",
+          "emoji": "💦"
+        }
+      ],
+      "concept": {
+        "object": "a plump toy dewdrop shaped like a glossy clear bead, resting on a soft green plastic leaf in the early morning light",
+        "morph": "the glyph 露 stands still as a solid sculpture while the glossy dewdrop toy slowly rolls down the curved leaf and drips off the tip with a tiny sparkle",
+        "hook": "一顆圓滾滾的玩具露珠，晶瑩剔透地趴在一片綠色塑膠葉子上；露珠慢慢順著葉子的弧度往下滑，滑到葉尖時「啪」地滴下來，還閃了一下亮光。"
+      },
+      "scene": "rain",
+      "status": "seed",
+      "priority": 240,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "虹",
+      "zhuyin": "ㄏㄨㄥˊ",
+      "meaning": "rainbow",
+      "emoji": "🌈",
+      "words": [
+        {
+          "text": "彩虹",
+          "emoji": "🌈"
+        },
+        {
+          "text": "霓虹燈",
+          "emoji": "💡"
+        },
+        {
+          "text": "彩虹橋",
+          "emoji": "🌉"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy rainbow arc made of seven bright shiny stripes, arching over a tiny puddle on a toy play mat",
+        "morph": "the glyph 虹 stands still as a solid sculpture while the glossy rainbow arc toy slowly lights up stripe by stripe from red to purple, then all together with a soft shimmer",
+        "hook": "一道亮晶晶的玩具彩虹，七種顏色一條一條疊在一起，弓形地掛在小水窪上方；彩虹一條一條慢慢亮起來，紅的、橘的、黃的⋯最後全部一起發亮，閃了一下光。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 241,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "陽",
+      "zhuyin": "ㄧㄤˊ",
+      "meaning": "sun / sunshine",
+      "emoji": "☀️",
+      "words": [
+        {
+          "text": "太陽",
+          "emoji": "☀️"
+        },
+        {
+          "text": "陽光",
+          "emoji": "🌞"
+        },
+        {
+          "text": "陽台",
+          "emoji": "🪟"
+        },
+        {
+          "text": "陽傘",
+          "emoji": "☂️"
+        }
+      ],
+      "concept": {
+        "object": "a round glossy toy sun with rosy cheeks and warm golden rays, beside a tiny toy balcony chair",
+        "morph": "the glyph 陽 stands still as a solid golden sculpture while the sun toy slowly rises behind the tiny balcony chair, painting it warm and bright",
+        "hook": "一顆紅撲撲、笑咪咪的玩具太陽，掛在一張迷你陽台小椅子的後面；太陽慢慢往上爬升，把小椅子照得暖暖亮亮的，椅子上還冒出一圈金色的光。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 242,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "飯",
+      "zhuyin": "ㄈㄢˋ",
+      "meaning": "rice / meal",
+      "emoji": "🍚",
+      "words": [
+        {
+          "text": "吃飯",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "白飯",
+          "emoji": "🍚"
+        },
+        {
+          "text": "晚飯",
+          "emoji": "🌙"
+        },
+        {
+          "text": "飯糰",
+          "emoji": "🍙"
+        }
+      ],
+      "concept": {
+        "object": "a plush toy bowl of fluffy white rice with a cute steam swirl on top and a tiny pair of toy chopsticks resting on the rim",
+        "morph": "the glyph 飯 stands still as a solid sculpture while the plush rice bowl wiggles happily and a tiny steam swirl puffs up and floats away",
+        "hook": "一碗軟綿綿的玩具白飯，堆得尖尖的，上面飄著一小圈熱氣，碗邊還靠著一雙玩具筷子；飯碗開心地扭了扭身體，熱氣咕嚕咕嚕往上冒，飄呀飄地消失在空中。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 243,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "麵",
+      "zhuyin": "ㄇㄧㄢˋ",
+      "meaning": "noodles",
+      "emoji": "🍜",
+      "words": [
+        {
+          "text": "麵條",
+          "emoji": "🍜"
+        },
+        {
+          "text": "泡麵",
+          "emoji": "🥡"
+        },
+        {
+          "text": "麵包",
+          "emoji": "🍞"
+        },
+        {
+          "text": "炒麵",
+          "emoji": "🥢"
+        }
+      ],
+      "concept": {
+        "object": "a squishy toy bowl of curly yellow noodles with a friendly cartoon face, topped with a tiny plush fishcake slice",
+        "morph": "the glyph 麵 stands still as a solid sculpture while the curly noodle toy stretches long like a slinky, then springs back into a bouncy coil",
+        "hook": "一碗Q彈的玩具黃色捲麵，上面有一張笑臉，還放了一片粉紅色的玩具魚板；麵條被拉得長長的，像彈簧一樣越拉越長，鬆手後「咻」地彈回去變成一團捲捲的。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 244,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "菜",
+      "zhuyin": "ㄘㄞˋ",
+      "meaning": "vegetable",
+      "emoji": "🥬",
+      "words": [
+        {
+          "text": "青菜",
+          "emoji": "🥬"
+        },
+        {
+          "text": "菜市場",
+          "emoji": "🛒"
+        },
+        {
+          "text": "蔬菜",
+          "emoji": "🥕"
+        },
+        {
+          "text": "點菜",
+          "emoji": "📋"
+        }
+      ],
+      "concept": {
+        "object": "a plush toy bunch of leafy green cabbage with glossy ruffled leaves, sitting in a tiny wicker toy basket",
+        "morph": "the glyph 菜 stands still as a solid sculpture while the plush cabbage leaves slowly unfurl one by one like a blooming flower",
+        "hook": "一把亮晶晶、皺皺的玩具青菜，葉子一層層疊著，放在一個小小的藤編玩具籃子裡；菜葉一片一片慢慢展開，像花朵綻放一樣，最後攤成一大把。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 245,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "肉",
+      "zhuyin": "ㄖㄡˋ",
+      "meaning": "meat",
+      "emoji": "🍖",
+      "words": [
+        {
+          "text": "肉丸",
+          "emoji": "🍡"
+        },
+        {
+          "text": "牛肉",
+          "emoji": "🐄"
+        },
+        {
+          "text": "雞肉",
+          "emoji": "🍗"
+        },
+        {
+          "text": "肉鬆",
+          "emoji": "🍚"
+        }
+      ],
+      "concept": {
+        "object": "a chubby toy meatball with a glossy brown glaze, wobbling gently on a tiny bamboo skewer",
+        "morph": "the glyph 肉 stands still as a solid sculpture while the glossy meatball toy wobbles side to side and nearly rolls off the skewer before settling back in the middle",
+        "hook": "一顆胖胖的玩具肉丸，外面裹著亮亮的醬色，插在一根小竹籤上輕輕晃；肉丸左搖右晃，差點要滾下來，最後「咚」地一聲穩穩停回竹籤中間。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 246,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "蛋",
+      "zhuyin": "ㄉㄢˋ",
+      "meaning": "egg",
+      "emoji": "🥚",
+      "words": [
+        {
+          "text": "雞蛋",
+          "emoji": "🥚"
+        },
+        {
+          "text": "蛋糕",
+          "emoji": "🎂"
+        },
+        {
+          "text": "荷包蛋",
+          "emoji": "🍳"
+        },
+        {
+          "text": "蛋捲",
+          "emoji": "🥠"
+        }
+      ],
+      "concept": {
+        "object": "a smooth toy egg with a glossy speckled shell, sitting snugly in a soft pastel egg cup",
+        "morph": "the glyph 蛋 stands still as a solid sculpture while the toy egg wiggles, cracks open with a tiny pop, and a cheerful spring-loaded chick toy pops out",
+        "hook": "一顆光滑的玩具蛋，殼上有可愛的小斑點，穩穩地坐在粉彩色蛋杯裡；蛋殼扭了扭，「啵」地裂開一條縫，一隻彈簧玩具小雞就這樣彈跳出來。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 247,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "糖",
+      "zhuyin": "ㄊㄤˊ",
+      "meaning": "candy / sugar",
+      "emoji": "🍬",
+      "words": [
+        {
+          "text": "糖果",
+          "emoji": "🍬"
+        },
+        {
+          "text": "白糖",
+          "emoji": "🍚"
+        },
+        {
+          "text": "棉花糖",
+          "emoji": "🍭"
+        },
+        {
+          "text": "糖水",
+          "emoji": "🥤"
+        }
+      ],
+      "concept": {
+        "object": "a plump toy candy wrapped in glossy twisted cellophane, striped pink and white like a peppermint swirl",
+        "morph": "the glyph 糖 stands still as a solid sculpture while the glossy candy toy's wrapper twists undo themselves with a crinkly pop, unwrapping on its own",
+        "hook": "一顆胖胖的玩具糖果，外面包著亮亮的粉白條紋糖果紙，兩端扭得緊緊的；糖果紙自己「啪啦啪啦」慢慢鬆開，最後「啵」地一聲整個攤開，露出裡面亮晶晶的糖果。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 248,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "餅",
+      "zhuyin": "ㄅㄧㄥˇ",
+      "meaning": "cookie",
+      "emoji": "🍪",
+      "words": [
+        {
+          "text": "餅乾",
+          "emoji": "🍪"
+        },
+        {
+          "text": "月餅",
+          "emoji": "🥮"
+        },
+        {
+          "text": "蛋餅",
+          "emoji": "🍳"
+        },
+        {
+          "text": "煎餅",
+          "emoji": "🫓"
+        }
+      ],
+      "concept": {
+        "object": "a round toy cookie with a bumpy golden-brown surface and cute chocolate-chip dots pressed into the top",
+        "morph": "the glyph 餅 stands still as a solid sculpture while the toy cookie slowly spins like a coin, showing off its bumpy golden top and smooth flat bottom",
+        "hook": "一片圓圓的玩具餅乾，表面金黃酥酥的，上面還按著幾顆可愛的巧克力豆；餅乾像硬幣一樣慢慢轉圈圈，一下露出凹凸的表面，一下露出光滑的底部。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 249,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "茶",
+      "zhuyin": "ㄔㄚˊ",
+      "meaning": "tea",
+      "emoji": "🍵",
+      "words": [
+        {
+          "text": "喝茶",
+          "emoji": "🍵"
+        },
+        {
+          "text": "紅茶",
+          "emoji": "🥤"
+        },
+        {
+          "text": "奶茶",
+          "emoji": "🧋"
+        },
+        {
+          "text": "茶葉",
+          "emoji": "🍃"
+        }
+      ],
+      "concept": {
+        "object": "a small toy teapot with a round glossy belly and a curly spout, paired with a tiny matching teacup",
+        "morph": "the glyph 茶 stands still as a solid sculpture while the toy teapot tips forward and pours a swirl of golden toy tea into the tiny cup, steam curling up",
+        "hook": "一個圓滾滾的玩具茶壺，壺嘴彎彎的，旁邊配著一個迷你玩具茶杯；茶壺慢慢往前傾，倒出一道金黃色的玩具茶水，杯子裡冒出一縷縷熱氣。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 250,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "瓜",
+      "zhuyin": "ㄍㄨㄚ",
+      "meaning": "melon",
+      "emoji": "🍉",
+      "words": [
+        {
+          "text": "西瓜",
+          "emoji": "🍉"
+        },
+        {
+          "text": "木瓜",
+          "emoji": "🍈"
+        },
+        {
+          "text": "絲瓜",
+          "emoji": "🥒"
+        },
+        {
+          "text": "冬瓜",
+          "emoji": "🎃"
+        }
+      ],
+      "concept": {
+        "object": "a round glossy toy watermelon with bold green stripes and a tiny curled brown stem on top",
+        "morph": "the glyph 瓜 stands still as a solid sculpture while the striped toy watermelon splits open down the middle with a soft pop, revealing juicy red plush flesh dotted with black seed buttons",
+        "hook": "一顆圓滾滾、綠色條紋的玩具西瓜，頭上還翹著一小截棕色瓜蒂；西瓜「啵」地一聲從中間裂開，露出裡面紅通通的絨布瓜肉，上面還點綴著一顆顆黑色鈕扣籽。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 251,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "豆",
+      "zhuyin": "ㄉㄡˋ",
+      "meaning": "bean",
+      "emoji": "🫘",
+      "words": [
+        {
+          "text": "豆漿",
+          "emoji": "🥛"
+        },
+        {
+          "text": "紅豆",
+          "emoji": "🔴"
+        },
+        {
+          "text": "豆腐",
+          "emoji": "🧈"
+        },
+        {
+          "text": "豌豆",
+          "emoji": "🟢"
+        }
+      ],
+      "concept": {
+        "object": "a smooth toy soybean pod split open like a little canoe, holding three round glossy toy beans in a row",
+        "morph": "the glyph 豆 stands still as a solid sculpture while the toy beans inside the pod roll and jiggle, then one pops out and bounces away like a tiny ball",
+        "hook": "一個光滑的玩具豆莢，剖開像一艘小獨木舟，裡面躺著三顆圓滾滾的玩具豆子；豆子在莢裡滾來滾去咯咯響，突然一顆跳出來，像小球一樣彈跳著滾走了。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 252,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "湯",
+      "zhuyin": "ㄊㄤ",
+      "meaning": "soup",
+      "emoji": "🍲",
+      "words": [
+        {
+          "text": "湯匙",
+          "emoji": "🥄"
+        },
+        {
+          "text": "熱湯",
+          "emoji": "♨️"
+        },
+        {
+          "text": "湯圓",
+          "emoji": "🍡"
+        },
+        {
+          "text": "蛋花湯",
+          "emoji": "🥣"
+        }
+      ],
+      "concept": {
+        "object": "a cute round toy soup bowl filled with plush orange broth swirls and tiny floating vegetable pieces, with a small toy spoon resting on the rim",
+        "morph": "the glyph 湯 stands still as a solid sculpture while the plush broth swirls slowly stir themselves in a gentle circle, sending up a curl of toy steam",
+        "hook": "一碗圓圓的玩具湯，裡面裝著橘色絨毛狀的湯汁漩渦，飄著幾片小小的蔬菜，碗邊靠著一支玩具湯匙；湯汁自己慢慢轉圈攪動，冒出一縷熱氣，捲呀捲地往上飄。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 253,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "粥",
+      "zhuyin": "ㄓㄡ",
+      "meaning": "rice porridge",
+      "emoji": "🥣",
+      "words": [
+        {
+          "text": "白粥",
+          "emoji": "🥣"
+        },
+        {
+          "text": "喝粥",
+          "emoji": "🥄"
+        },
+        {
+          "text": "燕麥粥",
+          "emoji": "🌾"
+        },
+        {
+          "text": "地瓜粥",
+          "emoji": "🍠"
+        }
+      ],
+      "concept": {
+        "object": "a warm toy bowl of soft white congee with a smooth glossy surface, topped with a tiny plush pickled-vegetable garnish",
+        "morph": "the glyph 粥 stands still as a solid sculpture while the glossy congee toy slowly bubbles with tiny soft plops, one gentle bubble rising and popping at a time",
+        "hook": "一碗暖呼呼的玩具白粥，表面滑滑亮亮的，上面放了一小撮絨毛小菜脯；粥面上慢慢冒出一個個軟軟的小泡泡，「噗、噗」地一個個輕輕破掉。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 254,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "餃",
+      "zhuyin": "ㄐㄧㄠˇ",
+      "meaning": "dumpling",
+      "emoji": "🥟",
+      "words": [
+        {
+          "text": "水餃",
+          "emoji": "🥟"
+        },
+        {
+          "text": "蒸餃",
+          "emoji": "♨️"
+        },
+        {
+          "text": "煎餃",
+          "emoji": "🍳"
+        },
+        {
+          "text": "餃子皮",
+          "emoji": "📄"
+        }
+      ],
+      "concept": {
+        "object": "a plump crescent-shaped toy dumpling with pinched pleats along the curved edge, sitting on a tiny bamboo steamer tray",
+        "morph": "the glyph 餃 stands still as a solid sculpture while the plush dumpling toy puffs up rounder and rounder like a little balloon, then lets out a soft steamy sigh and settles back down",
+        "hook": "一顆胖胖的玩具水餃，彎彎的像月牙，邊緣捏著一圈可愛的摺痕，放在小小的竹蒸籠裡；水餃慢慢鼓起來，像氣球一樣越脹越圓，接著「呼」地吐出一口熱氣，又扁扁地躺回去。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 255,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "包",
+      "zhuyin": "ㄅㄠ",
+      "meaning": "bun / bag",
+      "emoji": "🎒",
+      "words": [
+        {
+          "text": "書包",
+          "emoji": "🎒"
+        },
+        {
+          "text": "包子",
+          "emoji": "🥯"
+        },
+        {
+          "text": "紅包",
+          "emoji": "🧧"
+        },
+        {
+          "text": "麵包",
+          "emoji": "🍞"
+        }
+      ],
+      "concept": {
+        "object": "a round toy steamed bun with a soft pleated top knot, plush and pale like a little marshmallow pillow",
+        "morph": "the glyph 包 stands still as a solid sculpture while the plush bun toy slowly puffs up bigger and rounder, its pleated top knot wiggling like a little topknot hairstyle",
+        "hook": "一顆圓滾滾的玩具包子，頭頂捏著一圈軟軟的摺痕，摸起來像棉花糖枕頭一樣蓬鬆；包子慢慢脹大變得更圓，頭頂的摺痕還一邊扭一扭，像綁了個小丸子頭。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 256,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "糕",
+      "zhuyin": "ㄍㄠ",
+      "meaning": "cake",
+      "emoji": "🍰",
+      "words": [
+        {
+          "text": "蛋糕",
+          "emoji": "🎂"
+        },
+        {
+          "text": "年糕",
+          "emoji": "🍡"
+        },
+        {
+          "text": "米糕",
+          "emoji": "🍚"
+        },
+        {
+          "text": "蘿蔔糕",
+          "emoji": "🥕"
+        }
+      ],
+      "concept": {
+        "object": "a small toy layer cake with pastel pink frosting swirls and a single glossy cherry on top, sitting on a tiny cake stand",
+        "morph": "the glyph 糕 stands still as a solid sculpture while the toy cake's frosting swirls slowly pipe themselves on layer by layer, finishing with the cherry popping on top with a little bounce",
+        "hook": "一個小小的玩具千層蛋糕，粉色奶油一圈圈擠成漩渦狀，頂端放著一顆亮晶晶的櫻桃，穩穩站在小蛋糕架上；奶油一層一層慢慢擠出來疊高，最後櫻桃「噗」地跳上頂端穩穩坐好。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 257,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "酸",
+      "zhuyin": "ㄙㄨㄢ",
+      "meaning": "sour",
+      "emoji": "🍋",
+      "words": [
+        {
+          "text": "酸酸的",
+          "emoji": "🍋"
+        },
+        {
+          "text": "酸梅湯",
+          "emoji": "🥤"
+        },
+        {
+          "text": "酸辣湯",
+          "emoji": "🍲"
+        },
+        {
+          "text": "酸痛",
+          "emoji": "🦵"
+        }
+      ],
+      "concept": {
+        "object": "a bright glossy toy lemon wedge with a squishy juicy texture and a tiny scrunched-up cartoon face",
+        "morph": "the glyph 酸 stands still as a solid sculpture while the toy lemon wedge squirts a tiny drop of juice and its cartoon face scrunches up tight, eyes squeezed shut",
+        "hook": "一片黃澄澄、亮晶晶的玩具檸檬片，摸起來QQ軟軟的，上面畫著一張皺成一團的卡通臉；檸檬片「唰」地噴出一小滴汁，臉也跟著皺得更緊，眼睛都瞇成一條線。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 258,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "甜",
+      "zhuyin": "ㄊㄧㄢˊ",
+      "meaning": "sweet",
+      "emoji": "🍯",
+      "words": [
+        {
+          "text": "甜甜的",
+          "emoji": "🍯"
+        },
+        {
+          "text": "甜點",
+          "emoji": "🍰"
+        },
+        {
+          "text": "甜心",
+          "emoji": "💗"
+        },
+        {
+          "text": "甜湯",
+          "emoji": "🥣"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy honey dipper drizzling a thick golden swirl into a tiny round honey jar",
+        "morph": "the glyph 甜 stands still as a solid sculpture while the toy honey drizzle slowly coils down into the jar in a lazy spiral, piling into a soft golden swirl",
+        "hook": "一根亮晶晶的玩具蜂蜜棒，正把濃稠的金黃色蜂蜜滴進小小的玩具蜂蜜罐裡；蜂蜜慢慢繞著圈圈往下滴，一圈一圈疊起來，堆成一座軟綿綿的金色小山。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 259,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "苦",
+      "zhuyin": "ㄎㄨˇ",
+      "meaning": "bitter",
+      "emoji": "😖",
+      "words": [
+        {
+          "text": "苦瓜",
+          "emoji": "🥒"
+        },
+        {
+          "text": "辛苦",
+          "emoji": "💪"
+        },
+        {
+          "text": "苦苦的",
+          "emoji": "😖"
+        },
+        {
+          "text": "吃苦",
+          "emoji": "🥲"
+        }
+      ],
+      "concept": {
+        "object": "a bumpy toy bitter melon with a warty pale-green textured skin, sitting upright on a tiny wooden cutting board",
+        "morph": "the glyph 苦 stands still as a solid sculpture while the bumpy melon toy shivers and its little cartoon face scrunches into a tight wince",
+        "hook": "一條凹凸不平的玩具苦瓜，表面疙疙瘩瘩的淡綠色，直挺挺地立在小木頭砧板上；苦瓜突然抖了一下，臉皺成一團，眼睛瞇得緊緊的，好像在說「好苦喔」。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 260,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "辣",
+      "zhuyin": "ㄌㄚˋ",
+      "meaning": "spicy",
+      "emoji": "🌶️",
+      "words": [
+        {
+          "text": "辣椒",
+          "emoji": "🌶️"
+        },
+        {
+          "text": "麻辣",
+          "emoji": "🍲"
+        },
+        {
+          "text": "辣的",
+          "emoji": "🔥"
+        },
+        {
+          "text": "甜辣醬",
+          "emoji": "🥫"
+        }
+      ],
+      "concept": {
+        "object": "a glossy toy red chili pepper with a curved shiny body and a tiny green stem cap",
+        "morph": "the glyph 辣 stands still as a solid sculpture while the glossy chili toy suddenly puffs out little cartoon flame stickers from its tip, then shakes them off with a wiggle",
+        "hook": "一根紅通通、亮晶晶的玩具辣椒，彎彎的身體上頂著一小截綠色蒂頭；辣椒尖端突然「噗噗噗」冒出幾個卡通小火焰貼紙，接著全身抖一抖，把火焰都甩掉了。"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 261,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "筆",
+      "zhuyin": "ㄅㄧˇ",
+      "meaning": "pencil",
+      "emoji": "✏️",
+      "words": [
+        {
+          "text": "鉛筆",
+          "emoji": "✏️"
+        },
+        {
+          "text": "毛筆",
+          "emoji": "🖌️"
+        },
+        {
+          "text": "彩色筆",
+          "emoji": "🖍️"
+        },
+        {
+          "text": "筆記本",
+          "emoji": "📓"
+        }
+      ],
+      "concept": {
+        "object": "a chunky wooden toy pencil with a bright yellow painted body, a pink eraser cap and a perfectly sharpened silver tip",
+        "morph": "the glyph 筆 stands still as a solid sculpture while the toy pencil balances upright on its sharpened tip and slowly spins like a top before wobbling to a stop",
+        "hook": "一枝胖胖的玩具鉛筆，木頭身體漆成亮黃色，頭上戴著粉紅色橡皮擦帽，筆尖削得尖尖的銀亮銀亮；鉛筆立起來用筆尖轉圈圈，像陀螺一樣轉呀轉，最後搖搖晃晃地停下來。"
+      },
+      "status": "seed",
+      "priority": 262,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "紙",
+      "zhuyin": "ㄓˇ",
+      "meaning": "paper",
+      "emoji": "📄",
+      "words": [
+        {
+          "text": "色紙",
+          "emoji": "🎨"
+        },
+        {
+          "text": "衛生紙",
+          "emoji": "🧻"
+        },
+        {
+          "text": "摺紙",
+          "emoji": "📄"
+        },
+        {
+          "text": "紙飛機",
+          "emoji": "✈️"
+        }
+      ],
+      "concept": {
+        "object": "a crisp toy sheet of bright white paper with slightly curled corners, resting beside a tiny stack of colorful paper squares",
+        "morph": "the glyph 紙 stands still as a solid sculpture while the toy paper sheet slowly folds itself corner by corner into a small paper airplane, then lifts and glides a little",
+        "hook": "一張脆脆的玩具白紙，邊角微微捲起，旁邊疊著一小疊彩色玩具紙；白紙自己一角一角慢慢摺起來，摺成一架小紙飛機，接著輕輕飛起來滑了一小段。"
+      },
+      "status": "seed",
+      "priority": 263,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "桌",
+      "zhuyin": "ㄓㄨㄛ",
+      "meaning": "table",
+      "emoji": "🍽️",
+      "words": [
+        {
+          "text": "桌子",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "書桌",
+          "emoji": "📚"
+        },
+        {
+          "text": "餐桌",
+          "emoji": "🍚"
+        },
+        {
+          "text": "圓桌",
+          "emoji": "🔄"
+        }
+      ],
+      "concept": {
+        "object": "a sturdy toy wooden table with four short chunky legs and a smooth glossy tabletop, just the right size for a teddy bear's tea party",
+        "morph": "the glyph 桌 stands still as a solid sculpture while a row of tiny toy chairs scoot themselves up to sit neatly around the wooden tabletop",
+        "hook": "一張穩穩的玩具木桌，四隻短短胖胖的桌腳，桌面光滑亮亮的，剛好適合泰迪熊開茶會；一張張小玩具椅子自己「咕嚕咕嚕」滑過來，整整齊齊地圍著桌子坐好。"
+      },
+      "status": "seed",
+      "priority": 264,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "椅",
+      "zhuyin": "ㄧˇ",
+      "meaning": "chair",
+      "emoji": "🪑",
+      "words": [
+        {
+          "text": "椅子",
+          "emoji": "🪑"
+        },
+        {
+          "text": "輪椅",
+          "emoji": "🦽"
+        },
+        {
+          "text": "搖椅",
+          "emoji": "💤"
+        },
+        {
+          "text": "高腳椅",
+          "emoji": "🍼"
+        }
+      ],
+      "concept": {
+        "object": "a small toy wooden chair painted cheerful red, with a curved backrest just the right size for a teddy bear",
+        "morph": "the glyph 椅 stands still as a solid sculpture while the toy chair slowly tips back and forth like a rocking chair, creaking in a friendly rhythm",
+        "hook": "一張漆成紅色的玩具小木椅，椅背彎彎的，剛好適合泰迪熊坐；小椅子前後慢慢搖呀搖，像搖椅一樣，還發出「吱呀、吱呀」的可愛聲音。"
+      },
+      "status": "seed",
+      "priority": 265,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "窗",
+      "zhuyin": "ㄔㄨㄤ",
+      "meaning": "window",
+      "emoji": "🪟",
+      "words": [
+        {
+          "text": "窗戶",
+          "emoji": "🪟"
+        },
+        {
+          "text": "紗窗",
+          "emoji": "🦟"
+        },
+        {
+          "text": "窗台",
+          "emoji": "🪴"
+        },
+        {
+          "text": "天窗",
+          "emoji": "☀️"
+        }
+      ],
+      "concept": {
+        "object": "a cheerful toy window frame painted sky blue, with two little shutters that swing open on tiny hinges",
+        "morph": "the glyph 窗 stands still as a solid sculpture while the toy shutters creak open wide, letting a tiny paper sun peek through the frame",
+        "hook": "一扇漆成天藍色的玩具窗框，兩片小窗板裝著迷你鉸鏈；窗板「嘎」地一聲慢慢打開，一個小紙太陽從窗框裡探出頭來，笑咪咪地照進來。"
+      },
+      "status": "seed",
+      "priority": 266,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "牆",
+      "zhuyin": "ㄑㄧㄤˊ",
+      "meaning": "wall",
+      "emoji": "🧱",
+      "words": [
+        {
+          "text": "牆壁",
+          "emoji": "🧱"
+        },
+        {
+          "text": "圍牆",
+          "emoji": "🏫"
+        },
+        {
+          "text": "爬牆",
+          "emoji": "🧗"
+        },
+        {
+          "text": "牆角",
+          "emoji": "🙈"
+        }
+      ],
+      "concept": {
+        "object": "a small toy brick wall built from chunky red plastic bricks, stacked neatly like building blocks",
+        "morph": "the glyph 牆 stands still as a solid sculpture while a tiny toy lizard climbs up the bumpy brick wall, brick by brick, then peeks over the top",
+        "hook": "一面玩具紅磚牆，用一塊塊胖胖的紅色積木疊起來的；一隻小玩具壁虎沿著凹凸的磚牆一格一格往上爬，爬到最頂端後探出頭，好奇地往下看。"
+      },
+      "status": "seed",
+      "priority": 267,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "板",
+      "zhuyin": "ㄅㄢˇ",
+      "meaning": "board",
+      "emoji": "🪵",
+      "words": [
+        {
+          "text": "黑板",
+          "emoji": "⬛"
+        },
+        {
+          "text": "白板",
+          "emoji": "⬜"
+        },
+        {
+          "text": "滑板",
+          "emoji": "🛹"
+        },
+        {
+          "text": "地板",
+          "emoji": "🪵"
+        }
+      ],
+      "concept": {
+        "object": "a small toy skateboard with chunky rainbow wheels and a smooth glossy wooden deck",
+        "morph": "the glyph 板 stands still as a solid sculpture while the toy skateboard's wheels spin faster and faster, then it does a tiny hop and lands with a satisfying clack",
+        "hook": "一塊小小的玩具滑板，輪子胖胖的、五顏六色，板面光滑亮亮的木頭色；滑板的輪子越轉越快，接著小小跳了一下，「喀」地一聲穩穩落地。"
+      },
+      "status": "seed",
+      "priority": 268,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "燈",
+      "zhuyin": "ㄉㄥ",
+      "meaning": "lamp",
+      "emoji": "💡",
+      "words": [
+        {
+          "text": "電燈",
+          "emoji": "💡"
+        },
+        {
+          "text": "檯燈",
+          "emoji": "🪔"
+        },
+        {
+          "text": "紅綠燈",
+          "emoji": "🚦"
+        },
+        {
+          "text": "燈籠",
+          "emoji": "🏮"
+        }
+      ],
+      "concept": {
+        "object": "a cheerful toy desk lamp with a round glowing bulb head and a bendy flexible neck, standing on a tiny round base",
+        "morph": "the glyph 燈 stands still as a solid sculpture while the toy lamp's bulb slowly brightens from dim to a warm golden glow, then blinks twice like a happy wink",
+        "hook": "一盞可愛的玩具檯燈，燈泡圓圓的、脖子彎彎軟軟的，站在小小的圓底座上；燈泡慢慢從暗暗的變成溫暖的金黃色，接著「眨、眨」地閃了兩下，像在眨眼睛打招呼。"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 269,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "鐘",
+      "zhuyin": "ㄓㄨㄥ",
+      "meaning": "clock",
+      "emoji": "🕰️",
+      "words": [
+        {
+          "text": "時鐘",
+          "emoji": "🕰️"
+        },
+        {
+          "text": "鬧鐘",
+          "emoji": "⏰"
+        },
+        {
+          "text": "鐘聲",
+          "emoji": "🔔"
+        },
+        {
+          "text": "分鐘",
+          "emoji": "🕐"
+        }
+      ],
+      "concept": {
+        "object": "a round toy alarm clock with two shiny bell cups on top and a cheerful clock face with wiggly toy hands",
+        "morph": "the glyph 鐘 stands still as a solid sculpture while the toy clock's twin bells shake and ring, its little hammer bouncing back and forth between them",
+        "hook": "一個圓滾滾的玩具鬧鐘，頭上頂著兩個亮晶晶的小鈴鐺，臉上畫著笑咪咪的時針分針；鬧鐘的小鈴鐺「叮鈴叮鈴」搖晃著響起來，中間的小鎚子來回蹦跳打鈴。"
+      },
+      "status": "seed",
+      "priority": 270,
+      "media": [],
+      "feedback": [],
+      "hidden": true
+    },
+    {
+      "char": "傘",
+      "zhuyin": "ㄙㄢˇ",
+      "meaning": "umbrella",
+      "emoji": "☂️",
+      "words": [
+        {
+          "text": "雨傘",
+          "emoji": "☔"
+        },
+        {
+          "text": "陽傘",
+          "emoji": "☂️"
+        },
+        {
+          "text": "傘兵",
+          "emoji": "🪂"
+        },
+        {
+          "text": "摺疊傘",
+          "emoji": "🌂"
+        }
+      ],
+      "concept": {
+        "object": "a round toy umbrella with a glossy polka-dot canopy and a curved candy-cane handle",
+        "morph": "the umbrella toy pops open with a snap, its ribs fanning out straight and even like spokes around the curved handle, mirroring the umbrella's own evenly radiating strokes",
+        "hook": "一把圓圓的玩具雨傘，傘面是亮晶晶的水玉點點，握把彎彎的像糖果枴杖；雨傘「啪」地一聲整個打開，傘骨一根根筆直地往外撐開，像輪子的輻條一樣整整齊齊。"
+      },
+      "status": "seed",
+      "priority": 271,
+      "media": [],
+      "feedback": [],
+      "hidden": true
     }
   ],
   "production": {
@@ -3544,6 +10136,14 @@
           "光",
           "劍",
           "快"
+        ],
+        "attempts": []
+      },
+      "2026-09-26": {
+        "queue": [
+          "腳",
+          "走",
+          "吃"
         ],
         "attempts": []
       }
