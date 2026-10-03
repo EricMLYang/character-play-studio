@@ -1,0 +1,25 @@
+[
+  {
+    "char": "來",
+    "meaning": "to come",
+    "zhuyin": "ㄌㄞˊ",
+    "emoji": "🏃",
+    "conceptZh": "廚師動物的麵團不肯過來，揮擀麵棍把麵團擀成來字，麵團終於跑過來。",
+    "object": "a rotund chef animal in a tall hat, a rebellious ball of dough and a rolling pin",
+    "morph": "rolled dough strips form 來",
+    "creativeAngle": "道具反抗：麵團自己跳走、黏住擀麵棍，廚師用麵粉當誘餌才把麵團請過來，擀開成來。",
+    "promptEn": "An 8-second clip on a pale butter backdrop with a soft pink tiled floor. A rotund cartoon chef bear in a tall white hat flings dough with far more confidence than accuracy, beside a ball of dough with its own opinions. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「來、來、過來」 (ㄌㄞˊ、ㄌㄞˊ、ㄍㄨㄛˋ ㄌㄞˊ), slowly with clear tones, then stops.\n0.0-1.7s: The chef waves a paw, beckoning, but the dough ball hops away from him toward the far corner. 「來」 (ㄌㄞˊ) is spoken as he beckons.\n1.7-3.4s: He tosses the rolling pin; the dough sticks to it and flies in a circle, the chef spinning; he sprinkles flour trail as bait.\n3.4-4.4s: The dough finally follows the flour, rolls flat under the pin, and unrolls into thick strips that settle into a saturated solid chestnut-brown glyph 來, about 70% of frame height, with a horizontal in the middle and two little dots on each side of the center. The second 「來」 (ㄌㄞˊ) lands. \n4.4-5.0s: A small dough bunny hops across the stage toward the chef, and he catches it; 「過來」 (ㄍㄨㄛˋ ㄌㄞˊ) is spoken as it hops over.\n5.0-8.0s: Hold: glyph 來 completely still and centered. The chef bows with his hat falling off, bunny dancing in the corner, never touching the strokes.\nNo text except the glyph 來; no subtitles, watermark or flashing. Soft music under the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.967Z",
+    "id": "a67ede91-500e-4b06-9ecd-c1d366834dc2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "329230e105406628af079bc0917e80c0e0f0ec0c1265a35f32073ce13a7fc47e",
+    "hash": "6627fd6dbab4365a02c20727d0acd7073ce860e7851f46fcb0a44e943af06cde",
+    "formatted": "【目標國字】：來\n【設計概念】：廚師動物的麵團不肯過來，揮擀麵棍把麵團擀成來字，麵團終於跑過來。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a pale butter backdrop with a soft pink tiled floor. A rotund cartoon chef bear in a tall white hat flings dough with far more confidence than accuracy, beside a ball of dough with its own opinions. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「來、來、過來」 (ㄌㄞˊ、ㄌㄞˊ、ㄍㄨㄛˋ ㄌㄞˊ), slowly with clear tones, then stops.\n0.0-1.7s: The chef waves a paw, beckoning, but the dough ball hops away from him toward the far corner. 「來」 (ㄌㄞˊ) is spoken as he beckons.\n1.7-3.4s: He tosses the rolling pin; the dough sticks to it and flies in a circle, the chef spinning; he sprinkles flour trail as bait.\n3.4-4.4s: The dough finally follows the flour, rolls flat under the pin, and unrolls into thick strips that settle into a saturated solid chestnut-brown glyph 來, about 70% of frame height, with a horizontal in the middle and two little dots on each side of the center. The second 「來」 (ㄌㄞˊ) lands. \n4.4-5.0s: A small dough bunny hops across the stage toward the chef, and he catches it; 「過來」 (ㄍㄨㄛˋ ㄌㄞˊ) is spoken as it hops over.\n5.0-8.0s: Hold: glyph 來 completely still and centered. The chef bows with his hat falling off, bunny dancing in the corner, never touching the strokes.\nNo text except the glyph 來; no subtitles, watermark or flashing. Soft music under the voice.\n```"
+  }
+]

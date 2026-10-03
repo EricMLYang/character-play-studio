@@ -1,0 +1,25 @@
+[
+  {
+    "char": "茶",
+    "meaning": "tea",
+    "zhuyin": "ㄔㄚˊ",
+    "emoji": "🍵",
+    "conceptZh": "茶：草字頭、人、木，像人在茶樹間採茶、泡茶。",
+    "object": "a barrel-shaped toy pirate with a sulky parrot, and a round-bellied toy teapot",
+    "morph": "the pirate charges in with far too much power, flies past and skids back, then a gentle second try pours the strokes into 茶",
+    "creativeAngle": "海盜衝過頭、鸚鵡不合作，第二次輕輕倒茶才讓筆畫就位。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 茶 (tea), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a barrel-shaped toy pirate with a sulky parrot, and a round-bellied toy teapot. Soft seafoam-teal backdrop with a thin plank of ship deck at the bottom; the glyph is deep jade-green. Timed beats. 0.0-1.5s: a barrel-bodied toy pirate with an eyepatch and a crumpled hat thunders in from the left carrying a glossy toy teapot, a grumpy green parrot clamped to his shoulder. The voice says the first 茶 as he skids to a halt and a cluster of tea leaves flutters above him. 1.5-3.0s: he tips the pot with way too much force, the stream blasts out sideways and he spins right past the target, crashing into the edge while the parrot rolls its eyes. The voice says the second 茶 as scattered leaves stick on the deck like green stamps. 3.0-4.5s: with a deep breath he tiptoes back, tilts the pot gently, and a thin ribbon of tea curls up and weaves the leaves into the finished jade 茶, centered at about 70% of frame height. 4.5-5.0s: the voice says 紅茶 (ㄏㄨㄥˊ ㄔㄚˊ) as a steaming red-brown cup pops up beside him and the parrot dips its beak in with a surprised flap. Final hold: 5.0-8.0s: the glyph is perfectly still; the pirate and parrot clink cup and beak to one side. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 茶、茶、紅茶 = ㄔㄚˊ、ㄔㄚˊ、ㄏㄨㄥˊ ㄔㄚˊ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 茶 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.099Z",
+    "id": "06cdb038-80b4-4023-a7bd-3f1b0080a21f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "af71133c3197be5d9d7c9c518e738ad344ae1d1cf8d93fb31816bfee48ffdbe4",
+    "hash": "a26c61532a5970241353eb5d50ebfb849d45d11f6ddeca037e8da90ca83cf21c",
+    "formatted": "【目標國字】：茶\n【設計概念】：茶：草字頭、人、木，像人在茶樹間採茶、泡茶。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 茶 (tea), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a barrel-shaped toy pirate with a sulky parrot, and a round-bellied toy teapot. Soft seafoam-teal backdrop with a thin plank of ship deck at the bottom; the glyph is deep jade-green. Timed beats. 0.0-1.5s: a barrel-bodied toy pirate with an eyepatch and a crumpled hat thunders in from the left carrying a glossy toy teapot, a grumpy green parrot clamped to his shoulder. The voice says the first 茶 as he skids to a halt and a cluster of tea leaves flutters above him. 1.5-3.0s: he tips the pot with way too much force, the stream blasts out sideways and he spins right past the target, crashing into the edge while the parrot rolls its eyes. The voice says the second 茶 as scattered leaves stick on the deck like green stamps. 3.0-4.5s: with a deep breath he tiptoes back, tilts the pot gently, and a thin ribbon of tea curls up and weaves the leaves into the finished jade 茶, centered at about 70% of frame height. 4.5-5.0s: the voice says 紅茶 (ㄏㄨㄥˊ ㄔㄚˊ) as a steaming red-brown cup pops up beside him and the parrot dips its beak in with a surprised flap. Final hold: 5.0-8.0s: the glyph is perfectly still; the pirate and parrot clink cup and beak to one side. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 茶、茶、紅茶 = ㄔㄚˊ、ㄔㄚˊ、ㄏㄨㄥˊ ㄔㄚˊ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 茶 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

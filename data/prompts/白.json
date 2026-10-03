@@ -1,0 +1,25 @@
+[
+  {
+    "char": "白",
+    "meaning": "white",
+    "zhuyin": "ㄅㄞˊ",
+    "emoji": "⚪",
+    "conceptZh": "像牛奶或雪的顏色。",
+    "object": "a squeaky googly-eyed race car, a stubborn paint roller, and fluffy clouds",
+    "morph": "the prop fights back: the roller paints wrong until the car outwits it, forming 白",
+    "creativeAngle": "賽車與不聽話的油漆滾筒鬥智，最後排成「白」；白雲。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a grass-green and sky-blue toy track, a squeaky race car with googly eyes nudges a stubborn paint roller that keeps rolling in the wrong direction. 0–1.5s: The first 白 is spoken as the roller slides across and paints a white blob where the car wanted a stroke. 1.5–3.1s: The second 白 is spoken: the roller zooms in circles, chased by the car, leaving white swirls. 3.1–4.7s: The car pins the roller with its bumper and guides it: 白 forms in orange against the light backdrop. 4.7–5.7s: As 白雲 is spoken, the roller sprays a fluffy white cloud that floats up, and the car honks. Final hold (about 5.0–8.0s): the car and roller rest side by side while the cloud drifts; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 白、白、白雲（ㄅㄞˊ、ㄅㄞˊ、ㄅㄞˊ ㄩㄣˊ）. The first 白 lands at about 0.9s, the second 白 at about 2.6s, and the word 白雲 at about 4.8s, each timed to the picture described above. On-screen text is limited to the one glyph 白 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 白 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.425Z",
+    "id": "8d94df3a-b59a-4391-a1cb-11247bef9253",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "406e3f2e5418262991d0b086f8c83273465ce02306e8107ab11933796d8beac6",
+    "hash": "0e1e4e599320e2f70a325fcfc72389ea6c90e3a78f9dd33a29c397939c6eedc1",
+    "formatted": "【目標國字】：白\n【設計概念】：像牛奶或雪的顏色。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a grass-green and sky-blue toy track, a squeaky race car with googly eyes nudges a stubborn paint roller that keeps rolling in the wrong direction. 0–1.5s: The first 白 is spoken as the roller slides across and paints a white blob where the car wanted a stroke. 1.5–3.1s: The second 白 is spoken: the roller zooms in circles, chased by the car, leaving white swirls. 3.1–4.7s: The car pins the roller with its bumper and guides it: 白 forms in orange against the light backdrop. 4.7–5.7s: As 白雲 is spoken, the roller sprays a fluffy white cloud that floats up, and the car honks. Final hold (about 5.0–8.0s): the car and roller rest side by side while the cloud drifts; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 白、白、白雲（ㄅㄞˊ、ㄅㄞˊ、ㄅㄞˊ ㄩㄣˊ）. The first 白 lands at about 0.9s, the second 白 at about 2.6s, and the word 白雲 at about 4.8s, each timed to the picture described above. On-screen text is limited to the one glyph 白 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 白 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

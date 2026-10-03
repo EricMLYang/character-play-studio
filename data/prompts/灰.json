@@ -1,0 +1,25 @@
+[
+  {
+    "char": "灰",
+    "meaning": "gray / ash",
+    "zhuyin": "ㄏㄨㄟ",
+    "emoji": "🌫️",
+    "conceptZh": "太空人玩偶在失重的灰塵雲裡拔河，把「灰」拉攏。",
+    "object": "a bouncy astronaut toy in a fishbowl helmet and a puffy soft gray toy dust cloud",
+    "morph": "two gray dust-cloud halves are tugged apart by the astronaut and a drifting balloon, then spring together into the glyph 灰",
+    "creativeAngle": "太空人腳一離地就飄走，與灰塵雲拔河，繩子一彈兩半筆畫合體；灰塵雲在最後被抖出一圈。",
+    "promptEn": "An 8-second bright, toy-like animated clip on a pale butter-yellow backdrop. Lead: a bouncy astronaut toy with a fishbowl helmet, orange suit, who keeps floating a few centimeters off the floor at the worst moment. One supporting object: a fluffy gray toy dust cloud. The finished glyph 灰 is a solid saturated slate-gray-blue, centered, about 70% of frame height.\n0.0-1.6s: the astronaut bounces in and grabs one end of a rope tied to a left-hand stroke half; the other end is tied to the dust cloud's puff-hand on the right. First utterance \"灰\" lands as he plants his boots.\n1.6-3.2s: tug-of-war. He pulls left, the cloud pulls right; his boots lift off the ground and he drifts sideways, legs pedaling in air. The second \"灰\" lands as the rope goes taut and the two stroke halves strain apart.\n3.2-5.0s: the cloud sneezes out a puff, the rope snaps slack, and both halves spring together with a bouncy boing into the finished glyph 灰 while the astronaut somersaults in the air and bonks his helmet softly on the top margin.\n5.0-8.0s: HOLD, glyph perfectly still. As the voice says \"灰塵\", fine gray dust motes shower down beside the glyph and the astronaut, floating upside down, brushes them off his helmet and gives a thumbs-up, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"灰、灰、灰塵\" (ㄏㄨㄟ、ㄏㄨㄟ、ㄏㄨㄟ ㄔㄣˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 灰.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.152Z",
+    "id": "29290037-1d82-4c1a-b85e-bf3b2d9b47c9",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "200132179c10d208bca7d6d6ad3f123e85a8a990bb5bfedaf6fd9326595c7eb7",
+    "hash": "e303c24107783c38574c72f4c3abfe68f8b2b30b13a4864894735e85aea99cec",
+    "formatted": "【目標國字】：灰\n【設計概念】：太空人玩偶在失重的灰塵雲裡拔河，把「灰」拉攏。\n【8s Video Prompt】:\n```text\nAn 8-second bright, toy-like animated clip on a pale butter-yellow backdrop. Lead: a bouncy astronaut toy with a fishbowl helmet, orange suit, who keeps floating a few centimeters off the floor at the worst moment. One supporting object: a fluffy gray toy dust cloud. The finished glyph 灰 is a solid saturated slate-gray-blue, centered, about 70% of frame height.\n0.0-1.6s: the astronaut bounces in and grabs one end of a rope tied to a left-hand stroke half; the other end is tied to the dust cloud's puff-hand on the right. First utterance \"灰\" lands as he plants his boots.\n1.6-3.2s: tug-of-war. He pulls left, the cloud pulls right; his boots lift off the ground and he drifts sideways, legs pedaling in air. The second \"灰\" lands as the rope goes taut and the two stroke halves strain apart.\n3.2-5.0s: the cloud sneezes out a puff, the rope snaps slack, and both halves spring together with a bouncy boing into the finished glyph 灰 while the astronaut somersaults in the air and bonks his helmet softly on the top margin.\n5.0-8.0s: HOLD, glyph perfectly still. As the voice says \"灰塵\", fine gray dust motes shower down beside the glyph and the astronaut, floating upside down, brushes them off his helmet and gives a thumbs-up, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"灰、灰、灰塵\" (ㄏㄨㄟ、ㄏㄨㄟ、ㄏㄨㄟ ㄔㄣˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 灰.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

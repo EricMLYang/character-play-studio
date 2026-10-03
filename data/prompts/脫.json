@@ -1,0 +1,25 @@
+[
+  {
+    "char": "脫",
+    "meaning": "to take off",
+    "zhuyin": "ㄊㄨㄛ",
+    "emoji": "🧦",
+    "conceptZh": "賽車脫鞋脫太用力，鞋子彈來彈去，每碰一下落一筆。",
+    "object": "a squeaky pull-back toy race car with googly eyes, shoes and socks",
+    "morph": "a flying shoe ricochets, each hit dropping one stroke of 脫",
+    "creativeAngle": "賽車脫掉鞋子，鞋子像彈珠般亂彈，每一彈落下一個部件。",
+    "promptEn": "An 8-second animated clip on a bright lime-and-cream backdrop with checkered floor stripes. Lead: a squeaky pull-back toy race car, cherry red, with large googly eyes who always overshoots. The finished glyph 脫 is a saturated emerald-green, centered, about 70% of frame height.\n0.0-1.6s: the car revs back on its springs, wearing sneakers on all four wheels. First \"脫\" as he squeals and shakes his front left sneaker off.\n1.6-3.3s: bounce chain: the sneaker flies and ricochets off the left wall, the ceiling edge and the floor; each hit drops a green stroke into place, and the second \"脫\" lands on the third hit.\n3.3-5.0s: the car overshoots to the right edge, lurches back and bumps the last stroke home; the glyph 脫 stands complete with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. At \"脫鞋\" the car calmly wiggles off his other three sneakers one by one, they land in a neat row, and he rolls a tiny happy circle, googly eyes wobbling, away from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"脫、脫、脫鞋\" (ㄊㄨㄛ、ㄊㄨㄛ、ㄊㄨㄛ ㄒㄧㄝˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 脫.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.940Z",
+    "id": "92f9ce15-f6ef-48fb-899c-c5a789044750",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "a605b929c84d0f584e18ce77cb1e72a4c15a5dc5086d77a994bacb7a9cbb311a",
+    "hash": "bc069b88d79aeb85f2016c782e4b5bd511a163724c892ec07eda013419fe6050",
+    "formatted": "【目標國字】：脫\n【設計概念】：賽車脫鞋脫太用力，鞋子彈來彈去，每碰一下落一筆。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a bright lime-and-cream backdrop with checkered floor stripes. Lead: a squeaky pull-back toy race car, cherry red, with large googly eyes who always overshoots. The finished glyph 脫 is a saturated emerald-green, centered, about 70% of frame height.\n0.0-1.6s: the car revs back on its springs, wearing sneakers on all four wheels. First \"脫\" as he squeals and shakes his front left sneaker off.\n1.6-3.3s: bounce chain: the sneaker flies and ricochets off the left wall, the ceiling edge and the floor; each hit drops a green stroke into place, and the second \"脫\" lands on the third hit.\n3.3-5.0s: the car overshoots to the right edge, lurches back and bumps the last stroke home; the glyph 脫 stands complete with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. At \"脫鞋\" the car calmly wiggles off his other three sneakers one by one, they land in a neat row, and he rolls a tiny happy circle, googly eyes wobbling, away from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"脫、脫、脫鞋\" (ㄊㄨㄛ、ㄊㄨㄛ、ㄊㄨㄛ ㄒㄧㄝˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 脫.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

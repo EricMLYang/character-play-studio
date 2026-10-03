@@ -1,0 +1,25 @@
+[
+  {
+    "char": "綠",
+    "meaning": "green",
+    "zhuyin": "ㄌㄩˋ",
+    "emoji": "🟢",
+    "conceptZh": "像草或樹葉的顏色。",
+    "object": "a mismatched-part toy robot with one long arm, mung beans, and a green beaker",
+    "morph": "wrong-then-right: the robot builds a goofy pile, shrugs, and fixes it into 綠",
+    "creativeAngle": "玩具機器人先拼成歪歪的字，聳肩後修正成「綠」；綠豆。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a lavender-and-white workshop, a boxy toy robot with a long arm and a stubby arm piles green bricks with extreme confidence. 0–1.5s: The first 綠 is spoken as the robot builds a crooked shape, strokes on the wrong sides, and beams. 1.5–3.1s: The second 綠 is spoken: it notices the shape is wrong, its eyes spin, and it shrugs, its long arm flopping. 3.1–4.7s: A quick fix: it kicks the pieces, which tumble into 綠 in vivid emerald. 4.7–5.7s: As 綠豆 is spoken, a jar tips over and a rolling green bean pops out and waves; the robot pats it. Final hold (about 5.0–8.0s): the robot hugs the green bean and sways; the glyph is rock steady. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 綠、綠、綠豆（ㄌㄩˋ、ㄌㄩˋ、ㄌㄩˋ ㄉㄡˋ）. The first 綠 lands at about 0.8s, the second 綠 at about 2.5s, and the word 綠豆 at about 4.8s, each timed to the picture described above. On-screen text is limited to the one glyph 綠 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 綠 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.738Z",
+    "id": "2784d639-423e-452c-828f-831cc2048b15",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "af80a679c990975088bf16d325089679e0ae1d7b3e9c7d765aa3ec2299bbe914",
+    "hash": "50253d7e59c19b28af5ae8854c010e4de0d1adc3c9983d7722cd122c3b4bbc67",
+    "formatted": "【目標國字】：綠\n【設計概念】：像草或樹葉的顏色。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a lavender-and-white workshop, a boxy toy robot with a long arm and a stubby arm piles green bricks with extreme confidence. 0–1.5s: The first 綠 is spoken as the robot builds a crooked shape, strokes on the wrong sides, and beams. 1.5–3.1s: The second 綠 is spoken: it notices the shape is wrong, its eyes spin, and it shrugs, its long arm flopping. 3.1–4.7s: A quick fix: it kicks the pieces, which tumble into 綠 in vivid emerald. 4.7–5.7s: As 綠豆 is spoken, a jar tips over and a rolling green bean pops out and waves; the robot pats it. Final hold (about 5.0–8.0s): the robot hugs the green bean and sways; the glyph is rock steady. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 綠、綠、綠豆（ㄌㄩˋ、ㄌㄩˋ、ㄌㄩˋ ㄉㄡˋ）. The first 綠 lands at about 0.8s, the second 綠 at about 2.5s, and the word 綠豆 at about 4.8s, each timed to the picture described above. On-screen text is limited to the one glyph 綠 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 綠 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "鹿",
+    "meaning": "deer",
+    "zhuyin": "ㄌㄨˋ",
+    "emoji": "🦌",
+    "conceptZh": "鹿頭上有像樹枝的鹿角",
+    "object": "a round fuzzy gachapon pocket creature and a tiny spotted deer",
+    "morph": "a giant capsule and tiny capsules show size mismatch, then antler-like strokes grow into the glyph",
+    "creativeAngle": "小怪獸對上超大扭蛋與小小的梅花鹿，大小差一路變成字；詞用「梅花鹿」。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 鹿 (deer). Lead: a round fuzzy lime-green creature with big eyes who pops from a gachapon capsule. Moment 1 (0-1.6s): a house-sized capsule rolls in and cracks; the fuzzy creature, tiny beside it, boings out, bouncing off the shell as the voice says 鹿. Moment 2 (1.6-3.3s): it tries to push a pea-sized capsule that is stuck to its foot, then a giant one that squashes it flat; at the second 鹿 the squashed creature pops up and the capsule halves snap into green strokes forming 鹿. Moment 3 (3.3-5s): a small cream deer with white spots hops out of the tiny capsule, antlers like twigs tangled with the creature's fuzz; as the voice says 梅花鹿 the spots pop like polka-dot confetti and the pair double-take at each other. Moment 4 (5-8s): glyph still; the creature rides the deer's antler, bouncing happily. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"鹿、鹿、梅花鹿\" (ㄌㄨˋ、ㄌㄨˋ、ㄇㄟˊ ㄏㄨㄚ ㄌㄨˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 鹿, drawn as saturated solid forest green strokes on a light peach background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.751Z",
+    "id": "7882219e-3c7b-4fdd-9f3b-dc12bf8bc8b9",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "34fd3316d2572e5fa85069fac5f943b22e7eff66eff98c621897c6f1beec8bf8",
+    "hash": "be45fb24e455a6d0e872ac919e25bec7b4824be7fee19f3104b196273065e3bb",
+    "formatted": "【目標國字】：鹿\n【設計概念】：鹿頭上有像樹枝的鹿角\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 鹿 (deer). Lead: a round fuzzy lime-green creature with big eyes who pops from a gachapon capsule. Moment 1 (0-1.6s): a house-sized capsule rolls in and cracks; the fuzzy creature, tiny beside it, boings out, bouncing off the shell as the voice says 鹿. Moment 2 (1.6-3.3s): it tries to push a pea-sized capsule that is stuck to its foot, then a giant one that squashes it flat; at the second 鹿 the squashed creature pops up and the capsule halves snap into green strokes forming 鹿. Moment 3 (3.3-5s): a small cream deer with white spots hops out of the tiny capsule, antlers like twigs tangled with the creature's fuzz; as the voice says 梅花鹿 the spots pop like polka-dot confetti and the pair double-take at each other. Moment 4 (5-8s): glyph still; the creature rides the deer's antler, bouncing happily. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"鹿、鹿、梅花鹿\" (ㄌㄨˋ、ㄌㄨˋ、ㄇㄟˊ ㄏㄨㄚ ㄌㄨˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 鹿, drawn as saturated solid forest green strokes on a light peach background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

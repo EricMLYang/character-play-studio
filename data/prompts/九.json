@@ -1,0 +1,25 @@
+[
+  {
+    "char": "九",
+    "meaning": "nine",
+    "zhuyin": "ㄐㄧㄡˇ",
+    "emoji": "9️⃣",
+    "conceptZh": "豬探長把兩條粗黏土繩排成「九」，先排成歪歪的蝸牛，發現不對，一秒翻轉鉤子就對了，九個月牙餅乾跟著蹦出來。",
+    "object": "a stout cartoon detective pig in a checked deerstalker hat with a magnifying glass far too big for him, plus two fat teal clay ropes",
+    "morph": "two chunky teal clay ropes get arranged into a wobbly wrong snail shape, then the pig flips the hook end and they lock into the glyph 九",
+    "creativeAngle": "先錯後對：豬探長信心滿滿排出蝸牛形，放大鏡一照才發現勾子方向反了，翻一下就成字；「九月」用九片月牙餅乾蹦出來呼應。",
+    "promptEn": "An 8-second bright cartoon clip on a clean solid pale cream backdrop. The only on-screen text is one large Traditional Chinese glyph, 九, built from two fat, glossy, saturated teal clay ropes, filling about 70% of frame height, centered with generous margins. Lead: a stout cartoon detective pig in a checked deerstalker hat, lugging a magnifying glass far too big for him; one supporting prop, a plate of crescent cookies. Voice: a warm, friendly off-screen narrator in clear Taiwanese Mandarin says exactly 九、九、九月 (ㄐㄧㄡˇ、ㄐㄧㄡˇ、ㄐㄧㄡˇ ㄩㄝˋ), slowly and distinctly with clear tones, then stops. No background music, no subtitles, no vocabulary text. Moment 1 (0–1.8s): the pig waddles in dragging two teal ropes, drops them with a thud, and as the voice says the first 九 he proudly curls them into a fat, wobbly snail with a curly tail, chest puffed out. Moment 2 (1.8–3.6s): he lifts the huge magnifying glass, which swallows his whole face; his eye swells to the size of a plate, he squints, gasps, and the snail's tail wiggles in embarrassment. Moment 3 (3.6–5s): he shrugs, tucks the glass under his arm, and in one quick move whips the ropes apart; as the voice says the second 九 the long diagonal sweeps in from the upper right, the hooked stroke swings in from below with a soft rubbery boing, and the two lock into a perfect 九. Moment 4 (4.5–5s): as the word 九月 is spoken, nine little crescent cookies tumble out of a plate beside the pig and he catches one in his mouth, cheeks bulging. Final 5–8s: the glyph 九 stays perfectly still, fully formed and clearly readable, while the pig sits beside it and nibbles a crescent cookie with a small happy wiggle of his hat, never touching or covering the strokes. Soft daylight, gentle colors, no flashing, no real people, no other writing anywhere in frame.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.253Z",
+    "id": "c31806d3-4965-49bc-98b2-4f18c1dd140e",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e5a347ab03cb8e8b6b0d2418968b3580b09b6f6ef8810b9070b061691254eda8",
+    "hash": "30902f5c42397b872ad93d0f0cba6570a7bce7783fc499015ce184733a27f5ce",
+    "formatted": "【目標國字】：九\n【設計概念】：豬探長把兩條粗黏土繩排成「九」，先排成歪歪的蝸牛，發現不對，一秒翻轉鉤子就對了，九個月牙餅乾跟著蹦出來。\n【8s Video Prompt】:\n```text\nAn 8-second bright cartoon clip on a clean solid pale cream backdrop. The only on-screen text is one large Traditional Chinese glyph, 九, built from two fat, glossy, saturated teal clay ropes, filling about 70% of frame height, centered with generous margins. Lead: a stout cartoon detective pig in a checked deerstalker hat, lugging a magnifying glass far too big for him; one supporting prop, a plate of crescent cookies. Voice: a warm, friendly off-screen narrator in clear Taiwanese Mandarin says exactly 九、九、九月 (ㄐㄧㄡˇ、ㄐㄧㄡˇ、ㄐㄧㄡˇ ㄩㄝˋ), slowly and distinctly with clear tones, then stops. No background music, no subtitles, no vocabulary text. Moment 1 (0–1.8s): the pig waddles in dragging two teal ropes, drops them with a thud, and as the voice says the first 九 he proudly curls them into a fat, wobbly snail with a curly tail, chest puffed out. Moment 2 (1.8–3.6s): he lifts the huge magnifying glass, which swallows his whole face; his eye swells to the size of a plate, he squints, gasps, and the snail's tail wiggles in embarrassment. Moment 3 (3.6–5s): he shrugs, tucks the glass under his arm, and in one quick move whips the ropes apart; as the voice says the second 九 the long diagonal sweeps in from the upper right, the hooked stroke swings in from below with a soft rubbery boing, and the two lock into a perfect 九. Moment 4 (4.5–5s): as the word 九月 is spoken, nine little crescent cookies tumble out of a plate beside the pig and he catches one in his mouth, cheeks bulging. Final 5–8s: the glyph 九 stays perfectly still, fully formed and clearly readable, while the pig sits beside it and nibbles a crescent cookie with a small happy wiggle of his hat, never touching or covering the strokes. Soft daylight, gentle colors, no flashing, no real people, no other writing anywhere in frame.\n```"
+  }
+]

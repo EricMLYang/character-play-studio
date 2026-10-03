@@ -1,0 +1,25 @@
+[
+  {
+    "char": "六",
+    "meaning": "six",
+    "zhuyin": "ㄌㄧㄡˋ",
+    "emoji": "6️⃣",
+    "conceptZh": "消防車的水管亂彈，每彈中一下就落下一筆，最後排成六。",
+    "object": "a chunky red toy fire engine with a wriggling hose and a water ball",
+    "morph": "a ricocheting water-bouncing hose drops one stroke into place per hit to form 六",
+    "creativeAngle": "水管有自己的想法：水球在畫面四壁連彈，每一次撞擊落下一筆（點、橫、撇、點），最後車頂亮燈六顆小警示燈對應六邊形。",
+    "promptEn": "An 8-second playful animated clip on a sky-blue backdrop with a light mint floor. A chunky red toy fire engine with big googly eyes sits at the left, its yellow hose wriggling like a snake. The off-screen voice, warm and clear in Taiwanese Mandarin, says exactly: 「六、六、六邊形」 (ㄌㄧㄡˋ、ㄌㄧㄡˋ、ㄌㄧㄡˋ ㄅㄧㄢ ㄒㄧㄥˊ), slowly with clear tones, then stops.\n0.0-1.6s: The hose bucks and spits a fat bouncy blue water ball that ricochets off the top edge; where it hits, a bold orange dot-stroke drops in at the top center. The voice says 「六」 (ㄌㄧㄡˋ) with the first bounce.\n1.6-3.2s: The hose swings the wrong way, the ball bounces off the fire engine's roof (it honks, surprised) and a long horizontal stroke slides in. Second 「六」 (ㄌㄧㄡˋ) lands as the last two diagonal strokes drop on the left and right bounces, completing one solid orange-red glyph 六, filling about 70% of frame height.\n3.2-4.8s: The ball pops softly and out of the fire engine's roof six small hexagon-shaped warning lights light up one after another in a ring; the word 「六邊形」 (ㄌㄧㄡˋ ㄅㄧㄢ ㄒㄧㄥˊ) is spoken as the hexagon of lights glows (shapes only, no text).\n4.8-8.0s: Hold: the glyph 六 is perfectly still, centered, margins all around. The fire engine wiggles its wheels, the hose does a tiny corkscrew curl and gives a proud little toot far from the strokes.\nNo text except the glyph 六; no subtitles, watermark or flashing. Gentle background music, quieter than the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.034Z",
+    "id": "cb26c39a-f898-4f78-b1cb-c12e4ae56df3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f5c9734083d98468bbd53e2cbc945c9b14ed084b7f9a94e22270a064e7810fd6",
+    "hash": "f81080416a1e513467be5eef50c784baa1aa56a124b717405f5503b6b516806f",
+    "formatted": "【目標國字】：六\n【設計概念】：消防車的水管亂彈，每彈中一下就落下一筆，最後排成六。\n【8s Video Prompt】:\n```text\nAn 8-second playful animated clip on a sky-blue backdrop with a light mint floor. A chunky red toy fire engine with big googly eyes sits at the left, its yellow hose wriggling like a snake. The off-screen voice, warm and clear in Taiwanese Mandarin, says exactly: 「六、六、六邊形」 (ㄌㄧㄡˋ、ㄌㄧㄡˋ、ㄌㄧㄡˋ ㄅㄧㄢ ㄒㄧㄥˊ), slowly with clear tones, then stops.\n0.0-1.6s: The hose bucks and spits a fat bouncy blue water ball that ricochets off the top edge; where it hits, a bold orange dot-stroke drops in at the top center. The voice says 「六」 (ㄌㄧㄡˋ) with the first bounce.\n1.6-3.2s: The hose swings the wrong way, the ball bounces off the fire engine's roof (it honks, surprised) and a long horizontal stroke slides in. Second 「六」 (ㄌㄧㄡˋ) lands as the last two diagonal strokes drop on the left and right bounces, completing one solid orange-red glyph 六, filling about 70% of frame height.\n3.2-4.8s: The ball pops softly and out of the fire engine's roof six small hexagon-shaped warning lights light up one after another in a ring; the word 「六邊形」 (ㄌㄧㄡˋ ㄅㄧㄢ ㄒㄧㄥˊ) is spoken as the hexagon of lights glows (shapes only, no text).\n4.8-8.0s: Hold: the glyph 六 is perfectly still, centered, margins all around. The fire engine wiggles its wheels, the hose does a tiny corkscrew curl and gives a proud little toot far from the strokes.\nNo text except the glyph 六; no subtitles, watermark or flashing. Gentle background music, quieter than the voice.\n```"
+  }
+]

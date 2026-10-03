@@ -1,0 +1,25 @@
+[
+  {
+    "char": "虹",
+    "meaning": "rainbow",
+    "zhuyin": "ㄏㄨㄥˊ",
+    "emoji": "🌈",
+    "conceptZh": "虹：蟲字旁加工，雨後天空的彩虹；玩具戰士一碰，彩色骨牌倒成虹字。",
+    "object": "a chunky toy warrior with a foam sword, and a long row of colorful toy dominoes arcing like a rainbow",
+    "morph": "one bump from the warrior's shield topples a chain of rainbow-colored blocks that land as the strokes of 虹",
+    "creativeAngle": "玩具戰士太愛現，揮泡棉劍時不小心碰倒第一塊彩色骨牌，一路倒下去，運氣好剛好倒成虹字，彩虹才出現。",
+    "promptEn": "An 8-second bright, clean toy-animation clip on a solid pale lavender-white backdrop. Cast: a chunky toy warrior with a foam sword and a round shield, all bravado and very little skill, and a long curving row of toy dominoes in red, orange, yellow, green, blue and purple. The only text on screen is the single Traditional Chinese glyph 虹, drawn in saturated violet-blue strokes, ending centered, uncropped, about 70 percent of frame height with margins. 0.0-1.5s: the warrior marches in puffing out his chest, hoists his foam sword like he is about to slay a dragon, and tiptoes with huge exaggerated steps around the standing rainbow row, ignoring the first domino right next to his boot. The first narrated 虹 lands as a small rain cloud puffs over the warrior and drips three drops on his helmet. 1.5-3.5s: he spins to show off, his shield swings round and gives the first domino a tiny bump; the pieces tip one after another, color by color, clack-clack, and the warrior whips his head back and forth with huge round eyes. The second narrated 虹 lands as the last blocks drop and snap exactly into the strokes of 虹 across the middle of the frame. 3.5-5.0s: the warrior lunges in triumph, trips on his own sword, and sits down, his shield spinning on his head like a hat. As the word 彩虹 is spoken, a soft arc of rainbow light appears behind the glyph, painting seven smooth bands that do not flicker, and the little rain cloud turns into a happy sun. 5.0-8.0s: the glyph stays perfectly still and readable for the last 3 seconds while the warrior stands next to it, flexes with the foam sword, and does a small proud shuffle-dance on one side of the frame. Audio: a warm, friendly off-screen voice speaks slowly and distinctly in clear Taiwanese Mandarin, clear tones, no erhua, reading exactly these syllables: 虹、虹、彩虹 (ㄏㄨㄥˊ、ㄏㄨㄥˊ、ㄘㄞˇ ㄏㄨㄥˊ). The character twice with a short pause, then the word once, then stop. The word is audio only. No background music, no extra speech, no subtitles or flashing effects; stylized toys only, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:17.585Z",
+    "id": "c69ead0c-2930-4dd9-ae05-d187a93643d3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b0a4306c92f4717a68e295b4cc408996c26325e55824ea27d8e7a65a1494bd9d",
+    "hash": "8e650cf18d94033033dcd2a96171f4ac03e3d8bc6354801329c136d4f6068a17",
+    "formatted": "【目標國字】：虹\n【設計概念】：虹：蟲字旁加工，雨後天空的彩虹；玩具戰士一碰，彩色骨牌倒成虹字。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean toy-animation clip on a solid pale lavender-white backdrop. Cast: a chunky toy warrior with a foam sword and a round shield, all bravado and very little skill, and a long curving row of toy dominoes in red, orange, yellow, green, blue and purple. The only text on screen is the single Traditional Chinese glyph 虹, drawn in saturated violet-blue strokes, ending centered, uncropped, about 70 percent of frame height with margins. 0.0-1.5s: the warrior marches in puffing out his chest, hoists his foam sword like he is about to slay a dragon, and tiptoes with huge exaggerated steps around the standing rainbow row, ignoring the first domino right next to his boot. The first narrated 虹 lands as a small rain cloud puffs over the warrior and drips three drops on his helmet. 1.5-3.5s: he spins to show off, his shield swings round and gives the first domino a tiny bump; the pieces tip one after another, color by color, clack-clack, and the warrior whips his head back and forth with huge round eyes. The second narrated 虹 lands as the last blocks drop and snap exactly into the strokes of 虹 across the middle of the frame. 3.5-5.0s: the warrior lunges in triumph, trips on his own sword, and sits down, his shield spinning on his head like a hat. As the word 彩虹 is spoken, a soft arc of rainbow light appears behind the glyph, painting seven smooth bands that do not flicker, and the little rain cloud turns into a happy sun. 5.0-8.0s: the glyph stays perfectly still and readable for the last 3 seconds while the warrior stands next to it, flexes with the foam sword, and does a small proud shuffle-dance on one side of the frame. Audio: a warm, friendly off-screen voice speaks slowly and distinctly in clear Taiwanese Mandarin, clear tones, no erhua, reading exactly these syllables: 虹、虹、彩虹 (ㄏㄨㄥˊ、ㄏㄨㄥˊ、ㄘㄞˇ ㄏㄨㄥˊ). The character twice with a short pause, then the word once, then stop. The word is audio only. No background music, no extra speech, no subtitles or flashing effects; stylized toys only, no real people.\n```"
+  }
+]

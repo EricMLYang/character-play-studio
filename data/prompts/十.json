@@ -1,0 +1,25 @@
+[
+  {
+    "char": "十",
+    "meaning": "ten",
+    "zhuyin": "ㄕˊ",
+    "emoji": "🔟",
+    "conceptZh": "玩具戰士的泡棉劍與盾牌不聽話，劍橫盾直互相撞成十字。",
+    "object": "a toy warrior with a foam sword and a stubborn round shield",
+    "morph": "the foam sword and a plank-like shield lock crosswise into 十",
+    "creativeAngle": "道具反抗：泡棉劍自己轉彎不肯橫躺，戰士最後用盾牌把它壓住，剛好十字相交；路口的紅綠燈小車補上十字路口。",
+    "promptEn": "An 8-second clip on a pale sky-blue backdrop with a soft grass-green floor. A chunky toy warrior in a dented tin helmet, big on bravado, carries a floppy foam sword and a round shield that keeps rolling away on its own. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「十、十、十字路口」 (ㄕˊ、ㄕˊ、ㄕˊ ㄗˋ ㄌㄨˋ ㄎㄡˇ), slowly with clear tones, then stops.\n0.0-1.6s: The warrior declares victory and plants the sword upright; it flops sideways like a noodle. 「十」 (ㄕˊ) is spoken as the sword droops.\n1.6-3.0s: He lays it flat; the shield rolls over and flips it up on end; sword and shield trade places twice, the warrior chasing both.\n3.0-4.4s: He outsmarts the shield: he sits on one end, and the sword bar drops crosswise on the upright with a satisfying clunk, forming a solid cherry-red glyph 十, about 70% of frame height. The second 「十」 (ㄕˊ) lands.\n4.4-5.0s: Two tiny toy cars scoot in from left and right, stop politely at the crossing next to the glyph, and a little traffic light blinks; 「十字路口」 (ㄕˊ ㄗˋ ㄌㄨˋ ㄎㄡˇ) is spoken as they meet at the crossroads.\n5.0-8.0s: Hold: glyph 十 perfectly still, centered. The warrior salutes with the shield, helmet askew, off to the side, away from the strokes.\nOnly the glyph 十 appears as text; no subtitles, watermark or flashing. Light music below the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.157Z",
+    "id": "73bedc47-795b-4f9f-bc6a-15e74f678a45",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "da35c84f4bcd70af204529fc967c5cb3fe417c09e0bbc0f22ca1bcc79dbf1988",
+    "hash": "eaac46690c829f125dd04f0fb9e00f618096510208f4b00c9feb81393b9c649f",
+    "formatted": "【目標國字】：十\n【設計概念】：玩具戰士的泡棉劍與盾牌不聽話，劍橫盾直互相撞成十字。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a pale sky-blue backdrop with a soft grass-green floor. A chunky toy warrior in a dented tin helmet, big on bravado, carries a floppy foam sword and a round shield that keeps rolling away on its own. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「十、十、十字路口」 (ㄕˊ、ㄕˊ、ㄕˊ ㄗˋ ㄌㄨˋ ㄎㄡˇ), slowly with clear tones, then stops.\n0.0-1.6s: The warrior declares victory and plants the sword upright; it flops sideways like a noodle. 「十」 (ㄕˊ) is spoken as the sword droops.\n1.6-3.0s: He lays it flat; the shield rolls over and flips it up on end; sword and shield trade places twice, the warrior chasing both.\n3.0-4.4s: He outsmarts the shield: he sits on one end, and the sword bar drops crosswise on the upright with a satisfying clunk, forming a solid cherry-red glyph 十, about 70% of frame height. The second 「十」 (ㄕˊ) lands.\n4.4-5.0s: Two tiny toy cars scoot in from left and right, stop politely at the crossing next to the glyph, and a little traffic light blinks; 「十字路口」 (ㄕˊ ㄗˋ ㄌㄨˋ ㄎㄡˇ) is spoken as they meet at the crossroads.\n5.0-8.0s: Hold: glyph 十 perfectly still, centered. The warrior salutes with the shield, helmet askew, off to the side, away from the strokes.\nOnly the glyph 十 appears as text; no subtitles, watermark or flashing. Light music below the voice.\n```"
+  }
+]

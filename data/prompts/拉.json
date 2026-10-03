@@ -1,0 +1,25 @@
+[
+  {
+    "char": "拉",
+    "meaning": "to pull",
+    "zhuyin": "ㄌㄚ",
+    "emoji": "🪢",
+    "conceptZh": "橡膠恐龍手太短，拉鍊不聽話亂跑，最後用尾巴拉開。",
+    "object": "a rubber dinosaur with big feet and tiny arms, and a runaway zipper",
+    "morph": "a zipper on a giant cloth bag fights back, opened by the dino's tail to reveal 拉",
+    "creativeAngle": "恐龍手臂太短，拉鍊故意躲，最後用尾巴拉開，筆畫從袋裡跳出來。",
+    "promptEn": "An 8-second animated clip on a bright peach-orange backdrop. Lead: a squeaky rubber dinosaur in leaf green with enormous feet and comically tiny arms that cannot reach anything. The finished glyph 拉 is a saturated forest-green, centered, about 70% of frame height.\n0.0-1.6s: the dino waddles up to a big cloth bag whose zipper pull sits just out of reach; he strains on tiptoe, arms flapping. First \"拉\" as the zipper pull wiggles away like a worm.\n1.6-3.2s: prop fights back: each time he grabs, the zipper slides to the other side; he spins, trips on his own foot and sits down with a squeak. Second \"拉\" lands as the zipper pull sticks out its tongue.\n3.2-5.0s: he turns, grabs the pull with his tail, and zips it open in one long whoosh; strokes pop out of the bag and settle into the glyph 拉.\n5.0-8.0s: HOLD, glyph perfectly still. At \"拉鍊\" the dino zips and unzips the bag with his tail again and again, the bag's mouth giggling, then does a tiny happy stomp beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"拉、拉、拉鍊\" (ㄌㄚ、ㄌㄚ、ㄌㄚ ㄌㄧㄢˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 拉.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.653Z",
+    "id": "1636cb3e-9f0f-4e5b-b15a-6b4607814b6c",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0cf7009b958636d37d7c42d9304414c86ae4788f5802ea5510f8b8c9db49dac3",
+    "hash": "bca2fd6e157a54d32ece0611a2c8023c2ab2f1dc8f0dc4d6d3e45300f106cbf0",
+    "formatted": "【目標國字】：拉\n【設計概念】：橡膠恐龍手太短，拉鍊不聽話亂跑，最後用尾巴拉開。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a bright peach-orange backdrop. Lead: a squeaky rubber dinosaur in leaf green with enormous feet and comically tiny arms that cannot reach anything. The finished glyph 拉 is a saturated forest-green, centered, about 70% of frame height.\n0.0-1.6s: the dino waddles up to a big cloth bag whose zipper pull sits just out of reach; he strains on tiptoe, arms flapping. First \"拉\" as the zipper pull wiggles away like a worm.\n1.6-3.2s: prop fights back: each time he grabs, the zipper slides to the other side; he spins, trips on his own foot and sits down with a squeak. Second \"拉\" lands as the zipper pull sticks out its tongue.\n3.2-5.0s: he turns, grabs the pull with his tail, and zips it open in one long whoosh; strokes pop out of the bag and settle into the glyph 拉.\n5.0-8.0s: HOLD, glyph perfectly still. At \"拉鍊\" the dino zips and unzips the bag with his tail again and again, the bag's mouth giggling, then does a tiny happy stomp beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"拉、拉、拉鍊\" (ㄌㄚ、ㄌㄚ、ㄌㄚ ㄌㄧㄢˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 拉.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "椅",
+    "meaning": "chair",
+    "zhuyin": "ㄧˇ",
+    "emoji": "🪑",
+    "conceptZh": "椅：木加奇，木頭做成可以坐的椅子。",
+    "object": "a tiny felt ninja who is bad at hiding, a mimicking mini ninja twin, and a red toy chair",
+    "morph": "the twin copies every move a beat late, so the pair collide and mix up chair parts into 椅",
+    "creativeAngle": "布忍者和慢一拍的小複製忍者撞在一起，搬椅子零件拼出椅。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 椅 (chair), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a tiny felt ninja who is bad at hiding, a mimicking mini ninja twin, and a red toy chair. Light blue-gray backdrop with a thin wooden floor stripe; the glyph is cherry-red. Timed beats. 0.0-1.5s: a navy felt ninja tiptoes in, crouches behind a lamp-post-thin pole, and thinks he is invisible; the voice says the first 椅 as a red wooden stroke slides in from the left. 1.5-3.0s: a smaller twin ninja pops up, copying his tiptoe, his crouch, his wave, always one beat late; the voice says the second 椅 as both reach for the same stroke and bonk heads. 3.0-4.5s: they swap sides, tug the pieces the wrong way, then spin and the strokes lock into the red 椅 at 70% of frame height. 4.5-5.0s: the voice says 搖椅 (ㄧㄠˊ ㄧˇ) as a little rocking chair swings in and both ninjas hop on, tipping and rocking. Final hold: 5.0-8.0s: the glyph is still; the twins rock gently side by side at the edge, the small one a beat behind. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 椅、椅、搖椅 = ㄧˇ、ㄧˇ、ㄧㄠˊ ㄧˇ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 椅 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.987Z",
+    "id": "0ddde1b3-c8e5-49a4-bdbd-ce719e526170",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "306214572d87ca0bb2fbd8f9e7dad5a4c3b9076c94f2bf7751ad3e9de1cd266f",
+    "hash": "e7d22759f13776b0ed5040adce0608142e2cbbc68acd03d3c49c965ab6091816",
+    "formatted": "【目標國字】：椅\n【設計概念】：椅：木加奇，木頭做成可以坐的椅子。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 椅 (chair), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a tiny felt ninja who is bad at hiding, a mimicking mini ninja twin, and a red toy chair. Light blue-gray backdrop with a thin wooden floor stripe; the glyph is cherry-red. Timed beats. 0.0-1.5s: a navy felt ninja tiptoes in, crouches behind a lamp-post-thin pole, and thinks he is invisible; the voice says the first 椅 as a red wooden stroke slides in from the left. 1.5-3.0s: a smaller twin ninja pops up, copying his tiptoe, his crouch, his wave, always one beat late; the voice says the second 椅 as both reach for the same stroke and bonk heads. 3.0-4.5s: they swap sides, tug the pieces the wrong way, then spin and the strokes lock into the red 椅 at 70% of frame height. 4.5-5.0s: the voice says 搖椅 (ㄧㄠˊ ㄧˇ) as a little rocking chair swings in and both ninjas hop on, tipping and rocking. Final hold: 5.0-8.0s: the glyph is still; the twins rock gently side by side at the edge, the small one a beat behind. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 椅、椅、搖椅 = ㄧˇ、ㄧˇ、ㄧㄠˊ ㄧˇ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 椅 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

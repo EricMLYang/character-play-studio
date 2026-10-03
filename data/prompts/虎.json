@@ -1,0 +1,25 @@
+[
+  {
+    "char": "虎",
+    "meaning": "tiger",
+    "zhuyin": "ㄏㄨˇ",
+    "emoji": "🐯",
+    "conceptZh": "虎：老虎，威風的百獸之王；玩具海盜和不肯合作的鸚鵡拔河，拉出一隻橘色老虎的條紋。",
+    "object": "a barrel-shaped toy pirate, his stubborn parrot, and a striped toy tiger tail that both of them pull",
+    "morph": "pirate and parrot tug opposite ends of a striped rope until the stripes spring into the strokes of 虎",
+    "creativeAngle": "玩具海盜和一隻偏偏不聽話的鸚鵡各拉一端橘黑條紋繩子，互不相讓，鬆手後條紋彈成虎字。",
+    "promptEn": "An 8-second bright, clean toy-animation clip on a solid pale peach backdrop. Cast: a barrel-shaped toy pirate with a red bandana and a wooden peg leg, and his green parrot who flatly refuses to cooperate and keeps doing the opposite. The only text on screen is the single Traditional Chinese glyph 虎, drawn in saturated tiger-orange strokes with thin black edges, ending centered, uncropped, about 70 percent of frame height with margins. 0.0-1.5s: the pirate rolls in carrying a long orange-and-black striped rope, plants his peg leg and points proudly to the left. The parrot lands on his hat and instantly points its wing to the right. The first narrated 虎 lands as a soft puff of orange dust rolls out of the rope's loose end like a tiny roar. 1.5-3.5s: the parrot grabs the far end in its beak and flaps backward; the pirate hauls from the other side; the rope stretches tight and the stripes bunch into the strokes of the glyph's top half; the pirate's belly wobbles and his peg leg slips out in a slide. The second narrated 虎 lands as the stretched stripes spring together with a boing and lock into the full strokes of 虎. 3.5-5.0s: the parrot finally lets go, the pirate topples backward into a barrel with his boots in the air, and the parrot looks away whistling. As the word 老虎 is spoken, a small plush tiger cub pops out of the barrel with a bandana and a sleepy yawn, blinking at both of them. 5.0-8.0s: the glyph stays perfectly still and readable for the last 3 seconds while the pirate climbs out, shares a cracker with the parrot at last, and the tiger cub gives a tiny paw wave at the edge of the frame. Audio: a warm, friendly off-screen voice speaks slowly and distinctly in clear Taiwanese Mandarin, clear tones, no erhua, reading exactly these syllables: 虎、虎、老虎 (ㄏㄨˇ、ㄏㄨˇ、ㄌㄠˇ ㄏㄨˇ). The character twice with a short pause, then the word once, then stop. The word is audio only. No background music, no extra speech, no subtitles or flashing effects; stylized toys and cartoon animals only, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:17.557Z",
+    "id": "bbca2801-58e5-4bb8-9aba-fe385d673220",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5a7b3aa4ddc66a5edb58f8071280d4dd62cccb76cbf7cd59efdd5ebe72fbd674",
+    "hash": "abf4fb5aca9b355e3943d450f299ff6e35333ea23677e24582c83f4b022bcb91",
+    "formatted": "【目標國字】：虎\n【設計概念】：虎：老虎，威風的百獸之王；玩具海盜和不肯合作的鸚鵡拔河，拉出一隻橘色老虎的條紋。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean toy-animation clip on a solid pale peach backdrop. Cast: a barrel-shaped toy pirate with a red bandana and a wooden peg leg, and his green parrot who flatly refuses to cooperate and keeps doing the opposite. The only text on screen is the single Traditional Chinese glyph 虎, drawn in saturated tiger-orange strokes with thin black edges, ending centered, uncropped, about 70 percent of frame height with margins. 0.0-1.5s: the pirate rolls in carrying a long orange-and-black striped rope, plants his peg leg and points proudly to the left. The parrot lands on his hat and instantly points its wing to the right. The first narrated 虎 lands as a soft puff of orange dust rolls out of the rope's loose end like a tiny roar. 1.5-3.5s: the parrot grabs the far end in its beak and flaps backward; the pirate hauls from the other side; the rope stretches tight and the stripes bunch into the strokes of the glyph's top half; the pirate's belly wobbles and his peg leg slips out in a slide. The second narrated 虎 lands as the stretched stripes spring together with a boing and lock into the full strokes of 虎. 3.5-5.0s: the parrot finally lets go, the pirate topples backward into a barrel with his boots in the air, and the parrot looks away whistling. As the word 老虎 is spoken, a small plush tiger cub pops out of the barrel with a bandana and a sleepy yawn, blinking at both of them. 5.0-8.0s: the glyph stays perfectly still and readable for the last 3 seconds while the pirate climbs out, shares a cracker with the parrot at last, and the tiger cub gives a tiny paw wave at the edge of the frame. Audio: a warm, friendly off-screen voice speaks slowly and distinctly in clear Taiwanese Mandarin, clear tones, no erhua, reading exactly these syllables: 虎、虎、老虎 (ㄏㄨˇ、ㄏㄨˇ、ㄌㄠˇ ㄏㄨˇ). The character twice with a short pause, then the word once, then stop. The word is audio only. No background music, no extra speech, no subtitles or flashing effects; stylized toys and cartoon animals only, no real people.\n```"
+  }
+]

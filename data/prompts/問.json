@@ -1,0 +1,25 @@
+[
+  {
+    "char": "問",
+    "meaning": "to ask",
+    "zhuyin": "ㄨㄣˋ",
+    "emoji": "❓",
+    "conceptZh": "消防小隊的水管變成問號，一直亂指，直到把「口」塞進「門」裡。",
+    "object": "toy fire engine with a mind-of-its-own hose, a yellow question-mark balloon",
+    "morph": "the hose curls as a hook, then 口 drops into the 門 frame",
+    "creativeAngle": "水管不聽話，最後用小梯子把口放進門裡。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a light-sky-blue street scene backdrop; the glyph is a rich brick-red 問: the 門 frame with a 口 box inside. A toy fire engine at right with two tiny crew figures and a hose that moves on its own. The Traditional Chinese glyph 問 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the hose lifts like a snake, tilts its nozzle in a curious way and points at the empty frame; the first 問 is spoken as it points. Moment two (1.8-3.5s): the crew pushes the 門 posts together while the hose flings the 口 box too high; it bounces off the ladder and drops perfectly inside; the second 問 is spoken as it lands. Moment three (3.5-5.0s): the hose curls into a polite question hook and a tiny bell on the engine rings; 請問 is spoken as the hose bows politely and a small hand-up crew figure pops up. From 5.0-8.0s the glyph 問 is perfectly still and unobstructed; the hose waggles contentedly while the crew gives tiny salutes. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「問、問、請問」 with Zhuyin ㄨㄣˋ、ㄨㄣˋ、ㄑㄧㄥˇ ㄨㄣˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only a small bell, rubber hose squeaks and wooden thunks, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.295Z",
+    "id": "690f2031-719a-40d7-8461-2ab3090de01b",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "23dbd2337ab985c5721c943eec563f134553d38061d5d2762e6b7b59277dcbe4",
+    "hash": "e100ef98e2217efbd71c3c1bf5a14becb6774bf4b90c55fdc1d420cf43211fa7",
+    "formatted": "【目標國字】：問\n【設計概念】：消防小隊的水管變成問號，一直亂指，直到把「口」塞進「門」裡。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a light-sky-blue street scene backdrop; the glyph is a rich brick-red 問: the 門 frame with a 口 box inside. A toy fire engine at right with two tiny crew figures and a hose that moves on its own. The Traditional Chinese glyph 問 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the hose lifts like a snake, tilts its nozzle in a curious way and points at the empty frame; the first 問 is spoken as it points. Moment two (1.8-3.5s): the crew pushes the 門 posts together while the hose flings the 口 box too high; it bounces off the ladder and drops perfectly inside; the second 問 is spoken as it lands. Moment three (3.5-5.0s): the hose curls into a polite question hook and a tiny bell on the engine rings; 請問 is spoken as the hose bows politely and a small hand-up crew figure pops up. From 5.0-8.0s the glyph 問 is perfectly still and unobstructed; the hose waggles contentedly while the crew gives tiny salutes. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「問、問、請問」 with Zhuyin ㄨㄣˋ、ㄨㄣˋ、ㄑㄧㄥˇ ㄨㄣˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only a small bell, rubber hose squeaks and wooden thunks, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

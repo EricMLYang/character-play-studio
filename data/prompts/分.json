@@ -1,0 +1,25 @@
+[
+  {
+    "char": "分",
+    "meaning": "minute",
+    "zhuyin": "ㄈㄣ",
+    "emoji": "⏱️",
+    "conceptZh": "豬探長和小老鼠為了一塊大餅乾拔河，一拉就分成兩半，筆畫彈進位置。",
+    "object": "a detective pig and a giant cookie",
+    "morph": "a tug-of-war over a cookie splits it and the halves spring into the strokes of 分",
+    "creativeAngle": "拔河把東西分成兩份，剛好是「分享」。",
+    "promptEn": "An 8-second animated clip on a pale apricot background, with one single Traditional Chinese glyph 分 as the only text on screen, drawn in deep navy solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.6s: a stout pig detective in a checked hat lugs a magnifying glass too big for him toward a huge round cookie; the first 分 is spoken as two curved 八 strokes slide in from left and right above the cookie. 1.6-3.4s: a tiny mouse grabs one side, the pig the other, and they pull in opposite directions, the cookie stretching like taffy; second 分 spoken as it snaps in two and the 刀 pieces spring into place under the 八. 3.4-5s: 分享 is spoken as the pig and mouse each hold a half and swap with a polite nod, crumbs bouncing in the air. 5-8s: hold; the pig munches happily and wiggles his curly tail while the glyph stays still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"分、分、分享\" (ㄈㄣ、ㄈㄣ、ㄈㄣ ㄒㄧㄤˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 分 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.086Z",
+    "id": "de51f3c0-ba0f-44d6-9f75-a90e45c789c1",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0604fccf04c0683b31320d64e5b9500f32e037839ab981f71135c3a33e45e3ed",
+    "hash": "67675241883f68221efcdea8171f8e84fcd6084759d45faa94c63c9990c9e143",
+    "formatted": "【目標國字】：分\n【設計概念】：豬探長和小老鼠為了一塊大餅乾拔河，一拉就分成兩半，筆畫彈進位置。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale apricot background, with one single Traditional Chinese glyph 分 as the only text on screen, drawn in deep navy solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.6s: a stout pig detective in a checked hat lugs a magnifying glass too big for him toward a huge round cookie; the first 分 is spoken as two curved 八 strokes slide in from left and right above the cookie. 1.6-3.4s: a tiny mouse grabs one side, the pig the other, and they pull in opposite directions, the cookie stretching like taffy; second 分 spoken as it snaps in two and the 刀 pieces spring into place under the 八. 3.4-5s: 分享 is spoken as the pig and mouse each hold a half and swap with a polite nod, crumbs bouncing in the air. 5-8s: hold; the pig munches happily and wiggles his curly tail while the glyph stays still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"分、分、分享\" (ㄈㄣ、ㄈㄣ、ㄈㄣ ㄒㄧㄤˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 分 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

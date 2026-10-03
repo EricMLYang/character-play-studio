@@ -1,0 +1,25 @@
+[
+  {
+    "char": "孫",
+    "meaning": "grandchild",
+    "zhuyin": "ㄙㄨㄣ",
+    "emoji": "👶",
+    "conceptZh": "兒子或女兒的孩子。",
+    "object": "a wind-up animal band: a drumming bear, a honking goose, and a tiny wind-up bunny",
+    "morph": "the band stacks instruments into a wrong shape, then fixes it into 孫",
+    "creativeAngle": "發條樂團先排成歪的字形，發現後一撥修正；最後小發條兔對應「孫女」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a teal stage with orange spotlights, a wind-up animal band stands in a row: a bear with a drum, a goose with a honking horn, and a tiny wind-up bunny with a key on its back. 0–1.6s: The bear bangs the drum and the first 孫 is spoken; on each beat the instruments launch off the stage and stack in a proud but lopsided wrong shape, the horn upside down. 1.6–3.2s: The goose honks, the second 孫 is spoken, and everyone freezes, tilts heads, and notices the shape is wrong, shrugging in comic unison. 3.2–4.7s: One quick fix: the bear whacks the drum, the pieces flip like pancakes, and the correct 孫 clicks into place in violet with a cymbal-less shimmer. 4.7–5.7s: As 孫女 is spoken, the tiny wind-up bunny girl with a bow cranks forward from behind the drum, and the goose honks a soft toot. Final hold (about 5.0–8.0s): the band sways in time and the bunny spins on its key; the glyph does not move. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 孫、孫、孫女（ㄙㄨㄣ、ㄙㄨㄣ、ㄙㄨㄣ ㄋㄩˇ）. The first 孫 lands at about 0.9s, the second 孫 at about 2.5s, and the word 孫女 at about 4.8s, each timed to the picture described above. Keep 孫 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 孫 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.456Z",
+    "id": "bd929899-1c90-4d6b-a1da-2fd90a6ffba8",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3e4bdb429f12bbb6c69db849db6156e5b083ecd1fc504adfe56910cd7ce0078e",
+    "hash": "ea4e06d8d5f851f8f6f70195fc992284a50866aa0f9abd0f791233f63a1ecd0b",
+    "formatted": "【目標國字】：孫\n【設計概念】：兒子或女兒的孩子。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a teal stage with orange spotlights, a wind-up animal band stands in a row: a bear with a drum, a goose with a honking horn, and a tiny wind-up bunny with a key on its back. 0–1.6s: The bear bangs the drum and the first 孫 is spoken; on each beat the instruments launch off the stage and stack in a proud but lopsided wrong shape, the horn upside down. 1.6–3.2s: The goose honks, the second 孫 is spoken, and everyone freezes, tilts heads, and notices the shape is wrong, shrugging in comic unison. 3.2–4.7s: One quick fix: the bear whacks the drum, the pieces flip like pancakes, and the correct 孫 clicks into place in violet with a cymbal-less shimmer. 4.7–5.7s: As 孫女 is spoken, the tiny wind-up bunny girl with a bow cranks forward from behind the drum, and the goose honks a soft toot. Final hold (about 5.0–8.0s): the band sways in time and the bunny spins on its key; the glyph does not move. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 孫、孫、孫女（ㄙㄨㄣ、ㄙㄨㄣ、ㄙㄨㄣ ㄋㄩˇ）. The first 孫 lands at about 0.9s, the second 孫 at about 2.5s, and the word 孫女 at about 4.8s, each timed to the picture described above. Keep 孫 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 孫 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

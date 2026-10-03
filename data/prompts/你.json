@@ -1,0 +1,25 @@
+[
+  {
+    "char": "你",
+    "meaning": "you",
+    "zhuyin": "ㄋㄧˇ",
+    "emoji": "🫵",
+    "conceptZh": "披風英雄想說謝謝，披風太長絆倒，一路撞倒排好的積木，倒下的積木剛好拼成「你」。",
+    "object": "a caped action-figure hero with a cape three sizes too long, and a long row of standing wooden dominoes in cobalt blue",
+    "morph": "a tumbling row of cobalt domino blocks lands in the strokes of the glyph 你",
+    "creativeAngle": "骨牌效應：披風英雄被自己的披風絆倒，推倒一排骨牌，運氣好地倒成「你」；詞用「謝謝你」鞠躬送禮。",
+    "promptEn": "An 8-second slapstick cartoon clip on a clean solid pale peach backdrop. The only text in frame is one large Traditional Chinese glyph 你, formed from chunky cobalt-blue domino blocks and tiles, about 70% of frame height, centered with margins. Lead: a caped action-figure hero with a red cape three sizes too long that keeps flopping over his own head; one supporting object, a small gift box tied with yellow ribbon. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 你、你、謝謝你 (ㄋㄧˇ、ㄋㄧˇ、ㄒㄧㄝˋ ㄒㄧㄝ˙ ㄋㄧˇ); the repeated 謝謝 uses the neutral tone on the second syllable; slow, clear tones, then stop. Moment 1 (0–1.8s): the hero strides in with a heroic pose, cape trailing across the floor, and as the first 你 is spoken he flicks the first standing blue domino with one finger, setting off a clack-clack chain. Moment 2 (1.8–3.6s): the cape swings up and swallows his head; blindly he wobbles in circles, his boots sliding, while the domino row snakes through the frame behind him, curving left, curling around a bend. Moment 3 (3.6–5s): on the second 你 the cape tangles his feet and he topples forward, flopping onto the last domino, which clicks into place; the whole chain tumbles in a rolling wave and settles exactly into the shape of 你, a slim slanting person-stroke on the left and a tall right part with a slanted top, a horizontal bar, and a hooked vertical with two short dashes. Moment 4 (5s): as 謝謝你 is spoken, he squirms out of the cape, bows twice, and hands over the ribbon gift box toward the glyph, a tiny star-shaped confetti puff leaping from the box. Final 5–8s: the glyph 你 stays rock still and fully readable, tiles all flat and unmoving, while the hero beside it wiggles, cape in a cheerful flutter, rocking happily on his heels without touching any tile. Gentle daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.361Z",
+    "id": "d14f779b-4bea-4c62-8daf-15323a77e01f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9034c4392002d50efca1c66487e948d104b48ba14e9fcaccc42524ca45427bd5",
+    "hash": "25d5fe873a33a7366395ec2a8637e900c114db218c9978ec5244d3b964caa6d4",
+    "formatted": "【目標國字】：你\n【設計概念】：披風英雄想說謝謝，披風太長絆倒，一路撞倒排好的積木，倒下的積木剛好拼成「你」。\n【8s Video Prompt】:\n```text\nAn 8-second slapstick cartoon clip on a clean solid pale peach backdrop. The only text in frame is one large Traditional Chinese glyph 你, formed from chunky cobalt-blue domino blocks and tiles, about 70% of frame height, centered with margins. Lead: a caped action-figure hero with a red cape three sizes too long that keeps flopping over his own head; one supporting object, a small gift box tied with yellow ribbon. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 你、你、謝謝你 (ㄋㄧˇ、ㄋㄧˇ、ㄒㄧㄝˋ ㄒㄧㄝ˙ ㄋㄧˇ); the repeated 謝謝 uses the neutral tone on the second syllable; slow, clear tones, then stop. Moment 1 (0–1.8s): the hero strides in with a heroic pose, cape trailing across the floor, and as the first 你 is spoken he flicks the first standing blue domino with one finger, setting off a clack-clack chain. Moment 2 (1.8–3.6s): the cape swings up and swallows his head; blindly he wobbles in circles, his boots sliding, while the domino row snakes through the frame behind him, curving left, curling around a bend. Moment 3 (3.6–5s): on the second 你 the cape tangles his feet and he topples forward, flopping onto the last domino, which clicks into place; the whole chain tumbles in a rolling wave and settles exactly into the shape of 你, a slim slanting person-stroke on the left and a tall right part with a slanted top, a horizontal bar, and a hooked vertical with two short dashes. Moment 4 (5s): as 謝謝你 is spoken, he squirms out of the cape, bows twice, and hands over the ribbon gift box toward the glyph, a tiny star-shaped confetti puff leaping from the box. Final 5–8s: the glyph 你 stays rock still and fully readable, tiles all flat and unmoving, while the hero beside it wiggles, cape in a cheerful flutter, rocking happily on his heels without touching any tile. Gentle daylight, no flashing, no real people, no other text.\n```"
+  }
+]

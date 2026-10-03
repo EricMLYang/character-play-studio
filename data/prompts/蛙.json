@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蛙",
+    "meaning": "frog",
+    "zhuyin": "ㄨㄚ",
+    "emoji": "🐸",
+    "conceptZh": "青蛙會跳，也會呱呱叫",
+    "object": "a barrel-shaped toy pirate, a grumpy parrot and a green frog",
+    "morph": "pieces of 蛙 peek in from the edges and dodge the pirate until they settle",
+    "creativeAngle": "玩具海盜追著躲貓貓的筆畫，鸚鵡不合作，詞用「青蛙」。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 蛙 (frog). Lead: a round barrel-bodied toy pirate with a wooden peg leg and a grumpy blue-and-yellow parrot that turns its back on every command. Moment 1 (0-1.6s): the pirate scans with a telescope; the voice says 蛙 as a green stroke peeks in from the left edge and ducks away. Moment 2 (1.6-3.3s): strokes pop in from the top and right, dodging his net; the parrot points the wrong way; at the second 蛙 the pieces tiptoe to the center and settle into 蛙. Moment 3 (3.3-5s): a lily pad slides in; a bright green frog leaps out of the puddle at the pirate's feet and lands on his hat as the voice says 青蛙, his telescope popping off in surprise. Moment 4 (5-8s): glyph still; the frog rides the hat, the parrot finally smiles and flaps. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蛙、蛙、青蛙\" (ㄨㄚ、ㄨㄚ、ㄑㄧㄥ ㄨㄚ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蛙, drawn as saturated solid leaf green strokes on a soft lemon yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.168Z",
+    "id": "bef7a792-4173-4002-9393-fe8134762a85",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5e08aa068a60fc02a71a83542fd2cac2377a1bd3cb5c8f237881dfcac7a08589",
+    "hash": "f822349e54c30f69f21c7ceeaac2258b58c3459caf5959d429d8e72c15b73fea",
+    "formatted": "【目標國字】：蛙\n【設計概念】：青蛙會跳，也會呱呱叫\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 蛙 (frog). Lead: a round barrel-bodied toy pirate with a wooden peg leg and a grumpy blue-and-yellow parrot that turns its back on every command. Moment 1 (0-1.6s): the pirate scans with a telescope; the voice says 蛙 as a green stroke peeks in from the left edge and ducks away. Moment 2 (1.6-3.3s): strokes pop in from the top and right, dodging his net; the parrot points the wrong way; at the second 蛙 the pieces tiptoe to the center and settle into 蛙. Moment 3 (3.3-5s): a lily pad slides in; a bright green frog leaps out of the puddle at the pirate's feet and lands on his hat as the voice says 青蛙, his telescope popping off in surprise. Moment 4 (5-8s): glyph still; the frog rides the hat, the parrot finally smiles and flaps. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蛙、蛙、青蛙\" (ㄨㄚ、ㄨㄚ、ㄑㄧㄥ ㄨㄚ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蛙, drawn as saturated solid leaf green strokes on a soft lemon yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

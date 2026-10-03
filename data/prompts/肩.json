@@ -1,0 +1,25 @@
+[
+  {
+    "char": "肩",
+    "meaning": "shoulder",
+    "zhuyin": "ㄐㄧㄢ",
+    "emoji": "🤷",
+    "conceptZh": "脖子和手臂相連的地方。",
+    "object": "a rotund chef-animal in a tall hat, a pop-up toy box, and a pair of hopping dumplings",
+    "morph": "a box pops open and pieces of 肩 burst out, one landing on the chef's shoulder",
+    "creativeAngle": "廚師動物打開驚喜盒，筆畫彈出，落在肩上；肩膀玩偶出現。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a periwinkle toy diner with a polka-dot wall, a plump chef-animal in a tall hat opens a big jack-in-the-box tray, expecting dumplings. 0–1.6s: He lifts the lid; the first 肩 is spoken as the top piece, a springy dumpling, bounces off his hat onto his shoulder, and he does a startled double-take. 1.6–3.2s: The second 肩 is spoken: a second pop-up spring hurls the 月 piece over his shoulder, and he catches it on his spatula. 3.2–4.8s: He tosses the dumpling up, and everything lands together: 肩 in warm gold, as the chef bounces on the box. 4.8–5.8s: As 肩膀 is spoken, two cartoon shoulders on a toy bear in a chef's coat pop out of the box and shrug together. Final hold (about 5.0–8.0s): the chef juggles dumplings on his shoulders while they bounce; the glyph is perfectly still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 肩、肩、肩膀（ㄐㄧㄢ、ㄐㄧㄢ、ㄐㄧㄢ ㄅㄤˇ）. The first 肩 lands at about 1.0s, the second 肩 at about 2.6s, and the word 肩膀 at about 4.9s, each timed to the picture described above. On-screen text is limited to the one glyph 肩 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 肩 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.872Z",
+    "id": "e8bd423c-57f3-4e6a-8eac-00dcc965dd01",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "161882ae29300d1ec916af14455838f1fa8a34aea80ffc490cfe55a9dc05ca93",
+    "hash": "757aa47906f76cba9aeeb0629af76ddde3e1223f5adf3c6bc0d32d3292bed602",
+    "formatted": "【目標國字】：肩\n【設計概念】：脖子和手臂相連的地方。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a periwinkle toy diner with a polka-dot wall, a plump chef-animal in a tall hat opens a big jack-in-the-box tray, expecting dumplings. 0–1.6s: He lifts the lid; the first 肩 is spoken as the top piece, a springy dumpling, bounces off his hat onto his shoulder, and he does a startled double-take. 1.6–3.2s: The second 肩 is spoken: a second pop-up spring hurls the 月 piece over his shoulder, and he catches it on his spatula. 3.2–4.8s: He tosses the dumpling up, and everything lands together: 肩 in warm gold, as the chef bounces on the box. 4.8–5.8s: As 肩膀 is spoken, two cartoon shoulders on a toy bear in a chef's coat pop out of the box and shrug together. Final hold (about 5.0–8.0s): the chef juggles dumplings on his shoulders while they bounce; the glyph is perfectly still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 肩、肩、肩膀（ㄐㄧㄢ、ㄐㄧㄢ、ㄐㄧㄢ ㄅㄤˇ）. The first 肩 lands at about 1.0s, the second 肩 at about 2.6s, and the word 肩膀 at about 4.9s, each timed to the picture described above. On-screen text is limited to the one glyph 肩 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 肩 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

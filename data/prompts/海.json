@@ -1,0 +1,25 @@
+[
+  {
+    "char": "海",
+    "meaning": "sea",
+    "zhuyin": "ㄏㄞˇ",
+    "emoji": "🌊",
+    "conceptZh": "海是又大又廣、裝滿水的地方",
+    "object": "a boxy toy robot built from mismatched parts and a dolphin",
+    "morph": "the robot builds a wrong pond shape first, shrugs, and rearranges it into 海",
+    "creativeAngle": "玩具機器人先拼出小水坑，發現不對，一拉變成大海和海豚。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 海 (sea). Lead: a boxy gray toy robot with a long left arm and a short right arm. Moment 1 (0-1.7s): he proudly builds a tiny puddle shape; the voice says 海; he looks and sees it's wrong. Moment 2 (1.7-3.4s): shrug, long-armed sweep and the blue pieces rearrange; on the second 海 the glyph is done, small waves clapping at its feet. Moment 3 (3.4-5.3s): a smiling gray dolphin jumps over the glyph in an arc; the voice says 海豚 as the robot ducks, spray drips on his short arm and he squeaks. Moment 4 (5.3-8s): glyph still; robot and dolphin balance a beach ball, bobbing slowly. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"海、海、海豚\" (ㄏㄞˇ、ㄏㄞˇ、ㄏㄞˇ ㄊㄨㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 海, drawn as saturated solid deep ocean blue strokes on a pale sandy cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.070Z",
+    "id": "e713c4b1-3dac-440a-b545-c4ae4ee5f959",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9531bb2a1fc92a67c0d4e570e4b1e3df4f2773f0b7a1ad055c72582796888e73",
+    "hash": "16383ae57c76d4a4ba1f1b113adee4ba5df3f26d3416818015b9428d9f33951f",
+    "formatted": "【目標國字】：海\n【設計概念】：海是又大又廣、裝滿水的地方\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 海 (sea). Lead: a boxy gray toy robot with a long left arm and a short right arm. Moment 1 (0-1.7s): he proudly builds a tiny puddle shape; the voice says 海; he looks and sees it's wrong. Moment 2 (1.7-3.4s): shrug, long-armed sweep and the blue pieces rearrange; on the second 海 the glyph is done, small waves clapping at its feet. Moment 3 (3.4-5.3s): a smiling gray dolphin jumps over the glyph in an arc; the voice says 海豚 as the robot ducks, spray drips on his short arm and he squeaks. Moment 4 (5.3-8s): glyph still; robot and dolphin balance a beach ball, bobbing slowly. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"海、海、海豚\" (ㄏㄞˇ、ㄏㄞˇ、ㄏㄞˇ ㄊㄨㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 海, drawn as saturated solid deep ocean blue strokes on a pale sandy cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

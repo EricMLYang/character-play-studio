@@ -1,0 +1,25 @@
+[
+  {
+    "char": "秒",
+    "meaning": "second",
+    "zhuyin": "ㄇㄧㄠˇ",
+    "emoji": "⏱️",
+    "conceptZh": "玩具戰士用泡棉劍一彈一彈，每彈一次就掉下一筆，剛好數到三秒。",
+    "object": "a chunky toy warrior with a foam sword and round shield, plus a bouncing stopwatch ball",
+    "morph": "a bouncing ball ricochets three times, dropping the strokes of 秒",
+    "creativeAngle": "彈跳連鎖配三秒鐘：每一彈就是一秒。",
+    "promptEn": "An 8-second animated clip on a pale seafoam background, with one single Traditional Chinese glyph 秒 as the only text on screen, drawn in royal blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stocky toy warrior with a foam sword swaggers in and whacks a round stopwatch ball; first 秒 spoken as the ball bounces off the left wall and the 禾 strokes drop in. 1.7-3.4s: the ball ricochets off his shield, pinging into the floor and ceiling; second 秒 as the 少 strokes land one by one with each bounce. 3.4-5s: 三秒鐘 is spoken as three quick bounces, one per syllable-beat, the warrior swinging and missing each time, falling flat on his shield. 5-8s: hold; the stopwatch settles at his feet and he stands up with a proud, dented pose. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"秒、秒、三秒鐘\" (ㄇㄧㄠˇ、ㄇㄧㄠˇ、ㄙㄢ ㄇㄧㄠˇ ㄓㄨㄥ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 秒 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.583Z",
+    "id": "e5fd2107-9fd2-408d-9c35-2e2f37798c40",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b91d8a053053414bcc691e0c440414979320429c77cbdd056f02204c92dbc751",
+    "hash": "22b8c970d9536780548bbaa44f684c120b127f13b6302149150f6eda3d9820bd",
+    "formatted": "【目標國字】：秒\n【設計概念】：玩具戰士用泡棉劍一彈一彈，每彈一次就掉下一筆，剛好數到三秒。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale seafoam background, with one single Traditional Chinese glyph 秒 as the only text on screen, drawn in royal blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stocky toy warrior with a foam sword swaggers in and whacks a round stopwatch ball; first 秒 spoken as the ball bounces off the left wall and the 禾 strokes drop in. 1.7-3.4s: the ball ricochets off his shield, pinging into the floor and ceiling; second 秒 as the 少 strokes land one by one with each bounce. 3.4-5s: 三秒鐘 is spoken as three quick bounces, one per syllable-beat, the warrior swinging and missing each time, falling flat on his shield. 5-8s: hold; the stopwatch settles at his feet and he stands up with a proud, dented pose. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"秒、秒、三秒鐘\" (ㄇㄧㄠˇ、ㄇㄧㄠˇ、ㄙㄢ ㄇㄧㄠˇ ㄓㄨㄥ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 秒 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

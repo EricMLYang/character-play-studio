@@ -1,0 +1,25 @@
+[
+  {
+    "char": "丟",
+    "meaning": "to throw",
+    "zhuyin": "ㄉㄧㄡ",
+    "emoji": "🏀",
+    "conceptZh": "太空人玩偶在失重中丟球，筆畫從邊緣躲貓貓，最後到位。",
+    "object": "an astronaut toy, an orange ball and sneaky strokes",
+    "morph": "strokes peek and dodge as the astronaut tosses a ball, finally settling as 丟",
+    "creativeAngle": "太空人把球往上丟，球飄起來，筆畫從邊緣探頭躲開，最後落定。",
+    "promptEn": "An 8-second animated clip on a pale blue-gray-cream backdrop with a few soft star stickers. Lead: a bouncy astronaut toy with a round fishbowl helmet and white suit trimmed in red. The finished glyph 丟 is a saturated vermilion-red, centered, about 70% of frame height.\n0.0-1.6s: the astronaut bounces in with an orange ball; the ball slips and floats up. First \"丟\" as he hurls it and drifts up with the throw.\n1.6-3.2s: hide-and-peek: a vermilion stroke sneaks in from the left, dodges his reach, and a second one peeks from the top. Second \"丟\" lands as he overshoots, floats upside-down, and the strokes duck behind him.\n3.2-5.0s: he flips the right way up and strokes drop in from all sides, each stopping politely as 丟 forms with a soft thump.\n5.0-8.0s: HOLD, glyph perfectly still. At \"丟球\" he throws the orange ball up and it arcs, drifts and bounces off the top margin, and he catches it after a slow float; he spins in zero gravity, clear of the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"丟、丟、丟球\" (ㄉㄧㄡ、ㄉㄧㄡ、ㄉㄧㄡ ㄑㄧㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 丟.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.883Z",
+    "id": "d4b425ff-645d-4cb9-b458-0e18e5a0b649",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "866cdf097d7ba005aae4e7e28f15cf703e4010a5d28f585f9fe6b2ea44dc9a2d",
+    "hash": "7ec1c936b30e378407dec78bf250c5a33be93e21f0b5ac10e49987f8c3e1c709",
+    "formatted": "【目標國字】：丟\n【設計概念】：太空人玩偶在失重中丟球，筆畫從邊緣躲貓貓，最後到位。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale blue-gray-cream backdrop with a few soft star stickers. Lead: a bouncy astronaut toy with a round fishbowl helmet and white suit trimmed in red. The finished glyph 丟 is a saturated vermilion-red, centered, about 70% of frame height.\n0.0-1.6s: the astronaut bounces in with an orange ball; the ball slips and floats up. First \"丟\" as he hurls it and drifts up with the throw.\n1.6-3.2s: hide-and-peek: a vermilion stroke sneaks in from the left, dodges his reach, and a second one peeks from the top. Second \"丟\" lands as he overshoots, floats upside-down, and the strokes duck behind him.\n3.2-5.0s: he flips the right way up and strokes drop in from all sides, each stopping politely as 丟 forms with a soft thump.\n5.0-8.0s: HOLD, glyph perfectly still. At \"丟球\" he throws the orange ball up and it arcs, drifts and bounces off the top margin, and he catches it after a slow float; he spins in zero gravity, clear of the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"丟、丟、丟球\" (ㄉㄧㄡ、ㄉㄧㄡ、ㄉㄧㄡ ㄑㄧㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 丟.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

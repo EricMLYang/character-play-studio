@@ -1,0 +1,25 @@
+[
+  {
+    "char": "推",
+    "meaning": "to push",
+    "zhuyin": "ㄊㄨㄟ",
+    "emoji": "🚪",
+    "conceptZh": "扭蛋怪獸先推錯方向，聳肩後一推把門打開。",
+    "object": "a round fuzzy gacha pocket creature and a big pastel toy door",
+    "morph": "the creature builds a wrong shape, shrugs, then pushes it correct into 推",
+    "creativeAngle": "小怪獸從扭蛋蹦出，先把筆畫堆成怪形狀，發現後一頂把門推開。",
+    "promptEn": "An 8-second animated clip on a pastel lemon-yellow backdrop. Lead: a round fuzzy mint-green pocket creature toy with stubby feet that bursts from a gachapon capsule and bounces off everything. The finished glyph 推 is a saturated plum purple, centered, about 70% of frame height.\n0.0-1.5s: the capsule cracks, the creature boings out and ricochets off the floor. First \"推\" as it lands next to a heap of purple strokes.\n1.5-3.2s: wrong-then-right: it proudly assembles a silly crooked shape that looks like a stack of sausages. It stops, peers, shrugs. Second \"推\" lands as it shoves the heap with its whole belly.\n3.2-5.0s: the strokes slide, flip and click into the glyph 推; the creature spins in a circle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"推門\" a big pastel toy door appears at the right of the frame; the creature runs and pushes it, the door swings open with a pop, and a pile of tiny confetti stars blows out. It bounces happily in the doorway, far from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"推、推、推門\" (ㄊㄨㄟ、ㄊㄨㄟ、ㄊㄨㄟ ㄇㄣˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 推.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.730Z",
+    "id": "5c5fa0fc-fd31-41ac-9888-315a9545ebef",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "83d961518145c49040ae0211929a9f4552cf3eafdb4ba8b00895c0c538310a0e",
+    "hash": "29fba546f79d32aa476fce1339a8d38904fc2de113412fcdb24f47d4a5302609",
+    "formatted": "【目標國字】：推\n【設計概念】：扭蛋怪獸先推錯方向，聳肩後一推把門打開。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pastel lemon-yellow backdrop. Lead: a round fuzzy mint-green pocket creature toy with stubby feet that bursts from a gachapon capsule and bounces off everything. The finished glyph 推 is a saturated plum purple, centered, about 70% of frame height.\n0.0-1.5s: the capsule cracks, the creature boings out and ricochets off the floor. First \"推\" as it lands next to a heap of purple strokes.\n1.5-3.2s: wrong-then-right: it proudly assembles a silly crooked shape that looks like a stack of sausages. It stops, peers, shrugs. Second \"推\" lands as it shoves the heap with its whole belly.\n3.2-5.0s: the strokes slide, flip and click into the glyph 推; the creature spins in a circle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"推門\" a big pastel toy door appears at the right of the frame; the creature runs and pushes it, the door swings open with a pop, and a pile of tiny confetti stars blows out. It bounces happily in the doorway, far from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"推、推、推門\" (ㄊㄨㄟ、ㄊㄨㄟ、ㄊㄨㄟ ㄇㄣˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 推.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

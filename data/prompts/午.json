@@ -1,0 +1,25 @@
+[
+  {
+    "char": "午",
+    "meaning": "noon",
+    "zhuyin": "ㄨˇ",
+    "emoji": "🌞",
+    "conceptZh": "橡膠恐龍打開午餐盒，噗地彈出一根長筆畫，把牠嚇了一跳。",
+    "object": "a rubber dinosaur with tiny arms and a big lunch box",
+    "morph": "a lunch box bursts open and spring-loaded strokes jump out as 午",
+    "creativeAngle": "驚喜彈出：午餐盒裡彈出筆畫。",
+    "promptEn": "An 8-second animated clip on a pale buttercup background, with one single Traditional Chinese glyph 午 as the only text on screen, drawn in tomato red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a squat green rubber dinosaur drags a huge lunch box, tiny arms wiggling, trying and failing to reach the latch; the first 午 is spoken as the lid rattles and the top slanted stroke of 午 pokes out. 1.7-3.4s: the box bursts open with a spring and a long vertical stroke boings up through the middle; the dino leaps back with a wide-eyed double-take; the second 午 is spoken as the crossbar settles into place. 3.4-5s: 午餐 is spoken as a toy sandwich with a smile hops out and offers itself while a sun shape gleams overhead (animated shapes only). 5-8s: hold; the dino munches the sandwich with a satisfied stomp, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"午、午、午餐\" (ㄨˇ、ㄨˇ、ㄨˇ ㄘㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 午 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.203Z",
+    "id": "fb6dd2f5-c0d6-40d5-8312-0d34e865fba5",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d916c4f2edcb7601e249df1adcae9aac52170cdd901765d5b8e9ac86c079412d",
+    "hash": "32e38c825aa1c49b062ac96f55dd04f1973f63721451b014a914b7b8aa107521",
+    "formatted": "【目標國字】：午\n【設計概念】：橡膠恐龍打開午餐盒，噗地彈出一根長筆畫，把牠嚇了一跳。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale buttercup background, with one single Traditional Chinese glyph 午 as the only text on screen, drawn in tomato red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a squat green rubber dinosaur drags a huge lunch box, tiny arms wiggling, trying and failing to reach the latch; the first 午 is spoken as the lid rattles and the top slanted stroke of 午 pokes out. 1.7-3.4s: the box bursts open with a spring and a long vertical stroke boings up through the middle; the dino leaps back with a wide-eyed double-take; the second 午 is spoken as the crossbar settles into place. 3.4-5s: 午餐 is spoken as a toy sandwich with a smile hops out and offers itself while a sun shape gleams overhead (animated shapes only). 5-8s: hold; the dino munches the sandwich with a satisfied stomp, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"午、午、午餐\" (ㄨˇ、ㄨˇ、ㄨˇ ㄘㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 午 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

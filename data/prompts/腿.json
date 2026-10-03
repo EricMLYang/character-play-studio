@@ -1,0 +1,25 @@
+[
+  {
+    "char": "腿",
+    "meaning": "leg",
+    "zhuyin": "ㄊㄨㄟˇ",
+    "emoji": "🦵",
+    "conceptZh": "身體下面用來走路、站立的部分。",
+    "object": "a top-hat magician rabbit, a long springy leg, and a pair of striped stockings",
+    "morph": "the rabbit overshoots his magic, shoots past, comes back gentle, and assembles 腿",
+    "creativeAngle": "魔術兔用力過猛變出超長的腿，第二次輕輕才成功；大腿。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a ruby-red and gold toy stage with a gentle spotlight, a magician rabbit prepares a leg trick, tapping his wand with way too much energy. 0–1.5s: The first 腿 is spoken as the wand taps and a long striped leg springs out of the hat, launching the rabbit across the stage in a loop. 1.5–3.1s: The second 腿 is spoken: the rabbit skids back, tries again too hard, and both legs stretch up like springs, bouncing him on the ceiling. 3.1–4.7s: He takes a calm breath, taps softly, and the leg pieces slide down and click into 腿 in sky blue. 4.7–5.7s: As 大腿 is spoken, a huge round leg pops out of the hat and gives the rabbit a gentle kick in the air; he tumbles onto a cushion. Final hold (about 5.0–8.0s): he lies on the cushion grinning and wiggles his boots; the glyph is still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 腿、腿、大腿（ㄊㄨㄟˇ、ㄊㄨㄟˇ、ㄉㄚˋ ㄊㄨㄟˇ）. The first 腿 lands at about 0.9s, the second 腿 at about 2.5s, and the word 大腿 at about 4.8s, each timed to the picture described above. The only text anywhere in frame is the single glyph 腿, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 腿 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.984Z",
+    "id": "68e3b61c-9a1a-489f-a697-45c1e067363f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7c33e4b675ff605f675184396fb005ae11ad9ea167db58ef4fad77b5a573c1cc",
+    "hash": "a74b3cd49bd2991e50c8bd3d0c4aac770e7a2d5e4c5e3687767f44c1aa1df0c8",
+    "formatted": "【目標國字】：腿\n【設計概念】：身體下面用來走路、站立的部分。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a ruby-red and gold toy stage with a gentle spotlight, a magician rabbit prepares a leg trick, tapping his wand with way too much energy. 0–1.5s: The first 腿 is spoken as the wand taps and a long striped leg springs out of the hat, launching the rabbit across the stage in a loop. 1.5–3.1s: The second 腿 is spoken: the rabbit skids back, tries again too hard, and both legs stretch up like springs, bouncing him on the ceiling. 3.1–4.7s: He takes a calm breath, taps softly, and the leg pieces slide down and click into 腿 in sky blue. 4.7–5.7s: As 大腿 is spoken, a huge round leg pops out of the hat and gives the rabbit a gentle kick in the air; he tumbles onto a cushion. Final hold (about 5.0–8.0s): he lies on the cushion grinning and wiggles his boots; the glyph is still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 腿、腿、大腿（ㄊㄨㄟˇ、ㄊㄨㄟˇ、ㄉㄚˋ ㄊㄨㄟˇ）. The first 腿 lands at about 0.9s, the second 腿 at about 2.5s, and the word 大腿 at about 4.8s, each timed to the picture described above. The only text anywhere in frame is the single glyph 腿, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 腿 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

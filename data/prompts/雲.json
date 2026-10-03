@@ -1,0 +1,25 @@
+[
+  {
+    "char": "雲",
+    "meaning": "cloud",
+    "zhuyin": "ㄩㄣˊ",
+    "emoji": "☁️",
+    "conceptZh": "雲是天上飄著的白色棉花團",
+    "object": "a chunky toy fire engine with its crew and a fluffy cotton cloud",
+    "morph": "a domino chain of foam pieces tumbles and lands as 雲",
+    "creativeAngle": "消防小隊撞倒第一塊骨牌，連鎖倒成字，水管噴出雲朵。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 雲 (cloud). Lead: a red toy fire engine with a bendy yellow hose that whips around on its own. Moment 1 (0-1.7s): the engine rolls in and gently bumps the first blue domino; the voice says 雲 as the domino wobbles. Moment 2 (1.7-3.4s): the chain tumbles across the stage, the hose squirting in the wrong direction and bending a few; the second 雲 lands as the last piece clicks, forming 雲. Moment 3 (3.4-5.3s): the hose finally puffs a soft white fluffy cloud from the nozzle; as the voice says 雲朵 the cloud grows, floats up, and the firefighter pup toy rides it. Moment 4 (5.3-8s): glyph still; the cloud drifts and drops a tiny harmless sparkle on the engine. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"雲、雲、雲朵\" (ㄩㄣˊ、ㄩㄣˊ、ㄩㄣˊ ㄉㄨㄛˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 雲, drawn as saturated solid sky blue strokes on a very pale warm gray background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.557Z",
+    "id": "272623fe-0c44-4e9a-8a5e-179bc4ee7cc3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "da38fad531fa05a4548c266ac1b4e904b50ecb7f7c2c8d319f5326550d4fb160",
+    "hash": "58536bbe7eea2703b90b5294f8daef607c9c6aa043f99e58f0fde31937d9aa5e",
+    "formatted": "【目標國字】：雲\n【設計概念】：雲是天上飄著的白色棉花團\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 雲 (cloud). Lead: a red toy fire engine with a bendy yellow hose that whips around on its own. Moment 1 (0-1.7s): the engine rolls in and gently bumps the first blue domino; the voice says 雲 as the domino wobbles. Moment 2 (1.7-3.4s): the chain tumbles across the stage, the hose squirting in the wrong direction and bending a few; the second 雲 lands as the last piece clicks, forming 雲. Moment 3 (3.4-5.3s): the hose finally puffs a soft white fluffy cloud from the nozzle; as the voice says 雲朵 the cloud grows, floats up, and the firefighter pup toy rides it. Moment 4 (5.3-8s): glyph still; the cloud drifts and drops a tiny harmless sparkle on the engine. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"雲、雲、雲朵\" (ㄩㄣˊ、ㄩㄣˊ、ㄩㄣˊ ㄉㄨㄛˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 雲, drawn as saturated solid sky blue strokes on a very pale warm gray background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

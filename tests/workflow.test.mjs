@@ -9,7 +9,7 @@ import { browseCharacters } from '../shared/selection.mjs'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
 process.env.CPS_STORAGE_ROOT = storage
-const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash } = await import('../server/core.mjs')
+const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash, audioFor } = await import('../server/core.mjs')
 const { generatePrompt, creativeBrief } = await import('../server/prompt-generation.mjs')
 const { apiPlugin } = await import('../server/api.mjs')
 const { setDictionaryLoader } = await import('../server/char-assets.mjs')
@@ -32,10 +32,20 @@ const request = async (route, body, method = 'POST') => {
   return { status: response.status, body: await response.json() }
 }
 
+test('narration draws the spoken word from the character\'s vetted word list and ties it to the picture', () => {
+  const entry = { ...fixture().characters.find(c => c.char === '木'), words: [{ text: '木頭' }, { text: '積木' }] }
+  const audio = audioFor(entry, loadTemplate())
+  assert.match(audio, /vetted list[^.]*木頭、積木/)
+  assert.match(audio, /SPEECH-TO-PICTURE MATCH/)
+  assert.doesNotMatch(audioFor({ ...entry, words: [] }, loadTemplate()), /vetted list/)
+  assert.match(creativeBrief(entry, []), /GAG PATTERN/)
+  assert.match(creativeBrief(entry, []), /every 1\.5–2 seconds/)
+})
+
 test('AI and backup prompts share character-then-word narration, without repeated chanting', () => {
   const entry = fixture().characters.find(c => c.char === '木')
   const template = loadTemplate()
-  const audio = template.audio.replaceAll('{char}', entry.char)
+  const audio = audioFor(entry, template)
   for (const text of [creativeBrief(entry, []), buildPrompt(entry).promptEn]) {
     assert.ok(text.includes(audio))
     assert.match(text, /木、木、木頭/)

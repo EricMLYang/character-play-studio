@@ -1,0 +1,25 @@
+[
+  {
+    "char": "樂",
+    "meaning": "happy",
+    "zhuyin": "ㄌㄜˋ",
+    "emoji": "🎉",
+    "conceptZh": "玩具海盜用力過猛衝過頭，第二次輕輕一試，快樂地跳起來。",
+    "object": "a barrel-shaped toy pirate, a parrot and a toy dog",
+    "morph": "pirate overshoots, skids back, and a gentler try settles the strokes into 樂",
+    "creativeAngle": "海盜衝太快飛過頭，鸚鵡冷眼旁觀，第二次輕輕敲鼓成功，大家開心搖擺。",
+    "promptEn": "An 8-second animated clip on a bright turquoise-and-sand backdrop with a stitched wave border. Lead: a barrel-shaped toy pirate in a red bandana with a deadpan green parrot on his hat. The finished glyph 樂 is a saturated sunflower-orange, centered, about 70% of frame height.\n0.0-1.5s: the pirate grabs a mallet and runs at a big toy drum for the first beat. First \"樂\" as the parrot rolls its eyes.\n1.5-3.2s: overshoot: he swings too hard, the mallet launches, he flies past, skids off the right edge and slides back on his barrel belly with a squeak. Second \"樂\" lands as the mallet thuds into the drum from above, dropping the top strokes.\n3.2-5.0s: gentle second try: one soft tap, the rest of the strokes bounce up like popcorn and click into the glyph 樂.\n5.0-8.0s: HOLD, glyph perfectly still. At \"快樂\" a toy dog hops in and the pirate dances, shaking his belly while the parrot finally bobs its head to the beat, small confetti bits drifting beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"樂、樂、快樂\" (ㄌㄜˋ、ㄌㄜˋ、ㄎㄨㄞˋ ㄌㄜˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 樂.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.006Z",
+    "id": "6fc7d7d3-c1a6-41fe-96c2-9d05f9a7f022",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "2639a3c8d40d7b0248fe35ffe0cf4703ac4a3984bb8cfc2621e9a9094b5e21f6",
+    "hash": "35fc17fdb9ef20fdaa151c2677a2ca788a7bc23c449a1cafce229945503efb64",
+    "formatted": "【目標國字】：樂\n【設計概念】：玩具海盜用力過猛衝過頭，第二次輕輕一試，快樂地跳起來。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a bright turquoise-and-sand backdrop with a stitched wave border. Lead: a barrel-shaped toy pirate in a red bandana with a deadpan green parrot on his hat. The finished glyph 樂 is a saturated sunflower-orange, centered, about 70% of frame height.\n0.0-1.5s: the pirate grabs a mallet and runs at a big toy drum for the first beat. First \"樂\" as the parrot rolls its eyes.\n1.5-3.2s: overshoot: he swings too hard, the mallet launches, he flies past, skids off the right edge and slides back on his barrel belly with a squeak. Second \"樂\" lands as the mallet thuds into the drum from above, dropping the top strokes.\n3.2-5.0s: gentle second try: one soft tap, the rest of the strokes bounce up like popcorn and click into the glyph 樂.\n5.0-8.0s: HOLD, glyph perfectly still. At \"快樂\" a toy dog hops in and the pirate dances, shaking his belly while the parrot finally bobs its head to the beat, small confetti bits drifting beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"樂、樂、快樂\" (ㄌㄜˋ、ㄌㄜˋ、ㄎㄨㄞˋ ㄌㄜˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 樂.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

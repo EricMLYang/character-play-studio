@@ -1,0 +1,25 @@
+[
+  {
+    "char": "加",
+    "meaning": "to add",
+    "zhuyin": "ㄐㄧㄚ",
+    "emoji": "➕",
+    "conceptZh": "玩具戰士拿盾牌推倒一排積木，兩塊剛好疊成「力」和「口」，連鎖倒下。",
+    "object": "toy warrior with foam sword and shield, domino-like blocks",
+    "morph": "blocks tumble into 力 on the left and 口 on the right",
+    "creativeAngle": "大膽的主角一擊推倒，連鎖落位。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a sunrise-orange stage with a cream floor; the glyph is solid cobalt-blue 加: 力 left, 口 right. A chunky toy warrior with a foam sword and round shield strides in, boasting. The Traditional Chinese glyph 加 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the warrior points his sword dramatically at a row of standing blocks and bumps the first with his shield; the first 加 is spoken as it tips. Moment two (1.8-3.5s): the blocks topple domino-style, flip and slide, landing as 力 with its hooked stroke and a square 口 beside it; the second 加 is spoken at the last click; the warrior spins in surprise. Moment three (3.5-5.0s): a toy fuel pump on a tiny stand rolls in, and the warrior pretends to pump it with a cheer; 加油 is spoken as a small drop of oil gleams. From 5.0-8.0s the glyph 加 is perfectly still and unobstructed; the warrior raises his sword and bounces; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「加、加、加油」 (ㄐㄧㄚ、ㄐㄧㄚ、ㄐㄧㄚ ㄧㄡˊ). Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only wooden clacks and a springy boing, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.103Z",
+    "id": "d9d46c0d-e6e7-4d91-98e3-7fc72f82af34",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "32177b31799b9704a2b2bededa0176cb018e88aaa3c325aa8f02766df745ae0f",
+    "hash": "8f529306eaa9adb7c135f40db965a7e1c4d81afa1050cd5384f34ded6fd3b515",
+    "formatted": "【目標國字】：加\n【設計概念】：玩具戰士拿盾牌推倒一排積木，兩塊剛好疊成「力」和「口」，連鎖倒下。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a sunrise-orange stage with a cream floor; the glyph is solid cobalt-blue 加: 力 left, 口 right. A chunky toy warrior with a foam sword and round shield strides in, boasting. The Traditional Chinese glyph 加 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the warrior points his sword dramatically at a row of standing blocks and bumps the first with his shield; the first 加 is spoken as it tips. Moment two (1.8-3.5s): the blocks topple domino-style, flip and slide, landing as 力 with its hooked stroke and a square 口 beside it; the second 加 is spoken at the last click; the warrior spins in surprise. Moment three (3.5-5.0s): a toy fuel pump on a tiny stand rolls in, and the warrior pretends to pump it with a cheer; 加油 is spoken as a small drop of oil gleams. From 5.0-8.0s the glyph 加 is perfectly still and unobstructed; the warrior raises his sword and bounces; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「加、加、加油」 (ㄐㄧㄚ、ㄐㄧㄚ、ㄐㄧㄚ ㄧㄡˊ). Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only wooden clacks and a springy boing, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

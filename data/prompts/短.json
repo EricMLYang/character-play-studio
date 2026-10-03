@@ -1,0 +1,25 @@
+[
+  {
+    "char": "短",
+    "meaning": "short (length)",
+    "zhuyin": "ㄉㄨㄢˇ",
+    "emoji": "✂️",
+    "conceptZh": "玩具機器人的手臂一長一短，筆畫躲貓貓，最後短褲出現。",
+    "object": "a boxy toy robot and strokes that play peek-a-boo",
+    "morph": "glyph strokes peek from the edges then settle into 短",
+    "creativeAngle": "一長一短的機器人手臂追著從邊緣探出頭的筆畫，最後穿上短褲。",
+    "promptEn": "An 8-second animated clip on a warm apricot backdrop. Lead: a boxy toy robot built from mismatched parts with one long arm and one stubby arm. The finished glyph 短 is a saturated royal-blue, centered, about 70% of frame height.\n0.0-1.6s: the robot reaches with the long arm for a blue stroke; it hops out of reach to the top edge. First \"短\" as he swings the stubby arm at nothing.\n1.6-3.2s: hide-and-peek: strokes peek in from the left, right and bottom, ducking when he turns, once pulling him by the long arm; he spins in circles. Second \"短\" lands as he stops and plays dead, and the strokes tiptoe toward him.\n3.2-5.0s: he grabs both with long and short arms; they click together as the glyph 短.\n5.0-8.0s: HOLD, glyph perfectly still. At \"短褲\" a small pair of bright shorts drops onto his legs, too tight; he looks down, wiggles his hips and does a tiny dance, long arm waving, stubby arm waving shorter, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"短、短、短褲\" (ㄉㄨㄢˇ、ㄉㄨㄢˇ、ㄉㄨㄢˇ ㄎㄨˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 短.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.540Z",
+    "id": "3792922d-8bd1-4d6f-bc17-f77a236f7feb",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0181c4936f14ee251d5a91bb5ae0e26879771ffb98a604ac0307ef3eb0245bc5",
+    "hash": "a6688e177411d98ac448eeb4c401d76732cdcd8f88e03689ac2fa708fae95194",
+    "formatted": "【目標國字】：短\n【設計概念】：玩具機器人的手臂一長一短，筆畫躲貓貓，最後短褲出現。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm apricot backdrop. Lead: a boxy toy robot built from mismatched parts with one long arm and one stubby arm. The finished glyph 短 is a saturated royal-blue, centered, about 70% of frame height.\n0.0-1.6s: the robot reaches with the long arm for a blue stroke; it hops out of reach to the top edge. First \"短\" as he swings the stubby arm at nothing.\n1.6-3.2s: hide-and-peek: strokes peek in from the left, right and bottom, ducking when he turns, once pulling him by the long arm; he spins in circles. Second \"短\" lands as he stops and plays dead, and the strokes tiptoe toward him.\n3.2-5.0s: he grabs both with long and short arms; they click together as the glyph 短.\n5.0-8.0s: HOLD, glyph perfectly still. At \"短褲\" a small pair of bright shorts drops onto his legs, too tight; he looks down, wiggles his hips and does a tiny dance, long arm waving, stubby arm waving shorter, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"短、短、短褲\" (ㄉㄨㄢˇ、ㄉㄨㄢˇ、ㄉㄨㄢˇ ㄎㄨˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 短.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

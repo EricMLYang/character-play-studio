@@ -1,0 +1,25 @@
+[
+  {
+    "char": "肚",
+    "meaning": "belly",
+    "zhuyin": "ㄉㄨˋ",
+    "emoji": "🤰",
+    "conceptZh": "身體腹部，裝食物的地方。",
+    "object": "a round fuzzy gachapon pocket creature, a giant toy belly-button capsule, and a tiny mini snack",
+    "morph": "creature balloons huge and shrinks to fit parts of 肚",
+    "creativeAngle": "扭蛋小怪獸吃到巨大點心，肚子變超大又縮小；肚臍冒出。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a bubble-gum pink and cream playmat, a round fuzzy pocket creature bursts from a gachapon capsule and bounces next to a gigantic cookie that is bigger than it is. 0–1.5s: The creature tries to hold the cookie, the first 肚 is spoken, and it squishes underneath, squeaking, only a pair of ears sticking out. 1.5–3.1s: It gobbles a corner and its belly swells like a balloon; the second 肚 is spoken as the belly bounces it across the mat. 3.1–4.7s: A hiccup shrinks the belly back into the cookie crumbs, which scatter and snap into the 肚 glyph in warm brown. 4.7–5.7s: As 肚臍 is spoken, the creature lifts its shirt-like fluff and a perfect little round belly button winks, giving a tiny giggle wiggle. Final hold (about 5.0–8.0s): the creature pats its belly in a happy beat while crumbs sparkle; the glyph does not move. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 肚、肚、肚臍（ㄉㄨˋ、ㄉㄨˋ、ㄉㄨˋ ㄑㄧˊ）. The first 肚 lands at about 0.9s, the second 肚 at about 2.5s, and the word 肚臍 at about 4.8s, each timed to the picture described above. Keep 肚 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 肚 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.849Z",
+    "id": "4f2afc6a-83d8-4a19-8439-f7cc0c9f3554",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b832c3550b0c36ca90c93342ad7e6c28c9e4b373df0e3a3e77f6e87f4d8960bf",
+    "hash": "9f3882b3c086ac08e2d16dae942d231648e5a8e02818eb5a6f481b8ad88681be",
+    "formatted": "【目標國字】：肚\n【設計概念】：身體腹部，裝食物的地方。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a bubble-gum pink and cream playmat, a round fuzzy pocket creature bursts from a gachapon capsule and bounces next to a gigantic cookie that is bigger than it is. 0–1.5s: The creature tries to hold the cookie, the first 肚 is spoken, and it squishes underneath, squeaking, only a pair of ears sticking out. 1.5–3.1s: It gobbles a corner and its belly swells like a balloon; the second 肚 is spoken as the belly bounces it across the mat. 3.1–4.7s: A hiccup shrinks the belly back into the cookie crumbs, which scatter and snap into the 肚 glyph in warm brown. 4.7–5.7s: As 肚臍 is spoken, the creature lifts its shirt-like fluff and a perfect little round belly button winks, giving a tiny giggle wiggle. Final hold (about 5.0–8.0s): the creature pats its belly in a happy beat while crumbs sparkle; the glyph does not move. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 肚、肚、肚臍（ㄉㄨˋ、ㄉㄨˋ、ㄉㄨˋ ㄑㄧˊ）. The first 肚 lands at about 0.9s, the second 肚 at about 2.5s, and the word 肚臍 at about 4.8s, each timed to the picture described above. Keep 肚 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 肚 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

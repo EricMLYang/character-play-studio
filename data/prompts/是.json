@@ -1,0 +1,25 @@
+[
+  {
+    "char": "是",
+    "meaning": "to be, yes",
+    "zhuyin": "ㄕˋ",
+    "emoji": "✅",
+    "conceptZh": "太空人玩偶漂浮，巨大的是字與小小的槌子大小懸殊；就是這樣。",
+    "object": "a bouncy astronaut toy in a fishbowl helmet and a giant green checkmark button",
+    "morph": "a floating pile of oversized strokes comes together into 是",
+    "creativeAngle": "大小懸殊：太空人玩偶拿著小得可笑的槌子去敲巨大的綠色按鈕；就是用一個大大的勾與點頭表現。",
+    "promptEn": "An 8-second clip on a pale buttermilk backdrop with a soft periwinkle floor dotted with tiny stars. A bouncy astronaut toy in a fishbowl helmet, one boot slightly off the ground, carries a laughably tiny mallet toward a giant green button. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「是、是、就是」 (ㄕˋ、ㄕˋ、ㄐㄧㄡˋ ㄕˋ), slowly with clear tones, then stops.\n0.0-1.7s: The astronaut drifts upward by accident, kicking, and taps the button with the tiny mallet; nothing happens. 「是」 (ㄕˋ) is spoken as it taps.\n1.7-3.4s: It improvises: bounces on a huge spring and lands on the button; the button flares and ejects large chunky strokes, a top sun-like box, a horizontal bar, and a hooked tail, which stack into a saturated solid forest-green glyph 是, about 70% of frame height. The second 「是」 (ㄕˋ) lands as the last stroke clunks.\n3.4-5.0s: The astronaut does a loop-the-loop, lands upside-down, and nods vigorously; a giant glowing checkmark-shaped light pulses once behind the glyph (shape only, no text); 「就是」 (ㄐㄧㄡˋ ㄕˋ) is spoken as it nods.\n5.0-8.0s: Hold: the glyph 是 is completely still, centered, margins all around. The astronaut floats gently in the corner and gives a tiny wave, never touching the strokes.\nNo text except the glyph 是; no subtitles, watermark or flashing. Light music below the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.827Z",
+    "id": "006bd196-5a28-4560-bed1-1c4c77314ac8",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7cf9cb8e1ad505b6eb86f35c023cfa49a6ed79d872f294fadbf1a1a075778fe3",
+    "hash": "5c39c8be9a6fec6ab6c6a28bfe9c4a3d6fa426a229a350549c3d8e9202e520b5",
+    "formatted": "【目標國字】：是\n【設計概念】：太空人玩偶漂浮，巨大的是字與小小的槌子大小懸殊；就是這樣。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a pale buttermilk backdrop with a soft periwinkle floor dotted with tiny stars. A bouncy astronaut toy in a fishbowl helmet, one boot slightly off the ground, carries a laughably tiny mallet toward a giant green button. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「是、是、就是」 (ㄕˋ、ㄕˋ、ㄐㄧㄡˋ ㄕˋ), slowly with clear tones, then stops.\n0.0-1.7s: The astronaut drifts upward by accident, kicking, and taps the button with the tiny mallet; nothing happens. 「是」 (ㄕˋ) is spoken as it taps.\n1.7-3.4s: It improvises: bounces on a huge spring and lands on the button; the button flares and ejects large chunky strokes, a top sun-like box, a horizontal bar, and a hooked tail, which stack into a saturated solid forest-green glyph 是, about 70% of frame height. The second 「是」 (ㄕˋ) lands as the last stroke clunks.\n3.4-5.0s: The astronaut does a loop-the-loop, lands upside-down, and nods vigorously; a giant glowing checkmark-shaped light pulses once behind the glyph (shape only, no text); 「就是」 (ㄐㄧㄡˋ ㄕˋ) is spoken as it nods.\n5.0-8.0s: Hold: the glyph 是 is completely still, centered, margins all around. The astronaut floats gently in the corner and gives a tiny wave, never touching the strokes.\nNo text except the glyph 是; no subtitles, watermark or flashing. Light music below the voice.\n```"
+  }
+]

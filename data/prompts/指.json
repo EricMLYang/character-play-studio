@@ -1,0 +1,25 @@
+[
+  {
+    "char": "指",
+    "meaning": "finger",
+    "zhuyin": "ㄓˇ",
+    "emoji": "👆",
+    "conceptZh": "手上伸出來的五個部分，可以拿東西或指方向。",
+    "object": "a bouncy astronaut toy with a fishbowl helmet, a toy glove-hand, and a floating star sticker",
+    "morph": "the astronaut first builds a silly wrong shape, notices, and fixes it into 指",
+    "creativeAngle": "太空人玩偶先拼出歪歪的手，發現後修成「指」；手指指向星星。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a deep-sky-but-bright cyan toy space station with floating pastel stars, a bouncy astronaut toy in a fishbowl helmet drifts a few inches above the floor, holding pieces of the glyph. 0–1.7s: The first 指 is spoken as he proudly builds a wrong shape, a 手 on the right instead of the left, and floats up beaming. 1.7–3.3s: The second 指 is spoken: he looks, tilts his helmet, and drifts away, sees the mistake, and shrugs. 3.3–4.8s: A quick flip: the pieces swap sides like a coin and 指 appears correct in orange, while the astronaut cartwheels in the air. 4.8–5.7s: As 手指 is spoken, a glove hand pops out of the station wall and a single finger points at a gold star sticker, which twinkles. Final hold (about 5.0–8.0s): the astronaut drifts around the glyph pointing back, the star bobbing; the glyph is rock steady. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 指、指、手指（ㄓˇ、ㄓˇ、ㄕㄡˇ ㄓˇ）. The first 指 lands at about 1.0s, the second 指 at about 2.8s, and the word 手指 at about 4.9s, each timed to the picture described above. Keep 指 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 指 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.692Z",
+    "id": "70943228-9015-4285-93d2-687a049efe9a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d1b6939434443b03731c0c8dc4f8e7091b33740139c3e77dcb9d5b0d34ba80da",
+    "hash": "2f3adfd168242f82ab75ed65077a64a2c4b6f4db123c527aa1f777fd13dc2fc5",
+    "formatted": "【目標國字】：指\n【設計概念】：手上伸出來的五個部分，可以拿東西或指方向。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a deep-sky-but-bright cyan toy space station with floating pastel stars, a bouncy astronaut toy in a fishbowl helmet drifts a few inches above the floor, holding pieces of the glyph. 0–1.7s: The first 指 is spoken as he proudly builds a wrong shape, a 手 on the right instead of the left, and floats up beaming. 1.7–3.3s: The second 指 is spoken: he looks, tilts his helmet, and drifts away, sees the mistake, and shrugs. 3.3–4.8s: A quick flip: the pieces swap sides like a coin and 指 appears correct in orange, while the astronaut cartwheels in the air. 4.8–5.7s: As 手指 is spoken, a glove hand pops out of the station wall and a single finger points at a gold star sticker, which twinkles. Final hold (about 5.0–8.0s): the astronaut drifts around the glyph pointing back, the star bobbing; the glyph is rock steady. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 指、指、手指（ㄓˇ、ㄓˇ、ㄕㄡˇ ㄓˇ）. The first 指 lands at about 1.0s, the second 指 at about 2.8s, and the word 手指 at about 4.9s, each timed to the picture described above. Keep 指 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 指 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

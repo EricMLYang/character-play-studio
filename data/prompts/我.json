@@ -1,0 +1,25 @@
+[
+  {
+    "char": "我",
+    "meaning": "I, me",
+    "zhuyin": "ㄨㄛˇ",
+    "emoji": "🙋",
+    "conceptZh": "我是指說話的自己",
+    "object": "a squad of colorful building bricks with one overeager red brick captain",
+    "morph": "the captain brick charges in so hard he overshoots, then a gentle second try lands the hooked halberd stroke that completes 我",
+    "creativeAngle": "積木隊長用力過猛衝過頭，只好輕輕再試一次才對準；「我」字的勾與撇靠第二次輕輕一碰完成，詞用「我們」，最後全隊排排站。",
+    "promptEn": "An 8-second 3D animated toy clip on a clean solid pale lavender-white backdrop with a locked camera. The only text is the single Traditional Chinese glyph 我, centered in saturated vermilion-red strokes about 70 percent of frame height, showing the left cross of strokes, the long hooking diagonal on the right and the small dot beside it. Cast: a squad of glossy interlocking bricks with dot eyes, led by Rex, a stout red 2x4 brick captain with a tiny cape of tape, who always uses far too much power. Moment one, 0 to 1.8s: Rex lines up his squad of four small bricks facing the empty frame, puffs up, and charges at the spot where the glyph's first horizontal stroke belongs. The first 我 is spoken as he launches. Moment two, 1.8 to 3.5s: he rockets straight past it, crashes into the far edge with a bonk, and skids back across the floor on his studs, spinning twice, knocking the squad into a wobbly tower that leans, leans, and does not fall. The second 我 is spoken as the strokes fade up in faint outline. Moment three, 3.5 to 5.0s: Rex shakes it off, tiptoes this time, takes a breath, and gently nudges one small brick with his nose; it slides in softly and the long hooking diagonal and dot click into place one after the other, completing the character. He bows with a stud twinkle. Moment four, 5.0s onward: the squad hops down in a line, and Rex points his stubby top at himself and the four bricks stack in a neat parade. From 5.0 to 8.0s the glyph is perfectly still while Rex and his squad stay at the bottom, bouncing together in a slow happy sway without touching the strokes. Audio: a warm friendly off-screen voice in clear Taiwanese Mandarin says exactly 「我、我、我們」, slowly with clear tones as ㄨㄛˇ、ㄨㄛˇ、ㄨㄛˇ ㄇㄣ˙. First 我 near 0.7s, second near 2.4s, and 我們 around 5.3s as the whole squad lines up beside Rex. Stop after the word. Only soft brick clicks, no background music. Soft studio lighting, vivid not neon colors, no flashing, no lens flare, no watermark, no subtitles, no vocabulary text, and no writing other than the single glyph 我.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:16.076Z",
+    "id": "32373549-e378-4e07-9046-cc211403515a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0589da0edaea8a58aa9367d77a5ad4ba76a196ead9a2bd7ad6aa725a172f7abc",
+    "hash": "05717fa8580f3180023f10fea781f2f5a723058be8a05626bf1f4b269211169d",
+    "formatted": "【目標國字】：我\n【設計概念】：我是指說話的自己\n【8s Video Prompt】:\n```text\nAn 8-second 3D animated toy clip on a clean solid pale lavender-white backdrop with a locked camera. The only text is the single Traditional Chinese glyph 我, centered in saturated vermilion-red strokes about 70 percent of frame height, showing the left cross of strokes, the long hooking diagonal on the right and the small dot beside it. Cast: a squad of glossy interlocking bricks with dot eyes, led by Rex, a stout red 2x4 brick captain with a tiny cape of tape, who always uses far too much power. Moment one, 0 to 1.8s: Rex lines up his squad of four small bricks facing the empty frame, puffs up, and charges at the spot where the glyph's first horizontal stroke belongs. The first 我 is spoken as he launches. Moment two, 1.8 to 3.5s: he rockets straight past it, crashes into the far edge with a bonk, and skids back across the floor on his studs, spinning twice, knocking the squad into a wobbly tower that leans, leans, and does not fall. The second 我 is spoken as the strokes fade up in faint outline. Moment three, 3.5 to 5.0s: Rex shakes it off, tiptoes this time, takes a breath, and gently nudges one small brick with his nose; it slides in softly and the long hooking diagonal and dot click into place one after the other, completing the character. He bows with a stud twinkle. Moment four, 5.0s onward: the squad hops down in a line, and Rex points his stubby top at himself and the four bricks stack in a neat parade. From 5.0 to 8.0s the glyph is perfectly still while Rex and his squad stay at the bottom, bouncing together in a slow happy sway without touching the strokes. Audio: a warm friendly off-screen voice in clear Taiwanese Mandarin says exactly 「我、我、我們」, slowly with clear tones as ㄨㄛˇ、ㄨㄛˇ、ㄨㄛˇ ㄇㄣ˙. First 我 near 0.7s, second near 2.4s, and 我們 around 5.3s as the whole squad lines up beside Rex. Stop after the word. Only soft brick clicks, no background music. Soft studio lighting, vivid not neon colors, no flashing, no lens flare, no watermark, no subtitles, no vocabulary text, and no writing other than the single glyph 我.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "背",
+    "meaning": "back (body part)",
+    "zhuyin": "ㄅㄟˋ",
+    "emoji": "🔙",
+    "conceptZh": "身體的後面，與前面相對。",
+    "object": "a caped action-figure hero with an endless cape, a bouncy rubber ball, and a mirror",
+    "morph": "a bouncing ball rebounds off the hero's back and drops strokes of 背",
+    "creativeAngle": "披風英雄的長披風絆倒自己；彈力球撞背部落下筆畫；他轉身發現背後。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Inside a sunrise-orange toy gym with sky-blue mats, a caped action-figure hero poses bravely, his oversized cape trailing across the floor. 0–1.5s: He leaps and the cape wraps around his head; the first 背 is spoken as a bouncy ball ricochets off his backside, knocking a stroke into place. 1.5–3.1s: The second 背 is spoken: the ball rebounds off the wall and the hero spins around in a cape tangle, as another stroke drops from the ball. 3.1–4.7s: The ball dribbles off his helmet and bounces through the cape, and the last stroke flips in: 背 appears in violet blue. 4.7–5.7s: As 背後 is spoken, a tiny toy sidekick peeks from behind the cape holding a mirror, and the hero spins to look, finding his own cape over his eyes. Final hold (about 5.0–8.0s): the hero finally ties the cape in a knot and strikes a pose while the sidekick giggles; the glyph is still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 背、背、背後（ㄅㄟˋ、ㄅㄟˋ、ㄅㄟˋ ㄏㄡˋ）. The first 背 lands at about 1.0s, the second 背 at about 2.7s, and the word 背後 at about 5.0s, each timed to the picture described above. The only text anywhere in frame is the single glyph 背, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 背 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.895Z",
+    "id": "6a902774-2b88-4475-86d7-3d642a138d30",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "06005af194e93fcf4e4589188ea62e0fa75edcb52a11ece38687fcd266c9e663",
+    "hash": "2af2ce1f5717625ddfc06f63257cbd1ee28640b77cee1398a2c77fbd01dc6ce7",
+    "formatted": "【目標國字】：背\n【設計概念】：身體的後面，與前面相對。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Inside a sunrise-orange toy gym with sky-blue mats, a caped action-figure hero poses bravely, his oversized cape trailing across the floor. 0–1.5s: He leaps and the cape wraps around his head; the first 背 is spoken as a bouncy ball ricochets off his backside, knocking a stroke into place. 1.5–3.1s: The second 背 is spoken: the ball rebounds off the wall and the hero spins around in a cape tangle, as another stroke drops from the ball. 3.1–4.7s: The ball dribbles off his helmet and bounces through the cape, and the last stroke flips in: 背 appears in violet blue. 4.7–5.7s: As 背後 is spoken, a tiny toy sidekick peeks from behind the cape holding a mirror, and the hero spins to look, finding his own cape over his eyes. Final hold (about 5.0–8.0s): the hero finally ties the cape in a knot and strikes a pose while the sidekick giggles; the glyph is still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 背、背、背後（ㄅㄟˋ、ㄅㄟˋ、ㄅㄟˋ ㄏㄡˋ）. The first 背 lands at about 1.0s, the second 背 at about 2.7s, and the word 背後 at about 5.0s, each timed to the picture described above. The only text anywhere in frame is the single glyph 背, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 背 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

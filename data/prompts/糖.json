@@ -1,0 +1,25 @@
+[
+  {
+    "char": "糖",
+    "meaning": "candy / sugar",
+    "zhuyin": "ㄊㄤˊ",
+    "emoji": "🍬",
+    "conceptZh": "糖：米加唐，甜甜的糖。",
+    "object": "a bouncy astronaut toy in a fishbowl helmet who keeps drifting off the ground, and swirled candies",
+    "morph": "strokes shaped like wrapped candies sneak in from the edges and dodge the astronaut before settling into 糖",
+    "creativeAngle": "太空人玩偶漂浮追著躲貓貓的糖果筆畫，最後它們落定成糖。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 糖 (candy / sugar), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a bouncy astronaut toy in a fishbowl helmet who keeps drifting off the ground, and swirled candies. Soft peach backdrop; the glyph is hot-pink with white stripe highlights. Timed beats. 0.0-1.5s: a toy astronaut bounces in and begins drifting upward; the voice says the first 糖 as a pink striped candy stroke peeks in from the left edge and zips back out. 1.5-3.0s: another piece sneaks in from the top, one from the right; the astronaut lunges, misses, and spins slowly. The voice says the second 糖 as all pieces dodge him in a round of peekaboo. 3.0-4.5s: he floats upside-down, the pieces tiptoe back behind him and pop into 糖 at 70% of frame height; he lands with a soft bounce. 4.5-5.0s: the voice says 糖果 (ㄊㄤˊ ㄍㄨㄛˇ) as wrapped candies rain down and tink off his helmet. Final hold: 5.0-8.0s: the glyph is perfectly still; the astronaut hovers and catches a candy in a mitten. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 糖、糖、糖果 (ㄊㄤˊ、ㄊㄤˊ、ㄊㄤˊ ㄍㄨㄛˇ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 糖 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.672Z",
+    "id": "a4e35de6-dbc8-456f-a613-90f8d2951ffe",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7bb40b7fedeeb4a893a6b5a93a2721820a521c9447a0d30230a68135c4747812",
+    "hash": "5f729964729ffd2ebe4cd8db4c19ea3f4734488698773b1cabe941d07f8f0594",
+    "formatted": "【目標國字】：糖\n【設計概念】：糖：米加唐，甜甜的糖。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 糖 (candy / sugar), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a bouncy astronaut toy in a fishbowl helmet who keeps drifting off the ground, and swirled candies. Soft peach backdrop; the glyph is hot-pink with white stripe highlights. Timed beats. 0.0-1.5s: a toy astronaut bounces in and begins drifting upward; the voice says the first 糖 as a pink striped candy stroke peeks in from the left edge and zips back out. 1.5-3.0s: another piece sneaks in from the top, one from the right; the astronaut lunges, misses, and spins slowly. The voice says the second 糖 as all pieces dodge him in a round of peekaboo. 3.0-4.5s: he floats upside-down, the pieces tiptoe back behind him and pop into 糖 at 70% of frame height; he lands with a soft bounce. 4.5-5.0s: the voice says 糖果 (ㄊㄤˊ ㄍㄨㄛˇ) as wrapped candies rain down and tink off his helmet. Final hold: 5.0-8.0s: the glyph is perfectly still; the astronaut hovers and catches a candy in a mitten. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 糖、糖、糖果 (ㄊㄤˊ、ㄊㄤˊ、ㄊㄤˊ ㄍㄨㄛˇ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 糖 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

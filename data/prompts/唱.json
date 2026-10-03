@@ -1,0 +1,25 @@
+[
+  {
+    "char": "唱",
+    "meaning": "to sing",
+    "zhuyin": "ㄔㄤˋ",
+    "emoji": "🎤",
+    "conceptZh": "廚師動物邊揉麵邊唱歌，小鴨子慢一拍學唱。",
+    "object": "a rotund chef cat in a tall hat and a tiny duckling copying it",
+    "morph": "chef and duckling's musical notes line up into strokes forming 唱",
+    "creativeAngle": "小鴨慢一拍模仿廚師揮麵團和張嘴唱歌，造成可愛的錯拍，音符變成筆畫。",
+    "promptEn": "An 8-second animated clip on a warm peach-cream kitchen-stage backdrop. Lead: a rotund cartoon chef cat in a very tall white hat, tossing pizza dough with extra confidence. A small yellow duckling in a paper chef hat copies every move one beat late. The finished glyph 唱 is a saturated tomato-red, centered, about 70% of frame height.\n0.0-1.7s: the chef flings a dough disc up, catches it on his head; one beat later the duckling flings a tiny dough disc, and it lands over the chef's eyes. First \"唱\" as the chef opens his mouth wide and a big musical note puffs out.\n1.7-3.3s: copycat mix-up: the chef spins, the duckling spins the other way and they bump bellies; the second \"唱\" lands as the duckling's note collides with the chef's note and both notes stick on the stage as the mouth-strokes of the glyph.\n3.3-5.0s: the chef points a wooden spoon like a baton, the duckling pecks a second note; stacked notes slide into the remaining strokes and 唱 appears with a bright ding.\n5.0-8.0s: HOLD, glyph perfectly still. On \"唱歌\" the chef and duckling sing silently with big mouths into spoon microphones, sway together, the duckling one beat late, hats bobbing beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"唱、唱、唱歌\" (ㄔㄤˋ、ㄔㄤˋ、ㄔㄤˋ ㄍㄜ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 唱.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.277Z",
+    "id": "9577d973-91cc-4cef-9b2e-d6c13d523130",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5353666c239eb798f78f32e9654c725c6634b4027f96a3f0c6e05f54c9f6524c",
+    "hash": "63a352f570dc9f345485a48ab4183229cb78d782a4f2446020fa2262807a494b",
+    "formatted": "【目標國字】：唱\n【設計概念】：廚師動物邊揉麵邊唱歌，小鴨子慢一拍學唱。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm peach-cream kitchen-stage backdrop. Lead: a rotund cartoon chef cat in a very tall white hat, tossing pizza dough with extra confidence. A small yellow duckling in a paper chef hat copies every move one beat late. The finished glyph 唱 is a saturated tomato-red, centered, about 70% of frame height.\n0.0-1.7s: the chef flings a dough disc up, catches it on his head; one beat later the duckling flings a tiny dough disc, and it lands over the chef's eyes. First \"唱\" as the chef opens his mouth wide and a big musical note puffs out.\n1.7-3.3s: copycat mix-up: the chef spins, the duckling spins the other way and they bump bellies; the second \"唱\" lands as the duckling's note collides with the chef's note and both notes stick on the stage as the mouth-strokes of the glyph.\n3.3-5.0s: the chef points a wooden spoon like a baton, the duckling pecks a second note; stacked notes slide into the remaining strokes and 唱 appears with a bright ding.\n5.0-8.0s: HOLD, glyph perfectly still. On \"唱歌\" the chef and duckling sing silently with big mouths into spoon microphones, sway together, the duckling one beat late, hats bobbing beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"唱、唱、唱歌\" (ㄔㄤˋ、ㄔㄤˋ、ㄔㄤˋ ㄍㄜ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 唱.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

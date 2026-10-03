@@ -1,0 +1,25 @@
+[
+  {
+    "char": "瓜",
+    "meaning": "melon",
+    "zhuyin": "ㄍㄨㄚ",
+    "emoji": "🍉",
+    "conceptZh": "瓜：藤蔓上垂著一顆瓜，中間的小點是瓜瓤。",
+    "object": "a rotund cartoon chef hippo in a tall hat flinging dough, and a row of toy watermelons",
+    "morph": "a flick of dough starts a domino chain of rolling melon pieces that luckily land as 瓜",
+    "creativeAngle": "胖廚師河馬亂丟麵團，一路撞倒西瓜骨牌，剛好落成瓜字。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 瓜 (melon), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rotund cartoon chef hippo in a tall hat flinging dough, and a row of toy watermelons. Warm lemon-yellow backdrop with a checkered cloth strip at the bottom; the glyph is striped watermelon-green. Timed beats. 0.0-1.5s: a rotund hippo chef in a tall white hat spins pizza dough with a flourish; the voice says the first 瓜 as the dough flies off his fingers and slaps the first of a line of tiny toy melons. 1.5-3.0s: the first melon bumps the second, and a domino chain of stripy green pieces topples across the frame; the chef covers his eyes. The voice says the second 瓜 as the last piece slides in and the strokes line up. 3.0-4.5s: the final melon rolls in and bonks the top bar with a springy boing, completing the green 瓜; the chef peeks through his fingers and gasps. 4.5-5.0s: the voice says 西瓜 (ㄒㄧ ㄍㄨㄚ) as a plump watermelon splits open at the chef's feet and he lifts a juicy red slice. Final hold: 5.0-8.0s: the glyph is still; the chef does a tiny proud jig with the slice at the edge. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 瓜、瓜、西瓜 (ㄍㄨㄚ、ㄍㄨㄚ、ㄒㄧ ㄍㄨㄚ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 瓜 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.340Z",
+    "id": "ab63d6b4-4023-4332-aadf-e51284e0a757",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0e09626fc34d2af610b6d15d80a6e1e3f28f7a6aa9f65c7b129ec1ea5a8c5613",
+    "hash": "ae8530369ae3dc5b10dcb87234b4cd80343cbbbd5cd4c7894780163a85ddea67",
+    "formatted": "【目標國字】：瓜\n【設計概念】：瓜：藤蔓上垂著一顆瓜，中間的小點是瓜瓤。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 瓜 (melon), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rotund cartoon chef hippo in a tall hat flinging dough, and a row of toy watermelons. Warm lemon-yellow backdrop with a checkered cloth strip at the bottom; the glyph is striped watermelon-green. Timed beats. 0.0-1.5s: a rotund hippo chef in a tall white hat spins pizza dough with a flourish; the voice says the first 瓜 as the dough flies off his fingers and slaps the first of a line of tiny toy melons. 1.5-3.0s: the first melon bumps the second, and a domino chain of stripy green pieces topples across the frame; the chef covers his eyes. The voice says the second 瓜 as the last piece slides in and the strokes line up. 3.0-4.5s: the final melon rolls in and bonks the top bar with a springy boing, completing the green 瓜; the chef peeks through his fingers and gasps. 4.5-5.0s: the voice says 西瓜 (ㄒㄧ ㄍㄨㄚ) as a plump watermelon splits open at the chef's feet and he lifts a juicy red slice. Final hold: 5.0-8.0s: the glyph is still; the chef does a tiny proud jig with the slice at the edge. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 瓜、瓜、西瓜 (ㄍㄨㄚ、ㄍㄨㄚ、ㄒㄧ ㄍㄨㄚ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 瓜 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

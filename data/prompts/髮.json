@@ -1,0 +1,25 @@
+[
+  {
+    "char": "髮",
+    "meaning": "hair",
+    "zhuyin": "ㄈㄚˇ",
+    "emoji": "💇",
+    "conceptZh": "頭上長出的細絲。",
+    "object": "a barrel-shaped toy pirate, a mischievous parrot, and sneaky strands of yarn hair",
+    "morph": "strokes of 髮 sneak in from the edges, dodging the pirate before settling",
+    "creativeAngle": "毛線髮絲從畫面邊緣偷偷溜進來躲海盜，最後排成「髮」；頭髮。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a salmon-pink toy beach with a wavy turquoise sea, a barrel-shaped toy pirate in a bandana inspects the sand while his parrot perches on a rum barrel. 0–1.7s: As the first 髮 is spoken, a curly strand peeks from the left edge, ducks back, and the pirate whirls around holding his spyglass backward. 1.7–3.4s: The second 髮 is spoken: two strands pop from the right and top edges at once; the parrot sees them first and squawks silently, pointing a wing the wrong way. 3.4–5.0s: The strands slip under the barrel, the pirate flips it, and they dart in together and weave into the full 髮 in chocolate brown. 5.0–5.9s: As 頭髮 is spoken, a tiny yarn wig lands on the pirate's bald barrel top and the parrot tries on the bandana. Final hold (about 5.0–8.0s): the pirate's wig fans out like a mane while the parrot struts; the glyph holds steady. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 髮、髮、頭髮（ㄈㄚˇ、ㄈㄚˇ、ㄊㄡˊ ㄈㄚˇ）. The first 髮 lands at about 0.9s, the second 髮 at about 2.7s, and the word 頭髮 at about 5.0s, each timed to the picture described above. On-screen text is limited to the one glyph 髮 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 髮 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.678Z",
+    "id": "0d92ece8-5792-401a-8d33-db223da2b9e7",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "ac4ee82a08d7e5debac776ce867b320385495501e3d945df5894aadef1b2a309",
+    "hash": "741a3e52852c39f0d748207dae57e2857279ebb09ecfeefa64e4688435b31623",
+    "formatted": "【目標國字】：髮\n【設計概念】：頭上長出的細絲。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a salmon-pink toy beach with a wavy turquoise sea, a barrel-shaped toy pirate in a bandana inspects the sand while his parrot perches on a rum barrel. 0–1.7s: As the first 髮 is spoken, a curly strand peeks from the left edge, ducks back, and the pirate whirls around holding his spyglass backward. 1.7–3.4s: The second 髮 is spoken: two strands pop from the right and top edges at once; the parrot sees them first and squawks silently, pointing a wing the wrong way. 3.4–5.0s: The strands slip under the barrel, the pirate flips it, and they dart in together and weave into the full 髮 in chocolate brown. 5.0–5.9s: As 頭髮 is spoken, a tiny yarn wig lands on the pirate's bald barrel top and the parrot tries on the bandana. Final hold (about 5.0–8.0s): the pirate's wig fans out like a mane while the parrot struts; the glyph holds steady. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 髮、髮、頭髮（ㄈㄚˇ、ㄈㄚˇ、ㄊㄡˊ ㄈㄚˇ）. The first 髮 lands at about 0.9s, the second 髮 at about 2.7s, and the word 頭髮 at about 5.0s, each timed to the picture described above. On-screen text is limited to the one glyph 髮 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 髮 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "看",
+    "meaning": "to look",
+    "zhuyin": "ㄎㄢˋ",
+    "emoji": "👀",
+    "conceptZh": "布忍者躲在細柱子後面，以為沒人看見，其實球彈來彈去把「看」的各部分一次次撞進位置，他一直探頭偷看。",
+    "object": "felt ninja hiding badly, a bouncy rubber ball",
+    "morph": "the ball knocks the hand shape and the eye box into place",
+    "creativeAngle": "忍者自以為隱形，每次探頭都害自己被看到。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a soft jade-green stage with a cream floor; the glyph is solid navy 看, a hand-like top over an eye box 目. A tiny felt ninja hides behind a thin pole at right, his round body clearly sticking out on both sides. The Traditional Chinese glyph 看 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): a red rubber ball drops in and ricochets off the pole; the ninja's head peeks out and he freezes; the first 看 is spoken as the ball hits. Moment two (1.8-3.5s): the ball bounces twice more: the first bounce slides the hand shape in place, the second drops the eye box under it with a click; the ninja peeks again from the other side; the second 看 is spoken at the click. Moment three (3.5-5.0s): the ninja pulls out a small storybook, holds it up and opens it with great seriousness; 看書 is spoken as the book opens with a flutter. From 5.0-8.0s the glyph 看 is perfectly still and unobstructed; the ninja tucks behind the book, still fully visible, and wiggles his belly proudly. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「看、看、看書」, read as ㄎㄢˋ、ㄎㄢˋ、ㄎㄢˋ ㄕㄨ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft rubber bounces and a page flutter, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.497Z",
+    "id": "4acdc6f8-f265-4a93-b6ca-e7c6bf8839c0",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "bc80a190fdf097af975f760d03edc1ea3852ab91d61216b24f7bcf77de90f5fe",
+    "hash": "369fff658ae702e49e9cdff33708a65784976ec97016c8045870fa5af41a22d5",
+    "formatted": "【目標國字】：看\n【設計概念】：布忍者躲在細柱子後面，以為沒人看見，其實球彈來彈去把「看」的各部分一次次撞進位置，他一直探頭偷看。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a soft jade-green stage with a cream floor; the glyph is solid navy 看, a hand-like top over an eye box 目. A tiny felt ninja hides behind a thin pole at right, his round body clearly sticking out on both sides. The Traditional Chinese glyph 看 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): a red rubber ball drops in and ricochets off the pole; the ninja's head peeks out and he freezes; the first 看 is spoken as the ball hits. Moment two (1.8-3.5s): the ball bounces twice more: the first bounce slides the hand shape in place, the second drops the eye box under it with a click; the ninja peeks again from the other side; the second 看 is spoken at the click. Moment three (3.5-5.0s): the ninja pulls out a small storybook, holds it up and opens it with great seriousness; 看書 is spoken as the book opens with a flutter. From 5.0-8.0s the glyph 看 is perfectly still and unobstructed; the ninja tucks behind the book, still fully visible, and wiggles his belly proudly. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「看、看、看書」, read as ㄎㄢˋ、ㄎㄢˋ、ㄎㄢˋ ㄕㄨ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft rubber bounces and a page flutter, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

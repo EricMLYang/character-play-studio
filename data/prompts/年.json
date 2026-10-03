@@ -1,0 +1,25 @@
+[
+  {
+    "char": "年",
+    "meaning": "year",
+    "zhuyin": "ㄋㄧㄢˊ",
+    "emoji": "🧧",
+    "conceptZh": "發條樂團的小熊鼓手用力過猛衝過頭，滑回來輕輕一敲，年字才站好。",
+    "object": "a wind-up animal band with a bear drummer and bunny cymbals",
+    "morph": "an overeager drum charge flies past, skids back, and the gentle second try places the strokes of 年",
+    "creativeAngle": "過猶不及：第一次太用力，第二次輕輕就成功。",
+    "promptEn": "An 8-second animated clip on a warm ivory background, with one single Traditional Chinese glyph 年 as the only text on screen, drawn in festive lacquer red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a tin wind-up bear drummer cranks his key until his key spins like a propeller and he rockets across the frame, shooting past the center where the first 年 is spoken and only the 生-like top strokes of 年 fall in with a clang. 1.7-3.4s: he skids back on his rubber feet with sparks of confetti, bumping a wind-up bunny cymbalist whose cymbals crash; the second 年 spoken as the long middle stroke drops down and the bottom bar tucks under it. 3.4-5s: the bear takes a gentle second try, tapping the drum once softly; 過年 is spoken as the drum pops open and a cloud of red paper pom-poms and a tiny paper lantern puffs up (animated shapes, no text). 5-8s: hold; the bear and bunny wobble in a tiny wind-up dance beside the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"年、年、過年\" (ㄋㄧㄢˊ、ㄋㄧㄢˊ、ㄍㄨㄛˋ ㄋㄧㄢˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 年 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.518Z",
+    "id": "82cbe1c9-f232-4660-8b87-c82510671706",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "12ebd812441ff6ef9d213ffad5d5fe5e605b7a0d1d06b5a32929bded92b4bca8",
+    "hash": "52f0465e7ee8326a33d8f048a933ec4d1d319019f7c7c46c77aa9d8586750fe9",
+    "formatted": "【目標國字】：年\n【設計概念】：發條樂團的小熊鼓手用力過猛衝過頭，滑回來輕輕一敲，年字才站好。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm ivory background, with one single Traditional Chinese glyph 年 as the only text on screen, drawn in festive lacquer red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a tin wind-up bear drummer cranks his key until his key spins like a propeller and he rockets across the frame, shooting past the center where the first 年 is spoken and only the 生-like top strokes of 年 fall in with a clang. 1.7-3.4s: he skids back on his rubber feet with sparks of confetti, bumping a wind-up bunny cymbalist whose cymbals crash; the second 年 spoken as the long middle stroke drops down and the bottom bar tucks under it. 3.4-5s: the bear takes a gentle second try, tapping the drum once softly; 過年 is spoken as the drum pops open and a cloud of red paper pom-poms and a tiny paper lantern puffs up (animated shapes, no text). 5-8s: hold; the bear and bunny wobble in a tiny wind-up dance beside the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"年、年、過年\" (ㄋㄧㄢˊ、ㄋㄧㄢˊ、ㄍㄨㄛˋ ㄋㄧㄢˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 年 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

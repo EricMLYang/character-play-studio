@@ -1,0 +1,25 @@
+[
+  {
+    "char": "拍",
+    "meaning": "to clap / pat",
+    "zhuyin": "ㄆㄞ",
+    "emoji": "👏",
+    "conceptZh": "發條樂團的小動物躲貓貓，筆畫從邊緣偷偷溜進來，最後拍手。",
+    "object": "a wind-up animal band: a drumming bunny, a honking goose and a clapping panda",
+    "morph": "glyph pieces peek in from the frame edges and dodge the band before settling as 拍",
+    "creativeAngle": "樂團成員追著從邊緣探頭的筆畫，樂器亂響倒下，最後一起拍手。",
+    "promptEn": "An 8-second animated clip on a pale seafoam-and-cream stage backdrop with a red curtain edge. Lead: a wind-up toy band, a tin drummer bunny and a honking goose, each with a visible turning key in the back. The finished glyph 拍 is a saturated teal-green, centered, about 70% of frame height.\n0.0-1.7s: the drummer bunny clacks a drum; a teal left-hand stroke peeks in from the left edge, ducks away as the bunny turns. First \"拍\" as the goose honks and a stroke peeks from the top edge.\n1.7-3.3s: hide-and-peek: strokes pop in and out of the left, right and bottom edges, and the band spins their keys faster to chase them; the cymbal falls over with a soft clang. Second \"拍\" lands as all the strokes finally slip in and sit down together.\n3.3-5.0s: the goose gives a big honk, the strokes straighten and the glyph 拍 clicks together.\n5.0-8.0s: HOLD, glyph perfectly still. At \"拍手\" the whole band stops, keys winding down slowly, and the bunny and goose clap their paws and wings together, tiny sparkle stickers floating beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"拍、拍、拍手\" (ㄆㄞ、ㄆㄞ、ㄆㄞ ㄕㄡˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 拍.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.673Z",
+    "id": "306023c1-b239-4213-9508-ba27cd543202",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "2ed337004a016a227090bf5ed33c0929d55cdc8f7c4f7f73428f666cadb69da7",
+    "hash": "ea6035ebb47e846f3372a050868c762a8690d914b4677f84dd42dabd8f536bee",
+    "formatted": "【目標國字】：拍\n【設計概念】：發條樂團的小動物躲貓貓，筆畫從邊緣偷偷溜進來，最後拍手。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale seafoam-and-cream stage backdrop with a red curtain edge. Lead: a wind-up toy band, a tin drummer bunny and a honking goose, each with a visible turning key in the back. The finished glyph 拍 is a saturated teal-green, centered, about 70% of frame height.\n0.0-1.7s: the drummer bunny clacks a drum; a teal left-hand stroke peeks in from the left edge, ducks away as the bunny turns. First \"拍\" as the goose honks and a stroke peeks from the top edge.\n1.7-3.3s: hide-and-peek: strokes pop in and out of the left, right and bottom edges, and the band spins their keys faster to chase them; the cymbal falls over with a soft clang. Second \"拍\" lands as all the strokes finally slip in and sit down together.\n3.3-5.0s: the goose gives a big honk, the strokes straighten and the glyph 拍 clicks together.\n5.0-8.0s: HOLD, glyph perfectly still. At \"拍手\" the whole band stops, keys winding down slowly, and the bunny and goose clap their paws and wings together, tiny sparkle stickers floating beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"拍、拍、拍手\" (ㄆㄞ、ㄆㄞ、ㄆㄞ ㄕㄡˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 拍.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

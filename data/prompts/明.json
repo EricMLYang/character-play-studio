@@ -1,0 +1,25 @@
+[
+  {
+    "char": "明",
+    "meaning": "bright",
+    "zhuyin": "ㄇㄧㄥˊ",
+    "emoji": "💡",
+    "conceptZh": "太陽燈和月亮燈拔河，把「日」和「月」拉近。",
+    "object": "toy sun lamp and moon nightlight",
+    "morph": "sun square and moon crescent pulled together into 明",
+    "creativeAngle": "兩盞燈拔河，啪一聲靠在一起。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a deep-sky-blue stage that stays light; the glyph is warm gold 日 on the left and silver-blue 月 on the right. A bouncy astronaut toy stands between them holding two ropes. The Traditional Chinese glyph 明 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the astronaut gives each lamp a rope and they tug apart; the first 明 is spoken as ropes go taut. Moment two (1.8-3.5s): the ropes spring back and 日 and 月 snap shoulder to shoulder, both flashing softly once; the second 明 is spoken at the snap, the astronaut bouncing off the floor. Moment three (3.5-5.0s): a calendar page of tomorrow flaps open with a sunrise sticker; 明天 is spoken as the sunrise sticker rises. From 5.0-8.0s the glyph 明 is perfectly still and unobstructed; the astronaut waves with both gloves while a tiny star twinkles. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「明、明、明天」, read as ㄇㄧㄥˊ、ㄇㄧㄥˊ、ㄇㄧㄥˊ ㄊㄧㄢ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only gentle rope twangs and a soft chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.788Z",
+    "id": "f6106b96-84ac-40fc-97bc-b16d642fc00c",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b05d2a62790488dbff2d0143b72beef48bef516e304704c5d6da622f675bdd25",
+    "hash": "e1fdddce6aa64e1b01702a45a866f5fa83cfd5be156abccf86fa25a56847e47c",
+    "formatted": "【目標國字】：明\n【設計概念】：太陽燈和月亮燈拔河，把「日」和「月」拉近。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a deep-sky-blue stage that stays light; the glyph is warm gold 日 on the left and silver-blue 月 on the right. A bouncy astronaut toy stands between them holding two ropes. The Traditional Chinese glyph 明 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the astronaut gives each lamp a rope and they tug apart; the first 明 is spoken as ropes go taut. Moment two (1.8-3.5s): the ropes spring back and 日 and 月 snap shoulder to shoulder, both flashing softly once; the second 明 is spoken at the snap, the astronaut bouncing off the floor. Moment three (3.5-5.0s): a calendar page of tomorrow flaps open with a sunrise sticker; 明天 is spoken as the sunrise sticker rises. From 5.0-8.0s the glyph 明 is perfectly still and unobstructed; the astronaut waves with both gloves while a tiny star twinkles. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「明、明、明天」, read as ㄇㄧㄥˊ、ㄇㄧㄥˊ、ㄇㄧㄥˊ ㄊㄧㄢ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only gentle rope twangs and a soft chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

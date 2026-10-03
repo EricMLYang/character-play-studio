@@ -1,0 +1,25 @@
+[
+  {
+    "char": "冰",
+    "meaning": "ice",
+    "zhuyin": "ㄅㄧㄥ",
+    "emoji": "🧊",
+    "conceptZh": "冰是水變冷以後變硬的樣子",
+    "object": "a stout detective pig with a huge magnifying glass and a cube of ice",
+    "morph": "a too-big magnifying glass makes a tiny ice cube look huge, then strokes freeze into 冰",
+    "creativeAngle": "豬探長的放大鏡太大，冰塊一下大一下小，鏡子結霜變成字。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 冰 (ice). Lead: a round detective pig in a checkered hat, magnifying glass bigger than his head. Moment 1 (0-1.7s): he squints through the glass at a tiny dot, the lens makes his eye giant; the voice says 冰 as a sparkling crystal appears. Moment 2 (1.7-3.4s): he drags the glass down; the crystal's frost creeps into blue strokes that settle into 冰 on the second 冰. Moment 3 (3.4-5.3s): the glass is too heavy and tips over; a square ice cube slides across the floor with the pig sliding after it as the voice says 冰塊; he ends up sitting on it, rump cold. Moment 4 (5.3-8s): glyph still; the pig licks a tiny ice pop and shivers happily. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"冰、冰、冰塊\" (ㄅㄧㄥ、ㄅㄧㄥ、ㄅㄧㄥ ㄎㄨㄞˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 冰, drawn as saturated solid cyan blue strokes on a pale warm white-gray background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.052Z",
+    "id": "f0783f26-a715-42a5-b687-f6dca69b99d3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "ee39cb469827b76acfe395eb3a8f6620279d1b22e6ee8cbde20d912b83b48da9",
+    "hash": "1f861c5805cc28645bf6938a5f124c6044799004254a5a0e6ffcd7bda0607f6c",
+    "formatted": "【目標國字】：冰\n【設計概念】：冰是水變冷以後變硬的樣子\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 冰 (ice). Lead: a round detective pig in a checkered hat, magnifying glass bigger than his head. Moment 1 (0-1.7s): he squints through the glass at a tiny dot, the lens makes his eye giant; the voice says 冰 as a sparkling crystal appears. Moment 2 (1.7-3.4s): he drags the glass down; the crystal's frost creeps into blue strokes that settle into 冰 on the second 冰. Moment 3 (3.4-5.3s): the glass is too heavy and tips over; a square ice cube slides across the floor with the pig sliding after it as the voice says 冰塊; he ends up sitting on it, rump cold. Moment 4 (5.3-8s): glyph still; the pig licks a tiny ice pop and shivers happily. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"冰、冰、冰塊\" (ㄅㄧㄥ、ㄅㄧㄥ、ㄅㄧㄥ ㄎㄨㄞˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 冰, drawn as saturated solid cyan blue strokes on a pale warm white-gray background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

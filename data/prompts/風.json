@@ -1,0 +1,25 @@
+[
+  {
+    "char": "風",
+    "meaning": "wind",
+    "zhuyin": "ㄈㄥ",
+    "emoji": "🌬️",
+    "conceptZh": "風會吹動東西，我們看不見它",
+    "object": "a wind-up animal band with a bunny, a bear and a duck, plus a kite",
+    "morph": "two band halves pull a streamer in opposite directions until strokes spring together into 風",
+    "creativeAngle": "發條樂團兩邊拉布條，風一吹就把風箏、筆畫吹成字。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 風 (wind). Lead: a wind-up band of a bunny with cymbals, a bear with a drum and a duck with a horn, keys turning on their backs. Moment 1 (0-1.7s): the band tries to start, the horn honks and a gust blows the drummer sideways; the voice says 風. Moment 2 (1.7-3.4s): bunny and bear tug a long ribbon in opposite directions; the gust blows the ribbon into 風 on the second 風, the strokes snapping like elastic. Moment 3 (3.4-5.3s): the ribbon becomes the tail of a red diamond kite that lifts the duck; as the voice says 風箏 the kite loops high and the band waves from below. Moment 4 (5.3-8s): glyph still; the bear sways with the wind, drum rolling silently. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"風、風、風箏\" (ㄈㄥ、ㄈㄥ、ㄈㄥ ㄓㄥ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 風, drawn as saturated solid teal blue strokes on a pale warm cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.606Z",
+    "id": "d7f95d96-d2a2-49a5-a3fc-13f64a488a39",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "37cdafe7a3e6839d819e4bb639ab44a90c754513f943f740e35003e559cfe73e",
+    "hash": "b48365f08a1b88e33bbe5690e367e48dcd6d36bf1d7e38223f09400aecf89d5e",
+    "formatted": "【目標國字】：風\n【設計概念】：風會吹動東西，我們看不見它\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 風 (wind). Lead: a wind-up band of a bunny with cymbals, a bear with a drum and a duck with a horn, keys turning on their backs. Moment 1 (0-1.7s): the band tries to start, the horn honks and a gust blows the drummer sideways; the voice says 風. Moment 2 (1.7-3.4s): bunny and bear tug a long ribbon in opposite directions; the gust blows the ribbon into 風 on the second 風, the strokes snapping like elastic. Moment 3 (3.4-5.3s): the ribbon becomes the tail of a red diamond kite that lifts the duck; as the voice says 風箏 the kite loops high and the band waves from below. Moment 4 (5.3-8s): glyph still; the bear sways with the wind, drum rolling silently. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"風、風、風箏\" (ㄈㄥ、ㄈㄥ、ㄈㄥ ㄓㄥ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 風, drawn as saturated solid teal blue strokes on a pale warm cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

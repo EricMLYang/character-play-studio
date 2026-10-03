@@ -1,0 +1,25 @@
+[
+  {
+    "char": "鴨",
+    "meaning": "duck",
+    "zhuyin": "ㄧㄚ",
+    "emoji": "🦆",
+    "conceptZh": "玩具機器人用力過猛，衝過頭，小鴨被撞得轉圈，第二次輕輕一推才讓鴨字站好。",
+    "object": "a boxy mismatched toy robot and a rubber duck",
+    "morph": "a robot overshoots, skids back, and the gentle second push settles the strokes of 鴨",
+    "creativeAngle": "過頭再輕輕：長短手機器人學會輕推。",
+    "promptEn": "An 8-second animated clip on a pale sunny blue background, with one single Traditional Chinese glyph 鴨 as the only text on screen, drawn in butter-orange solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a boxy toy robot built from mismatched parts, with one very long arm, charges at a floating rubber duck and shoots past it, the first 鴨 spoken as the left 甲 shape clangs in at the left. 1.7-3.4s: he skids back on his treads with sparks of confetti and bonks the duck so it spins like a top; the second 鴨 is spoken as the right 鳥 strokes drop in after the duck's spin slows. 3.4-5s: he tries again with only a fingertip nudge, and 小鴨 is spoken as the duck squeaks, bobs on a puddle, and blows one small bubble that floats up. 5-8s: hold; the robot's long arm waves and the duck paddles in a little circle, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"鴨、鴨、小鴨\" (ㄧㄚ、ㄧㄚ、ㄒㄧㄠˇ ㄧㄚ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 鴨 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.702Z",
+    "id": "590c43f9-5f9e-48ea-975a-873c6fe53d0a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3a582f2c52afef2b2093cd7d64d4a03beb417a77ba69157aff31139a81970f6b",
+    "hash": "f51e286d69ff49428a5b2536744033197200a538336b6a9ce4cf5c5668db2a1f",
+    "formatted": "【目標國字】：鴨\n【設計概念】：玩具機器人用力過猛，衝過頭，小鴨被撞得轉圈，第二次輕輕一推才讓鴨字站好。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale sunny blue background, with one single Traditional Chinese glyph 鴨 as the only text on screen, drawn in butter-orange solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a boxy toy robot built from mismatched parts, with one very long arm, charges at a floating rubber duck and shoots past it, the first 鴨 spoken as the left 甲 shape clangs in at the left. 1.7-3.4s: he skids back on his treads with sparks of confetti and bonks the duck so it spins like a top; the second 鴨 is spoken as the right 鳥 strokes drop in after the duck's spin slows. 3.4-5s: he tries again with only a fingertip nudge, and 小鴨 is spoken as the duck squeaks, bobs on a puddle, and blows one small bubble that floats up. 5-8s: hold; the robot's long arm waves and the duck paddles in a little circle, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"鴨、鴨、小鴨\" (ㄧㄚ、ㄧㄚ、ㄒㄧㄠˇ ㄧㄚ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 鴨 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

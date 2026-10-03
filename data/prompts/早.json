@@ -1,0 +1,25 @@
+[
+  {
+    "char": "早",
+    "meaning": "morning; early",
+    "zhuyin": "ㄗㄠˇ",
+    "emoji": "🌅",
+    "conceptZh": "早是太陽剛升起來的清晨",
+    "object": "a boxy mismatched toy robot with one long arm and a huge cardboard sun",
+    "morph": "the robot cranks a huge round sun up over a short post so that 日 sits on 十, forming 早",
+    "creativeAngle": "早字是「日」在「十」上，像太陽升在旗桿上；機器人的大太陽比自己還大，只好用那條長手臂撐住。詞用「早安」。",
+    "promptEn": "An 8-second 3D animated toy clip on a clean solid pale sky-blue backdrop, locked camera. The only text is the single Traditional Chinese glyph 早, centered in saturated sunrise-orange strokes about 70 percent of frame height: a squarish 日 on top standing directly over the cross 十 below. Cast: a boxy toy robot named Bolt made of mismatched tin parts, with a rusty blue body, one arm much longer than the other, and a wind-up key in his back. Moment one, 0 to 1.8s: Bolt marches in from the left in a morning stretch, yawning with a squeaky creak, dragging a sun that is far too big, a glowing golden disc taller than he is, wrapped in a ribbon like a balloon. The first 早 is spoken as the sun bumps on his head. Moment two, 1.8 to 3.5s: the sun rolls off and tries to carry him up into the sky, so Bolt grabs it with his long arm, swings it round like a lasso, and ties it to a thin short post made of the cross 十 which snaps up out of the floor. The second 早 is spoken as the sun lands on the post, clicking into the square of 日. Moment three, 3.5 to 5.0s: the sun wobbles on the post, tipping this way and that; Bolt stretches his short arm out uselessly, then his long arm reaches all the way across and steadies it, one clamp on the side of the sun. A tiny sprout of steam from his ears puffs out. Moment four, 5.0s onward: Bolt does a tiny proud wave and pops open the top of his head where a small toast pops up. From 5.0 to 8.0s the glyph is perfectly still and uncovered, and the long arm waves slowly at the bottom of frame while the little toast on his head turns golden, never touching the strokes. Audio: a warm friendly off-screen voice in clear Taiwanese Mandarin says exactly 「早、早、早安」, slowly with clear tones as ㄗㄠˇ、ㄗㄠˇ、ㄗㄠˇ ㄢ. First 早 near 0.7s, second near 2.4s, and 早安 around 5.3s as Bolt waves. Stop after the word. Only soft creaks and a gentle pop, no background music. Soft studio lighting, vivid not neon colors, no flashing, no lens flare, no watermark, no subtitles, no vocabulary text, and no writing other than the single glyph 早.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:16.172Z",
+    "id": "dc8b1c05-fc9c-405d-8cca-a5a6c8faa48b",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "28af8a8a91777f5d438a16e2c1e738d01710c878bd7ecc87b01b2d2fd0fb2ccd",
+    "hash": "0008bec8caa0a7b51898d327c9d6b63e888fc75768847c90e165aaabc6b5c961",
+    "formatted": "【目標國字】：早\n【設計概念】：早是太陽剛升起來的清晨\n【8s Video Prompt】:\n```text\nAn 8-second 3D animated toy clip on a clean solid pale sky-blue backdrop, locked camera. The only text is the single Traditional Chinese glyph 早, centered in saturated sunrise-orange strokes about 70 percent of frame height: a squarish 日 on top standing directly over the cross 十 below. Cast: a boxy toy robot named Bolt made of mismatched tin parts, with a rusty blue body, one arm much longer than the other, and a wind-up key in his back. Moment one, 0 to 1.8s: Bolt marches in from the left in a morning stretch, yawning with a squeaky creak, dragging a sun that is far too big, a glowing golden disc taller than he is, wrapped in a ribbon like a balloon. The first 早 is spoken as the sun bumps on his head. Moment two, 1.8 to 3.5s: the sun rolls off and tries to carry him up into the sky, so Bolt grabs it with his long arm, swings it round like a lasso, and ties it to a thin short post made of the cross 十 which snaps up out of the floor. The second 早 is spoken as the sun lands on the post, clicking into the square of 日. Moment three, 3.5 to 5.0s: the sun wobbles on the post, tipping this way and that; Bolt stretches his short arm out uselessly, then his long arm reaches all the way across and steadies it, one clamp on the side of the sun. A tiny sprout of steam from his ears puffs out. Moment four, 5.0s onward: Bolt does a tiny proud wave and pops open the top of his head where a small toast pops up. From 5.0 to 8.0s the glyph is perfectly still and uncovered, and the long arm waves slowly at the bottom of frame while the little toast on his head turns golden, never touching the strokes. Audio: a warm friendly off-screen voice in clear Taiwanese Mandarin says exactly 「早、早、早安」, slowly with clear tones as ㄗㄠˇ、ㄗㄠˇ、ㄗㄠˇ ㄢ. First 早 near 0.7s, second near 2.4s, and 早安 around 5.3s as Bolt waves. Stop after the word. Only soft creaks and a gentle pop, no background music. Soft studio lighting, vivid not neon colors, no flashing, no lens flare, no watermark, no subtitles, no vocabulary text, and no writing other than the single glyph 早.\n```"
+  }
+]

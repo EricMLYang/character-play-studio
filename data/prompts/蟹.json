@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蟹",
+    "meaning": "crab",
+    "zhuyin": "ㄒㄧㄝˋ",
+    "emoji": "🦀",
+    "conceptZh": "螃蟹有兩隻大鉗子，橫著走",
+    "object": "a bouncy astronaut toy in a fishbowl helmet and a little red crab",
+    "morph": "the astronaut builds a wrong space-rocket shape first, then rebuilds it into 蟹",
+    "creativeAngle": "太空人玩偶先拼出火箭、再發現不對，改成螃蟹拼出字。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 蟹 (crab). Lead: a bouncy white astronaut toy with a round fishbowl helmet who floats up off the ground whenever he jumps. Moment 1 (0-1.6s): he proudly stacks red stroke parts into a pointed rocket and zooms upward, helmet bumping a ceiling-high cloud as the voice says 蟹. Moment 2 (1.6-3.3s): he notices the rocket is wrong, shrugs, floats down and swaps the pieces with a fast shuffle; at the second 蟹 the parts click into 蟹. Moment 3 (3.3-5s): a small round red crab scuttles sideways across the sand floor to the glyph, claws raised; the voice says 螃蟹 as the astronaut floats up and nose-to-claw with it, the crab pinches his antenna with a harmless boing. Moment 4 (5-8s): glyph still; the astronaut bobs gently while the crab dances sideways. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蟹、蟹、螃蟹\" (ㄒㄧㄝˋ、ㄒㄧㄝˋ、ㄆㄤˊ ㄒㄧㄝˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蟹, drawn as saturated solid coral red strokes on a pale sky blue background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.285Z",
+    "id": "2f747c3b-9224-4f38-aa14-930b86edb97f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d5ae65c29f9d9a36e3b2699d92a478e44d570c66549a6c227da0413213da3dcd",
+    "hash": "391a5e4db9915928b4e6a2306610967539f0ce3ffdedd3df0cc42f4355886887",
+    "formatted": "【目標國字】：蟹\n【設計概念】：螃蟹有兩隻大鉗子，橫著走\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 蟹 (crab). Lead: a bouncy white astronaut toy with a round fishbowl helmet who floats up off the ground whenever he jumps. Moment 1 (0-1.6s): he proudly stacks red stroke parts into a pointed rocket and zooms upward, helmet bumping a ceiling-high cloud as the voice says 蟹. Moment 2 (1.6-3.3s): he notices the rocket is wrong, shrugs, floats down and swaps the pieces with a fast shuffle; at the second 蟹 the parts click into 蟹. Moment 3 (3.3-5s): a small round red crab scuttles sideways across the sand floor to the glyph, claws raised; the voice says 螃蟹 as the astronaut floats up and nose-to-claw with it, the crab pinches his antenna with a harmless boing. Moment 4 (5-8s): glyph still; the astronaut bobs gently while the crab dances sideways. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蟹、蟹、螃蟹\" (ㄒㄧㄝˋ、ㄒㄧㄝˋ、ㄆㄤˊ ㄒㄧㄝˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蟹, drawn as saturated solid coral red strokes on a pale sky blue background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

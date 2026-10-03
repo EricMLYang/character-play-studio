@@ -1,0 +1,25 @@
+[
+  {
+    "char": "爬",
+    "meaning": "to climb / crawl",
+    "zhuyin": "ㄆㄚˊ",
+    "emoji": "🧗",
+    "conceptZh": "消防小隊的水管不聽話，把小消防員甩上樹，最後爬上去。",
+    "object": "a chunky toy fire engine with a stubborn hose and a small toy tree",
+    "morph": "a stubborn fire hose is wrestled into the claw strokes of 爬",
+    "creativeAngle": "水管有自己的主意，亂扭亂噴，消防車智取它當作爬繩，爬上爬下。",
+    "promptEn": "An 8-second animated clip on a warm sunny-yellow backdrop with a rounded green toy hill. Lead: a chunky red toy fire engine with a friendly face and a yellow hose that has a mind of its own. The finished glyph 爬 is a saturated fire-engine red, centered, about 70% of frame height.\n0.0-1.7s: the engine rolls in, the hose pops out and squirts a loop in the air instead of at the target. First \"爬\" as the hose coils itself up like a snake.\n1.7-3.3s: the hose refuses to hold still, wriggling away; the engine chases it and the two grab opposite sides of the coiled strokes. Second \"爬\" lands as the hose lunges and drops the claw-like left strokes in place.\n3.3-5.0s: the engine outsmarts it: he ties the hose to the hill top with a bow and the hose, defeated, stretches taut into the final stroke; 爬 stands complete with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. On \"爬山\" the engine climbs the green toy hill beside the glyph, wheels spinning, sliding back once, then reaching the top and tooting a short happy horn while the hose waves like a flag.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"爬、爬、爬山\" (ㄆㄚˊ、ㄆㄚˊ、ㄆㄚˊ ㄕㄢ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 爬.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.235Z",
+    "id": "3c276e6e-bdbb-48cf-961b-61b8b4f6ed9f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "86136d14bcc03c43004b3fe56aa5648bd6ea4ec9f9edc86cde3de55cf368755a",
+    "hash": "1b791cc065305efea1885fa47d50b17da4ac9a3fcdbd201540a2b9053dc31437",
+    "formatted": "【目標國字】：爬\n【設計概念】：消防小隊的水管不聽話，把小消防員甩上樹，最後爬上去。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm sunny-yellow backdrop with a rounded green toy hill. Lead: a chunky red toy fire engine with a friendly face and a yellow hose that has a mind of its own. The finished glyph 爬 is a saturated fire-engine red, centered, about 70% of frame height.\n0.0-1.7s: the engine rolls in, the hose pops out and squirts a loop in the air instead of at the target. First \"爬\" as the hose coils itself up like a snake.\n1.7-3.3s: the hose refuses to hold still, wriggling away; the engine chases it and the two grab opposite sides of the coiled strokes. Second \"爬\" lands as the hose lunges and drops the claw-like left strokes in place.\n3.3-5.0s: the engine outsmarts it: he ties the hose to the hill top with a bow and the hose, defeated, stretches taut into the final stroke; 爬 stands complete with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. On \"爬山\" the engine climbs the green toy hill beside the glyph, wheels spinning, sliding back once, then reaching the top and tooting a short happy horn while the hose waves like a flag.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"爬、爬、爬山\" (ㄆㄚˊ、ㄆㄚˊ、ㄆㄚˊ ㄕㄢ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 爬.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

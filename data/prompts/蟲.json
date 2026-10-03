@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蟲",
+    "meaning": "bug",
+    "zhuyin": "ㄔㄨㄥˊ",
+    "emoji": "🐛",
+    "conceptZh": "玩具戰士打開禮物盒，蟲一隻一隻彈出來，嚇他一跳，又一起排成蟲字。",
+    "object": "a chunky toy warrior and a surprise gift box",
+    "morph": "three small caterpillar toys pop out and settle as 蟲",
+    "creativeAngle": "驚喜彈出：蟲蟲們從盒子彈出，連戰士都愣住。",
+    "promptEn": "An 8-second animated clip on a pale leaf-green background, with one single Traditional Chinese glyph 蟲 as the only text on screen, drawn in bright magenta-pink solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky toy warrior with a foam sword and round shield swaggers up to a polka-dot gift box and raps on it; the first 蟲 is spoken as the lid wobbles and the top 中 stroke pokes out. 1.7-3.4s: the lid bursts and three tiny stripe caterpillar toys spring out like jack-in-the-box; the warrior does a big double-take, shield flying; the second 蟲 is spoken as the caterpillars crawl into the lower 虫 strokes. 3.4-5s: 昆蟲 is spoken as a toy ladybug and a firefly buzz up out of the box one after the other. 5-8s: hold; the warrior bows his foam sword to the bugs, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蟲、蟲、昆蟲\" (ㄔㄨㄥˊ、ㄔㄨㄥˊ、ㄎㄨㄣ ㄔㄨㄥˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蟲 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.261Z",
+    "id": "e9a03070-811b-40e5-aebe-d4c537dc86a2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "72f7475f964bb5f4fcaca46287993fdbcfd77d58ec3ba81560cb5bd12c54a0c5",
+    "hash": "059b9be4800e42a3e6d786bf63f15fca35638362c23ccbdc10b09f038b2ba039",
+    "formatted": "【目標國字】：蟲\n【設計概念】：玩具戰士打開禮物盒，蟲一隻一隻彈出來，嚇他一跳，又一起排成蟲字。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale leaf-green background, with one single Traditional Chinese glyph 蟲 as the only text on screen, drawn in bright magenta-pink solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky toy warrior with a foam sword and round shield swaggers up to a polka-dot gift box and raps on it; the first 蟲 is spoken as the lid wobbles and the top 中 stroke pokes out. 1.7-3.4s: the lid bursts and three tiny stripe caterpillar toys spring out like jack-in-the-box; the warrior does a big double-take, shield flying; the second 蟲 is spoken as the caterpillars crawl into the lower 虫 strokes. 3.4-5s: 昆蟲 is spoken as a toy ladybug and a firefly buzz up out of the box one after the other. 5-8s: hold; the warrior bows his foam sword to the bugs, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蟲、蟲、昆蟲\" (ㄔㄨㄥˊ、ㄔㄨㄥˊ、ㄎㄨㄣ ㄔㄨㄥˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蟲 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

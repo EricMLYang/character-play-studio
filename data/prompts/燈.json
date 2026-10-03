@@ -1,0 +1,25 @@
+[
+  {
+    "char": "燈",
+    "meaning": "lamp",
+    "zhuyin": "ㄉㄥ",
+    "emoji": "💡",
+    "conceptZh": "燈：火加登，會發亮的燈。",
+    "object": "a chunky toy fire engine and its crew with a mind-of-its-own hose, and a desk lamp in a jack-in-the-box",
+    "morph": "a jack-in-the-box pops a glowing lamp, the fire crew double-takes, and the glowing strokes arrange into 燈",
+    "creativeAngle": "消防車前跳出一盞彈簧燈，大家嚇一跳，光線拼成燈字。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 燈 (lamp), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a chunky toy fire engine and its crew with a mind-of-its-own hose, and a desk lamp in a jack-in-the-box. Soft dusk-lilac backdrop (still bright); the glyph is warm glowing amber-yellow. Timed beats. 0.0-1.5s: a stubby red toy fire engine rolls in, its blue siren lamp spinning; the voice says the first 燈 as a gift box in front of it rattles. 1.5-3.0s: the lid bursts open and a springy toy desk lamp boings out with a bulb head; the engine reverses with a startled squeak and the little crew figures tumble over. The voice says the second 燈 as the lamp's glow spills into the left fire radical. 3.0-4.5s: the engine's hose wriggles, accidentally bends the lamp's neck, and the light drops down into the right strokes, completing 燈. 4.5-5.0s: the voice says 電燈 (ㄉㄧㄢˋ ㄉㄥ) as the lamp's bulb flicks on with a bright warm glow and little sparkles around it, no strobing. Final hold: 5.0-8.0s: the glyph is still; the lamp bows gently and the engine lights its siren in a slow friendly blink. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 燈、燈、電燈 (ㄉㄥ、ㄉㄥ、ㄉㄧㄢˋ ㄉㄥ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 燈 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.215Z",
+    "id": "c93e8476-c3a4-4e20-b2c2-b4c874a1bd57",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "c3854a2b36bd6ba7655e52a0563d276584effeafbb84fb421b31533218e675f7",
+    "hash": "f4f3a3f2298ee62f7c578dc36748876b41709f57ed3525468028f824362fce1e",
+    "formatted": "【目標國字】：燈\n【設計概念】：燈：火加登，會發亮的燈。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 燈 (lamp), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a chunky toy fire engine and its crew with a mind-of-its-own hose, and a desk lamp in a jack-in-the-box. Soft dusk-lilac backdrop (still bright); the glyph is warm glowing amber-yellow. Timed beats. 0.0-1.5s: a stubby red toy fire engine rolls in, its blue siren lamp spinning; the voice says the first 燈 as a gift box in front of it rattles. 1.5-3.0s: the lid bursts open and a springy toy desk lamp boings out with a bulb head; the engine reverses with a startled squeak and the little crew figures tumble over. The voice says the second 燈 as the lamp's glow spills into the left fire radical. 3.0-4.5s: the engine's hose wriggles, accidentally bends the lamp's neck, and the light drops down into the right strokes, completing 燈. 4.5-5.0s: the voice says 電燈 (ㄉㄧㄢˋ ㄉㄥ) as the lamp's bulb flicks on with a bright warm glow and little sparkles around it, no strobing. Final hold: 5.0-8.0s: the glyph is still; the lamp bows gently and the engine lights its siren in a slow friendly blink. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 燈、燈、電燈 (ㄉㄥ、ㄉㄥ、ㄉㄧㄢˋ ㄉㄥ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 燈 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

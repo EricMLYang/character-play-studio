@@ -1,0 +1,25 @@
+[
+  {
+    "char": "美",
+    "meaning": "beautiful",
+    "zhuyin": "ㄇㄟˇ",
+    "emoji": "🌷",
+    "conceptZh": "偵探豬舉著超大放大鏡衝向閃亮的鏡子，衝過頭再輕輕回頭，一次輕巧的重試把「羊」和「大」放好。",
+    "object": "detective pig, oversized magnifying glass, small flower mirror",
+    "morph": "羊 stacks above 大",
+    "creativeAngle": "衝過頭、滑回、第二次輕巧才成功。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a rose-pink gallery wall with a pale-gold floor; the glyph is a sunny golden 美, 羊 above 大, standing at center. A stout cartoon detective pig in a checked cap drags a giant magnifying glass; a small flower-framed hand mirror sits at the far right. The Traditional Chinese glyph 美 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pig spots the sparkly mirror, gasps and sprints with the lens bouncing behind him; the first 美 is spoken as he launches. Moment two (1.8-3.5s): he overshoots and skids across the floor, crashes softly into the glyph's pieces, which tumble and bounce; he scrambles back and the upper 羊 piece and lower 大 piece seat themselves; the second 美 is spoken as 大 clicks under 羊. Moment three (3.5-5.0s): on the gentle second try he tiptoes to the mirror, and a tiny flower blooms from its frame; 美麗 is spoken as the flower opens and sparkles. From 5.0-8.0s the glyph 美 is perfectly still and unobstructed; he sniffs the flower, his glasses fog up, and he twirls once; the glyph does not move. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「美、美、美麗」 with Zhuyin ㄇㄟˇ、ㄇㄟˇ、ㄇㄟˇ ㄌㄧˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only skid squeaks and a soft sparkle chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.761Z",
+    "id": "85ddd15e-3896-4812-bc13-cefaacd0039a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "78a0c17de84d272a3a5a6056039c2fda0f304c97b27fedfdf54c5280f8177068",
+    "hash": "081dd5d846f061a383bc4bb809a8e65cbaa36be54ca2880454715687e9288c3a",
+    "formatted": "【目標國字】：美\n【設計概念】：偵探豬舉著超大放大鏡衝向閃亮的鏡子，衝過頭再輕輕回頭，一次輕巧的重試把「羊」和「大」放好。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a rose-pink gallery wall with a pale-gold floor; the glyph is a sunny golden 美, 羊 above 大, standing at center. A stout cartoon detective pig in a checked cap drags a giant magnifying glass; a small flower-framed hand mirror sits at the far right. The Traditional Chinese glyph 美 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pig spots the sparkly mirror, gasps and sprints with the lens bouncing behind him; the first 美 is spoken as he launches. Moment two (1.8-3.5s): he overshoots and skids across the floor, crashes softly into the glyph's pieces, which tumble and bounce; he scrambles back and the upper 羊 piece and lower 大 piece seat themselves; the second 美 is spoken as 大 clicks under 羊. Moment three (3.5-5.0s): on the gentle second try he tiptoes to the mirror, and a tiny flower blooms from its frame; 美麗 is spoken as the flower opens and sparkles. From 5.0-8.0s the glyph 美 is perfectly still and unobstructed; he sniffs the flower, his glasses fog up, and he twirls once; the glyph does not move. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「美、美、美麗」 with Zhuyin ㄇㄟˇ、ㄇㄟˇ、ㄇㄟˇ ㄌㄧˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only skid squeaks and a soft sparkle chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

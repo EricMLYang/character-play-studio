@@ -1,0 +1,25 @@
+[
+  {
+    "char": "公",
+    "meaning": "grandfather",
+    "zhuyin": "ㄍㄨㄥ",
+    "emoji": "👴",
+    "conceptZh": "爸爸的爸爸，或對年長男性的敬稱。",
+    "object": "a top-hat magician rabbit, an oversized white fake mustache, and a gentle toy grandpa walrus",
+    "morph": "a giant fake mustache and tiny rabbit swap sizes while 公 forms from a magic hat",
+    "creativeAngle": "魔術兔把鬍子變太大，被壓到小小的；最後變出老爺爺玩偶對應「阿公」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a plum-and-gold toy stage with a spangled curtain, a magician rabbit in a tilted top hat taps his wand over an empty hat, ready for a trick that will go wrong. 0–1.7s: With the first 公 spoken, he waves the wand and an enormous white mustache bursts out of the hat, larger than the rabbit, flopping over his whole face. 1.7–3.4s: Stuck under the mustache, he improvises: the second 公 is spoken as he ties the mustache into a big bow and rides it like a sled across the stage, ears streaming. 3.4–5.0s: Wand tap again: the mustache shrinks to a speck, and out of the hat tumble two jaunty ink-red stroke pieces that click into the glyph 公 in the middle of the stage. 5.0–5.9s: As 阿公 is spoken, a kindly toy walrus grandpa with spectacles pops from the hat, wearing the tiny mustache, and the rabbit bows, startled but delighted. Final hold (about 5.0–8.0s): the walrus grandpa tips his cap and the rabbit pulls a daisy from his sleeve, both well away from the strokes. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 公、公、阿公（ㄍㄨㄥ、ㄍㄨㄥ、ㄚ ㄍㄨㄥ）. The first 公 lands at about 0.9s, the second 公 at about 2.7s, and the word 阿公 at about 5.0s, each timed to the picture described above. The only text anywhere in frame is the single glyph 公, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 公 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.017Z",
+    "id": "4d047315-6d1c-42ee-91a7-824b5ce592d3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "074652c8bffdba6497af0197b145a04ec5b5d005105b6d631f7d763190b2ba08",
+    "hash": "cb058787f2493920471045ddfaaf1d4641287c3929687bff6a6535badd878135",
+    "formatted": "【目標國字】：公\n【設計概念】：爸爸的爸爸，或對年長男性的敬稱。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a plum-and-gold toy stage with a spangled curtain, a magician rabbit in a tilted top hat taps his wand over an empty hat, ready for a trick that will go wrong. 0–1.7s: With the first 公 spoken, he waves the wand and an enormous white mustache bursts out of the hat, larger than the rabbit, flopping over his whole face. 1.7–3.4s: Stuck under the mustache, he improvises: the second 公 is spoken as he ties the mustache into a big bow and rides it like a sled across the stage, ears streaming. 3.4–5.0s: Wand tap again: the mustache shrinks to a speck, and out of the hat tumble two jaunty ink-red stroke pieces that click into the glyph 公 in the middle of the stage. 5.0–5.9s: As 阿公 is spoken, a kindly toy walrus grandpa with spectacles pops from the hat, wearing the tiny mustache, and the rabbit bows, startled but delighted. Final hold (about 5.0–8.0s): the walrus grandpa tips his cap and the rabbit pulls a daisy from his sleeve, both well away from the strokes. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 公、公、阿公（ㄍㄨㄥ、ㄍㄨㄥ、ㄚ ㄍㄨㄥ）. The first 公 lands at about 0.9s, the second 公 at about 2.7s, and the word 阿公 at about 5.0s, each timed to the picture described above. The only text anywhere in frame is the single glyph 公, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 公 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "岩",
+    "meaning": "rock",
+    "zhuyin": "ㄧㄢˊ",
+    "emoji": "🪨",
+    "conceptZh": "扭蛋小怪獸先把「山」和「石」疊反了，發現後輕輕一撞翻回正確位置，旁邊的玩具火山滾下一顆岩石。",
+    "object": "gachapon fuzzy creature, toy volcano",
+    "morph": "山 above 石",
+    "creativeAngle": "先蓋錯上下，再一撞修正。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a soft salmon-pink backdrop with a sandy floor; the glyph is solid slate-gray 岩, 山 above 石. A round fuzzy creature bursts from a gachapon capsule at left; a small toy volcano stands at the far right. The Traditional Chinese glyph 岩 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the capsule pops and the creature bounces out, proudly dropping a heavy 石 block on top and the 山 peaks beneath it, upside-down; the first 岩 is spoken as it tosses the first block. Moment two (1.8-3.5s): it blinks at the wrong stack, shrugs, and bumps the pile once with its belly; the two pieces swap and slot into 山 over 石 with a clack; the second 岩 is spoken at the clack. Moment three (3.5-5.0s): the volcano rumbles gently, puffs a pink smoke ring and a sparkly gray rock rolls down to the floor with a thud; 岩石 is spoken as the rock lands. From 5.0-8.0s the glyph 岩 is perfectly still and unobstructed; the creature hops onto the rock, rides it a few inches and bounces off; the glyph is still. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「岩、岩、岩石」 with Zhuyin ㄧㄢˊ、ㄧㄢˊ、ㄧㄢˊ ㄕˊ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only thuds and a soft volcano rumble, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.499Z",
+    "id": "3e2beecb-a110-468c-bcee-7b69207d378a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9165c1a589e5326cc1e0608938c044d0cba1d04966ac3fd48d249ba7dd7f989e",
+    "hash": "98cb1d5476f0ec1a364692e56d6691eaa7b2b818ee9e04408fba8425f9b8fb1a",
+    "formatted": "【目標國字】：岩\n【設計概念】：扭蛋小怪獸先把「山」和「石」疊反了，發現後輕輕一撞翻回正確位置，旁邊的玩具火山滾下一顆岩石。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a soft salmon-pink backdrop with a sandy floor; the glyph is solid slate-gray 岩, 山 above 石. A round fuzzy creature bursts from a gachapon capsule at left; a small toy volcano stands at the far right. The Traditional Chinese glyph 岩 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the capsule pops and the creature bounces out, proudly dropping a heavy 石 block on top and the 山 peaks beneath it, upside-down; the first 岩 is spoken as it tosses the first block. Moment two (1.8-3.5s): it blinks at the wrong stack, shrugs, and bumps the pile once with its belly; the two pieces swap and slot into 山 over 石 with a clack; the second 岩 is spoken at the clack. Moment three (3.5-5.0s): the volcano rumbles gently, puffs a pink smoke ring and a sparkly gray rock rolls down to the floor with a thud; 岩石 is spoken as the rock lands. From 5.0-8.0s the glyph 岩 is perfectly still and unobstructed; the creature hops onto the rock, rides it a few inches and bounces off; the glyph is still. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「岩、岩、岩石」 with Zhuyin ㄧㄢˊ、ㄧㄢˊ、ㄧㄢˊ ㄕˊ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only thuds and a soft volcano rumble, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

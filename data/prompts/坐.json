@@ -1,0 +1,25 @@
+[
+  {
+    "char": "坐",
+    "meaning": "to sit",
+    "zhuyin": "ㄗㄨㄛˋ",
+    "emoji": "🪑",
+    "conceptZh": "布忍者躲來躲去卻到處被看見，最後被彈進椅子坐下。",
+    "object": "a tiny felt ninja and a small round cushion stool",
+    "morph": "a ricocheting felt ninja ball bounces three times, each bounce dropping a stroke, forming 坐 on a stool",
+    "creativeAngle": "布忍者自以為隱形，彈珠般在畫面彈跳，每撞一次落一筆，最後一屁股坐上墊子。",
+    "promptEn": "An 8-second animated clip on a soft mint-green backdrop. Lead: a tiny black felt ninja with stitched eyes who is terrible at hiding and thinks he is invisible. The finished glyph 坐 is a saturated brick-red, centered, about 70% of frame height, with a small tan cushion at its base.\n0.0-1.7s: the ninja tiptoes in, freezes behind a thin pencil and whispers himself invisible while his whole body sticks out. First \"坐\" is heard as he curls into a ball and launches off the left wall.\n1.7-3.3s: bounce chain: he ricochets off the left wall, the floor and the right wall; each thump drops one red stroke from above into place, and the second \"坐\" lands with the final thump that completes the glyph's two people-strokes on top.\n3.3-5.0s: he zips in one last long arc, overshoots the cushion, skids back and the ground stroke slides under him with a squeak; the glyph 坐 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. The ninja flops onto the small cushion beside the glyph exactly as the voice says \"坐下\", sits upright with a satisfied nod, then slowly pulls his hood over his eyes and wiggles his feet, never touching the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"坐、坐、坐下\" (ㄗㄨㄛˋ、ㄗㄨㄛˋ、ㄗㄨㄛˋ ㄒㄧㄚˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 坐.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.366Z",
+    "id": "9fc0ecd1-d503-4db7-934f-519d8efb55b4",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3868b76198111dc4baa7a842d16568c8813d3360fd8baae9a388fa40441910d4",
+    "hash": "549561e1602b2d56a0ddb13b20845b58b258994d95ff17284c7c71b3d690a5bf",
+    "formatted": "【目標國字】：坐\n【設計概念】：布忍者躲來躲去卻到處被看見，最後被彈進椅子坐下。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft mint-green backdrop. Lead: a tiny black felt ninja with stitched eyes who is terrible at hiding and thinks he is invisible. The finished glyph 坐 is a saturated brick-red, centered, about 70% of frame height, with a small tan cushion at its base.\n0.0-1.7s: the ninja tiptoes in, freezes behind a thin pencil and whispers himself invisible while his whole body sticks out. First \"坐\" is heard as he curls into a ball and launches off the left wall.\n1.7-3.3s: bounce chain: he ricochets off the left wall, the floor and the right wall; each thump drops one red stroke from above into place, and the second \"坐\" lands with the final thump that completes the glyph's two people-strokes on top.\n3.3-5.0s: he zips in one last long arc, overshoots the cushion, skids back and the ground stroke slides under him with a squeak; the glyph 坐 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. The ninja flops onto the small cushion beside the glyph exactly as the voice says \"坐下\", sits upright with a satisfied nod, then slowly pulls his hood over his eyes and wiggles his feet, never touching the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"坐、坐、坐下\" (ㄗㄨㄛˋ、ㄗㄨㄛˋ、ㄗㄨㄛˋ ㄒㄧㄚˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 坐.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

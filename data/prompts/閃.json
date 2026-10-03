@@ -1,0 +1,25 @@
+[
+  {
+    "char": "閃",
+    "meaning": "to flash, dodge",
+    "zhuyin": "ㄕㄢˇ",
+    "emoji": "⚡",
+    "conceptZh": "玩具機器人和閃電拔河，彈簧一放，人字彈進門裡。",
+    "object": "mismatched toy robot with a spring lightning bolt",
+    "morph": "人 snaps into the 門 frame",
+    "creativeAngle": "兩邊拉扯後彈進門中。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-magenta wall and cream floor; the glyph is bright purple 閃: the 門 frame with a 人 inside. A boxy toy robot with one longer arm stands at left; a spring-mounted toy lightning bolt wobbles at right. The Traditional Chinese glyph 閃 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the robot grabs a spring and tugs the 人 shape while the lightning bolt tugs the other way; the first 閃 is spoken as they pull. Moment two (1.8-3.5s): the spring goes taut and releases: the 人 shape zips into the 門 and the posts clap closed; the second 閃 is spoken at the clap, the robot leaning like a leaf. Moment three (3.5-5.0s): the toy lightning bolt dashes sideways and the robot leaps out of its way in a clumsy long-arm tumble; 閃電 is spoken as the bolt flashes once (gently, no strobe). From 5.0-8.0s the glyph 閃 is perfectly still and unobstructed; the robot straightens and clicks his long arm into place; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「閃、閃、閃電」, read as ㄕㄢˇ、ㄕㄢˇ、ㄕㄢˇ ㄉㄧㄢˋ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only spring twangs and a soft zip, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.457Z",
+    "id": "22127cbb-fd48-4db8-bf39-5408d6f93913",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "c06f06874e6fa586f9aafa35221461a4f6276cac3f006c3852d90c06c459a3fe",
+    "hash": "620cd7f38f8a23a822f51e77a3a05ab681a7425c383f265dbb006f5727957fe2",
+    "formatted": "【目標國字】：閃\n【設計概念】：玩具機器人和閃電拔河，彈簧一放，人字彈進門裡。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-magenta wall and cream floor; the glyph is bright purple 閃: the 門 frame with a 人 inside. A boxy toy robot with one longer arm stands at left; a spring-mounted toy lightning bolt wobbles at right. The Traditional Chinese glyph 閃 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the robot grabs a spring and tugs the 人 shape while the lightning bolt tugs the other way; the first 閃 is spoken as they pull. Moment two (1.8-3.5s): the spring goes taut and releases: the 人 shape zips into the 門 and the posts clap closed; the second 閃 is spoken at the clap, the robot leaning like a leaf. Moment three (3.5-5.0s): the toy lightning bolt dashes sideways and the robot leaps out of its way in a clumsy long-arm tumble; 閃電 is spoken as the bolt flashes once (gently, no strobe). From 5.0-8.0s the glyph 閃 is perfectly still and unobstructed; the robot straightens and clicks his long arm into place; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「閃、閃、閃電」, read as ㄕㄢˇ、ㄕㄢˇ、ㄕㄢˇ ㄉㄧㄢˋ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only spring twangs and a soft zip, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

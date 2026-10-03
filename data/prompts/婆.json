@@ -1,0 +1,25 @@
+[
+  {
+    "char": "婆",
+    "meaning": "grandmother",
+    "zhuyin": "ㄆㄛˊ",
+    "emoji": "👵",
+    "conceptZh": "爸爸或媽媽的媽媽，或年長女性的稱呼。",
+    "object": "a chunky red toy fire engine, its crew, a runaway hose, and a copycat mini fire engine",
+    "morph": "a copycat mini engine mirrors every move one beat late, spraying the pieces of 婆 into place",
+    "creativeAngle": "小消防車模仿大車慢一拍，水柱把「波」與「女」噴到定位；迎出外婆玩偶。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a sky-blue toy town square with a lemon-yellow fire station, a chunky red toy fire engine with a floppy hose is followed everywhere by a little copycat fire engine that moves one beat behind. 0–1.7s: The big engine swings its hose left as the first 婆 is spoken; the little engine swings its tiny hose a beat late, squirting the big engine's bumper, who gives a puzzled blink. 1.7–3.3s: The big engine honks and reverses; the little one honks and reverses a beat late, bumping it, and the second 婆 is spoken as the hose coils up on its own and sprays a jet of water forming the top 波 part. 3.3–4.9s: Both engines rotate to spray at once, but the little one aims at the wrong side, so the big engine's jet draws 女 and the mix-up sends a rainbow spray: the full 婆 appears in deep rose. 4.9–5.8s: As 外婆 is spoken, the fire station door opens and a silver-bun toy grandma in a shawl waves from a window, and both engines flash lights in sync. Final hold (about 5.0–8.0s): both engines blink in perfect unison at last, then the hose gives a tiny curl; the glyph stays perfectly still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 婆、婆、外婆（ㄆㄛˊ、ㄆㄛˊ、ㄨㄞˋ ㄆㄛˊ）. The first 婆 lands at about 1.0s, the second 婆 at about 2.8s, and the word 外婆 at about 4.9s, each timed to the picture described above. Keep 婆 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 婆 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.438Z",
+    "id": "d24b33a3-2bf2-4530-9f3d-d5ab7e2ef19b",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f34fb4c7f38e94d06b1f3012ddaaf712d6f959cc66aabbcdd7d14b0d06060e64",
+    "hash": "26d71876f46c7993bfd2e24970f27ca29ccef220266c10f54f85a9602f60cee0",
+    "formatted": "【目標國字】：婆\n【設計概念】：爸爸或媽媽的媽媽，或年長女性的稱呼。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a sky-blue toy town square with a lemon-yellow fire station, a chunky red toy fire engine with a floppy hose is followed everywhere by a little copycat fire engine that moves one beat behind. 0–1.7s: The big engine swings its hose left as the first 婆 is spoken; the little engine swings its tiny hose a beat late, squirting the big engine's bumper, who gives a puzzled blink. 1.7–3.3s: The big engine honks and reverses; the little one honks and reverses a beat late, bumping it, and the second 婆 is spoken as the hose coils up on its own and sprays a jet of water forming the top 波 part. 3.3–4.9s: Both engines rotate to spray at once, but the little one aims at the wrong side, so the big engine's jet draws 女 and the mix-up sends a rainbow spray: the full 婆 appears in deep rose. 4.9–5.8s: As 外婆 is spoken, the fire station door opens and a silver-bun toy grandma in a shawl waves from a window, and both engines flash lights in sync. Final hold (about 5.0–8.0s): both engines blink in perfect unison at last, then the hose gives a tiny curl; the glyph stays perfectly still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 婆、婆、外婆（ㄆㄛˊ、ㄆㄛˊ、ㄨㄞˋ ㄆㄛˊ）. The first 婆 lands at about 1.0s, the second 婆 at about 2.8s, and the word 外婆 at about 4.9s, each timed to the picture described above. Keep 婆 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 婆 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

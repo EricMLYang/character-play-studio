@@ -1,0 +1,25 @@
+[
+  {
+    "char": "太",
+    "meaning": "too, very",
+    "zhuyin": "ㄊㄞˋ",
+    "emoji": "☀️",
+    "conceptZh": "科學家老鼠的燒杯太滿，泡泡推倒一串試管，倒成「太」，最後一滴冒出一顆小太陽。",
+    "object": "a bespectacled cartoon lab mouse, a rack of test tubes filled with orange liquid, and an overflowing beaker with a tiny cartoon sun inside",
+    "morph": "a row of tumbling orange test tubes lands in the strokes of the glyph 太 and a tiny sun rises from the overflowing beaker",
+    "creativeAngle": "骨牌效應：燒杯「太滿」溢出，推倒試管骨牌倒成「太」，最後一點正好是燒杯滴出的小點；詞「太陽」用小太陽升起呼應。",
+    "promptEn": "An 8-second whimsical lab clip on a clean solid pale seafoam backdrop. The only text in frame is one large Traditional Chinese glyph 太, formed by glossy saturated orange test tubes lying flat as thick strokes plus a single round drop as the final dot, about 70% of frame height, centered with margins. Lead: a bespectacled cartoon lab mouse in a tiny white coat among bubbling beakers that fizz over on cue; one supporting object, a beaker too full of orange liquid. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 太、太、太陽 (ㄊㄞˋ、ㄊㄞˋ、ㄊㄞˋ ㄧㄤˊ), slow clear tones, then silence. Moment 1 (0–1.6s): the mouse pours orange liquid into a beaker that is already full; as the first 太 is spoken, the liquid rises, balloons over the rim in a dome, and the mouse's eyes grow huge behind his glasses. Moment 2 (1.6–3.2s): a wobbling bubble pops off the beaker and bonks the first of a long row of standing test tubes; the tubes tip one by one with soft clinks, and the mouse scurries along them, trying to stop the chain with his tail and clipboard, tangling himself in his own lab coat. Moment 3 (3.2–5s): the tubes roll to a stop as the second 太 is spoken, landing exactly into the glyph 太: a long horizontal bar, a sweeping left falling stroke, a right falling stroke, and below the crossing, a single round dot. The mouse pops out, sees it, and flips his glasses up with a hop. Moment 4 (5s): as 太陽 is spoken, the last drop falls from the beaker onto the dot position, and a tiny round cartoon sun with a smiling face rises from the beaker, spinning small rays, bobbing at the mouse's nose. Final 5–8s: the glyph 太 stays absolutely still and legible while the mouse and the little sun hold hands and dance a small shuffle near the lower edge, the sun bobbing up and down, never touching the strokes. Soft daylight, no flashing (the sun glows steadily, no pulses), no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.797Z",
+    "id": "b0f1562f-7893-45c5-b256-55aa3d01c447",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5f9b1235ebc8da1c0c348128b65fb75f1d7c500141d550a7d21b6817458480c4",
+    "hash": "bcb89ed9eaa71cd153ab41ab448691e561b6c3db51c7aa01d56dbbaab7fd00a7",
+    "formatted": "【目標國字】：太\n【設計概念】：科學家老鼠的燒杯太滿，泡泡推倒一串試管，倒成「太」，最後一滴冒出一顆小太陽。\n【8s Video Prompt】:\n```text\nAn 8-second whimsical lab clip on a clean solid pale seafoam backdrop. The only text in frame is one large Traditional Chinese glyph 太, formed by glossy saturated orange test tubes lying flat as thick strokes plus a single round drop as the final dot, about 70% of frame height, centered with margins. Lead: a bespectacled cartoon lab mouse in a tiny white coat among bubbling beakers that fizz over on cue; one supporting object, a beaker too full of orange liquid. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 太、太、太陽 (ㄊㄞˋ、ㄊㄞˋ、ㄊㄞˋ ㄧㄤˊ), slow clear tones, then silence. Moment 1 (0–1.6s): the mouse pours orange liquid into a beaker that is already full; as the first 太 is spoken, the liquid rises, balloons over the rim in a dome, and the mouse's eyes grow huge behind his glasses. Moment 2 (1.6–3.2s): a wobbling bubble pops off the beaker and bonks the first of a long row of standing test tubes; the tubes tip one by one with soft clinks, and the mouse scurries along them, trying to stop the chain with his tail and clipboard, tangling himself in his own lab coat. Moment 3 (3.2–5s): the tubes roll to a stop as the second 太 is spoken, landing exactly into the glyph 太: a long horizontal bar, a sweeping left falling stroke, a right falling stroke, and below the crossing, a single round dot. The mouse pops out, sees it, and flips his glasses up with a hop. Moment 4 (5s): as 太陽 is spoken, the last drop falls from the beaker onto the dot position, and a tiny round cartoon sun with a smiling face rises from the beaker, spinning small rays, bobbing at the mouse's nose. Final 5–8s: the glyph 太 stays absolutely still and legible while the mouse and the little sun hold hands and dance a small shuffle near the lower edge, the sun bobbing up and down, never touching the strokes. Soft daylight, no flashing (the sun glows steadily, no pulses), no real people, no other text.\n```"
+  }
+]

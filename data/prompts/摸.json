@@ -1,0 +1,25 @@
+[
+  {
+    "char": "摸",
+    "meaning": "to touch",
+    "zhuyin": "ㄇㄛ",
+    "emoji": "✋",
+    "conceptZh": "披風英雄的長披風學他摸頭，慢一拍造成錯位，摸到貓。",
+    "object": "a caped action figure with an over-long cape and a fuzzy toy cat",
+    "morph": "the hero and his copycat cape touch each other's head one beat late, forming 摸",
+    "creativeAngle": "披風跟著主角做動作，總是慢一拍，摸到自己頭上，最後輕摸一隻貓。",
+    "promptEn": "An 8-second animated clip on a warm cream-and-peach backdrop. Lead: a caped action-figure hero in a sky-blue suit whose red cape is three sizes too long. The cape's tip acts as a copycat, mimicking him one beat late. The finished glyph 摸 is a saturated burnt-orange, centered, about 70% of frame height.\n0.0-1.6s: the hero reaches up and pats his own head; a beat later the cape's tip pats him back from behind. First \"摸\" as he spins around, confused.\n1.6-3.2s: copycat mix-up: he pats his nose, the cape pats his nose a beat late, and they both fall over. Second \"摸\" lands as their hands touch and orange hand-strokes puff out, joined by sparks.\n3.2-5.0s: they shake hands, and the strokes tidy into the glyph 摸 with a chime.\n5.0-8.0s: HOLD, glyph perfectly still. At \"摸頭\" a fuzzy gray toy cat pads in beside the glyph; the hero crouches and gently pats its head, the cape tip pats him a beat later, and the cat purrs with closed eyes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"摸、摸、摸頭\" (ㄇㄛ、ㄇㄛ、ㄇㄛ ㄊㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 摸.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.749Z",
+    "id": "ef3d75cc-ae79-46ca-8c79-41519381791a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4a3609a0d08cafa908a43b390fb725d4b0a671e0c38c6a21609936a5dbf29fa7",
+    "hash": "e9cc70fa82e58e6b44c60d7ffc3e1a1d03bd7775547a8f774c157b0986019b37",
+    "formatted": "【目標國字】：摸\n【設計概念】：披風英雄的長披風學他摸頭，慢一拍造成錯位，摸到貓。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm cream-and-peach backdrop. Lead: a caped action-figure hero in a sky-blue suit whose red cape is three sizes too long. The cape's tip acts as a copycat, mimicking him one beat late. The finished glyph 摸 is a saturated burnt-orange, centered, about 70% of frame height.\n0.0-1.6s: the hero reaches up and pats his own head; a beat later the cape's tip pats him back from behind. First \"摸\" as he spins around, confused.\n1.6-3.2s: copycat mix-up: he pats his nose, the cape pats his nose a beat late, and they both fall over. Second \"摸\" lands as their hands touch and orange hand-strokes puff out, joined by sparks.\n3.2-5.0s: they shake hands, and the strokes tidy into the glyph 摸 with a chime.\n5.0-8.0s: HOLD, glyph perfectly still. At \"摸頭\" a fuzzy gray toy cat pads in beside the glyph; the hero crouches and gently pats its head, the cape tip pats him a beat later, and the cat purrs with closed eyes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"摸、摸、摸頭\" (ㄇㄛ、ㄇㄛ、ㄇㄛ ㄊㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 摸.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

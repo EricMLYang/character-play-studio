@@ -1,0 +1,25 @@
+[
+  {
+    "char": "矮",
+    "meaning": "short (height)",
+    "zhuyin": "ㄞˇ",
+    "emoji": "📐",
+    "conceptZh": "豬探長把筆畫排成高低不一的錯字，聳肩後調整，最後站在矮凳。",
+    "object": "a detective pig and a tiny stool",
+    "morph": "wrong tall pile is shrunk into the short shape of 矮 in one quick move",
+    "creativeAngle": "豬探長先蓋出太高的怪塔，發現後一腳踩下去變矮，剛好成字。",
+    "promptEn": "An 8-second animated clip on a pale peach-and-sky backdrop. Lead: a stout cartoon detective pig in a checked deerstalker hat holding a magnifying glass far too big for him. The finished glyph 矮 is a saturated pumpkin-orange, centered, about 70% of frame height.\n0.0-1.6s: the pig proudly stacks orange strokes into a wobbling tall tower that peaks above his hat. First \"矮\" as he steps back and admires it.\n1.6-3.2s: wrong-then-right: he peers through the lens, the tower is far too tall; he shrugs and hat flops. Second \"矮\" lands as he gives the tower one stomp and it squishes down into the shorter shape.\n3.2-5.0s: the pieces slide sideways and click into the glyph 矮 with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. At \"矮凳\" a small round wooden stool slides in beside the glyph, the pig sits on it with legs dangling, feet not reaching the floor, and swings his legs happily, the magnifying glass towering over him.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"矮、矮、矮凳\" (ㄞˇ、ㄞˇ、ㄞˇ ㄉㄥˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 矮.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.561Z",
+    "id": "14c8cf24-1723-4ac0-a2aa-46c72f35876e",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "fd151dc2780aff321c13f840581124021b0e51168fb31bda47122072df599b1d",
+    "hash": "214e0a24b9b7dbae0c2b9fb93e8f7705091d441133f3e56cf8d0c2f306fc20dd",
+    "formatted": "【目標國字】：矮\n【設計概念】：豬探長把筆畫排成高低不一的錯字，聳肩後調整，最後站在矮凳。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale peach-and-sky backdrop. Lead: a stout cartoon detective pig in a checked deerstalker hat holding a magnifying glass far too big for him. The finished glyph 矮 is a saturated pumpkin-orange, centered, about 70% of frame height.\n0.0-1.6s: the pig proudly stacks orange strokes into a wobbling tall tower that peaks above his hat. First \"矮\" as he steps back and admires it.\n1.6-3.2s: wrong-then-right: he peers through the lens, the tower is far too tall; he shrugs and hat flops. Second \"矮\" lands as he gives the tower one stomp and it squishes down into the shorter shape.\n3.2-5.0s: the pieces slide sideways and click into the glyph 矮 with a squeak.\n5.0-8.0s: HOLD, glyph perfectly still. At \"矮凳\" a small round wooden stool slides in beside the glyph, the pig sits on it with legs dangling, feet not reaching the floor, and swings his legs happily, the magnifying glass towering over him.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"矮、矮、矮凳\" (ㄞˇ、ㄞˇ、ㄞˇ ㄉㄥˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 矮.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

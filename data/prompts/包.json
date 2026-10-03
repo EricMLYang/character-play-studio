@@ -1,0 +1,25 @@
+[
+  {
+    "char": "包",
+    "meaning": "bun / bag",
+    "zhuyin": "ㄅㄠ",
+    "emoji": "🥟",
+    "conceptZh": "包：勹包住巳，把東西包起來。",
+    "object": "a stout cartoon detective pig in a checked deerstalker with an oversized magnifying glass, and a pale steamed bun",
+    "morph": "the pig proudly builds a silly wrong shape, spots it through the magnifying glass, shrugs and fixes it into 包",
+    "creativeAngle": "豬探長先拼出怪怪的形狀，放大鏡一照發現錯了，一秒修好成包。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 包 (bun / bag), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a stout cartoon detective pig in a checked deerstalker with an oversized magnifying glass, and a pale steamed bun. Light beige backdrop with a faint desk edge; the glyph is deep burgundy. Timed beats. 0.0-1.5s: a stout pig detective in a checked hat waddles in, hauling a magnifying glass bigger than himself; the voice says the first 包 as he flips open a mystery bundle and burgundy strokes tumble out. 1.5-3.0s: he proudly arranges them into a wobbly blob with a dot in the wrong spot and tips his hat. The voice says the second 包 as the magnifying glass swings up, his eye grows huge, and he spots the mistake. 3.0-4.5s: he shrugs, taps one stroke, and the whole shape slides into the proper 包 at 70% of frame height. 4.5-5.0s: the voice says 書包 (ㄕㄨ ㄅㄠ) as a little backpack plops beside him, its flap pops open, and he peeks in. Final hold: 5.0-8.0s: the glyph is still; the pig tips his hat as the magnifying glass sways at the edge. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 包、包、書包 = ㄅㄠ、ㄅㄠ、ㄕㄨ ㄅㄠ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 包 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.139Z",
+    "id": "0f63da2a-0b7a-4580-ab12-4a8ac1b4a45a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "c704b2b8cc6549d52bbd0e56e149593b3c8214d04c53683e7980d2752ef175fe",
+    "hash": "51398adb8961bd43a1dcb4e8cb48b674607a072f32b642c423d0275257acd313",
+    "formatted": "【目標國字】：包\n【設計概念】：包：勹包住巳，把東西包起來。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 包 (bun / bag), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a stout cartoon detective pig in a checked deerstalker with an oversized magnifying glass, and a pale steamed bun. Light beige backdrop with a faint desk edge; the glyph is deep burgundy. Timed beats. 0.0-1.5s: a stout pig detective in a checked hat waddles in, hauling a magnifying glass bigger than himself; the voice says the first 包 as he flips open a mystery bundle and burgundy strokes tumble out. 1.5-3.0s: he proudly arranges them into a wobbly blob with a dot in the wrong spot and tips his hat. The voice says the second 包 as the magnifying glass swings up, his eye grows huge, and he spots the mistake. 3.0-4.5s: he shrugs, taps one stroke, and the whole shape slides into the proper 包 at 70% of frame height. 4.5-5.0s: the voice says 書包 (ㄕㄨ ㄅㄠ) as a little backpack plops beside him, its flap pops open, and he peeks in. Final hold: 5.0-8.0s: the glyph is still; the pig tips his hat as the magnifying glass sways at the edge. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 包、包、書包 = ㄅㄠ、ㄅㄠ、ㄕㄨ ㄅㄠ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 包 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

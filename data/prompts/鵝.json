@@ -1,0 +1,25 @@
+[
+  {
+    "char": "鵝",
+    "meaning": "goose",
+    "zhuyin": "ㄜˊ",
+    "emoji": "🪿",
+    "conceptZh": "賽車用拉回發條撞倒第一塊骨牌，積木一路倒下排成鵝，神氣的鵝娃娃大搖大擺出場。",
+    "object": "a pull-back toy race car and a row of brick dominoes with a goose plush",
+    "morph": "dominoes topple and land as 鵝, with a proud goose strutting out",
+    "creativeAngle": "骨牌連鎖，神氣的鵝最後才登場。",
+    "promptEn": "An 8-second animated clip on a pale cloud-blue background, with one single Traditional Chinese glyph 鵝 as the only text on screen, drawn in coral red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a googly-eyed pull-back race car is wound back with a loud squeak and springs forward, bumping the first of a row of colorful brick dominoes; the first 鵝 is spoken as the left 我 pieces tip into place. 1.7-3.4s: the bricks clatter across the stage, one flips and spins before joining; the second 鵝 is spoken as the 鳥 pieces on the right fall in a final long ripple. 3.4-5s: 大鵝 is spoken as a fluffy white goose plush with a red bowtie struts from behind the last brick, honking silently with head held high. 5-8s: hold; the race car squeaks to the goose's side and the goose pecks its antenna, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"鵝、鵝、大鵝\" (ㄜˊ、ㄜˊ、ㄉㄚˋ ㄜˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 鵝 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.726Z",
+    "id": "54756645-9f25-40fb-b892-c1d1989019e4",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f15cca9ed58a6f370f31c0e6bcab6781928f2103911e11f72f9563cd0effc9d0",
+    "hash": "bd969f55f66a710b9701cf610ba6c29a5b776ecc7e53ab88ec80d673f4527c4a",
+    "formatted": "【目標國字】：鵝\n【設計概念】：賽車用拉回發條撞倒第一塊骨牌，積木一路倒下排成鵝，神氣的鵝娃娃大搖大擺出場。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale cloud-blue background, with one single Traditional Chinese glyph 鵝 as the only text on screen, drawn in coral red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a googly-eyed pull-back race car is wound back with a loud squeak and springs forward, bumping the first of a row of colorful brick dominoes; the first 鵝 is spoken as the left 我 pieces tip into place. 1.7-3.4s: the bricks clatter across the stage, one flips and spins before joining; the second 鵝 is spoken as the 鳥 pieces on the right fall in a final long ripple. 3.4-5s: 大鵝 is spoken as a fluffy white goose plush with a red bowtie struts from behind the last brick, honking silently with head held high. 5-8s: hold; the race car squeaks to the goose's side and the goose pecks its antenna, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"鵝、鵝、大鵝\" (ㄜˊ、ㄜˊ、ㄉㄚˋ ㄜˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 鵝 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

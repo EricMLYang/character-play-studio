@@ -1,0 +1,25 @@
+[
+  {
+    "char": "累",
+    "meaning": "tired",
+    "zhuyin": "ㄌㄟˋ",
+    "emoji": "😩",
+    "conceptZh": "太空人玩偶背了超大背包，用小玩意兒撐住自己，累得軟掉，字也跟著沉下來。",
+    "object": "a bouncy astronaut toy in a fishbowl helmet with an enormous backpack",
+    "morph": "an oversized backpack of pieces sags the astronaut down while the strokes of 累 pile up",
+    "creativeAngle": "尺寸差異：背包太大、人太小，累到漂不起來。",
+    "promptEn": "An 8-second animated clip on a pale peach background, with one single Traditional Chinese glyph 累 as the only text on screen, drawn in deep teal solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky astronaut toy bounces in, tiny beside a ridiculous backpack three times its size stuffed with glowing stroke-shaped bricks; first 累 is spoken as the top 田 block pops off the pack and lands up top. 1.7-3.5s: he tries to lift off to carry it, floats up a little, then the pack drags him down with a squeak; the second 累 is spoken as the 糸 strokes unspool out of the pack and settle below like soft ribbons. 3.5-5s: he improvises by rolling the empty pack like a beanbag and flopping onto it as 好累 is spoken, helmet fogging, limbs splayed, a tiny floating zzz bubble of stars (no text) drifting upward. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"累、累、好累\" (ㄌㄟˋ、ㄌㄟˋ、ㄏㄠˇ ㄌㄟˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 累 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.717Z",
+    "id": "d638ec49-8e91-4c04-a334-d5aaf68f4435",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f632f72be843e54706b9ff969c3f73458ccd5c23eff38c5f436796108e9e0045",
+    "hash": "c70de4afdc22ac5c1b51ee6b357c19f48acf3951a00e2506221d9dbe71d9b27d",
+    "formatted": "【目標國字】：累\n【設計概念】：太空人玩偶背了超大背包，用小玩意兒撐住自己，累得軟掉，字也跟著沉下來。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale peach background, with one single Traditional Chinese glyph 累 as the only text on screen, drawn in deep teal solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky astronaut toy bounces in, tiny beside a ridiculous backpack three times its size stuffed with glowing stroke-shaped bricks; first 累 is spoken as the top 田 block pops off the pack and lands up top. 1.7-3.5s: he tries to lift off to carry it, floats up a little, then the pack drags him down with a squeak; the second 累 is spoken as the 糸 strokes unspool out of the pack and settle below like soft ribbons. 3.5-5s: he improvises by rolling the empty pack like a beanbag and flopping onto it as 好累 is spoken, helmet fogging, limbs splayed, a tiny floating zzz bubble of stars (no text) drifting upward. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"累、累、好累\" (ㄌㄟˋ、ㄌㄟˋ、ㄏㄠˇ ㄌㄟˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 累 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

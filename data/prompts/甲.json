@@ -1,0 +1,25 @@
+[
+  {
+    "char": "甲",
+    "meaning": "fingernail",
+    "zhuyin": "ㄐㄧㄚˇ",
+    "emoji": "💅",
+    "conceptZh": "手指或腳趾末端的硬殼。",
+    "object": "a tiny felt ninja, a stubborn ladybug-shaped nail clipper, and a pot of orange polish",
+    "morph": "the clipper fights back until the ninja outwits it and 甲 forms",
+    "creativeAngle": "布忍者與不聽話的瓢蟲剪刀鬥智，最後排成「甲」；甲蟲現身。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Behind a paper screen in a peach-and-mint dojo, a tiny felt ninja tiptoes up to a ladybug-shaped nail clipper that has its own opinions. 0–1.6s: The ninja freezes mid-sneak; the first 甲 is spoken as the clipper clacks and snips a stroke out of its square, snapping at his mask. 1.6–3.2s: The second 甲 is spoken: the clipper chomps his sleeve and drags him around the floor, while he hides behind a tiny bamboo leaf that is obviously too small. 3.2–4.7s: The ninja drops a throw-net, the clipper tangles and wriggles in tiny circles, and the pieces fall in place: 甲 in forest green. 4.7–5.7s: As 甲蟲 is spoken, the clipper's shell flips open and a shiny beetle in the shape of a ladybug crawls out, waving a leg; the ninja bows. Final hold (about 5.0–8.0s): the ninja makes a victory roll behind the paper screen, still thinking he is invisible; the glyph is still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 甲、甲、甲蟲（ㄐㄧㄚˇ、ㄐㄧㄚˇ、ㄐㄧㄚˇ ㄔㄨㄥˊ）. The first 甲 lands at about 0.9s, the second 甲 at about 2.6s, and the word 甲蟲 at about 4.9s, each timed to the picture described above. On-screen text is limited to the one glyph 甲 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 甲 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.361Z",
+    "id": "2fb228c4-cd4f-4ebe-8c04-de950f1869f1",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "86dacd91cc3c50bfeca4b76303efd65e225419cb91469701ee154e38c85468fb",
+    "hash": "5846eecf34bebbc97de8ea1ef0acaa74d0c8cb869362d4d978270fb4f0c68baa",
+    "formatted": "【目標國字】：甲\n【設計概念】：手指或腳趾末端的硬殼。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Behind a paper screen in a peach-and-mint dojo, a tiny felt ninja tiptoes up to a ladybug-shaped nail clipper that has its own opinions. 0–1.6s: The ninja freezes mid-sneak; the first 甲 is spoken as the clipper clacks and snips a stroke out of its square, snapping at his mask. 1.6–3.2s: The second 甲 is spoken: the clipper chomps his sleeve and drags him around the floor, while he hides behind a tiny bamboo leaf that is obviously too small. 3.2–4.7s: The ninja drops a throw-net, the clipper tangles and wriggles in tiny circles, and the pieces fall in place: 甲 in forest green. 4.7–5.7s: As 甲蟲 is spoken, the clipper's shell flips open and a shiny beetle in the shape of a ladybug crawls out, waving a leg; the ninja bows. Final hold (about 5.0–8.0s): the ninja makes a victory roll behind the paper screen, still thinking he is invisible; the glyph is still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 甲、甲、甲蟲（ㄐㄧㄚˇ、ㄐㄧㄚˇ、ㄐㄧㄚˇ ㄔㄨㄥˊ）. The first 甲 lands at about 0.9s, the second 甲 at about 2.6s, and the word 甲蟲 at about 4.9s, each timed to the picture described above. On-screen text is limited to the one glyph 甲 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 甲 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

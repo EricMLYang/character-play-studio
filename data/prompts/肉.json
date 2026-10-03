@@ -1,0 +1,25 @@
+[
+  {
+    "char": "肉",
+    "meaning": "meat",
+    "zhuyin": "ㄖㄡˋ",
+    "emoji": "🥩",
+    "conceptZh": "肉：像一塊切開的肉，中間有紋路。",
+    "object": "a round fuzzy pocket creature bursting from a gachapon capsule, and a glazed toy meatball",
+    "morph": "the creature proudly builds a silly wrong smiley shape, notices, shrugs, and fixes it into 肉",
+    "creativeAngle": "扭蛋小怪獸先得意地拼出笑臉，發現不對，聳肩一下修成肉。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 肉 (meat), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a round fuzzy pocket creature bursting from a gachapon capsule, and a glazed toy meatball. Lavender-pink backdrop; the glyph is glossy warm brick-brown. Timed beats. 0.0-1.5s: a clear gachapon capsule drops, cracks open, and a round fuzzy orange creature bursts out, bouncing off the floor and wall. The voice says the first 肉 as it lands center, trailing brown glaze drips. 1.5-3.0s: proudly it stacks brown strokes into a wrong smiley face with two dot eyes and curved mouth, and grins. The voice says the second 肉 as its own eyes widen in a double-take. 3.0-4.5s: it shrugs, squashes the face flat with one bounce, and the strokes spring into the correct 肉 frame with the inner lines filling in. 4.5-5.0s: the voice says 肉丸 (ㄖㄡˋ ㄨㄢˊ) as a shiny toy meatball rolls in and the creature bounces on it like a trampoline. Final hold: 5.0-8.0s: the glyph is still; the creature wobbles happily on the meatball at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 肉、肉、肉丸, syllable by syllable ㄖㄡˋ、ㄖㄡˋ、ㄖㄡˋ ㄨㄢˊ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 肉 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.827Z",
+    "id": "eb94e022-4096-4aea-a20f-11cf60366094",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "dad4b1eea1d7e5af701d4b618090297f684872b484cc9a0f27f005bf51be07c6",
+    "hash": "60186369c9d22a7f933cbddd8a12b9e54b1591da9ad4d7f78176bba3bf5ef53d",
+    "formatted": "【目標國字】：肉\n【設計概念】：肉：像一塊切開的肉，中間有紋路。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 肉 (meat), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a round fuzzy pocket creature bursting from a gachapon capsule, and a glazed toy meatball. Lavender-pink backdrop; the glyph is glossy warm brick-brown. Timed beats. 0.0-1.5s: a clear gachapon capsule drops, cracks open, and a round fuzzy orange creature bursts out, bouncing off the floor and wall. The voice says the first 肉 as it lands center, trailing brown glaze drips. 1.5-3.0s: proudly it stacks brown strokes into a wrong smiley face with two dot eyes and curved mouth, and grins. The voice says the second 肉 as its own eyes widen in a double-take. 3.0-4.5s: it shrugs, squashes the face flat with one bounce, and the strokes spring into the correct 肉 frame with the inner lines filling in. 4.5-5.0s: the voice says 肉丸 (ㄖㄡˋ ㄨㄢˊ) as a shiny toy meatball rolls in and the creature bounces on it like a trampoline. Final hold: 5.0-8.0s: the glyph is still; the creature wobbles happily on the meatball at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 肉、肉、肉丸, syllable by syllable ㄖㄡˋ、ㄖㄡˋ、ㄖㄡˋ ㄨㄢˊ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 肉 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

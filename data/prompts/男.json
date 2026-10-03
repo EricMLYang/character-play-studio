@@ -1,0 +1,25 @@
+[
+  {
+    "char": "男",
+    "meaning": "male, boy",
+    "zhuyin": "ㄋㄢˊ",
+    "emoji": "🧍",
+    "conceptZh": "廚師動物的麵團模仿他每個動作，慢一拍，最後捏出「田」和「力」。",
+    "object": "rotund chef animal and a mimicking dough lump",
+    "morph": "田 field-box and 力 strokes made of dough",
+    "creativeAngle": "麵團慢一拍模仿，造成揉麵混亂。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a cheerful tomato-red kitchen backdrop with a cream counter; the glyph is a solid brown 男: 田 above 力. A round cartoon chef bear in a tall hat stands at left; a dough lump with two button eyes copies him. The Traditional Chinese glyph 男 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the chef rolls his sleeves and slaps a flat slab of dough; the dough lump slaps back a beat late; the first 男 is spoken as the slap sounds. Moment two (1.8-3.5s): he cuts a square and the dough cuts a different square; they swap, mixing up; the pieces flip and land as 田 over 力; the second 男 is spoken as the last piece lands. Moment three (3.5-5.0s): he flexes a muscle in his chef coat and the dough lump copies it and bursts into two shapes; 男生 is spoken as a little toy figure in a cap pops up beside the glyph. From 5.0-8.0s the glyph 男 is perfectly still and unobstructed; the chef bows, the dough bows a beat later. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「男、男、男生」 (ㄋㄢˊ、ㄋㄢˊ、ㄋㄢˊ ㄕㄥ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only slaps and squishes, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.382Z",
+    "id": "87602561-5dfc-46e5-b746-3891ec229cbb",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b1d632e719d250f16df4ab94b4dc308b601f69e1fdb2c873d320836cc2e29c68",
+    "hash": "40e9cdd9aee64956b634759b087fc8bebcab01a18d6ac049285b0ffc217ea6ce",
+    "formatted": "【目標國字】：男\n【設計概念】：廚師動物的麵團模仿他每個動作，慢一拍，最後捏出「田」和「力」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a cheerful tomato-red kitchen backdrop with a cream counter; the glyph is a solid brown 男: 田 above 力. A round cartoon chef bear in a tall hat stands at left; a dough lump with two button eyes copies him. The Traditional Chinese glyph 男 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the chef rolls his sleeves and slaps a flat slab of dough; the dough lump slaps back a beat late; the first 男 is spoken as the slap sounds. Moment two (1.8-3.5s): he cuts a square and the dough cuts a different square; they swap, mixing up; the pieces flip and land as 田 over 力; the second 男 is spoken as the last piece lands. Moment three (3.5-5.0s): he flexes a muscle in his chef coat and the dough lump copies it and bursts into two shapes; 男生 is spoken as a little toy figure in a cap pops up beside the glyph. From 5.0-8.0s the glyph 男 is perfectly still and unobstructed; the chef bows, the dough bows a beat later. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「男、男、男生」 (ㄋㄢˊ、ㄋㄢˊ、ㄋㄢˊ ㄕㄥ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only slaps and squishes, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "note": "預設以玩具、卡通角色與物件的視覺笑點增加趣味，卡司輪流換人，無真人、兒童或任何品牌授權角色；發音維持單字兩次加簡單詞彙。",
+  "version": 7,
+  "note": "預設以玩具、卡通角色與物件的視覺笑點增加趣味，卡司與笑點套路輪流換；畫面每 1.5–2 秒就有新變化，唸出的詞彙在畫面上有對應的東西；無真人、兒童或任何品牌授權角色。",
   "scenePolicy": "CAST AND PRESENTATION: Use stylized animated characters and objects only — toy figures and action figures, toy robots, cartoon animals and creatures, toy vehicles, building bricks, expressive objects and abstract shapes. Give the lead a real personality and let it act, react and fail before it succeeds. Never show real people, realistic human figures, children, or a live-action presenter; a human-shaped lead must read unmistakably as a toy figure or cartoon character, not as a person. Never depict, name or imitate any real-world branded, licensed or copyrighted character, franchise, mascot, logo or signature costume — invent an original character in the requested archetype instead. Narration is off-screen only; do not show a presenter. Omit audience age, gender and demographic descriptions from the final video prompt.",
   "constraints": [
     "Exactly 8 seconds long, single continuous shot.",
@@ -11,12 +11,18 @@
     "Camera is locked off, or at most a very slow gentle push-in. No whip pans, no orbits, no shake.",
     "NEGATIVE: no unrelated background story, no flickering particles, no harsh sparkles, no lens flare, no motion blur on the glyph, no simplified Chinese, no extra text, letters, numbers, or watermarks, no branded or licensed characters, costumes or logos. Use only the stylized animated subjects specified in CAST AND PRESENTATION."
   ],
-  "audio": "Audio: a warm, friendly off-screen voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" twice with a short pause between each utterance, then say ONE simple everyday word containing that exact character once. The spoken sequence is: character, character, word. Choose a familiar, concrete everyday word, preferably two or three characters, using the same reading and meaning of the target as taught in this clip. The target character may appear anywhere in the word, not only at the beginning. For example, for 人 the entire spoken line is \"人、人、機器人\"; for 木 it is \"木、木、木頭\". Stop after the word: do not keep chanting the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. Fit all three utterances naturally within the 8 seconds without rushing; keep the finished glyph clearly visible when the word is spoken. The vocabulary word is audio only: keep only the single target glyph on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
+  "audio": "Audio: a warm, friendly off-screen voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" twice with a short pause between each utterance, then say ONE simple everyday word containing that exact character once. The spoken sequence is: character, character, word. {wordChoice} Use the same reading and meaning of the target as taught in this clip; the target character may appear anywhere in the word. PRONUNCIATION SAFETY: a video model often misreads polyphonic characters, so pick a word in which every character other than the target has only one common reading (avoid 長、行、樂、重、了、得、著、數、還、都、好、為、參、落、降、度、調、傳、種、模 and similar), and never use a word whose reading differs by region. Use Taiwan standard (教育部) readings and Taiwanese Mandarin habits — no Mainland readings, no erhua (兒化) endings, no pinyin-style neutral-tone shortcuts. Write the spoken line in the prompt WITH Zhuyin for every syllable, e.g. 人、人、機器人 (ㄖㄣˊ、ㄖㄣˊ、ㄐㄧ ㄑㄧˋ ㄖㄣˊ), and tell the voice to read exactly those syllables, with clear tones, slowly and distinctly. For example, for 人 the entire spoken line is \"人、人、機器人\"; for 木 it is \"木、木、木頭\". Stop after the word: do not keep chanting the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. SPEECH-TO-PICTURE MATCH: the chosen word must be visibly echoed on screen. Stage the three utterances so each has something happening in the picture — the first utterance lands as the build begins, the second as the strokes snap into place, and the word is spoken exactly as the lead acts it out or the thing it names pops into view (an animated object, creature or gesture the word describes, never written text). The lead may react with a happy sound-free gesture, but no extra dialogue. Fit all three utterances naturally within the 8 seconds without rushing; keep the finished glyph clearly visible when the word is spoken. The vocabulary word is audio only: keep only the single target glyph as text on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
   "styleRules": [
     {
       "id": "visual-comedy",
       "text": "Build one clear, physical, laugh-out-loud gag into the teaching action — slapstick a six-year-old can follow without words. Let the lead try, fail in a silly way, react, and only then let the glyph come together. Good material: trying far too hard and overshooting, a prop that fights back, an absurd size mismatch, a double-take, a pile-up that collapses, an object reacting with comic surprise. Use a readable setup, a brief anticipation pause, and one big funny payoff before the final glyph hold. Tie the joke to this glyph's shape or meaning, make it different from the other clips in the library, and describe the actual comic action rather than calling it funny. Keep it warm and silly: no injury, fear, humiliation or loud startling sounds. The joke must not distort the final strokes, interrupt narration, or eat into the final 3-second clear hold.",
       "reason": "預設：讓 6 歲孩子笑出聲的具體肢體笑點，每支都要不一樣",
+      "enabled": true
+    },
+    {
+      "id": "constant-change",
+      "text": "Never let the picture sit still: something new and different must happen roughly every 1.5 to 2 seconds — a new action, a new gag escalation, a new reaction, a new thing arriving — so a restless six-year-old always has a reason to keep watching. Build the clip as an escalating chain of 4 distinct moments (try, twist, bigger twist, payoff), each visibly unlike the last, rather than one long slow transformation. Vary the speed and rhythm between moments (a quick dash, a beat of silence, a big bounce). During the final 3-second hold the glyph itself stays perfectly still and readable, but the lead keeps living — a proud pose, a tiny dance, a happy wobble, a sidelong glance — without covering or touching the strokes.",
+      "reason": "預設：6 歲孩子需要持續有新東西看，不是慢慢變形再乾等定格",
       "enabled": true
     },
     {
@@ -120,5 +126,17 @@
       "zh": "科學家老鼠",
       "text": "a bespectacled cartoon lab mouse among bubbling beakers that fizz over on cue"
     }
+  ],
+  "gagPlaybook": [
+    "OVERSHOOT: the lead rushes at the job with far too much power, flies past, skids back, and only the second, gentler try works.",
+    "PROP FIGHTS BACK: the tool or prop has its own opinion and keeps doing the wrong thing until the lead outsmarts it.",
+    "SIZE MISMATCH: something is comically too big or too tiny, and the lead has to improvise with it.",
+    "DOMINO PILE-UP: one small bump sets off a chain of tumbling pieces that, by luck, land as the glyph.",
+    "HIDE AND PEEK: parts of the glyph keep sneaking in from the edges and playfully dodging the lead before settling.",
+    "COPYCAT: a second small thing mimics everything the lead does one beat late, causing a harmless mix-up.",
+    "TUG-OF-WAR: two sides pull the pieces in opposite directions until they spring together into place.",
+    "SURPRISE POP: something bursts out of a capsule, box or hat, and the lead gets a double-take before carrying on.",
+    "WRONG-THEN-RIGHT: the lead proudly builds a silly wrong shape first, notices, shrugs, and fixes it in one quick move.",
+    "BOUNCE CHAIN: a bouncing, rolling or sliding thing ricochets around the frame and each hit drops one stroke into place."
   ]
 }

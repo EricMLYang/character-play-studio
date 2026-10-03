@@ -1,0 +1,25 @@
+[
+  {
+    "char": "接",
+    "meaning": "to catch",
+    "zhuyin": "ㄐㄧㄝ",
+    "emoji": "🧤",
+    "conceptZh": "布忍者躲在盒子後面，盒子突然彈出球，他嚇一跳還是接住。",
+    "object": "a tiny felt ninja, a gift box and a surprise ball",
+    "morph": "a surprise box pops out a ball that the ninja catches, forming 接",
+    "creativeAngle": "布忍者自以為藏得很好，箱子彈出球讓他雙眼圓睜，三次慌張接球後成字。",
+    "promptEn": "An 8-second animated clip on a light coral-peach backdrop. Lead: a tiny black felt ninja with stitched eyes, hiding behind a polka-dot gift box, certain nobody sees him. The finished glyph 接 is a saturated royal-blue, centered, about 70% of frame height.\n0.0-1.6s: the ninja peeks over the box with only his eyes showing; the box lid shivers. First \"接\" as the lid pops open.\n1.6-3.2s: surprise pop: an orange ball shoots out of the box and ricochets; the ninja does a double-take, eyes bulging, and lunges. Second \"接\" lands as he catches it with a thud and blue hand-strokes spring out of the box.\n3.2-5.0s: the box coughs out the remaining strokes one after another, he juggles them with wobbling arms, and they click together as the glyph 接.\n5.0-8.0s: HOLD, glyph perfectly still. At \"接球\" the box pops a fresh orange ball, the ninja leaps and catches it with a little spin-and-bow, then hides his face behind the ball, pretending to be invisible again beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"接、接、接球\" (ㄐㄧㄝ、ㄐㄧㄝ、ㄐㄧㄝ ㄑㄧㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 接.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.711Z",
+    "id": "d87ec3ce-9ce0-4db4-b8e6-d79e0e959666",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "be4723125f2bc603d4ab6def80024e7bbd9e6047c2e2c5606d904379962f6031",
+    "hash": "8e00e89a2e84d2f972e4e53b2aa244dfffba0057e1d8560824f1d23cd3c341e8",
+    "formatted": "【目標國字】：接\n【設計概念】：布忍者躲在盒子後面，盒子突然彈出球，他嚇一跳還是接住。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a light coral-peach backdrop. Lead: a tiny black felt ninja with stitched eyes, hiding behind a polka-dot gift box, certain nobody sees him. The finished glyph 接 is a saturated royal-blue, centered, about 70% of frame height.\n0.0-1.6s: the ninja peeks over the box with only his eyes showing; the box lid shivers. First \"接\" as the lid pops open.\n1.6-3.2s: surprise pop: an orange ball shoots out of the box and ricochets; the ninja does a double-take, eyes bulging, and lunges. Second \"接\" lands as he catches it with a thud and blue hand-strokes spring out of the box.\n3.2-5.0s: the box coughs out the remaining strokes one after another, he juggles them with wobbling arms, and they click together as the glyph 接.\n5.0-8.0s: HOLD, glyph perfectly still. At \"接球\" the box pops a fresh orange ball, the ninja leaps and catches it with a little spin-and-bow, then hides his face behind the ball, pretending to be invisible again beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"接、接、接球\" (ㄐㄧㄝ、ㄐㄧㄝ、ㄐㄧㄝ ㄑㄧㄡˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 接.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

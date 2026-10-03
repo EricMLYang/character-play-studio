@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蝦",
+    "meaning": "shrimp",
+    "zhuyin": "ㄒㄧㄚ",
+    "emoji": "🦐",
+    "conceptZh": "蝦子身體彎彎，有長長的鬚",
+    "object": "a tiny felt ninja and a stubborn bamboo fishing rod with a pink shrimp",
+    "morph": "the fishing rod keeps misbehaving until the ninja lands the strokes of 蝦",
+    "creativeAngle": "布忍者想釣出字，釣竿不聽話，最後釣到一隻粉紅蝦。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 蝦 (shrimp). Lead: a small black felt ninja with a floppy mask, certain nobody can see him even when he stands in the open. Moment 1 (0-1.7s): he tiptoes up and hides behind a thin reed, his whole body sticking out; the voice says 蝦 as he casts a bamboo rod that boomerangs and hooks his own hood. Moment 2 (1.7-3.4s): the rod has its own mind, flinging him upward; a pink stroke dangles from the line, then another; on the second 蝦 he finally lands the last stroke and 蝦 appears. Moment 3 (3.4-5.3s): the ninja hides behind the glyph with his feet visible; a big red-orange lobster with giant claws bursts from a bubble and the voice says 龍蝦 as the ninja freezes mid-tiptoe, eyes wide. Moment 4 (5.3-8s): glyph still; the ninja bows silently to the lobster, who waggles its claws. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蝦、蝦、龍蝦\" (ㄒㄧㄚ、ㄒㄧㄚ、ㄌㄨㄥˊ ㄒㄧㄚ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蝦, drawn as saturated solid rose pink strokes on a pale mint background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.215Z",
+    "id": "1fd26301-768b-4be8-af99-cad8fdaefc79",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f35191a62349c108cd3a4c16ab3ed038fdcb43673da1fa5fab5640c7719fc929",
+    "hash": "c40610b534220369a2673c89e887048b5b4af787648326be1c95507f7bdce6f9",
+    "formatted": "【目標國字】：蝦\n【設計概念】：蝦子身體彎彎，有長長的鬚\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 蝦 (shrimp). Lead: a small black felt ninja with a floppy mask, certain nobody can see him even when he stands in the open. Moment 1 (0-1.7s): he tiptoes up and hides behind a thin reed, his whole body sticking out; the voice says 蝦 as he casts a bamboo rod that boomerangs and hooks his own hood. Moment 2 (1.7-3.4s): the rod has its own mind, flinging him upward; a pink stroke dangles from the line, then another; on the second 蝦 he finally lands the last stroke and 蝦 appears. Moment 3 (3.4-5.3s): the ninja hides behind the glyph with his feet visible; a big red-orange lobster with giant claws bursts from a bubble and the voice says 龍蝦 as the ninja freezes mid-tiptoe, eyes wide. Moment 4 (5.3-8s): glyph still; the ninja bows silently to the lobster, who waggles its claws. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"蝦、蝦、龍蝦\" (ㄒㄧㄚ、ㄒㄧㄚ、ㄌㄨㄥˊ ㄒㄧㄚ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 蝦, drawn as saturated solid rose pink strokes on a pale mint background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

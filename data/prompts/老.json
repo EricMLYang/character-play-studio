@@ -1,0 +1,25 @@
+[
+  {
+    "char": "老",
+    "meaning": "old",
+    "zhuyin": "ㄌㄠˇ",
+    "emoji": "👴",
+    "conceptZh": "賽車撞開玩具盒，爺爺玩偶彈出來，嚇一跳後慢慢走。",
+    "object": "a squeaky toy race car and a wooden grandpa toy popping from a box",
+    "morph": "a surprise box pops a grandpa figure that turns into strokes of 老",
+    "creativeAngle": "賽車衝向驚喜盒，爺爺玩偶彈出，賽車嚇到倒退；最後安靜地跟著老虎走。",
+    "promptEn": "An 8-second animated clip on a pale warm-gray-beige backdrop. Lead: a squeaky pull-back toy race car, mustard-yellow with googly eyes that always overshoots. The finished glyph 老 is a saturated chestnut-brown, centered, about 70% of frame height.\n0.0-1.6s: the car revs and shoots across the floor at a closed toy box. First \"老\" as it screeches to a stop one inch short, googly eyes crossing.\n1.6-3.2s: surprise pop: the box lid flips and a small wooden grandpa figure with a yarn beard springs up, cane waving; the car reverses with a double-take. Second \"老\" lands as the grandpa's cane taps and brown strokes pop out of the box.\n3.2-5.0s: the car overshoots, skids back, and nudges the strokes together as the glyph 老 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"老虎\" a stripy toy tiger tiptoes in beside the glyph; the grandpa pets its head slowly, the car squeaks its horn and wiggles its googly eyes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"老、老、老虎\" (ㄌㄠˇ、ㄌㄠˇ、ㄌㄠˇ ㄏㄨˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 老.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.782Z",
+    "id": "d56eec62-521c-4b2f-b464-62f7874e4c60",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d270380574baf0561c768d0cba30b8e2d2d55c0156033d2ae98f34a0bf01b9c6",
+    "hash": "f2d5a11f22c24c323a7053ef54456347f908e8b33f3d01b5beae5978c991cf61",
+    "formatted": "【目標國字】：老\n【設計概念】：賽車撞開玩具盒，爺爺玩偶彈出來，嚇一跳後慢慢走。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale warm-gray-beige backdrop. Lead: a squeaky pull-back toy race car, mustard-yellow with googly eyes that always overshoots. The finished glyph 老 is a saturated chestnut-brown, centered, about 70% of frame height.\n0.0-1.6s: the car revs and shoots across the floor at a closed toy box. First \"老\" as it screeches to a stop one inch short, googly eyes crossing.\n1.6-3.2s: surprise pop: the box lid flips and a small wooden grandpa figure with a yarn beard springs up, cane waving; the car reverses with a double-take. Second \"老\" lands as the grandpa's cane taps and brown strokes pop out of the box.\n3.2-5.0s: the car overshoots, skids back, and nudges the strokes together as the glyph 老 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"老虎\" a stripy toy tiger tiptoes in beside the glyph; the grandpa pets its head slowly, the car squeaks its horn and wiggles its googly eyes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"老、老、老虎\" (ㄌㄠˇ、ㄌㄠˇ、ㄌㄠˇ ㄏㄨˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 老.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

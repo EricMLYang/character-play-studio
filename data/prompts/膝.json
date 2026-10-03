@@ -1,0 +1,25 @@
+[
+  {
+    "char": "膝",
+    "meaning": "knee",
+    "zhuyin": "ㄒㄧ",
+    "emoji": "🦿",
+    "conceptZh": "腿中間可以彎曲的地方。",
+    "object": "a chunky toy fire engine with crew, a bumping domino row, and a fluffy knee pad",
+    "morph": "a bump sets off a domino chain that lands as 膝",
+    "creativeAngle": "消防車輕輕一碰，骨牌倒成「膝」；護膝與膝蓋出現。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a mustard-yellow and grey toy road, a chunky red toy fire engine sits by a line of tall bright blocks leading to a ladder. 0–1.6s: The first 膝 is spoken as a firefighter doll nudges the first block with his boot, and it topples with a soft clack. 1.6–3.2s: The second 膝 is spoken: the blocks tumble into the ladder, bounce off the siren, and the hose flicks the next one. 3.2–4.8s: The final block rolls across the road and the parts slot in: 膝 stands in bright orange, the engine honking. 4.8–5.8s: As 膝蓋 is spoken, a round fluffy knee pad pops from the engine and bends happily, sending the crew into a bounce. Final hold (about 5.0–8.0s): the crew flashes lights and waves their hoses; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 膝、膝、膝蓋（ㄒㄧ、ㄒㄧ、ㄒㄧ ㄍㄞˋ）. The first 膝 lands at about 1.0s, the second 膝 at about 2.6s, and the word 膝蓋 at about 4.9s, each timed to the picture described above. The only text anywhere in frame is the single glyph 膝, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 膝 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.006Z",
+    "id": "5e0811c5-00f0-41c8-8274-d320bf653418",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7aadd54600f7cb54d76f59722a2809e43b7b9911c9c1f2d0aa87840c52f33755",
+    "hash": "f542772a78247a52f7f3598f549a47f3ee8476b2ad0589e8057a70e0cedddebe",
+    "formatted": "【目標國字】：膝\n【設計概念】：腿中間可以彎曲的地方。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a mustard-yellow and grey toy road, a chunky red toy fire engine sits by a line of tall bright blocks leading to a ladder. 0–1.6s: The first 膝 is spoken as a firefighter doll nudges the first block with his boot, and it topples with a soft clack. 1.6–3.2s: The second 膝 is spoken: the blocks tumble into the ladder, bounce off the siren, and the hose flicks the next one. 3.2–4.8s: The final block rolls across the road and the parts slot in: 膝 stands in bright orange, the engine honking. 4.8–5.8s: As 膝蓋 is spoken, a round fluffy knee pad pops from the engine and bends happily, sending the crew into a bounce. Final hold (about 5.0–8.0s): the crew flashes lights and waves their hoses; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 膝、膝、膝蓋（ㄒㄧ、ㄒㄧ、ㄒㄧ ㄍㄞˋ）. The first 膝 lands at about 1.0s, the second 膝 at about 2.6s, and the word 膝蓋 at about 4.9s, each timed to the picture described above. The only text anywhere in frame is the single glyph 膝, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 膝 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

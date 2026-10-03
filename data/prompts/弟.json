@@ -1,0 +1,25 @@
+[
+  {
+    "char": "弟",
+    "meaning": "younger brother",
+    "zhuyin": "ㄉㄧˋ",
+    "emoji": "👦",
+    "conceptZh": "比自己小的男性手足；小弟弟。",
+    "object": "a plump chef-bear, flying dough discs, and a tiny chef-mouse in a paper hat",
+    "morph": "each dough disc ricochets off the walls and drops one stroke of 弟 into place",
+    "creativeAngle": "廚師熊亂扔麵糰，每次彈跳砸進一筆；最後掉出小廚師鼠對應「小弟」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a warm butter-yellow toy kitchen with a mint-green tiled wall, a rotund chef-bear in a tall hat grips a stack of cream dough discs, brimming with confidence. 0–1.5s: The chef-bear spins and flings the first disc with a grand flourish; it misses the counter, bounces off a pot lid, and the first 弟 is spoken as the top stroke splats neatly into place. 1.5–3.1s: He throws two discs at once; one rebounds off the ceiling lamp, the other off his own hat, and the second 弟 is spoken as the vertical stroke slides in. 3.1–4.6s: A final disc ricochets wall to wall in a zigzag, chef-bear dizzily chasing it, and drops the last hook stroke so 弟 stands complete in orange-brown. 4.6–5.4s: As 小弟 is said, a tiny chef-mouse with a paper hat pops from the flour sack holding a mini rolling pin, and the bear's jaw drops with a double-take. Final hold (about 5.0–8.0s): the little mouse stirs a thimble pot beside the bear, who proudly twirls a spatula; the glyph does not move. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 弟、弟、小弟（ㄉㄧˋ、ㄉㄧˋ、ㄒㄧㄠˇ ㄉㄧˋ）. The first 弟 lands at about 0.8s, the second 弟 at about 2.4s, and the word 小弟 at about 4.6s, each timed to the picture described above. The only text anywhere in frame is the single glyph 弟, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 弟 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.537Z",
+    "id": "64c6d494-1ce1-4b8e-ad12-2d10286072e2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "185c1a8b4912b60ff909bbee5ae8d44a572617f8963f8a14a7b48de4896be5ad",
+    "hash": "6c4bbf70b148bbe3c7eb14040a21c7f9395830da3b6c287a88a6599fe55de427",
+    "formatted": "【目標國字】：弟\n【設計概念】：比自己小的男性手足；小弟弟。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a warm butter-yellow toy kitchen with a mint-green tiled wall, a rotund chef-bear in a tall hat grips a stack of cream dough discs, brimming with confidence. 0–1.5s: The chef-bear spins and flings the first disc with a grand flourish; it misses the counter, bounces off a pot lid, and the first 弟 is spoken as the top stroke splats neatly into place. 1.5–3.1s: He throws two discs at once; one rebounds off the ceiling lamp, the other off his own hat, and the second 弟 is spoken as the vertical stroke slides in. 3.1–4.6s: A final disc ricochets wall to wall in a zigzag, chef-bear dizzily chasing it, and drops the last hook stroke so 弟 stands complete in orange-brown. 4.6–5.4s: As 小弟 is said, a tiny chef-mouse with a paper hat pops from the flour sack holding a mini rolling pin, and the bear's jaw drops with a double-take. Final hold (about 5.0–8.0s): the little mouse stirs a thimble pot beside the bear, who proudly twirls a spatula; the glyph does not move. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 弟、弟、小弟（ㄉㄧˋ、ㄉㄧˋ、ㄒㄧㄠˇ ㄉㄧˋ）. The first 弟 lands at about 0.8s, the second 弟 at about 2.4s, and the word 小弟 at about 4.6s, each timed to the picture described above. The only text anywhere in frame is the single glyph 弟, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 弟 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

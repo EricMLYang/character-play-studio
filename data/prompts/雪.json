@@ -1,0 +1,25 @@
+[
+  {
+    "char": "雪",
+    "meaning": "snow",
+    "zhuyin": "ㄒㄩㄝˇ",
+    "emoji": "❄️",
+    "conceptZh": "雪是冬天從天上飄下的白色冰晶",
+    "object": "a bespectacled lab mouse, beakers and a bouncing snowball",
+    "morph": "a bouncing snowball hits beakers and each hit drops a stroke of 雪",
+    "creativeAngle": "科學家老鼠的雪球彈來彈去，每次撞一下掉一筆，結尾做出雪人。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 雪 (snow). Lead: a bespectacled mouse in a tiny white coat among fizzing beakers. Moment 1 (0-1.6s): he pours a bubbling potion that freezes into a snowball, bounces; the voice says 雪 as it clinks off a flask. Moment 2 (1.6-3.3s): the ball ricochets around beakers; each hit drops a blue stroke from above; on the second 雪 the last one lands and 雪 shines. Moment 3 (3.3-5.2s): the mouse rolls two more snowballs; as the voice says 雪人 they stack into a round snowman with a carrot nose that sneezes the carrot into the mouse's glasses. Moment 4 (5.2-8s): glyph still; the snowman and mouse high-five, small snowflakes drifting down beside them. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"雪、雪、雪人\" (ㄒㄩㄝˇ、ㄒㄩㄝˇ、ㄒㄩㄝˇ ㄖㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 雪, drawn as saturated solid icy blue strokes on a warm light gray-beige background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.532Z",
+    "id": "acb134fc-5b5a-4f5d-a65b-99290d14670d",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "ef4342c7261a89589017783e5433f66d098478c1c2e61ff415684f07fad9bda6",
+    "hash": "1a6f95e22f210bf1b23a0a524920c7b1b2d950963ada9814f29f39a08a5b5c33",
+    "formatted": "【目標國字】：雪\n【設計概念】：雪是冬天從天上飄下的白色冰晶\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 雪 (snow). Lead: a bespectacled mouse in a tiny white coat among fizzing beakers. Moment 1 (0-1.6s): he pours a bubbling potion that freezes into a snowball, bounces; the voice says 雪 as it clinks off a flask. Moment 2 (1.6-3.3s): the ball ricochets around beakers; each hit drops a blue stroke from above; on the second 雪 the last one lands and 雪 shines. Moment 3 (3.3-5.2s): the mouse rolls two more snowballs; as the voice says 雪人 they stack into a round snowman with a carrot nose that sneezes the carrot into the mouse's glasses. Moment 4 (5.2-8s): glyph still; the snowman and mouse high-five, small snowflakes drifting down beside them. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"雪、雪、雪人\" (ㄒㄩㄝˇ、ㄒㄩㄝˇ、ㄒㄩㄝˇ ㄖㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 雪, drawn as saturated solid icy blue strokes on a warm light gray-beige background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

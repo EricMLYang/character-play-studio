@@ -1,0 +1,25 @@
+[
+  {
+    "char": "腦",
+    "meaning": "brain",
+    "zhuyin": "ㄋㄠˇ",
+    "emoji": "🧠",
+    "conceptZh": "位於頭部，負責思考和指揮身體的器官。",
+    "object": "a squad of interlocking brick soldiers, a magenta brick brain, and a pull-rope",
+    "morph": "two brick teams pull a rope until the pieces of 腦 spring together",
+    "creativeAngle": "兩隊積木拔河，彈在一起拼出「腦」；小積木電腦亮燈。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny coral and cream baseplate, a squad of interlocking building bricks in red and blue stands on two sides of a thick rope tied to scattered pieces of the glyph. 0–1.5s: The red bricks heave right and the blue bricks heave left as the first 腦 is spoken; the rope snaps taut and the pieces slide apart like a zipper. 1.5–3.0s: A tall brick yells silently, and the second 腦 is spoken as both teams lean so far back that they tumble in a domino of bricks. 3.0–4.6s: The rope pings loose and the pieces spring into one: 腦 snaps together in rich teal with a click, bricks bouncing across the plate. 4.6–5.6s: As 電腦 is spoken, the bricks assemble a miniature computer monitor with a smiling screen and a lightning-bolt flicker. Final hold (about 5.0–8.0s): bricks do a conga line below while the screen blinks a happy face; the glyph is motionless. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 腦、腦、電腦（ㄋㄠˇ、ㄋㄠˇ、ㄉㄧㄢˋ ㄋㄠˇ）. The first 腦 lands at about 0.9s, the second 腦 at about 2.3s, and the word 電腦 at about 4.6s, each timed to the picture described above. The only text anywhere in frame is the single glyph 腦, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 腦 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.961Z",
+    "id": "e58a5ea9-22da-4b9e-8568-55169738fff9",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "14cf39ceab898f8fc29ac66543904f21d26ea62df7c78eb9a75ab9441195ed84",
+    "hash": "c983bd00c2b0974e3e8d54d23d119ca48f56cf04324f49972573d78818c1dc59",
+    "formatted": "【目標國字】：腦\n【設計概念】：位於頭部，負責思考和指揮身體的器官。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny coral and cream baseplate, a squad of interlocking building bricks in red and blue stands on two sides of a thick rope tied to scattered pieces of the glyph. 0–1.5s: The red bricks heave right and the blue bricks heave left as the first 腦 is spoken; the rope snaps taut and the pieces slide apart like a zipper. 1.5–3.0s: A tall brick yells silently, and the second 腦 is spoken as both teams lean so far back that they tumble in a domino of bricks. 3.0–4.6s: The rope pings loose and the pieces spring into one: 腦 snaps together in rich teal with a click, bricks bouncing across the plate. 4.6–5.6s: As 電腦 is spoken, the bricks assemble a miniature computer monitor with a smiling screen and a lightning-bolt flicker. Final hold (about 5.0–8.0s): bricks do a conga line below while the screen blinks a happy face; the glyph is motionless. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 腦、腦、電腦（ㄋㄠˇ、ㄋㄠˇ、ㄉㄧㄢˋ ㄋㄠˇ）. The first 腦 lands at about 0.9s, the second 腦 at about 2.3s, and the word 電腦 at about 4.6s, each timed to the picture described above. The only text anywhere in frame is the single glyph 腦, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 腦 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

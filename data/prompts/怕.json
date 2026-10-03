@@ -1,0 +1,25 @@
+[
+  {
+    "char": "怕",
+    "meaning": "afraid",
+    "zhuyin": "ㄆㄚˋ",
+    "emoji": "😨",
+    "conceptZh": "廚師動物的擀麵棍自己做出一個鬼臉麵團，嚇得大廚帽子飛起來，最後被牠收服。",
+    "object": "a rotund chef badger with a rebellious rolling pin",
+    "morph": "a defiant rolling pin flattens dough strokes into 怕 and a silly dough ghost",
+    "creativeAngle": "道具反抗：擀麵棍自己玩，大廚先怕後笑。",
+    "promptEn": "An 8-second animated clip on a soft lemon background, with one single Traditional Chinese glyph 怕 as the only text on screen, drawn in grape purple solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a plump badger chef in a tall hat hurls pizza dough with big confidence and it lands as the left heart radical on the board; the first 怕 is spoken as the three small dots of the radical splat down. 1.7-3.4s: the rolling pin jumps out of his paws and flattens a blob into a goofy ghost face, so the chef hops back and his hat pops off; the second 怕 is spoken as the white 白 dough shape flops next to the radical. 3.4-5s: he traps the pin under a mixing bowl with a clever flick; 怕怕 is spoken as the little dough ghost peeks around the glyph, wobbles, and sticks out a tongue while the chef hides behind his hat and then bursts into giggles. 5-8s: hold; the chef puts the hat back on and bows, the glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"怕、怕、怕怕\" (ㄆㄚˋ、ㄆㄚˋ、ㄆㄚˋ ㄆㄚˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 怕 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.576Z",
+    "id": "e7718277-0f76-4696-93f1-711e1b350193",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "a3d3c39d17ed08a565219bc25f94a83c4a41daa62420708cba4f3d779732e319",
+    "hash": "8665f4d19ea96c81ad2ca95237f492816b9f915099ee0cfc1c5bb2a70f935638",
+    "formatted": "【目標國字】：怕\n【設計概念】：廚師動物的擀麵棍自己做出一個鬼臉麵團，嚇得大廚帽子飛起來，最後被牠收服。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft lemon background, with one single Traditional Chinese glyph 怕 as the only text on screen, drawn in grape purple solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a plump badger chef in a tall hat hurls pizza dough with big confidence and it lands as the left heart radical on the board; the first 怕 is spoken as the three small dots of the radical splat down. 1.7-3.4s: the rolling pin jumps out of his paws and flattens a blob into a goofy ghost face, so the chef hops back and his hat pops off; the second 怕 is spoken as the white 白 dough shape flops next to the radical. 3.4-5s: he traps the pin under a mixing bowl with a clever flick; 怕怕 is spoken as the little dough ghost peeks around the glyph, wobbles, and sticks out a tongue while the chef hides behind his hat and then bursts into giggles. 5-8s: hold; the chef puts the hat back on and bows, the glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"怕、怕、怕怕\" (ㄆㄚˋ、ㄆㄚˋ、ㄆㄚˋ ㄆㄚˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 怕 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

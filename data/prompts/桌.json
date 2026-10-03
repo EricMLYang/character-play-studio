@@ -1,0 +1,25 @@
+[
+  {
+    "char": "桌",
+    "meaning": "table",
+    "zhuyin": "ㄓㄨㄛ",
+    "emoji": "🪑",
+    "conceptZh": "桌：卓加木，木頭做成的桌子。",
+    "object": "a bouncy astronaut toy in a fishbowl helmet, a gigantic toy table leg and a tiny teacup",
+    "morph": "the astronaut is dwarfed by a comically huge tabletop and improvises by floating up and bouncing across it, building 桌",
+    "creativeAngle": "太空人玩偶遇到超大的桌面，只好飄上去用身體蓋章拼出桌。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 桌 (table), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a bouncy astronaut toy in a fishbowl helmet, a gigantic toy table leg and a tiny teacup. Warm sandy-cream backdrop; the glyph is chestnut-brown wood grain. Timed beats. 0.0-1.5s: a silver-and-white astronaut toy in a fishbowl helmet bounces in and drifts a little off the floor; the voice says the first 桌 as a giant wooden table leg thumps down next to him, ten times his height. 1.5-3.0s: he cranes his neck, floats up the leg like a balloon, and lands with a boing on a huge tabletop that suddenly slides in. The voice says the second 桌 as each bounce of his boots stamps a brown stroke onto the top. 3.0-4.5s: the strokes click together into 桌 and the whole table shrinks with a squeaky pop to the right size; he floats back up, surprised. 4.5-5.0s: the voice says 圓桌 (ㄩㄢˊ ㄓㄨㄛ) as a small round tabletop spins in front of him carrying a tiny teapot. Final hold: 5.0-8.0s: the glyph is perfectly still; the astronaut hovers above the round table, sipping with his pinky out. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 桌、桌、圓桌, syllable by syllable ㄓㄨㄛ、ㄓㄨㄛ、ㄩㄢˊ ㄓㄨㄛ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 桌 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.965Z",
+    "id": "27795e50-849e-40c0-9284-6645d4392e48",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d66323ab6b5ccd076b28128b512fdf9ca385640ea18122057861bff570485f41",
+    "hash": "d99aa627a02df9e8ccbe3915758b388456d5c8d00d059dd9d203d7852b64710d",
+    "formatted": "【目標國字】：桌\n【設計概念】：桌：卓加木，木頭做成的桌子。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 桌 (table), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a bouncy astronaut toy in a fishbowl helmet, a gigantic toy table leg and a tiny teacup. Warm sandy-cream backdrop; the glyph is chestnut-brown wood grain. Timed beats. 0.0-1.5s: a silver-and-white astronaut toy in a fishbowl helmet bounces in and drifts a little off the floor; the voice says the first 桌 as a giant wooden table leg thumps down next to him, ten times his height. 1.5-3.0s: he cranes his neck, floats up the leg like a balloon, and lands with a boing on a huge tabletop that suddenly slides in. The voice says the second 桌 as each bounce of his boots stamps a brown stroke onto the top. 3.0-4.5s: the strokes click together into 桌 and the whole table shrinks with a squeaky pop to the right size; he floats back up, surprised. 4.5-5.0s: the voice says 圓桌 (ㄩㄢˊ ㄓㄨㄛ) as a small round tabletop spins in front of him carrying a tiny teapot. Final hold: 5.0-8.0s: the glyph is perfectly still; the astronaut hovers above the round table, sipping with his pinky out. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 桌、桌、圓桌, syllable by syllable ㄓㄨㄛ、ㄓㄨㄛ、ㄩㄢˊ ㄓㄨㄛ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 桌 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

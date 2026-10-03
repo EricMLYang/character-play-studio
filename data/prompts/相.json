@@ -1,0 +1,25 @@
+[
+  {
+    "char": "相",
+    "meaning": "each other, mutual",
+    "zhuyin": "ㄒㄧㄤ",
+    "emoji": "🤝",
+    "conceptZh": "兩隊大小不一的積木小隊想握手，一個太大一個太小，臨時湊出「木」和「目」，握手時中間亮起小愛心。",
+    "object": "building-brick squad of mismatched sizes",
+    "morph": "a tall brick stack becomes 木 and a small stack becomes 目",
+    "creativeAngle": "尺寸差太多，只好互相借積木臨場湊出左右兩半。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a soft apricot wall with a mint floor; the glyph is solid cobalt 相, 木 on the left and 目 on the right. A giant red brick squad stands at left and a tiny yellow brick squad stands at right. The Traditional Chinese glyph 相 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the tiny squad tries to climb onto the giant squad to shake hands and slips off; the first 相 is spoken as the first tiny brick falls. Moment two (1.8-3.5s): they trade bricks: the giant squad lends two long bricks to make 木 while the tiny squad stacks a small box with a bar inside it to form 目; the second 相 is spoken as the last brick clicks. Moment three (3.5-5.0s): one giant brick and one tiny brick finally shake hands and a small gold heart glows between them; 相信 is spoken as the heart pulses once. From 5.0-8.0s the glyph 相 is perfectly still and unobstructed; the heart bobs and the bricks sway side to side in a happy wobble; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「相、相、相信」 (ㄒㄧㄤ、ㄒㄧㄤ、ㄒㄧㄤ ㄒㄧㄣˋ). Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only brick clicks and a warm tiny chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.450Z",
+    "id": "9afc5567-ea34-437d-a157-d8ea773eb8e8",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "8eb7286fd0a60f3cb6efade112f0a491efdc98181792e5c0ea3583bb42d49efc",
+    "hash": "3866b285864151503537e011a023dfbd45b231f76a30ca45ce19995768df4bbd",
+    "formatted": "【目標國字】：相\n【設計概念】：兩隊大小不一的積木小隊想握手，一個太大一個太小，臨時湊出「木」和「目」，握手時中間亮起小愛心。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a soft apricot wall with a mint floor; the glyph is solid cobalt 相, 木 on the left and 目 on the right. A giant red brick squad stands at left and a tiny yellow brick squad stands at right. The Traditional Chinese glyph 相 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the tiny squad tries to climb onto the giant squad to shake hands and slips off; the first 相 is spoken as the first tiny brick falls. Moment two (1.8-3.5s): they trade bricks: the giant squad lends two long bricks to make 木 while the tiny squad stacks a small box with a bar inside it to form 目; the second 相 is spoken as the last brick clicks. Moment three (3.5-5.0s): one giant brick and one tiny brick finally shake hands and a small gold heart glows between them; 相信 is spoken as the heart pulses once. From 5.0-8.0s the glyph 相 is perfectly still and unobstructed; the heart bobs and the bricks sway side to side in a happy wobble; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「相、相、相信」 (ㄒㄧㄤ、ㄒㄧㄤ、ㄒㄧㄤ ㄒㄧㄣˋ). Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only brick clicks and a warm tiny chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

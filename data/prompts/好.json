@@ -1,0 +1,25 @@
+[
+  {
+    "char": "好",
+    "meaning": "good",
+    "zhuyin": "ㄏㄠˇ",
+    "emoji": "👍",
+    "conceptZh": "橡膠恐龍用小短手搆不到餃子，一顆彈力球在畫面裡亂彈，每撞一下就把一筆撞到位，組成「好」，牠終於吃到「好吃」的餃子。",
+    "object": "a rubber dinosaur with enormous feet and tiny arms, a bouncy ball in sunny orange, and a plump steamed dumpling",
+    "morph": "a bouncing ball ricochets around the frame and each hit knocks one stroke into place, building the glyph 好",
+    "creativeAngle": "連環彈跳：彈力球每彈一次就撞出一筆，女字旁先、子後；詞「好吃」讓恐龍用大腳把餃子踢進嘴裡。",
+    "promptEn": "An 8-second springy cartoon clip on a clean solid pale cream-green backdrop, with one large Traditional Chinese glyph 好 as the only text, built of thick glossy saturated magenta strokes, about 70% of frame height, centered and uncropped. Lead: a rubber dinosaur with enormous feet and comically tiny arms that cannot reach anything; one supporting object, a bright orange bouncy ball. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 好、好、好吃 (ㄏㄠˇ、ㄏㄠˇ、ㄏㄠˇ ㄔ), slow with clear tones, then stop. Moment 1 (0–1.7s): the dinosaur stomps in, squeaking at every step, tries to pick up the bouncy ball with his tiny arms, fails three times as his hands wave short of it, and finally boots it with a giant foot as the first 好 is spoken. Moment 2 (1.7–3.4s): the ball ricochets off the floor, the left wall, the ceiling, and each hit slaps a magenta stroke into place on the left with a bouncy bonk: a curving top stroke, a diagonal sweep, a short horizontal bar, forming the left woman-shaped part. The dinosaur's head whips back and forth following it, eyes rolling. Moment 3 (3.4–5s): the ball bounces off his round belly, boing, and rolls over to the right, where two more hits drop in a horizontal bar and a vertical hooking stroke, forming the 子 component; as the second 好 is spoken the glyph 好 completes with a soft rubbery wiggle and the ball plops into the dinosaur's open arms, which he hugs in a clumsy hop. Moment 4 (5s): as 好吃 is spoken, a plump steamed dumpling rolls out of nowhere, the dinosaur tries to grab it with his tiny arms, fails, then kicks it into the air and catches it in his mouth with a gulp, cheeks puffing, eyes squeezed in delight. Final 5–8s: the glyph 好 stays perfectly still and readable while the dinosaur at the side chews happily and gives a thumbs-up with a tiny arm while his big foot taps a calm beat, never touching the strokes. Soft daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:27.937Z",
+    "id": "de71ebdb-a45c-45f1-ab0d-da4310a9d94e",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "1bc8bb7fe967581b569bd1b27578867956cb1a6bc84a8fd4a95436b36936e1a0",
+    "hash": "330778868c5a1400bd9d8611c1623c155854d027e6db44e14f0acae9809a1fe7",
+    "formatted": "【目標國字】：好\n【設計概念】：橡膠恐龍用小短手搆不到餃子，一顆彈力球在畫面裡亂彈，每撞一下就把一筆撞到位，組成「好」，牠終於吃到「好吃」的餃子。\n【8s Video Prompt】:\n```text\nAn 8-second springy cartoon clip on a clean solid pale cream-green backdrop, with one large Traditional Chinese glyph 好 as the only text, built of thick glossy saturated magenta strokes, about 70% of frame height, centered and uncropped. Lead: a rubber dinosaur with enormous feet and comically tiny arms that cannot reach anything; one supporting object, a bright orange bouncy ball. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 好、好、好吃 (ㄏㄠˇ、ㄏㄠˇ、ㄏㄠˇ ㄔ), slow with clear tones, then stop. Moment 1 (0–1.7s): the dinosaur stomps in, squeaking at every step, tries to pick up the bouncy ball with his tiny arms, fails three times as his hands wave short of it, and finally boots it with a giant foot as the first 好 is spoken. Moment 2 (1.7–3.4s): the ball ricochets off the floor, the left wall, the ceiling, and each hit slaps a magenta stroke into place on the left with a bouncy bonk: a curving top stroke, a diagonal sweep, a short horizontal bar, forming the left woman-shaped part. The dinosaur's head whips back and forth following it, eyes rolling. Moment 3 (3.4–5s): the ball bounces off his round belly, boing, and rolls over to the right, where two more hits drop in a horizontal bar and a vertical hooking stroke, forming the 子 component; as the second 好 is spoken the glyph 好 completes with a soft rubbery wiggle and the ball plops into the dinosaur's open arms, which he hugs in a clumsy hop. Moment 4 (5s): as 好吃 is spoken, a plump steamed dumpling rolls out of nowhere, the dinosaur tries to grab it with his tiny arms, fails, then kicks it into the air and catches it in his mouth with a gulp, cheeks puffing, eyes squeezed in delight. Final 5–8s: the glyph 好 stays perfectly still and readable while the dinosaur at the side chews happily and gives a thumbs-up with a tiny arm while his big foot taps a calm beat, never touching the strokes. Soft daylight, no flashing, no real people, no other text.\n```"
+  }
+]

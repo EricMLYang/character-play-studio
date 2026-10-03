@@ -1,0 +1,25 @@
+[
+  {
+    "char": "鐘",
+    "meaning": "clock",
+    "zhuyin": "ㄓㄨㄥ",
+    "emoji": "⏰",
+    "conceptZh": "鐘：金加童，會敲出聲音的鐘。",
+    "object": "a wind-up animal band that clashes and topples, and a round toy alarm clock",
+    "morph": "a wind-up drummer rushes to hit a bell with far too much power, flies past, skids back, and only the gentle second tap works for 鐘",
+    "creativeAngle": "發條鼓手衝太快撞過頭，第二次輕輕敲鬧鐘才讓鐘字就位。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 鐘 (clock), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a wind-up animal band that clashes and topples, and a round toy alarm clock. Soft cloud-blue backdrop; the glyph is bright brass-gold. Timed beats. 0.0-1.5s: a wind-up felt rooster band stage; a bear drummer twists his key, and a round toy alarm clock with two bell cups pops on the right; the voice says the first 鐘. 1.5-3.0s: the bear sprints at the bell with a mallet, flies past it into the curtain, and skids back with spinning eyes. The voice says the second 鐘 as golden strokes bounce off the clock's bells. 3.0-4.5s: he tiptoes, taps once softly, a clear gold ring-shape ripples out and the strokes click into 鐘 at 70% of frame height. 4.5-5.0s: the voice says 時鐘 (ㄕˊ ㄓㄨㄥ) as the clock's hands spin around its face and its cheerful bell cups wiggle. Final hold: 5.0-8.0s: the glyph is still; the band sways and the clock's little hands tick merrily beside it. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 鐘、鐘、時鐘, syllable by syllable ㄓㄨㄥ、ㄓㄨㄥ、ㄕˊ ㄓㄨㄥ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 鐘 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.407Z",
+    "id": "30d78c25-8b5d-4446-a08d-4e34406c0330",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f354e4aa6325c7e4d36b457193e1df44256f7a6cc0e1f5ac395a41075c68b5ba",
+    "hash": "574ea9a3efed5cd694aaeea61aecba6a4c7604b53f5975dc14be243d5fc21a6f",
+    "formatted": "【目標國字】：鐘\n【設計概念】：鐘：金加童，會敲出聲音的鐘。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 鐘 (clock), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a wind-up animal band that clashes and topples, and a round toy alarm clock. Soft cloud-blue backdrop; the glyph is bright brass-gold. Timed beats. 0.0-1.5s: a wind-up felt rooster band stage; a bear drummer twists his key, and a round toy alarm clock with two bell cups pops on the right; the voice says the first 鐘. 1.5-3.0s: the bear sprints at the bell with a mallet, flies past it into the curtain, and skids back with spinning eyes. The voice says the second 鐘 as golden strokes bounce off the clock's bells. 3.0-4.5s: he tiptoes, taps once softly, a clear gold ring-shape ripples out and the strokes click into 鐘 at 70% of frame height. 4.5-5.0s: the voice says 時鐘 (ㄕˊ ㄓㄨㄥ) as the clock's hands spin around its face and its cheerful bell cups wiggle. Final hold: 5.0-8.0s: the glyph is still; the band sways and the clock's little hands tick merrily beside it. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 鐘、鐘、時鐘, syllable by syllable ㄓㄨㄥ、ㄓㄨㄥ、ㄕˊ ㄓㄨㄥ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 鐘 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

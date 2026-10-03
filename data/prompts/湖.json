@@ -1,0 +1,25 @@
+[
+  {
+    "char": "湖",
+    "meaning": "lake",
+    "zhuyin": "ㄏㄨˊ",
+    "emoji": "🏞️",
+    "conceptZh": "湖是被陸地圍住的一大片水",
+    "object": "a squeaky pull-back race car and a stubborn rubber duck",
+    "morph": "the car overshoots the lake pad and splashes strokes into 湖",
+    "creativeAngle": "賽車衝過頭、鴨子擋路，水花落成字。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 湖 (lake). Lead: a pull-back toy race car with googly eyes who always overshoots. Moment 1 (0-1.6s): the car backs up, wheels spinning, then zooms; the voice says 湖 as it skids by a round pond. Moment 2 (1.6-3.2s): a rubber duck blocks the way, pushing the car back; the car jumps; on the second 湖 turquoise splashes freeze into strokes, spelling 湖. Moment 3 (3.2-5s): the car dives in and floats like a bath toy; as the voice says 湖水 water streams from the car's wheel wells and the duck sits on its roof. Moment 4 (5-8s): glyph still; the car hums happily and the duck steers with its beak. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"湖、湖、湖水\" (ㄏㄨˊ、ㄏㄨˊ、ㄏㄨˊ ㄕㄨㄟˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 湖, drawn as saturated solid turquoise blue strokes on a pale lemon cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.111Z",
+    "id": "3237b73d-9813-4f6c-8947-bfb8e5367a4a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e22d9fa35a81944c30f7bc5a4f4cd0aa0cd9a28e84cc5109881cc52a3f4d8518",
+    "hash": "81169ec094b7ad73aec0050976435e8747f0b25eef78f52da88371e4b4672033",
+    "formatted": "【目標國字】：湖\n【設計概念】：湖是被陸地圍住的一大片水\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 湖 (lake). Lead: a pull-back toy race car with googly eyes who always overshoots. Moment 1 (0-1.6s): the car backs up, wheels spinning, then zooms; the voice says 湖 as it skids by a round pond. Moment 2 (1.6-3.2s): a rubber duck blocks the way, pushing the car back; the car jumps; on the second 湖 turquoise splashes freeze into strokes, spelling 湖. Moment 3 (3.2-5s): the car dives in and floats like a bath toy; as the voice says 湖水 water streams from the car's wheel wells and the duck sits on its roof. Moment 4 (5-8s): glyph still; the car hums happily and the duck steers with its beak. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"湖、湖、湖水\" (ㄏㄨˊ、ㄏㄨˊ、ㄏㄨˊ ㄕㄨㄟˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 湖, drawn as saturated solid turquoise blue strokes on a pale lemon cream background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

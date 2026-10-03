@@ -78,6 +78,23 @@ export function currentPrompt(entry) {
 }
 
 /**
+ * 旁白段落依字庫裡這個字已有的詞彙清單，讓唸出來的詞跟畫面對得上；
+ * 沒有清單的字維持讓模型自選。
+ */
+const POLYPHONES = new Set([...'長行樂重了得著數還都好為參落降度調傳種模便切當分假間將教將差正相省背藏處臺'])
+const polyphoneCount = (word) => [...word].filter((c) => POLYPHONES.has(c)).length
+
+export function audioFor(entry, tpl = loadTemplate()) {
+  // 多音字少的詞排前面並提示優先選；目標字本身不算，因為這支片教的就是它的讀音
+  const words = (entry.words || []).map((w) => w.text).filter(Boolean)
+    .sort((a, b) => polyphoneCount([...a].filter((c) => c !== entry.char).join('')) - polyphoneCount([...b].filter((c) => c !== entry.char).join('')))
+  const wordChoice = words.length
+    ? `Choose the word from this vetted list, listed safest-pronunciation first; prefer the safest one that is also easy to show as a funny, concrete picture, and skip any word with a polyphonic character other than the target itself: ${words.join('、')}.`
+    : 'Choose a familiar, concrete everyday word, preferably two or three characters, that is easy to show as a picture.'
+  return tpl.audio.replaceAll('{char}', entry.char).replaceAll('{wordChoice}', wordChoice)
+}
+
+/**
  * 把三層（constraints / styleRules / 這個字的 concept）組裝成最終英文 prompt。
  * 純函式、可重現 —— 同樣的資料永遠產出同樣的字串。
  */
@@ -109,7 +126,7 @@ export function buildPrompt(entry, tpl = loadTemplate()) {
     ...rules.map((r) => `- ${r.text}`),
     ...appliedFeedback.map((tag) => `- ${feedbackRules[tag]}`),
     ``,
-    tpl.audio.replaceAll('{char}', char),
+    audioFor(entry, tpl),
   ].join('\n')
 
   return {

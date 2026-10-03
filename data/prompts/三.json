@@ -1,0 +1,25 @@
+[
+  {
+    "char": "三",
+    "meaning": "three",
+    "zhuyin": "ㄙㄢ",
+    "emoji": "3️⃣",
+    "conceptZh": "玩具海盜的鸚鵡不肯疊第三根鼓棒，海盜用三層三明治哄牠，三條橫線整齊排好。",
+    "object": "barrel-shaped toy pirate, stubborn parrot, three drumsticks, a sandwich",
+    "morph": "three bars, shortest in the middle",
+    "creativeAngle": "鸚鵡不合作，改用食物交換。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a warm teal ocean-scene backdrop with a pale-sand floor; the glyph is bold magenta 三: three horizontal bars with the middle bar a little shorter. A barrel-shaped toy pirate stands at left; a stubborn toy parrot sits on a perch at right. The Traditional Chinese glyph 三 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pirate drops the first drumstick as the top bar; the parrot yawns and looks the other way; the first 三 is spoken as the first bar lands. Moment two (1.8-3.5s): the second bar lands in the middle; the parrot kicks the third stick away and crosses its wings; the pirate waves a sandwich, the parrot reluctantly slides the third bar in; the second 三 is spoken as it clicks. Moment three (3.5-5.0s): the parrot bites the three-layer sandwich, bread, cheese, bread, with a huge chomp; 三明治 is spoken as the layers pop into view and the pirate cheers. From 5.0-8.0s the glyph 三 is perfectly still and unobstructed; the parrot chews smugly while the pirate twirls his hat; the glyph is still. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「三、三、三明治」 with Zhuyin ㄙㄢ、ㄙㄢ、ㄙㄢ ㄇㄧㄥˊ ㄓˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only wood clacks and a big chomp, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.850Z",
+    "id": "8fd21ab2-8adc-406a-88ea-d14147aa29a3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "ae34eb0bdf3ce04b3995a58c68cd38f2a854255e2f9af6081a4627c93d14ada7",
+    "hash": "321708c8d2d3c403910c3fded743b879b3181b4ff6f2439ef036658a6bd93e59",
+    "formatted": "【目標國字】：三\n【設計概念】：玩具海盜的鸚鵡不肯疊第三根鼓棒，海盜用三層三明治哄牠，三條橫線整齊排好。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a warm teal ocean-scene backdrop with a pale-sand floor; the glyph is bold magenta 三: three horizontal bars with the middle bar a little shorter. A barrel-shaped toy pirate stands at left; a stubborn toy parrot sits on a perch at right. The Traditional Chinese glyph 三 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pirate drops the first drumstick as the top bar; the parrot yawns and looks the other way; the first 三 is spoken as the first bar lands. Moment two (1.8-3.5s): the second bar lands in the middle; the parrot kicks the third stick away and crosses its wings; the pirate waves a sandwich, the parrot reluctantly slides the third bar in; the second 三 is spoken as it clicks. Moment three (3.5-5.0s): the parrot bites the three-layer sandwich, bread, cheese, bread, with a huge chomp; 三明治 is spoken as the layers pop into view and the pirate cheers. From 5.0-8.0s the glyph 三 is perfectly still and unobstructed; the parrot chews smugly while the pirate twirls his hat; the glyph is still. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「三、三、三明治」 with Zhuyin ㄙㄢ、ㄙㄢ、ㄙㄢ ㄇㄧㄥˊ ㄓˋ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only wood clacks and a big chomp, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

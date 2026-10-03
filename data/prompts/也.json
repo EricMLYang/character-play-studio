@@ -1,0 +1,25 @@
+[
+  {
+    "char": "也",
+    "meaning": "also",
+    "zhuyin": "ㄧㄝˇ",
+    "emoji": "🤷",
+    "conceptZh": "豬探長拉著兩邊的粗線條拔河，兩條都說「也許」，最後拉到彈回來，組成「也」。",
+    "object": "a stout detective pig in a checked deerstalker hat, a giant magnifying glass, and a bright orange rope in two chunky pieces",
+    "morph": "two sides of a tug-of-war pull the orange rope pieces apart until they spring back together into the glyph 也",
+    "creativeAngle": "拔河：左右兩邊各拉一段，像「也許這樣、也許那樣」猶豫不決，最後彈回成字；詞用「也許」聳肩動作呼應。",
+    "promptEn": "An 8-second playful cartoon clip on a clean solid pale mint backdrop, with one large Traditional Chinese glyph 也 as the only text in frame, drawn in thick, glossy, saturated orange rope strokes, about 70% of frame height, centered and uncropped. Lead: a stout cartoon detective pig in a checked deerstalker hat with a magnifying glass far too big for him, standing on the left; his supporting partner is nothing but the glyph's own right half, which has a mind of its own. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 也、也、也許 (ㄧㄝˇ、ㄧㄝˇ、ㄧㄝˇ ㄒㄩˇ), slow and distinct with clear tones, then silence. Moment 1 (0–1.8s): the pig trots in clutching the left end of a long orange rope, hoists his glass like a flag, and as the first 也 is spoken the loose right end of the rope slithers across the floor and a hooked piece of the glyph grabs it from the other side. Moment 2 (1.8–3.6s): tug-of-war begins; the pig digs in his stubby heels, ears flattening, cheeks puffing, the rope stretching like taffy, and the opposite side yanks him sliding sideways across the floor with a squeak. Moment 3 (3.6–5s): at the second 也 the rope snaps back like a rubber band, the pig tumbles in a somersault, and the pieces spring together into the complete 也: a hooked horizontal box with a vertical stroke dropping through its middle and curling out at the bottom. Moment 4 (5s): the word 也許 is spoken as the pig sits up, lifts his shoulders, tilts his head left, then right, and a tiny thought bubble holding a fork in the road and a question mark shaped cloud wobbles above him (shapes only, no letters). Final 5–8s: the glyph 也 stays absolutely still and legible while the pig, off to the side, keeps shrugging and rocking happily, magnifying glass twirling on his finger, never overlapping the strokes. Warm daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.284Z",
+    "id": "9a05e239-2fb5-4d6d-b1ec-e7f37f8d97a6",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5cdc2d1b0fd5c337b6fc6464ea14d4cd04936630648ecd68e7d40d481abb9c7d",
+    "hash": "eb3035a11dc30e96448b8e3221fd7ca2dd544ef9a198ebb10a8c0fbaa2ff92ca",
+    "formatted": "【目標國字】：也\n【設計概念】：豬探長拉著兩邊的粗線條拔河，兩條都說「也許」，最後拉到彈回來，組成「也」。\n【8s Video Prompt】:\n```text\nAn 8-second playful cartoon clip on a clean solid pale mint backdrop, with one large Traditional Chinese glyph 也 as the only text in frame, drawn in thick, glossy, saturated orange rope strokes, about 70% of frame height, centered and uncropped. Lead: a stout cartoon detective pig in a checked deerstalker hat with a magnifying glass far too big for him, standing on the left; his supporting partner is nothing but the glyph's own right half, which has a mind of its own. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 也、也、也許 (ㄧㄝˇ、ㄧㄝˇ、ㄧㄝˇ ㄒㄩˇ), slow and distinct with clear tones, then silence. Moment 1 (0–1.8s): the pig trots in clutching the left end of a long orange rope, hoists his glass like a flag, and as the first 也 is spoken the loose right end of the rope slithers across the floor and a hooked piece of the glyph grabs it from the other side. Moment 2 (1.8–3.6s): tug-of-war begins; the pig digs in his stubby heels, ears flattening, cheeks puffing, the rope stretching like taffy, and the opposite side yanks him sliding sideways across the floor with a squeak. Moment 3 (3.6–5s): at the second 也 the rope snaps back like a rubber band, the pig tumbles in a somersault, and the pieces spring together into the complete 也: a hooked horizontal box with a vertical stroke dropping through its middle and curling out at the bottom. Moment 4 (5s): the word 也許 is spoken as the pig sits up, lifts his shoulders, tilts his head left, then right, and a tiny thought bubble holding a fork in the road and a question mark shaped cloud wobbles above him (shapes only, no letters). Final 5–8s: the glyph 也 stays absolutely still and legible while the pig, off to the side, keeps shrugging and rocking happily, magnifying glass twirling on his finger, never overlapping the strokes. Warm daylight, no flashing, no real people, no other text.\n```"
+  }
+]

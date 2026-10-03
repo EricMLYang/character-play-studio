@@ -1,0 +1,25 @@
+[
+  {
+    "char": "八",
+    "meaning": "eight",
+    "zhuyin": "ㄅㄚ",
+    "emoji": "8️⃣",
+    "conceptZh": "科學家老鼠與牠的影子小鼠互相模仿，兩人往外撐開成八。",
+    "object": "a bespectacled lab mouse and a tiny copycat mouse beside bubbling beakers",
+    "morph": "two mice leaning outward in mirror poses become the strokes of 八",
+    "creativeAngle": "跟屁蟲：小鼠慢一拍模仿科學家，兩條腿誤打誤撞岔開；八字鬍是最後的笑點，鬍子畫成八字形。",
+    "promptEn": "An 8-second clip on a soft lilac lab backdrop with pale sky-blue counters and green bubbling beakers. A bespectacled cartoon lab mouse in a white coat faces a tiny copycat mouse that mimics each motion one beat late. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「八、八、八字鬍」 (ㄅㄚ、ㄅㄚ、ㄅㄚ ㄗˋ ㄏㄨˊ), slowly with clear tones, then stops.\n0.0-1.8s: The scientist raises both arms in a grand pose; the tiny mouse copies it a beat late and bumps a beaker. 「八」 (ㄅㄚ) is spoken as the first arms-up pose.\n1.8-3.6s: The scientist steps back, then leans out to one side while the little mouse leans out late to the other; a fizzing beaker between them erupts a pink bubble that pushes them apart. Two thick strokes slide out like tent poles and the second 「八」 (ㄅㄚ) lands as they form a solid bright magenta glyph 八, about 70% of frame height.\n3.6-5.0s: Both mice pull on matching whisker-shaped bubble moustaches that curl down in an eight-like arc; 「八字鬍」 (ㄅㄚ ㄗˋ ㄏㄨˊ) is spoken as the funny curved moustaches pop onto their faces.\n5.0-8.0s: Hold: glyph 八 still and clear, centered with margins. The two mice twirl their moustaches in sync, a little late, never near the strokes.\nNo text except the glyph 八; no subtitles or watermark or flashing. Soft music under the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.000Z",
+    "id": "2e8a5c14-3fa7-4327-8f85-a39306f995a0",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4dacd6f59b059c0956d80398278ce03a9528500df8f68ee4c1953b6d5e15c97d",
+    "hash": "b26da74832fcc27731ef0f2d54a2e1c7e2bcc0196a793c0ef0c52a7e7aa440a4",
+    "formatted": "【目標國字】：八\n【設計概念】：科學家老鼠與牠的影子小鼠互相模仿，兩人往外撐開成八。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a soft lilac lab backdrop with pale sky-blue counters and green bubbling beakers. A bespectacled cartoon lab mouse in a white coat faces a tiny copycat mouse that mimics each motion one beat late. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「八、八、八字鬍」 (ㄅㄚ、ㄅㄚ、ㄅㄚ ㄗˋ ㄏㄨˊ), slowly with clear tones, then stops.\n0.0-1.8s: The scientist raises both arms in a grand pose; the tiny mouse copies it a beat late and bumps a beaker. 「八」 (ㄅㄚ) is spoken as the first arms-up pose.\n1.8-3.6s: The scientist steps back, then leans out to one side while the little mouse leans out late to the other; a fizzing beaker between them erupts a pink bubble that pushes them apart. Two thick strokes slide out like tent poles and the second 「八」 (ㄅㄚ) lands as they form a solid bright magenta glyph 八, about 70% of frame height.\n3.6-5.0s: Both mice pull on matching whisker-shaped bubble moustaches that curl down in an eight-like arc; 「八字鬍」 (ㄅㄚ ㄗˋ ㄏㄨˊ) is spoken as the funny curved moustaches pop onto their faces.\n5.0-8.0s: Hold: glyph 八 still and clear, centered with margins. The two mice twirl their moustaches in sync, a little late, never near the strokes.\nNo text except the glyph 八; no subtitles or watermark or flashing. Soft music under the voice.\n```"
+  }
+]

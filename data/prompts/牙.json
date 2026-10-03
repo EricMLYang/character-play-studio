@@ -1,0 +1,25 @@
+[
+  {
+    "char": "牙",
+    "meaning": "tooth",
+    "zhuyin": "ㄧㄚˊ",
+    "emoji": "🦷",
+    "conceptZh": "嘴巴裡用來咀嚼的白色硬齒。",
+    "object": "a squeaky googly-eyed pull-back race car, a row of domino-like toy blocks, and a tiny toothbrush",
+    "morph": "the race car bumps the first block and the domino chain lands as 牙",
+    "creativeAngle": "賽車撞倒一列骨牌，剛好倒成「牙」；牙刷與牙齒玩偶出現。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny aqua tabletop with a ribbon-like blue track, a squeaky pull-back race car with googly eyes backs up with a wind-up whirr, aimed at a curved line of tall pastel blocks. 0–1.6s: As the first 牙 is spoken the car zooms but overshoots, skids sideways, and gently taps the first block with its bumper. 1.6–3.2s: The second 牙 is spoken: blocks topple in a ripple, spinning off one by one, and the car chases the last block in a circle. 3.2–4.8s: The last block flips and slides in, leaving the full 牙 formed in deep emerald, while the car skids, bounces off the glyph's shadow, and lands on its back. 4.8–5.8s: As 牙齒 is spoken, a gleaming toy tooth with a tiny toothbrush hat hops out from behind the blocks and smiles at the car. Final hold (about 5.0–8.0s): the car flips right-side up and honks while the tooth does a sparkle spin below the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 牙、牙、牙齒（ㄧㄚˊ、ㄧㄚˊ、ㄧㄚˊ ㄔˇ）. The first 牙 lands at about 1.0s, the second 牙 at about 2.6s, and the word 牙齒 at about 4.9s, each timed to the picture described above. The only text anywhere in frame is the single glyph 牙, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 牙 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.277Z",
+    "id": "784503f8-fb57-44d2-ba48-03dfe2d64580",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "890f56c4bf67f8f8d98893c5e5fa1cf3946b42e02cdd3a218eb1483b28930182",
+    "hash": "14ecd55e8f246b254bbf605c0203c347a40637d43aab25d276b43137e5454c47",
+    "formatted": "【目標國字】：牙\n【設計概念】：嘴巴裡用來咀嚼的白色硬齒。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny aqua tabletop with a ribbon-like blue track, a squeaky pull-back race car with googly eyes backs up with a wind-up whirr, aimed at a curved line of tall pastel blocks. 0–1.6s: As the first 牙 is spoken the car zooms but overshoots, skids sideways, and gently taps the first block with its bumper. 1.6–3.2s: The second 牙 is spoken: blocks topple in a ripple, spinning off one by one, and the car chases the last block in a circle. 3.2–4.8s: The last block flips and slides in, leaving the full 牙 formed in deep emerald, while the car skids, bounces off the glyph's shadow, and lands on its back. 4.8–5.8s: As 牙齒 is spoken, a gleaming toy tooth with a tiny toothbrush hat hops out from behind the blocks and smiles at the car. Final hold (about 5.0–8.0s): the car flips right-side up and honks while the tooth does a sparkle spin below the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 牙、牙、牙齒（ㄧㄚˊ、ㄧㄚˊ、ㄧㄚˊ ㄔˇ）. The first 牙 lands at about 1.0s, the second 牙 at about 2.6s, and the word 牙齒 at about 4.9s, each timed to the picture described above. The only text anywhere in frame is the single glyph 牙, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 牙 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蝶",
+    "meaning": "butterfly",
+    "zhuyin": "ㄉㄧㄝˊ",
+    "emoji": "🦋",
+    "conceptZh": "科學家老鼠的蝴蝶網有自己的想法，亂甩亂飛，直到他輕輕一舉才網住蝶字的筆畫。",
+    "object": "a bespectacled lab mouse with a mischievous butterfly net",
+    "morph": "a net with its own opinion flings glittery pieces around until the mouse outsmarts it into 蝶",
+    "creativeAngle": "道具反抗：網子一直把筆畫甩開，老鼠改用輕輕一勾才成功。",
+    "promptEn": "An 8-second animated clip on a pale lavender-pink background, with one single Traditional Chinese glyph 蝶 as the only text on screen, drawn in violet purple solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a bespectacled lab mouse in a tiny white coat swings a long-handled net that bends the wrong way and flings him in a circle; the first 蝶 is spoken as the left 虫 strokes flutter in like glittery wing-dust. 1.7-3.4s: the net slaps a bubbling beaker so it fizzes over and tosses the right-hand 枼 pieces across the frame; the second 蝶 is spoken as the mouse lowers the net gently, stops fighting it, and the pieces drift in one by one. 3.4-5s: 蝴蝶 is spoken as a shimmering lilac toy butterfly flaps out of the net, circles his head, and lands on his glasses, making him cross his eyes. 5-8s: hold; the butterfly opens and closes its wings on the mouse's nose, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蝶、蝶、蝴蝶\" (ㄉㄧㄝˊ、ㄉㄧㄝˊ、ㄏㄨˊ ㄉㄧㄝˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蝶 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.238Z",
+    "id": "d10d529f-ee05-4e67-9949-09137fdabe7a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5a093057e292f57094814814dfed0c3f6d308bfbf8f3221f57e5b43af29e506f",
+    "hash": "8f60feb8ba174a019c28ef62f2be82ef91cbb7486109fbfa5dee21e399c4d5b4",
+    "formatted": "【目標國字】：蝶\n【設計概念】：科學家老鼠的蝴蝶網有自己的想法，亂甩亂飛，直到他輕輕一舉才網住蝶字的筆畫。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale lavender-pink background, with one single Traditional Chinese glyph 蝶 as the only text on screen, drawn in violet purple solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a bespectacled lab mouse in a tiny white coat swings a long-handled net that bends the wrong way and flings him in a circle; the first 蝶 is spoken as the left 虫 strokes flutter in like glittery wing-dust. 1.7-3.4s: the net slaps a bubbling beaker so it fizzes over and tosses the right-hand 枼 pieces across the frame; the second 蝶 is spoken as the mouse lowers the net gently, stops fighting it, and the pieces drift in one by one. 3.4-5s: 蝴蝶 is spoken as a shimmering lilac toy butterfly flaps out of the net, circles his head, and lands on his glasses, making him cross his eyes. 5-8s: hold; the butterfly opens and closes its wings on the mouse's nose, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蝶、蝶、蝴蝶\" (ㄉㄧㄝˊ、ㄉㄧㄝˊ、ㄏㄨˊ ㄉㄧㄝˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蝶 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

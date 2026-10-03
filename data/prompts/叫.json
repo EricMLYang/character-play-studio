@@ -1,0 +1,25 @@
+[
+  {
+    "char": "叫",
+    "meaning": "to call / shout",
+    "zhuyin": "ㄐㄧㄠˋ",
+    "emoji": "📣",
+    "conceptZh": "積木小隊中，最大的積木扯開嗓子，小積木被吼到疊成「叫」。",
+    "object": "a squad of interlocking toy bricks with one tiny red brick and one giant blue brick",
+    "morph": "size-mismatched bricks stack into 叫 as the tiny brick's shout topples the tower",
+    "creativeAngle": "最小的積木發出巨大叫聲，把大積木吹得疊成字。",
+    "promptEn": "An 8-second animated clip on a pale sky-blue backdrop with a thin white floor line. Lead: a squad of chunky interlocking toy bricks marching in a line, with one tiny red brick and one huge blue brick. The finished glyph 叫 is built of bright saturated red and blue bricks, centered, about 70% of frame height.\n0.0-1.7s: the bricks march in; the tiny red brick tries to stack on the giant blue brick and can only reach its ankle. First \"叫\" as the tiny brick opens a round mouth.\n1.7-3.3s: size mismatch: the tiny one climbs a ramp of small bricks, the huge one bends down and they bump heads; the tower wobbles. Second \"叫\" lands as the tiny brick climbs on the giant's shoulders, takes a breath and squeaks a giant shout that makes the giant blue brick's studs pop up.\n3.3-5.0s: the shout-wave blows the bricks flat, they land by chance as the glyph 叫, with a loud clatter of plastic.\n5.0-8.0s: HOLD, glyph perfectly still. At \"大叫\" the huge blue brick tilts back and opens a massive mouth and the tiny red brick copies, both mouths wide open, little sound waves drifting outward, then both laugh and bounce at the edges of the frame.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"叫、叫、大叫\" (ㄐㄧㄠˋ、ㄐㄧㄠˋ、ㄐㄧㄠˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 叫.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.221Z",
+    "id": "99d35645-ae95-4384-9978-82e474e2d440",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e4bdbe77abd58b2715c10e00e51bd62dd3829a6276f028d186de87d049e17527",
+    "hash": "bd9db3aa3393afb1172b7bfb97ca1c3d1e5cf67899a7ac026dc4fff4f232a296",
+    "formatted": "【目標國字】：叫\n【設計概念】：積木小隊中，最大的積木扯開嗓子，小積木被吼到疊成「叫」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale sky-blue backdrop with a thin white floor line. Lead: a squad of chunky interlocking toy bricks marching in a line, with one tiny red brick and one huge blue brick. The finished glyph 叫 is built of bright saturated red and blue bricks, centered, about 70% of frame height.\n0.0-1.7s: the bricks march in; the tiny red brick tries to stack on the giant blue brick and can only reach its ankle. First \"叫\" as the tiny brick opens a round mouth.\n1.7-3.3s: size mismatch: the tiny one climbs a ramp of small bricks, the huge one bends down and they bump heads; the tower wobbles. Second \"叫\" lands as the tiny brick climbs on the giant's shoulders, takes a breath and squeaks a giant shout that makes the giant blue brick's studs pop up.\n3.3-5.0s: the shout-wave blows the bricks flat, they land by chance as the glyph 叫, with a loud clatter of plastic.\n5.0-8.0s: HOLD, glyph perfectly still. At \"大叫\" the huge blue brick tilts back and opens a massive mouth and the tiny red brick copies, both mouths wide open, little sound waves drifting outward, then both laugh and bounce at the edges of the frame.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"叫、叫、大叫\" (ㄐㄧㄠˋ、ㄐㄧㄠˋ、ㄐㄧㄠˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 叫.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

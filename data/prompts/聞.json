@@ -1,0 +1,25 @@
+[
+  {
+    "char": "聞",
+    "meaning": "to smell",
+    "zhuyin": "ㄨㄣˊ",
+    "emoji": "👃",
+    "conceptZh": "披風英雄的長披風慢一拍跟著他嗅，一不小心把「耳」拍進「門」裡，剛好成了「聞」。",
+    "object": "caped action-figure hero, long cape, toy flower",
+    "morph": "the 耳 piece gets swatted inside the 門 frame",
+    "creativeAngle": "披風慢一拍模仿主角的嗅聞，誤打誤撞完成字形。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a light-pistachio garden backdrop with a cream floor; the glyph is a rich plum 聞, the 門 frame with a 耳 inside. A caped action-figure hero in a long ruby cape stands at left, a toy flower waits at right. The Traditional Chinese glyph 聞 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the hero sniffs a puff of air with his nose scrunched, and the cape sniffs a beat later with a flap; the first 聞 is spoken at his sniff. Moment two (1.8-3.5s): he spins in a mini-twirl and the cape swats the loose 耳 piece, which bounces into the 門 frame with a click; the second 聞 is spoken at the click. Moment three (3.5-5.0s): he sniffs the toy flower, eyes go wide, the cape does a delayed double-take; 新聞 is spoken as a rolled paper pops up beside the flower. From 5.0-8.0s the glyph 聞 is perfectly still and unobstructed; he stands tall, the cape settles over one shoulder, and he nods smugly; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「聞、聞、新聞」, read as ㄨㄣˊ、ㄨㄣˊ、ㄒㄧㄣ ㄨㄣˊ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only sniffs and cloth swishes, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.805Z",
+    "id": "1a7b0cb6-6410-449f-bdf7-a83a8b746f09",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "944d995c03f1af43dede9f57cedb363d137a3d31af8d14efe13b442c2ceafce0",
+    "hash": "3cbeae433927f17cedc8b3d3de5fc6fb4c07f1ecd0449cc8eeb32b15ae766803",
+    "formatted": "【目標國字】：聞\n【設計概念】：披風英雄的長披風慢一拍跟著他嗅，一不小心把「耳」拍進「門」裡，剛好成了「聞」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a light-pistachio garden backdrop with a cream floor; the glyph is a rich plum 聞, the 門 frame with a 耳 inside. A caped action-figure hero in a long ruby cape stands at left, a toy flower waits at right. The Traditional Chinese glyph 聞 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the hero sniffs a puff of air with his nose scrunched, and the cape sniffs a beat later with a flap; the first 聞 is spoken at his sniff. Moment two (1.8-3.5s): he spins in a mini-twirl and the cape swats the loose 耳 piece, which bounces into the 門 frame with a click; the second 聞 is spoken at the click. Moment three (3.5-5.0s): he sniffs the toy flower, eyes go wide, the cape does a delayed double-take; 新聞 is spoken as a rolled paper pops up beside the flower. From 5.0-8.0s the glyph 聞 is perfectly still and unobstructed; he stands tall, the cape settles over one shoulder, and he nods smugly; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「聞、聞、新聞」, read as ㄨㄣˊ、ㄨㄣˊ、ㄒㄧㄣ ㄨㄣˊ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only sniffs and cloth swishes, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

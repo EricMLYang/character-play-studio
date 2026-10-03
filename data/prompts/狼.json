@@ -1,0 +1,25 @@
+[
+  {
+    "char": "狼",
+    "meaning": "wolf",
+    "zhuyin": "ㄌㄤˊ",
+    "emoji": "🐺",
+    "conceptZh": "狼是會對著月亮嚎叫的野獸",
+    "object": "a caped action-figure hero with an absurdly long cape and a bouncing moon-shaped ball",
+    "morph": "a rubber ball ricochets around the frame and each hit drops one stroke of 狼 into place",
+    "creativeAngle": "披風太長的英雄被球砸中，每次彈跳掉下一筆；詞用「大野狼」，披風遮住頭變成狼耳。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 狼 (wolf). Lead: a stiff toy hero with a bright teal cape three sizes too long that drags and flops over his face. Moment 1 (0-1.7s): he strikes a heroic pose on a hill, tangles in the cape, and a pale round ball bounces in; the voice says 狼 as it bonks his helmet. Moment 2 (1.7-3.4s): the ball ricochets off a tree, a rock, the cape; each hit knocks a blue stroke from the sky into place, the second 狼 landing on the final stroke so the glyph stands complete. Moment 3 (3.4-5.2s): the cape flips over his head, the two pointed corners poking up like ears; peeking out with a growl-shaped grin he pretends to howl silently at the ball moon as the voice says 大野狼, a fuzzy gray cartoon wolf cub popping up beside him copying the pose. Moment 4 (5.2-8s): glyph still; hero and cub howl-pose together, cape flapping. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"狼、狼、大野狼\" (ㄌㄤˊ、ㄌㄤˊ、ㄉㄚˋ ㄧㄝˇ ㄌㄤˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 狼, drawn as saturated solid midnight-blue strokes on a soft yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.299Z",
+    "id": "9fc42a8a-09a3-4536-a567-8cbd88d5e464",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "6019b369aad979762cec2f34bd698b9c6fa575dbdb9b32dee15c176477f70874",
+    "hash": "0737558d696b2740eec0775dec34a18f2da9d011030955ee453be8d99982b4cf",
+    "formatted": "【目標國字】：狼\n【設計概念】：狼是會對著月亮嚎叫的野獸\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 狼 (wolf). Lead: a stiff toy hero with a bright teal cape three sizes too long that drags and flops over his face. Moment 1 (0-1.7s): he strikes a heroic pose on a hill, tangles in the cape, and a pale round ball bounces in; the voice says 狼 as it bonks his helmet. Moment 2 (1.7-3.4s): the ball ricochets off a tree, a rock, the cape; each hit knocks a blue stroke from the sky into place, the second 狼 landing on the final stroke so the glyph stands complete. Moment 3 (3.4-5.2s): the cape flips over his head, the two pointed corners poking up like ears; peeking out with a growl-shaped grin he pretends to howl silently at the ball moon as the voice says 大野狼, a fuzzy gray cartoon wolf cub popping up beside him copying the pose. Moment 4 (5.2-8s): glyph still; hero and cub howl-pose together, cape flapping. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"狼、狼、大野狼\" (ㄌㄤˊ、ㄌㄤˊ、ㄉㄚˋ ㄧㄝˇ ㄌㄤˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 狼, drawn as saturated solid midnight-blue strokes on a soft yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

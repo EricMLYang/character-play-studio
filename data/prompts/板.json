@@ -1,0 +1,25 @@
+[
+  {
+    "char": "板",
+    "meaning": "board",
+    "zhuyin": "ㄅㄢˇ",
+    "emoji": "🛹",
+    "conceptZh": "板：木加反，平平的木板。",
+    "object": "a cartoon magician rabbit in a top hat whose tricks misfire, and a rainbow-wheeled toy skateboard",
+    "morph": "pieces of the glyph keep sneaking in from the edges and dodging the rabbit's wand until they settle into 板",
+    "creativeAngle": "兔子魔術師的魔法棒一直打不到從邊緣偷溜進來的筆畫，最後滑板把它們撞在一起。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 板 (board), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a cartoon magician rabbit in a top hat whose tricks misfire, and a rainbow-wheeled toy skateboard. Soft lavender-gray backdrop; the glyph is warm oak-brown. Timed beats. 0.0-1.5s: a white rabbit in a top hat flicks his wand; the voice says the first 板 as a brown plank pokes in from the left and ducks out of sight. 1.5-3.0s: the rabbit zaps at another piece peeking from above and turns his own ears into a bow-tie by accident; pieces giggle in and out. The voice says the second 板 as the strokes rush into the middle. 3.0-4.5s: a rainbow-wheeled toy skateboard whooshes through and bumps the pieces together into 板 while the rabbit slides off the back. 4.5-5.0s: the voice says 黑板 (ㄏㄟ ㄅㄢˇ) as a small green chalkboard pops from his hat with a happy doodle of a star, drawn in light chalk strokes only. Final hold: 5.0-8.0s: the glyph is still; the rabbit rides the skateboard in tiny circles at the bottom edge. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 板、板、黑板 = ㄅㄢˇ、ㄅㄢˇ、ㄏㄟ ㄅㄢˇ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 板 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.906Z",
+    "id": "868eec48-1581-4836-9a34-e2c0456e07e7",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d1ad0780c6237c9ddd7a4019fe38e76ce88eb0de043b62b562538fefeb734e0f",
+    "hash": "63db048d3645b6ec37a4ca49a1b32392a003236023eb96c737e534f4714b4bc0",
+    "formatted": "【目標國字】：板\n【設計概念】：板：木加反，平平的木板。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 板 (board), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a cartoon magician rabbit in a top hat whose tricks misfire, and a rainbow-wheeled toy skateboard. Soft lavender-gray backdrop; the glyph is warm oak-brown. Timed beats. 0.0-1.5s: a white rabbit in a top hat flicks his wand; the voice says the first 板 as a brown plank pokes in from the left and ducks out of sight. 1.5-3.0s: the rabbit zaps at another piece peeking from above and turns his own ears into a bow-tie by accident; pieces giggle in and out. The voice says the second 板 as the strokes rush into the middle. 3.0-4.5s: a rainbow-wheeled toy skateboard whooshes through and bumps the pieces together into 板 while the rabbit slides off the back. 4.5-5.0s: the voice says 黑板 (ㄏㄟ ㄅㄢˇ) as a small green chalkboard pops from his hat with a happy doodle of a star, drawn in light chalk strokes only. Final hold: 5.0-8.0s: the glyph is still; the rabbit rides the skateboard in tiny circles at the bottom edge. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 板、板、黑板 = ㄅㄢˇ、ㄅㄢˇ、ㄏㄟ ㄅㄢˇ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 板 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

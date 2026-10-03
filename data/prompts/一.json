@@ -1,0 +1,25 @@
+[
+  {
+    "char": "一",
+    "meaning": "one",
+    "zhuyin": "ㄧ",
+    "emoji": "1️⃣",
+    "conceptZh": "橡皮筋躲著太空人玩偶的手套，從邊緣探頭又縮回去，最後「啪」地拉成一條橫線。",
+    "object": "bouncy astronaut toy and a stretchy rubber band",
+    "morph": "a rubber band springs straight into a single horizontal bar",
+    "creativeAngle": "橡皮筋玩捉迷藏，最後被輕輕一彈拉直。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-lemon stage with a lilac floor; the glyph is a bold coral 一, a single clean horizontal bar spanning about 60% of frame width. A bouncy astronaut toy in a fishbowl helmet floats a hand's width above the floor at left. The Traditional Chinese glyph 一 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): a loose coral rubber band peeks in from the right edge, the astronaut lunges and drifts past upside down; the first 一 is spoken as the band pops into view. Moment two (1.8-3.5s): the band zigzags across the stage, ducking under his glove; he flicks it with one finger and it springs flat into a single horizontal bar at center; the second 一 is spoken at the twang. Moment three (3.5-5.0s): a big gold medal with a ribbon drops into the astronaut's gloves; 第一 is spoken as it lands and he hugs it, bouncing off the floor. From 5.0-8.0s the glyph 一 is perfectly still and unobstructed; he floats in a slow happy loop around the bar, holding his medal up, never touching it; the glyph is perfectly still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「一、一、第一」, read as ㄧ、ㄧ、ㄉㄧˋ ㄧ. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only rubber twangs and a soft medal chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.814Z",
+    "id": "6941168b-9276-456a-9a28-bcdeaf0aa8ec",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4a07f534eb97cda20ee00ba1f2e8b6b846093ed1cda113dfb2261c0ba589a10b",
+    "hash": "2572974e3626c460b1a8cfc5b916e80c9648a20168a1dadf419b4c61567dffb4",
+    "formatted": "【目標國字】：一\n【設計概念】：橡皮筋躲著太空人玩偶的手套，從邊緣探頭又縮回去，最後「啪」地拉成一條橫線。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-lemon stage with a lilac floor; the glyph is a bold coral 一, a single clean horizontal bar spanning about 60% of frame width. A bouncy astronaut toy in a fishbowl helmet floats a hand's width above the floor at left. The Traditional Chinese glyph 一 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): a loose coral rubber band peeks in from the right edge, the astronaut lunges and drifts past upside down; the first 一 is spoken as the band pops into view. Moment two (1.8-3.5s): the band zigzags across the stage, ducking under his glove; he flicks it with one finger and it springs flat into a single horizontal bar at center; the second 一 is spoken at the twang. Moment three (3.5-5.0s): a big gold medal with a ribbon drops into the astronaut's gloves; 第一 is spoken as it lands and he hugs it, bouncing off the floor. From 5.0-8.0s the glyph 一 is perfectly still and unobstructed; he floats in a slow happy loop around the bar, holding his medal up, never touching it; the glyph is perfectly still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「一、一、第一」, read as ㄧ、ㄧ、ㄉㄧˋ ㄧ. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only rubber twangs and a soft medal chime, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

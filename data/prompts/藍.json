@@ -1,0 +1,25 @@
+[
+  {
+    "char": "藍",
+    "meaning": "blue",
+    "zhuyin": "ㄌㄢˊ",
+    "emoji": "🔵",
+    "conceptZh": "像天空或海洋的顏色。",
+    "object": "a chunky toy warrior, a copycat blueberry pal, and blue sword-like leaves",
+    "morph": "a copycat blueberry mimics the warrior a beat late, making 藍",
+    "creativeAngle": "玩具戰士舞劍，藍莓慢一拍模仿；撞出「藍」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a cream and sky-blue toy field, a chunky toy warrior with a foam sword practices a heroic pose while a little blueberry mimics him one beat late. 0–1.5s: The first 藍 is spoken as the warrior slices the air, and the blueberry slices the air a beat later, spinning off its stem. 1.5–3.1s: The second 藍 is spoken: he leaps over a log; the blueberry leaps late and lands on him, flattening his helmet. 3.1–4.7s: Both swing at once and a leaf burst forms the strokes of 藍 in deep blue. 4.7–5.7s: As 藍莓 is spoken, the blueberry grows a leaf cape and bows, and the warrior returns a bow late. Final hold (about 5.0–8.0s): the two strike a perfect twin pose while the blueberry giggles; the glyph is still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 藍、藍、藍莓（ㄌㄢˊ、ㄌㄢˊ、ㄌㄢˊ ㄇㄟˊ）. The first 藍 lands at about 0.9s, the second 藍 at about 2.5s, and the word 藍莓 at about 4.9s, each timed to the picture described above. Keep 藍 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 藍 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.122Z",
+    "id": "de008fd1-2793-47ae-a553-a1e7261f8225",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "637c6ab53190262cd6c3d6626ab709aa740458460b3e58b02f0ff659367e7cf0",
+    "hash": "8014c302baf166e8a857d9cb9ea2ad4bce5d13aa05c092f35883f057fae3f60c",
+    "formatted": "【目標國字】：藍\n【設計概念】：像天空或海洋的顏色。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a cream and sky-blue toy field, a chunky toy warrior with a foam sword practices a heroic pose while a little blueberry mimics him one beat late. 0–1.5s: The first 藍 is spoken as the warrior slices the air, and the blueberry slices the air a beat later, spinning off its stem. 1.5–3.1s: The second 藍 is spoken: he leaps over a log; the blueberry leaps late and lands on him, flattening his helmet. 3.1–4.7s: Both swing at once and a leaf burst forms the strokes of 藍 in deep blue. 4.7–5.7s: As 藍莓 is spoken, the blueberry grows a leaf cape and bows, and the warrior returns a bow late. Final hold (about 5.0–8.0s): the two strike a perfect twin pose while the blueberry giggles; the glyph is still. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 藍、藍、藍莓（ㄌㄢˊ、ㄌㄢˊ、ㄌㄢˊ ㄇㄟˊ）. The first 藍 lands at about 0.9s, the second 藍 at about 2.5s, and the word 藍莓 at about 4.9s, each timed to the picture described above. Keep 藍 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 藍 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

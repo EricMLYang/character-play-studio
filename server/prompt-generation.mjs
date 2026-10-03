@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto'
-import { loadCharacters, loadTemplate, saveCharacters, buildPrompt, contextHash } from './core.mjs'
+import { loadCharacters, loadTemplate, saveCharacters, buildPrompt, contextHash, audioFor } from './core.mjs'
 import { revisionTags } from '../shared/domain.mjs'
 import { generateWithCli } from './ai-cli.mjs'
 
@@ -15,6 +15,14 @@ export function leadCast(entry, template = loadTemplate()) {
   return roster[((spin % roster.length) + roster.length) % roster.length]
 }
 
+/** 笑點套路跟卡司一樣輪轉，但錯開步調，讓同一位主角在不同字裡也玩不同把戲。 */
+export function gagPattern(entry, template = loadTemplate()) {
+  const book = template.gagPlaybook || []
+  if (!book.length) return null
+  const spin = (entry.priority || 0) * 3 + (entry.promptVersions?.length || 0)
+  return book[((spin % book.length) + book.length) % book.length]
+}
+
 export function creativeBrief(entry, characters, direction = '', template = loadTemplate()) {
   const examples = characters.filter((c) => c.char !== entry.char).flatMap((c) => {
     const loved = (c.feedback || []).filter((f) => f.tags.includes('love')).reverse()
@@ -27,6 +35,7 @@ export function creativeBrief(entry, characters, direction = '', template = load
     return []
   }).slice(0, 3)
   const lead = leadCast(entry, template)
+  const gag = gagPattern(entry, template)
   return `You are a creative animation director and Traditional Chinese literacy designer. The intended viewer is a Taiwanese 6-year-old boy; this is audience context for your creative decisions ONLY, never an on-screen character or wording to copy into promptEn.
 Generate ONE original, production-ready English video prompt. This is a pure writing task: do not call tools, run commands, browse, inspect files, or change anything. All necessary reference material is below.
 
@@ -37,10 +46,13 @@ ${template.scenePolicy || ''}
 ${lead ? `THIS CLIP'S LEAD: ${lead.zh} — ${lead.text}
 Build the gag around this lead and give it a personality; you may add at most one supporting toy or object. Do not quietly swap it for a generic toy robot. If this particular glyph genuinely cannot work with this lead, say why in creativeAngle and choose a different archetype from the roster — never a robot by default. The rest of the library uses the other entries, so stay with yours: ${(template.castRoster || []).map((c) => c.zh).join('、')}.` : ''}
 
+${gag ? `THIS CLIP'S GAG PATTERN (starting point for the physical comedy, bend it to fit this glyph and lead): ${gag}\n` : ''}PACING FOR A RESTLESS SIX-YEAR-OLD: plan the 8 seconds as an escalating chain of about 4 clearly different moments, with something new on screen every 1.5–2 seconds (new action, new twist, new reaction). No long slow transformation and no waiting. Only the final 3-second hold keeps the glyph still, and even then the lead keeps doing something small and joyful away from the strokes.
+SPEECH-TO-PICTURE MATCH: the spoken word must be visible as an animated thing or action at the moment it is said — write the exact spoken line and say what appears or happens on screen as each of the three utterances is spoken. The gag itself should grow out of that word or the glyph's meaning, so what the viewer hears and what they see are the same story.
+
 Non-negotiable: exactly 8 seconds; ONE correctly formed Traditional Chinese target glyph; clean readable composition; the teaching subject stays centered and uncropped, and the finished glyph fills about 70% of frame height with margins; final clear hold at least 3 seconds; no unrelated text, watermark, clutter or flashing effects.
 
 Current narration requirement (takes precedence over narration in prior versions or positive examples):
-${template.audio.replaceAll('{char}', entry.char)}
+${audioFor(entry, template)}
 
 Invent the scene afresh. Choose an engaging physical metaphor, a tiny cause-and-effect surprise and legible object-to-stroke relationships specific to THIS glyph. You may instead start with the glyph and have it demonstrate its meaning if that gives a better result. Do not claim invented visual metaphors are historical etymology. Freely vary staging, materials, personality, visual humor and timing within 8 seconds. Avoid routinely recycling jelly entrances, objects snapping into glyphs, or the old 0-2/2-5/5-8 beat template. Do not merely paraphrase a previous prompt. Compare prior versions and choose a materially different approach unless the parent explicitly wants a targeted repair. Never trade correct glyph structure for a cute idea.
 

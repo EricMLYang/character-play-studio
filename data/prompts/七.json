@@ -1,0 +1,25 @@
+[
+  {
+    "char": "七",
+    "meaning": "seven",
+    "zhuyin": "ㄑㄧ",
+    "emoji": "7️⃣",
+    "conceptZh": "發條樂團的小號手拿到過長的樂器，樂器彎折成七。",
+    "object": "a wind-up animal band with an oversized trumpet and a tiny triangle",
+    "morph": "an absurdly long bendy trumpet folds into the strokes of 七",
+    "creativeAngle": "大小懸殊：小熊貓鼓手拿到比自己長三倍的喇叭，折彎後恰好成為七；七彩的氣球從喇叭口噴出呼應「七彩」。",
+    "promptEn": "An 8-second bouncy animated clip on a warm peach backdrop with a pale lemon floor. A wind-up red-panda trumpeter, key turning on its back, struggles with a trumpet three times longer than itself, while a mouse with a tiny triangle watches. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「七、七、七彩」 (ㄑㄧ、ㄑㄧ、ㄑㄧ ㄘㄞˇ), slowly with clear tones, then stops.\n0.0-1.7s: The panda inhales and blows; the huge trumpet swings like a crane, knocking the cymbals over with a clang. 「七」 (ㄑㄧ) is spoken as the trumpet swings.\n1.7-3.4s: The panda tries to fit it on stage, so he bends it; the trumpet folds with a boing, a short flat top bar and a long hooked tail, forming one deep violet glyph 七, saturated solid strokes, filling about 70% of frame height. The second 「七」 (ㄑㄧ) lands as it settles.\n3.4-5.0s: The panda blows once more and the bell of the folded horn burps out seven balloons in seven rainbow colors that float up behind the glyph; 「七彩」 (ㄑㄧ ㄘㄞˇ) is spoken as the colorful balloons pop out.\n5.0-8.0s: Hold: glyph 七 absolutely still, centered, uncropped. The panda hugs the horn base and sways, the mouse dings its tiny triangle, away from the strokes.\nOnly the glyph 七 appears as text; no subtitles, watermark or flashing. Light music below the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.833Z",
+    "id": "b9ff3e54-13b0-46b4-8138-0e2237860881",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "1bf1df39b7ba7b276d93e6f4613c63e370321812102fab87c88ec87dcca0e77b",
+    "hash": "6ffb6a9845e5a5634330b4a2f78d84d94e72a61290bdb84e998bf85f46992bf1",
+    "formatted": "【目標國字】：七\n【設計概念】：發條樂團的小號手拿到過長的樂器，樂器彎折成七。\n【8s Video Prompt】:\n```text\nAn 8-second bouncy animated clip on a warm peach backdrop with a pale lemon floor. A wind-up red-panda trumpeter, key turning on its back, struggles with a trumpet three times longer than itself, while a mouse with a tiny triangle watches. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「七、七、七彩」 (ㄑㄧ、ㄑㄧ、ㄑㄧ ㄘㄞˇ), slowly with clear tones, then stops.\n0.0-1.7s: The panda inhales and blows; the huge trumpet swings like a crane, knocking the cymbals over with a clang. 「七」 (ㄑㄧ) is spoken as the trumpet swings.\n1.7-3.4s: The panda tries to fit it on stage, so he bends it; the trumpet folds with a boing, a short flat top bar and a long hooked tail, forming one deep violet glyph 七, saturated solid strokes, filling about 70% of frame height. The second 「七」 (ㄑㄧ) lands as it settles.\n3.4-5.0s: The panda blows once more and the bell of the folded horn burps out seven balloons in seven rainbow colors that float up behind the glyph; 「七彩」 (ㄑㄧ ㄘㄞˇ) is spoken as the colorful balloons pop out.\n5.0-8.0s: Hold: glyph 七 absolutely still, centered, uncropped. The panda hugs the horn base and sways, the mouse dings its tiny triangle, away from the strokes.\nOnly the glyph 七 appears as text; no subtitles, watermark or flashing. Light music below the voice.\n```"
+  }
+]

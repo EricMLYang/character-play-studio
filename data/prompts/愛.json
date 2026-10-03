@@ -1,0 +1,25 @@
+[
+  {
+    "char": "愛",
+    "meaning": "to love",
+    "zhuyin": "ㄞˋ",
+    "emoji": "❤️",
+    "conceptZh": "兔子魔術師的愛心拔河，兩顆氣球拉在一起彈成「愛」。",
+    "object": "a magician rabbit and two red heart balloons",
+    "morph": "two heart halves are tugged apart then spring together as 愛",
+    "creativeAngle": "兔子變出兩顆愛心氣球，各拉一邊，彈回去合成字。",
+    "promptEn": "An 8-second animated clip on a soft lilac backdrop with pale heart sparkles. Lead: a cartoon magician rabbit with a purple top hat and long ears, whose tricks backfire gently. The finished glyph 愛 is a saturated raspberry-pink, centered, about 70% of frame height.\n0.0-1.6s: the rabbit pulls a ribbon from his hat and a pink heart balloon floats out, splitting into two halves. First \"愛\" as he gasps.\n1.6-3.2s: tug-of-war: he pulls the left half, the right half drifts away with his ears twisting around it; he stretches like a rubber band. Second \"愛\" lands as the ribbon goes taut and the halves strain.\n3.2-5.0s: twang! The halves snap together, strokes sliding into place, and the glyph 愛 stands complete as the rabbit tumbles backward.\n5.0-8.0s: HOLD, glyph perfectly still. At \"愛心\" the rabbit forms a heart with his paws and a small red heart balloon bobs up from his hat, drifting beside the glyph, his ears forming a heart shape on top.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"愛、愛、愛心\" (ㄞˋ、ㄞˋ、ㄞˋ ㄒㄧㄣ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 愛.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.615Z",
+    "id": "a23eb698-6456-4ebe-b95b-3d99331293b9",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9c3a8c9da05fb103314c986cad198ce8dd55955ed17478f36d8f0d6bdc00903e",
+    "hash": "e73e6b26d734b49b8f5b38505b833e88f818bcc6613e244f0118a97550b4e7ac",
+    "formatted": "【目標國字】：愛\n【設計概念】：兔子魔術師的愛心拔河，兩顆氣球拉在一起彈成「愛」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft lilac backdrop with pale heart sparkles. Lead: a cartoon magician rabbit with a purple top hat and long ears, whose tricks backfire gently. The finished glyph 愛 is a saturated raspberry-pink, centered, about 70% of frame height.\n0.0-1.6s: the rabbit pulls a ribbon from his hat and a pink heart balloon floats out, splitting into two halves. First \"愛\" as he gasps.\n1.6-3.2s: tug-of-war: he pulls the left half, the right half drifts away with his ears twisting around it; he stretches like a rubber band. Second \"愛\" lands as the ribbon goes taut and the halves strain.\n3.2-5.0s: twang! The halves snap together, strokes sliding into place, and the glyph 愛 stands complete as the rabbit tumbles backward.\n5.0-8.0s: HOLD, glyph perfectly still. At \"愛心\" the rabbit forms a heart with his paws and a small red heart balloon bobs up from his hat, drifting beside the glyph, his ears forming a heart shape on top.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"愛、愛、愛心\" (ㄞˋ、ㄞˋ、ㄞˋ ㄒㄧㄣ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 愛.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

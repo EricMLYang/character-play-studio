@@ -1,0 +1,25 @@
+[
+  {
+    "char": "姐",
+    "meaning": "older sister",
+    "zhuyin": "ㄐㄧㄝˇ",
+    "emoji": "👧",
+    "conceptZh": "布忍者想偷偷幫小妹妹疊積木，不小心碰倒一整排軟積木，倒成「姐」，小的玩偶開心抱住大的。",
+    "object": "a tiny felt ninja, a smaller plush sibling with ponytails, and a row of soft coral felt blocks",
+    "morph": "a row of soft coral felt blocks tumbles into the glyph 姐 beside two toy siblings",
+    "creativeAngle": "骨牌效應：布忍者躲在花盆後偷偷推一下軟積木，結果倒成「姐」；「姐姐」用小玩偶抱住大玩偶呼應。",
+    "promptEn": "An 8-second soft-and-silly felt-toy clip on a clean solid pale lilac backdrop, with one large Traditional Chinese glyph 姐 as the only text, composed of thick matte-looking but strongly saturated coral-red felt strokes, about 70% of frame height, centered with margins. Lead: a tiny felt ninja with a black mask and purple headband who is spectacularly bad at hiding and convinced nobody can see him; one supporting character, a smaller plush toy with two little ponytails. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 姐、姐、姐姐 (ㄐㄧㄝˇ、ㄐㄧㄝˇ、ㄐㄧㄝˇ ㄐㄧㄝ˙); the second syllable of the word takes the neutral tone; slow with clear tones, then silence. Moment 1 (0–1.7s): the ninja crouches behind a tiny flowerpot that hides only his belly, peeks out with one eye, and as the first 姐 is spoken sneaks out a pinky to tip the first soft coral block, which wobbles and falls into the next. Moment 2 (1.7–3.4s): the blocks fall in a flopping chain across the frame, the ninja dives in a panicked tiptoe to catch them, tangles his scarf around two blocks and is dragged along sideways on his belly, headband flapping. Moment 3 (3.4–5s): the chain curls and lands as the second 姐 is spoken, forming 姐: on the left a woman-shaped part with a diagonal swoop, a crossing stroke and a horizontal bar; on the right a small box on a vertical stack with two horizontal bars, like a stack of three layers. The ninja, upside down at the end of the glyph, tips his head and gives a shy bow. Moment 4 (5s): as 姐姐 is spoken, the smaller plush with ponytails runs over, hugs the ninja's leg, then tugs him over to another larger soft felt toy with a ponytail bow, which scoops her into a tight hug, both rocking left and right. Final 5–8s: the glyph 姐 stays completely still and sharp while the two plush siblings rock gently in a hug and the ninja sits behind a flowerpot giving a thumbs up, never touching the strokes. Soft daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.840Z",
+    "id": "d1d3ee64-a2df-4265-8238-df5c053f74a3",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "792c97c703e96ff7712757302fcf2574ba498cb6b7b94f249833a6c465f92fc4",
+    "hash": "7b67ed5ce33f7d629004d943016d00e7ec03bcb724c69c2d50e51da6b2330609",
+    "formatted": "【目標國字】：姐\n【設計概念】：布忍者想偷偷幫小妹妹疊積木，不小心碰倒一整排軟積木，倒成「姐」，小的玩偶開心抱住大的。\n【8s Video Prompt】:\n```text\nAn 8-second soft-and-silly felt-toy clip on a clean solid pale lilac backdrop, with one large Traditional Chinese glyph 姐 as the only text, composed of thick matte-looking but strongly saturated coral-red felt strokes, about 70% of frame height, centered with margins. Lead: a tiny felt ninja with a black mask and purple headband who is spectacularly bad at hiding and convinced nobody can see him; one supporting character, a smaller plush toy with two little ponytails. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 姐、姐、姐姐 (ㄐㄧㄝˇ、ㄐㄧㄝˇ、ㄐㄧㄝˇ ㄐㄧㄝ˙); the second syllable of the word takes the neutral tone; slow with clear tones, then silence. Moment 1 (0–1.7s): the ninja crouches behind a tiny flowerpot that hides only his belly, peeks out with one eye, and as the first 姐 is spoken sneaks out a pinky to tip the first soft coral block, which wobbles and falls into the next. Moment 2 (1.7–3.4s): the blocks fall in a flopping chain across the frame, the ninja dives in a panicked tiptoe to catch them, tangles his scarf around two blocks and is dragged along sideways on his belly, headband flapping. Moment 3 (3.4–5s): the chain curls and lands as the second 姐 is spoken, forming 姐: on the left a woman-shaped part with a diagonal swoop, a crossing stroke and a horizontal bar; on the right a small box on a vertical stack with two horizontal bars, like a stack of three layers. The ninja, upside down at the end of the glyph, tips his head and gives a shy bow. Moment 4 (5s): as 姐姐 is spoken, the smaller plush with ponytails runs over, hugs the ninja's leg, then tugs him over to another larger soft felt toy with a ponytail bow, which scoops her into a tight hug, both rocking left and right. Final 5–8s: the glyph 姐 stays completely still and sharp while the two plush siblings rock gently in a hug and the ninja sits behind a flowerpot giving a thumbs up, never touching the strokes. Soft daylight, no flashing, no real people, no other text.\n```"
+  }
+]

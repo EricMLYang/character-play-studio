@@ -1,0 +1,25 @@
+[
+  {
+    "char": "湯",
+    "meaning": "soup",
+    "zhuyin": "ㄊㄤ",
+    "emoji": "🍲",
+    "conceptZh": "湯：三點水加昜，熱熱的湯水。",
+    "object": "a chunky red toy fire engine with an unruly hose, and a bowl of orange broth",
+    "morph": "a bubble of broth fired from the hose ricochets around the frame and each hit drops one stroke of 湯",
+    "creativeAngle": "消防車的水管亂噴橘色湯泡泡，泡泡彈到哪、筆畫就掉到哪。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 湯 (soup), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a chunky red toy fire engine with an unruly hose, and a bowl of orange broth. Clear pale-orange backdrop with a tiny stripe of blue floor; the glyph is saturated tomato-orange. Timed beats. 0.0-1.5s: a stubby red toy fire engine with a wobbly ladder rolls in, its blue light spinning. The voice says the first 湯 as its hose sneezes out a big wobbling bubble of orange broth that bounces off the left wall and leaves the three-drop water radical. 1.5-3.0s: the bubble ricochets off the floor and ceiling while the hose swerves after it like a puppy; each bounce plants another stroke. The voice says the second 湯 as the engine's firefighter crew (little yellow toy figures with round helmets) duck and giggle. 3.0-4.5s: the bubble thunks into the last empty spot and the finished orange 湯 locks in; the hose ties itself in a knot with surprise. 4.5-5.0s: the voice says 熱湯 (ㄖㄜˋ ㄊㄤ) as a steaming bowl slides in front of the engine and its siren puffs a cloud of steam. Final hold: 5.0-8.0s: the glyph is perfectly still; the engine flashes its light happily and the hose gives a tiny wave. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 湯、湯、熱湯 = ㄊㄤ、ㄊㄤ、ㄖㄜˋ ㄊㄤ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 湯 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.132Z",
+    "id": "47297b29-b288-4f17-93c9-11acc5b4b862",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4cf48366ff39308ef4f3bd84bcdff8945f5c499146edc607057d731a32b2fcfd",
+    "hash": "cb48a9f60303dd83da0e198d4bc939ef85176d048b0bcb2ebdc7e8ac38671f8d",
+    "formatted": "【目標國字】：湯\n【設計概念】：湯：三點水加昜，熱熱的湯水。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 湯 (soup), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a chunky red toy fire engine with an unruly hose, and a bowl of orange broth. Clear pale-orange backdrop with a tiny stripe of blue floor; the glyph is saturated tomato-orange. Timed beats. 0.0-1.5s: a stubby red toy fire engine with a wobbly ladder rolls in, its blue light spinning. The voice says the first 湯 as its hose sneezes out a big wobbling bubble of orange broth that bounces off the left wall and leaves the three-drop water radical. 1.5-3.0s: the bubble ricochets off the floor and ceiling while the hose swerves after it like a puppy; each bounce plants another stroke. The voice says the second 湯 as the engine's firefighter crew (little yellow toy figures with round helmets) duck and giggle. 3.0-4.5s: the bubble thunks into the last empty spot and the finished orange 湯 locks in; the hose ties itself in a knot with surprise. 4.5-5.0s: the voice says 熱湯 (ㄖㄜˋ ㄊㄤ) as a steaming bowl slides in front of the engine and its siren puffs a cloud of steam. Final hold: 5.0-8.0s: the glyph is perfectly still; the engine flashes its light happily and the hose gives a tiny wave. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 湯、湯、熱湯 = ㄊㄤ、ㄊㄤ、ㄖㄜˋ ㄊㄤ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 湯 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

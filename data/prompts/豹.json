@@ -1,0 +1,25 @@
+[
+  {
+    "char": "豹",
+    "meaning": "leopard",
+    "zhuyin": "ㄅㄠˋ",
+    "emoji": "🐆",
+    "conceptZh": "豹身上有一圈圈的花紋",
+    "object": "a rotund cartoon chef animal in a tall hat and a spotted leopard cub",
+    "morph": "a chef's hat pops open and spots drop into 豹",
+    "creativeAngle": "胖廚師從帽子裡變出花豹，驚嚇後把斑點當點心；詞用「花豹」。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 豹 (leopard). Lead: a plump cartoon hippo chef with a tall white hat, tossing dough with confident but terrible aim. Moment 1 (0-1.6s): he flings a dough disc; it lands on his own hat; the voice says 豹 as he shakes his head and a pop sounds from the hat. Moment 2 (1.6-3.3s): spotted dough pieces fly from the hat and stick into strokes; on the second 豹 they snap into the glyph, the chef giving a double-take with his spatula. Moment 3 (3.3-5s): a golden leopard cub with black rosettes bursts out of the hat like a jack-in-the-box; as the voice says 花豹 the cub shakes, spots fly off like sprinkles and land back on the cub. Moment 4 (5-8s): glyph still; chef and cub share a donut, the chef's hat spinning slowly. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"豹、豹、花豹\" (ㄅㄠˋ、ㄅㄠˋ、ㄏㄨㄚ ㄅㄠˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 豹, drawn as saturated solid burnt orange strokes on a pale butter yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.332Z",
+    "id": "63685d7a-3f0d-414d-b448-d0d75526e374",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "860e77228ba4f8fbf86d99a9755717bd2f3bb8349a412d27d2c2ee867f012911",
+    "hash": "ad34eb70c2328cfcf6df89c7a2acab585fa57ac4ce50ea288b6f644eb6f75c62",
+    "formatted": "【目標國字】：豹\n【設計概念】：豹身上有一圈圈的花紋\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 豹 (leopard). Lead: a plump cartoon hippo chef with a tall white hat, tossing dough with confident but terrible aim. Moment 1 (0-1.6s): he flings a dough disc; it lands on his own hat; the voice says 豹 as he shakes his head and a pop sounds from the hat. Moment 2 (1.6-3.3s): spotted dough pieces fly from the hat and stick into strokes; on the second 豹 they snap into the glyph, the chef giving a double-take with his spatula. Moment 3 (3.3-5s): a golden leopard cub with black rosettes bursts out of the hat like a jack-in-the-box; as the voice says 花豹 the cub shakes, spots fly off like sprinkles and land back on the cub. Moment 4 (5-8s): glyph still; chef and cub share a donut, the chef's hat spinning slowly. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"豹、豹、花豹\" (ㄅㄠˋ、ㄅㄠˋ、ㄏㄨㄚ ㄅㄠˋ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 豹, drawn as saturated solid burnt orange strokes on a pale butter yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

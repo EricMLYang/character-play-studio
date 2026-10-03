@@ -1,0 +1,25 @@
+[
+  {
+    "char": "昨",
+    "meaning": "yesterday",
+    "zhuyin": "ㄗㄨㄛˊ",
+    "emoji": "🔙",
+    "conceptZh": "披風英雄的長披風自己把他往後拉，倒著飛回「昨天」，筆畫也倒著落下。",
+    "object": "a caped action-figure hero with a far-too-long cape",
+    "morph": "the willful cape yanks the hero backward and the strokes of 昨 fall in rewind order",
+    "creativeAngle": "道具反抗：披風決定往回走，剛好對上「昨」的倒退意思。",
+    "promptEn": "An 8-second animated clip on a pale lavender background, with one single Traditional Chinese glyph 昨 as the only text on screen, drawn in rich plum solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stout caped action figure strikes a hero pose and launches forward, but his crimson cape flops over his own head and he face-plants softly into a pillow cloud; the first 昨 is spoken as the right-hand 乍 strokes drop in from above. 1.7-3.4s: the cape grabs a lamp post and hauls him backward in a comic reverse-flight, legs pedaling; second 昨 as the left 日 slides in from the left like a rewinding film. 3.4-5s: 昨天 is spoken as the hero outsmarts the cape by tying it into a knot and a flutter of calendar pages (shapes only, no digits) blows backward behind him. 5-8s: hold; the hero stands, cape tidily knotted, giving a thumbs-up away from the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"昨、昨、昨天\" (ㄗㄨㄛˊ、ㄗㄨㄛˊ、ㄗㄨㄛˊ ㄊㄧㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 昨 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.807Z",
+    "id": "eaacfd5f-517e-465b-828d-7893a7343b3b",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "605bf13ca34e7700a9d253fd2ac741d594b5d38e5e9c931b9ce8c119ec29270b",
+    "hash": "17619bdfbfd90827cf71ca898ba05aafbb28b83150a4176e76da0f549da90de2",
+    "formatted": "【目標國字】：昨\n【設計概念】：披風英雄的長披風自己把他往後拉，倒著飛回「昨天」，筆畫也倒著落下。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale lavender background, with one single Traditional Chinese glyph 昨 as the only text on screen, drawn in rich plum solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stout caped action figure strikes a hero pose and launches forward, but his crimson cape flops over his own head and he face-plants softly into a pillow cloud; the first 昨 is spoken as the right-hand 乍 strokes drop in from above. 1.7-3.4s: the cape grabs a lamp post and hauls him backward in a comic reverse-flight, legs pedaling; second 昨 as the left 日 slides in from the left like a rewinding film. 3.4-5s: 昨天 is spoken as the hero outsmarts the cape by tying it into a knot and a flutter of calendar pages (shapes only, no digits) blows backward behind him. 5-8s: hold; the hero stands, cape tidily knotted, giving a thumbs-up away from the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"昨、昨、昨天\" (ㄗㄨㄛˊ、ㄗㄨㄛˊ、ㄗㄨㄛˊ ㄊㄧㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 昨 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "抱",
+    "meaning": "to hug",
+    "zhuyin": "ㄅㄠˋ",
+    "emoji": "🤗",
+    "conceptZh": "科學家老鼠的燒杯噗地冒出一顆大抱枕，驚得老鼠抱住它。",
+    "object": "a bespectacled lab mouse, bubbling beakers and a surprise pillow",
+    "morph": "a capsule bursts open to release a plush pillow that forms the strokes of 抱",
+    "creativeAngle": "燒杯一響，膠囊炸出抱枕，老鼠嚇一跳後一把抱住，抱枕的形狀拼成字。",
+    "promptEn": "An 8-second animated clip on a light sky-blue lab backdrop with pastel beakers. Lead: a bespectacled cartoon lab mouse in a tiny white coat, whiskers twitching. The finished glyph 抱 is a saturated magenta-pink, centered, about 70% of frame height.\n0.0-1.6s: the mouse pours a purple liquid into a beaker, which fizzes. First \"抱\" as a glowing capsule pops up out of the foam.\n1.6-3.2s: surprise pop: the capsule bursts and out springs a plump pink pillow that boings against the ceiling edge and bounces back; the mouse does a double-take, glasses sliding down his nose. Second \"抱\" lands as the pillow splits into hand-shaped strokes at his side.\n3.2-5.0s: the strokes join with the pillow's round shape and the glyph 抱 pops into place while the mouse jumps in the air.\n5.0-8.0s: HOLD, glyph perfectly still. On \"抱枕\" the mouse scoops up the fresh pink pillow beside the glyph and hugs it with both arms, eyes closed, then takes a sleepy wobble while beaker bubbles rise in the background.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"抱、抱、抱枕\" (ㄅㄠˋ、ㄅㄠˋ、ㄅㄠˋ ㄓㄣˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 抱.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.634Z",
+    "id": "cb78f315-6fd7-4ba7-8a4d-fb036e1dce75",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "fa64e9dcffca6c289350c2052e537b8b9656e111d63fefae75131ea97bd8830e",
+    "hash": "b441cf5e196e3dd978113e7a94ac2739138af5a0c4d61aa016698888a7b9160e",
+    "formatted": "【目標國字】：抱\n【設計概念】：科學家老鼠的燒杯噗地冒出一顆大抱枕，驚得老鼠抱住它。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a light sky-blue lab backdrop with pastel beakers. Lead: a bespectacled cartoon lab mouse in a tiny white coat, whiskers twitching. The finished glyph 抱 is a saturated magenta-pink, centered, about 70% of frame height.\n0.0-1.6s: the mouse pours a purple liquid into a beaker, which fizzes. First \"抱\" as a glowing capsule pops up out of the foam.\n1.6-3.2s: surprise pop: the capsule bursts and out springs a plump pink pillow that boings against the ceiling edge and bounces back; the mouse does a double-take, glasses sliding down his nose. Second \"抱\" lands as the pillow splits into hand-shaped strokes at his side.\n3.2-5.0s: the strokes join with the pillow's round shape and the glyph 抱 pops into place while the mouse jumps in the air.\n5.0-8.0s: HOLD, glyph perfectly still. On \"抱枕\" the mouse scoops up the fresh pink pillow beside the glyph and hugs it with both arms, eyes closed, then takes a sleepy wobble while beaker bubbles rise in the background.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"抱、抱、抱枕\" (ㄅㄠˋ、ㄅㄠˋ、ㄅㄠˋ ㄓㄣˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 抱.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

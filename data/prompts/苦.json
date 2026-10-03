@@ -1,0 +1,25 @@
+[
+  {
+    "char": "苦",
+    "meaning": "bitter",
+    "zhuyin": "ㄎㄨˇ",
+    "emoji": "😖",
+    "conceptZh": "苦：草字頭加古，味道苦苦的。",
+    "object": "a squad of interlocking building bricks (red, blue, yellow) and a warty pale-green toy bitter melon",
+    "morph": "a lead brick rushes in with far too much power, flies past, skids back, and only a gentle second try snaps the strokes into 苦",
+    "creativeAngle": "積木小隊衝過頭、撞飛、滑回來，第二次輕輕放才成功；最後試吃苦瓜皺成一團。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 苦 (bitter), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a squad of interlocking building bricks (red, blue, yellow) and a warty pale-green toy bitter melon. Pale sage-green backdrop; the glyph is deep forest-green with a lighter highlight. Timed beats. 0.0-1.5s: a squad of six chunky toy bricks marches in; the red lead brick spots a gap above and sprints at it with a squeaky war cry. The voice says the first 苦 as it zooms toward the empty top bar slot. 1.5-3.0s: it overshoots completely, sails off the top edge, and the others duck, bump, and collapse like dominoes. The voice says the second 苦 as the red brick comes skidding back along the floor, spinning. 3.0-4.5s: it takes a deep breath, tiptoes, and gently clicks into place; the blue and yellow bricks hop up and stack into the lower square, finishing 苦 at 70% of frame height. 4.5-5.0s: the voice says 苦瓜 (ㄎㄨˇ ㄍㄨㄚ) as a warty bitter melon rolls in, the yellow brick takes one tiny nibble and its whole body scrunches into a pucker. Final hold: 5.0-8.0s: the glyph is still; the other bricks pat the scrunched brick and it shakes off the face, wobbling at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 苦、苦、苦瓜 (ㄎㄨˇ、ㄎㄨˇ、ㄎㄨˇ ㄍㄨㄚ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 苦 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.076Z",
+    "id": "b540ea58-376d-42d8-b1cb-6e80fee698c5",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "a2aa5e036eae682d7226a554866231b23db5835e586c923fccc8f68852e4086c",
+    "hash": "91189a52de200bea65723c74cdc95c3430498f316b5e7a7e499833bd1dc48708",
+    "formatted": "【目標國字】：苦\n【設計概念】：苦：草字頭加古，味道苦苦的。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 苦 (bitter), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a squad of interlocking building bricks (red, blue, yellow) and a warty pale-green toy bitter melon. Pale sage-green backdrop; the glyph is deep forest-green with a lighter highlight. Timed beats. 0.0-1.5s: a squad of six chunky toy bricks marches in; the red lead brick spots a gap above and sprints at it with a squeaky war cry. The voice says the first 苦 as it zooms toward the empty top bar slot. 1.5-3.0s: it overshoots completely, sails off the top edge, and the others duck, bump, and collapse like dominoes. The voice says the second 苦 as the red brick comes skidding back along the floor, spinning. 3.0-4.5s: it takes a deep breath, tiptoes, and gently clicks into place; the blue and yellow bricks hop up and stack into the lower square, finishing 苦 at 70% of frame height. 4.5-5.0s: the voice says 苦瓜 (ㄎㄨˇ ㄍㄨㄚ) as a warty bitter melon rolls in, the yellow brick takes one tiny nibble and its whole body scrunches into a pucker. Final hold: 5.0-8.0s: the glyph is still; the other bricks pat the scrunched brick and it shakes off the face, wobbling at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 苦、苦、苦瓜 (ㄎㄨˇ、ㄎㄨˇ、ㄎㄨˇ ㄍㄨㄚ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 苦 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

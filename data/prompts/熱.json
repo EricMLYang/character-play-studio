@@ -1,0 +1,25 @@
+[
+  {
+    "char": "熱",
+    "meaning": "hot",
+    "zhuyin": "ㄖㄜˋ",
+    "emoji": "🥵",
+    "conceptZh": "橡膠恐龍小手搆不到熱狗，一路彈來彈去，每撞一下就掉下一個筆畫。",
+    "object": "a rubber dinosaur with huge feet and tiny arms, and a steaming toy hot dog",
+    "morph": "the dino ricochets a bouncy hot dog around the frame and each hit knocks one stroke of 熱 into place",
+    "creativeAngle": "短手搆不到熱狗，只好用大腳踢，熱狗彈跳每碰一下就掉下一筆。",
+    "promptEn": "An 8-second animated clip on a soft sky-blue background, with one single Traditional Chinese glyph 熱 as the only text on screen, drawn in tomato red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.8s: a squat orange rubber dinosaur stomps in on huge feet, tiny arms flapping, eyeing a steaming toy hot dog on a high shelf it cannot reach; the first 熱 is spoken as steam puffs and the top strokes of 熱 (the 埶 part) drop in from above. 1.8-3.6s: the dino kicks the shelf, the hot dog launches and bounces off the left edge, the floor and the right edge; each bounce drops one more stroke into place, and the second 熱 is spoken as the four fire-dots along the bottom plop in one by one. 3.6-5s: the hot dog (animated, squishy, smiling) finally bounces into the dino's wide-open mouth with a goofy gulp as 熱狗 is spoken, and the dino puffs a cloud of steam from its ears with bulging eyes, fanning itself with one useless tiny arm. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"熱、熱、熱狗\" (ㄖㄜˋ、ㄖㄜˋ、ㄖㄜˋ ㄍㄡˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 熱 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.193Z",
+    "id": "e1aa159d-9cf7-4d77-be8f-4c5415e4b047",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d1a5e41eada52bed48f31d36422af60e5f85b402beefca6a7a8c8e32bcbbcf14",
+    "hash": "bacdf42f12864f36c094572507c0853b1ff8a14f0586d79e5070800fd657fe90",
+    "formatted": "【目標國字】：熱\n【設計概念】：橡膠恐龍小手搆不到熱狗，一路彈來彈去，每撞一下就掉下一個筆畫。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft sky-blue background, with one single Traditional Chinese glyph 熱 as the only text on screen, drawn in tomato red solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.8s: a squat orange rubber dinosaur stomps in on huge feet, tiny arms flapping, eyeing a steaming toy hot dog on a high shelf it cannot reach; the first 熱 is spoken as steam puffs and the top strokes of 熱 (the 埶 part) drop in from above. 1.8-3.6s: the dino kicks the shelf, the hot dog launches and bounces off the left edge, the floor and the right edge; each bounce drops one more stroke into place, and the second 熱 is spoken as the four fire-dots along the bottom plop in one by one. 3.6-5s: the hot dog (animated, squishy, smiling) finally bounces into the dino's wide-open mouth with a goofy gulp as 熱狗 is spoken, and the dino puffs a cloud of steam from its ears with bulging eyes, fanning itself with one useless tiny arm. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"熱、熱、熱狗\" (ㄖㄜˋ、ㄖㄜˋ、ㄖㄜˋ ㄍㄡˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 熱 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

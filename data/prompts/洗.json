@@ -1,0 +1,25 @@
+[
+  {
+    "char": "洗",
+    "meaning": "to wash",
+    "zhuyin": "ㄒㄧˇ",
+    "emoji": "🧼",
+    "conceptZh": "玩具戰士打翻泡泡骨牌，一連串泡泡落成「洗」字。",
+    "object": "a bravado-filled toy warrior with a foam sword, a round shield and a bubbly tub",
+    "morph": "a chain of tumbling soap-bubble tiles lands as 洗",
+    "creativeAngle": "玩具戰士輕輕一碰，一排泡泡骨牌連鎖倒下，水滴落成偏旁，最後洗手。",
+    "promptEn": "An 8-second animated clip on a bright aqua-and-white bathroom-tile backdrop. Lead: a chunky toy warrior in a golden helmet with a foam sword and a round shield, all bravado and little skill. The finished glyph 洗 is a saturated ocean-blue, centered, about 70% of frame height.\n0.0-1.7s: the warrior strides in, sword high, to battle a row of standing blue soap-bar tiles. First \"洗\" as his sword tip taps the first tile.\n1.7-3.3s: domino pile-up: tiles topple left to right in a clatter, one flips the shield out of his hand, and bubbles burst from each. Second \"洗\" lands as the last tile falls flat and the strokes of the left water-radical settle.\n3.3-5.0s: the remaining tiles tumble upright by luck into the right half and the glyph 洗 stands complete with a squeaky-clean twinkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"洗手\" the warrior drops his sword, holds two cartoon hands under a little bubble foam fountain beside the glyph and scrubs, a bubble floating up and popping, his helmet fogged with suds.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"洗、洗、洗手\" (ㄒㄧˇ、ㄒㄧˇ、ㄒㄧˇ ㄕㄡˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 洗.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.048Z",
+    "id": "0daca3d6-b5c5-4a05-b723-eb66ea23880c",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "291995d6ef66474478d3af803065855ed47e0dbe6f48d44728d6c02429a8a6fc",
+    "hash": "d4a2e3862293e97a1212f8e81ddc1b2b7ac4b89c674bdd32ab81cfe3722c3416",
+    "formatted": "【目標國字】：洗\n【設計概念】：玩具戰士打翻泡泡骨牌，一連串泡泡落成「洗」字。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a bright aqua-and-white bathroom-tile backdrop. Lead: a chunky toy warrior in a golden helmet with a foam sword and a round shield, all bravado and little skill. The finished glyph 洗 is a saturated ocean-blue, centered, about 70% of frame height.\n0.0-1.7s: the warrior strides in, sword high, to battle a row of standing blue soap-bar tiles. First \"洗\" as his sword tip taps the first tile.\n1.7-3.3s: domino pile-up: tiles topple left to right in a clatter, one flips the shield out of his hand, and bubbles burst from each. Second \"洗\" lands as the last tile falls flat and the strokes of the left water-radical settle.\n3.3-5.0s: the remaining tiles tumble upright by luck into the right half and the glyph 洗 stands complete with a squeaky-clean twinkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"洗手\" the warrior drops his sword, holds two cartoon hands under a little bubble foam fountain beside the glyph and scrubs, a bubble floating up and popping, his helmet fogged with suds.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"洗、洗、洗手\" (ㄒㄧˇ、ㄒㄧˇ、ㄒㄧˇ ㄕㄡˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 洗.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

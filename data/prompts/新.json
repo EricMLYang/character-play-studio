@@ -1,0 +1,25 @@
+[
+  {
+    "char": "新",
+    "meaning": "new",
+    "zhuyin": "ㄒㄧㄣ",
+    "emoji": "✨",
+    "conceptZh": "積木小隊衝太快飛過頭，輕輕再試才把新鞋放好。",
+    "object": "a squad of building bricks and a shiny new toy shoe",
+    "morph": "bricks overshoot and tumble, a gentle second try places 新",
+    "creativeAngle": "積木士兵用力過猛撞飛，第二次輕輕疊好，新鞋閃閃發光。",
+    "promptEn": "An 8-second animated clip on a pale ivory-and-gold backdrop. Lead: a squad of chunky interlocking building bricks marching in a line, one in bright orange in front. The finished glyph 新 is a saturated crimson-red, centered, about 70% of frame height.\n0.0-1.6s: the orange brick marches in with a tiny glittering gift bow stuck on his head, aiming for a stack of red pieces. First \"新\" as he salutes.\n1.6-3.2s: overshoot: he charges, bulldozes the pile, flies off the right edge and bounces back, the other bricks tumbling like dominoes. Second \"新\" lands as the red bricks settle in a messy heap.\n3.2-5.0s: gentle second try: he nudges one brick; the others click upward into the glyph 新 with a sparkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"新年\" tiny gold confetti falls and a red lantern bounces in beside the glyph; the orange brick parades past with a little flag, bricks marching in tidy rows.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"新、新、新年\" (ㄒㄧㄣ、ㄒㄧㄣ、ㄒㄧㄣ ㄋㄧㄢˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 新.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.768Z",
+    "id": "dcfc8594-cdf1-4ee7-9f97-0143125e62a4",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "cd892e2b4675c8a4b3054e8cd023a505db75bf1306861397cd8457d55147a7ba",
+    "hash": "1ee54eaa61dba3517091f685fb52d70d9c918b0eba0d8948969898e2f377aa7c",
+    "formatted": "【目標國字】：新\n【設計概念】：積木小隊衝太快飛過頭，輕輕再試才把新鞋放好。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale ivory-and-gold backdrop. Lead: a squad of chunky interlocking building bricks marching in a line, one in bright orange in front. The finished glyph 新 is a saturated crimson-red, centered, about 70% of frame height.\n0.0-1.6s: the orange brick marches in with a tiny glittering gift bow stuck on his head, aiming for a stack of red pieces. First \"新\" as he salutes.\n1.6-3.2s: overshoot: he charges, bulldozes the pile, flies off the right edge and bounces back, the other bricks tumbling like dominoes. Second \"新\" lands as the red bricks settle in a messy heap.\n3.2-5.0s: gentle second try: he nudges one brick; the others click upward into the glyph 新 with a sparkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"新年\" tiny gold confetti falls and a red lantern bounces in beside the glyph; the orange brick parades past with a little flag, bricks marching in tidy rows.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"新、新、新年\" (ㄒㄧㄣ、ㄒㄧㄣ、ㄒㄧㄣ ㄋㄧㄢˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 新.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "牆",
+    "meaning": "wall",
+    "zhuyin": "ㄑㄧㄤˊ",
+    "emoji": "🧱",
+    "conceptZh": "牆：土、嗇，用土磚疊起來的牆。",
+    "object": "a rotund cartoon chef bear in a tall hat, flinging dough with too much confidence, and a toy brick wall that has opinions",
+    "morph": "the brick wall keeps dodging the chef's dough 'mortar' and wobbling away, until he outsmarts it with a rolling pin",
+    "creativeAngle": "廚師熊把麵團當水泥亂糊，牆磚一直躲開，最後用擀麵棍把磚壓回去。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 牆 (wall), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rotund cartoon chef bear in a tall hat, flinging dough with too much confidence, and a toy brick wall that has opinions. Warm terracotta-cream backdrop; the glyph is brick-red with lighter mortar lines. Timed beats. 0.0-1.5s: a round chef bear in a tall hat slaps a ball of dough on a counter, and a few toy bricks pop up in a row. The voice says the first 牆 as the bricks line up on the left to form the earth radical. 1.5-3.0s: he flings dough at the next brick and it hops aside; the dough lands splat on the floor. The voice says the second 牆 as bricks keep sidestepping every time he aims, one even sticking its tongue out. 3.0-4.5s: he spins his rolling pin like a staff and gently rolls the bricks back into line; they squash together and click into the finished brick-red 牆. 4.5-5.0s: the voice says 圍牆 (ㄨㄟˊ ㄑㄧㄤˊ) as a little brick fence wraps itself around the chef's feet and he hops over it. Final hold: 5.0-8.0s: the glyph is perfectly still; the chef twirls his rolling pin and a brick gives a tiny hop at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 牆、牆、圍牆, syllable by syllable ㄑㄧㄤˊ、ㄑㄧㄤˊ、ㄨㄟˊ ㄑㄧㄤˊ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 牆 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.257Z",
+    "id": "33cf83a6-ee15-443c-a11e-43a068b82b1f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "bbd8b15ff62d96cf9674a7a46cd8c80f1fb0a9ee7ddb4371f80720a6fe3c5a71",
+    "hash": "e95cc97c1c405fbcf4740a52b5be486a8647a8d23c848746714b11ebdd927890",
+    "formatted": "【目標國字】：牆\n【設計概念】：牆：土、嗇，用土磚疊起來的牆。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 牆 (wall), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rotund cartoon chef bear in a tall hat, flinging dough with too much confidence, and a toy brick wall that has opinions. Warm terracotta-cream backdrop; the glyph is brick-red with lighter mortar lines. Timed beats. 0.0-1.5s: a round chef bear in a tall hat slaps a ball of dough on a counter, and a few toy bricks pop up in a row. The voice says the first 牆 as the bricks line up on the left to form the earth radical. 1.5-3.0s: he flings dough at the next brick and it hops aside; the dough lands splat on the floor. The voice says the second 牆 as bricks keep sidestepping every time he aims, one even sticking its tongue out. 3.0-4.5s: he spins his rolling pin like a staff and gently rolls the bricks back into line; they squash together and click into the finished brick-red 牆. 4.5-5.0s: the voice says 圍牆 (ㄨㄟˊ ㄑㄧㄤˊ) as a little brick fence wraps itself around the chef's feet and he hops over it. Final hold: 5.0-8.0s: the glyph is perfectly still; the chef twirls his rolling pin and a brick gives a tiny hop at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 牆、牆、圍牆, syllable by syllable ㄑㄧㄤˊ、ㄑㄧㄤˊ、ㄨㄟˊ ㄑㄧㄤˊ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 牆 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

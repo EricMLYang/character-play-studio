@@ -1,0 +1,25 @@
+[
+  {
+    "char": "黃",
+    "meaning": "yellow",
+    "zhuyin": "ㄏㄨㄤˊ",
+    "emoji": "🟡",
+    "conceptZh": "像香蕉或檸檬的顏色。",
+    "object": "a stout detective pig, an enormous magnifying lens, and a tiny cucumber",
+    "morph": "size mismatch: a giant lens and a tiny cucumber build 黃",
+    "creativeAngle": "豬探長的放大鏡把小黃瓜放大又縮小，最後排成「黃」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a golden-sand and cream toy workshop, a stout detective pig squints through a gigantic magnifying glass at a thumb-sized cucumber. 0–1.5s: The first 黃 is spoken as the lens drops over the cucumber, making it enormous; the pig bounces off it and lands on his behind. 1.5–3.1s: The second 黃 is spoken: he lifts the lens and the cucumber shrinks back, rolling under his hat, then bursts out as a pile of yellow pieces. 3.1–4.7s: He swings the magnifier like a broom, sweeping the pieces into 黃 in sunny yellow-gold. 4.7–5.7s: As 黃瓜 is spoken, a giant cartoon cucumber with a yellow flower pops up beside the pig, wearing a tiny cap. Final hold (about 5.0–8.0s): the pig tips his hat and the cucumber waves a leaf; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 黃、黃、黃瓜（ㄏㄨㄤˊ、ㄏㄨㄤˊ、ㄏㄨㄤˊ ㄍㄨㄚ）. The first 黃 lands at about 1.0s, the second 黃 at about 2.6s, and the word 黃瓜 at about 4.8s, each timed to the picture described above. Keep 黃 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 黃 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.774Z",
+    "id": "c7477d78-f2c3-45c5-9ff6-1a74d3e42a12",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4b498c7b28273bf0b6709b91695bd5b285d6db1bc309461a9d9faa5883129cd7",
+    "hash": "71991f0371f1a995d0d147f776ddab37320f7a546d409a3c31feed6ade1d9237",
+    "formatted": "【目標國字】：黃\n【設計概念】：像香蕉或檸檬的顏色。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a golden-sand and cream toy workshop, a stout detective pig squints through a gigantic magnifying glass at a thumb-sized cucumber. 0–1.5s: The first 黃 is spoken as the lens drops over the cucumber, making it enormous; the pig bounces off it and lands on his behind. 1.5–3.1s: The second 黃 is spoken: he lifts the lens and the cucumber shrinks back, rolling under his hat, then bursts out as a pile of yellow pieces. 3.1–4.7s: He swings the magnifier like a broom, sweeping the pieces into 黃 in sunny yellow-gold. 4.7–5.7s: As 黃瓜 is spoken, a giant cartoon cucumber with a yellow flower pops up beside the pig, wearing a tiny cap. Final hold (about 5.0–8.0s): the pig tips his hat and the cucumber waves a leaf; the glyph is still. Narration: one gentle off-screen voice, Taiwan standard Mandarin, speaks only this line and nothing else, each syllable clear with its tone: 黃、黃、黃瓜（ㄏㄨㄤˊ、ㄏㄨㄤˊ、ㄏㄨㄤˊ ㄍㄨㄚ）. The first 黃 lands at about 1.0s, the second 黃 at about 2.6s, and the word 黃瓜 at about 4.8s, each timed to the picture described above. Keep 黃 as the one and only piece of writing on screen, a bold saturated color against a pale bright background, correctly formed with every stroke legible; nothing else is written anywhere. The glyph 黃 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

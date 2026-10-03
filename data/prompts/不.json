@@ -1,0 +1,25 @@
+[
+  {
+    "char": "不",
+    "meaning": "not",
+    "zhuyin": "ㄅㄨˋ",
+    "emoji": "🚫",
+    "conceptZh": "布忍者躲在窗簾後面，小影子跟著做同樣動作，結果拼成不；他搖頭說不對。",
+    "object": "a tiny felt ninja who is terrible at hiding and a shadow copycat",
+    "morph": "the ninja's copycat shadow completes the strokes of 不",
+    "creativeAngle": "跟屁蟲：忍者每次躲藏，慢一拍的小影子都模仿，兩人一起拼成不；「不對」用大搖頭與叉叉形的光來呈現。",
+    "promptEn": "An 8-second clip on a pale rose backdrop with a light cream floor. A tiny felt ninja in a gray mask, who thinks he is invisible, sneaks across the stage, with a small fuzzy shadow-creature that copies each move one beat late. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「不、不、不對」 (ㄅㄨˋ、ㄅㄨˋ、ㄅㄨˊ ㄉㄨㄟˋ), slowly with clear tones, then stops.\n0.0-1.7s: The ninja freezes in a ridiculous tiptoe pose behind a skinny pole; the shadow copies it a beat late, bumping into him. 「不」 (ㄅㄨˋ) is spoken as he shakes his head (a clear 'not me').\n1.7-3.4s: He tries to hide behind a ball; the shadow does too, and the two roll away; each time they cross, a thick stroke gets dragged along: a horizontal, a vertical, a left sweep and a dot, snapping together into a saturated solid crimson glyph 不, about 70% of frame height. The second 「不」 (ㄅㄨˋ) lands as the final dot plops.\n3.4-5.0s: The ninja looks, sees the shadow copy him wrong, wags a finger and shakes his head; a giant X shaped glow flashes softly once beside the glyph (shape, not text) and a buzz-bell chimes; 「不對」 (ㄅㄨˊ ㄉㄨㄟˋ) is spoken as he wags his finger.\n5.0-8.0s: Hold: glyph 不 perfectly still, centered. The ninja peeks from behind the corner, visible, waving, and the shadow waves a beat late, away from the strokes.\nNo text except the glyph 不; no subtitles, watermark or flashing. Soft music under the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.867Z",
+    "id": "c2e2b7a3-c3da-41e0-a617-2d32de4323f7",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5693c3506d5581db8cff3bffe361e1208386845c097500d7a1d9869d3071967e",
+    "hash": "2c799a3a0962d35fc5a9ecf9c38fbe99fb1cc09063d16a8c26e263acbebae3c8",
+    "formatted": "【目標國字】：不\n【設計概念】：布忍者躲在窗簾後面，小影子跟著做同樣動作，結果拼成不；他搖頭說不對。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a pale rose backdrop with a light cream floor. A tiny felt ninja in a gray mask, who thinks he is invisible, sneaks across the stage, with a small fuzzy shadow-creature that copies each move one beat late. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「不、不、不對」 (ㄅㄨˋ、ㄅㄨˋ、ㄅㄨˊ ㄉㄨㄟˋ), slowly with clear tones, then stops.\n0.0-1.7s: The ninja freezes in a ridiculous tiptoe pose behind a skinny pole; the shadow copies it a beat late, bumping into him. 「不」 (ㄅㄨˋ) is spoken as he shakes his head (a clear 'not me').\n1.7-3.4s: He tries to hide behind a ball; the shadow does too, and the two roll away; each time they cross, a thick stroke gets dragged along: a horizontal, a vertical, a left sweep and a dot, snapping together into a saturated solid crimson glyph 不, about 70% of frame height. The second 「不」 (ㄅㄨˋ) lands as the final dot plops.\n3.4-5.0s: The ninja looks, sees the shadow copy him wrong, wags a finger and shakes his head; a giant X shaped glow flashes softly once beside the glyph (shape, not text) and a buzz-bell chimes; 「不對」 (ㄅㄨˊ ㄉㄨㄟˋ) is spoken as he wags his finger.\n5.0-8.0s: Hold: glyph 不 perfectly still, centered. The ninja peeks from behind the corner, visible, waving, and the shadow waves a beat late, away from the strokes.\nNo text except the glyph 不; no subtitles, watermark or flashing. Soft music under the voice.\n```"
+  }
+]

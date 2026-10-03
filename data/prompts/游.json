@@ -1,0 +1,25 @@
+[
+  {
+    "char": "游",
+    "meaning": "to swim",
+    "zhuyin": "ㄧㄡˊ",
+    "emoji": "🏊",
+    "conceptZh": "兔子魔術師想變出游泳池，結果變出一條游泳的橡膠魚。",
+    "object": "a magician rabbit in a top hat, a blue toy pool and a rubber fish with a ring",
+    "morph": "a wrong pile (a lumpy raft shape) is fixed in one flick into 游",
+    "creativeAngle": "兔子先變出歪的錯字形，聳肩後一揮魔杖修好，橡膠魚游過去濺出水。",
+    "promptEn": "An 8-second animated clip on a sky-blue and aqua backdrop. Lead: a cartoon magician rabbit with a purple top hat and star wand whose tricks misfire harmlessly. The finished glyph 游 is a saturated cobalt blue, centered, about 70% of frame height.\n0.0-1.6s: the rabbit taps his hat; instead of a dove, a pile of blue strokes tumbles out into a lopsided wrong shape. First \"游\" as he bows proudly, unaware.\n1.6-3.2s: he notices, ears drooping, then shrugs. Second \"游\" lands as he flicks his wand once and the strokes shuffle into the correct glyph 游 with a crisp snap.\n3.2-5.0s: the hat sneezes out a gush of water that floods the glyph's base into a shallow blue pool, and a small rubber fish with a striped swim ring flops out and paddles.\n5.0-8.0s: HOLD, glyph perfectly still. As the voice says \"游泳\" the rubber fish paddles lap after lap in the pool beside the glyph, tiny splashes; the rabbit pulls on a polka-dot swim ring and paddles on the surface, feet kicking, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"游、游、游泳\" (ㄧㄡˊ、ㄧㄡˊ、ㄧㄡˊ ㄩㄥˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 游.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.090Z",
+    "id": "dd937774-716b-437c-a475-563dc2a98a78",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "27182d68822f242969e96c6316394481107748febbe3fbda395a35a497fbc782",
+    "hash": "dbaf2f703766179faaab1f8bd9359ab769bf4893092b9e26b92454abc9c10e6f",
+    "formatted": "【目標國字】：游\n【設計概念】：兔子魔術師想變出游泳池，結果變出一條游泳的橡膠魚。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a sky-blue and aqua backdrop. Lead: a cartoon magician rabbit with a purple top hat and star wand whose tricks misfire harmlessly. The finished glyph 游 is a saturated cobalt blue, centered, about 70% of frame height.\n0.0-1.6s: the rabbit taps his hat; instead of a dove, a pile of blue strokes tumbles out into a lopsided wrong shape. First \"游\" as he bows proudly, unaware.\n1.6-3.2s: he notices, ears drooping, then shrugs. Second \"游\" lands as he flicks his wand once and the strokes shuffle into the correct glyph 游 with a crisp snap.\n3.2-5.0s: the hat sneezes out a gush of water that floods the glyph's base into a shallow blue pool, and a small rubber fish with a striped swim ring flops out and paddles.\n5.0-8.0s: HOLD, glyph perfectly still. As the voice says \"游泳\" the rubber fish paddles lap after lap in the pool beside the glyph, tiny splashes; the rabbit pulls on a polka-dot swim ring and paddles on the surface, feet kicking, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"游、游、游泳\" (ㄧㄡˊ、ㄧㄡˊ、ㄧㄡˊ ㄩㄥˇ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 游.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

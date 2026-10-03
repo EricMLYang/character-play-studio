@@ -1,0 +1,25 @@
+[
+  {
+    "char": "夜",
+    "meaning": "night",
+    "zhuyin": "ㄧㄝˋ",
+    "emoji": "🌙",
+    "conceptZh": "扭蛋小怪獸在夜燈下玩躲貓貓，筆畫一個個從角落探出頭又縮回去。",
+    "object": "a fuzzy gachapon creature with a toy night-lamp",
+    "morph": "strokes of 夜 sneak in from corners, dodge the creature under lamp light, then settle",
+    "creativeAngle": "躲貓貓：夜燈一閃，筆畫就躲。",
+    "promptEn": "An 8-second animated clip on a pale periwinkle background, with one single Traditional Chinese glyph 夜 as the only text on screen, drawn in warm amber solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round fuzzy mint creature bursts out of a capsule and bounces off a small toy night-lamp, which blinks on; the first 夜 is spoken as the top lid-like 亠 stroke peeks in from the upper edge and ducks away. 1.7-3.4s: the lamp flickers and the remaining strokes dart in from different corners, dodging as the creature leaps at them and bounces off the walls; the second 夜 is spoken as it pins the last piece with a belly flop and everything snaps into the glyph. 3.4-5s: 夜市 is spoken as a string of paper lanterns and a tiny toy food cart with steam pop up on the horizon behind the glyph (animated shapes only). 5-8s: hold; the creature spins up a firefly, giggling, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"夜、夜、夜市\" (ㄧㄝˋ、ㄧㄝˋ、ㄧㄝˋ ㄕˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 夜 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.384Z",
+    "id": "0b83df26-980c-4ab7-a1fc-adc1a1243a00",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d8d52d94a31a7cfce815fb6688420679b416af1d72f2953c1e21269084fec48d",
+    "hash": "7ddbe702318f6d90696bba79f5d57bc06894260c350eeb47cce913e3af0b8248",
+    "formatted": "【目標國字】：夜\n【設計概念】：扭蛋小怪獸在夜燈下玩躲貓貓，筆畫一個個從角落探出頭又縮回去。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale periwinkle background, with one single Traditional Chinese glyph 夜 as the only text on screen, drawn in warm amber solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round fuzzy mint creature bursts out of a capsule and bounces off a small toy night-lamp, which blinks on; the first 夜 is spoken as the top lid-like 亠 stroke peeks in from the upper edge and ducks away. 1.7-3.4s: the lamp flickers and the remaining strokes dart in from different corners, dodging as the creature leaps at them and bounces off the walls; the second 夜 is spoken as it pins the last piece with a belly flop and everything snaps into the glyph. 3.4-5s: 夜市 is spoken as a string of paper lanterns and a tiny toy food cart with steam pop up on the horizon behind the glyph (animated shapes only). 5-8s: hold; the creature spins up a firefly, giggling, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"夜、夜、夜市\" (ㄧㄝˋ、ㄧㄝˋ、ㄧㄝˋ ㄕˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 夜 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

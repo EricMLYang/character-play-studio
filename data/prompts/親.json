@@ -1,0 +1,25 @@
+[
+  {
+    "char": "親",
+    "meaning": "to kiss",
+    "zhuyin": "ㄑㄧㄣ",
+    "emoji": "😘",
+    "conceptZh": "豬探長衝太猛飛過頭，第二次輕輕一碰，親親愛的小豬。",
+    "object": "a stout detective pig in a checked cap with a giant magnifying glass and a tiny pig friend",
+    "morph": "detective rushes past, skids back, a gentle second try drops the strokes into 親",
+    "creativeAngle": "豬探長超級用力衝過頭，滑回來後輕輕碰才成功，放大鏡裡出現愛心。",
+    "promptEn": "An 8-second animated clip on a soft rose-pink and cream backdrop. Lead: a stout cartoon detective pig in a checked deerstalker hat with an oversized magnifying glass. The finished glyph 親 is a saturated crimson, centered, about 70% of frame height.\n0.0-1.7s: the pig spots a tiny gray clue shaped like a stroke pile, charges at it with enormous power. First \"親\" as his boots kick up a puff of dust.\n1.7-3.3s: overshoot: he zooms past the pile, slides off-screen right and skids back with a squeal, hat spinning. Second \"親\" lands as he sheepishly sets down the magnifier and tiptoes in.\n3.3-5.0s: gentle second try: a delicate nose-tap and the strokes float up one by one into the glyph 親 with a soft chime.\n5.0-8.0s: HOLD, glyph perfectly still. On \"親愛\" the pig lifts the magnifying glass to his eye, a pink heart floats inside the lens, and he gives a shy little nose-boop to a tiny piglet toy next to the glyph, hat tilting, nowhere near the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"親、親、親愛\" (ㄑㄧㄣ、ㄑㄧㄣ、ㄑㄧㄣ ㄞˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 親.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.308Z",
+    "id": "97868571-2a02-4ec9-81d5-f4a21f941f72",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "caed37db79e346228c0fa3de118dd5bfde80f22bfdd69fc4c75de1a7ec181ffc",
+    "hash": "2e0016f5186b5197c2be0018cb01b88ce0440fa807ccf453d18b3e9199838bda",
+    "formatted": "【目標國字】：親\n【設計概念】：豬探長衝太猛飛過頭，第二次輕輕一碰，親親愛的小豬。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft rose-pink and cream backdrop. Lead: a stout cartoon detective pig in a checked deerstalker hat with an oversized magnifying glass. The finished glyph 親 is a saturated crimson, centered, about 70% of frame height.\n0.0-1.7s: the pig spots a tiny gray clue shaped like a stroke pile, charges at it with enormous power. First \"親\" as his boots kick up a puff of dust.\n1.7-3.3s: overshoot: he zooms past the pile, slides off-screen right and skids back with a squeal, hat spinning. Second \"親\" lands as he sheepishly sets down the magnifier and tiptoes in.\n3.3-5.0s: gentle second try: a delicate nose-tap and the strokes float up one by one into the glyph 親 with a soft chime.\n5.0-8.0s: HOLD, glyph perfectly still. On \"親愛\" the pig lifts the magnifying glass to his eye, a pink heart floats inside the lens, and he gives a shy little nose-boop to a tiny piglet toy next to the glyph, hat tilting, nowhere near the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"親、親、親愛\" (ㄑㄧㄣ、ㄑㄧㄣ、ㄑㄧㄣ ㄞˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 親.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

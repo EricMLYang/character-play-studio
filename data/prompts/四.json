@@ -1,0 +1,25 @@
+[
+  {
+    "char": "四",
+    "meaning": "four",
+    "zhuyin": "ㄙˋ",
+    "emoji": "4️⃣",
+    "conceptZh": "廚師動物的麵團夾住四隻小鴨，第四隻衝進方框裡，剛好變成「四」。",
+    "object": "rotund chef animal, four rubber ducks",
+    "morph": "a square 囗 with two legs inside",
+    "creativeAngle": "主角自信滿滿卻不準，小鴨自己跑進位置。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-pink kitchen backdrop with a cream counter; the glyph is bold ocean-blue 四, a square 囗 with a small 儿 shape inside. A rotund cartoon chef bear in a tall hat stands at left. The Traditional Chinese glyph 四 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the chef flings a round of dough toward the counter, missing wildly; the first 四 is spoken as the dough hits the wall. Moment two (1.8-3.5s): three small rubber ducks waddle in, and the fourth sprints through the square frame, sliding the two legs into place; the second 四 is spoken as the frame snaps shut around them. Moment three (3.5-5.0s): four ducks line up in a tiny row in front of four spring flower pots, then sit under a toy sun and a snowflake; 四季 is spoken as the ducks pop up in turn. From 5.0-8.0s the glyph 四 is perfectly still and unobstructed; the chef bows while the ducks wiggle their tails; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「四、四、四季」 (ㄙˋ、ㄙˋ、ㄙˋ ㄐㄧˋ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only quacks and soft flour puffs, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.348Z",
+    "id": "6eab0630-2816-447e-8f57-5905b059ecc8",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "55a48e5e3dce611661f14ffbe2dbb11f7a672701e39a9c8f8bd32f7d0ad471c1",
+    "hash": "33f591bfc136f60c1c279bddec5242c164072d0a3793ab5c4705a9de9607203f",
+    "formatted": "【目標國字】：四\n【設計概念】：廚師動物的麵團夾住四隻小鴨，第四隻衝進方框裡，剛好變成「四」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-pink kitchen backdrop with a cream counter; the glyph is bold ocean-blue 四, a square 囗 with a small 儿 shape inside. A rotund cartoon chef bear in a tall hat stands at left. The Traditional Chinese glyph 四 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the chef flings a round of dough toward the counter, missing wildly; the first 四 is spoken as the dough hits the wall. Moment two (1.8-3.5s): three small rubber ducks waddle in, and the fourth sprints through the square frame, sliding the two legs into place; the second 四 is spoken as the frame snaps shut around them. Moment three (3.5-5.0s): four ducks line up in a tiny row in front of four spring flower pots, then sit under a toy sun and a snowflake; 四季 is spoken as the ducks pop up in turn. From 5.0-8.0s the glyph 四 is perfectly still and unobstructed; the chef bows while the ducks wiggle their tails; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「四、四、四季」 (ㄙˋ、ㄙˋ、ㄙˋ ㄐㄧˋ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only quacks and soft flour puffs, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

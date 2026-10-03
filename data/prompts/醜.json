@@ -1,0 +1,25 @@
+[
+  {
+    "char": "醜",
+    "meaning": "ugly",
+    "zhuyin": "ㄔㄡˇ",
+    "emoji": "🦆",
+    "conceptZh": "消防小隊的醜小鴨在彈跳間撞出字，最後被誇很可愛。",
+    "object": "a toy fire engine and a lumpy toy duckling with mismatched button eyes",
+    "morph": "a bouncing duckling hits stroke pieces that drop into 醜",
+    "creativeAngle": "皺巴巴的小鴨彈來彈去，每撞一下落一筆，最後被水柱洗成金黃色。",
+    "promptEn": "An 8-second animated clip on a warm butter-yellow backdrop. Lead: a chunky red toy fire engine whose hose has a mind of its own, and a lumpy gray toy duckling with mismatched button eyes. The finished glyph 醜 is a saturated deep-teal, centered, about 70% of frame height.\n0.0-1.6s: the duckling waddles in, wonky and puffed up, and bounces into a stroke pile. First \"醜\" as the engine honks hello.\n1.6-3.3s: bounce chain: the duckling ricochets off the left wall, the engine's bumper and the floor; each hit drops a teal stroke, and the second \"醜\" lands when its button eye flies off and bounces into place.\n3.3-5.0s: the hose swings wild, spraying; the duckling bounces away, and the last pieces drop into the glyph 醜 with a boing.\n5.0-8.0s: HOLD, glyph perfectly still. At \"醜小鴨\" the engine's hose gently washes the duckling clean of gray in a small fountain beside the glyph; it shakes off its feathers, turns bright yellow and waddles proudly, bright button eyes sparkling.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"醜、醜、醜小鴨\" (ㄔㄡˇ、ㄔㄡˇ、ㄔㄡˇ ㄒㄧㄠˇ ㄧㄚ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 醜.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.378Z",
+    "id": "245cdf1c-4a9e-4fd8-9c7f-0ef16aa95f7a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b276c86b56e2557bf9fda8cb4b2a1134b028074bc0db1aa08b70fbfd586cf946",
+    "hash": "a6612edc96498afb62531086bb1bfe448660bdaaab160e5c2aa066c81731b6c1",
+    "formatted": "【目標國字】：醜\n【設計概念】：消防小隊的醜小鴨在彈跳間撞出字，最後被誇很可愛。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm butter-yellow backdrop. Lead: a chunky red toy fire engine whose hose has a mind of its own, and a lumpy gray toy duckling with mismatched button eyes. The finished glyph 醜 is a saturated deep-teal, centered, about 70% of frame height.\n0.0-1.6s: the duckling waddles in, wonky and puffed up, and bounces into a stroke pile. First \"醜\" as the engine honks hello.\n1.6-3.3s: bounce chain: the duckling ricochets off the left wall, the engine's bumper and the floor; each hit drops a teal stroke, and the second \"醜\" lands when its button eye flies off and bounces into place.\n3.3-5.0s: the hose swings wild, spraying; the duckling bounces away, and the last pieces drop into the glyph 醜 with a boing.\n5.0-8.0s: HOLD, glyph perfectly still. At \"醜小鴨\" the engine's hose gently washes the duckling clean of gray in a small fountain beside the glyph; it shakes off its feathers, turns bright yellow and waddles proudly, bright button eyes sparkling.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"醜、醜、醜小鴨\" (ㄔㄡˇ、ㄔㄡˇ、ㄔㄡˇ ㄒㄧㄠˇ ㄧㄚ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 醜.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

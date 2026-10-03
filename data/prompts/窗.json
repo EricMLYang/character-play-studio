@@ -1,0 +1,25 @@
+[
+  {
+    "char": "窗",
+    "meaning": "window",
+    "zhuyin": "ㄔㄨㄤ",
+    "emoji": "🪟",
+    "conceptZh": "窗：穴字頭加囪，牆上透光通風的洞。",
+    "object": "a barrel-shaped toy pirate with an uncooperative parrot, and a sky-blue toy window with swinging shutters",
+    "morph": "the pirate proudly builds a silly wrong round porthole, the parrot shakes its head, he shrugs and snaps it into 窗",
+    "creativeAngle": "海盜先蓋出圓圓的船窗，鸚鵡搖頭，他聳聳肩一秒修成方方的窗。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 窗 (window), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a barrel-shaped toy pirate with an uncooperative parrot, and a sky-blue toy window with swinging shutters. Sunny lemon-yellow backdrop; the glyph is sky-blue with white highlights and a navy edge. Timed beats. 0.0-1.5s: a barrel-bodied toy pirate rolls in lugging a tiny toolbox, a grumpy red parrot perched on his hat. The voice says the first 窗 as he hammers a blue roof-like cover stroke up at the top. 1.5-3.0s: he steps back and presents a lopsided round porthole made of the blue strokes, bowing proudly; the parrot slowly shakes its head and covers its eyes with a wing. The voice says the second 窗 as the pirate's eyes pop in a double-take. 3.0-4.5s: he shrugs, tugs two pegs, and the whole round shape squares up with a bounce into the correct 窗 at 70% of frame height; the parrot flaps in mock applause. 4.5-5.0s: the voice says 窗戶 (ㄔㄨㄤ ㄏㄨˋ) as two toy shutters swing open beside the glyph and the parrot pokes its head through one. Final hold: 5.0-8.0s: the glyph is perfectly still; the parrot waves a wing from the shutter while the pirate tips his hat. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 窗、窗、窗戶 (ㄔㄨㄤ、ㄔㄨㄤ、ㄔㄨㄤ ㄏㄨˋ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 窗 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.628Z",
+    "id": "2e9c0a1e-8a7a-4e5c-8de5-5fa4de3c68bf",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d4ed67d2d0fd13d5f31ff41c360dabc267875c6b566fc44d793458f790c6a2b2",
+    "hash": "26469456df41f82612504d0e84f98bf4d853cc30445276064b8be05395572cce",
+    "formatted": "【目標國字】：窗\n【設計概念】：窗：穴字頭加囪，牆上透光通風的洞。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 窗 (window), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a barrel-shaped toy pirate with an uncooperative parrot, and a sky-blue toy window with swinging shutters. Sunny lemon-yellow backdrop; the glyph is sky-blue with white highlights and a navy edge. Timed beats. 0.0-1.5s: a barrel-bodied toy pirate rolls in lugging a tiny toolbox, a grumpy red parrot perched on his hat. The voice says the first 窗 as he hammers a blue roof-like cover stroke up at the top. 1.5-3.0s: he steps back and presents a lopsided round porthole made of the blue strokes, bowing proudly; the parrot slowly shakes its head and covers its eyes with a wing. The voice says the second 窗 as the pirate's eyes pop in a double-take. 3.0-4.5s: he shrugs, tugs two pegs, and the whole round shape squares up with a bounce into the correct 窗 at 70% of frame height; the parrot flaps in mock applause. 4.5-5.0s: the voice says 窗戶 (ㄔㄨㄤ ㄏㄨˋ) as two toy shutters swing open beside the glyph and the parrot pokes its head through one. Final hold: 5.0-8.0s: the glyph is perfectly still; the parrot waves a wing from the shutter while the pirate tips his hat. The glyph holds fully still and clearly readable for the last 3 seconds. Audio: a warm, friendly off-screen narrator speaks slowly and distinctly in clear Taiwanese Mandarin (Taiwan standard readings, no erhua), reading exactly these syllables with clear tones: 窗、窗、窗戶 (ㄔㄨㄤ、ㄔㄨㄤ、ㄔㄨㄤ ㄏㄨˋ). Say the character twice with a short pause, then the word once, and stop; no other speech, subtitles or loud music. The vocabulary word is audio only. The glyph 窗 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

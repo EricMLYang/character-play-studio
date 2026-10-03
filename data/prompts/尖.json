@@ -1,0 +1,25 @@
+[
+  {
+    "char": "尖",
+    "meaning": "pointed, sharp",
+    "zhuyin": "ㄐㄧㄢ",
+    "emoji": "📐",
+    "conceptZh": "兔子魔術師先變出一個圓滾滾的帽子形狀，發現不尖，輕敲一下，變成上小下大的「尖」。",
+    "object": "magician rabbit with a top hat and wand",
+    "morph": "a round blob squashes into a small 小 stacked on a wide 大",
+    "creativeAngle": "先變出錯的圓形、發現後一敲修正。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a deep-violet curtain stage with a soft peach spotlight pool; the glyph is a bright tangerine 尖, a small 小 above a wide 大 whose crossbar reads clearly. A cartoon magician rabbit in a top hat stands at left, wand ready. The Traditional Chinese glyph 尖 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the rabbit swishes the wand and a round, plump blob puffs out of the hat; he beams, then squints; the first 尖 is spoken as the blob appears. Moment two (1.8-3.5s): the blob is wrong, so he shrugs and taps it once; it squashes into a small 小 floating over a wide 大, snapping together with a bounce; the second 尖 is spoken at the snap. Moment three (3.5-5.0s): a toy pencil with a sharp point pokes from the hat and the rabbit leaps back with a silent open-mouth squeal; 尖叫 is spoken as his ears shoot straight up like two points. From 5.0-8.0s the glyph 尖 is perfectly still and unobstructed; the rabbit smooths his ears, tips his hat and takes a bow, the glyph steady. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「尖、尖、尖叫」, read as ㄐㄧㄢ、ㄐㄧㄢ、ㄐㄧㄢ ㄐㄧㄠˋ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft magic sparkles and a squeaky pop, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.478Z",
+    "id": "ec0f4f8b-7113-428a-9957-5d21c1d19e35",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7f18c6779e4e37f9e760c6b07fa2b42660899131d31b5ac88bf02e8b193fccd2",
+    "hash": "a8c7819f35c65272cf121d9b82e1834679f37e35c5e15f4d255c7a88de3fdf14",
+    "formatted": "【目標國字】：尖\n【設計概念】：兔子魔術師先變出一個圓滾滾的帽子形狀，發現不尖，輕敲一下，變成上小下大的「尖」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a deep-violet curtain stage with a soft peach spotlight pool; the glyph is a bright tangerine 尖, a small 小 above a wide 大 whose crossbar reads clearly. A cartoon magician rabbit in a top hat stands at left, wand ready. The Traditional Chinese glyph 尖 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the rabbit swishes the wand and a round, plump blob puffs out of the hat; he beams, then squints; the first 尖 is spoken as the blob appears. Moment two (1.8-3.5s): the blob is wrong, so he shrugs and taps it once; it squashes into a small 小 floating over a wide 大, snapping together with a bounce; the second 尖 is spoken at the snap. Moment three (3.5-5.0s): a toy pencil with a sharp point pokes from the hat and the rabbit leaps back with a silent open-mouth squeal; 尖叫 is spoken as his ears shoot straight up like two points. From 5.0-8.0s the glyph 尖 is perfectly still and unobstructed; the rabbit smooths his ears, tips his hat and takes a bow, the glyph steady. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「尖、尖、尖叫」, read as ㄐㄧㄢ、ㄐㄧㄢ、ㄐㄧㄢ ㄐㄧㄠˋ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft magic sparkles and a squeaky pop, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

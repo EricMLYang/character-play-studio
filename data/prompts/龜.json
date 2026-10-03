@@ -1,0 +1,25 @@
+[
+  {
+    "char": "龜",
+    "meaning": "turtle",
+    "zhuyin": "ㄍㄨㄟ",
+    "emoji": "🐢",
+    "conceptZh": "烏龜背著硬殼走得很慢",
+    "object": "a rubber dinosaur with huge feet and tiny arms, plus a tiny turtle copycat",
+    "morph": "the turtle copies the dino one beat late until their moves leave strokes forming 龜",
+    "creativeAngle": "小恐龍的短手夠不到，小烏龜慢半拍模仿，一起把字拼好。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 龜 (turtle). Lead: a squeaky orange rubber dinosaur with enormous feet and tiny arms. Moment 1 (0-1.7s): the dino stomps in with a squeak, trying to scratch its nose with its tiny arms and failing; the voice says 龜 as a thumb-sized green turtle slides in. Moment 2 (1.7-3.5s): the dino spins and stretches; the turtle copies each move one beat late, bumping into the dino's foot; the movement trails leave emerald strokes that click together into 龜 on the second 龜. Moment 3 (3.5-5.3s): the dino tucks into a pose, the turtle pulls into its shell in sync but a beat late, so the shell sits on the dino's head; as the voice says 烏龜 the turtle peeks out from the shell and slowly waves. Moment 4 (5.3-8s): glyph still; the dino tiptoes in slow motion, the turtle rides on its snout. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"龜、龜、烏龜\" (ㄍㄨㄟ、ㄍㄨㄟ、ㄨ ㄍㄨㄟ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 龜, drawn as saturated solid emerald green strokes on a warm light yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.847Z",
+    "id": "58f5ae41-1a93-4c21-84a0-fcdbeaabd13f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "557de8eab4b6a6b1e3a36d48552f318b5341ce210d09f733e8020f2683ef2cf6",
+    "hash": "463e5fb71c59d26dc396ad41735a97654c867c6ca72ca53a1e3017eb5505cc0b",
+    "formatted": "【目標國字】：龜\n【設計概念】：烏龜背著硬殼走得很慢\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 龜 (turtle). Lead: a squeaky orange rubber dinosaur with enormous feet and tiny arms. Moment 1 (0-1.7s): the dino stomps in with a squeak, trying to scratch its nose with its tiny arms and failing; the voice says 龜 as a thumb-sized green turtle slides in. Moment 2 (1.7-3.5s): the dino spins and stretches; the turtle copies each move one beat late, bumping into the dino's foot; the movement trails leave emerald strokes that click together into 龜 on the second 龜. Moment 3 (3.5-5.3s): the dino tucks into a pose, the turtle pulls into its shell in sync but a beat late, so the shell sits on the dino's head; as the voice says 烏龜 the turtle peeks out from the shell and slowly waves. Moment 4 (5.3-8s): glyph still; the dino tiptoes in slow motion, the turtle rides on its snout. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"龜、龜、烏龜\" (ㄍㄨㄟ、ㄍㄨㄟ、ㄨ ㄍㄨㄟ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 龜, drawn as saturated solid emerald green strokes on a warm light yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

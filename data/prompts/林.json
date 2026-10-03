@@ -1,0 +1,25 @@
+[
+  {
+    "char": "林",
+    "meaning": "woods",
+    "zhuyin": "ㄌㄧㄣˊ",
+    "emoji": "🌳",
+    "conceptZh": "兩棵樹並排就是樹林",
+    "object": "a squad of interlocking bricks and little bricks shaped like trees",
+    "morph": "two brick trees peek and hide before they become 林",
+    "creativeAngle": "積木小隊玩躲貓貓，兩棵木頭樹拼出林，詞用「樹林」。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 林 (woods). Lead: a team of blue and yellow bricks. Moment 1 (0-1.7s): a green brick tree peeks from the left; the voice says 林; the team turns, the tree vanishes. Moment 2 (1.7-3.4s): a second tree pops from the right, dodging; bricks chase and bump; on the second 林 both trees slide together as 林. Moment 3 (3.4-5.3s): the bricks hide behind the trees but their legs show; as the voice says 樹林 more tiny brick trees pop up around, hiding the whole team like a forest. Moment 4 (5.3-8s): glyph still; one brick pops its head out and waves, then ducks again. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"林、林、樹林\" (ㄌㄧㄣˊ、ㄌㄧㄣˊ、ㄕㄨˋ ㄌㄧㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 林, drawn as saturated solid forest green strokes on a pale peach background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.925Z",
+    "id": "b0591bf9-18f6-48aa-a3ce-445bbef28ab2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "8af9126e30c3ad3b5ce32801977ff69cb16b77bee716fd4e389a062d4bf94d7d",
+    "hash": "3bda048a1bcd4cef0567f87625e410f6320b18f2a484dec0913b7c40a0c23caf",
+    "formatted": "【目標國字】：林\n【設計概念】：兩棵樹並排就是樹林\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 林 (woods). Lead: a team of blue and yellow bricks. Moment 1 (0-1.7s): a green brick tree peeks from the left; the voice says 林; the team turns, the tree vanishes. Moment 2 (1.7-3.4s): a second tree pops from the right, dodging; bricks chase and bump; on the second 林 both trees slide together as 林. Moment 3 (3.4-5.3s): the bricks hide behind the trees but their legs show; as the voice says 樹林 more tiny brick trees pop up around, hiding the whole team like a forest. Moment 4 (5.3-8s): glyph still; one brick pops its head out and waves, then ducks again. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"林、林、樹林\" (ㄌㄧㄣˊ、ㄌㄧㄣˊ、ㄕㄨˋ ㄌㄧㄣˊ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 林, drawn as saturated solid forest green strokes on a pale peach background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

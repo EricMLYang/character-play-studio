@@ -1,0 +1,25 @@
+[
+  {
+    "char": "急",
+    "meaning": "anxious",
+    "zhuyin": "ㄐㄧˊ",
+    "emoji": "⏰",
+    "conceptZh": "兔子魔術師的帽子一直冒出筆畫，從邊緣探頭又躲起來，他急得到處追。",
+    "object": "a magician rabbit in a top hat with a misfiring wand",
+    "morph": "strokes of 急 peek from the frame edges and dodge the rabbit before settling",
+    "creativeAngle": "捉迷藏：筆畫調皮地躲，魔術師越追越急。",
+    "promptEn": "An 8-second animated clip on a pale pink background, with one single Traditional Chinese glyph 急 as the only text on screen, drawn in vivid orange solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a cartoon rabbit in a top hat waves a sparkly wand and the hat spits a rattling alarm clock; the first 急 is spoken as the top stroke of 急 peeks in from the left edge and ducks back out. 1.7-3.4s: the 彐 shape slides in from the right edge, the heart dots poke from the bottom; the rabbit hops frantically chasing them, ears whipping; the second 急 is spoken as the rabbit finally presses the last piece home. 3.4-5s: 急忙 is spoken as the wand misfires confetti and the rabbit scurries in a tight figure-eight, glancing at a tiny pocket watch. 5-8s: hold; the rabbit pants proudly and the clock ticks, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"急、急、急忙\" (ㄐㄧˊ、ㄐㄧˊ、ㄐㄧˊ ㄇㄤˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 急 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.596Z",
+    "id": "873c1247-a8f1-4890-baf6-e82b2293e84f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7c854c12a5f6a944a0be1ea7e51d421ce19aa03ab38e6f10f24fbc20b82c003c",
+    "hash": "6bd1ecad643f22c697c93126dda183584eab0213a5133196661e47d5d4cd9080",
+    "formatted": "【目標國字】：急\n【設計概念】：兔子魔術師的帽子一直冒出筆畫，從邊緣探頭又躲起來，他急得到處追。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale pink background, with one single Traditional Chinese glyph 急 as the only text on screen, drawn in vivid orange solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a cartoon rabbit in a top hat waves a sparkly wand and the hat spits a rattling alarm clock; the first 急 is spoken as the top stroke of 急 peeks in from the left edge and ducks back out. 1.7-3.4s: the 彐 shape slides in from the right edge, the heart dots poke from the bottom; the rabbit hops frantically chasing them, ears whipping; the second 急 is spoken as the rabbit finally presses the last piece home. 3.4-5s: 急忙 is spoken as the wand misfires confetti and the rabbit scurries in a tight figure-eight, glancing at a tiny pocket watch. 5-8s: hold; the rabbit pants proudly and the clock ticks, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"急、急、急忙\" (ㄐㄧˊ、ㄐㄧˊ、ㄐㄧˊ ㄇㄤˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 急 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

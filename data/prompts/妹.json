@@ -1,0 +1,25 @@
+[
+  {
+    "char": "妹",
+    "meaning": "younger sister",
+    "zhuyin": "ㄇㄟˋ",
+    "emoji": "👧",
+    "conceptZh": "比自己小的女性手足；小妹妹。",
+    "object": "a barrel-shaped toy pirate, a stubborn toy parrot, and a tiny pirate doll in a coconut-cup",
+    "morph": "two tug-of-war teams pull the left 女 and right 未 halves apart until they spring together into 妹",
+    "creativeAngle": "海盜與鸚鵡拔河，各拉一半字，彈在一起；小海盜娃娃從木桶冒出對應「小妹」。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny turquoise toy-sea deck, a round barrel-bodied toy pirate with a red bandana and a snooty toy parrot face a pink 女 half on the left and a coral 未 half on the right, joined by a rope. 0–1.8s: The pirate hauls the rope toward the left, and as the first 妹 is spoken the pink 女 half skids toward him; the parrot folds its wings and sits down, refusing to pull. 1.8–3.6s: The parrot suddenly grabs the right end with its beak, yanking the 未 half the other way; the pirate stretches like taffy, his barrel body creaking, as the second 妹 is spoken. 3.6–5.0s: The rope goes slack, both halves spring together with a bouncy boing and the full 妹 locks in, the pirate and parrot rolling backward in a heap. 5.0s: As 小妹 is spoken, a thumb-sized toy pirate doll in a coconut-shell hat pops out of the pirate's barrel, waving, and the parrot finally salutes. Final hold (about 5.0–8.0s): the pirate does a proud wobble-jig on the deck below the glyph while the parrot sneaks a triumphal cracker. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 妹、妹、小妹（ㄇㄟˋ、ㄇㄟˋ、ㄒㄧㄠˇ ㄇㄟˋ）. The first 妹 lands at about 1.0s, the second 妹 at about 2.6s, and the word 小妹 at about 4.8s, each timed to the picture described above. The only text anywhere in frame is the single glyph 妹, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 妹 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.402Z",
+    "id": "af11e399-b985-47d8-bfe1-a97787b73d62",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e03ceee0bb51127cd1f56f79932fec243b0e98ac56fd6d5e4eec6e6aa21fb945",
+    "hash": "6e987c95b9fa6c22695853e7e8b57008fee504839973be54f7fad88c661c729d",
+    "formatted": "【目標國字】：妹\n【設計概念】：比自己小的女性手足；小妹妹。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. On a sunny turquoise toy-sea deck, a round barrel-bodied toy pirate with a red bandana and a snooty toy parrot face a pink 女 half on the left and a coral 未 half on the right, joined by a rope. 0–1.8s: The pirate hauls the rope toward the left, and as the first 妹 is spoken the pink 女 half skids toward him; the parrot folds its wings and sits down, refusing to pull. 1.8–3.6s: The parrot suddenly grabs the right end with its beak, yanking the 未 half the other way; the pirate stretches like taffy, his barrel body creaking, as the second 妹 is spoken. 3.6–5.0s: The rope goes slack, both halves spring together with a bouncy boing and the full 妹 locks in, the pirate and parrot rolling backward in a heap. 5.0s: As 小妹 is spoken, a thumb-sized toy pirate doll in a coconut-shell hat pops out of the pirate's barrel, waving, and the parrot finally salutes. Final hold (about 5.0–8.0s): the pirate does a proud wobble-jig on the deck below the glyph while the parrot sneaks a triumphal cracker. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 妹、妹、小妹（ㄇㄟˋ、ㄇㄟˋ、ㄒㄧㄠˇ ㄇㄟˋ）. The first 妹 lands at about 1.0s, the second 妹 at about 2.6s, and the word 小妹 at about 4.8s, each timed to the picture described above. The only text anywhere in frame is the single glyph 妹, drawn in one saturated solid color on a much lighter pastel backdrop; no subtitles, no vocabulary text, no logos. The glyph 妹 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

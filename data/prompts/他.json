@@ -1,0 +1,25 @@
+[
+  {
+    "char": "他",
+    "meaning": "he, him",
+    "zhuyin": "ㄊㄚ",
+    "emoji": "👉",
+    "conceptZh": "扭蛋小怪獸從膠囊蹦出，跟一個「也」形的小夥伴拔河，把左邊的單人旁拉過來合體成「他」。",
+    "object": "a round fuzzy pocket creature toy bursting out of a gachapon capsule, with a gold capsule half and two tiny creature friends",
+    "morph": "a person-radical stroke group on the left and the 也 shape on the right get pulled apart by two creatures, then spring together into the glyph 他",
+    "creativeAngle": "拔河：左邊的「亻」和右邊的「也」被兩隻小怪獸各拉一邊，彈合成字；「他們」用三隻小怪獸排排揮手呼應。",
+    "promptEn": "An 8-second bouncy cartoon clip on a clean solid pale lemon backdrop, with a single large Traditional Chinese glyph 他 as the only text, built in saturated violet, glossy rounded strokes, about 70% of frame height, centered with margins. Lead: a round fuzzy pocket creature toy with stubby feet, bursting from a gold-and-clear gachapon capsule and bouncing off everything; at most one helper, a second tiny creature in a different color. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator, clear Taiwanese Mandarin, saying exactly 他、他、他們 (ㄊㄚ、ㄊㄚ、ㄊㄚ ㄇㄣ˙), slowly with clear tones, then stops. Moment 1 (0–1.6s): the capsule pops open with a bright pop-pop and the fuzzy creature rockets out, pinballing off the floor and walls, ears flapping, while the first 他 is spoken and a violet slim vertical stroke with a short diagonal drops in on the left. Moment 2 (1.6–3.4s): the creature spots the other half, the 也 shape sitting far on the right, and the two halves drift apart; it grabs the left half with its mouth, the tiny second creature grabs the right half, and they tug-of-war, both bodies stretching long as noodles, eyes squeezed shut. Moment 3 (3.4–5s): the second 他 is spoken as both creatures let go at once, the halves boing together with a rubbery snap, and the creatures fly backward and bounce off the sides of the frame, tumbling. Moment 4 (5s): as 他們 is spoken, the capsule spits out a third tiny creature and the three line up like a row of fuzzy dumplings, all waving a stubby arm at the glyph, one fur ball leaning too far and toppling over into the others. Final 5–8s: the glyph 他 sits perfectly still, fully formed, left stroke group and right hooked part clearly separated; the three creatures to one side bounce gently in sync, with no contact with the strokes. Soft daylight, gentle contrast, no flashing, no real people, no extra writing anywhere.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.335Z",
+    "id": "ddfcb066-5351-4280-88b2-3788634d4f4f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "233c94a1768bcd22ba40eb30a6913fc072e12453e8c7acabe4947215e47b215d",
+    "hash": "b12a40b56ed1b72b4a3c3659af8d43453fc6253a07e107e425a3c64e02c7835c",
+    "formatted": "【目標國字】：他\n【設計概念】：扭蛋小怪獸從膠囊蹦出，跟一個「也」形的小夥伴拔河，把左邊的單人旁拉過來合體成「他」。\n【8s Video Prompt】:\n```text\nAn 8-second bouncy cartoon clip on a clean solid pale lemon backdrop, with a single large Traditional Chinese glyph 他 as the only text, built in saturated violet, glossy rounded strokes, about 70% of frame height, centered with margins. Lead: a round fuzzy pocket creature toy with stubby feet, bursting from a gold-and-clear gachapon capsule and bouncing off everything; at most one helper, a second tiny creature in a different color. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator, clear Taiwanese Mandarin, saying exactly 他、他、他們 (ㄊㄚ、ㄊㄚ、ㄊㄚ ㄇㄣ˙), slowly with clear tones, then stops. Moment 1 (0–1.6s): the capsule pops open with a bright pop-pop and the fuzzy creature rockets out, pinballing off the floor and walls, ears flapping, while the first 他 is spoken and a violet slim vertical stroke with a short diagonal drops in on the left. Moment 2 (1.6–3.4s): the creature spots the other half, the 也 shape sitting far on the right, and the two halves drift apart; it grabs the left half with its mouth, the tiny second creature grabs the right half, and they tug-of-war, both bodies stretching long as noodles, eyes squeezed shut. Moment 3 (3.4–5s): the second 他 is spoken as both creatures let go at once, the halves boing together with a rubbery snap, and the creatures fly backward and bounce off the sides of the frame, tumbling. Moment 4 (5s): as 他們 is spoken, the capsule spits out a third tiny creature and the three line up like a row of fuzzy dumplings, all waving a stubby arm at the glyph, one fur ball leaning too far and toppling over into the others. Final 5–8s: the glyph 他 sits perfectly still, fully formed, left stroke group and right hooked part clearly separated; the three creatures to one side bounce gently in sync, with no contact with the strokes. Soft daylight, gentle contrast, no flashing, no real people, no extra writing anywhere.\n```"
+  }
+]

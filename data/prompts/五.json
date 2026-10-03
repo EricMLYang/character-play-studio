@@ -1,0 +1,25 @@
+[
+  {
+    "char": "五",
+    "meaning": "five",
+    "zhuyin": "ㄨˇ",
+    "emoji": "🖐️",
+    "conceptZh": "兔子魔術師想變出五朵花，兩邊拉扯的魔術彩帶把五的筆畫拉成形。",
+    "object": "a cartoon magician rabbit in a top hat with a long magic ribbon",
+    "morph": "two ends of a tugged ribbon spring tight into the strokes of 五",
+    "creativeAngle": "用魔術彩帶拔河：兔子與帽子裡的東西各拉一端，彈回來時剛好拼成五，最後帽子噴出五個月亮造型的小點心呼應五月。",
+    "promptEn": "An 8-second bright, cheerful animated clip on a soft butter-yellow stage with a pale cream backdrop. A plump cartoon magician rabbit in a purple top hat and tiny bow tie stands left of center. Off-screen narrator, warm clear Taiwanese Mandarin, slowly and distinctly with clear tones, says exactly: 「五、五、五月」 (ㄨˇ、ㄨˇ、ㄨˇ ㄩㄝˋ) and then stops. Read exactly these syllables.\n0.0-1.8s: The rabbit whips a rainbow ribbon out of his hat; the ribbon is stuck, so he braces and pulls while the hat itself seems to pull back, hat sliding across the floor. First utterance 「五」 (ㄨˇ) as the tug starts.\n1.8-3.6s: Tug-of-war escalates: the rabbit's ears stretch, the hat hops backward, the ribbon stretches into a long taut line. Second 「五」 (ㄨˇ) lands as the ribbon SNAPS tight and springs into the four strokes of one deep-teal glyph 五, strokes saturated solid teal against the pale backdrop, the glyph filling about 70% of frame height.\n3.6-5.0s: The rabbit tumbles backward in a harmless somersault; out of the hat float five little crescent moons, one by one, arcing over the glyph. The word 「五月」 (ㄨˇ ㄩㄝˋ) is spoken exactly as the five moons pop out.\n5.0-8.0s: Final 3-second hold: the glyph 五 stays perfectly still, centered, uncropped, readable. The rabbit sits up beside it, hat crooked, tips it proudly and wiggles his ears, never touching the strokes; the moons twinkle gently away from the glyph.\nOnly the single glyph 五 appears as text; no subtitles, watermark, clutter or flashing. Soft music, quieter than the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.934Z",
+    "id": "3b0af979-b6c5-4f72-b37d-c7c5e8934471",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "f65765dc9006864bf5b1d8bb6bb619095b616e9d87f0aa42c5e883bf21610cf8",
+    "hash": "cbb767d6605fc7828a9ffbd911be6debad54bc2ad67b84c715d777b1c40228ae",
+    "formatted": "【目標國字】：五\n【設計概念】：兔子魔術師想變出五朵花，兩邊拉扯的魔術彩帶把五的筆畫拉成形。\n【8s Video Prompt】:\n```text\nAn 8-second bright, cheerful animated clip on a soft butter-yellow stage with a pale cream backdrop. A plump cartoon magician rabbit in a purple top hat and tiny bow tie stands left of center. Off-screen narrator, warm clear Taiwanese Mandarin, slowly and distinctly with clear tones, says exactly: 「五、五、五月」 (ㄨˇ、ㄨˇ、ㄨˇ ㄩㄝˋ) and then stops. Read exactly these syllables.\n0.0-1.8s: The rabbit whips a rainbow ribbon out of his hat; the ribbon is stuck, so he braces and pulls while the hat itself seems to pull back, hat sliding across the floor. First utterance 「五」 (ㄨˇ) as the tug starts.\n1.8-3.6s: Tug-of-war escalates: the rabbit's ears stretch, the hat hops backward, the ribbon stretches into a long taut line. Second 「五」 (ㄨˇ) lands as the ribbon SNAPS tight and springs into the four strokes of one deep-teal glyph 五, strokes saturated solid teal against the pale backdrop, the glyph filling about 70% of frame height.\n3.6-5.0s: The rabbit tumbles backward in a harmless somersault; out of the hat float five little crescent moons, one by one, arcing over the glyph. The word 「五月」 (ㄨˇ ㄩㄝˋ) is spoken exactly as the five moons pop out.\n5.0-8.0s: Final 3-second hold: the glyph 五 stays perfectly still, centered, uncropped, readable. The rabbit sits up beside it, hat crooked, tips it proudly and wiggles his ears, never touching the strokes; the moons twinkle gently away from the glyph.\nOnly the single glyph 五 appears as text; no subtitles, watermark, clutter or flashing. Soft music, quieter than the voice.\n```"
+  }
+]

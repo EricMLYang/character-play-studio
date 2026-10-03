@@ -1,0 +1,25 @@
+[
+  {
+    "char": "呆",
+    "meaning": "dazed, silly",
+    "zhuyin": "ㄉㄞ",
+    "emoji": "😶",
+    "conceptZh": "橡膠恐龍用短手怎麼也搬不動「口」，道具一直滑開，牠呆住的那一刻，口自己飄下來放在「木」上。",
+    "object": "rubber dinosaur, a slippery mouth box and a tree shape",
+    "morph": "口 settles on top of 木",
+    "creativeAngle": "道具不聽話，主角放棄發呆時反而成功。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-turquoise stage with a cream floor; the glyph is bold chocolate-brown 呆, a 口 square above a 木. A rubber dinosaur with huge feet and tiny arms stands at left, a loose box and a tree shape lie on the floor. The Traditional Chinese glyph 呆 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the dino squats and tries to scoop up the box with both tiny arms; it slides out and spins away; the first 呆 is spoken as the box slides. Moment two (1.8-3.5s): it chases the box, trips on its own feet and knocks the tree shape upright; the dino freezes mid-reach with a blank face, and the box floats lazily down onto the tree top with a soft click; the second 呆 is spoken at the click. Moment three (3.5-5.0s): the dino stares forward with half-closed eyes and its tiny arms hanging; a fluffy dust mote drifts past its nose and the dino does not react; 發呆 is spoken as the mote passes. From 5.0-8.0s the glyph 呆 is perfectly still and unobstructed; the dino slowly blinks once, then slowly blinks again, tilts its head; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「呆、呆、發呆」 (ㄉㄞ、ㄉㄞ、ㄈㄚ ㄉㄞ). Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft thumps and one slide whistle, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.240Z",
+    "id": "6c482241-8fa8-4cac-ac4c-ebc83a030b0a",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "6990f426bab0bed06c75e8181c63466edf2b12cd75ada6467ccc7ce5095eb05a",
+    "hash": "7fcb398e14593c57a5acbec67bd199ab6c49c297c8a0c8f3029397fd95150dfe",
+    "formatted": "【目標國字】：呆\n【設計概念】：橡膠恐龍用短手怎麼也搬不動「口」，道具一直滑開，牠呆住的那一刻，口自己飄下來放在「木」上。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-turquoise stage with a cream floor; the glyph is bold chocolate-brown 呆, a 口 square above a 木. A rubber dinosaur with huge feet and tiny arms stands at left, a loose box and a tree shape lie on the floor. The Traditional Chinese glyph 呆 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the dino squats and tries to scoop up the box with both tiny arms; it slides out and spins away; the first 呆 is spoken as the box slides. Moment two (1.8-3.5s): it chases the box, trips on its own feet and knocks the tree shape upright; the dino freezes mid-reach with a blank face, and the box floats lazily down onto the tree top with a soft click; the second 呆 is spoken at the click. Moment three (3.5-5.0s): the dino stares forward with half-closed eyes and its tiny arms hanging; a fluffy dust mote drifts past its nose and the dino does not react; 發呆 is spoken as the mote passes. From 5.0-8.0s the glyph 呆 is perfectly still and unobstructed; the dino slowly blinks once, then slowly blinks again, tilts its head; the glyph is still. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「呆、呆、發呆」 (ㄉㄞ、ㄉㄞ、ㄈㄚ ㄉㄞ). Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only soft thumps and one slide whistle, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "長",
+    "meaning": "long",
+    "zhuyin": "ㄔㄤˊ",
+    "emoji": "📏",
+    "conceptZh": "玩具戰士的捲尺不聽話，越拉越長，最後繞成「長」。",
+    "object": "a chunky toy warrior and a runaway stretchy measuring tape",
+    "morph": "a stubborn long measuring tape snakes around forming 長",
+    "creativeAngle": "捲尺有自己的想法，越伸越長，戰士追著它跑一圈，最後變成字。",
+    "promptEn": "An 8-second animated clip on a soft turquoise backdrop. Lead: a chunky toy warrior with a golden helmet, foam sword and round shield. The finished glyph 長 is a saturated bright-orange, centered, about 70% of frame height.\n0.0-1.6s: the warrior slashes at a coiled measuring tape; it uncoils and keeps growing, whipping around his legs. First \"長\" as the tape's end waggles like a tongue.\n1.6-3.3s: prop fights back: the tape ties his feet in a loop, he hops, stumbles, and it grows longer and longer in wavy loops across the frame. Second \"長\" lands as he catches the tape end and the loops pull into the shape of the glyph's long strokes.\n3.3-5.0s: he outsmarts it: he winds the tape around his shield and it snaps tight, the strokes flip into place and glyph 長 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"長頸鹿\" a toy giraffe's neck telescopes up through the top of the frame beside the glyph, wobbling; the warrior salutes it with his sword and stretches on tiptoe, mouth open in awe, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"長、長、長頸鹿\" (ㄔㄤˊ、ㄔㄤˊ、ㄔㄤˊ ㄐㄧㄥˇ ㄌㄨˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 長.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.432Z",
+    "id": "232595b5-cac4-46cc-92f7-4c90978bd53e",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "863a18d22a1908d576ba63f987511c27295d4caac075f0f392b6578181bbea8b",
+    "hash": "656fe14fa27317b294729069383fe6ec2839418fcbd76926756a78c22fc581c5",
+    "formatted": "【目標國字】：長\n【設計概念】：玩具戰士的捲尺不聽話，越拉越長，最後繞成「長」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a soft turquoise backdrop. Lead: a chunky toy warrior with a golden helmet, foam sword and round shield. The finished glyph 長 is a saturated bright-orange, centered, about 70% of frame height.\n0.0-1.6s: the warrior slashes at a coiled measuring tape; it uncoils and keeps growing, whipping around his legs. First \"長\" as the tape's end waggles like a tongue.\n1.6-3.3s: prop fights back: the tape ties his feet in a loop, he hops, stumbles, and it grows longer and longer in wavy loops across the frame. Second \"長\" lands as he catches the tape end and the loops pull into the shape of the glyph's long strokes.\n3.3-5.0s: he outsmarts it: he winds the tape around his shield and it snaps tight, the strokes flip into place and glyph 長 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"長頸鹿\" a toy giraffe's neck telescopes up through the top of the frame beside the glyph, wobbling; the warrior salutes it with his sword and stretches on tiptoe, mouth open in awe, clear of the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"長、長、長頸鹿\" (ㄔㄤˊ、ㄔㄤˊ、ㄔㄤˊ ㄐㄧㄥˇ ㄌㄨˋ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 長.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

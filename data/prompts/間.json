@@ -1,0 +1,25 @@
+[
+  {
+    "char": "間",
+    "meaning": "room, between",
+    "zhuyin": "ㄐㄧㄢ",
+    "emoji": "🚪",
+    "conceptZh": "發條樂團想排好「間」，樂器一個個倒下，最後日字剛好夾在兩扇門中間。",
+    "object": "wind-up animal band",
+    "morph": "a wind-up drum rolls the 日 into the 門 frame",
+    "creativeAngle": "樂器互撞，倒在對的位置。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a cozy cream-and-mint room backdrop with tiny furniture; the glyph is deep-teal 間: the 門 frame with a 日 box between its doors. A wind-up animal band with a bear drummer, a duck trumpeter and a mouse cymbal player. The Traditional Chinese glyph 間 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the band tiptoes in; the duck's trumpet honks and the bear's drum rolls off; the first 間 is spoken at the honk. Moment two (1.8-3.5s): the cymbal clatters, tipping the 門 posts upright; the drum rolls under and nudges the 日 box into the gap; the second 間 is spoken as it lands. Moment three (3.5-5.0s): the mouse flips a tiny desk lamp on and a toy bed, sofa and rug pop up in the glow; 房間 is spoken as the lamp clicks on. From 5.0-8.0s the glyph 間 is perfectly still and unobstructed; the band struts in place, clapping tiny cymbals. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「間、間、房間」 (ㄐㄧㄢ、ㄐㄧㄢ、ㄈㄤˊ ㄐㄧㄢ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only honks, drum rolls and cymbal clinks, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.481Z",
+    "id": "164ff07f-3c62-4e5f-bde0-c2b10337be85",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7d7cdb28611fdd503d38951a201ec39364dc5ddc8ae5183b3f7b7c067fd95e7f",
+    "hash": "3e3984e2de770b1c95f5835b6b1db051b45c4e8758cbd95c7c67f9833b48c06d",
+    "formatted": "【目標國字】：間\n【設計概念】：發條樂團想排好「間」，樂器一個個倒下，最後日字剛好夾在兩扇門中間。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a cozy cream-and-mint room backdrop with tiny furniture; the glyph is deep-teal 間: the 門 frame with a 日 box between its doors. A wind-up animal band with a bear drummer, a duck trumpeter and a mouse cymbal player. The Traditional Chinese glyph 間 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the band tiptoes in; the duck's trumpet honks and the bear's drum rolls off; the first 間 is spoken at the honk. Moment two (1.8-3.5s): the cymbal clatters, tipping the 門 posts upright; the drum rolls under and nudges the 日 box into the gap; the second 間 is spoken as it lands. Moment three (3.5-5.0s): the mouse flips a tiny desk lamp on and a toy bed, sofa and rug pop up in the glow; 房間 is spoken as the lamp clicks on. From 5.0-8.0s the glyph 間 is perfectly still and unobstructed; the band struts in place, clapping tiny cymbals. Audio: one warm, friendly off-screen voice speaks slowly and distinctly in Taiwan-standard Mandarin, reading exactly these syllables with clear tones and no erhua: 「間、間、房間」 (ㄐㄧㄢ、ㄐㄧㄢ、ㄈㄤˊ ㄐㄧㄢ). Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only honks, drum rolls and cymbal clinks, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

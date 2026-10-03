@@ -1,0 +1,25 @@
+[
+  {
+    "char": "猴",
+    "meaning": "monkey",
+    "zhuyin": "ㄏㄡˊ",
+    "emoji": "🐵",
+    "conceptZh": "兔子魔術師變出超大香蕉，扛不動，小猴子用尾巴幫忙，筆畫跟著掉下來。",
+    "object": "a magician rabbit, an oversized banana and a small monkey plush",
+    "morph": "a too-big conjured banana is hauled by a tiny monkey while the strokes of 猴 drop",
+    "creativeAngle": "尺寸反差：魔術變過頭，香蕉大過兔子。",
+    "promptEn": "An 8-second animated clip on a pale melon background, with one single Traditional Chinese glyph 猴 as the only text on screen, drawn in chocolate brown solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a cartoon rabbit in a top hat yanks a banana from his hat that keeps growing until it is bigger than he is and he staggers under it; the first 猴 is spoken as the left animal radical 犭 slides in. 1.7-3.4s: the banana tips over and bonks him into the ground like a seesaw; the second 猴 is spoken as the 侯 pieces on the right drop in one by one. 3.4-5s: 小猴 is spoken as a tiny monkey plush swings in by its tail, peels the giant banana in one flick, and slides down the peel. 5-8s: hold; the monkey hangs upside down by its tail beside the glyph, and the rabbit gives a tiny bow, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"猴、猴、小猴\" (ㄏㄡˊ、ㄏㄡˊ、ㄒㄧㄠˇ ㄏㄡˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 猴 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.319Z",
+    "id": "1267cbbf-1dcd-498e-94a6-5507c9f7258f",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "5a773b32ac8f8535f5ed768291f605a3100d511f58539efa695b0b71c526bf68",
+    "hash": "8695545c2e3e3722ab9651986bde90f46f1e18fe0514cf07a6d477f1fba0340c",
+    "formatted": "【目標國字】：猴\n【設計概念】：兔子魔術師變出超大香蕉，扛不動，小猴子用尾巴幫忙，筆畫跟著掉下來。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale melon background, with one single Traditional Chinese glyph 猴 as the only text on screen, drawn in chocolate brown solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a cartoon rabbit in a top hat yanks a banana from his hat that keeps growing until it is bigger than he is and he staggers under it; the first 猴 is spoken as the left animal radical 犭 slides in. 1.7-3.4s: the banana tips over and bonks him into the ground like a seesaw; the second 猴 is spoken as the 侯 pieces on the right drop in one by one. 3.4-5s: 小猴 is spoken as a tiny monkey plush swings in by its tail, peels the giant banana in one flick, and slides down the peel. 5-8s: hold; the monkey hangs upside down by its tail beside the glyph, and the rabbit gives a tiny bow, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"猴、猴、小猴\" (ㄏㄡˊ、ㄏㄡˊ、ㄒㄧㄠˇ ㄏㄡˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 猴 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

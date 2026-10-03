@@ -1,0 +1,25 @@
+[
+  {
+    "char": "很",
+    "meaning": "very",
+    "zhuyin": "ㄏㄣˇ",
+    "emoji": "📈",
+    "conceptZh": "發條樂團的鼓手用力過猛，鼓棒飛過頭，第二次輕輕敲才拼好很；很多樂器堆滿台上。",
+    "object": "a wind-up animal band with a drum and a big mallet",
+    "morph": "drum beats stack strokes into 很",
+    "creativeAngle": "用力過猛：發條兔鼓手敲得太用力，鼓棒飛出去，慢慢輕敲後筆畫一筆筆彈出；很多用越堆越多的小鼓呈現。",
+    "promptEn": "An 8-second clip on a pale mint backdrop with a light tangerine floor. A wind-up brown rabbit drummer, key spinning on its back, stands behind a red drum. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「很、很、很多」 (ㄏㄣˇ、ㄏㄣˇ、ㄏㄣˇ ㄉㄨㄛ), slowly with clear tones, then stops.\n0.0-1.5s: The rabbit winds up and slams the drum; the mallet flies off over the audience of plush toys, and the drum pops up on its springs. 「很」 (ㄏㄣˇ) is spoken as the drum thump goes.\n1.5-3.0s: The mallet boomerangs back and clobbers the cymbal; the rabbit skids on the floor and bows an apology, then tries again very gently, tap, tap.\n3.0-4.2s: Each tap shoots out one thick stroke, first a small double-bar on the left, then the right-hand shape, until a saturated solid ruby-red glyph 很 stands complete, about 70% of frame height. The second 「很」 (ㄏㄣˇ) lands on the last tap.\n4.2-5.0s: Drum after drum pops out of the stage floor, then a hat of small drums, an absolutely big crowd of them; 「很多」 (ㄏㄣˇ ㄉㄨㄛ) is spoken as drums multiply.\n5.0-8.0s: Hold: glyph 很 absolutely still and centered. The rabbit drums a quiet silent rhythm, ears bobbing, far from the strokes.\nNo text except the glyph 很; no subtitles, watermark or flashing. Light music below the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.557Z",
+    "id": "3061d50e-8fdd-4870-b5a9-e5f92d1836b6",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "aabacfae19ce584bd482dfd89284196ef5ac977883d8f6d96c69bc22f8d2ec3c",
+    "hash": "bc9119c95f917a1e7a39f1595159e983f9f102df2ce4bd7435b4636c0910a288",
+    "formatted": "【目標國字】：很\n【設計概念】：發條樂團的鼓手用力過猛，鼓棒飛過頭，第二次輕輕敲才拼好很；很多樂器堆滿台上。\n【8s Video Prompt】:\n```text\nAn 8-second clip on a pale mint backdrop with a light tangerine floor. A wind-up brown rabbit drummer, key spinning on its back, stands behind a red drum. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「很、很、很多」 (ㄏㄣˇ、ㄏㄣˇ、ㄏㄣˇ ㄉㄨㄛ), slowly with clear tones, then stops.\n0.0-1.5s: The rabbit winds up and slams the drum; the mallet flies off over the audience of plush toys, and the drum pops up on its springs. 「很」 (ㄏㄣˇ) is spoken as the drum thump goes.\n1.5-3.0s: The mallet boomerangs back and clobbers the cymbal; the rabbit skids on the floor and bows an apology, then tries again very gently, tap, tap.\n3.0-4.2s: Each tap shoots out one thick stroke, first a small double-bar on the left, then the right-hand shape, until a saturated solid ruby-red glyph 很 stands complete, about 70% of frame height. The second 「很」 (ㄏㄣˇ) lands on the last tap.\n4.2-5.0s: Drum after drum pops out of the stage floor, then a hat of small drums, an absolutely big crowd of them; 「很多」 (ㄏㄣˇ ㄉㄨㄛ) is spoken as drums multiply.\n5.0-8.0s: Hold: glyph 很 absolutely still and centered. The rabbit drums a quiet silent rhythm, ears bobbing, far from the strokes.\nNo text except the glyph 很; no subtitles, watermark or flashing. Light music below the voice.\n```"
+  }
+]

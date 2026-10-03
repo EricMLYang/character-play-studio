@@ -1,0 +1,25 @@
+[
+  {
+    "char": "在",
+    "meaning": "at, in",
+    "zhuyin": "ㄗㄞˋ",
+    "emoji": "📍",
+    "conceptZh": "消防小隊的水管把消防車的箱子噴開，一個小房子彈出來，水管扭著畫出「在」，小狗在家裡探頭。",
+    "object": "a chunky toy fire engine with its crew, a wobbly hose, a mystery box, and a tiny toy house with a lit window",
+    "morph": "a bright box bursts open, a hose squirts and wiggles, and the water ribbons freeze into the glyph 在",
+    "creativeAngle": "驚喜彈出：消防車上的箱子噴開，彈出小房子；消防水管自己亂扭，畫出「在」。「在家」用小房子窗裡的小狗探頭呼應。",
+    "promptEn": "An 8-second punchy cartoon clip on a clean solid pale apricot backdrop. The only text in the frame is one large Traditional Chinese glyph 在, drawn by a wiggling hose in thick glossy saturated fire-engine-red strokes, about 70% of frame height, centered with margins. Lead: a chunky toy fire engine and its tiny crew, with a hose that has a mind of its own; one supporting object, a yellow mystery box strapped to the truck. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 在、在、在家 (ㄗㄞˋ、ㄗㄞˋ、ㄗㄞˋ ㄐㄧㄚ), slow clear tones, then stop. Moment 1 (0–1.7s): the siren-less truck rolls in with a rattle, the crew hops down, and as the first 在 is spoken a nozzle-wearing toy firefighter taps the mystery box, which bursts open with a pop and a puff of confetti. Moment 2 (1.7–3.4s): out springs a long red hose that spirals up into the air like a spring, the crew gives a double-take with comic jumps, and the hose flops over, squirting a ribbon of red water-paint that draws a long horizontal stroke across the frame. Moment 3 (3.4–5s): the hose whips around on its own, pulling the firefighter along like a kite, the red ribbon drawing a falling left stroke and then a vertical with a small hook as the firefighter hangs on and is flung into a heap; as the second 在 is spoken the strokes freeze: a horizontal bar, a slanting left sweep, and below the bar a tall vertical with a short horizontal base and a second small dot-like step, forming 在. Moment 4 (5s): as 在家 is spoken, the yellow box unfolds into a tiny toy house with a warm lit window, and a toy puppy pops its head out, ears bouncing, and barks a silent happy yap. Final 5–8s: the glyph 在 remains totally still, red strokes crisp and clear, while the toy truck beside it gives a gentle wobble and the crew sways, the puppy waving from the window, nobody touching the strokes. Soft daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.755Z",
+    "id": "8cfe0014-53a3-460e-aefe-8de969d0f73d",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "6128147f6198576f1239ba521991f03e5508a67f649c48f8a734444f20dfa8eb",
+    "hash": "5b79a3e610163aed79022af7228269c6fa7ce59bafd60661724b8638a75319b8",
+    "formatted": "【目標國字】：在\n【設計概念】：消防小隊的水管把消防車的箱子噴開，一個小房子彈出來，水管扭著畫出「在」，小狗在家裡探頭。\n【8s Video Prompt】:\n```text\nAn 8-second punchy cartoon clip on a clean solid pale apricot backdrop. The only text in the frame is one large Traditional Chinese glyph 在, drawn by a wiggling hose in thick glossy saturated fire-engine-red strokes, about 70% of frame height, centered with margins. Lead: a chunky toy fire engine and its tiny crew, with a hose that has a mind of its own; one supporting object, a yellow mystery box strapped to the truck. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 在、在、在家 (ㄗㄞˋ、ㄗㄞˋ、ㄗㄞˋ ㄐㄧㄚ), slow clear tones, then stop. Moment 1 (0–1.7s): the siren-less truck rolls in with a rattle, the crew hops down, and as the first 在 is spoken a nozzle-wearing toy firefighter taps the mystery box, which bursts open with a pop and a puff of confetti. Moment 2 (1.7–3.4s): out springs a long red hose that spirals up into the air like a spring, the crew gives a double-take with comic jumps, and the hose flops over, squirting a ribbon of red water-paint that draws a long horizontal stroke across the frame. Moment 3 (3.4–5s): the hose whips around on its own, pulling the firefighter along like a kite, the red ribbon drawing a falling left stroke and then a vertical with a small hook as the firefighter hangs on and is flung into a heap; as the second 在 is spoken the strokes freeze: a horizontal bar, a slanting left sweep, and below the bar a tall vertical with a short horizontal base and a second small dot-like step, forming 在. Moment 4 (5s): as 在家 is spoken, the yellow box unfolds into a tiny toy house with a warm lit window, and a toy puppy pops its head out, ears bouncing, and barks a silent happy yap. Final 5–8s: the glyph 在 remains totally still, red strokes crisp and clear, while the toy truck beside it gives a gentle wobble and the crew sways, the puppy waving from the window, nobody touching the strokes. Soft daylight, no flashing, no real people, no other text.\n```"
+  }
+]

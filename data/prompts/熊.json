@@ -1,0 +1,25 @@
+[
+  {
+    "char": "熊",
+    "meaning": "bear",
+    "zhuyin": "ㄒㄩㄥˊ",
+    "emoji": "🐻",
+    "conceptZh": "小熊玩偶慢半拍模仿消防車的每個動作，噴出的蜂蜜水花剛好落成熊字。",
+    "object": "a chunky toy fire engine with a hose and a bear plush that copies it",
+    "morph": "a copycat bear echoes the fire crew one beat late while 熊 forms",
+    "creativeAngle": "模仿：小熊跟著消防車做，慢半拍搞出混亂。",
+    "promptEn": "An 8-second animated clip on a pale honey-cream background, with one single Traditional Chinese glyph 熊 as the only text on screen, drawn in deep chestnut brown solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky red toy fire engine rolls in and honks its siren; the first 熊 is spoken as the top 能 strokes drop in with a clunk. 1.7-3.4s: a round brown bear plush in a red scarf copies each move one beat late, ending nose-to-bumper with the engine; the second 熊 is spoken as the four fire-dots at the bottom pop in like water beads. 3.4-5s: 小熊 is spoken as the hose swings and sprays honey-colored droplets, the bear catching them with his tongue while the engine's lights spin. 5-8s: hold; both do a small matched wiggle, the bear a little late, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"熊、熊、小熊\" (ㄒㄩㄥˊ、ㄒㄩㄥˊ、ㄒㄧㄠˇ ㄒㄩㄥˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 熊 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.173Z",
+    "id": "4051d54f-303c-42b2-a483-7e907021f594",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "d386ec8424c316c96450a21ab42a41985e1f550a8909091b1a7096b1c1c09ab8",
+    "hash": "9890dc5505be5b5cbea13f4dceda3fe548c430637368ea1da59d5157b3530018",
+    "formatted": "【目標國字】：熊\n【設計概念】：小熊玩偶慢半拍模仿消防車的每個動作，噴出的蜂蜜水花剛好落成熊字。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale honey-cream background, with one single Traditional Chinese glyph 熊 as the only text on screen, drawn in deep chestnut brown solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a chunky red toy fire engine rolls in and honks its siren; the first 熊 is spoken as the top 能 strokes drop in with a clunk. 1.7-3.4s: a round brown bear plush in a red scarf copies each move one beat late, ending nose-to-bumper with the engine; the second 熊 is spoken as the four fire-dots at the bottom pop in like water beads. 3.4-5s: 小熊 is spoken as the hose swings and sprays honey-colored droplets, the bear catching them with his tongue while the engine's lights spin. 5-8s: hold; both do a small matched wiggle, the bear a little late, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"熊、熊、小熊\" (ㄒㄩㄥˊ、ㄒㄩㄥˊ、ㄒㄧㄠˇ ㄒㄩㄥˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 熊 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

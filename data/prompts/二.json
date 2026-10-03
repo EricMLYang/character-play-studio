@@ -1,0 +1,25 @@
+[
+  {
+    "char": "二",
+    "meaning": "two",
+    "zhuyin": "ㄦˋ",
+    "emoji": "2️⃣",
+    "conceptZh": "布忍者偷偷搬兩根鼓棒想排成「二」，棒子卻自己滑進位置，忍者還以為沒人看見。",
+    "object": "felt ninja, two drumsticks",
+    "morph": "a short bar above a long bar",
+    "creativeAngle": "忍者躲得不好，鼓棒反而自己排好。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a soft powder-blue stage with a cream floor; the glyph is bold emerald-green 二, a shorter bar above a longer bar with a clear gap between them. A tiny felt ninja in a dark-red scarf tiptoes in at right. The Traditional Chinese glyph 二 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the ninja drags in two bright drumsticks on tiptoe, one clatters, and he freezes behind a thin pole that hides nothing; the first 二 is spoken as the clatter hits. Moment two (1.8-3.5s): the sticks wriggle out of his grip and slide on their own into a short bar above a long bar; the ninja does a double-take; the second 二 is spoken as the lower bar clicks in. Moment three (3.5-5.0s): he tears a page from a toy calendar with a tiny snowman picture and holds it overhead; 二月 is spoken as the snowman pops out of the page (a picture only, no readable text). From 5.0-8.0s the glyph 二 is perfectly still and unobstructed; the ninja bows to the glyph, then tries to tiptoe away in plain sight; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「二、二、二月」, read as ㄦˋ、ㄦˋ、ㄦˋ ㄩㄝˋ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only felt scuffs, wooden clacks and a soft pop, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.918Z",
+    "id": "fb1744dd-79d3-42b4-900f-bbe4149a7c14",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "04831035f2129d235272c34084498d8f5fd2c3a824e889da5462402bbfbef094",
+    "hash": "f021ae280137582cf132371dc6914358155c0a95ffd44286423b7504044453d7",
+    "formatted": "【目標國字】：二\n【設計概念】：布忍者偷偷搬兩根鼓棒想排成「二」，棒子卻自己滑進位置，忍者還以為沒人看見。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a soft powder-blue stage with a cream floor; the glyph is bold emerald-green 二, a shorter bar above a longer bar with a clear gap between them. A tiny felt ninja in a dark-red scarf tiptoes in at right. The Traditional Chinese glyph 二 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the ninja drags in two bright drumsticks on tiptoe, one clatters, and he freezes behind a thin pole that hides nothing; the first 二 is spoken as the clatter hits. Moment two (1.8-3.5s): the sticks wriggle out of his grip and slide on their own into a short bar above a long bar; the ninja does a double-take; the second 二 is spoken as the lower bar clicks in. Moment three (3.5-5.0s): he tears a page from a toy calendar with a tiny snowman picture and holds it overhead; 二月 is spoken as the snowman pops out of the page (a picture only, no readable text). From 5.0-8.0s the glyph 二 is perfectly still and unobstructed; the ninja bows to the glyph, then tries to tiptoe away in plain sight; the glyph is still. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「二、二、二月」, read as ㄦˋ、ㄦˋ、ㄦˋ ㄩㄝˋ. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only felt scuffs, wooden clacks and a soft pop, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

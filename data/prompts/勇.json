@@ -1,0 +1,25 @@
+[
+  {
+    "char": "勇",
+    "meaning": "brave",
+    "zhuyin": "ㄩㄥˇ",
+    "emoji": "🦁",
+    "conceptZh": "桶形海盜先拼出一艘歪船，鸚鵡翻白眼，他聳肩一翻，拼成勇字，大聲吹號。",
+    "object": "a barrel-shaped toy pirate and a stubborn parrot",
+    "morph": "the pirate builds a wrong boat shape, then flips it right into 勇",
+    "creativeAngle": "先錯後對：鸚鵡不合作，反而讓勇氣更好笑。",
+    "promptEn": "An 8-second animated clip on a light aqua background, with one single Traditional Chinese glyph 勇 as the only text on screen, drawn in bold crimson solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round barrel-bodied toy pirate with a patch and a plastic hook marches in carrying wooden stroke planks while an unimpressed green parrot on his shoulder turns its back; the first 勇 is spoken as he slams the top planks of 勇 down. 1.7-3.4s: he proudly builds the bottom 力 upside-down so the whole thing looks like a little boat, the parrot slowly faces the camera with a flat stare; the second 勇 is spoken as he notices, shrugs, and flips the part right-side-up in one quick move. 3.4-5s: 勇敢 is spoken as a toy cardboard wave splashes up, he plants his feet and puffs his barrel chest instead of ducking, and the parrot reluctantly salutes with one wing. 5-8s: hold; he keeps his chest puffed with a small happy wobble, the parrot still unimpressed, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"勇、勇、勇敢\" (ㄩㄥˇ、ㄩㄥˇ、ㄩㄥˇ ㄍㄢˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 勇 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.121Z",
+    "id": "af053636-9a0a-4c86-8120-ee2378f7732c",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "8b1666c3d498b48d15aeba3593db1dcc90c2fc3f5df5fdd82b0d9e6434225a6a",
+    "hash": "f612e29e063ef42a787b56848a94cd9c62510a4e4b91385813bf0011f79b80af",
+    "formatted": "【目標國字】：勇\n【設計概念】：桶形海盜先拼出一艘歪船，鸚鵡翻白眼，他聳肩一翻，拼成勇字，大聲吹號。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a light aqua background, with one single Traditional Chinese glyph 勇 as the only text on screen, drawn in bold crimson solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round barrel-bodied toy pirate with a patch and a plastic hook marches in carrying wooden stroke planks while an unimpressed green parrot on his shoulder turns its back; the first 勇 is spoken as he slams the top planks of 勇 down. 1.7-3.4s: he proudly builds the bottom 力 upside-down so the whole thing looks like a little boat, the parrot slowly faces the camera with a flat stare; the second 勇 is spoken as he notices, shrugs, and flips the part right-side-up in one quick move. 3.4-5s: 勇敢 is spoken as a toy cardboard wave splashes up, he plants his feet and puffs his barrel chest instead of ducking, and the parrot reluctantly salutes with one wing. 5-8s: hold; he keeps his chest puffed with a small happy wobble, the parrot still unimpressed, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"勇、勇、勇敢\" (ㄩㄥˇ、ㄩㄥˇ、ㄩㄥˇ ㄍㄢˇ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 勇 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "穿",
+    "meaning": "to wear / put on",
+    "zhuyin": "ㄔㄨㄢ",
+    "emoji": "👟",
+    "conceptZh": "玩具機器人兩隻手臂不一樣長，拉鞋子拔河，最後穿上鞋。",
+    "object": "a boxy toy robot with mismatched arms and a pair of sneakers",
+    "morph": "two tugging forces spring a shoe onto the foot and strokes into 穿",
+    "creativeAngle": "長手臂和短手臂和鞋子拔河，鞋子彈上腳，筆畫也彈進洞裡成字。",
+    "promptEn": "An 8-second animated clip on a warm orange-and-cream backdrop. Lead: a boxy toy robot assembled from mismatched parts, one arm noticeably longer than the other, with a single blue antenna. The finished glyph 穿 is a saturated deep violet, centered, about 70% of frame height.\n0.0-1.6s: the robot holds up a bright sneaker with the short arm and tugs it toward his foot; the long arm swings uselessly past. First \"穿\" as the shoe's tongue flaps like a tongue sticking out.\n1.6-3.2s: tug-of-war: the robot pulls the shoe, a mischievous shoelace pulls the other way; he stretches, the stroke pieces on both sides pull apart. Second \"穿\" lands as the lace twangs and the strokes spring together.\n3.2-5.0s: the shoe shoots onto his foot with a boing, the roof of the glyph drops over, and the glyph 穿 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"穿鞋\" the robot sits and pulls a second sneaker onto his other foot with the long arm in one smooth move, taps both feet in a tiny dance, and his antenna spins a happy circle.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"穿、穿、穿鞋\" (ㄔㄨㄢ、ㄔㄨㄢ、ㄔㄨㄢ ㄒㄧㄝˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 穿.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.606Z",
+    "id": "8ae37c8a-b838-4e73-acc7-10305fcb75d1",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0ca8723f558ef83c4cc1f7234127ad3b395d569f84e2f6ae1fd8a6f0ba1dc0b1",
+    "hash": "1d55a3b9ed45bbdbf39beaab0bf49514ad7fab6e6bf930abb5e6efe7ec58e965",
+    "formatted": "【目標國字】：穿\n【設計概念】：玩具機器人兩隻手臂不一樣長，拉鞋子拔河，最後穿上鞋。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm orange-and-cream backdrop. Lead: a boxy toy robot assembled from mismatched parts, one arm noticeably longer than the other, with a single blue antenna. The finished glyph 穿 is a saturated deep violet, centered, about 70% of frame height.\n0.0-1.6s: the robot holds up a bright sneaker with the short arm and tugs it toward his foot; the long arm swings uselessly past. First \"穿\" as the shoe's tongue flaps like a tongue sticking out.\n1.6-3.2s: tug-of-war: the robot pulls the shoe, a mischievous shoelace pulls the other way; he stretches, the stroke pieces on both sides pull apart. Second \"穿\" lands as the lace twangs and the strokes spring together.\n3.2-5.0s: the shoe shoots onto his foot with a boing, the roof of the glyph drops over, and the glyph 穿 stands complete.\n5.0-8.0s: HOLD, glyph perfectly still. At \"穿鞋\" the robot sits and pulls a second sneaker onto his other foot with the long arm in one smooth move, taps both feet in a tiny dance, and his antenna spins a happy circle.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"穿、穿、穿鞋\" (ㄔㄨㄢ、ㄔㄨㄢ、ㄔㄨㄢ ㄒㄧㄝˊ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 穿.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

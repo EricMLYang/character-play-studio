@@ -1,0 +1,25 @@
+[
+  {
+    "char": "乖",
+    "meaning": "well-behaved",
+    "zhuyin": "ㄍㄨㄞ",
+    "emoji": "😇",
+    "conceptZh": "布忍者躲得很爛，後面的小影子慢半拍學他，最後兩個都乖乖坐好。",
+    "object": "a tiny felt ninja and a smaller copycat twin",
+    "morph": "the ninja and his one-beat-late twin mirror each pose and both end sitting neatly under 乖",
+    "creativeAngle": "模仿遊戲：慢半拍的影子讓兩人一起「乖」起來。",
+    "promptEn": "An 8-second animated clip on a warm cream background, with one single Traditional Chinese glyph 乖 as the only text on screen, drawn in forest green solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a tiny black felt ninja tiptoes in and hides behind a single thin flower, convinced he is invisible while his pointy hood sticks out; the first 乖 is spoken as the top strokes of 乖 slide down from above. 1.7-3.4s: a smaller grey felt twin pops up and mimics every move one beat late, bonking noses; the second 乖 is spoken as they both reach for the same bottom stroke, swap sides, and the glyph's lower strokes click in. 3.4-5s: the ninja points sharply to sit up, the twin sits late, and 乖乖 is spoken as both fold their felt hands and two gold star stickers pop onto their foreheads (animated shapes only). 5-8s: hold; the stars twinkle on the ninjas while the glyph stays still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"乖、乖、乖乖\" (ㄍㄨㄞ、ㄍㄨㄞ、ㄍㄨㄞ ㄍㄨㄞ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 乖 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.901Z",
+    "id": "6e3e6a04-e283-4bb1-b5ba-563eb333c69e",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "74eb82bc21bb0adf378206b5efee36052001ac39666604c2eb8f9ceaf767ed2c",
+    "hash": "00f16a9333f9c8eccd6bc99910d67b3d56dde11c5d1325dbe6ea3f9c980f30db",
+    "formatted": "【目標國字】：乖\n【設計概念】：布忍者躲得很爛，後面的小影子慢半拍學他，最後兩個都乖乖坐好。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a warm cream background, with one single Traditional Chinese glyph 乖 as the only text on screen, drawn in forest green solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a tiny black felt ninja tiptoes in and hides behind a single thin flower, convinced he is invisible while his pointy hood sticks out; the first 乖 is spoken as the top strokes of 乖 slide down from above. 1.7-3.4s: a smaller grey felt twin pops up and mimics every move one beat late, bonking noses; the second 乖 is spoken as they both reach for the same bottom stroke, swap sides, and the glyph's lower strokes click in. 3.4-5s: the ninja points sharply to sit up, the twin sits late, and 乖乖 is spoken as both fold their felt hands and two gold star stickers pop onto their foreheads (animated shapes only). 5-8s: hold; the stars twinkle on the ninjas while the glyph stays still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"乖、乖、乖乖\" (ㄍㄨㄞ、ㄍㄨㄞ、ㄍㄨㄞ ㄍㄨㄞ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 乖 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

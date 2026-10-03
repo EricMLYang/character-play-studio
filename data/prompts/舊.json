@@ -1,0 +1,25 @@
+[
+  {
+    "char": "舊",
+    "meaning": "old (used)",
+    "zhuyin": "ㄐㄧㄡˋ",
+    "emoji": "📚",
+    "conceptZh": "披風英雄一碰，舊書堆骨牌倒下，灰塵揚起，落成「舊」。",
+    "object": "a caped action figure with an overly long cape and a tower of old books",
+    "morph": "a stack of old books topples like dominoes, forming 舊",
+    "creativeAngle": "披風勾到舊書堆，連鎖倒下，書頁翻飛、灰塵飄落，剛好落成字。",
+    "promptEn": "An 8-second animated clip on a pale cream-brown library backdrop. Lead: a caped action-figure hero in a teal suit whose red cape is three sizes too long and keeps flopping over his head. The finished glyph 舊 is a saturated russet-brown, centered, about 70% of frame height.\n0.0-1.6s: the hero strides in, cape trailing over a pile of worn old books standing on edge; the cape snags a corner. First \"舊\" as he steps forward, unaware.\n1.6-3.2s: domino pile-up: the cape tugs the first book, the whole row topples in a chain, covers fly open, a puff of dust rises, and the hero is dragged flat on his back. Second \"舊\" lands as the last book flips onto the pile.\n3.2-5.0s: by luck, the books settle into the glyph 舊, the dust curling away; the hero peeks out from under his cape.\n5.0-8.0s: HOLD, glyph perfectly still. At \"舊書\" he lifts one worn book from beside the glyph, blows off a puff of dust, sneezes, and the cape waves with a small happy flap, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"舊、舊、舊書\" (ㄐㄧㄡˋ、ㄐㄧㄡˋ、ㄐㄧㄡˋ ㄕㄨ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 舊.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.052Z",
+    "id": "7e327a59-1e22-427e-8e9c-b3d47528f0d9",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "1fb154ca6543e55e8c1a2f04dce5531e34f4ad2e8826a8dfb92c15eb337b1618",
+    "hash": "34bf3851bec09cfa1b1cdc598ea51c8acc73f3b5763b8076030400e3f1425cf9",
+    "formatted": "【目標國字】：舊\n【設計概念】：披風英雄一碰，舊書堆骨牌倒下，灰塵揚起，落成「舊」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale cream-brown library backdrop. Lead: a caped action-figure hero in a teal suit whose red cape is three sizes too long and keeps flopping over his head. The finished glyph 舊 is a saturated russet-brown, centered, about 70% of frame height.\n0.0-1.6s: the hero strides in, cape trailing over a pile of worn old books standing on edge; the cape snags a corner. First \"舊\" as he steps forward, unaware.\n1.6-3.2s: domino pile-up: the cape tugs the first book, the whole row topples in a chain, covers fly open, a puff of dust rises, and the hero is dragged flat on his back. Second \"舊\" lands as the last book flips onto the pile.\n3.2-5.0s: by luck, the books settle into the glyph 舊, the dust curling away; the hero peeks out from under his cape.\n5.0-8.0s: HOLD, glyph perfectly still. At \"舊書\" he lifts one worn book from beside the glyph, blows off a puff of dust, sneezes, and the cape waves with a small happy flap, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"舊、舊、舊書\" (ㄐㄧㄡˋ、ㄐㄧㄡˋ、ㄐㄧㄡˋ ㄕㄨ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 舊.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

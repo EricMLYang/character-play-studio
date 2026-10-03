@@ -1,0 +1,25 @@
+[
+  {
+    "char": "今",
+    "meaning": "today",
+    "zhuyin": "ㄐㄧㄣ",
+    "emoji": "📅",
+    "conceptZh": "積木小隊先蓋出一個歪歪的屋頂，發現不對，聳聳肩一翻就變成「今」。",
+    "object": "a squad of interlocking building bricks",
+    "morph": "bricks proudly assemble a wrong flat roof, notice, and flip one piece to complete 今",
+    "creativeAngle": "先錯後對，今天的太陽用積木升起來。",
+    "promptEn": "An 8-second animated clip on a pale sunshine yellow background, with one single Traditional Chinese glyph 今 as the only text on screen, drawn in bright cobalt blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a squad of red, blue and green bricks with tiny painted faces marches in a line and stacks itself into a lopsided triangle roof; the first 今 is spoken as the roof bricks click on top. 1.7-3.4s: proudly they add a flat bar beneath, but it is the wrong way, a box that looks like a hat; the bricks freeze, glance at each other, and shrug; the second 今 is spoken as one brick pops out and the bar slides into the right 人-plus-short-stroke shape under the roof. 3.4-5s: 今天 is spoken as a tiny yellow brick sun rises over the glyph on a spring, with the little bricks cheering and bouncing. 5-8s: hold; the glyph stays still while one brick does a small spin and a happy wobble well clear of the strokes. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"今、今、今天\" (ㄐㄧㄣ、ㄐㄧㄣ、ㄐㄧㄣ ㄊㄧㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 今 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:17.950Z",
+    "id": "f8d84d0a-7123-4194-b742-33a9a88b30c2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9c79890347b39b43be835fdcecd4fa9144d9484dc329f77f5167da954ac7cfba",
+    "hash": "22f4ae25b34fcec8fde637c7fcbad6a024209687d66e798636b87cd06d065495",
+    "formatted": "【目標國字】：今\n【設計概念】：積木小隊先蓋出一個歪歪的屋頂，發現不對，聳聳肩一翻就變成「今」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale sunshine yellow background, with one single Traditional Chinese glyph 今 as the only text on screen, drawn in bright cobalt blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a squad of red, blue and green bricks with tiny painted faces marches in a line and stacks itself into a lopsided triangle roof; the first 今 is spoken as the roof bricks click on top. 1.7-3.4s: proudly they add a flat bar beneath, but it is the wrong way, a box that looks like a hat; the bricks freeze, glance at each other, and shrug; the second 今 is spoken as one brick pops out and the bar slides into the right 人-plus-short-stroke shape under the roof. 3.4-5s: 今天 is spoken as a tiny yellow brick sun rises over the glyph on a spring, with the little bricks cheering and bouncing. 5-8s: hold; the glyph stays still while one brick does a small spin and a happy wobble well clear of the strokes. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"今、今、今天\" (ㄐㄧㄣ、ㄐㄧㄣ、ㄐㄧㄣ ㄊㄧㄢ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 今 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "辣",
+    "meaning": "spicy",
+    "zhuyin": "ㄌㄚˋ",
+    "emoji": "🌶️",
+    "conceptZh": "辣：辛加束，辣到想吐舌頭的味道。",
+    "object": "a caped action-figure hero whose cape is too long, and a row of glossy red toy chili peppers",
+    "morph": "the hero's flapping cape bumps one chili and sets off a domino pile-up that luckily lands as 辣",
+    "creativeAngle": "披風英雄的長披風碰倒第一根辣椒，連鎖骨牌倒成辣字，最後被辣到噴煙。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 辣 (spicy), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a caped action-figure hero whose cape is too long, and a row of glossy red toy chili peppers. Cool pale-mint backdrop so the red pops; the glyph is fire-engine red with a glossy shine. Timed beats. 0.0-1.5s: the caped action figure (teal cape trailing three body-lengths) swoops in on a bounce and lands in a hero pose; the voice says the first 辣 as the cape swishes across and nudges a standing chili. 1.5-3.0s: the chili tips into the next one and a long domino chain of toy chilies clatters across the frame while the hero trips over his own cape. The voice says the second 辣 as the pieces tumble and curl into the left radical. 3.0-4.5s: the last chili spins and lands as the final stroke, snapping the glyph into 辣; the hero pops his head out from under the cape and gasps. 4.5-5.0s: the voice says 辣椒 (ㄌㄚˋ ㄐㄧㄠ) as a shiny chili hops up next to him, he takes a tiny sniff, and two small puffs of cartoon steam shoot out of his ears. Final hold: 5.0-8.0s: the glyph is still; the hero fans his face with the cape corner at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 辣、辣、辣椒, syllable by syllable ㄌㄚˋ、ㄌㄚˋ、ㄌㄚˋ ㄐㄧㄠ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 辣 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.355Z",
+    "id": "ebfdded0-ef67-4017-aac1-77787e69ee00",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "90936835a735149091bdc466c5a55b8b42ffd25cc76d4ece9509c64cc243ebbc",
+    "hash": "ee26656635ad6a2bb81f8d3765582894d3cefa16e59e1ce469c63b0d76381861",
+    "formatted": "【目標國字】：辣\n【設計概念】：辣：辛加束，辣到想吐舌頭的味道。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 辣 (spicy), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a caped action-figure hero whose cape is too long, and a row of glossy red toy chili peppers. Cool pale-mint backdrop so the red pops; the glyph is fire-engine red with a glossy shine. Timed beats. 0.0-1.5s: the caped action figure (teal cape trailing three body-lengths) swoops in on a bounce and lands in a hero pose; the voice says the first 辣 as the cape swishes across and nudges a standing chili. 1.5-3.0s: the chili tips into the next one and a long domino chain of toy chilies clatters across the frame while the hero trips over his own cape. The voice says the second 辣 as the pieces tumble and curl into the left radical. 3.0-4.5s: the last chili spins and lands as the final stroke, snapping the glyph into 辣; the hero pops his head out from under the cape and gasps. 4.5-5.0s: the voice says 辣椒 (ㄌㄚˋ ㄐㄧㄠ) as a shiny chili hops up next to him, he takes a tiny sniff, and two small puffs of cartoon steam shoot out of his ears. Final hold: 5.0-8.0s: the glyph is still; the hero fans his face with the cape corner at the side. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 辣、辣、辣椒, syllable by syllable ㄌㄚˋ、ㄌㄚˋ、ㄌㄚˋ ㄐㄧㄠ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 辣 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

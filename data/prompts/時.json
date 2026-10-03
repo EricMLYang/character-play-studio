@@ -1,0 +1,25 @@
+[
+  {
+    "char": "時",
+    "meaning": "time",
+    "zhuyin": "ㄕˊ",
+    "emoji": "⏰",
+    "conceptZh": "科學家老鼠輕輕推倒一塊骨牌，彩色試管連鎖倒下，剛好排成「時」。",
+    "object": "a bespectacled lab mouse with a line of dominoes made of colorful test tubes",
+    "morph": "a domino chain of fizzing tubes tumbles and lands as the strokes of 時",
+    "creativeAngle": "骨牌連鎖加上準時的鬧鐘，聲音和畫面同步。",
+    "promptEn": "An 8-second animated clip on a pale lilac background, with one single Traditional Chinese glyph 時 as the only text on screen, drawn in emerald green solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round-eyed lab mouse in a white coat and thick glasses pokes the first test-tube domino with a pencil while a beaker fizzes over on cue; the first 時 is spoken as the sun-shaped left 日 tube tips and lands upright. 1.7-3.4s: the chain rattles across a lab bench, a wobbling beaker hiccups bubbles, one tube spins in place before falling; second 時 as the 土 and 寸 tubes click down beside the 日. 3.4-5s: 準時 is spoken as a toy alarm clock at the end of the chain rings exactly when the last tube lands, the mouse's glasses sliding down in surprise, then pushing them back up. 5-8s: hold; the glyph rests still while the mouse takes a bow and a bubble floats up. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"時、時、準時\" (ㄕˊ、ㄕˊ、ㄓㄨㄣˇ ㄕˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 時 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.846Z",
+    "id": "d869e39b-c274-4fa3-9c50-608a8f2dada4",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e47eb62164e1c2ea0154846d3499650ffac5b9af161a213637a8d309a309757a",
+    "hash": "b6f8216cf444999eb130790e7cf1c933943ec0bc5444c27a3b330261cc610865",
+    "formatted": "【目標國字】：時\n【設計概念】：科學家老鼠輕輕推倒一塊骨牌，彩色試管連鎖倒下，剛好排成「時」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale lilac background, with one single Traditional Chinese glyph 時 as the only text on screen, drawn in emerald green solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a round-eyed lab mouse in a white coat and thick glasses pokes the first test-tube domino with a pencil while a beaker fizzes over on cue; the first 時 is spoken as the sun-shaped left 日 tube tips and lands upright. 1.7-3.4s: the chain rattles across a lab bench, a wobbling beaker hiccups bubbles, one tube spins in place before falling; second 時 as the 土 and 寸 tubes click down beside the 日. 3.4-5s: 準時 is spoken as a toy alarm clock at the end of the chain rings exactly when the last tube lands, the mouse's glasses sliding down in surprise, then pushing them back up. 5-8s: hold; the glyph rests still while the mouse takes a bow and a bubble floats up. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"時、時、準時\" (ㄕˊ、ㄕˊ、ㄓㄨㄣˇ ㄕˊ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 時 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

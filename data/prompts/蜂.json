@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蜂",
+    "meaning": "bee",
+    "zhuyin": "ㄈㄥ",
+    "emoji": "🐝",
+    "conceptZh": "豬探長用大放大鏡找蜜蜂，蜂字的筆畫從邊邊探頭又躲開，最後被他一口氣「抓到」。",
+    "object": "a detective pig with an oversized magnifying glass",
+    "morph": "strokes of 蜂 sneak in from edges and dodge the pig's lens until they settle",
+    "creativeAngle": "捉迷藏：放大鏡把筆畫放大，筆畫一躲就縮小。",
+    "promptEn": "An 8-second animated clip on a pale butter-cream background, with one single Traditional Chinese glyph 蜂 as the only text on screen, drawn in honey amber solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stout pig detective in a checked deerstalker waddles in holding a magnifying glass bigger than himself and stares through it; the first 蜂 is spoken as the left 虫 pops its head in from the left edge, then ducks. 1.7-3.4s: through the lens the pig spots the right-hand 夆 pieces peeking from the top and bottom edges; he spins, they dodge like pixie dust, and the second 蜂 is spoken as the lens magnifies one piece so large that it falls on his snout and clicks into place. 3.4-5s: 蜜蜂 is spoken as a fuzzy toy bee hums out of a honey-pot beside him, circles the lens, and the pig's eye in the glass goes huge. 5-8s: hold; the bee lands on the pig's hat and the pig wiggles his curly tail, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蜂、蜂、蜜蜂\" (ㄈㄥ、ㄈㄥ、ㄇㄧˋ ㄈㄥ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蜂 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.191Z",
+    "id": "44b0b07c-ecad-4214-8533-5a03a33b41fa",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "9a3f9fcd2be7e2f7e759fd7b656d3187c59cea85de78d3152ac13278fce81020",
+    "hash": "24b76d1d8be00cee2d72303fd0d087d2ba6c97a39018117a6217d902aeaf1c2e",
+    "formatted": "【目標國字】：蜂\n【設計概念】：豬探長用大放大鏡找蜜蜂，蜂字的筆畫從邊邊探頭又躲開，最後被他一口氣「抓到」。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale butter-cream background, with one single Traditional Chinese glyph 蜂 as the only text on screen, drawn in honey amber solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a stout pig detective in a checked deerstalker waddles in holding a magnifying glass bigger than himself and stares through it; the first 蜂 is spoken as the left 虫 pops its head in from the left edge, then ducks. 1.7-3.4s: through the lens the pig spots the right-hand 夆 pieces peeking from the top and bottom edges; he spins, they dodge like pixie dust, and the second 蜂 is spoken as the lens magnifies one piece so large that it falls on his snout and clicks into place. 3.4-5s: 蜜蜂 is spoken as a fuzzy toy bee hums out of a honey-pot beside him, circles the lens, and the pig's eye in the glass goes huge. 5-8s: hold; the bee lands on the pig's hat and the pig wiggles his curly tail, glyph still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"蜂、蜂、蜜蜂\" (ㄈㄥ、ㄈㄥ、ㄇㄧˋ ㄈㄥ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 蜂 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "嘴",
+    "meaning": "mouth",
+    "zhuyin": "ㄗㄨㄟˇ",
+    "emoji": "👄",
+    "conceptZh": "人和動物用來吃東西、說話的器官。",
+    "object": "a boxy mismatched-part toy robot with one long arm, a toy lip-shaped cushion, and a bag of colored stroke bricks",
+    "morph": "the robot overshoots, then gently places stroke bricks to form 嘴",
+    "creativeAngle": "機器人用力過猛飛過頭，第二次輕輕放才成功；出現會說話的嘴唇。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Against a cheerful lavender backdrop with a checkerboard floor, a boxy toy robot with one long arm and one stubby arm hoists a heavy brick of the glyph's left half, steam puffing from its antenna. 0–1.5s: It charges at the empty glyph spot with the first 嘴 spoken, overshoots, skids across the floor on its heels, and crashes into the bag of bricks. 1.5–3.2s: Second 嘴 is spoken as the robot lines up and flings again too hard, flying off the left edge and returning on a spring with its long arm tangled around its head. 3.2–4.7s: It takes a deep breath, tiptoes, and gently lays each brick with its stubby hand until 嘴 is complete in sunset orange. 4.7–5.7s: As 嘴唇 is spoken, a pair of cartoon lip cushions in rose pink pops off the bag and blows a gentle kiss to the robot, who spins its dials in surprise. Final hold (about 5.0–8.0s): the robot dances a slow shimmy with the lip cushion, always clear of the strokes. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 嘴、嘴、嘴唇（ㄗㄨㄟˇ、ㄗㄨㄟˇ、ㄗㄨㄟˇ ㄔㄨㄣˊ）. The first 嘴 lands at about 0.8s, the second 嘴 at about 2.4s, and the word 嘴唇 at about 4.7s, each timed to the picture described above. On-screen text is limited to the one glyph 嘴 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 嘴 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.330Z",
+    "id": "c7d9b0ef-730e-448b-9970-5153002b21cd",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "139f1a6fb250332d412a49180d9121e168d3ed1af20ef1bb667a7be976349f3e",
+    "hash": "e60d64b5e817efc57c6f8a7cfd71ca147f18390a9c3725297f08951c74c67c27",
+    "formatted": "【目標國字】：嘴\n【設計概念】：人和動物用來吃東西、說話的器官。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. Against a cheerful lavender backdrop with a checkerboard floor, a boxy toy robot with one long arm and one stubby arm hoists a heavy brick of the glyph's left half, steam puffing from its antenna. 0–1.5s: It charges at the empty glyph spot with the first 嘴 spoken, overshoots, skids across the floor on its heels, and crashes into the bag of bricks. 1.5–3.2s: Second 嘴 is spoken as the robot lines up and flings again too hard, flying off the left edge and returning on a spring with its long arm tangled around its head. 3.2–4.7s: It takes a deep breath, tiptoes, and gently lays each brick with its stubby hand until 嘴 is complete in sunset orange. 4.7–5.7s: As 嘴唇 is spoken, a pair of cartoon lip cushions in rose pink pops off the bag and blows a gentle kiss to the robot, who spins its dials in surprise. Final hold (about 5.0–8.0s): the robot dances a slow shimmy with the lip cushion, always clear of the strokes. Voice: a friendly unseen narrator speaks, in Taiwanese Mandarin and at an unhurried pace, precisely these syllables and then falls silent: 嘴、嘴、嘴唇（ㄗㄨㄟˇ、ㄗㄨㄟˇ、ㄗㄨㄟˇ ㄔㄨㄣˊ）. The first 嘴 lands at about 0.8s, the second 嘴 at about 2.4s, and the word 嘴唇 at about 4.7s, each timed to the picture described above. On-screen text is limited to the one glyph 嘴 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 嘴 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

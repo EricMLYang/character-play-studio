@@ -1,0 +1,25 @@
+[
+  {
+    "char": "胖",
+    "meaning": "fat / chubby",
+    "zhuyin": "ㄆㄤˋ",
+    "emoji": "🐷",
+    "conceptZh": "發條樂團的小豬鼓太大，大鼓小號的比例逗趣，最後胖嘟嘟一起搖。",
+    "object": "a wind-up animal band: a chubby piglet on a tiny drum, a skinny rooster on a huge tuba",
+    "morph": "size-mismatched instruments are swapped and strokes bounce out forming 胖",
+    "creativeAngle": "小豬坐上迷你鼓，大喇叭對公雞太大，換來換去，最後肚子彈出筆畫。",
+    "promptEn": "An 8-second animated clip on a pale baby-blue backdrop with a thin floor line. Lead: a wind-up toy band, a round pink piglet with a visible turning key, and a skinny rooster. The finished glyph 胖 is a saturated coral-pink, centered, about 70% of frame height.\n0.0-1.7s: the piglet tries to sit on a tiny drum stool and squishes it flat; the drum goes boing. First \"胖\" as the rooster comically drops his huge tuba on his own head.\n1.7-3.3s: size mismatch: they swap, the piglet's belly fills the huge tuba's bell, and the rooster disappears in the little drum. Second \"胖\" lands as the piglet's belly pops out of the bell with a wobble.\n3.3-5.0s: the belly bounces strokes upward, which land into the glyph 胖 with a jiggly thump; the rooster peeks out of the drum.\n5.0-8.0s: HOLD, glyph perfectly still. At \"胖嘟嘟\" the piglet jiggles a round belly dance, the rooster spins his key, little musical notes puff out, and the piglet gives a happy wobbling bow beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"胖、胖、胖嘟嘟\" (ㄆㄤˋ、ㄆㄤˋ、ㄆㄤˋ ㄉㄨ ㄉㄨ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 胖.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.918Z",
+    "id": "ca7ec91d-7497-4cf2-b5a9-a918ef651cf2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "002933145c6209259eda94336acdd1165517e405f18b9ae41da0df71499896b1",
+    "hash": "07f85a0ae2929d3c1a5e367070c629913d282e2ca0cc9bb861b3b374be0812ee",
+    "formatted": "【目標國字】：胖\n【設計概念】：發條樂團的小豬鼓太大，大鼓小號的比例逗趣，最後胖嘟嘟一起搖。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale baby-blue backdrop with a thin floor line. Lead: a wind-up toy band, a round pink piglet with a visible turning key, and a skinny rooster. The finished glyph 胖 is a saturated coral-pink, centered, about 70% of frame height.\n0.0-1.7s: the piglet tries to sit on a tiny drum stool and squishes it flat; the drum goes boing. First \"胖\" as the rooster comically drops his huge tuba on his own head.\n1.7-3.3s: size mismatch: they swap, the piglet's belly fills the huge tuba's bell, and the rooster disappears in the little drum. Second \"胖\" lands as the piglet's belly pops out of the bell with a wobble.\n3.3-5.0s: the belly bounces strokes upward, which land into the glyph 胖 with a jiggly thump; the rooster peeks out of the drum.\n5.0-8.0s: HOLD, glyph perfectly still. At \"胖嘟嘟\" the piglet jiggles a round belly dance, the rooster spins his key, little musical notes puff out, and the piglet gives a happy wobbling bow beside the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"胖、胖、胖嘟嘟\" (ㄆㄤˋ、ㄆㄤˋ、ㄆㄤˋ ㄉㄨ ㄉㄨ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 胖.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

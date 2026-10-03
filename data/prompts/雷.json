@@ -1,0 +1,25 @@
+[
+  {
+    "char": "雷",
+    "meaning": "thunder",
+    "zhuyin": "ㄌㄟˊ",
+    "emoji": "⚡",
+    "conceptZh": "科學家老鼠的燒杯一聲砰，雨雲彈出來，最後田在雨下面。",
+    "object": "scientist mouse, fizzing beakers",
+    "morph": "a bubbling beaker pops a cloud and four drops, with 田 beneath",
+    "creativeAngle": "燒杯冒泡，一個接一個彈出來。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-lilac lab with cream shelves; the glyph is solid cobalt-blue 雷: 雨 above 田. A bespectacled lab mouse stands among bubbling beakers. The Traditional Chinese glyph 雷 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the mouse pours a blue liquid into a flask; foam rises; the first 雷 is spoken as it fizzes. Moment two (1.8-3.5s): the flask pops a fluffy cloud, four drops arrange into 雨 and a square 田 drops beneath; the second 雷 is spoken as the square lands. Moment three (3.5-5.0s): the cloud flashes a gentle yellow zig-zag with a deep rumble; 打雷 is spoken as the mouse hops back and his glasses fog. From 5.0-8.0s the glyph 雷 is perfectly still and unobstructed; the mouse wipes his glasses and gives thumbs up. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「雷、雷、打雷」, read as ㄌㄟˊ、ㄌㄟˊ、ㄉㄚˇ ㄌㄟˊ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only fizz and soft rumble, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.581Z",
+    "id": "97fe6801-2efe-41ea-85be-dac09ca0d807",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "40db859c99948356873f2693cf35a5b9ae2eb50f105356ca44f6682c1de1b558",
+    "hash": "01e13775853264dc326443cb65ffaef66eab9cd5f2e088bdee54b102ea9088b3",
+    "formatted": "【目標國字】：雷\n【設計概念】：科學家老鼠的燒杯一聲砰，雨雲彈出來，最後田在雨下面。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a pale-lilac lab with cream shelves; the glyph is solid cobalt-blue 雷: 雨 above 田. A bespectacled lab mouse stands among bubbling beakers. The Traditional Chinese glyph 雷 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the mouse pours a blue liquid into a flask; foam rises; the first 雷 is spoken as it fizzes. Moment two (1.8-3.5s): the flask pops a fluffy cloud, four drops arrange into 雨 and a square 田 drops beneath; the second 雷 is spoken as the square lands. Moment three (3.5-5.0s): the cloud flashes a gentle yellow zig-zag with a deep rumble; 打雷 is spoken as the mouse hops back and his glasses fog. From 5.0-8.0s the glyph 雷 is perfectly still and unobstructed; the mouse wipes his glasses and gives thumbs up. Narration (off-screen only, Taiwanese Mandarin, unhurried, every tone clear, no erhua): the voice says exactly 「雷、雷、打雷」, read as ㄌㄟˊ、ㄌㄟˊ、ㄉㄚˇ ㄌㄟˊ. Timing: first utterance at about 0.5s, second at about 2.5s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only fizz and soft rumble, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

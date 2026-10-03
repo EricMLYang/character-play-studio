@@ -1,0 +1,25 @@
+[
+  {
+    "char": "哭",
+    "meaning": "to cry",
+    "zhuyin": "ㄎㄨ",
+    "emoji": "😢",
+    "conceptZh": "海盜的鸚鵡拒絕配合，兩顆大淚滴砸向地面，剛好變成兩個口，再配上一隻小狗。",
+    "object": "barrel-shaped toy pirate, stubborn parrot, two big glass tear drops",
+    "morph": "two tear drops become the two mouth boxes above 犬",
+    "creativeAngle": "鸚鵡不聽指令，反而讓海盜自己哭出來。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a rainy-day blue stage that stays bright; the glyph is a solid indigo 哭: two mouth squares on top, a 犬 beneath. A barrel-shaped toy pirate with a puffy hat stands at left with a small parrot on his shoulder. The Traditional Chinese glyph 哭 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pirate points at the empty spot and orders the parrot to fetch the strokes; it looks away and refuses; the first 哭 is spoken as the pirate points. Moment two (1.8-3.5s): the pirate wobbles, his lip trembles, two big glass tear drops roll from his eyes and thump down as the two mouth boxes; the parrot flaps and drops 犬 below with a clack; the second 哭 is spoken at the clack. Moment three (3.5-5.0s): the pirate gives a big pretend sob with his hat over his eyes while the parrot hands him a tiny hankie; 大哭 is spoken as the sob lands. From 5.0-8.0s the glyph 哭 is perfectly still and unobstructed; the pirate dabs his eyes, the parrot sighs and rolls its eyes. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「哭、哭、大哭」 with Zhuyin ㄎㄨ、ㄎㄨ、ㄉㄚˋ ㄎㄨ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only gentle clacks and a droplet plink, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.259Z",
+    "id": "22ce02ae-ba6d-4ac3-bc24-bceeaa46cc53",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "4215af65b46de83313108749ca984403eaaed6ef8842009955d44d7168f32daa",
+    "hash": "5de442a9a801efd8094766ee16f59df9660b3676bdb42cd420676795a8c7daac",
+    "formatted": "【目標國字】：哭\n【設計概念】：海盜的鸚鵡拒絕配合，兩顆大淚滴砸向地面，剛好變成兩個口，再配上一隻小狗。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a rainy-day blue stage that stays bright; the glyph is a solid indigo 哭: two mouth squares on top, a 犬 beneath. A barrel-shaped toy pirate with a puffy hat stands at left with a small parrot on his shoulder. The Traditional Chinese glyph 哭 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the pirate points at the empty spot and orders the parrot to fetch the strokes; it looks away and refuses; the first 哭 is spoken as the pirate points. Moment two (1.8-3.5s): the pirate wobbles, his lip trembles, two big glass tear drops roll from his eyes and thump down as the two mouth boxes; the parrot flaps and drops 犬 below with a clack; the second 哭 is spoken at the clack. Moment three (3.5-5.0s): the pirate gives a big pretend sob with his hat over his eyes while the parrot hands him a tiny hankie; 大哭 is spoken as the sob lands. From 5.0-8.0s the glyph 哭 is perfectly still and unobstructed; the pirate dabs his eyes, the parrot sighs and rolls its eyes. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「哭、哭、大哭」 with Zhuyin ㄎㄨ、ㄎㄨ、ㄉㄚˋ ㄎㄨ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.6s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only gentle clacks and a droplet plink, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

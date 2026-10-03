@@ -1,0 +1,25 @@
+[
+  {
+    "char": "睡",
+    "meaning": "to sleep",
+    "zhuyin": "ㄕㄨㄟˋ",
+    "emoji": "😴",
+    "conceptZh": "玩具海盜的大鸚鵡尺寸不對，枕頭巨大、被子小小，最後蓋著睡著。",
+    "object": "a barrel-shaped toy pirate, a stubborn parrot, an oversized pillow and a tiny blanket",
+    "morph": "a giant pillow and tiny blanket pull themselves into strokes forming 睡",
+    "creativeAngle": "海盜面對巨大枕頭與迷你被子，拿來湊合，鸚鵡倔強不肯睡，最後和筆畫一起打呼。",
+    "promptEn": "An 8-second animated clip on a pale lavender-blue nightroom backdrop with a few soft star stickers. Lead: a barrel-shaped toy pirate with a patched hat and a green parrot that flatly refuses to cooperate. The finished glyph 睡 is a deep saturated indigo, centered, about 70% of frame height.\n0.0-1.6s: the pirate rolls in carrying a pillow bigger than himself and gets completely swallowed by it, only boots wiggling. First \"睡\" as the parrot, wide awake, snaps its eyes open and squawks silently.\n1.6-3.2s: a blanket the size of a hankie slides in; he tugs it up and it covers only his nose. Second \"睡\" lands as the parrot yanks the blanket off and the pillow bounces up into the first indigo strokes of the glyph.\n3.2-5.0s: he improvises: socks, his hat and the parrot's perch become the remaining strokes, and the glyph 睡 pops into place with a soft thump.\n5.0-8.0s: HOLD, glyph perfectly still. Exactly at \"睡衣\" a small striped pajama shirt drops onto the pirate, it is also far too big, sleeves flopping; he yawns, curls up on the pillow beside the glyph, and the parrot finally tucks its head under its wing, small zzz balloons rising away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"睡、睡、睡衣\" (ㄕㄨㄟˋ、ㄕㄨㄟˋ、ㄕㄨㄟˋ ㄧ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 睡.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.518Z",
+    "id": "da2ad6b9-5e02-4b58-93f9-5f145d6c2046",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "8fee755d206487d90710052a5bfe585976c0b957d804b7b3440d5fe2cabfbab7",
+    "hash": "631b41629d10fbfd9fc1c7025f8c15abbf81d39b861a1153a78059565b01bd4e",
+    "formatted": "【目標國字】：睡\n【設計概念】：玩具海盜的大鸚鵡尺寸不對，枕頭巨大、被子小小，最後蓋著睡著。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale lavender-blue nightroom backdrop with a few soft star stickers. Lead: a barrel-shaped toy pirate with a patched hat and a green parrot that flatly refuses to cooperate. The finished glyph 睡 is a deep saturated indigo, centered, about 70% of frame height.\n0.0-1.6s: the pirate rolls in carrying a pillow bigger than himself and gets completely swallowed by it, only boots wiggling. First \"睡\" as the parrot, wide awake, snaps its eyes open and squawks silently.\n1.6-3.2s: a blanket the size of a hankie slides in; he tugs it up and it covers only his nose. Second \"睡\" lands as the parrot yanks the blanket off and the pillow bounces up into the first indigo strokes of the glyph.\n3.2-5.0s: he improvises: socks, his hat and the parrot's perch become the remaining strokes, and the glyph 睡 pops into place with a soft thump.\n5.0-8.0s: HOLD, glyph perfectly still. Exactly at \"睡衣\" a small striped pajama shirt drops onto the pirate, it is also far too big, sleeves flopping; he yawns, curls up on the pillow beside the glyph, and the parrot finally tucks its head under its wing, small zzz balloons rising away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"睡、睡、睡衣\" (ㄕㄨㄟˋ、ㄕㄨㄟˋ、ㄕㄨㄟˋ ㄧ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 睡.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

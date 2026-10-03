@@ -1,0 +1,25 @@
+[
+  {
+    "char": "千",
+    "meaning": "thousand",
+    "zhuyin": "ㄑㄧㄢ",
+    "emoji": "🔢",
+    "conceptZh": "彈簧賽車衝過頭，從麵團盒裡彈出千層麵，疊成千。",
+    "object": "a squeaky pull-back race car with googly eyes and a surprise lasagna box",
+    "morph": "the box pops open and layers fly out, forming 千",
+    "creativeAngle": "驚喜彈出：賽車衝撞禮盒，盒中彈出一疊疊麵皮（一撇、一橫、一豎）；千層麵層層疊起。",
+    "promptEn": "An 8-second zippy clip on a pale lemon-cream backdrop with a light orange floor. A squeaky pull-back race car with huge googly eyes sits at the far left, wheels spinning. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「千、千、千層麵」 (ㄑㄧㄢ、ㄑㄧㄢ、ㄑㄧㄢ ㄘㄥˊ ㄇㄧㄢˋ), slowly with clear tones, then stops.\n0.0-1.6s: The car is pulled back, whirrs, and shoots forward, overshooting a mystery gift box and skidding into the wall. 「千」 (ㄑㄧㄢ) is spoken as it zooms.\n1.6-3.0s: The car reverses, bonks the box lid; BOING, the lid pops, and a springing pasta-sheet streamer bursts upward, the car's double-take eyes swiveling.\n3.0-4.2s: Out fly three flat noodle strips: a short slanting stroke, a long horizontal, and a straight vertical drops through, forming a saturated solid tomato-red glyph 千, about 70% of frame height. The second 「千」 (ㄑㄧㄢ) lands as the stack settles.\n4.2-5.0s: A fluffy tower of many layers of lasagna with red sauce rises beside the glyph; 「千層麵」 (ㄑㄧㄢ ㄘㄥˊ ㄇㄧㄢˋ) is spoken as the layers stack.\n5.0-8.0s: Hold: glyph 千 perfectly still, centered. The car waggles in a happy circle at the corner, tooting a tiny squeak, never touching the glyph.\nOnly the glyph 千 appears as text; no subtitles, watermark or flashing. Light music under the voice.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.183Z",
+    "id": "872a4585-d599-4c81-84d4-125c774e56e1",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "844967c499b256d892967ee423eaedfe69b7a57444d977306608e0a4e7d5591a",
+    "hash": "b5a088d7b5e32d06924128a2b07bd9cb08bb9710d0ca0c50ce593af0cb4f1658",
+    "formatted": "【目標國字】：千\n【設計概念】：彈簧賽車衝過頭，從麵團盒裡彈出千層麵，疊成千。\n【8s Video Prompt】:\n```text\nAn 8-second zippy clip on a pale lemon-cream backdrop with a light orange floor. A squeaky pull-back race car with huge googly eyes sits at the far left, wheels spinning. The off-screen voice, warm and clear Taiwanese Mandarin, says exactly: 「千、千、千層麵」 (ㄑㄧㄢ、ㄑㄧㄢ、ㄑㄧㄢ ㄘㄥˊ ㄇㄧㄢˋ), slowly with clear tones, then stops.\n0.0-1.6s: The car is pulled back, whirrs, and shoots forward, overshooting a mystery gift box and skidding into the wall. 「千」 (ㄑㄧㄢ) is spoken as it zooms.\n1.6-3.0s: The car reverses, bonks the box lid; BOING, the lid pops, and a springing pasta-sheet streamer bursts upward, the car's double-take eyes swiveling.\n3.0-4.2s: Out fly three flat noodle strips: a short slanting stroke, a long horizontal, and a straight vertical drops through, forming a saturated solid tomato-red glyph 千, about 70% of frame height. The second 「千」 (ㄑㄧㄢ) lands as the stack settles.\n4.2-5.0s: A fluffy tower of many layers of lasagna with red sauce rises beside the glyph; 「千層麵」 (ㄑㄧㄢ ㄘㄥˊ ㄇㄧㄢˋ) is spoken as the layers stack.\n5.0-8.0s: Hold: glyph 千 perfectly still, centered. The car waggles in a happy circle at the corner, tooting a tiny squeak, never touching the glyph.\nOnly the glyph 千 appears as text; no subtitles, watermark or flashing. Light music under the voice.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "姑",
+    "meaning": "aunt",
+    "zhuyin": "ㄍㄨ",
+    "emoji": "👩",
+    "conceptZh": "爸爸的姐妹。",
+    "object": "a stout deerstalker detective pig, an oversized magnifying glass, and a curious toy aunt hen",
+    "morph": "playful stroke pieces dodge the pig's magnifier from the edges until 姑 forms",
+    "creativeAngle": "豬探長追著從畫面邊緣溜進來的筆畫，最後拼成「姑」；姑丈玩偶出現。",
+    "promptEn": "An 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a chocolate-brown and cream toy study with a green desk lamp, a stout detective pig in a checked cap lugs a magnifying glass nearly as big as himself. 0–1.7s: The first 姑 is spoken as a coral 女 stroke peeks in from the left edge, then ducks away as the pig swings his magnifier, whacking the lamp. 1.7–3.3s: The second 姑 is spoken: a 古 piece pokes from the top, dodges, scoots under the desk, and the pig dives after it with his magnifier lens stuck on his snout. 3.3–4.9s: Both pieces tiptoe out together; the pig freezes, they freeze, then he sneezes and they hop into place, making 姑 in warm terracotta. 4.9–5.9s: As 姑丈 is spoken, a dapper toy beaver in a bow tie peeks from behind the lamp and tips a hat; the pig does a startled double-take. Final hold (about 5.0–8.0s): the pig polishes his lens beaming while the beaver winks; the glyph is completely still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 姑、姑、姑丈（ㄍㄨ、ㄍㄨ、ㄍㄨ ㄓㄤˋ）. The first 姑 lands at about 0.9s, the second 姑 at about 2.6s, and the word 姑丈 at about 5.0s, each timed to the picture described above. On-screen text is limited to the one glyph 姑 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 姑 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.420Z",
+    "id": "8b17e935-8cae-48d6-9f3a-aed348f176bc",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3a6f9808b689bebb2ce74e36e007fc73c1b4d1eff32ab1eb6f3b429328f684e2",
+    "hash": "38b82d6671b5d359158a2e4675265716984f823f69eab11b9eea3ec35a7a9b78",
+    "formatted": "【目標國字】：姑\n【設計概念】：爸爸的姐妹。\n【8s Video Prompt】:\n```text\nAn 8-second silly animated clip, bright pastel look, soft daylight, no dark grading. In a chocolate-brown and cream toy study with a green desk lamp, a stout detective pig in a checked cap lugs a magnifying glass nearly as big as himself. 0–1.7s: The first 姑 is spoken as a coral 女 stroke peeks in from the left edge, then ducks away as the pig swings his magnifier, whacking the lamp. 1.7–3.3s: The second 姑 is spoken: a 古 piece pokes from the top, dodges, scoots under the desk, and the pig dives after it with his magnifier lens stuck on his snout. 3.3–4.9s: Both pieces tiptoe out together; the pig freezes, they freeze, then he sneezes and they hop into place, making 姑 in warm terracotta. 4.9–5.9s: As 姑丈 is spoken, a dapper toy beaver in a bow tie peeks from behind the lamp and tips a hat; the pig does a startled double-take. Final hold (about 5.0–8.0s): the pig polishes his lens beaming while the beaver winks; the glyph is completely still. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly this line, slowly and distinctly with the marked tones, then stops: 姑、姑、姑丈（ㄍㄨ、ㄍㄨ、ㄍㄨ ㄓㄤˋ）. The first 姑 lands at about 0.9s, the second 姑 at about 2.6s, and the word 姑丈 at about 5.0s, each timed to the picture described above. On-screen text is limited to the one glyph 姑 in strong solid color over a light bright background; the spoken word is never shown as text. The glyph 姑 fills roughly 70% of frame height, centered and uncropped, and stays perfectly still for the final 3 seconds while the lead keeps playing away from the strokes. No real people, no flashing.\n```"
+  }
+]

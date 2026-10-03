@@ -1,0 +1,25 @@
+[
+  {
+    "char": "喜",
+    "meaning": "happy / to like",
+    "zhuyin": "ㄒㄧˇ",
+    "emoji": "😊",
+    "conceptZh": "廚師動物把麵團骨牌推倒，掉成「喜」，喜歡地鞠躬。",
+    "object": "a rotund chef animal and a row of dough tiles",
+    "morph": "a chain of falling dough tiles lands as 喜",
+    "creativeAngle": "廚師輕輕碰到麵團骨牌，連鎖倒下，餡料飛起，剛好落成字。",
+    "promptEn": "An 8-second animated clip on a pale rose-and-cream kitchen backdrop. Lead: a rotund cartoon chef bear in a tall hat and apron, flinging dough with confidence and no aim. The finished glyph 喜 is a saturated cherry-red, centered, about 70% of frame height.\n0.0-1.6s: the chef lines up a row of red dough tiles on the counter and bows to them. First \"喜\" as he flicks the first with a spatula.\n1.6-3.3s: domino pile-up: the tiles tumble down the counter, knock over a flour bag that puffs, and one flips into the air. Second \"喜\" lands as the tiles spin and land in rows.\n3.3-5.0s: a flying cherry drops on top, the final tile slides in and the glyph 喜 stands complete with a sparkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"喜歡\" the chef hugs a heart-shaped pastry to his chest, cheeks pink, tiny hearts floating, and does a little sideways shuffle with his hat bobbing, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"喜、喜、喜歡\" (ㄒㄧˇ、ㄒㄧˇ、ㄒㄧˇ ㄏㄨㄢ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 喜.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.312Z",
+    "id": "68b3c182-44b3-401a-ba1e-b656fa622823",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "927384e23538dea6acdaa07dbf6ea89c5d3d5676d3095fc2f91a42eea2827dab",
+    "hash": "4a88510eef6c6a2758dc279efcfc6e39ac59f4544eb0d14a01f6efb5e7dac9be",
+    "formatted": "【目標國字】：喜\n【設計概念】：廚師動物把麵團骨牌推倒，掉成「喜」，喜歡地鞠躬。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale rose-and-cream kitchen backdrop. Lead: a rotund cartoon chef bear in a tall hat and apron, flinging dough with confidence and no aim. The finished glyph 喜 is a saturated cherry-red, centered, about 70% of frame height.\n0.0-1.6s: the chef lines up a row of red dough tiles on the counter and bows to them. First \"喜\" as he flicks the first with a spatula.\n1.6-3.3s: domino pile-up: the tiles tumble down the counter, knock over a flour bag that puffs, and one flips into the air. Second \"喜\" lands as the tiles spin and land in rows.\n3.3-5.0s: a flying cherry drops on top, the final tile slides in and the glyph 喜 stands complete with a sparkle.\n5.0-8.0s: HOLD, glyph perfectly still. At \"喜歡\" the chef hugs a heart-shaped pastry to his chest, cheeks pink, tiny hearts floating, and does a little sideways shuffle with his hat bobbing, away from the strokes.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"喜、喜、喜歡\" (ㄒㄧˇ、ㄒㄧˇ、ㄒㄧˇ ㄏㄨㄢ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 喜.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

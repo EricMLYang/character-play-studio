@@ -1,0 +1,25 @@
+[
+  {
+    "char": "冷",
+    "meaning": "cold",
+    "zhuyin": "ㄌㄥˇ",
+    "emoji": "🥶",
+    "conceptZh": "扭蛋小怪獸從冷冷的冰箱扭蛋裡蹦出來，兩邊拉扯冰條，筆畫「啪」地彈回原位。",
+    "object": "a fuzzy round gachapon pocket creature with a toy fridge",
+    "morph": "two teams of icicle-shaped strokes are tugged apart by the creature and a frosty fridge door, then spring together into 冷",
+    "creativeAngle": "以冰箱門和小怪獸拔河，冷氣把小怪獸吹得抖成毛球。",
+    "promptEn": "An 8-second animated clip on a pale butter-yellow background, with one single Traditional Chinese glyph 冷 as the only text on screen, drawn in icy cobalt blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a mint-green gachapon capsule pops open and a round fuzzy lavender creature with big eyes bursts out and ricochets off the frame edges, landing in front of a small toy fridge as the first 冷 is spoken and the two stroke groups (the two-dot ice part on the left, the 令 part on the right) float in from opposite sides. 1.7-3.5s: the creature grabs the left ice-dot piece in its mouth while the fridge door swings open and sucks the right piece the other way, a comic tug-of-war with the creature's fur stretching like taffy, the second 冷 spoken as the pieces SPRING together into the glyph with a rubbery boing. 3.5-5s: a gust of cold air whooshes from the open fridge and blows the creature backward into a spinning fluff-ball with frosty shivering, the word 冷氣 spoken as a little cartoon blue air-conditioner-style breeze swirls out of the fridge (animated swirl only, no text). The creature then shakes off and gives a double-take at the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"冷、冷、冷氣\" (ㄌㄥˇ、ㄌㄥˇ、ㄌㄥˇ ㄑㄧˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 冷 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.069Z",
+    "id": "2c7a0e46-0698-4884-8dd8-69b02f1a4ac7",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "b7fb41613861a8d6812a8468c66dfc13563db71afdc43ed7425bc09882dbc342",
+    "hash": "9b4af530b86b7f1a7c74f364d99150e57862089a902daad58fce69a542321748",
+    "formatted": "【目標國字】：冷\n【設計概念】：扭蛋小怪獸從冷冷的冰箱扭蛋裡蹦出來，兩邊拉扯冰條，筆畫「啪」地彈回原位。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a pale butter-yellow background, with one single Traditional Chinese glyph 冷 as the only text on screen, drawn in icy cobalt blue solid strokes, centered, uncropped, about 70% of frame height with generous margins. 0-1.7s: a mint-green gachapon capsule pops open and a round fuzzy lavender creature with big eyes bursts out and ricochets off the frame edges, landing in front of a small toy fridge as the first 冷 is spoken and the two stroke groups (the two-dot ice part on the left, the 令 part on the right) float in from opposite sides. 1.7-3.5s: the creature grabs the left ice-dot piece in its mouth while the fridge door swings open and sucks the right piece the other way, a comic tug-of-war with the creature's fur stretching like taffy, the second 冷 spoken as the pieces SPRING together into the glyph with a rubbery boing. 3.5-5s: a gust of cold air whooshes from the open fridge and blows the creature backward into a spinning fluff-ball with frosty shivering, the word 冷氣 spoken as a little cartoon blue air-conditioner-style breeze swirls out of the fridge (animated swirl only, no text). The creature then shakes off and gives a double-take at the glyph. Audio: a warm off-screen voice in clear Taiwanese Mandarin reads exactly \"冷、冷、冷氣\" (ㄌㄥˇ、ㄌㄥˇ、ㄌㄥˇ ㄑㄧˋ), slowly and distinctly with clear tones, a short pause between the two single utterances, and stops after the word; no other speech, no subtitles, no vocabulary text. Final 3 seconds (5-8s): the glyph 冷 is perfectly still and fully readable while the lead keeps a small joyful motion away from the strokes. Bright but not neon palette, no watermark, no flashing, no other writing.\n```"
+  }
+]

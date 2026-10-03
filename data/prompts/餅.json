@@ -1,0 +1,25 @@
+[
+  {
+    "char": "餅",
+    "meaning": "cookie",
+    "zhuyin": "ㄅㄧㄥˇ",
+    "emoji": "🍪",
+    "conceptZh": "餅：食旁加并，圓圓扁扁的餅。",
+    "object": "a tiny felt ninja who is spectacularly bad at hiding, and a surprise cookie box",
+    "morph": "a box bursts open, the ninja double-takes, and cookie crumbs fly into the strokes of 餅",
+    "creativeAngle": "布忍者躲在細竿後面，餅乾盒突然彈開，他嚇一跳，餅乾屑拼成餅。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 餅 (cookie), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a tiny felt ninja who is spectacularly bad at hiding, and a surprise cookie box. Warm cream backdrop; the glyph is chocolate-brown with golden highlights. Timed beats. 0.0-1.5s: a tiny navy felt ninja tiptoes in and hides behind a pole much thinner than himself; the voice says the first 餅 as a little tin box slides in beside him. 1.5-3.0s: the lid pops with a bounce, golden crumbs burst out, and the ninja double-takes so hard his hood spins. The voice says the second 餅 as the crumbs align into the food radical on the left. 3.0-4.5s: he pokes the box, the rest of the crumb-strokes spring out and click into the finished 餅 at 70% of frame height. 4.5-5.0s: the voice says 月餅 (ㄩㄝˋ ㄅㄧㄥˇ) as a round mooncake rolls out and the ninja tries to hide behind it. Final hold: 5.0-8.0s: the glyph is still; the ninja peeks out from behind the mooncake, still sure he is hidden. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 餅、餅、月餅, syllable by syllable ㄅㄧㄥˇ、ㄅㄧㄥˇ、ㄩㄝˋ ㄅㄧㄥˇ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 餅 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.630Z",
+    "id": "c8c056b3-fb56-484c-bf2b-e535ff0beb5d",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "fe0c0d6e716af800166fdfc25a4aede92a1116574c5d9e6ab21a20a2f6dd76e5",
+    "hash": "29f8c6549c3b293b3858a935c6f381350039f5a68b73d2168d833a862d12a39b",
+    "formatted": "【目標國字】：餅\n【設計概念】：餅：食旁加并，圓圓扁扁的餅。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 餅 (cookie), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a tiny felt ninja who is spectacularly bad at hiding, and a surprise cookie box. Warm cream backdrop; the glyph is chocolate-brown with golden highlights. Timed beats. 0.0-1.5s: a tiny navy felt ninja tiptoes in and hides behind a pole much thinner than himself; the voice says the first 餅 as a little tin box slides in beside him. 1.5-3.0s: the lid pops with a bounce, golden crumbs burst out, and the ninja double-takes so hard his hood spins. The voice says the second 餅 as the crumbs align into the food radical on the left. 3.0-4.5s: he pokes the box, the rest of the crumb-strokes spring out and click into the finished 餅 at 70% of frame height. 4.5-5.0s: the voice says 月餅 (ㄩㄝˋ ㄅㄧㄥˇ) as a round mooncake rolls out and the ninja tries to hide behind it. Final hold: 5.0-8.0s: the glyph is still; the ninja peeks out from behind the mooncake, still sure he is hidden. The glyph holds fully still and clearly readable for the last 3 seconds. Narration (off-screen, warm and unhurried, Taiwanese Mandarin, Ministry of Education readings, no erhua): the exact spoken line is 餅、餅、月餅, syllable by syllable ㄅㄧㄥˇ、ㄅㄧㄥˇ、ㄩㄝˋ ㄅㄧㄥˇ. Two isolated utterances of the character, a short pause between them, then the word once, then silence; the voice must not add any explanation, translation or repeat. The vocabulary word is audio only. The glyph 餅 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

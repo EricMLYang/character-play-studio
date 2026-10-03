@@ -1,0 +1,25 @@
+[
+  {
+    "char": "河",
+    "meaning": "river",
+    "zhuyin": "ㄏㄜˊ",
+    "emoji": "🏞️",
+    "conceptZh": "河是從高處流向海的長長的水",
+    "object": "a chunky toy warrior and a tiny hippo copycat",
+    "morph": "the hippo mimics the warrior one beat late and the splash makes the strokes of 河",
+    "creativeAngle": "玩具戰士跳過河，小河馬慢一拍模仿，每次水花畫出一筆。",
+    "promptEn": "An 8-second animated clip teaching the Traditional Chinese character 河 (river). Lead: a stout toy warrior with a foam sword and round shield, bravado high and skill low. Moment 1 (0-1.7s): he strides to the bank and leaps; the voice says 河 as he splashes in belly first. Moment 2 (1.7-3.4s): a small gray hippo mimics each pose one beat late, striking the pond; the splashes freeze into blue strokes making 河 on the second 河. Moment 3 (3.4-5.3s): the warrior swings his foam sword, the hippo copies late and bumps his shield; as the voice says 河馬 the hippo yawns wide and the shield falls into its mouth. Moment 4 (5.3-8s): glyph still; the pair bow together, the hippo blowing a tiny water spout. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"河、河、河馬\" (ㄏㄜˊ、ㄏㄜˊ、ㄏㄜˊ ㄇㄚˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 河, drawn as saturated solid medium blue strokes on a pale warm yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.027Z",
+    "id": "9dd85f19-9495-47ad-9709-1bc5e627ec59",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "a7c071700c113d99cc3b655b54191db11b16c0c97294241fab62f8894695c843",
+    "hash": "66e0ba509f114aeea5a040ab04af6cf34f8b6e886194702a6aea5073ea7dae43",
+    "formatted": "【目標國字】：河\n【設計概念】：河是從高處流向海的長長的水\n【8s Video Prompt】:\n```text\nAn 8-second animated clip teaching the Traditional Chinese character 河 (river). Lead: a stout toy warrior with a foam sword and round shield, bravado high and skill low. Moment 1 (0-1.7s): he strides to the bank and leaps; the voice says 河 as he splashes in belly first. Moment 2 (1.7-3.4s): a small gray hippo mimics each pose one beat late, striking the pond; the splashes freeze into blue strokes making 河 on the second 河. Moment 3 (3.4-5.3s): the warrior swings his foam sword, the hippo copies late and bumps his shield; as the voice says 河馬 the hippo yawns wide and the shield falls into its mouth. Moment 4 (5.3-8s): glyph still; the pair bow together, the hippo blowing a tiny water spout. Audio: a warm, friendly off-screen voice in clear Taiwanese Mandarin reads exactly \"河、河、河馬\" (ㄏㄜˊ、ㄏㄜˊ、ㄏㄜˊ ㄇㄚˇ), slowly and distinctly with clear tones, then stops; no other speech, no music louder than the voice. The only on-screen text is the single Traditional Chinese glyph 河, drawn as saturated solid medium blue strokes on a pale warm yellow background, correctly formed, centered, filling about 70% of frame height with margins, perfectly still for the final 3-second hold while the lead keeps a small joyful motion away from the strokes. No vocabulary text, subtitles, watermark, clutter, flashing, real people or realistic humans; bright but not neon, no dark grading.\n```"
+  }
+]

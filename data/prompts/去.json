@@ -1,0 +1,25 @@
+[
+  {
+    "char": "去",
+    "meaning": "to go",
+    "zhuyin": "ㄑㄩˋ",
+    "emoji": "🚪",
+    "conceptZh": "魔術師兔子變魔術，字的筆畫一直從邊邊偷溜進來又躲開，最後被帽子吸住，兔子跳出門「出去」。",
+    "object": "a cartoon magician rabbit in a purple top hat with a short wand, and a small toy door that stands on the floor",
+    "morph": "stroke pieces of the glyph 去 keep peeking in from the frame edges and dodging the rabbit before settling in the right places",
+    "creativeAngle": "躲貓貓：筆畫從畫面邊緣探頭、躲開魔術師，最後魔法失靈卻剛好歸位；「出去」用兔子跳出小門的動作呼應。",
+    "promptEn": "An 8-second bright cartoon clip on a clean solid pale lavender backdrop, with one large Traditional Chinese glyph 去 as the only text, built of thick glossy saturated tomato-red strokes, about 70% of frame height, centered with margins. Lead: a cartoon magician rabbit in a purple top hat whose tricks always misfire in a harmless, funnier way; one supporting prop, a small toy door standing at the side. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 去、去、出去 (ㄑㄩˋ、ㄑㄩˋ、ㄔㄨ ㄑㄩˋ), slowly with clear tones, then stop. Moment 1 (0–1.8s): the rabbit hops to center, taps his wand on the hat with a flourish, and as the first 去 is spoken the top horizontal stroke and the short vertical peek in from the top-left corner like shy puppies, then duck back out of sight. Moment 2 (1.8–3.6s): the rabbit whips around, wand pointed, and the lower hooking piece peeks in from the right, sticks out its tongue-shaped tip, and slides away every time he reaches for it; he leaps, grabs thin air, and lands flat on his belly, ears pooling over his eyes. Moment 3 (3.6–5s): he tries one more spell, the hat belches a puff of pink smoke, and all the strokes zoom in at once, dodge around him, then plop into place as the second 去 is spoken: a horizontal bar over a short cross stroke above a wide open base with a diagonal tail on the lower right. Moment 4 (5s): the word 出去 is spoken as the rabbit scoots to the little door, flings it open, and hops out in one bouncy leap, returns with his head poking back in, waves, then out again. Final 5–8s: the glyph 去 stays perfectly still and fully legible while the rabbit pops the door open and peeks out, wobbling his hat on his ears with a satisfied grin, never touching the strokes. Soft daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.529Z",
+    "id": "5a6469df-d3f7-4a2b-b974-c3ac72dee963",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7593d563bcb6832b08861ea08ecd1e97021b65a1ba6f31150eed24d18bbe24c4",
+    "hash": "235fedb4b1d4009241e112c6616b53e6d98ef76a24a5c83dee2d2705f845b970",
+    "formatted": "【目標國字】：去\n【設計概念】：魔術師兔子變魔術，字的筆畫一直從邊邊偷溜進來又躲開，最後被帽子吸住，兔子跳出門「出去」。\n【8s Video Prompt】:\n```text\nAn 8-second bright cartoon clip on a clean solid pale lavender backdrop, with one large Traditional Chinese glyph 去 as the only text, built of thick glossy saturated tomato-red strokes, about 70% of frame height, centered with margins. Lead: a cartoon magician rabbit in a purple top hat whose tricks always misfire in a harmless, funnier way; one supporting prop, a small toy door standing at the side. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 去、去、出去 (ㄑㄩˋ、ㄑㄩˋ、ㄔㄨ ㄑㄩˋ), slowly with clear tones, then stop. Moment 1 (0–1.8s): the rabbit hops to center, taps his wand on the hat with a flourish, and as the first 去 is spoken the top horizontal stroke and the short vertical peek in from the top-left corner like shy puppies, then duck back out of sight. Moment 2 (1.8–3.6s): the rabbit whips around, wand pointed, and the lower hooking piece peeks in from the right, sticks out its tongue-shaped tip, and slides away every time he reaches for it; he leaps, grabs thin air, and lands flat on his belly, ears pooling over his eyes. Moment 3 (3.6–5s): he tries one more spell, the hat belches a puff of pink smoke, and all the strokes zoom in at once, dodge around him, then plop into place as the second 去 is spoken: a horizontal bar over a short cross stroke above a wide open base with a diagonal tail on the lower right. Moment 4 (5s): the word 出去 is spoken as the rabbit scoots to the little door, flings it open, and hops out in one bouncy leap, returns with his head poking back in, waves, then out again. Final 5–8s: the glyph 去 stays perfectly still and fully legible while the rabbit pops the door open and peeks out, wobbling his hat on his ears with a satisfied grin, never touching the strokes. Soft daylight, no flashing, no real people, no other text.\n```"
+  }
+]

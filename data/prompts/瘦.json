@@ -1,0 +1,25 @@
+[
+  {
+    "char": "瘦",
+    "meaning": "thin / skinny",
+    "zhuyin": "ㄕㄡˋ",
+    "emoji": "📏",
+    "conceptZh": "科學家老鼠與細長的長頸鹿互相模仿，慢一拍把長腿變成筆畫。",
+    "object": "a bespectacled lab mouse and a skinny toy giraffe",
+    "morph": "the giraffe copies the mouse a beat late, thin legs becoming the strokes of 瘦",
+    "creativeAngle": "長頸鹿慢一拍模仿老鼠，一高一矮，拉長的身形成了字。",
+    "promptEn": "An 8-second animated clip on a light mint-green lab backdrop. Lead: a bespectacled cartoon lab mouse in a tiny white coat with a clipboard. A skinny toy giraffe with thin legs copies every move one beat late. The finished glyph 瘦 is a saturated indigo-blue, centered, about 70% of frame height.\n0.0-1.6s: the mouse tiptoes in with a measuring tape; one beat later the giraffe tiptoes in and the tape wraps around its neck instead. First \"瘦\" as the mouse freezes in a thin pose.\n1.6-3.2s: copycat mix-up: the mouse bends, the giraffe bends later and bonks the mouse's hat; the mouse stretches up, the giraffe stretches even higher. Second \"瘦\" lands as the giraffe's thin legs cross like two strokes.\n3.2-5.0s: the measuring tape whips around them and the tape marks spring into the glyph 瘦; both blink.\n5.0-8.0s: HOLD, glyph perfectly still. At \"瘦高\" the giraffe stretches up past the top of the page edge, neck wobbling, and the mouse climbs on a stack of beakers to look it in the eye, whiskers twitching, away from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"瘦、瘦、瘦高\" (ㄕㄡˋ、ㄕㄡˋ、ㄕㄡˋ ㄍㄠ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 瘦.\nNo other text, no watermark, no flashing, no real people.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:19.403Z",
+    "id": "6ce8af73-8d9d-4b4a-ae8e-23608e3ece06",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "e97e102694dff533ffc0ed72e8762c3c6879dd1b017cfba13a8e582dda9a9027",
+    "hash": "5fea1c3fb83921279ee9015e46f64d74f7a988bf3ae6599946c93fef0f73d89f",
+    "formatted": "【目標國字】：瘦\n【設計概念】：科學家老鼠與細長的長頸鹿互相模仿，慢一拍把長腿變成筆畫。\n【8s Video Prompt】:\n```text\nAn 8-second animated clip on a light mint-green lab backdrop. Lead: a bespectacled cartoon lab mouse in a tiny white coat with a clipboard. A skinny toy giraffe with thin legs copies every move one beat late. The finished glyph 瘦 is a saturated indigo-blue, centered, about 70% of frame height.\n0.0-1.6s: the mouse tiptoes in with a measuring tape; one beat later the giraffe tiptoes in and the tape wraps around its neck instead. First \"瘦\" as the mouse freezes in a thin pose.\n1.6-3.2s: copycat mix-up: the mouse bends, the giraffe bends later and bonks the mouse's hat; the mouse stretches up, the giraffe stretches even higher. Second \"瘦\" lands as the giraffe's thin legs cross like two strokes.\n3.2-5.0s: the measuring tape whips around them and the tape marks spring into the glyph 瘦; both blink.\n5.0-8.0s: HOLD, glyph perfectly still. At \"瘦高\" the giraffe stretches up past the top of the page edge, neck wobbling, and the mouse climbs on a stack of beakers to look it in the eye, whiskers twitching, away from the glyph.\nAudio: Off-screen voice, warm and friendly, clear Taiwanese Mandarin, slow and distinct, reading exactly \"瘦、瘦、瘦高\" (ㄕㄡˋ、ㄕㄡˋ、ㄕㄡˋ ㄍㄠ) with clear tones: the character, a short pause, the character again, then the word once, and nothing after it. No subtitles or vocabulary text; the only text on screen is the single glyph 瘦.\nNo other text, no watermark, no flashing, no real people.\n```"
+  }
+]

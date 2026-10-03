@@ -1,0 +1,25 @@
+[
+  {
+    "char": "東",
+    "meaning": "east",
+    "zhuyin": "ㄉㄨㄥ",
+    "emoji": "🌅",
+    "conceptZh": "賽車連續彈跳撞到木字的各邊，最後日從地平線滾進去，成為「東」。",
+    "object": "pull-back race car, a toy sunrise",
+    "morph": "the car ricochets pieces into 木 and a 日 slides in the middle",
+    "creativeAngle": "彈跳連鎖落位。",
+    "promptEn": "Create an exactly 8-second animated comedy, locked frontal camera. Setting: a dawn-pink backdrop with a soft yellow hill; the glyph is solid deep-orange 東, 木 with a 日 in the middle. A squeaky pull-back race car with googly eyes sits at left. The Traditional Chinese glyph 東 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the car's spring is pulled back and it launches into the left strokes; the first 東 is spoken as it launches. Moment two (1.8-3.5s): it ricochets off the wall, the floor and the hill, each hit locking another stroke and the 日 box into the center of 木; the second 東 is spoken at the last bump. Moment three (3.5-5.0s): the car overshoots, then rolls to a sunrise toy lit behind the hill; 東邊 is spoken as the sun rises on the right. From 5.0-8.0s the glyph 東 is perfectly still and unobstructed; the car rocks back and forth beside the sun. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「東、東、東邊」 with Zhuyin ㄉㄨㄥ、ㄉㄨㄥ、ㄉㄨㄥ ㄅㄧㄢ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only squeaks and bumps, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:18.886Z",
+    "id": "7c254903-cf76-483e-83cc-26628d2b68a2",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3cc816916b033b342dddba1bbca024b57173def82fbdcf23fbeb5edba44d51a8",
+    "hash": "0c1ec8d56bded65536d93391cbb106692321789e3219adae28d53db528cdface",
+    "formatted": "【目標國字】：東\n【設計概念】：賽車連續彈跳撞到木字的各邊，最後日從地平線滾進去，成為「東」。\n【8s Video Prompt】:\n```text\nCreate an exactly 8-second animated comedy, locked frontal camera. Setting: a dawn-pink backdrop with a soft yellow hill; the glyph is solid deep-orange 東, 木 with a 日 in the middle. A squeaky pull-back race car with googly eyes sits at left. The Traditional Chinese glyph 東 stays centered and uncropped at about 70% of frame height with generous margins. Moment one (0.0-1.8s): the car's spring is pulled back and it launches into the left strokes; the first 東 is spoken as it launches. Moment two (1.8-3.5s): it ricochets off the wall, the floor and the hill, each hit locking another stroke and the 日 box into the center of 木; the second 東 is spoken at the last bump. Moment three (3.5-5.0s): the car overshoots, then rolls to a sunrise toy lit behind the hill; 東邊 is spoken as the sun rises on the right. From 5.0-8.0s the glyph 東 is perfectly still and unobstructed; the car rocks back and forth beside the sun. Voice: a gentle off-screen narrator in Taiwanese Mandarin pronounces exactly 「東、東、東邊」 with Zhuyin ㄉㄨㄥ、ㄉㄨㄥ、ㄉㄨㄥ ㄅㄧㄢ, slowly and distinctly, tones clear. Timing: first utterance at about 0.5s, second at about 2.4s, the word at about 4.4s; then stop, no repeats and no extra speech. Beneath the voice only squeaks and bumps, no music. The single glyph is the only on-screen text; the vocabulary stays audio-only with no subtitles, watermark, clutter or flashing.\n```"
+  }
+]

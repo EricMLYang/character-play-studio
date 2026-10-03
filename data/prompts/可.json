@@ -1,0 +1,25 @@
+[
+  {
+    "char": "可",
+    "meaning": "can",
+    "zhuyin": "ㄎㄜˇ",
+    "emoji": "👍",
+    "conceptZh": "賽車衝過頭，一隻小小的心眼貓咪玩具晚一拍模仿牠的每個動作，兩個疊在一起，最後拼出「可」，貓咪一臉「可愛」。",
+    "object": "a squeaky pull-back toy race car with googly eyes, and a tiny copycat kitten-shaped toy car that mimics it one beat late",
+    "morph": "two toy cars leave tire-paint lines on the floor, the copycat repeats each move a beat late, and the lines form the glyph 可",
+    "creativeAngle": "模仿：小貓車晚一拍複製賽車的每個動作，混亂中兩車的輪胎彩線剛好畫出「可」；詞「可愛」用愛心眼小貓車呼應。",
+    "promptEn": "An 8-second energetic cartoon clip on a clean solid pale butter-yellow backdrop. The one and only text is a large Traditional Chinese glyph 可, painted by tire tracks in thick saturated royal-blue strokes, about 70% of frame height, centered with margins. Lead: a squeaky pull-back toy race car with googly eyes that always overshoots; supporting copycat, a tiny kitten-faced toy car in pink that mimics everything one beat late. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 可、可、可愛 (ㄎㄜˇ、ㄎㄜˇ、ㄎㄜˇ ㄞˋ), slowly with clear tones, then silence. Moment 1 (0–1.7s): the race car, tires dipped in blue paint, is pulled back by an invisible spring, squeaks, and shoots forward, painting a long horizontal bar across the top as the first 可 is spoken, then overshoots the edge and skids back with a wobble. Moment 2 (1.7–3.4s): the kitten car appears and repeats the move a beat late, bumping into the race car's rear, painting a wobbly mirrored bar, and both cars spin around, googly eyes swirling in different directions. Moment 3 (3.4–5s): the race car dashes down in a straight line, the kitten car copies it half a second later and overshoots, the two circle back and trace a small square box together, a tight little loop with eyes squeezed; the line ends as the second 可 is spoken, completing 可: a top bar with a long vertical hook, and a square box in the lower left. Moment 4 (5s): as 可愛 is spoken, the kitten car's headlights turn to big pink hearts, and it nuzzles the race car, which toots a tiny horn and blushes red on its hood. Final 5–8s: the glyph 可 stays completely still with clean blue strokes, while the two cars sit side by side at the lower edge of the frame, nudging each other with squeaky, silent wobbles, never rolling over the strokes. Soft daylight, no flashing, no real people, no other text.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.590Z",
+    "id": "9dbcc4c2-5fad-4477-ac6d-3a2d3c13c3ab",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "3e4c5f4ddc592bf4da5581d3832a2fca6f18a6ee53d59ef9d4510affeac2d062",
+    "hash": "3050474cf506108d9bc2a61091181fb6438db4b79c8d34b7fb50a4cc276fe4b0",
+    "formatted": "【目標國字】：可\n【設計概念】：賽車衝過頭，一隻小小的心眼貓咪玩具晚一拍模仿牠的每個動作，兩個疊在一起，最後拼出「可」，貓咪一臉「可愛」。\n【8s Video Prompt】:\n```text\nAn 8-second energetic cartoon clip on a clean solid pale butter-yellow backdrop. The one and only text is a large Traditional Chinese glyph 可, painted by tire tracks in thick saturated royal-blue strokes, about 70% of frame height, centered with margins. Lead: a squeaky pull-back toy race car with googly eyes that always overshoots; supporting copycat, a tiny kitten-faced toy car in pink that mimics everything one beat late. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 可、可、可愛 (ㄎㄜˇ、ㄎㄜˇ、ㄎㄜˇ ㄞˋ), slowly with clear tones, then silence. Moment 1 (0–1.7s): the race car, tires dipped in blue paint, is pulled back by an invisible spring, squeaks, and shoots forward, painting a long horizontal bar across the top as the first 可 is spoken, then overshoots the edge and skids back with a wobble. Moment 2 (1.7–3.4s): the kitten car appears and repeats the move a beat late, bumping into the race car's rear, painting a wobbly mirrored bar, and both cars spin around, googly eyes swirling in different directions. Moment 3 (3.4–5s): the race car dashes down in a straight line, the kitten car copies it half a second later and overshoots, the two circle back and trace a small square box together, a tight little loop with eyes squeezed; the line ends as the second 可 is spoken, completing 可: a top bar with a long vertical hook, and a square box in the lower left. Moment 4 (5s): as 可愛 is spoken, the kitten car's headlights turn to big pink hearts, and it nuzzles the race car, which toots a tiny horn and blushes red on its hood. Final 5–8s: the glyph 可 stays completely still with clean blue strokes, while the two cars sit side by side at the lower edge of the frame, nudging each other with squeaky, silent wobbles, never rolling over the strokes. Soft daylight, no flashing, no real people, no other text.\n```"
+  }
+]

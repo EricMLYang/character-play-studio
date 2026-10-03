@@ -1,0 +1,25 @@
+[
+  {
+    "char": "蛋",
+    "meaning": "egg",
+    "zhuyin": "ㄉㄢˋ",
+    "emoji": "🥚",
+    "conceptZh": "蛋：疋加虫，像一顆孵出小生命的蛋。",
+    "object": "a rubber dinosaur with huge feet and tiny arms, and a stubborn speckled toy egg",
+    "morph": "the egg has its own opinion and rolls away from the dino's tiny arms until he outsmarts it with a big foot, forming 蛋",
+    "creativeAngle": "橡膠恐龍的小手夠不到愛亂滾的蛋，最後用大腳穩住。",
+    "promptEn": "An 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 蛋 (egg), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rubber dinosaur with huge feet and tiny arms, and a stubborn speckled toy egg. Sky-blue backdrop with a thin grass strip; the glyph is sunny golden-orange. Timed beats. 0.0-1.5s: a green rubber dinosaur stomps in with squeaky footsteps; the voice says the first 蛋 as a speckled toy egg drops onto the grass and wobbles. 1.5-3.0s: he reaches with his comically tiny arms; the egg rolls just out of reach, again and again, leaving golden strokes behind in its trail. The voice says the second 蛋 as the egg does a smug little spin. 3.0-4.5s: he lifts one giant foot, pins the egg like a football, and the strokes click into 蛋 at 70% of frame height. 4.5-5.0s: the voice says 雞蛋 (ㄐㄧ ㄉㄢˋ) as the egg cracks open and a fluffy yellow chick pops out. Final hold: 5.0-8.0s: the glyph is still; the chick perches on the dino's head while he sways proudly. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 蛋、蛋、雞蛋 = ㄉㄢˋ、ㄉㄢˋ、ㄐㄧ ㄉㄢˋ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 蛋 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:23:20.146Z",
+    "id": "54da5138-e2aa-4406-b94d-7b3fb074b2da",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "bac5279700610bb963802c811f8de627a68b7b9d21783d7528bbc9cca379d542",
+    "hash": "3c8b58c9ab95fabb51eabdb085c3329585097f3ddf40c32ff4171b42a17c40ca",
+    "formatted": "【目標國字】：蛋\n【設計概念】：蛋：疋加虫，像一顆孵出小生命的蛋。\n【8s Video Prompt】:\n```text\nAn 8-second bright, clean 2D/3D toy-animation clip. Teaching subject: the single Traditional Chinese glyph 蛋 (egg), correctly formed, in a saturated solid color against a much lighter background, ending centered and uncropped at about 70% of frame height with margins. Lead cast: a rubber dinosaur with huge feet and tiny arms, and a stubborn speckled toy egg. Sky-blue backdrop with a thin grass strip; the glyph is sunny golden-orange. Timed beats. 0.0-1.5s: a green rubber dinosaur stomps in with squeaky footsteps; the voice says the first 蛋 as a speckled toy egg drops onto the grass and wobbles. 1.5-3.0s: he reaches with his comically tiny arms; the egg rolls just out of reach, again and again, leaving golden strokes behind in its trail. The voice says the second 蛋 as the egg does a smug little spin. 3.0-4.5s: he lifts one giant foot, pins the egg like a football, and the strokes click into 蛋 at 70% of frame height. 4.5-5.0s: the voice says 雞蛋 (ㄐㄧ ㄉㄢˋ) as the egg cracks open and a fluffy yellow chick pops out. Final hold: 5.0-8.0s: the glyph is still; the chick perches on the dino's head while he sways proudly. The glyph holds fully still and clearly readable for the last 3 seconds. Voice: one gentle off-screen voice in Taiwan-standard Mandarin, slow with crisp tones, reads precisely 蛋、蛋、雞蛋 = ㄉㄢˋ、ㄉㄢˋ、ㄐㄧ ㄉㄢˋ, character, character, word, and nothing after it. Keep any background music quieter than the voice. The vocabulary word is audio only. The glyph 蛋 is the only text on screen: no subtitles, captions, labels, watermark, logos, clutter, flashing or strobing effects, and no real people or realistic human figures; all characters are stylized toys or cartoon animals.\n```"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "char": "叔",
+    "meaning": "uncle",
+    "zhuyin": "ㄕㄨ",
+    "emoji": "👨",
+    "conceptZh": "科學家老鼠想用夾子夾起筆畫，夾子自己有意見一直夾錯，最後老鼠用燒杯蓋住它，叔叔玩偶從冒泡泡的燒杯裡出現。",
+    "object": "a bespectacled cartoon lab mouse in a tiny white coat, a stubborn pair of giant tweezers, and a bubbling beaker with a bearded toy figure inside",
+    "morph": "a prop-fights-back pair of tweezers keeps lifting the wrong pieces until the mouse outsmarts it and the strokes drop into the glyph 叔",
+    "creativeAngle": "道具反抗：夾子自己有想法，一直夾錯筆畫，老鼠最後用磁鐵騙過它；「叔叔」用鬍子玩偶從燒杯泡泡裡冒出來呼應。",
+    "promptEn": "An 8-second lively cartoon lab clip on a clean solid pale aqua backdrop. The only text in the frame is one large Traditional Chinese glyph 叔, drawn with thick glossy saturated emerald-green strokes, about 70% of frame height, centered and uncropped. Lead: a bespectacled cartoon lab mouse in a tiny white coat among bubbling beakers; one supporting prop, a giant pair of tweezers with its own opinions. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 叔、叔、叔叔 (ㄕㄨ、ㄕㄨ、ㄕㄨ ㄕㄨ˙); the second syllable of the word takes the neutral tone; slow clear tones, then silence. Moment 1 (0–1.7s): the mouse pushes his glasses up and, as the first 叔 is spoken, reaches for a green stroke piece with the tweezers, but the tweezers snap shut on his own tail-tip ribbon and spin him around once. Moment 2 (1.7–3.4s): the tweezers go rogue, stretching and wagging like a snake, flinging the long left strokes into the air, catching a beaker and juggling it, the mouse chasing with a butterfly net, ears flat. Moment 3 (3.4–5s): the mouse outsmarts it by dangling a tiny horseshoe magnet; the tweezers lunge for the magnet and slam the pieces into place just as the second 叔 is spoken, forming 叔: a left side with a tall vertical, a cross bar, and a small diagonal pair, and a right side hand shape with a slanted stroke and a long falling sweep. Moment 4 (5s): the word 叔叔 is spoken as the beaker beside the mouse overflows with rainbow bubbles and a small friendly bearded toy figure in a collared shirt rises out of it on a bubble, tipping a hat. Final 5–8s: the glyph 叔 stays absolutely still and sharp while the mouse and the bearded toy figure shake hands on the side, both bouncing a bit, bubbles drifting gently, never covering the strokes. Soft daylight, no flashing, no real people, no other writing.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.555Z",
+    "id": "9892d675-1b59-4d21-a7d8-86e761855251",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "7bdd4125df202ad8a27f60e651c430f595cd5cea405feb503ca994d2e7bffb5a",
+    "hash": "f5d38597b290db727b7a213786cca8e0e63e5f015a3570fc2785c392772e621a",
+    "formatted": "【目標國字】：叔\n【設計概念】：科學家老鼠想用夾子夾起筆畫，夾子自己有意見一直夾錯，最後老鼠用燒杯蓋住它，叔叔玩偶從冒泡泡的燒杯裡出現。\n【8s Video Prompt】:\n```text\nAn 8-second lively cartoon lab clip on a clean solid pale aqua backdrop. The only text in the frame is one large Traditional Chinese glyph 叔, drawn with thick glossy saturated emerald-green strokes, about 70% of frame height, centered and uncropped. Lead: a bespectacled cartoon lab mouse in a tiny white coat among bubbling beakers; one supporting prop, a giant pair of tweezers with its own opinions. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 叔、叔、叔叔 (ㄕㄨ、ㄕㄨ、ㄕㄨ ㄕㄨ˙); the second syllable of the word takes the neutral tone; slow clear tones, then silence. Moment 1 (0–1.7s): the mouse pushes his glasses up and, as the first 叔 is spoken, reaches for a green stroke piece with the tweezers, but the tweezers snap shut on his own tail-tip ribbon and spin him around once. Moment 2 (1.7–3.4s): the tweezers go rogue, stretching and wagging like a snake, flinging the long left strokes into the air, catching a beaker and juggling it, the mouse chasing with a butterfly net, ears flat. Moment 3 (3.4–5s): the mouse outsmarts it by dangling a tiny horseshoe magnet; the tweezers lunge for the magnet and slam the pieces into place just as the second 叔 is spoken, forming 叔: a left side with a tall vertical, a cross bar, and a small diagonal pair, and a right side hand shape with a slanted stroke and a long falling sweep. Moment 4 (5s): the word 叔叔 is spoken as the beaker beside the mouse overflows with rainbow bubbles and a small friendly bearded toy figure in a collared shirt rises out of it on a bubble, tipping a hat. Final 5–8s: the glyph 叔 stays absolutely still and sharp while the mouse and the bearded toy figure shake hands on the side, both bouncing a bit, bubbles drifting gently, never covering the strokes. Soft daylight, no flashing, no real people, no other writing.\n```"
+  }
+]

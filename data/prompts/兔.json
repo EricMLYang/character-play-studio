@@ -1,0 +1,25 @@
+[
+  {
+    "char": "兔",
+    "meaning": "rabbit",
+    "zhuyin": "ㄊㄨˋ",
+    "emoji": "🐰",
+    "conceptZh": "自以為隱形的布忍者輕輕碰倒一塊小方塊，連鎖倒下的軟積木剛好排成「兔」，躲在後面的小兔子被抓包。",
+    "object": "a tiny felt ninja with a black mask and a red headband, a row of soft pink felt blocks, and a small white plush bunny",
+    "morph": "a chain of tumbling pink felt blocks lands as the glyph 兔 while a plush bunny hops out from behind it",
+    "creativeAngle": "骨牌效應：布忍者躲不好還以為沒人看見，一碰倒積木鏈，倒成「兔」，藏在後面的小兔子現形；詞「兔子」靠小兔子跳出來呼應。",
+    "promptEn": "An 8-second whimsical clip on a clean solid pale sky-blue backdrop with one large Traditional Chinese glyph 兔 as the only text in frame, made of thick soft pink felt strokes with a gloss-free matte look but strongly saturated magenta-pink color, about 70% of frame height, centered and uncropped. Lead: a tiny felt ninja in a black mask and red headband, spectacularly bad at hiding and certain no one can see him; one supporting character, a small white plush bunny. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 兔、兔、兔子 (ㄊㄨˋ、ㄊㄨˋ、ㄊㄨˋ ㄗ˙), slowly with clear tones, then silence. Moment 1 (0–1.7s): the ninja tiptoes in sideways with exaggerated knee lifts, freezes behind a tiny rock that is only half his size with his bright red headband sticking out, and as the first 兔 is spoken he flicks a soft pink felt block, tick, starting a chain. Moment 2 (1.7–3.4s): the blocks tumble in a rolling flop-flop wave across the floor and the ninja hurries after them, trying to catch the last block with both hands, tripping over his own tiny sandal and rolling into a ball. Moment 3 (3.4–5s): the second 兔 lands as the felt blocks settle in the shape of 兔: a slanted top stroke, a boxy body with an inner cross, a long falling left stroke, and a little dot like a cotton tail at the lower right. The ninja springs up, bows triumphantly. Moment 4 (5s): as 兔子 is spoken, a white plush bunny pops up from behind the glyph's own big belly gap, ears flopping, and the ninja spins around, freezes with wide eyes, then slowly holds a finger to his lips. Final 5–8s: the glyph 兔 stays totally still and sharp while the ninja, off to one side, pretends to be a bush, swaying with the bunny leaning into his shoulder; no contact with the strokes. Soft daylight, no flashing, no real people, no other writing anywhere.",
+    "provider": "claude-code",
+    "requestedModel": null,
+    "actualModel": "claude-sonnet-5-5",
+    "generatedAt": "2026-10-03T07:27:15.404Z",
+    "id": "adb9d655-5242-4209-8abb-ee361a2cee6b",
+    "direction": "",
+    "templateVersion": 7,
+    "appliedFeedback": [],
+    "feedbackCount": 0,
+    "contextHash": "0abf6ecb410dc21c1f1aa5244a394aaad5b40fafae84112d86165f3e00deef98",
+    "hash": "f91f16a8f9bb9eedbba5bdcc026f5dbeb2aa9d355026cbc1fdae75c199314e04",
+    "formatted": "【目標國字】：兔\n【設計概念】：自以為隱形的布忍者輕輕碰倒一塊小方塊，連鎖倒下的軟積木剛好排成「兔」，躲在後面的小兔子被抓包。\n【8s Video Prompt】:\n```text\nAn 8-second whimsical clip on a clean solid pale sky-blue backdrop with one large Traditional Chinese glyph 兔 as the only text in frame, made of thick soft pink felt strokes with a gloss-free matte look but strongly saturated magenta-pink color, about 70% of frame height, centered and uncropped. Lead: a tiny felt ninja in a black mask and red headband, spectacularly bad at hiding and certain no one can see him; one supporting character, a small white plush bunny. No background music, no subtitles, no vocabulary text. Voice: warm, friendly off-screen narrator in clear Taiwanese Mandarin saying exactly 兔、兔、兔子 (ㄊㄨˋ、ㄊㄨˋ、ㄊㄨˋ ㄗ˙), slowly with clear tones, then silence. Moment 1 (0–1.7s): the ninja tiptoes in sideways with exaggerated knee lifts, freezes behind a tiny rock that is only half his size with his bright red headband sticking out, and as the first 兔 is spoken he flicks a soft pink felt block, tick, starting a chain. Moment 2 (1.7–3.4s): the blocks tumble in a rolling flop-flop wave across the floor and the ninja hurries after them, trying to catch the last block with both hands, tripping over his own tiny sandal and rolling into a ball. Moment 3 (3.4–5s): the second 兔 lands as the felt blocks settle in the shape of 兔: a slanted top stroke, a boxy body with an inner cross, a long falling left stroke, and a little dot like a cotton tail at the lower right. The ninja springs up, bows triumphantly. Moment 4 (5s): as 兔子 is spoken, a white plush bunny pops up from behind the glyph's own big belly gap, ears flopping, and the ninja spins around, freezes with wide eyes, then slowly holds a finger to his lips. Final 5–8s: the glyph 兔 stays totally still and sharp while the ninja, off to one side, pretends to be a bush, swaying with the bunny leaning into his shoulder; no contact with the strokes. Soft daylight, no flashing, no real people, no other writing anywhere.\n```"
+  }
+]
