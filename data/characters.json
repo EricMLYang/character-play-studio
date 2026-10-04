@@ -1362,8 +1362,8 @@
       ],
       "feedback": [],
       "emoji": "🐑",
-      "activePromptId": "68d9cc80-3bfd-40fc-8e0a-6e8102b9f825",
-      "promptedAt": "2026-09-23T13:34:37.644Z",
+      "activePromptId": "c8c0bfc9-df5d-4148-a10b-bbd1f0000419",
+      "promptedAt": "2026-10-03T07:27:17.296Z",
       "words": [
         {
           "text": "綿羊",
@@ -3132,12 +3132,28 @@
         "morph": "the glyph 吃 stands still as a solid sculpture while the giant-bite gag plays out at its base",
         "hook": "玩具機器人面對一顆比他還大的飯糰，嘴巴張到不能再大、慢慢逼近，用力咬下去——結果只咬到一粒米；他把那粒米慢慢嚼完，認真地點點頭比出大拇指，好像剛吃完大餐。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 63,
-      "media": [],
+      "media": [
+        {
+          "file": "吃-6352d90a-2333-4ae2-bb73-4ac4e2dc36b4.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-03T07:28:05.329Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-03T07:28:25.547Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "activePromptId": "30fbe950-4336-4e89-803d-b018c1a37ad8",
-      "promptedAt": "2026-09-15T16:09:04.615Z",
+      "activePromptId": "31bc14cb-298d-4506-b68e-c3021fdd9432",
+      "promptedAt": "2026-10-03T07:27:15.619Z",
       "words": [
         {
           "text": "吃飯",
@@ -3152,7 +3168,8 @@
           "emoji": "🤤"
         }
       ],
-      "scene": "grow"
+      "scene": "grow",
+      "needsRedo": false
     },
     {
       "char": "喝",
@@ -3168,8 +3185,8 @@
       "priority": 64,
       "media": [],
       "feedback": [],
-      "activePromptId": "50dfdc67-f487-4c47-8b92-d7a803e0c386",
-      "promptedAt": "2026-09-15T16:09:04.622Z",
+      "activePromptId": "e29daecc-3e42-49b9-a1cd-0a3862ea3b0c",
+      "promptedAt": "2026-10-03T07:27:15.712Z",
       "words": [
         {
           "text": "喝水",
@@ -3200,8 +3217,8 @@
       "priority": 65,
       "media": [],
       "feedback": [],
-      "activePromptId": "46e5d79b-ab33-4566-aea3-94a7d1422e97",
-      "promptedAt": "2026-09-15T16:09:04.629Z",
+      "activePromptId": "f207fd79-d4b2-45ea-82d2-46633f609c1e",
+      "promptedAt": "2026-10-03T07:27:16.964Z",
       "words": [
         {
           "text": "眼睛",
@@ -3232,8 +3249,8 @@
       "priority": 66,
       "media": [],
       "feedback": [],
-      "activePromptId": "952861ce-304e-4ebf-961f-f513a5acc884",
-      "promptedAt": "2026-09-15T16:09:04.635Z",
+      "activePromptId": "4c67f02e-7d8d-489c-87cb-38df29361945",
+      "promptedAt": "2026-10-03T07:27:18.025Z",
       "words": [
         {
           "text": "頭髮",
@@ -3264,8 +3281,8 @@
       "priority": 67,
       "media": [],
       "feedback": [],
-      "activePromptId": "cf527686-642f-43db-8131-ddc7f721dc27",
-      "promptedAt": "2026-09-15T16:09:04.642Z",
+      "activePromptId": "7bf3ed2f-3e88-483c-91da-8329c9e43256",
+      "promptedAt": "2026-10-03T07:27:15.922Z",
       "words": [
         {
           "text": "回家",
@@ -3296,8 +3313,8 @@
       "priority": 68,
       "media": [],
       "feedback": [],
-      "activePromptId": "a29e2dc4-4287-4cf5-b8cc-3ff39d9737c9",
-      "promptedAt": "2026-09-15T16:09:04.649Z",
+      "activePromptId": "2b956c48-4e21-4c2d-8885-266737191f24",
+      "promptedAt": "2026-10-03T07:23:18.866Z",
       "words": [
         {
           "text": "看書",
@@ -3328,8 +3345,8 @@
       "priority": 69,
       "media": [],
       "feedback": [],
-      "activePromptId": "5d41602a-1c50-48d3-8296-de8c9a5a87af",
-      "promptedAt": "2026-09-15T16:09:04.656Z",
+      "activePromptId": "562886b0-f343-427f-9244-513fa8ee0ca8",
+      "promptedAt": "2026-10-03T07:23:18.945Z",
       "words": [
         {
           "text": "水果",
@@ -3360,8 +3377,8 @@
       "priority": 70,
       "media": [],
       "feedback": [],
-      "activePromptId": "bba16cea-c2fd-4ebc-8661-576291c706ad",
-      "promptedAt": "2026-09-15T16:09:04.662Z",
+      "activePromptId": "e4992565-9e7c-4f18-99e8-e915954a1a85",
+      "promptedAt": "2026-10-03T07:23:20.653Z",
       "words": [
         {
           "text": "高興",
@@ -3392,8 +3409,8 @@
       "priority": 71,
       "media": [],
       "feedback": [],
-      "activePromptId": "7689f39e-0b58-4e1b-a429-0eacdf5c8b22",
-      "promptedAt": "2026-09-15T16:09:04.669Z",
+      "activePromptId": "9aea5811-f075-429f-878e-a7dd4c3c6b2d",
+      "promptedAt": "2026-10-03T07:23:20.798Z",
       "words": [
         {
           "text": "黑色",
@@ -3435,11 +3452,30 @@
         "hook": "一顆亮晶晶的玩具太陽燈和一彎溫柔發光的玩具月亮夜燈並肩站著，「啪」一聲同時亮起來，把小舞台照得又暖又亮。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "live",
       "priority": 72,
-      "media": [],
+      "media": [
+        {
+          "file": "明-d3a8054b-3b19-474a-b512-c4d073d463fe.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-03T07:30:06.867Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-03T07:30:23.390Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "f6106b96-84ac-40fc-97bc-b16d642fc00c",
+      "promptedAt": "2026-10-03T07:23:18.788Z",
+      "needsRedo": false
     },
     {
       "char": "看",
@@ -3466,11 +3502,30 @@
         "hook": "一個胖胖的玩具小探險家舉起迷你望遠鏡貼在眼睛上，慢慢地左看看、右看看，鏡片還閃了一下光。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "live",
       "priority": 73,
-      "media": [],
+      "media": [
+        {
+          "file": "看-fc40e594-4571-4951-a4c7-d24163a46f6e.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-03T07:32:36.954Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-03T07:32:54.682Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "4acdc6f8-f265-4a93-b6ca-e7c6bf8839c0",
+      "promptedAt": "2026-10-03T07:23:19.497Z",
+      "needsRedo": false
     },
     {
       "char": "哭",
@@ -3497,11 +3552,13 @@
         "hook": "一隻絨毛玩具小熊臉上貼著亮亮的藍色淚珠貼紙，兩顆小玻璃珠眼淚順著絨毛滾下來，「叮」地一聲輕輕落在舞台上。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 74,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "22ce02ae-ba6d-4ac3-bc24-bceeaa46cc53",
+      "promptedAt": "2026-10-03T07:23:18.259Z"
     },
     {
       "char": "男",
@@ -3528,11 +3585,13 @@
         "hook": "一個戴著藍色棒球帽、臉上掛著笑容的玩具男孩公仔，開心地揮揮手，還轉了一個小圈圈。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 75,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "87602561-5dfc-46e5-b746-3891ec229cbb",
+      "promptedAt": "2026-10-03T07:23:19.382Z"
     },
     {
       "char": "尖",
@@ -3558,11 +3617,30 @@
         "morph": "the glyph 尖 stands still as a solid sculpture while the toy cone and the toy mountain peak slowly spin to show off their matching sharp points",
         "hook": "一支尖尖的玩具冰淇淋甜筒和一座小玩具山峰擺在一起，兩個尖尖的頭慢慢轉了一圈，比比看誰比較尖。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 76,
-      "media": [],
+      "media": [
+        {
+          "file": "尖-086a88c9-e257-415a-9440-a4f01f4b3fe2.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-04T00:51:54.367Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-04T00:55:09.581Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ec0f4f8b-7113-428a-9957-5d21c1d19e35",
+      "promptedAt": "2026-10-03T07:23:18.478Z",
+      "needsRedo": false
     },
     {
       "char": "問",
@@ -3588,11 +3666,23 @@
         "morph": "the glyph 問 stands still as a solid sculpture while the toy owl tilts its head side to side and the balloon bobs gently overhead",
         "hook": "一隻好奇的玩具貓頭鷹頭上飄著一顆黃色問號氣球，牠歪著頭東看看、西看看，氣球也跟著輕輕晃來晃去。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 77,
-      "media": [],
+      "media": [
+        {
+          "file": "問-5ce7f134-5a57-4414-8789-e60581637973.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-04T01:12:37.747Z",
+          "review": "draft",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0
+        }
+      ],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "690f2031-719a-40d7-8461-2ab3090de01b",
+      "promptedAt": "2026-10-03T07:23:18.295Z"
     },
     {
       "char": "間",
@@ -3619,11 +3709,13 @@
         "hook": "一間迷你玩具房間裡擺著小小的家具，一個玩具小人走進去，「啪」地打開一盞迷你檯燈，房間立刻亮了起來。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 78,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "164ff07f-3c62-4e5f-bde0-c2b10337be85",
+      "promptedAt": "2026-10-03T07:23:20.481Z"
     },
     {
       "char": "雷",
@@ -3650,11 +3742,23 @@
         "hook": "一朵毛絨絨的灰色玩具烏雲，肚子裡的小燈突然「啪」地閃了一下黃光，還發出悶悶的一聲「轟」。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 79,
-      "media": [],
+      "media": [
+        {
+          "file": "雷-be512f21-610e-4a3a-b7d7-b73d23c7578c.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-04T01:15:13.018Z",
+          "review": "draft",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0
+        }
+      ],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "97fe6801-2efe-41ea-85be-dac09ca0d807",
+      "promptedAt": "2026-10-03T07:23:20.581Z"
     },
     {
       "char": "美",
@@ -3681,11 +3785,13 @@
         "hook": "一面鑲著小塑膠花的閃亮玩具鏡框立在舞台上，一道亮晶晶的光掃過鏡面，鏡子跟著閃閃發光。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 80,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "85ddd15e-3896-4812-bc13-cefaacd0039a",
+      "promptedAt": "2026-10-03T07:23:19.761Z"
     },
     {
       "char": "加",
@@ -3712,11 +3818,13 @@
         "hook": "玩具加油槍旁邊擺著一塊積木，另一塊積木緩緩飄過來，「啪」地一聲疊上去，變成兩塊疊在一起的積木。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 81,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d9d46c0d-e6e7-4d91-98e3-7fc72f82af34",
+      "promptedAt": "2026-10-03T07:23:18.103Z"
     },
     {
       "char": "閃",
@@ -3743,11 +3851,13 @@
         "hook": "一根裝在彈簧上的亮晶晶玩具閃電，「咻」地往旁邊快速一閃，又立刻定住不動。"
       },
       "scene": "fire",
-      "status": "seed",
+      "status": "prompted",
       "priority": 82,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "22127cbb-fd48-4db8-bf39-5408d6f93913",
+      "promptedAt": "2026-10-03T07:23:20.457Z"
     },
     {
       "char": "東",
@@ -3773,11 +3883,13 @@
         "morph": "the glyph 東 stands still as a solid sculpture while the compass needle wobbles and finally settles pointing straight at the tiny sunrise",
         "hook": "一個玩具指南針的紅色指針晃了又晃，最後穩穩地指向舞台上一個迷你玩具日出背景。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 83,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "7c254903-cf76-483e-83cc-26628d2b68a2",
+      "promptedAt": "2026-10-03T07:23:18.886Z"
     },
     {
       "char": "相",
@@ -3804,11 +3916,13 @@
         "hook": "兩個玩具小人伸出手互相握了握，中間一顆金色小愛心跟著微微發亮。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 84,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9afc5567-ea34-437d-a157-d8ea773eb8e8",
+      "promptedAt": "2026-10-03T07:23:19.450Z"
     },
     {
       "char": "聞",
@@ -3834,11 +3948,13 @@
         "morph": "the glyph 聞 stands still as a solid sculpture while the toy puppy's nose wiggles and little scent swirls drift up from the toy flower",
         "hook": "一隻玩具小狗鼻子誇張地抽動著，幾道小小的香氣線條從旁邊的玩具小花飄向牠的鼻子。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 85,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "1a7b0cb6-6410-449f-bdf7-a83a8b746f09",
+      "promptedAt": "2026-10-03T07:23:19.805Z"
     },
     {
       "char": "岩",
@@ -3865,11 +3981,13 @@
         "hook": "一顆閃著礦石亮片的玩具灰岩石，從迷你玩具火山上滾下來，「咚」地一聲落在舞台上。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 86,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3e2beecb-a110-468c-bcee-7b69207d378a",
+      "promptedAt": "2026-10-03T07:23:18.499Z"
     },
     {
       "char": "呆",
@@ -3896,11 +4014,13 @@
         "hook": "一隻圓滾滾的玩具熊貓瞪大眼睛呆呆地看著前方，一粒小灰塵慢慢飄過牠的鼻子，牠還是動也不動。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 87,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6c482241-8fa8-4cac-ac4c-ebc83a030b0a",
+      "promptedAt": "2026-10-03T07:23:18.240Z"
     },
     {
       "char": "一",
@@ -3926,11 +4046,13 @@
         "morph": "the rubber band snaps taut and flattens down into one long straight horizontal bar",
         "hook": "一條圓圓的玩具橡皮筋原本繃在兩根小木釘之間，「啪」地一聲鬆開拉直，變成一條長長的橫線。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 88,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6941168b-9276-456a-9a28-bcdeaf0aa8ec",
+      "promptedAt": "2026-10-03T07:23:17.814Z"
     },
     {
       "char": "二",
@@ -3956,11 +4078,13 @@
         "morph": "the two drumsticks glide into place one above the other, forming two even horizontal bars stacked with a small gap between them",
         "hook": "兩根一模一樣的亮亮玩具鼓棒本來並排躺著，慢慢滑動疊成上下兩條橫線，中間留著一點小小的空隙。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 89,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "fb1744dd-79d3-42b4-900f-bbe4149a7c14",
+      "promptedAt": "2026-10-03T07:23:17.918Z"
     },
     {
       "char": "三",
@@ -3986,11 +4110,13 @@
         "morph": "the three drumsticks glide into place, stacking neatly into three even horizontal bars one above another",
         "hook": "三根一樣的亮亮玩具鼓棒本來並排放著，一根一根滑上去疊成三條整整齊齊的橫線。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 90,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8fd21ab2-8adc-406a-88ea-d14147aa29a3",
+      "promptedAt": "2026-10-03T07:23:17.850Z"
     },
     {
       "char": "四",
@@ -4016,11 +4142,13 @@
         "morph": "the glyph 四 stands still as a solid sculpture while the fourth toy duck waddles in to complete the row and all four quack together",
         "hook": "三隻玩具小黃鴨已經排成一排，第四隻搖搖擺擺地跑進來排好，四隻一起「嘎」地叫了一聲。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 91,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6eab0630-2816-447e-8f57-5905b059ecc8",
+      "promptedAt": "2026-10-03T07:23:18.348Z"
     },
     {
       "char": "五",
@@ -4046,11 +4174,13 @@
         "morph": "the glyph 五 stands still as a solid sculpture while the fifth toy duck waddles in and completes the row of five",
         "hook": "四隻玩具小黃鴨已經排成一排，第五隻在舞台邊等著，搖搖擺擺地走進來排好，變成整整齊齊的五隻。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 92,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3b0af979-b6c5-4f72-b37d-c7c5e8934471",
+      "promptedAt": "2026-10-03T07:23:17.934Z"
     },
     {
       "char": "六",
@@ -4076,11 +4206,13 @@
         "morph": "the glyph 六 stands still as a solid sculpture while all six toy ducks hop up and down together in one happy bounce",
         "hook": "六隻玩具小黃鴨排成一排，忽然一起跳了一下，咚咚咚地彈起來又輕輕落下。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 93,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "cb26c39a-f898-4f78-b1cb-c12e4ae56df3",
+      "promptedAt": "2026-10-03T07:23:18.034Z"
     },
     {
       "char": "七",
@@ -4106,11 +4238,13 @@
         "morph": "the pipe-cleaner bends sharply near one end, forming a short flat top bar with a long hooked stroke sweeping down",
         "hook": "一根軟軟的玩具扭扭棒原本直直躺著，一端突然彎折，變成上面一小橫、下面拖著一條長長彎鉤的形狀。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 94,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b9ff3e54-13b0-46b4-8138-0e2237860881",
+      "promptedAt": "2026-10-03T07:23:17.833Z"
     },
     {
       "char": "八",
@@ -4136,11 +4270,13 @@
         "morph": "the two sticks swing outward and apart, forming two strokes that splay open like an upside-down V",
         "hook": "兩根亮亮的玩具小木棍本來像帳篷一樣靠在一起，慢慢往外撐開，變成一個開口朝下的八字形狀。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 95,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2e8a5c14-3fa7-4327-8f85-a39306f995a0",
+      "promptedAt": "2026-10-03T07:23:18.000Z"
     },
     {
       "char": "九",
@@ -4166,11 +4302,13 @@
         "morph": "the toy hook curls sharply at the bottom, forming a long stroke with a small curved hook at its end",
         "hook": "一個有彈性的玩具小掛鉤立在舞台上，底部突然往內一捲，變成一條長線尾端帶著小彎鉤的形狀。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 96,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c31806d3-4965-49bc-98b2-4f18c1dd140e",
+      "promptedAt": "2026-10-03T07:27:15.253Z"
     },
     {
       "char": "十",
@@ -4196,11 +4334,13 @@
         "morph": "the upright stick tips over and crosses the flat one exactly in the middle, forming a plus-shaped cross",
         "hook": "兩根一樣的亮亮玩具小木棍，一根橫放、一根直立在旁邊，直的那根倒下來剛好壓在橫的正中間，變成一個十字形狀。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 97,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "73bedc47-795b-4f9f-bc6a-15e74f678a45",
+      "promptedAt": "2026-10-03T07:23:18.157Z"
     },
     {
       "char": "百",
@@ -4227,11 +4367,13 @@
         "hook": "一座亮晶晶的玩具金色獎盃頂著一個閃亮的太陽形勳章，獎盃轉了一圈，勳章跟著閃了一下光。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 98,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "bf993e52-7306-4f2b-b974-0bed627a8a43",
+      "promptedAt": "2026-10-03T07:27:16.910Z"
     },
     {
       "char": "千",
@@ -4258,11 +4400,13 @@
         "hook": "一疊玩具金幣堆成一座閃亮的高塔，塔身搖搖晃晃，幾枚金幣「叮叮」地滾落下來。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 99,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "872a4585-d599-4c81-84d4-125c774e56e1",
+      "promptedAt": "2026-10-03T07:23:18.183Z"
     },
     {
       "char": "我",
@@ -4289,11 +4433,13 @@
         "hook": "一面小玩具鏡子前站著一個開心的玩具小人，牠對著鏡子裡的自己揮揮手，還拍了拍自己的胸口。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 100,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "32373549-e378-4e07-9046-cc211403515a",
+      "promptedAt": "2026-10-03T07:27:16.076Z"
     },
     {
       "char": "你",
@@ -4320,11 +4466,13 @@
         "hook": "兩個玩具小人面對面站著，一個伸手指向對方揮揮手，另一個也開心地揮手回應。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 101,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d14f779b-4bea-4c62-8daf-15323a77e01f",
+      "promptedAt": "2026-10-03T07:27:15.361Z"
     },
     {
       "char": "他",
@@ -4351,11 +4499,13 @@
         "hook": "一個玩具小人靜靜站在舞台的角落，一道小小的聚光燈慢慢移過去，「啪」地照亮了他。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 102,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ddfcb066-5351-4280-88b2-3788634d4f4f",
+      "promptedAt": "2026-10-03T07:27:15.335Z"
     },
     {
       "char": "好",
@@ -4382,11 +4532,13 @@
         "hook": "一隻金黃色亮晶晶的玩具大拇指立在舞台上，「咚咚」地開心比了兩下讚。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 103,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "de71ebdb-a45c-45f1-ab0d-da4310a9d94e",
+      "promptedAt": "2026-10-03T07:27:27.937Z"
     },
     {
       "char": "是",
@@ -4413,11 +4565,13 @@
         "hook": "一個玩具小槌子放在一顆綠色亮晶晶的勾形按鈕旁邊，槌子「叩」地敲下去，按鈕跟著發出愉快的「叮」一聲亮起來。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 104,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "006bd196-5a28-4560-bed1-1c4c77314ac8",
+      "promptedAt": "2026-10-03T07:23:18.827Z"
     },
     {
       "char": "不",
@@ -4444,11 +4598,13 @@
         "hook": "一顆畫著白色斜線的紅色玩具按鈕立在舞台上，一隻小玩具手伸過去按下去，按鈕「嗶」地一聲閃了紅燈。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 105,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c2e2b7a3-c3da-41e0-a617-2d32de4323f7",
+      "promptedAt": "2026-10-03T07:23:17.867Z"
     },
     {
       "char": "有",
@@ -4475,11 +4631,13 @@
         "hook": "一個亮晶晶的玩具寶箱蓋子半開，透出溫暖的金光，蓋子突然「啪」地整個打開，裡面滿滿都是小小的玩具金幣。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 106,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "809b4121-ec9e-46dd-998d-da608b1a9311",
+      "promptedAt": "2026-10-03T07:27:16.301Z"
     },
     {
       "char": "來",
@@ -4506,11 +4664,13 @@
         "hook": "一台玩具小車停在舞台的最遠端，「咻」地往前衝過來，在舞台中央煞車停住。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 107,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "a67ede91-500e-4b06-9ecd-c1d366834dc2",
+      "promptedAt": "2026-10-03T07:23:17.967Z"
     },
     {
       "char": "去",
@@ -4537,11 +4697,13 @@
         "hook": "玩具小車原本停在舞台中間，突然「咻」地往旁邊衝出去，一下子就消失在舞台邊緣。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 108,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5a6469df-d3f7-4a2b-b974-c3ac72dee963",
+      "promptedAt": "2026-10-03T07:27:15.529Z"
     },
     {
       "char": "在",
@@ -4568,11 +4730,13 @@
         "hook": "一根亮亮的玩具地圖釘穩穩插在迷你地圖桌上，一道小聚光燈「啪」地打開，正好照在釘子上。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 109,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8cfe0014-53a3-460e-aefe-8de969d0f73d",
+      "promptedAt": "2026-10-03T07:27:15.755Z"
     },
     {
       "char": "很",
@@ -4598,11 +4762,13 @@
         "morph": "the glyph 很 stands still as a solid sculpture while the toy balloon puffs up bigger and bigger with each squeaky pump",
         "hook": "一顆玩具氣球接在打氣筒上，隨著「唧唧」的打氣聲，氣球一下子變得又大又鼓。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 110,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3061d50e-8fdd-4870-b5a9-e5f92d1836b6",
+      "promptedAt": "2026-10-03T07:23:18.557Z"
     },
     {
       "char": "太",
@@ -4629,11 +4795,13 @@
         "hook": "一個玩具拉炮「啵」地一聲炸開，噴出好多亮晶晶的小紙片，灑滿了整個舞台。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 111,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b0f1562f-7893-45c5-b256-55aa3d01c447",
+      "promptedAt": "2026-10-03T07:27:15.797Z"
     },
     {
       "char": "也",
@@ -4664,11 +4832,13 @@
         "hook": "架子上站著兩隻黃色玩具小鴨，正得意地排排站；突然第三隻小鴨搖搖晃晃跑來，用力擠進隊伍裡，說「我也要站在這裡！」"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 112,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9a05e239-2fb5-4d6d-b1ec-e7f37f8d97a6",
+      "promptedAt": "2026-10-03T07:27:15.284Z"
     },
     {
       "char": "都",
@@ -4699,11 +4869,13 @@
         "hook": "玩具兵一個接一個站在架子上，排得整整齊齊；主人喊了一聲口令，所有玩具兵竟然「刷」地同時舉起手來，一個都沒有慢半拍。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 113,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "39750b65-5dcf-463d-b82f-81ce5c79f6e4",
+      "promptedAt": "2026-10-03T07:27:17.846Z"
     },
     {
       "char": "要",
@@ -4734,11 +4906,13 @@
         "hook": "玩具夾娃娃機亮著燈，裡面躺著一隻閃亮的小玩偶；一隻小手伸過來，按了按鈕，又按了一次，嘴裡念著「我要、我要」，眼睛直盯著那個小玩偶。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 114,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6f031f91-2b7c-4754-b4ee-97f496bb4419",
+      "promptedAt": "2026-10-03T07:27:17.703Z"
     },
     {
       "char": "可",
@@ -4769,11 +4943,13 @@
         "hook": "玩具紅綠燈「叮」地一聲亮起了綠燈，旁邊的玩具小車立刻開心地往前開過去，車輪上還沾著一點點陽光的顏色。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 115,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9dbcc4c2-5fad-4477-ac6d-3a2d3c13c3ab",
+      "promptedAt": "2026-10-03T07:27:15.590Z"
     },
     {
       "char": "會",
@@ -4804,11 +4980,13 @@
         "hook": "小機器人玩具站在腳踏車旁邊，看起來有點緊張；牠深吸一口氣跳上車，踩了兩下，居然穩穩地騎走了，一點都沒有搖晃，好像本來就會騎車一樣。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 116,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6b3d99fa-4132-40f7-a577-bc0c410039ed",
+      "promptedAt": "2026-10-03T07:27:16.272Z"
     },
     {
       "char": "給",
@@ -4838,11 +5016,13 @@
         "morph": "the glyph 給 stands still as a solid sculpture while two small toy hands appear and pass the gift box gently from one to the other",
         "hook": "一個包著閃亮蝴蝶結的禮物盒放在桌上，一雙小手捧起它，輕輕地遞給另一雙伸出來的小手，兩雙手笑咪咪地說「這個給你」。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 117,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3a3795a5-67ab-4aef-b0f2-2f5ff61702c1",
+      "promptedAt": "2026-10-03T07:27:17.259Z"
     },
     {
       "char": "爸",
@@ -4873,11 +5053,13 @@
         "hook": "一個穿著毛衣、拿著小公事包的玩偶站在旁邊；他蹲下身子，把一個咯咯笑的小玩偶抱起來，穩穩地扛上肩膀，兩個人笑得東倒西歪。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 118,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "41b26fcd-9a8f-4db2-a6c9-3ae84614e2a8",
+      "promptedAt": "2026-10-03T07:27:16.751Z"
     },
     {
       "char": "媽",
@@ -4908,11 +5090,13 @@
         "hook": "玩偶媽媽繫著圍裙，手裡拿著小湯匙，正在小鍋子前忙來忙去；她轉過身，張開雙手，把跑過來的小玩偶緊緊抱進懷裡，兩個人臉貼著臉笑了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 119,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3af76a43-8a01-40e1-a65e-6fa1f0d1f85a",
+      "promptedAt": "2026-10-03T07:27:15.886Z"
     },
     {
       "char": "哥",
@@ -4943,11 +5127,13 @@
         "hook": "兩個穿著條紋衫的玩偶站在一起，一個比較高、一個比較矮；高的那個伸出手，輕輕拍了拍矮的那個的頭，矮的那個仰起頭嘻嘻笑。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 120,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0b035f48-e2b2-4b1b-ad85-653955631f43",
+      "promptedAt": "2026-10-03T07:27:15.654Z"
     },
     {
       "char": "姐",
@@ -4978,11 +5164,13 @@
         "hook": "綁著兩根小馬尾的玩偶站得比較高，她拿起一條小緞帶，仔細地幫旁邊比較矮的玩偶綁上蝴蝶結，矮的那個開心地轉了一圈。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 121,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d1d3ee64-a2df-4265-8238-df5c053f74a3",
+      "promptedAt": "2026-10-03T07:27:15.840Z"
     },
     {
       "char": "妹",
@@ -5013,11 +5201,13 @@
         "hook": "綁著兩根小辮子的小玩偶抱著布娃娃兔子，伸手拉一拉旁邊比較高的玩偶的袖子，踮起腳尖，眼巴巴地看著，想要被抱起來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 122,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "af11e399-b985-47d8-bfe1-a97787b73d62",
+      "promptedAt": "2026-10-03T07:23:18.402Z"
     },
     {
       "char": "弟",
@@ -5048,11 +5238,13 @@
         "hook": "穿吊帶褲的小玩偶抱著玩具恐龍，跑得飛快，一不小心被恐龍的尾巴絆到，「噗通」摔坐在地上，還笑嘻嘻地舉高恐龍說「牠沒事！」"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 123,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "64c6d494-1ce1-4b8e-ad12-2d10286072e2",
+      "promptedAt": "2026-10-03T07:23:18.537Z"
     },
     {
       "char": "公",
@@ -5083,11 +5275,13 @@
         "hook": "戴著圓眼鏡、留著白鬍子的玩偶爺爺坐在小搖椅上輕輕搖啊搖；他伸出手，把跑過來的小玩偶抱上膝蓋，兩個人一起望著窗外笑咪咪的。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 124,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "4d047315-6d1c-42ee-91a7-824b5ce592d3",
+      "promptedAt": "2026-10-03T07:23:18.017Z"
     },
     {
       "char": "婆",
@@ -5118,11 +5312,13 @@
         "hook": "綁著銀白髮髻、披著碎花披肩的玩偶奶奶提著小竹籃，慢慢走過來；她打開籃子蓋子，一顆熱呼呼的小饅頭滾了出來，旁邊等著的小玩偶馬上笑著接住。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 125,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d24b33a3-2bf2-4530-9f3d-d5ab7e2ef19b",
+      "promptedAt": "2026-10-03T07:23:18.438Z"
     },
     {
       "char": "孫",
@@ -5153,11 +5349,13 @@
         "hook": "小玩偶牽著銀髮爺爺奶奶的手，走在小花園的小路上；小玩偶突然用力拉了拉手，指著前面的冰淇淋推車，爺爺奶奶笑著跟著被拉走了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 126,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "bd929899-1c90-4d6b-a1da-2fd90a6ffba8",
+      "promptedAt": "2026-10-03T07:23:18.456Z"
     },
     {
       "char": "叔",
@@ -5188,11 +5386,13 @@
         "hook": "留著短鬍子、穿花襯衫的玩偶叔叔拿著小釣竿甩了一下，「咻」一聲，一條小玩具魚就跳到了他腳邊，他驚喜地張大嘴笑了出來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 127,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9892d675-1b59-4d21-a7d8-86e761855251",
+      "promptedAt": "2026-10-03T07:27:15.555Z"
     },
     {
       "char": "姑",
@@ -5223,11 +5423,13 @@
         "hook": "燙著捲髮、穿著圓點洋裝的玩偶姑姑端著小小的蛋糕盒，「啵」地打開蓋子，一個插著蠟燭的小蛋糕彈了出來，她眨眨眼笑著說「生日快樂」。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 128,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8b17e935-8cae-48d6-9f3a-aed348f176bc",
+      "promptedAt": "2026-10-03T07:23:18.420Z"
     },
     {
       "char": "鼻",
@@ -5258,11 +5460,13 @@
         "hook": "絨毛玩偶臉上那個圓滾滾、亮粉紅色的豬鼻子突然抖了一下，「哈啾」一聲，噴出一小陣亮晶晶的金粉，逗得旁邊的玩偶咯咯直笑。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 129,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b5662f5f-435c-4da6-aa75-9a89d6923820",
+      "promptedAt": "2026-10-03T07:23:20.823Z"
     },
     {
       "char": "嘴",
@@ -5293,11 +5497,13 @@
         "hook": "發條玩具嘴唇「喀啦喀啦」地開開合合，蹦蹦跳跳地在桌上前進，跳到桌子邊緣還「啵」地張大了一下，好像在跟大家說再見，就掉進了準備好的小枕頭裡。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 130,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c7d9b0ef-730e-448b-9970-5153002b21cd",
+      "promptedAt": "2026-10-03T07:23:18.330Z"
     },
     {
       "char": "牙",
@@ -5328,11 +5534,13 @@
         "hook": "浴室架子上站著一顆亮晶晶的白色玩具牙齒，頭上還戴著小牙刷帽子；牠開心地轉了一圈，表面「叮」地閃過一道亮光，好像在說「刷得好乾淨」。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 131,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "784503f8-fb57-44d2-ba48-03dfe2d64580",
+      "promptedAt": "2026-10-03T07:23:19.277Z"
     },
     {
       "char": "腦",
@@ -5363,11 +5571,13 @@
         "hook": "底座上的Q彈粉紅色玩具腦袋瓜長著兩顆卡通眼睛，它彈了一下，頭上突然「叮」地冒出一個亮亮的小燈泡，好像想到了什麼好點子。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 132,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e58a5ea9-22da-4b9e-8568-55169738fff9",
+      "promptedAt": "2026-10-03T07:23:19.961Z"
     },
     {
       "char": "背",
@@ -5398,11 +5608,13 @@
         "hook": "一隻圓滾滾、殼閃閃發亮的玩具烏龜靜靜地趴在木頭積木上；牠的背殼上忽然冒出一件小披風，被風吹得啪啦啪啦飄動，烏龜得意地挺起胸膛。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 133,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6a902774-2b88-4475-86d7-3d642a138d30",
+      "promptedAt": "2026-10-03T07:23:19.895Z"
     },
     {
       "char": "肚",
@@ -5433,11 +5645,13 @@
         "hook": "圓滾滾、亮粉紅色的玩具撲滿豬肚子鼓鼓的，一枚硬幣「叮」地一聲投進背上的小縫；豬肚子跟著晃了兩下，好像在說「謝謝，我吃飽了」。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 134,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "4f2afc6a-83d8-4a19-8439-f7cc0c9f3554",
+      "promptedAt": "2026-10-03T07:23:19.849Z"
     },
     {
       "char": "臉",
@@ -5468,11 +5682,13 @@
         "hook": "圓圓的玩具鏡子上貼著一張笑咪咪的貼紙臉，鏡子裡的臉突然眨了眨眼，還把兩邊臉頰鼓得圓滾滾的，逗得照鏡子的小玩偶哈哈大笑。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 135,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3d3707ba-a44d-4bc8-a063-2fc0873f2f82",
+      "promptedAt": "2026-10-03T07:23:20.029Z"
     },
     {
       "char": "指",
@@ -5503,11 +5719,13 @@
         "hook": "玩具手偶伸出一根塗了亮漆的手指，指尖突然「叮」地亮了起來，慢慢轉向，穩穩指向桌上一顆閃亮的玩具星星，好像在說「看那裡！」"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 136,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "70943228-9015-4285-93d2-687a049efe9a",
+      "promptedAt": "2026-10-03T07:23:18.692Z"
     },
     {
       "char": "甲",
@@ -5537,11 +5755,13 @@
         "morph": "the glyph 甲 stands still as a solid sculpture while the ladybug clipper gives a happy little snip and a tiny nail-shaped confetti flutters down",
         "hook": "瓢蟲造型的玩具指甲剪待在一排塗成亮粉色的小指甲蓋旁邊，牠「喀嚓」開心地剪了一下，一小片指甲形狀的亮片飄落下來，像下了一場小雪。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 137,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2fb228c4-cd4f-4ebe-8c04-de950f1869f1",
+      "promptedAt": "2026-10-03T07:23:19.361Z"
     },
     {
       "char": "髮",
@@ -5572,11 +5792,13 @@
         "hook": "玩具梳子旁邊夾著一把亮晶晶的毛線頭髮，用閃亮的髮夾夾著；毛線頭髮忽然蓬鬆地彈起來，變成一束綁著緞帶的馬尾，隨風輕輕晃動。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 138,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0d92ece8-5792-401a-8d33-db223da2b9e7",
+      "promptedAt": "2026-10-03T07:23:20.678Z"
     },
     {
       "char": "肩",
@@ -5607,11 +5829,13 @@
         "hook": "兩隻圍著小圍巾的玩具熊肩並肩地站著；牠們慢慢往中間靠過去，圓圓的肩膀「啾」地碰在一起，發出軟軟的聲音，兩隻熊笑得東倒西歪。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 139,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e8bd423c-57f3-4e6a-8eac-00dcc965dd01",
+      "promptedAt": "2026-10-03T07:23:19.872Z"
     },
     {
       "char": "腿",
@@ -5642,11 +5866,13 @@
         "hook": "粉紅色的玩具紅鶴一開始只用一隻細細長長的腿站著，搖搖晃晃的；牠把另一隻腿也放下來，穩穩地站好，還開心地蹦了一下，像在慶祝自己站穩了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 140,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "68e3b61c-9a1a-489f-a697-45c1e067363f",
+      "promptedAt": "2026-10-03T07:23:19.984Z"
     },
     {
       "char": "膝",
@@ -5677,11 +5903,13 @@
         "hook": "玩具機器人的膝蓋關節閃閃發亮，牠彎下膝蓋，「喀」地一聲蹲低，接著用力一踢，把旁邊的小玩具足球踢得老遠，膝蓋關節還一閃一閃的。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 141,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5e0811c5-00f0-41c8-8274-d320bf653418",
+      "promptedAt": "2026-10-03T07:23:20.006Z"
     },
     {
       "char": "眉",
@@ -5712,11 +5940,13 @@
         "hook": "絨毛玩偶臉上兩條毛毛蟲造型的眉毛忽然動了起來，一下往上挑、一下往下皺，最後彎成一對開心的小彎月，玩偶整張臉都跟著笑開了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 142,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "f703acaf-5834-418e-b0e4-4da01cd8a260",
+      "promptedAt": "2026-10-03T07:23:19.474Z"
     },
     {
       "char": "紅",
@@ -5747,11 +5977,13 @@
         "hook": "亮紅色的玩具消防車停在原地，車頂的小鈴鐺「叮」地響了一聲，一道燈光照過來，車身的紅色瞬間變得閃閃發亮，像剛打過蠟一樣。"
       },
       "scene": "fire",
-      "status": "seed",
+      "status": "prompted",
       "priority": 143,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "7b1e0ce3-b0a5-4bba-96e9-57ba00c08cdd",
+      "promptedAt": "2026-10-03T07:27:17.183Z"
     },
     {
       "char": "黃",
@@ -5782,11 +6014,13 @@
         "hook": "亮黃色的玩具小鴨浮在小澡盆裡，一道陽光灑下來，鴨子身上的黃色瞬間亮得像金子一樣，牠還得意地「嘎」了一聲，晃了晃尾巴。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 144,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c7477d78-f2c3-45c5-9ff6-1a74d3e42a12",
+      "promptedAt": "2026-10-03T07:23:20.774Z"
     },
     {
       "char": "藍",
@@ -5817,11 +6051,13 @@
         "hook": "藍色的玩具鯨魚圓圓的臉上笑咪咪的，頭頂的噴水孔忽然「咻」地噴出一道小水柱，水花在陽光下閃著藍藍的光，像把整片海洋都噴了出來。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 145,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "de008fd1-2793-47ae-a553-a1e7261f8225",
+      "promptedAt": "2026-10-03T07:23:20.122Z"
     },
     {
       "char": "綠",
@@ -5852,11 +6088,13 @@
         "hook": "綠色的玩具青蛙坐在圓圓的荷葉積木上，鼓起腮幫子「呱」地叫了一聲，牠身邊的荷葉積木周圍竟冒出一圈嫩綠色的小葉子，越長越茂盛。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 146,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2784d639-423e-452c-828f-831cc2048b15",
+      "promptedAt": "2026-10-03T07:23:19.738Z"
     },
     {
       "char": "白",
@@ -5887,11 +6125,13 @@
         "hook": "圓滾滾的白色玩具綿羊站在小山丘積木上，牠身上的毛忽然蓬鬆地脹大了起來，變得又大又白，像一朵飄下來的雲，牠還滿意地咩了一聲。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 147,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8d94df3a-b59a-4391-a1cb-11247bef9253",
+      "promptedAt": "2026-10-03T07:23:19.425Z"
     },
     {
       "char": "紫",
@@ -5921,11 +6161,13 @@
         "morph": "the glyph 紫 stands still as a solid sculpture while the toy grape beads jiggle and shine under a twinkling light like tiny gems",
         "hook": "小竹籃裡裝著一串圓滾滾、亮紫色的玩具葡萄，燈光一照，葡萄珠子跟著輕輕晃動，閃閃發亮，像一串會發光的紫色寶石。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 148,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b2e21df8-b164-4dab-94f9-e7e5c38c54d9",
+      "promptedAt": "2026-10-03T07:23:19.695Z"
     },
     {
       "char": "橙",
@@ -5956,11 +6198,13 @@
         "hook": "亮橙色的玩具橘子滾到小果汁盒旁邊，輕輕一擠，「咕嚕咕嚕」流出一道亮晶晶的橙色果汁，把小紙盒裝得滿滿的，橘子還開心地眨了眨葉子。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 149,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8cf9f4e0-cef8-48de-bb3f-ef22fce62c84",
+      "promptedAt": "2026-10-03T07:27:16.523Z"
     },
     {
       "char": "粉",
@@ -5990,11 +6234,13 @@
         "morph": "the glyph 粉 stands still as a solid sculpture while the fluffy pink toy cotton candy puffs up bigger and softer, glowing faintly like a sunset cloud",
         "hook": "紙筒裡插著一球蓬鬆的粉紅色玩具棉花糖，它忽然又蓬又軟地脹大了一圈，還隱隱發著淡淡的光，像一朵飄下來的晚霞雲。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 150,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b80909b9-e821-4d65-9f24-56587af377a1",
+      "promptedAt": "2026-10-03T07:27:17.109Z"
     },
     {
       "char": "棕",
@@ -6025,11 +6271,13 @@
         "hook": "巧克力色的玩具棕熊坐在小木頭積木上，一個重心不穩「咕嚕」滾了下來，正好掉進一堆棕黃色的玩具落葉堆裡，只露出兩隻圓耳朵，笑呵呵地探出頭來。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 151,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5120230c-ca95-4912-9a2b-c37f5b70f848",
+      "promptedAt": "2026-10-03T07:27:16.424Z"
     },
     {
       "char": "灰",
@@ -6055,11 +6303,13 @@
         "morph": "the glyph 灰 stands still as a solid sculpture while a puff of gray dust drifts up and tickles the bunny's nose, making it sneeze",
         "hook": "一堆蓬鬆的灰色玩具灰塵旁邊坐著一隻灰灰的兔子，風一吹，灰塵飄到兔子鼻子上，牠「哈啾」打了一個噴嚏，耳朵都抖了一下。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 152,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "29290037-1d82-4c1a-b85e-bf3b2d9b47c9",
+      "promptedAt": "2026-10-03T07:23:19.152Z"
     },
     {
       "char": "坐",
@@ -6086,11 +6336,13 @@
         "hook": "一隻圓滾滾的玩具小熊搖搖晃晃走到小板凳前，「咚」地一聲坐了下去，屁股穩穩地黏在板凳上，滿意地晃了晃小短腿。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 153,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9fc0ecd1-d503-4db7-934f-519d8efb55b4",
+      "promptedAt": "2026-10-03T07:23:18.366Z"
     },
     {
       "char": "睡",
@@ -6117,11 +6369,13 @@
         "hook": "一隻毛茸茸的玩具無尾熊窩進小吊床，旁邊的月亮小夜燈輕輕發亮，牠的眼睛慢慢瞇起來，頭上冒出一個又一個小小的「Z」，越來越大。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 154,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "da2ad6b9-5e02-4b58-93f9-5f145d6c2046",
+      "promptedAt": "2026-10-03T07:23:19.518Z"
     },
     {
       "char": "唱",
@@ -6148,11 +6402,13 @@
         "hook": "一隻黃色玩具小鴨站上小舞台，抓著迷你麥克風，嘴巴一張開，一顆顆彩色的音符就「噗噗噗」地從嘴裡冒出來，飄向空中轉圈圈。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 155,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9577d973-91cc-4cef-9b2e-d6c13d523130",
+      "promptedAt": "2026-10-03T07:23:18.277Z"
     },
     {
       "char": "游",
@@ -6179,11 +6435,13 @@
         "hook": "一條橡皮玩具小魚套著迷你游泳圈，在藍色玩具泳池裡「咕嚕咕嚕」游了一圈，尾巴一甩，濺起一小片水花，剛好打溼了旁邊的石頭。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 156,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "dd937774-716b-437c-a475-563dc2a98a78",
+      "promptedAt": "2026-10-03T07:23:19.090Z"
     },
     {
       "char": "爬",
@@ -6210,11 +6468,13 @@
         "hook": "一隻玩具無尾熊抱著迷你樹幹，一手一手慢慢往上爬，爬到一根小樹枝時晃了一下，牠緊緊抱住，才沒有掉下來，接著又繼續往上爬。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 157,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3c276e6e-bdbb-48cf-961b-61b8b4f6ed9f",
+      "promptedAt": "2026-10-03T07:23:19.235Z"
     },
     {
       "char": "拍",
@@ -6241,11 +6501,13 @@
         "hook": "一隻圓滾滾的玩具貓熊舉起兩隻手掌，「啪、啪、啪」拍了三下，每拍一下就有幾片亮晶晶的小紙片從手掌間飛出來，像迷你煙火一樣。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 158,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "306023c1-b239-4213-9508-ba27cd543202",
+      "promptedAt": "2026-10-03T07:23:18.673Z"
     },
     {
       "char": "抱",
@@ -6272,11 +6534,13 @@
         "hook": "兩隻玩具小熊張開手臂，緊緊抱在一起，越抱越用力，牠們中間突然「啵」地冒出幾顆粉紅色小愛心，慢慢往上飄走。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 159,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "cb78f315-6fd7-4ba7-8a4d-fb036e1dce75",
+      "promptedAt": "2026-10-03T07:23:18.634Z"
     },
     {
       "char": "親",
@@ -6303,11 +6567,13 @@
         "hook": "一隻玩具長頸鹿媽媽彎下長長的脖子，輕輕碰一下小長頸鹿的臉頰，「啾」一聲親了一下，旁邊立刻冒出一顆小小的愛心，轉了一圈才消失。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 160,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "97868571-2a02-4ec9-81d5-f4a21f941f72",
+      "promptedAt": "2026-10-03T07:23:20.308Z"
     },
     {
       "char": "洗",
@@ -6334,11 +6600,13 @@
         "hook": "一隻黃色玩具小鴨坐進圓圓的澡盆裡，泡泡越堆越高，蓋住了半個身體，一顆最大的泡泡飄起來，飛到空中「啵」一聲破掉，鴨子眨了眨眼睛。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 161,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0daca3d6-b5c5-4a05-b723-eb66ea23880c",
+      "promptedAt": "2026-10-03T07:23:19.048Z"
     },
     {
       "char": "穿",
@@ -6365,11 +6633,13 @@
         "hook": "一隻木頭玩具小熊舉高雙手，一件迷你毛氈小上衣慢慢從頭上套下來，「咻」一下滑到身上，小熊的頭剛好從領口探出來，還歪了一下才站好。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 162,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8ae37c8a-b838-4e73-acc7-10305fcb75d1",
+      "promptedAt": "2026-10-03T07:23:19.606Z"
     },
     {
       "char": "脫",
@@ -6396,11 +6666,13 @@
         "hook": "木頭玩具小熊抬起一隻腳，用力一拉，小小的襪子「咻」地飛了出去，掉在地上打了個轉，小熊光著腳丫子，晃了晃腳趾頭。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 163,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "92f9ce15-f6ef-48fb-899c-c5a789044750",
+      "promptedAt": "2026-10-03T07:23:19.940Z"
     },
     {
       "char": "叫",
@@ -6427,11 +6699,13 @@
         "hook": "一隻玩具小公雞站上籬笆，抬頭挺胸，嘴巴張得好大，「咕咕咕」大叫一聲，聲音太大聲，把自己頭上的羽毛都震得翹了起來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 164,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "99d35645-ae95-4384-9978-82e474e2d440",
+      "promptedAt": "2026-10-03T07:23:18.221Z"
     },
     {
       "char": "摸",
@@ -6458,11 +6732,13 @@
         "hook": "一隻小小的玩具手輕輕伸過去，摸了摸毛茸茸的玩具貓，「呼」地飄起幾根軟軟的貓毛，貓咪瞇起眼睛，好像很舒服的樣子。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 165,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ef3d75cc-ae79-46ca-8c79-41519381791a",
+      "promptedAt": "2026-10-03T07:23:18.749Z"
     },
     {
       "char": "推",
@@ -6489,11 +6765,13 @@
         "hook": "一隻玩具小手用力一推，紅色的迷你玩具推車就「嘰嘰」滾了出去，輪子搖搖晃晃地往前跑，最後撞到一顆小石頭才停下來。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 166,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5c5fa0fc-fd31-41ac-9888-315a9545ebef",
+      "promptedAt": "2026-10-03T07:23:18.730Z"
     },
     {
       "char": "拉",
@@ -6520,11 +6798,13 @@
         "hook": "一隻玩具小手抓住紅色小拖車的把手，「用力、用力」一下一下往後拉，小拖車就一格一格地往後挪，輪子發出「喀噠喀噠」的聲音。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 167,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "1636cb3e-9f0f-4e5b-b15a-6b4607814b6c",
+      "promptedAt": "2026-10-03T07:23:18.653Z"
     },
     {
       "char": "丟",
@@ -6551,11 +6831,13 @@
         "hook": "一隻玩具小手把橘色小球往上一丟，球「咻」地飛出畫面，過了一下子又從旁邊蹦蹦跳跳地滾回來，好像在說「換你丟」。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 168,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d4b425ff-645d-4cb9-b458-0e18e5a0b649",
+      "promptedAt": "2026-10-03T07:23:17.883Z"
     },
     {
       "char": "接",
@@ -6582,11 +6864,13 @@
         "hook": "橘色小球從上面「咻」地掉下來，一隻玩具小手穩穩地張開，「啪」一聲穩穩接住了球，還晃了晃，好像在說「接到囉」。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 169,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d87ec3ce-9ce0-4db4-b8e6-d79e0e959666",
+      "promptedAt": "2026-10-03T07:23:18.711Z"
     },
     {
       "char": "樂",
@@ -6613,11 +6897,13 @@
         "hook": "一隻玩具小狗開心地蹦蹦跳跳，尾巴搖得像風扇一樣快，跳得越來越高，尾巴甩出的小星星「唰唰唰」灑了一地，閃閃發亮。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 170,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6fc7d7d3-c1a6-41fe-96c2-9d05f9a7f022",
+      "promptedAt": "2026-10-03T07:23:19.006Z"
     },
     {
       "char": "喜",
@@ -6644,11 +6930,13 @@
         "hook": "一隻玩具貓熊抱著一個紅色愛心抱枕，笑得眼睛都瞇成一條線，頭頂上冒出幾顆閃閃發亮的小星星，一閃一閃轉呀轉。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 171,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "68b3c182-44b3-401a-ba1e-b656fa622823",
+      "promptedAt": "2026-10-03T07:23:18.312Z"
     },
     {
       "char": "愛",
@@ -6675,11 +6963,13 @@
         "hook": "一隻玩具兔子緊緊抱住一顆又大又亮的紅色愛心氣球，越抱越開心，愛心氣球就跟著一上一下輕輕晃動，好像在跳舞一樣。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 172,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "a23eb698-6456-4ebe-b95b-3d99331293b9",
+      "promptedAt": "2026-10-03T07:23:18.615Z"
     },
     {
       "char": "醜",
@@ -6705,11 +6995,13 @@
         "morph": "the glyph 醜 stands still as a solid sculpture while the lumpy monster tries on the trophy's ribbon and it tangles into a funny knot",
         "hook": "一隻歪歪扭扭、鈕釦眼睛裝反了的玩具怪獸，笨拙地想戴上小獎盃旁邊的彩帶，結果彩帶纏成一團，牠自己也忍不住呵呵笑了出來。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 173,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "245cdf1c-4a9e-4fd8-9c7f-0ef16aa95f7a",
+      "promptedAt": "2026-10-03T07:23:20.378Z"
     },
     {
       "char": "胖",
@@ -6736,11 +7028,13 @@
         "hook": "一隻圓滾滾的玩具小豬跳上小磅秤，「咚」地坐下去，肚子一下子晃到左邊，一下子又晃到右邊，晃啊晃地才停下來，牠滿足地笑了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 174,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ca7ec91d-7497-4cf2-b5a9-a918ef651cf2",
+      "promptedAt": "2026-10-03T07:23:19.918Z"
     },
     {
       "char": "瘦",
@@ -6767,11 +7061,13 @@
         "hook": "一隻瘦瘦高高的玩具長頸鹿想躲到一根細細的玩具仙人掌後面，結果身體太瘦了，剛好完全躲得住，牠得意地探出頭來眨眨眼。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 175,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6ce8af73-8d9d-4b4a-ae8e-23608e3ece06",
+      "promptedAt": "2026-10-03T07:23:19.403Z"
     },
     {
       "char": "矮",
@@ -6798,11 +7094,13 @@
         "hook": "一隻矮矮胖胖的玩具烏龜踮起腳尖，伸長脖子想拿高高架子上的餅乾，怎麼伸都差一點點，急得原地轉了一圈，又試了一次。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 176,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "14c8cf24-1723-4ac0-a2aa-46c72f35876e",
+      "promptedAt": "2026-10-03T07:23:19.561Z"
     },
     {
       "char": "長",
@@ -6829,11 +7127,13 @@
         "hook": "一條玩具長蛇一節一節地往前伸展，越伸越長，繞過小石頭、繞過小樹，最後繞了整個畫面一圈，尾巴才終於跟上前面的頭。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 177,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "232595b5-cac4-46cc-92f7-4c90978bd53e",
+      "promptedAt": "2026-10-03T07:23:20.432Z"
     },
     {
       "char": "短",
@@ -6860,11 +7160,13 @@
         "hook": "一隻圓滾滾的玩具倉鼠站到一枝短短的玩具鉛筆旁邊比身高，量了半天，發現牠的尾巴跟鉛筆一樣短，牠驚訝地張大了嘴巴。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 178,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3792922d-8bd1-4d6f-bc17-f77a236f7feb",
+      "promptedAt": "2026-10-03T07:23:19.540Z"
     },
     {
       "char": "老",
@@ -6891,11 +7193,13 @@
         "hook": "一個木頭玩具老爺爺拄著小拐杖，慢慢地、一步一步往前走，灰白色的鬍子隨著腳步輕輕晃動，走到定點時，他停下來笑咪咪地揮揮手。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 179,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d56eec62-521c-4b2f-b464-62f7874e4c60",
+      "promptedAt": "2026-10-03T07:23:19.782Z"
     },
     {
       "char": "新",
@@ -6922,11 +7226,13 @@
         "hook": "一台亮晶晶的玩具消防車放在閃亮的緞帶上，紅色的烤漆閃閃發光，車身周圍冒出幾顆一閃一閃的小星星，好像在說「我是全新的」。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 180,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "dcfc8594-cdf1-4ee7-9f97-0143125e62a4",
+      "promptedAt": "2026-10-03T07:23:18.768Z"
     },
     {
       "char": "舊",
@@ -6952,11 +7258,13 @@
         "morph": "the glyph 舊 stands still as a solid sculpture while dust puffs softly off the old bear's fur as it gives a comfy, familiar wave",
         "hook": "一隻舊舊的玩具熊，耳朵上還縫著一塊小補丁，坐在架子上輕輕拍了拍自己身上的灰塵，「噗」地揚起一小陣灰，牠瞇著眼睛笑得很溫暖。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 181,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "7e327a59-1e22-427e-8e9c-b3d47528f0d9",
+      "promptedAt": "2026-10-03T07:23:20.052Z"
     },
     {
       "char": "冷",
@@ -6983,11 +7291,13 @@
         "hook": "一隻玩具企鵝站在小小的冰山上，冷得縮起脖子、抱緊身體，一開口說話，嘴巴就冒出一小團白白的霧氣，牠又抖了一下才站穩。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 182,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2c7a0e46-0698-4884-8dd8-69b02f1a4ac7",
+      "promptedAt": "2026-10-03T07:23:18.069Z"
     },
     {
       "char": "熱",
@@ -7014,11 +7324,13 @@
         "hook": "一隻玩具小熊坐在冒著熱氣的玩具茶壺旁邊，熱氣「咻咻」地往上冒，小熊拿起一片葉子拚命搧風，臉都紅通通的，還吐了吐舌頭。"
       },
       "scene": "fire",
-      "status": "seed",
+      "status": "prompted",
       "priority": 183,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e1aa159d-9cf7-4d77-be8f-4c5415e4b047",
+      "promptedAt": "2026-10-03T07:23:19.193Z"
     },
     {
       "char": "累",
@@ -7045,11 +7357,13 @@
         "hook": "一隻玩具小狗跑了好久好久，四隻腳一軟，「咚」地整隻趴倒在軟墊上，舌頭吐得長長的，打了一個好大的哈欠，眼睛也慢慢閉了起來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 184,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d638ec49-8e91-4c04-a334-d5aaf68f4435",
+      "promptedAt": "2026-10-03T07:23:19.717Z"
     },
     {
       "char": "乖",
@@ -7076,11 +7390,13 @@
         "hook": "一隻玩具小狗乖乖地坐得直挺挺，兩隻前腳併得整整齊齊，一動也不動，過了一會兒，牠的項圈上突然「叮」一聲冒出一顆亮亮的星星貼紙。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 185,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6e3e6a04-e283-4bb1-b5ba-563eb333c69e",
+      "promptedAt": "2026-10-03T07:23:17.901Z"
     },
     {
       "char": "勇",
@@ -7107,11 +7423,13 @@
         "hook": "一隻玩具小獅子挺起胸膛，抬頭看著眼前紙做的小山，深呼吸一口氣，勇敢地跨出一大步往前走，尾巴也跟著驕傲地翹了起來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 186,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "af053636-9a0a-4c86-8120-ee2378f7732c",
+      "promptedAt": "2026-10-03T07:23:18.121Z"
     },
     {
       "char": "怕",
@@ -7138,11 +7456,13 @@
         "hook": "一隻玩具小兔子躲在圓圓的抱枕後面，只露出兩隻眼睛偷看，看到一顆彈跳的小球滾過去，牠嚇得縮回去，過了一下子又忍不住探出頭來笑。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 187,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e7718277-0f76-4696-93f1-711e1b350193",
+      "promptedAt": "2026-10-03T07:23:18.576Z"
     },
     {
       "char": "急",
@@ -7169,11 +7489,13 @@
         "hook": "一隻玩具兔子看著手上的小手錶，急得原地跳來跳去，一下看時間，一下轉圈圈，耳朵都跟著上下晃動，好像在說「快來不及了」。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 188,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "873c1247-a8f1-4890-baf6-e82b2293e84f",
+      "promptedAt": "2026-10-03T07:23:18.596Z"
     },
     {
       "char": "慢",
@@ -7200,11 +7522,13 @@
         "hook": "一隻玩具蝸牛在葉子上慢慢地、一點一點地往前爬，留下一條亮亮的小路，一旁的玩具烏龜「咻」一下就超過牠了，蝸牛還在原地慢慢移動。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 189,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "334da2f8-f1be-4e8a-af37-a7ca881f4c4b",
+      "promptedAt": "2026-10-03T07:27:16.047Z"
     },
     {
       "char": "年",
@@ -7231,11 +7555,13 @@
         "hook": "一個迷你玩具日曆一頁一頁「唰唰唰」地翻過去，紅包玩偶在旁邊笑咪咪地等著，翻到最後一頁時，「碰」一聲飄出好多彩色小紙片，過年了！"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 190,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "82cbe1c9-f232-4660-8b87-c82510671706",
+      "promptedAt": "2026-10-03T07:23:18.518Z"
     },
     {
       "char": "時",
@@ -7261,11 +7587,13 @@
         "morph": "the glyph 時 stands still as a solid sculpture while the toy clock's hands spin around and its little legs march steadily forward",
         "hook": "一個圓滾滾的玩具時鐘長出兩隻小短腿，滴答滴答地在軌道上往前走，指針跟著一圈一圈轉，走到定點時「叮」一聲響，停下來對大家眨眨眼。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 191,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d869e39b-c274-4fa3-9c50-608a8f2dada4",
+      "promptedAt": "2026-10-03T07:23:18.846Z"
     },
     {
       "char": "分",
@@ -7296,11 +7624,13 @@
         "hook": "圓滾滾的玩具鬧鐘笑咪咪地站在一旁，旁邊擺著切好的玩具披薩，鬧鐘的分針輕輕一撥，兩隻小手就把披薩一片一片地分開，分給站得直挺挺的分字旁邊排排坐的大家。"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 192,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "de51f3c0-ba0f-44d6-9f75-a90e45c789c1",
+      "promptedAt": "2026-10-03T07:23:18.086Z"
     },
     {
       "char": "秒",
@@ -7327,11 +7657,13 @@
         "hook": "小小的玩具碼錶一按下紅色按鈕，就「滴滴滴」地飛快轉動秒針，一個迷你玩具小跑者咻地衝過站得直挺挺的秒字，才剛起跑，秒針已經轉了一整圈，逗得旁邊的人哈哈大笑。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 193,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e5fd2107-9fd2-408d-9c35-2e2f37798c40",
+      "promptedAt": "2026-10-03T07:23:19.583Z"
     },
     {
       "char": "早",
@@ -7362,11 +7694,13 @@
         "hook": "圓圓的玩具太陽笑咪咪地掛在高高的木頭柱子上，慢慢把自己壓成一個小方塊，中間多了一條橫線，接著滑下來穩穩地站在一根直直的柱子上，柱子中間也多了一小橫，變成了早字的樣子。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 194,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "dc8b1c05-fc9c-405d-8cca-a5a6c8faa48b",
+      "promptedAt": "2026-10-03T07:27:16.172Z"
     },
     {
       "char": "晚",
@@ -7397,11 +7731,13 @@
         "hook": "迷你的玩具夜市模型裡亮著一盞盞小燈籠，小小的摩天輪一格一格地亮起燈來，旁邊一隻玩具貓頭鷹眨呀眨地打著呵欠，站得直挺挺的晚字旁邊也跟著暗了下來，只剩暖暖的燈光閃爍。"
       },
       "scene": "fire",
-      "status": "seed",
+      "status": "prompted",
       "priority": 195,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "f510e150-fc2a-42de-83ec-1ab5bd3ba970",
+      "promptedAt": "2026-10-03T07:27:16.233Z"
     },
     {
       "char": "今",
@@ -7427,11 +7763,13 @@
         "morph": "the glyph 今 stands still as a solid sculpture while the tiny confetti popper goes off with a soft pop, scattering little paper stars over today's open page",
         "hook": "小小的玩具日曆翻開了今天這一頁，旁邊的迷你拉炮「啵」地一聲彈開，灑下一片片小紙星星，剛好落在站得直挺挺的今字上，好像在慶祝今天是特別的一天。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 196,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "f8d84d0a-7123-4194-b742-33a9a88b30c2",
+      "promptedAt": "2026-10-03T07:23:17.950Z"
     },
     {
       "char": "昨",
@@ -7453,11 +7791,13 @@
         "morph": "the glyph 昨 stands still as a solid sculpture while the tiny toy moon slowly rolls off yesterday's folded page and tucks itself away to sleep",
         "hook": "玩具日曆昨天的那一頁輕輕被翻過去，摺在今天的後面，一顆小小的玩具月亮打著呵欠，從昨天那一頁慢慢滾下來，滾到站得直挺挺的昨字旁邊，蜷成一團睡著了。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 197,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "eaacfd5f-517e-465b-828d-7893a7343b3b",
+      "promptedAt": "2026-10-03T07:23:18.807Z"
     },
     {
       "char": "夜",
@@ -7488,11 +7828,13 @@
         "hook": "迷你的玩具夜市模型掛滿一整排小燈泡，暖暖的光照著一攤攤小吃招牌，一顆小燈籠玩具慢慢飄上高空，把溫暖的光灑在站得直挺挺的夜字上，整個夜市都亮了起來。"
       },
       "scene": "fire",
-      "status": "seed",
+      "status": "prompted",
       "priority": 198,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0b83df26-980c-4ab7-a1fc-adc1a1243a00",
+      "promptedAt": "2026-10-03T07:23:18.384Z"
     },
     {
       "char": "午",
@@ -7523,11 +7865,13 @@
         "hook": "小小的玩具日晷立在大太陽底下，影子隨著時間慢慢轉呀轉，轉到中午的時候影子縮得好短好短，直直地指向站得直挺挺的午字下面，好像在說「現在是中午囉」。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 199,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "fb6dd2f5-c0d6-40d5-8312-0d34e865fba5",
+      "promptedAt": "2026-10-03T07:23:18.203Z"
     },
     {
       "char": "貓",
@@ -7558,11 +7902,13 @@
         "hook": "橘色的貓咪玩偶戴著粉紅蝴蝶結，伸出小小的手掌把毛線球一圈一圈地滾過站得直挺挺的貓字旁邊，滾著滾著，自己也跟著打滾翻了一圈。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 200,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "52d4229d-0e57-4363-bc96-84fc15fa9486",
+      "promptedAt": "2026-10-03T07:27:17.808Z"
     },
     {
       "char": "兔",
@@ -7593,11 +7939,13 @@
         "hook": "白白的兔子玩偶長著長長的耳朵，蹦、蹦、蹦地跳過站得直挺挺的兔字旁邊，每跳一下耳朵就飛起來一次，最後一跳還打了個小噴嚏，尾巴跟著抖了一下。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 201,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "adb9d655-5242-4209-8abb-ee361a2cee6b",
+      "promptedAt": "2026-10-03T07:27:15.404Z"
     },
     {
       "char": "虎",
@@ -7628,11 +7976,13 @@
         "hook": "圓滾滾的橘黑條紋小老虎玩偶想要偷偷踮著腳尖走過站得直挺挺的虎字，可是脖子上的小鈴鐺叮叮噹噹響個不停，牠只好摀著鈴鐺，不好意思地笑了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 202,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "bbca2801-58e5-4bb8-9aba-fe385d673220",
+      "promptedAt": "2026-10-03T07:27:17.557Z"
     },
     {
       "char": "象",
@@ -7663,11 +8013,13 @@
         "hook": "灰灰圓圓的大象玩偶甩著長長的鼻子，對著自己噴出一陣彩色小紙花，紙花落在站得直挺挺的象字上，牠得意地晃了晃大耳朵，紙花又飄了下來。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 203,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "56deb77b-265e-4b85-b8f5-e605453bd655",
+      "promptedAt": "2026-10-03T07:27:17.770Z"
     },
     {
       "char": "猴",
@@ -7698,11 +8050,13 @@
         "hook": "棕色的猴子玩偶手裡抓著一根小香蕉，用尾巴勾住樹枝盪來盪去，「咻」地一聲翻了個筋斗，剛好落在站得直挺挺的猴字旁邊，還對著它眨眨眼。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 204,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "1267cbbf-1dcd-498e-94a6-5507c9f7258f",
+      "promptedAt": "2026-10-03T07:23:19.319Z"
     },
     {
       "char": "熊",
@@ -7733,11 +8087,13 @@
         "hook": "圓滾滾的棕色小熊玩偶戴著紅色小圍巾，抱著一小罐蜂蜜搖搖晃晃地走過站得直挺挺的熊字，一路上留下一個個黏黏的蜜色小腳印。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 205,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "4051d54f-303c-42b2-a483-7e907021f594",
+      "promptedAt": "2026-10-03T07:23:19.173Z"
     },
     {
       "char": "蛇",
@@ -7764,11 +8120,13 @@
         "hook": "彩色條紋的長長蛇娃娃笑咪咪地扭來扭去，把自己軟軟的身體打成一個歪歪的蝴蝶結，繞著站得直挺挺的蛇字轉了一圈，還得意地吐了吐舌頭。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 206,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0d4a2dfe-5557-4338-871c-c919361e2bc1",
+      "promptedAt": "2026-10-03T07:27:17.614Z"
     },
     {
       "char": "蝶",
@@ -7799,11 +8157,13 @@
         "hook": "粉紫色亮片翅膀的蝴蝶玩具輕輕拍著翅膀，繞著站得直挺挺的蝶字轉了好幾個圈圈，最後輕輕停在它頭頂上，翅膀還一開一合地眨呀眨。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 207,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d10d529f-ee05-4e67-9949-09137fdabe7a",
+      "promptedAt": "2026-10-03T07:23:20.238Z"
     },
     {
       "char": "蜂",
@@ -7834,11 +8194,13 @@
         "hook": "毛茸茸的黃黑條紋小蜜蜂玩偶抱著一小罐蜂蜜，嗡嗡嗡地繞著站得直挺挺的蜂字飛來飛去，飛得歪歪扭扭，最後一頭撞進花朵裡，才滿足地停下來。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 208,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "44b0b07c-ecad-4214-8533-5a03a33b41fa",
+      "promptedAt": "2026-10-03T07:23:20.191Z"
     },
     {
       "char": "蟲",
@@ -7869,11 +8231,13 @@
         "hook": "綠色的毛毛蟲玩偶身上每一節都穿著小小的運動鞋，一節一節地扭動，啪嗒啪嗒地爬過站得直挺挺的蟲字，爬到一半還打了個小哈欠，伸了個懶腰。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 209,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e9a03070-811b-40e5-aebe-d4c537dc86a2",
+      "promptedAt": "2026-10-03T07:23:20.261Z"
     },
     {
       "char": "鴨",
@@ -7904,11 +8268,13 @@
         "hook": "黃澄澄的小鴨玩具戴著水手帽，一上一下地在水面漂呀漂，每次沉下去就「呱」地叫一聲，剛好漂到站得直挺挺的鴨字旁邊，還吐了個小泡泡。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 210,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "590c43f9-5f9e-48ea-975a-873c6fe53d0a",
+      "promptedAt": "2026-10-03T07:23:20.702Z"
     },
     {
       "char": "鵝",
@@ -7935,11 +8301,13 @@
         "hook": "白白胖胖的鵝娃娃戴著紅色小領結，抬頭挺胸地繞著站得直挺挺的鵝字大搖大擺地走，一邊走一邊「嘎、嘎」地叫，好像在說牠是這裡最神氣的。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 211,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "54756645-9f25-40fb-b892-c1d1989019e4",
+      "promptedAt": "2026-10-03T07:23:20.726Z"
     },
     {
       "char": "獅",
@@ -7970,11 +8338,13 @@
         "hook": "金黃色蓬蓬鬃毛的小獅子玩偶用力甩甩頭，鬃毛上的絨毛就像蒲公英一樣一朵一朵飄起來，飄過站得直挺挺的獅字，牠自己也被搔得咯咯笑。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 212,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "285c2e4e-ed73-4114-9e6c-618a2639abf6",
+      "promptedAt": "2026-10-03T07:27:16.812Z"
     },
     {
       "char": "狼",
@@ -8001,11 +8371,13 @@
         "hook": "灰灰的小狼玩偶抱著一支迷你麥克風，抬頭想要「嗚——」地大聲嚎叫，結果只發出了一聲軟軟的「汪」，牠自己都愣住了，站得直挺挺的狼字旁邊安靜一秒才傳來笑聲。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 213,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9fc42a8a-09a3-4536-a567-8cbd88d5e464",
+      "promptedAt": "2026-10-03T07:23:19.299Z"
     },
     {
       "char": "鹿",
@@ -8036,11 +8408,13 @@
         "hook": "白色小斑點的梅花鹿寶寶玩偶用細細的腿搖搖晃晃地邁著步伐，走過站得直挺挺的鹿字，差點滑倒，還好穩穩地站住了，抖了抖耳朵繼續蹦跳。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 214,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "7882219e-3c7b-4fdd-9f3b-dc12bf8bc8b9",
+      "promptedAt": "2026-10-03T07:23:20.751Z"
     },
     {
       "char": "龜",
@@ -8071,11 +8445,13 @@
         "hook": "圓圓綠綠的烏龜玩偶背上頂著一頂小派對帽，慢～慢～地把頭伸出來，對著站得直挺挺的龜字眨眨眼，然後又慢慢地把頭縮回殼裡，帽子還晃了兩下。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 215,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "58f5ae41-1a93-4c21-84a0-fcdbeaabd13f",
+      "promptedAt": "2026-10-03T07:23:20.847Z"
     },
     {
       "char": "蟹",
@@ -8102,11 +8478,13 @@
         "hook": "紅通通的螃蟹玩偶頂著兩隻毛茸茸的大螯，橫著走來走去，喀嗒喀嗒地互相敲打大螯，像在打拍子，繞著站得直挺挺的蟹字轉了個圈，還撞到自己的腳。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 216,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2f747c3b-9224-4f38-aa14-930b86edb97f",
+      "promptedAt": "2026-10-03T07:23:20.285Z"
     },
     {
       "char": "蝦",
@@ -8133,11 +8511,13 @@
         "hook": "粉紅色彎彎的蝦子玩偶甩了甩尾巴，「咻」地往後跳了一下，又跳了一下，一路彈跳著繞過站得直挺挺的蝦字，觸鬚還一直抖呀抖的。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 217,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "1fd26301-768b-4be8-af99-cad8fdaefc79",
+      "promptedAt": "2026-10-03T07:23:20.215Z"
     },
     {
       "char": "蛙",
@@ -8164,11 +8544,13 @@
         "hook": "圓圓的綠色青蛙玩偶戴著黃色泳鏡，蹲低身體「噗」地一聲跳得老高，「啪」地一聲又落回地上，彈跳著繞過站得直挺挺的蛙字，逗得旁邊的人都笑了。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 218,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "bef7a792-4173-4002-9393-fe8134762a85",
+      "promptedAt": "2026-10-03T07:23:20.168Z"
     },
     {
       "char": "豹",
@@ -8195,11 +8577,13 @@
         "hook": "金黃色黑斑點的小豹玩偶擺出帥氣的撲跳姿勢，用力一躍想撲向一根羽毛玩具，結果「咕嚕」一聲滾成一團，滾到站得直挺挺的豹字腳邊才停下來，還有點頭暈。"
       },
       "scene": "bounce",
-      "status": "seed",
+      "status": "prompted",
       "priority": 219,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "63685d7a-3f0d-414d-b448-d0d75526e374",
+      "promptedAt": "2026-10-03T07:23:20.332Z"
     },
     {
       "char": "燕",
@@ -8226,11 +8610,13 @@
         "hook": "藍白色的小燕子玩偶穿著花衣裳，「咻」地一聲畫出一道優雅的弧線，繞過站得直挺挺的燕字，最後輕輕停在它頭頂上，尾巴像剪刀一樣輕輕搖擺。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 220,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "26b22cb4-3174-474a-aa53-d2ca6bd7c8f4",
+      "promptedAt": "2026-10-03T07:27:16.714Z"
     },
     {
       "char": "雲",
@@ -8257,11 +8643,13 @@
         "hook": "軟綿綿的白雲玩偶像棉花糖一樣蓬蓬的，慢慢把身體壓扁變成一個小屋頂，屋頂下滴下四滴小水珠，下面的雲朵身體又捲呀捲，捲成一個圓圓的漩渦，變成了雲字的樣子。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 221,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "272623fe-0c44-4e9a-8a5e-179bc4ee7cc3",
+      "promptedAt": "2026-10-03T07:23:20.557Z"
     },
     {
       "char": "風",
@@ -8292,11 +8680,13 @@
         "hook": "彩虹色的玩具風車呼呼地轉呀轉，轉著轉著葉片慢慢合起來，變成一片彎彎的大帆，帆角下垂著的緞帶捲成一個小圈圈，就變成了風字的樣子，風車最後輕輕「呼」了一口氣才停下來。"
       },
       "scene": "fly",
-      "status": "seed",
+      "status": "prompted",
       "priority": 222,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d7f95d96-d2a2-49a5-a3fc-13f64a488a39",
+      "promptedAt": "2026-10-03T07:23:20.606Z"
     },
     {
       "char": "雪",
@@ -8327,11 +8717,13 @@
         "hook": "玻璃雪球裡有一間小房子，輕輕搖一搖裡面的雪花就飛舞起來，圓圓的球頂慢慢壓平變成一個小屋頂，屋頂下滴著三滴小雪珠，裡面打轉的雪花全都聚成一把彎彎的小掃帚，變成了雪字的樣子。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 223,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "acb134fc-5b5a-4f5d-a65b-99290d14670d",
+      "promptedAt": "2026-10-03T07:23:20.532Z"
     },
     {
       "char": "冰",
@@ -8362,11 +8754,13 @@
         "hook": "亮晶晶的玩具冰塊裡凍著小小的氣泡，「啪」地一聲，兩滴小冰珠彈到旁邊，冰塊自己也慢慢融化成兩條彎彎的波浪線，貼在冰珠旁邊，就變成了冰字的樣子。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 224,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "f0783f26-a715-42a5-b687-f6dca69b99d3",
+      "promptedAt": "2026-10-03T07:23:18.052Z"
     },
     {
       "char": "河",
@@ -8397,11 +8791,13 @@
         "hook": "小小的河流模型裡有一條彎彎的藍色小溪，胖胖的玩具河馬泡在水裡，慢慢地走過站得直挺挺的河字，嘴巴一張一合地吹出一串圓圓的泡泡，飄呀飄地飄走了。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 225,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "9dd85f19-9495-47ad-9709-1bc5e627ec59",
+      "promptedAt": "2026-10-03T07:23:19.027Z"
     },
     {
       "char": "海",
@@ -8432,11 +8828,13 @@
         "hook": "小小的海邊模型裡有一片藍綠色的海水，迷你的玩具海豚「咻」地一聲跳出水面，畫出一道漂亮的弧線，「啪」地落回站得直挺挺的海字旁邊，濺起一朵小小的水花。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 226,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "e713c4b1-3dac-440a-b545-c4ae4ee5f959",
+      "promptedAt": "2026-10-03T07:23:19.070Z"
     },
     {
       "char": "湖",
@@ -8463,11 +8861,13 @@
         "hook": "小小的湖泊模型裡鋪著平靜的藍色湖水，還有幾片荷葉，迷你的玩具獨木舟輕輕划過站得直挺挺的湖字，划過的地方漾起一圈一圈的小水紋。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 227,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "3237b73d-9813-4f6c-8947-bfb8e5367a4a",
+      "promptedAt": "2026-10-03T07:23:19.111Z"
     },
     {
       "char": "林",
@@ -8494,11 +8894,13 @@
         "hook": "兩棵一模一樣的玩具小樹，頭上頂著圓圓的綠色絨球葉子，並排種在小花盆裡，兩棵樹一起挺直了身體，肩並肩地站好，就變成了林字的樣子。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 228,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b0591bf9-18f6-48aa-a3ce-445bbef28ab2",
+      "promptedAt": "2026-10-03T07:23:18.925Z"
     },
     {
       "char": "森",
@@ -8521,11 +8923,13 @@
         "hook": "三棵一樣可愛的玩具小樹種在小木箱裡，一棵站在前面，另外兩棵並肩站在後面，三棵樹一起挺直身體排排站好，就變成了森字的樣子。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 229,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "70ccb43f-9907-4b62-8591-76bfaf4ca37b",
+      "promptedAt": "2026-10-03T07:27:16.451Z"
     },
     {
       "char": "草",
@@ -8556,11 +8960,13 @@
         "hook": "軟軟的玩具草地上長著一根根綠色的小草，一隻迷你瓢蟲玩偶慢慢爬上草尖，「咕嚕」一聲從另一邊翻滾下來，滾到了站得直挺挺的草字旁邊才停住。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 230,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d11738a6-ea85-4e93-befb-f66bdd67461b",
+      "promptedAt": "2026-10-03T07:27:17.462Z"
     },
     {
       "char": "樹",
@@ -8591,11 +8997,13 @@
         "hook": "粗壯的玩具大樹頂著圓圓的綠色樹冠，樹枝間掛著一間小木頭鳥屋，一隻小鳥玩偶「咻」地飛過去，從圓圓的小洞探出頭來，「啾啾」地開心叫了兩聲，才鑽進去休息。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 231,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "03a7741b-1d68-4879-adbf-f2fd67844185",
+      "promptedAt": "2026-10-03T07:27:16.495Z"
     },
     {
       "char": "葉",
@@ -8626,11 +9034,13 @@
         "hook": "一片胖胖的玩具葉子亮晶晶地躺在軟綿綿的苔蘚上，一隻小蝸牛慢慢爬上它捲捲的葉柄，爬到最頂端才探出頭來，東張西望。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 232,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "057ab6e5-4a93-477c-bfc5-8b7494982885",
+      "promptedAt": "2026-10-03T07:27:17.520Z"
     },
     {
       "char": "根",
@@ -8657,11 +9067,13 @@
         "hook": "一根胖胖的玩具樹根，長得像個棕色小精靈，手指糾纏在一起，半埋在沙坑裡；它的小手指一邊唱歌一邊往沙子更深處鑽，找呀找，終於摸到一滴水，開心地扭了一下。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 233,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5ed61b28-dc11-479c-a6e7-8e57d0552347",
+      "promptedAt": "2026-10-03T07:27:16.388Z"
     },
     {
       "char": "枝",
@@ -8688,11 +9100,13 @@
         "hook": "一根軟軟的玩具樹枝，表面像絨布一樣毛毛的，上面還有幾個小疙瘩；一隻毛絨絨的玩具小鳥跳上去，樹枝跟著一上一下地彈呀彈，小鳥開心地啾啾叫。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 234,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "84589340-ab6f-452a-8957-3230435e5398",
+      "promptedAt": "2026-10-03T07:27:16.361Z"
     },
     {
       "char": "空",
@@ -8723,11 +9137,13 @@
         "hook": "一朵蓬蓬的玩具雲，中間挖空、可以透光，用一條線吊在天藍色的小桌子上方輕輕飄；一架小玩具飛機咻地一聲，直直穿過雲朵中間的空洞飛走了。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 235,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "6698e379-63f5-4324-a929-f34f63186e4b",
+      "promptedAt": "2026-10-03T07:27:17.032Z"
     },
     {
       "char": "沙",
@@ -8758,11 +9174,13 @@
         "hook": "一桶亮晶晶的玩具金沙，配著小鏟子和紅色小水桶，旁邊還有一把迷你海灘傘；沙子一粒一粒慢慢倒下來，堆成一座歪歪的小沙堡，堡頂還插了一片小貝殼。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 236,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "7e4469d6-9169-4752-bbe6-4352c11fcc0f",
+      "promptedAt": "2026-10-03T07:27:16.550Z"
     },
     {
       "char": "島",
@@ -8789,11 +9207,13 @@
         "hook": "一座圓圓的玩具小島，漂浮在藍色的迷你水桌上，上面種著好幾棵小小的塑膠椰子樹，周圍圍著一圈金色玩具沙；小島慢慢在水上轉圈圈，像旋轉木馬一樣，椰子樹跟著搖搖晃晃。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 237,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "aa3e7e92-06b5-4e77-9411-a262d96a3e91",
+      "promptedAt": "2026-10-03T07:27:15.965Z"
     },
     {
       "char": "洞",
@@ -8824,11 +9244,13 @@
         "hook": "一顆凹凸不平的玩具石頭，中間挖了一個圓圓的黑洞，放在軟軟的棕色地墊上；一隻玩具小老鼠從洞口探出頭來，東張西望一下，又咻地縮回去躲起來。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 238,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "fa0cda77-92ec-4655-835e-10a50c329319",
+      "promptedAt": "2026-10-03T07:27:16.594Z"
     },
     {
       "char": "浪",
@@ -8859,11 +9281,13 @@
         "hook": "一道亮晶晶的玩具海浪，藍色滑滑的，正捲到一半，上面還沾著白色小泡泡；浪頭慢慢捲得越來越高，「啪」地輕輕一聲又攤平下來，泡泡跳了一下就消失了。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 239,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "a9a82365-bb59-417e-be01-51ab3bfe36a8",
+      "promptedAt": "2026-10-03T07:27:16.621Z"
     },
     {
       "char": "露",
@@ -8890,11 +9314,13 @@
         "hook": "一顆圓滾滾的玩具露珠，晶瑩剔透地趴在一片綠色塑膠葉子上；露珠慢慢順著葉子的弧度往下滑，滑到葉尖時「啪」地滴下來，還閃了一下亮光。"
       },
       "scene": "rain",
-      "status": "seed",
+      "status": "prompted",
       "priority": 240,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "96be6adc-6105-4c31-951a-71507939da3d",
+      "promptedAt": "2026-10-03T07:27:17.993Z"
     },
     {
       "char": "虹",
@@ -8921,11 +9347,13 @@
         "hook": "一道亮晶晶的玩具彩虹，七種顏色一條一條疊在一起，弓形地掛在小水窪上方；彩虹一條一條慢慢亮起來，紅的、橘的、黃的⋯最後全部一起發亮，閃了一下光。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 241,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c69ead0c-2930-4dd9-ae05-d187a93643d3",
+      "promptedAt": "2026-10-03T07:27:17.585Z"
     },
     {
       "char": "陽",
@@ -8956,11 +9384,13 @@
         "hook": "一顆紅撲撲、笑咪咪的玩具太陽，掛在一張迷你陽台小椅子的後面；太陽慢慢往上爬升，把小椅子照得暖暖亮亮的，椅子上還冒出一圈金色的光。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 242,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8346c451-b88f-45f0-a75a-b5224c806321",
+      "promptedAt": "2026-10-03T07:23:20.506Z"
     },
     {
       "char": "飯",
@@ -8991,11 +9421,13 @@
         "hook": "一碗軟綿綿的玩具白飯，堆得尖尖的，上面飄著一小圈熱氣，碗邊還靠著一雙玩具筷子；飯碗開心地扭了扭身體，熱氣咕嚕咕嚕往上冒，飄呀飄地消失在空中。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 243,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "d68502ae-6e6b-48ce-9084-b894f5c0cb51",
+      "promptedAt": "2026-10-03T07:27:18.065Z"
     },
     {
       "char": "麵",
@@ -9026,11 +9458,13 @@
         "hook": "一碗Q彈的玩具黃色捲麵，上面有一張笑臉，還放了一片粉紅色的玩具魚板；麵條被拉得長長的，像彈簧一樣越拉越長，鬆手後「咻」地彈回去變成一團捲捲的。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 244,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "14a9a165-b17f-4fd9-8ca7-faf1a68852d7",
+      "promptedAt": "2026-10-03T07:27:18.183Z"
     },
     {
       "char": "菜",
@@ -9061,11 +9495,13 @@
         "hook": "一把亮晶晶、皺皺的玩具青菜，葉子一層層疊著，放在一個小小的藤編玩具籃子裡；菜葉一片一片慢慢展開，像花朵綻放一樣，最後攤成一大把。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 245,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "47a65321-3dc1-4176-b36e-31cf37f1b9ee",
+      "promptedAt": "2026-10-03T07:27:17.491Z"
     },
     {
       "char": "肉",
@@ -9096,11 +9532,13 @@
         "hook": "一顆胖胖的玩具肉丸，外面裹著亮亮的醬色，插在一根小竹籤上輕輕晃；肉丸左搖右晃，差點要滾下來，最後「咚」地一聲穩穩停回竹籤中間。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 246,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "eb94e022-4096-4aea-a20f-11cf60366094",
+      "promptedAt": "2026-10-03T07:23:19.827Z"
     },
     {
       "char": "蛋",
@@ -9131,11 +9569,13 @@
         "hook": "一顆光滑的玩具蛋，殼上有可愛的小斑點，穩穩地坐在粉彩色蛋杯裡；蛋殼扭了扭，「啵」地裂開一條縫，一隻彈簧玩具小雞就這樣彈跳出來。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 247,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "54da5138-e2aa-4406-b94d-7b3fb074b2da",
+      "promptedAt": "2026-10-03T07:23:20.146Z"
     },
     {
       "char": "糖",
@@ -9166,11 +9606,13 @@
         "hook": "一顆胖胖的玩具糖果，外面包著亮亮的粉白條紋糖果紙，兩端扭得緊緊的；糖果紙自己「啪啦啪啦」慢慢鬆開，最後「啵」地一聲整個攤開，露出裡面亮晶晶的糖果。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 248,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "a4e35de6-dbc8-456f-a613-90f8d2951ffe",
+      "promptedAt": "2026-10-03T07:23:19.672Z"
     },
     {
       "char": "餅",
@@ -9201,11 +9643,13 @@
         "hook": "一片圓圓的玩具餅乾，表面金黃酥酥的，上面還按著幾顆可愛的巧克力豆；餅乾像硬幣一樣慢慢轉圈圈，一下露出凹凸的表面，一下露出光滑的底部。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 249,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c8c056b3-fb56-484c-bf2b-e535ff0beb5d",
+      "promptedAt": "2026-10-03T07:23:20.630Z"
     },
     {
       "char": "茶",
@@ -9236,11 +9680,13 @@
         "hook": "一個圓滾滾的玩具茶壺，壺嘴彎彎的，旁邊配著一個迷你玩具茶杯；茶壺慢慢往前傾，倒出一道金黃色的玩具茶水，杯子裡冒出一縷縷熱氣。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 250,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "06cdb038-80b4-4023-a7bd-3f1b0080a21f",
+      "promptedAt": "2026-10-03T07:23:20.099Z"
     },
     {
       "char": "瓜",
@@ -9271,11 +9717,13 @@
         "hook": "一顆圓滾滾、綠色條紋的玩具西瓜，頭上還翹著一小截棕色瓜蒂；西瓜「啵」地一聲從中間裂開，露出裡面紅通通的絨布瓜肉，上面還點綴著一顆顆黑色鈕扣籽。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 251,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ab63d6b4-4023-4332-aadf-e51284e0a757",
+      "promptedAt": "2026-10-03T07:23:19.340Z"
     },
     {
       "char": "豆",
@@ -9306,11 +9754,13 @@
         "hook": "一個光滑的玩具豆莢，剖開像一艘小獨木舟，裡面躺著三顆圓滾滾的玩具豆子；豆子在莢裡滾來滾去咯咯響，突然一顆跳出來，像小球一樣彈跳著滾走了。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 252,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ba9593d0-1f51-493f-81ae-7c8f9191e4e8",
+      "promptedAt": "2026-10-03T07:27:17.741Z"
     },
     {
       "char": "湯",
@@ -9341,11 +9791,13 @@
         "hook": "一碗圓圓的玩具湯，裡面裝著橘色絨毛狀的湯汁漩渦，飄著幾片小小的蔬菜，碗邊靠著一支玩具湯匙；湯汁自己慢慢轉圈攪動，冒出一縷熱氣，捲呀捲地往上飄。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 253,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "47297b29-b288-4f17-93c9-11acc5b4b862",
+      "promptedAt": "2026-10-03T07:23:19.132Z"
     },
     {
       "char": "粥",
@@ -9376,11 +9828,13 @@
         "hook": "一碗暖呼呼的玩具白粥，表面滑滑亮亮的，上面放了一小撮絨毛小菜脯；粥面上慢慢冒出一個個軟軟的小泡泡，「噗、噗」地一個個輕輕破掉。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 254,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "4bf0e779-3991-4d8c-99ee-e5576508c726",
+      "promptedAt": "2026-10-03T07:27:17.137Z"
     },
     {
       "char": "餃",
@@ -9411,11 +9865,13 @@
         "hook": "一顆胖胖的玩具水餃，彎彎的像月牙，邊緣捏著一圈可愛的摺痕，放在小小的竹蒸籠裡；水餃慢慢鼓起來，像氣球一樣越脹越圓，接著「呼」地吐出一口熱氣，又扁扁地躺回去。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 255,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "74136e7c-3f4c-42b5-87d0-3508166219d3",
+      "promptedAt": "2026-10-03T07:27:18.097Z"
     },
     {
       "char": "包",
@@ -9446,11 +9902,13 @@
         "hook": "一顆圓滾滾的玩具包子，頭頂捏著一圈軟軟的摺痕，摸起來像棉花糖枕頭一樣蓬鬆；包子慢慢脹大變得更圓，頭頂的摺痕還一邊扭一扭，像綁了個小丸子頭。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 256,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0f63da2a-0b7a-4580-ab12-4a8ac1b4a45a",
+      "promptedAt": "2026-10-03T07:23:18.139Z"
     },
     {
       "char": "糕",
@@ -9481,11 +9939,13 @@
         "hook": "一個小小的玩具千層蛋糕，粉色奶油一圈圈擠成漩渦狀，頂端放著一顆亮晶晶的櫻桃，穩穩站在小蛋糕架上；奶油一層一層慢慢擠出來疊高，最後櫻桃「噗」地跳上頂端穩穩坐好。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 257,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5440c6f5-a523-490b-9bee-0ca9359e6542",
+      "promptedAt": "2026-10-03T07:23:19.650Z"
     },
     {
       "char": "酸",
@@ -9516,11 +9976,13 @@
         "hook": "一片黃澄澄、亮晶晶的玩具檸檬片，摸起來QQ軟軟的，上面畫著一張皺成一團的卡通臉；檸檬片「唰」地噴出一小滴汁，臉也跟著皺得更緊，眼睛都瞇成一條線。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 258,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "91ed0fe1-ebea-46d5-8acf-74ce59cbff12",
+      "promptedAt": "2026-10-03T07:27:17.876Z"
     },
     {
       "char": "甜",
@@ -9551,11 +10013,13 @@
         "hook": "一根亮晶晶的玩具蜂蜜棒，正把濃稠的金黃色蜂蜜滴進小小的玩具蜂蜜罐裡；蜂蜜慢慢繞著圈圈往下滴，一圈一圈疊起來，堆成一座軟綿綿的金色小山。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 259,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "fd65cc82-37b6-4143-adb7-779a499923bb",
+      "promptedAt": "2026-10-03T07:27:16.848Z"
     },
     {
       "char": "苦",
@@ -9586,11 +10050,13 @@
         "hook": "一條凹凸不平的玩具苦瓜，表面疙疙瘩瘩的淡綠色，直挺挺地立在小木頭砧板上；苦瓜突然抖了一下，臉皺成一團，眼睛瞇得緊緊的，好像在說「好苦喔」。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 260,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "b540ea58-376d-42d8-b1cb-6e80fee698c5",
+      "promptedAt": "2026-10-03T07:23:20.076Z"
     },
     {
       "char": "辣",
@@ -9621,11 +10087,13 @@
         "hook": "一根紅通通、亮晶晶的玩具辣椒，彎彎的身體上頂著一小截綠色蒂頭；辣椒尖端突然「噗噗噗」冒出幾個卡通小火焰貼紙，接著全身抖一抖，把火焰都甩掉了。"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 261,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "ebfdded0-ef67-4017-aac1-77787e69ee00",
+      "promptedAt": "2026-10-03T07:23:20.355Z"
     },
     {
       "char": "筆",
@@ -9655,11 +10123,13 @@
         "morph": "the glyph 筆 stands still as a solid sculpture while the toy pencil balances upright on its sharpened tip and slowly spins like a top before wobbling to a stop",
         "hook": "一枝胖胖的玩具鉛筆，木頭身體漆成亮黃色，頭上戴著粉紅色橡皮擦帽，筆尖削得尖尖的銀亮銀亮；鉛筆立起來用筆尖轉圈圈，像陀螺一樣轉呀轉，最後搖搖晃晃地停下來。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 262,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "a6d53c0b-6534-493d-ae73-5aff80d8f201",
+      "promptedAt": "2026-10-03T07:27:17.081Z"
     },
     {
       "char": "紙",
@@ -9689,11 +10159,13 @@
         "morph": "the glyph 紙 stands still as a solid sculpture while the toy paper sheet slowly folds itself corner by corner into a small paper airplane, then lifts and glides a little",
         "hook": "一張脆脆的玩具白紙，邊角微微捲起，旁邊疊著一小疊彩色玩具紙；白紙自己一角一角慢慢摺起來，摺成一架小紙飛機，接著輕輕飛起來滑了一小段。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 263,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "8076d171-0861-4bdb-8ff2-0b68314e1b4b",
+      "promptedAt": "2026-10-03T07:27:17.214Z"
     },
     {
       "char": "桌",
@@ -9723,11 +10195,13 @@
         "morph": "the glyph 桌 stands still as a solid sculpture while a row of tiny toy chairs scoot themselves up to sit neatly around the wooden tabletop",
         "hook": "一張穩穩的玩具木桌，四隻短短胖胖的桌腳，桌面光滑亮亮的，剛好適合泰迪熊開茶會；一張張小玩具椅子自己「咕嚕咕嚕」滑過來，整整齊齊地圍著桌子坐好。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 264,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "27795e50-849e-40c0-9284-6645d4392e48",
+      "promptedAt": "2026-10-03T07:23:18.965Z"
     },
     {
       "char": "椅",
@@ -9757,11 +10231,13 @@
         "morph": "the glyph 椅 stands still as a solid sculpture while the toy chair slowly tips back and forth like a rocking chair, creaking in a friendly rhythm",
         "hook": "一張漆成紅色的玩具小木椅，椅背彎彎的，剛好適合泰迪熊坐；小椅子前後慢慢搖呀搖，像搖椅一樣，還發出「吱呀、吱呀」的可愛聲音。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 265,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "0ddde1b3-c8e5-49a4-bdbd-ce719e526170",
+      "promptedAt": "2026-10-03T07:23:18.987Z"
     },
     {
       "char": "窗",
@@ -9791,11 +10267,13 @@
         "morph": "the glyph 窗 stands still as a solid sculpture while the toy shutters creak open wide, letting a tiny paper sun peek through the frame",
         "hook": "一扇漆成天藍色的玩具窗框，兩片小窗板裝著迷你鉸鏈；窗板「嘎」地一聲慢慢打開，一個小紙太陽從窗框裡探出頭來，笑咪咪地照進來。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 266,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "2e9c0a1e-8a7a-4e5c-8de5-5fa4de3c68bf",
+      "promptedAt": "2026-10-03T07:23:19.628Z"
     },
     {
       "char": "牆",
@@ -9825,11 +10303,13 @@
         "morph": "the glyph 牆 stands still as a solid sculpture while a tiny toy lizard climbs up the bumpy brick wall, brick by brick, then peeks over the top",
         "hook": "一面玩具紅磚牆，用一塊塊胖胖的紅色積木疊起來的；一隻小玩具壁虎沿著凹凸的磚牆一格一格往上爬，爬到最頂端後探出頭，好奇地往下看。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 267,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "33cf83a6-ee15-443c-a11e-43a068b82b1f",
+      "promptedAt": "2026-10-03T07:23:19.257Z"
     },
     {
       "char": "板",
@@ -9859,11 +10339,13 @@
         "morph": "the glyph 板 stands still as a solid sculpture while the toy skateboard's wheels spin faster and faster, then it does a tiny hop and lands with a satisfying clack",
         "hook": "一塊小小的玩具滑板，輪子胖胖的、五顏六色，板面光滑亮亮的木頭色；滑板的輪子越轉越快，接著小小跳了一下，「喀」地一聲穩穩落地。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 268,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "868eec48-1581-4836-9a34-e2c0456e07e7",
+      "promptedAt": "2026-10-03T07:23:18.906Z"
     },
     {
       "char": "燈",
@@ -9894,11 +10376,13 @@
         "hook": "一盞可愛的玩具檯燈，燈泡圓圓的、脖子彎彎軟軟的，站在小小的圓底座上；燈泡慢慢從暗暗的變成溫暖的金黃色，接著「眨、眨」地閃了兩下，像在眨眼睛打招呼。"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 269,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "c93e8476-c3a4-4e20-b2c2-b4c874a1bd57",
+      "promptedAt": "2026-10-03T07:23:19.215Z"
     },
     {
       "char": "鐘",
@@ -9928,11 +10412,13 @@
         "morph": "the glyph 鐘 stands still as a solid sculpture while the toy clock's twin bells shake and ring, its little hammer bouncing back and forth between them",
         "hook": "一個圓滾滾的玩具鬧鐘，頭上頂著兩個亮晶晶的小鈴鐺，臉上畫著笑咪咪的時針分針；鬧鐘的小鈴鐺「叮鈴叮鈴」搖晃著響起來，中間的小鎚子來回蹦跳打鈴。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 270,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "30d78c25-8b5d-4446-a08d-4e34406c0330",
+      "promptedAt": "2026-10-03T07:23:20.407Z"
     },
     {
       "char": "傘",
@@ -9962,11 +10448,13 @@
         "morph": "the umbrella toy pops open with a snap, its ribs fanning out straight and even like spokes around the curved handle, mirroring the umbrella's own evenly radiating strokes",
         "hook": "一把圓圓的玩具雨傘，傘面是亮晶晶的水玉點點，握把彎彎的像糖果枴杖；雨傘「啪」地一聲整個打開，傘骨一根根筆直地往外撐開，像輪子的輻條一樣整整齊齊。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 271,
       "media": [],
       "feedback": [],
-      "hidden": true
+      "hidden": true,
+      "activePromptId": "5bba1973-63f2-420b-9f13-760327a2eb9b",
+      "promptedAt": "2026-10-03T07:23:17.984Z"
     }
   ],
   "production": {
@@ -10144,6 +10632,22 @@
           "腳",
           "走",
           "吃"
+        ],
+        "attempts": []
+      },
+      "2026-10-03": {
+        "queue": [
+          "吃",
+          "喝",
+          "眼"
+        ],
+        "attempts": []
+      },
+      "2026-10-04": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
         ],
         "attempts": []
       }
