@@ -63,7 +63,7 @@ export type Build = {
 export type Cue =
   | { at: number; say: string }
   | { at: number; sfx: 'crack' | 'boing' | 'clink' | 'gulp' | 'rumble' | 'bubble' | 'poof' | 'plop' | 'cheer' | 'tap'
-      | 'bonk' | 'whoosh' | 'slide' | 'deflate' | 'splash' | 'hic' | 'blip' }
+      | 'bonk' | 'whoosh' | 'slide' | 'deflate' | 'splash' | 'hic' | 'blip' | 'laser' | 'achoo' }
 
 export type GlyphFx = { at: number; dur: number; do: 'wobble' | 'pulse' | 'shake' }
 
@@ -71,15 +71,21 @@ export type GlyphFx = { at: number; dur: number; do: 'wobble' | 'pulse' | 'shake
  * 漫畫效果：跟著角色的頭（或指定的點）走。
  * burst 爆開一圈、dizzy 頭上轉星星、bubble 想法泡泡、sweat 冒汗、puff 腳邊揚塵、
  * zzz 睡著、pop 頭上冒一個符號（❗❓💡❤️）、rain 往下灑、zap 從 actor 劈一道閃電到 target、fountain 從頭頂噴泉、
- * stink 綠色臭味線往上飄（錨點在角色中心）。
+ * stink 綠色臭味線往上飄（錨點在角色中心）、line 從 actor 拉一條線到 target 或 to（蜘蛛絲、雷射光）、
+ * beam 從 actor 往下打一道牽引光束到地板（飛碟）。
  */
 export type Fx = {
   at: number
   dur?: number
-  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink'
+  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam'
   actor?: string
-  /** zap 劈到誰 */
+  /** zap／line 打到誰 */
   target?: string
+  /** line 打到哪一點（沒有 target 時） */
+  to?: Vec
+  /** line 的顏色與粗細 */
+  color?: string
+  width?: number
   /** 錨點再偏移一點（例如雲在畫面頂端，符號要放旁邊才不會被切掉） */
   dx?: number
   dy?: number
@@ -155,6 +161,8 @@ export function actorsAt(clip: Clip, t: number): ActorState[] {
       const live = t <= m.at + d
       const e = easeInOut(p)
       const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * p)
+      // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
+      if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
       switch (m.do) {
         case 'enter': {
           const from = m.from ?? { x: -15, y: st.y }
@@ -264,9 +272,10 @@ export function glyphAt(clip: Clip, t: number) {
 // ---------- 漫畫效果 ----------
 export const FLOOR = 74
 
-export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean; x: number; y: number; size: number; o: number; s: number; r: number }
+export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean;
+  line?: { from: Vec; to: Vec; color: string; width: number }; beam?: Vec[]; x: number; y: number; size: number; o: number; s: number; r: number }
 
-const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6 }
+const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1 }
 
 export function fxAt(clip: Clip, t: number): FxItem[] {
   const out: FxItem[] = []
@@ -355,6 +364,26 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
           const q = ((t - f.at) / 1.1 + i / 3) % 1
           out.push({ key: key(i), wave: true, x: c.x - 4 + i * 4, y: c.y - 3 - 14 * q, size: 1, o: Math.sin(Math.PI * q) * fade, s: 0.7 + 0.5 * q, r: 0 })
         }
+        break
+      }
+      case 'line': {
+        if (!a) break
+        const b = f.target ? actors.get(f.target) : undefined
+        const end = b ? { x: b.x, y: b.y } : f.to
+        if (!end) break
+        const from = { x: a.x + (f.dx ?? 0), y: a.y + (f.dy ?? 0) }
+        // 射出去要一點時間：前 15% 線從起點長出來
+        const grow = clamp(p * d / 0.12)
+        const to = { x: lerp(from.x, end.x, grow), y: lerp(from.y, end.y, grow) }
+        out.push({ key: key(0), line: { from, to, color: f.color ?? '#fff', width: f.width ?? 0.7 }, x: 0, y: 0, size: 0, o: clamp((1 - p) * d / 0.12), s: 1, r: 0 })
+        break
+      }
+      case 'beam': {
+        if (!a) break
+        const top = a.y + a.size * 0.25, half = (f.n ?? 14) / 2
+        const flicker = 0.75 + 0.25 * Math.sin(t * 40)
+        out.push({ key: key(0), beam: [{ x: a.x - 2.5, y: top }, { x: a.x + 2.5, y: top }, { x: a.x + half, y: FLOOR }, { x: a.x - half, y: FLOOR }],
+          x: 0, y: 0, size: 0, o: fade * flicker, s: 1, r: 0 })
         break
       }
       case 'fountain': {

@@ -104,3 +104,14 @@ export function splash() {
 export const hic = () => tone(0, 500, 900, 0.09, 'square', 0.06)
 /** 小小的冒出來。 */
 export const blip = () => tone(0, 700, 1300, 0.08, 'sine', 0.08)
+/** 雷射：咻嗶。 */
+export function laser() {
+  tone(0, 1900, 260, 0.18, 'square', 0.05)
+  tone(0.02, 2400, 400, 0.14, 'sine', 0.05)
+}
+/** 哈——啾！ */
+export function achoo() {
+  tone(0, 300, 700, 0.35, 'sine', 0.06)
+  tone(0.4, 1400, 200, 0.16, 'square', 0.08)
+  tone(0.42, 900, 150, 0.2, 'sawtooth', 0.05)
+}

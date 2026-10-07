@@ -145,6 +145,13 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
               <ellipse rx={6.8} ry={5.2} fill="#fff" stroke="rgba(0,0,0,.15)" strokeWidth=".4" />
             </>}
             {f.emoji && <text fontSize={f.size} textAnchor="middle" dominantBaseline="central">{f.emoji}</text>}
+            {f.beam && <polygon points={f.beam.map((q) => `${q.x},${q.y}`).join(' ')} fill="#FFF27A" opacity=".45" />}
+            {f.line && <>
+              <line x1={f.line.from.x} y1={f.line.from.y} x2={f.line.to.x} y2={f.line.to.y} stroke={f.line.color}
+                strokeWidth={f.line.width * 2.6} strokeLinecap="round" opacity=".3" />
+              <line x1={f.line.from.x} y1={f.line.from.y} x2={f.line.to.x} y2={f.line.to.y} stroke={f.line.color}
+                strokeWidth={f.line.width} strokeLinecap="round" />
+            </>}
             {f.wave && <path d="M0,4 q-2,-2 0,-4 q2,-2 0,-4" fill="none" stroke="#7BC74D" strokeWidth="1" strokeLinecap="round" />}
             {f.bolt && <>
               <polyline points={f.bolt.map((p) => `${p.x},${p.y}`).join(' ')} fill="none" stroke="#FFE14D" strokeWidth="3.2"

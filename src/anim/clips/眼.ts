@@ -1,0 +1,103 @@
+import type { Clip } from '../clip'
+
+// 眼：超級英雄想用雷射眼點蠟燭，結果蠟燭直接炸掉；雷射停不下來，看到披薩炸披薩、看到氣球炸氣球、看到仙人掌炸仙人掌，
+// 炸飛的碎片拼成「眼」。戴上墨鏡終於控制住，好帥——然後打了個噴嚏，墨鏡飛掉，背後的氣球又被炸破。眼、眼、眼鏡
+const clip: Clip = {
+  char: '眼',
+  meta: { theme: '超級英雄', cast: '雷射眼英雄', gags: ['超能力失控', '越炸越多', '打噴嚏', '帥不過三秒'] },
+  duration: 10,
+  bg: { top: '#FFEBDD', bottom: '#FFD4C4', floor: '#CFC8DE' },
+  actors: [
+    { id: 'candle', emoji: '🕯️', x: 44, y: 72, size: 7, hidden: true },
+    { id: 'pizza', emoji: '🍕', x: 96, y: 72, size: 8, hidden: true },
+    { id: 'balloon', emoji: '🎈', x: 120, y: 34, size: 9, hidden: true, float: true },
+    { id: 'cactus', emoji: '🌵', x: 140, y: 69, size: 13, hidden: true },
+    { id: 'balloon2', emoji: '🎈', x: 8, y: 40, size: 8, hidden: true, float: true },
+    { id: 'hero', emoji: '🦸', x: 24, y: 70.5, size: 14, hidden: true },
+    { id: 'shades', emoji: '🕶️', x: 24, y: 66.5, size: 6, hidden: true, float: true },
+  ],
+  moves: [
+    { at: 0, actor: 'candle', do: 'pop' }, { at: 0.1, actor: 'pizza', do: 'pop' },
+    { at: 0.2, actor: 'balloon', do: 'pop' }, { at: 0.3, actor: 'cactus', do: 'pop' },
+    { at: 0.2, actor: 'balloon', do: 'bounce', dur: 3, times: 4, amount: 1.2 },
+    { at: 0, actor: 'hero', do: 'enter', dur: 0.6 },
+    { at: 0.6, actor: 'hero', do: 'hop', dur: 0.35, amount: 6 },
+    // 集中精神……咻！蠟燭直接炸掉
+    { at: 1.5, actor: 'hero', do: 'squash', amount: -0.2, dur: 0.3 },
+    { at: 1.85, actor: 'candle', do: 'vanish', dur: 0.1 },
+    { at: 1.95, actor: 'hero', do: 'hop', dur: 0.3, amount: 4 },
+    // 停不下來：看到什麼炸什麼
+    { at: 2.7, actor: 'hero', do: 'tilt', amount: 10, dur: 0.3 },
+    { at: 2.85, actor: 'pizza', do: 'vanish', dur: 0.1 },
+    { at: 3.4, actor: 'hero', do: 'tilt', amount: -14, dur: 0.3 },
+    { at: 3.55, actor: 'balloon', do: 'vanish', dur: 0.08 },
+    { at: 4.1, actor: 'hero', do: 'shake', dur: 0.6, amount: 1 },
+    { at: 4.25, actor: 'cactus', do: 'vanish', dur: 0.1 },
+    // 墨鏡掉下來剛好戴上
+    { at: 5.6, actor: 'shades', do: 'enter', from: { x: 24, y: -10 }, dur: 0.35 },
+    { at: 5.95, actor: 'hero', do: 'squash', amount: 0.15, dur: 0.15 },
+    { at: 6.4, actor: 'hero', do: 'hop', dur: 0.35, amount: 5 },
+    { at: 6.4, actor: 'shades', do: 'hop', dur: 0.35, amount: 5 },
+    // 哈——啾！
+    { at: 7.6, actor: 'hero', do: 'squash', amount: -0.25, dur: 0.4 },
+    { at: 7.6, actor: 'shades', do: 'hop', dur: 0.4, amount: 2 },
+    { at: 8.0, actor: 'hero', do: 'squash', amount: 0.4, dur: 0.25 },
+    { at: 8.0, actor: 'shades', do: 'moveTo', to: { x: 52, y: 80 }, dur: 0.4, arc: 18 },
+    { at: 8.0, actor: 'shades', do: 'spin', dur: 0.4, times: 2 },
+    { at: 8.0, actor: 'balloon2', do: 'pop', dur: 0.05 },
+    { at: 8.25, actor: 'balloon2', do: 'vanish', dur: 0.08 },
+    { at: 8.35, actor: 'hero', do: 'hop', dur: 0.6, amount: 16 },
+    { at: 8.35, actor: 'hero', do: 'spin', dur: 0.6 },
+    { at: 8.95, actor: 'hero', do: 'squash', amount: 0.4, dur: 0.25 },
+  ],
+  builds: [
+    // 炸飛的碎片：披薩 → 目，氣球 → 艮的上半，仙人掌 → 艮的下半
+    { at: 2.9, dur: 0.8, strokes: [0, 1, 2, 3, 4], from: 'pizza', color: '#E24B3B' },
+    { at: 3.6, dur: 0.5, strokes: [5, 6, 7], from: 'balloon', color: '#2E7DD1' },
+    { at: 4.3, dur: 0.6, strokes: [8, 9, 10], from: 'cactus', color: '#2E9C5A' },
+  ],
+  glyph: [{ at: 5.1, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'pop', actor: 'hero', emoji: '✨', dur: 0.5 },
+    { at: 0.9, kind: 'bubble', actor: 'hero', emoji: '🕯️', dur: 0.7 },
+    { at: 1.8, kind: 'line', actor: 'hero', dy: -2, target: 'candle', color: '#FF3030', width: 1.1, dur: 0.2 },
+    { at: 1.85, kind: 'burst', x: 44, y: 70, dur: 0.5 },
+    { at: 2.2, kind: 'bubble', actor: 'hero', emoji: '😳', dur: 0.5 },
+    { at: 2.8, kind: 'line', actor: 'hero', dy: -2, target: 'pizza', color: '#FF3030', width: 1.1, dur: 0.2 },
+    { at: 2.85, kind: 'burst', x: 96, y: 70, dur: 0.5 },
+    { at: 3.5, kind: 'line', actor: 'hero', dy: -2, target: 'balloon', color: '#FF3030', width: 1.1, dur: 0.2 },
+    { at: 3.55, kind: 'burst', x: 120, y: 34, dur: 0.5 },
+    { at: 4.2, kind: 'line', actor: 'hero', dy: -2, target: 'cactus', color: '#FF3030', width: 1.1, dur: 0.2 },
+    { at: 4.25, kind: 'burst', x: 140, y: 68, dur: 0.5 },
+    { at: 4.4, kind: 'sweat', actor: 'hero' },
+    { at: 5.3, kind: 'pop', actor: 'hero', emoji: '💡', dur: 0.4 },
+    { at: 6.4, kind: 'bubble', actor: 'hero', emoji: '😎', dur: 0.8 },
+    { at: 7.6, kind: 'pop', actor: 'hero', emoji: '🤧', dur: 0.45 },
+    { at: 8.15, kind: 'line', actor: 'hero', dy: -2, target: 'balloon2', color: '#FF3030', width: 1.1, dur: 0.15 },
+    { at: 8.25, kind: 'burst', x: 8, y: 40, dur: 0.5 },
+    { at: 9.0, kind: 'dizzy', actor: 'hero', dur: 1.0 },
+  ],
+  camera: [
+    { at: 1.85, dur: 0.3, do: 'shake', amount: 1 },
+    { at: 4.25, dur: 0.3, do: 'shake', amount: 1.2 },
+    { at: 6.4, dur: 0.8, do: 'punch', amount: 0.25, to: { x: 26, y: 62 } },
+  ],
+  cues: [
+    { at: 0.6, sfx: 'blip' },
+    { at: 1.8, sfx: 'laser' },
+    { at: 1.85, sfx: 'poof' },
+    { at: 1.9, say: '眼' },
+    { at: 2.8, sfx: 'laser' }, { at: 2.85, sfx: 'poof' },
+    { at: 3.5, sfx: 'laser' }, { at: 3.55, sfx: 'poof' },
+    { at: 4.2, sfx: 'laser' }, { at: 4.25, sfx: 'poof' },
+    { at: 4.95, say: '眼' },
+    { at: 5.95, sfx: 'plop' },
+    { at: 6.1, say: '眼鏡' },
+    { at: 7.6, sfx: 'achoo' },
+    { at: 8.15, sfx: 'laser' }, { at: 8.25, sfx: 'poof' },
+    { at: 8.35, sfx: 'slide' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

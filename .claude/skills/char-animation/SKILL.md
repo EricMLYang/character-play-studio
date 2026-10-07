@@ -53,6 +53,7 @@ npx tsc -b && npm test
 ```
 
 再用瀏覽器逐格看：`http://localhost:5180/anim?char=<字>&t=<秒>` 會定格在那一秒。
+- 新增劇本檔後，`/anim` 上面那排字如果沒有出現新的字，是 dev server 沒抓到新檔案：重開 `npm run dev`。
 - Chrome 分頁常是 hidden，rAF 不跑，**不要用播放來驗證**，用 `?t=` 定格截圖。導覽後等 1 秒再截圖，不然版面還沒穩。
 - 每支至少看：開場、每個笑點的高峰、筆畫組成中、國字完成、語詞那一刻、結尾。
 - 檢查：角色有沒有互相重疊或被蓋住（actors 陣列順序就是繪製順序，後面的在上面）、頭上的東西有沒有懸空、
@@ -151,9 +152,10 @@ npx tsc -b && npm test
   - 頭上頂著東西時，主角壓扁要用 `pressStack(at, dur, amount, size, ids)`（`src/anim/helpers.ts`）讓上面那疊一起沉。
 - **builds**：`{ at, dur, strokes: [筆畫編號], from: 角色 id 或 {x,y}, style?: 'fly'|'drop', color }`；每一筆落定自動有「叮」聲。
 - **fx**（跟著角色頭頂，可用 dx/dy 偏移）：`burst`（n=1 是 💥，n>1 是一圈 emoji）、`dizzy`、`bubble`（想法泡泡＋emoji）、
-  `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`
+  `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`、
+  `line`（從 actor 拉線到 target 或 to：蜘蛛絲白色細線、雷射紅色粗線，用 color／width）、`beam`（飛碟往下的牽引光束，n 是底部寬度）
 - **camera**：`{ at, dur, do: 'punch'|'shake', amount?, to? }`
 - **lights**：`{ at, dur, level }`，0 全亮、1 全黑
 - **glyph**：`{ at, dur, do: 'wobble'|'pulse'|'shake' }`
-- **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip
+- **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
