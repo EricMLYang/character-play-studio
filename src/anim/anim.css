@@ -1,0 +1,19 @@
+.anim-lab { min-height: 100vh; overflow: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+body:has(.anim-lab) { overflow: auto; }
+.anim-head { width: min(100%, 960px); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.anim-head h1 { margin: 0; font-size: 22px; }
+.anim-head nav { display: flex; gap: 8px; }
+.anim-head button { font-family: var(--kai); font-size: 26px; width: 52px; height: 52px; border-radius: 14px;
+  border: 2px solid rgba(46,42,38,.15); background: #fff; color: var(--ink); cursor: pointer; }
+.anim-head button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.anim-frame { position: relative; width: min(100%, 960px); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(46,42,38,.15); }
+.anim-stage { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.anim-stage text { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; user-select: none; }
+.anim-big-play { position: absolute; inset: 0; margin: auto; width: 96px; height: 96px; border-radius: 50%; border: 0;
+  background: rgba(46,42,38,.75); color: #fff; font-size: 40px; cursor: pointer; }
+.anim-controls { width: min(100%, 960px); display: flex; align-items: center; gap: 12px; }
+.anim-controls button { font: inherit; font-size: 16px; padding: 8px 14px; border-radius: 12px; border: 0;
+  background: var(--ink); color: #fff; cursor: pointer; white-space: nowrap; }
+.anim-controls input { flex: 1; min-width: 0; }
+.anim-time { font-variant-numeric: tabular-nums; width: 4.5em; text-align: right; }

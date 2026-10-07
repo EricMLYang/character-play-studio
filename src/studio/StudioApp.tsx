@@ -3,6 +3,8 @@ import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
 import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
 import { feedbackTags } from '../../shared/domain.mjs'
 import MediaReview from './MediaReview'
+import { clipFor } from '../anim/clips'
+import AnimMedia from '../anim/AnimMedia'
 import CharacterEditor from './CharacterEditor'
 
 const STATUS: Record<string, string> = {
@@ -29,6 +31,7 @@ export default function StudioApp() {
   const [prompt, setPrompt] = useState<Prompt | null>(null)
   const [toast, setToast] = useState('')
   const [filter, setFilter] = useState<'all' | 'seed' | 'prompted' | 'live'>('all')
+  const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const working = useRef(false)
@@ -147,7 +150,12 @@ export default function StudioApp() {
   if (!lib) return <div className="st-boot">{error || '載入中…'}</div>
 
   const entry: CharEntry | undefined = lib.characters.find((c) => c.char === sel)
-  const list = lib.characters.filter((c) => filter === 'all' || c.status === filter)
+  // 搜尋：國字（可一次打好幾個）、注音、英文意思、語詞都找得到；搜尋時不管上面的狀態篩選
+  const q = query.trim().toLowerCase()
+  const list = q
+    ? lib.characters.filter((c) => q.includes(c.char) || (c.zhuyin && c.zhuyin.includes(q)) ||
+        c.meaning?.toLowerCase().includes(q) || c.words?.some((w) => w.text.includes(q)))
+    : lib.characters.filter((c) => filter === 'all' || c.status === filter)
   const stats = {
     live: lib.characters.filter((c) => c.status === 'live').length,
     prompted: lib.characters.filter((c) => c.status === 'prompted').length,
@@ -212,13 +220,18 @@ export default function StudioApp() {
             </div>}
           </section>
 
-          <div className="st-filters">
+          <div className="st-search">
+            <input type="search" value={query} placeholder="搜尋國字、注音、意思或語詞" aria-label="搜尋字庫"
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && list[0]) pick(list[0].char); if (e.key === 'Escape') setQuery('') }} />
+          </div>
+          {!q && <div className="st-filters">
             {(['all', 'seed', 'prompted', 'live'] as const).map((f) => (
               <button key={f} className={'st-chip' + (filter === f ? ' on' : '')} onClick={() => setFilter(f)}>
                 {f === 'all' ? '全部' : STATUS[f]}
               </button>
             ))}
-          </div>
+          </div>}
 
           <div className="st-list">
             {list.map((c) => (
@@ -229,12 +242,17 @@ export default function StudioApp() {
                   <span>
                     <span className={'st-badge b-' + c.status}>{STATUS[c.status]}</span>
                     {c.hidden && <span className="st-badge b-hidden">孩子端隱藏</span>}
+                    {clipFor(c.char) && <span className="st-badge b-anim">有動畫</span>}
                   </span>
                 </span>
                 {c.needsRedo && <span className="st-redo">要重做</span>}
               </button>
             ))}
-            {!list.length && <p className="st-list-empty">
+            {!list.length && q && <p className="st-list-empty">
+              字庫裡找不到「{query.trim()}」。可以用下面的「＋ 加一個字」新增。
+              <button className="st-btn ghost" onClick={() => setQuery('')}>清除搜尋</button>
+            </p>}
+            {!list.length && !q && <p className="st-list-empty">
               {EMPTY_LIST[filter]}
               {filter !== 'all' && <button className="st-btn ghost" onClick={() => setFilter('all')}>看全部 {stats.total} 個字</button>}
             </p>}
@@ -281,6 +299,12 @@ export default function StudioApp() {
                   {entry.hidden && <p className="st-dim">新加的字預設不出現在字庫。注音、字義與素材確認好再開放。</p>}
                 </div>
               </div>
+
+              {clipFor(entry.char) && <section className="st-card">
+                <div className="st-card-bar"><h4>動畫</h4></div>
+                <p className="st-dim">還沒有上架影片時，孩子端會播這段動畫；影片上架後自動改播影片。</p>
+                <div className="st-anim"><AnimMedia key={entry.char} clip={clipFor(entry.char)!} onEnd={() => {}} autoplay={false} /></div>
+              </section>}
 
               <section className="st-card">
                 <CharacterEditor key={entry.char} entry={entry} providers={lib.cliProviders} disabled={busy || Boolean(active)}

@@ -7,6 +7,8 @@ import { cheer, swipe } from '../lib/sfx'
 import { sceneFor, SCENE_PIECES } from './scenes'
 import { partsOf, hidesIn } from './parts'
 import Strokes from './Strokes'
+import AnimMedia from '../anim/AnimMedia'
+import { clipFor } from '../anim/clips'
 
 type Phase = 'object' | 'morph' | 'hold' | 'write' | 'finished'
 
@@ -35,7 +37,9 @@ export default function Viewer({
   const [blocked, setBlocked] = useState(false)     // 自動播放被擋 → 給大播放鍵
   const [ready, setReady] = useState(false)         // 尺寸未知前先不顯示，避免先閃出小框
   const video = failed ? undefined : media.find((m) => m.kind === 'video')
-  const image = imageFailed ? undefined : media.find((m) => m.kind === 'image')
+  // 沒有上架影片、但有動畫劇本的字：動畫當影片播，比靜態圖片優先
+  const clip = video ? undefined : clipFor(entry.char)
+  const image = clip || imageFailed ? undefined : media.find((m) => m.kind === 'image')
   const [phase, setPhase] = useState<Phase>('object')
   const [round, setRound] = useState(0)
   const [done, setDone] = useState(false)
@@ -58,7 +62,7 @@ export default function Viewer({
   }
   const narration = video?.audioMode === 'narration'
   const voice = useVideoVoice(entry.char, narration, video?.volume ?? 0.7)
-  const bare = !video && !image
+  const bare = !video && !clip && !image
 
   const finish = () => {
     if (completed.current) return
@@ -243,6 +247,8 @@ export default function Viewer({
               </button>
             )}
           </>
+        ) : clip ? (
+          <AnimMedia key={round} clip={clip} onEnd={endMedia} />
         ) : image ? (
           <img className={'viewer-media' + (ready ? '' : ' loading')} src={`/media/${encodeURIComponent(image.file)}`} alt={entry.char}
             onLoad={() => setReady(true)} onError={() => setImageFailed(true)} />

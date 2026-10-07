@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { taiwanDay } from '../../shared/domain.mjs'
-import { browseCharacters, hasPublishedVideo } from '../../shared/selection.mjs'
+import { browseCharacters } from '../../shared/selection.mjs'
+import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
 import Home from './Home'
 import Viewer from './Viewer'
@@ -59,11 +60,12 @@ export default function PlayApp() {
     return () => window.removeEventListener('online', sync)
   }, [sync])
 
-  const all = useMemo(() => browseCharacters(lib?.characters || []), [lib])
+  // 有動畫的字也算有影片，跟著排到前面（sort 是穩定的，其餘順序不變）
+  const all = useMemo(() => browseCharacters(lib?.characters || []).sort((a, b) => Number(hasMovie(b)) - Number(hasMovie(a))), [lib])
   const items = useMemo(() => {
     const q = query.trim().toLowerCase()
     return all.filter((c) =>
-      (filter === 'all' || (filter === 'video' ? hasPublishedVideo(c) : !progress.watched[c.char])) &&
+      (filter === 'all' || (filter === 'video' ? hasMovie(c) : !progress.watched[c.char])) &&
       (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
   }, [all, query, filter, progress])
 

@@ -164,3 +164,11 @@
   .st-ai-options { grid-template-columns: 1fr; }
   .st-prompt { height: 220px; }
 }
+.st-search { padding: 10px 16px 0; }
+.st-search input { width: 100%; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); font: inherit; font-size: 14px; background: #fff; }
+.st-search input:focus { outline: 2px solid #2e2a26; outline-offset: -1px; }
+.b-anim { background: #e3f1ff; color: #1f5f99; margin-left: 5px; }
+.st-side:has(.st-character-form) > .st-search { display: none; }
+.st-anim { position: relative; container-type: inline-size; }
+.st-anim .anim-media { position: relative; inset: auto; width: 100%; max-width: 640px; margin: 0; box-shadow: none; border-radius: 14px; }
+.st-anim .tap-play span { width: 64px; height: 64px; font-size: 26px; color: #2e2a26; }

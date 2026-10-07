@@ -582,3 +582,19 @@ button:disabled { cursor: default; }
   .card, .card-emoji { transition: none; }
   .scene, .confetti { display: none; }
 }
+
+/* ---------- 動畫短片（當影片播）---------- */
+.viewer-frame { container-type: size; }
+.anim-media { position: absolute; inset: 0; margin: auto; aspect-ratio: 16 / 9; height: auto;
+  width: min(100cqw - 80px, (100cqh - 12px) * 16 / 9);
+  border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.22); }
+.anim-media .anim-stage { display: block; width: 100%; height: 100%; }
+.anim-media .anim-stage text { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; user-select: none; }
+.anim-media-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; background: linear-gradient(transparent, rgba(0,0,0,.28)); opacity: 0; transition: opacity .2s; }
+.anim-media:hover .anim-media-bar, .anim-media-bar:focus-within { opacity: 1; }
+.anim-media-bar button { width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92);
+  font-size: 18px; cursor: pointer; }
+.anim-media-bar input { flex: 1; min-width: 0; }
+@media (hover: none) { .anim-media-bar { opacity: 1; } }
+@media (max-width: 700px) { .anim-media { width: min(100cqw - 20px, (100cqh - 12px) * 16 / 9); } }

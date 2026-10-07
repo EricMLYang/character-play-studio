@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
-import { hasPublishedVideo } from '../../shared/selection.mjs'
+import { hasMovie } from '../anim/clips'
 import { tap } from '../lib/sfx'
 import type { Filter, Screen } from './PlayApp'
 
@@ -74,7 +74,7 @@ export default function Home({
       <div className="grid" aria-label="字卡瀏覽">
         {items.map((c, i) => {
           const count = watched[c.char]?.count || 0
-          const video = hasPublishedVideo(c)
+          const video = hasMovie(c)
           return (
             <button
               key={c.char}
