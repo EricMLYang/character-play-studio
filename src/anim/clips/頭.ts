@@ -7,7 +7,7 @@ const clip: Clip = {
   char: '頭',
   meta: { theme: '動物', cast: '小狗＋貓', gags: ['疊疊樂', '壓扁', '學乖反轉', '東西砸頭', '回馬槍'] },
   duration: 10,
-  bg: { top: '#E3F4FF', bottom: '#CDE9FB', floor: '#F7E3B5' },
+  bg: { top: '#E3F4FF', bottom: '#CDE9FB', floor: '#F7E3B5', scenery: 'city' },
   actors: [
     { id: 'dog', emoji: '🐶', x: 30, y: 71, size: 14, hidden: true },
     { id: 'hat', emoji: '🎩', x: 30, y: 60, size: 8, hidden: true },

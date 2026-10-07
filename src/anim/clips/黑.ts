@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '黑',
   meta: { theme: '關燈驚喜', cast: '兔子＋黑熊＋老鼠', gags: ['黑暗中的眼睛', '互相嚇到', '原來很友善', '驚喜小角色'] },
   duration: 10,
-  bg: { top: '#FFF3D6', bottom: '#FFE6B8', floor: '#E9C9A0' },
+  bg: { top: '#FFF3D6', bottom: '#FFE6B8', floor: '#E9C9A0', scenery: 'forest' },
   actors: [
     { id: 'bunny', emoji: '🐰', x: 30, y: 71, size: 13, hidden: true },
     { id: 'bear', emoji: '🐻', x: 46, y: 65, size: 22, hidden: true, tint: 'brightness(.42) contrast(1.15)' },

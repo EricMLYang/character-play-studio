@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '果',
   meta: { theme: '動物', cast: '倉鼠', gags: ['搆不到', '撞樹', '東西砸頭', '回馬槍'] },
   duration: 10,
-  bg: { top: '#FFE8D9', bottom: '#FFD3BF', floor: '#BFE5AE' },
+  bg: { top: '#FFE8D9', bottom: '#FFD3BF', floor: '#BFE5AE', scenery: 'hills' },
   actors: [
     { id: 'tree', emoji: '🌳', x: 130, y: 55, size: 38, hidden: true },
     { id: 'pal', emoji: '🐹', x: 26, y: 71, size: 13, hidden: true },
@@ -99,7 +99,7 @@ const clip: Clip = {
     { at: 5.0, say: '果' },
     { at: 5.6, sfx: 'plop' }, { at: 5.9, sfx: 'plop' },
     { at: 6.9, say: '果' },
-    { at: 7.4, say: '糖果' },
+    { at: 7.85, say: '糖果' },
     { at: 8.0, sfx: 'gulp' },
     { at: 8.9, sfx: 'bonk' },
     { at: 9.4, sfx: 'cheer' },

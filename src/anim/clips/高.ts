@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '高',
   meta: { theme: '蜘蛛英雄', cast: '蜘蛛英雄＋小雞＋小鳥', gags: ['漸強失敗', '被拖走', '織出一座塔', '高空彈跳'] },
   duration: 10,
-  bg: { top: '#DCEFFF', bottom: '#C2E0F8', floor: '#C8C8D6' },
+  bg: { top: '#DCEFFF', bottom: '#C2E0F8', floor: '#C8C8D6', scenery: 'city' },
   actors: [
     { id: 'mountain', emoji: '⛰️', x: 149, y: 61, size: 28, hidden: true, float: true },
     { id: 'chick', emoji: '🐥', x: 132, y: 73.5, size: 8, hidden: true },
@@ -70,7 +70,7 @@ const clip: Clip = {
     { at: 5.35, kind: 'line', actor: 'spider', to: { x: 80, y: 38 }, color: '#FFFFFF', width: 0.6, dur: 0.3 },
     { at: 5.65, kind: 'line', actor: 'spider', to: { x: 80, y: 60 }, color: '#FFFFFF', width: 0.6, dur: 0.3 },
     { at: 5.95, kind: 'line', actor: 'spider', to: { x: 80, y: 18 }, color: '#FFFFFF', width: 0.6, dur: 0.3 },
-    { at: 7.05, kind: 'pop', actor: 'spider', emoji: '😮', dur: 0.5 },
+    { at: 7.05, kind: 'pop', actor: 'spider', emoji: '😮', dur: 0.5, dy: 16 },
     { at: 8.2, kind: 'line', actor: 'spider', to: { x: 122, y: -10 }, color: '#FFFFFF', width: 0.5, dur: 1.4 },
     { at: 9.45, kind: 'burst', actor: 'chick', emoji: '💕', n: 5, dur: 0.6 },
   ],

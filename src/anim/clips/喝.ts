@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '喝',
   meta: { theme: '機器人', cast: '機器人', gags: ['越喝越胖', '噴泉', '睡著打嗝', '丟出去的東西變筆畫'] },
   duration: 10,
-  bg: { top: '#FFE6EC', bottom: '#FFD2DD', floor: '#D8F3EE' },
+  bg: { top: '#FFE6EC', bottom: '#FFD2DD', floor: '#D8F3EE', scenery: 'hills' },
   actors: [
     { id: 'bot', emoji: '🤖', x: 26, y: 71, size: 13, hidden: true },
     { id: 'c1', emoji: '🥤', x: 40, y: 64, size: 8, hidden: true },
@@ -88,7 +88,7 @@ const clip: Clip = {
     { at: 4.85, sfx: 'gulp' },
     { at: 5.3, sfx: 'whoosh' },
     { at: 6.1, say: '喝' },
-    { at: 6.9, say: '喝水' },
+    { at: 7.05, say: '喝水' },
     { at: 7.0, sfx: 'gulp' },
     { at: 7.8, sfx: 'splash' },
     { at: 9.3, sfx: 'hic' },

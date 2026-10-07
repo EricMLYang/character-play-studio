@@ -50,7 +50,10 @@ npm run anim -- 眼 睛
 
 ```bash
 npx tsc -b && npm test
+npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒有漏、角色 id、國字完成後有沒有被擋住、效果有沒有出界
 ```
+
+`anim:check` 的「錯誤」一定要修；「注意」看情況：東西飛過字前面不到 0.5 秒、刻意從畫面外進來的效果可以留著。
 
 再用瀏覽器逐格看：`http://localhost:5180/anim?char=<字>&t=<秒>` 會定格在那一秒。
 - 新增劇本檔後，`/anim` 上面那排字如果沒有出現新的字，是 dev server 沒抓到新檔案：重開 `npm run dev`。
@@ -142,7 +145,11 @@ npx tsc -b && npm test
 
 ## 引擎速查（src/anim/clip.ts）
 
-舞台 160×90，地板 y = 74（`FLOOR`）。emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）。
+舞台 160×90，地板 y = 74（`FLOOR`）。
+`bg` 除了三個顏色，還要選 `scenery`（背景場景，會影響質感最多）：`hills`（小丘＋雲，預設）、`city`（城市大樓）、`ocean`（海底光束、泡泡、海草）、
+`space`（星星＋行星）、`snow`（下雪＋雪丘）、`desert`（沙丘＋仙人掌）、`room`（室內：直條紋牆、窗戶、畫框、木地板）、
+`night`（月亮＋星星，天空顏色要夠深）、`forest`（樹林剪影）、`track`（觀眾席＋跑道線）。故事發生在哪就選哪個，每批盡量不要都一樣。
+emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）。
 
 - **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter) }`。陣列順序＝繪製順序。
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji? }`
@@ -155,7 +162,7 @@ npx tsc -b && npm test
   `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`、
   `line`（從 actor 拉線到 target 或 to：蜘蛛絲白色細線、雷射紅色粗線，用 color／width）、`beam`（飛碟往下的牽引光束，n 是底部寬度）
 - **camera**：`{ at, dur, do: 'punch'|'shake', amount?, to? }`
-- **lights**：`{ at, dur, level }`，0 全亮、1 全黑
+- **lights**：`{ at, dur, level }`，0 正常、1 全黑、負數是白色閃光（相機閃光燈：-0.9 再 0.3 秒回到 0）
 - **glyph**：`{ at, dur, do: 'wobble'|'pulse'|'shake' }`
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行

@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '羊',
   meta: { theme: '偵探辦案', cast: '豬偵探＋羊', gags: ['其實一直在你後面', '模仿', '甩毛變光溜溜', '回馬槍多一隻'] },
   duration: 10,
-  bg: { top: '#E8F0FF', bottom: '#D4E1F9', floor: '#C6E5B2' },
+  bg: { top: '#E8F0FF', bottom: '#D4E1F9', floor: '#C6E5B2', scenery: 'hills' },
   actors: [
     { id: 'p1', emoji: '👣', x: 98, y: 75.5, size: 4, hidden: true, float: true },
     { id: 'p2', emoji: '👣', x: 110, y: 75.5, size: 4, hidden: true, float: true },
@@ -94,7 +94,7 @@ const clip: Clip = {
     { at: 4.6, sfx: 'slide' },
     { at: 5.4, sfx: 'bubble' },
     { at: 6.55, say: '羊' },
-    { at: 7.35, say: '羊毛' },
+    { at: 7.5, say: '羊毛' },
     { at: 7.8, sfx: 'blip' },
     { at: 9.1, sfx: 'deflate' },
     { at: 9.6, sfx: 'cheer' },

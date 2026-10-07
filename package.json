@@ -12,7 +12,8 @@
     "dev:test": "node scripts/test-server.mjs",
     "preview": "vite preview",
     "prompt": "node scripts/prompt.mjs",
-    "anim": "node scripts/anim-candidates.mjs"
+    "anim": "node scripts/anim-candidates.mjs",
+    "anim:check": "node scripts/anim-check.mjs"
   },
   "dependencies": {
     "hanzi-writer": "^3.7.3",

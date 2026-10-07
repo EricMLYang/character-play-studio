@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '家',
   meta: { theme: '工程車＋天氣', cast: '企鵝一家＋雨雲＋卡車', gags: ['甩不掉的雨雲', '蓋房子', '目標轉移', '落跑'] },
   duration: 10,
-  bg: { top: '#E2ECF4', bottom: '#CCDAE8', floor: '#DCCBA9' },
+  bg: { top: '#E2ECF4', bottom: '#CCDAE8', floor: '#DCCBA9', scenery: 'hills' },
   actors: [
     { id: 'truck', emoji: '🚚', x: 130, y: 69.5, size: 18, hidden: true },
     { id: 'kid1', emoji: '🐧', x: 36, y: 73.5, size: 8, hidden: true },
@@ -81,7 +81,7 @@ const clip: Clip = {
     { at: 4.6, sfx: 'rumble' },
     { at: 6.15, sfx: 'bonk' },
     { at: 6.3, say: '家' },
-    { at: 7.05, say: '家人' },
+    { at: 7.25, say: '家人' },
     { at: 8.6, sfx: 'blip' }, { at: 8.75, sfx: 'blip' },
     { at: 9.0, sfx: 'whoosh' },
     { at: 9.6, sfx: 'cheer' },

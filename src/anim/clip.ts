@@ -8,6 +8,8 @@
 
 export type Vec = { x: number; y: number }
 
+export type Scenery = 'hills' | 'city' | 'ocean' | 'space' | 'snow' | 'desert' | 'room' | 'night' | 'forest' | 'track'
+
 export type Actor = {
   id: string
   emoji: string
@@ -98,7 +100,7 @@ export type Fx = {
 /** 鏡頭：punch 往某一點推近再退回（笑點用），shake 震一下（撞到、打雷）。 */
 export type Camera = { at: number; dur: number; do: 'punch' | 'shake'; amount?: number; to?: Vec }
 
-/** 燈光：level 0 全亮、1 全黑，在 dur 內漸變過去。 */
+/** 燈光：level 0 正常、1 全黑、負數是白色閃光（-1 整片白，相機閃光燈），在 dur 內漸變過去。 */
 export type Light = { at: number; dur: number; level: number }
 
 export type Clip = {
@@ -109,7 +111,8 @@ export type Clip = {
    */
   meta?: { theme: string; cast: string; gags: string[] }
   duration: number
-  bg: { top: string; bottom: string; floor: string }
+  /** scenery：背景場景，沒寫就是 hills（小丘＋雲） */
+  bg: { top: string; bottom: string; floor: string; scenery?: Scenery }
   actors: Actor[]
   moves: Move[]
   builds: Build[]

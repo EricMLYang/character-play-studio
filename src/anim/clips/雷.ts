@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '雷',
   meta: { theme: '科學實驗', cast: '老鼠科學家＋小雲', gags: ['越搖越大力爆炸', '戳了惹生氣', '嚇到跳超高', '旁觀者偷笑'] },
   duration: 10,
-  bg: { top: '#EEE8FF', bottom: '#DAD0F6', floor: '#FFF1D6' },
+  bg: { top: '#EEE8FF', bottom: '#DAD0F6', floor: '#FFF1D6', scenery: 'room' },
   actors: [
     { id: 'mouse', emoji: '🐭', x: 24, y: 71, size: 13, hidden: true },
     { id: 'flask', emoji: '🧪', x: 40, y: 72, size: 10, hidden: true },

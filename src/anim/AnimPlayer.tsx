@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { loadChar, type CharData } from '../play/Strokes'
 import { say } from '../lib/audio'
 import * as sfx from '../lib/sfx'
+import Scenery, { FloorDecor } from './Scenery'
 import { actorsAt, cameraAt, fxAt, glyphAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 
 /**
@@ -73,7 +74,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
   const dark = lightAt(clip, t)
   // 同一頁可能有兩個播放器（Studio 預覽），漸層 id 不能撞
   const uid = useId().replace(/:/g, '')
-  const sky = `sky${uid}`, gloss = `gloss${uid}`
+  const sky = `sky${uid}`, gloss = `gloss${uid}`, vignette = `vig${uid}`
 
   const renderActor = (a: (typeof visible)[number]) => {
     // 以腳底為支點：壓扁、翻倒都從地板上發生
@@ -102,14 +103,19 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
           <stop offset="0" stopColor="#fff" stopOpacity=".5" />
           <stop offset=".45" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
+        <radialGradient id={vignette} cx=".5" cy=".5" r=".75">
+          <stop offset=".6" stopColor="#000" stopOpacity="0" />
+          <stop offset="1" stopColor="#000" stopOpacity=".16" />
+        </radialGradient>
       </defs>
 
       <g transform={`translate(${cam.cx + cam.dx} ${cam.cy + cam.dy}) scale(${cam.z}) translate(${-cam.cx} ${-cam.cy})`}>
         {/* 背景畫大一點，鏡頭震動或推近時邊緣不會露白 */}
         <rect x="-20" y="-20" width="200" height="130" fill={`url(#${sky})`} />
-        <Scenery t={t} floor={clip.bg.floor} />
+        <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} />
         <rect x="-20" y={FLOOR} width="200" height="40" fill={clip.bg.floor} />
         <rect x="-20" y={FLOOR} width="200" height="1.2" fill="#fff" opacity=".55" />
+        <FloorDecor kind={clip.bg.scenery} t={t} />
 
         {/* 地上的影子：離地愈高愈小愈淡，跳起來才看得出高度 */}
         {visible.filter((a) => !a.float).map((a) => {
@@ -125,6 +131,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
             <g key={s.index} opacity={s.o}
               transform={`translate(${s.dx + s.cx} ${s.dy + s.cy}) rotate(${s.r}) scale(${s.s}) translate(${-s.cx} ${-s.cy})`}>
               <g transform={GLYPH_TRANSFORM}>
+                {/* 底下一層深色往下錯開：像一塊厚厚的玩具積木 */}
+                <path d={data!.strokes[s.index]} fill={shade(s.color, 0.62)} transform="translate(0 -26)" />
                 <path d={data!.strokes[s.index]} fill={s.color} stroke="rgba(0,0,0,.2)" strokeWidth="12" strokeLinejoin="round" />
                 <path d={data!.strokes[s.index]} fill={`url(#${gloss})`} />
               </g>
@@ -135,6 +143,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
         {visible.filter((a) => !a.top).map(renderActor)}
         {/* 關燈：黑幕蓋住整個舞台，只剩 top 的角色（發亮的眼睛）和漫畫效果 */}
         {dark > 0 && <rect x="-20" y="-20" width="200" height="130" fill="#120E24" opacity={dark * 0.94} />}
+        {/* level 是負的：相機閃光燈，整個畫面一白 */}
+        {dark < 0 && <rect x="-20" y="-20" width="200" height="130" fill="#fff" opacity={-dark} />}
         {visible.filter((a) => a.top).map(renderActor)}
 
         {fx.map((f) => (
@@ -162,24 +172,14 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd }: {
           </g>
         ))}
       </g>
+      <rect width="160" height="90" fill={`url(#${vignette})`} pointerEvents="none" />
     </svg>
   )
 }
 
-/** 背景：兩座圓圓的小丘、幾朵慢慢飄的雲。顏色跟著地板，淡淡的不搶戲。 */
-function Scenery({ t, floor }: { t: number; floor: string }) {
-  const drift = (speed: number, start: number) => ((start + t * speed) % 200) - 20
-  return (
-    <g aria-hidden>
-      <ellipse cx="22" cy={FLOOR + 6} rx="46" ry="18" fill={floor} opacity=".55" />
-      <ellipse cx="142" cy={FLOOR + 8} rx="52" ry="20" fill={floor} opacity=".45" />
-      {[[2.2, 30, 14, 1], [1.4, 120, 9, 0.75], [1.8, 80, 22, 0.6]].map(([speed, start, y, k], i) => (
-        <g key={i} transform={`translate(${drift(speed, start)} ${y}) scale(${k})`} fill="#fff" opacity=".7">
-          <ellipse rx="9" ry="3.6" />
-          <circle cx="-3" cy="-2.4" r="3.6" />
-          <circle cx="2.6" cy="-3" r="4.4" />
-        </g>
-      ))}
-    </g>
-  )
+/** 把 #RRGGBB 調暗（k < 1）。 */
+function shade(hex: string, k: number) {
+  const n = parseInt(hex.slice(1), 16)
+  const c = (v: number) => Math.round(v * k).toString(16).padStart(2, '0')
+  return `#${c(n >> 16)}${c((n >> 8) & 255)}${c(n & 255)}`
 }

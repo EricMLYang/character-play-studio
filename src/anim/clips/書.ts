@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '書',
   meta: { theme: '太空外星人', cast: '飛碟外星人＋牛', gags: ['吸錯東西', '吐回來', '終於成功', '把自己吸走'] },
   duration: 10,
-  bg: { top: '#E7E2FF', bottom: '#D2CAF6', floor: '#BFE2BC' },
+  bg: { top: '#E7E2FF', bottom: '#D2CAF6', floor: '#BFE2BC', scenery: 'space' },
   actors: [
     { id: 'cow', emoji: '🐄', x: 36, y: 71.5, size: 13, hidden: true },
     { id: 'toilet', emoji: '🚽', x: 64, y: 72, size: 10, hidden: true },
@@ -85,7 +85,7 @@ const clip: Clip = {
     { at: 5.6, sfx: 'slide' },
     { at: 6.1, sfx: 'poof' },
     { at: 7.2, say: '書' },
-    { at: 7.9, say: '書包' },
+    { at: 8.15, say: '書包' },
     { at: 8.8, sfx: 'slide' },
     { at: 9.5, sfx: 'whoosh' },
     { at: 9.6, sfx: 'cheer' },

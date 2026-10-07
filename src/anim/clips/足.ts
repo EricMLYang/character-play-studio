@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '足',
   meta: { theme: '運動', cast: '猴子＋小鳥', gags: ['踢空跌倒', '臭腳丫', '昏倒兩次', '球彈回砸頭'] },
   duration: 10,
-  bg: { top: '#E6F7E0', bottom: '#D2EFC8', floor: '#9ED37F' },
+  bg: { top: '#E6F7E0', bottom: '#D2EFC8', floor: '#9ED37F', scenery: 'hills' },
   actors: [
     { id: 'goal', emoji: '🥅', x: 138, y: 64, size: 22, hidden: true },
     { id: 'monkey', emoji: '🐵', x: 22, y: 71, size: 13, hidden: true },
@@ -94,7 +94,7 @@ const clip: Clip = {
     { at: 5.6, sfx: 'cheer' },
     { at: 6.1, say: '足' },
     { at: 6.85, sfx: 'bonk' },
-    { at: 6.9, say: '足球' },
+    { at: 7.05, say: '足球' },
     { at: 8.5, sfx: 'deflate' },
     { at: 9.1, sfx: 'bonk' },
   ],

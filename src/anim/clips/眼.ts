@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '眼',
   meta: { theme: '超級英雄', cast: '雷射眼英雄', gags: ['超能力失控', '越炸越多', '打噴嚏', '帥不過三秒'] },
   duration: 10,
-  bg: { top: '#FFEBDD', bottom: '#FFD4C4', floor: '#CFC8DE' },
+  bg: { top: '#FFEBDD', bottom: '#FFD4C4', floor: '#CFC8DE', scenery: 'city' },
   actors: [
     { id: 'candle', emoji: '🕯️', x: 44, y: 72, size: 7, hidden: true },
     { id: 'pizza', emoji: '🍕', x: 96, y: 72, size: 8, hidden: true },
