@@ -1,0 +1,117 @@
+import type { Clip } from '../clip'
+
+// 牆：河馬油漆工要把磚牆刷乾淨，刷子卻自己活起來到處亂飛、潑得五顏六色，還在牆上畫了一隻小怪獸塗鴉。
+// 河馬抓回刷子拚命刷掉，刷子又發瘋狂轉，把磚塊一塊塊刷飛變成「牆」。最後一匹白馬路過——刷子咻地飛過去，把牠刷成斑馬。牆、牆、牆壁
+const clip: Clip = {
+  char: '牆',
+  meta: { theme: '粉刷牆壁', cast: '河馬油漆工＋活的刷子＋白馬', gags: ['刷子失控亂飛', '牆上冒出塗鴉', '越刷越亂', '把馬刷成斑馬'] },
+  duration: 10,
+  bg: { top: '#E3F2FD', bottom: '#BBDEFB', floor: '#9AA5B1', scenery: 'city' },
+  actors: [
+    { id: 'b1', emoji: '🧱', x: 66, y: 72, size: 12, hidden: true },
+    { id: 'b2', emoji: '🧱', x: 80, y: 72, size: 12, hidden: true },
+    { id: 'b3', emoji: '🧱', x: 94, y: 72, size: 12, hidden: true },
+    { id: 'b4', emoji: '🧱', x: 73, y: 62, size: 12, hidden: true, float: true },
+    { id: 'b5', emoji: '🧱', x: 87, y: 62, size: 12, hidden: true, float: true },
+    { id: 'graffiti', emoji: '👾', x: 80, y: 47, size: 13, hidden: true, float: true },
+    { id: 'horse', emoji: '🐎', x: 132, y: 71.1, size: 14, hidden: true },
+    { id: 'hippo', emoji: '🦛', x: 36, y: 70.7, size: 15, hidden: true, flip: true },
+    { id: 'brush', emoji: '🖌️', x: 47, y: 62, size: 9, hidden: true, float: true },
+  ],
+  moves: [
+    { at: 0, actor: 'b1', do: 'pop' }, { at: 0.1, actor: 'b2', do: 'pop' }, { at: 0.2, actor: 'b3', do: 'pop' },
+    { at: 0.3, actor: 'b4', do: 'pop' }, { at: 0.4, actor: 'b5', do: 'pop' },
+    { at: 0.2, actor: 'hippo', do: 'enter', from: { x: -14, y: 70.7 }, dur: 0.6 },
+    { at: 0.7, actor: 'brush', do: 'pop' },
+    // 乖乖刷兩下
+    { at: 1.1, actor: 'brush', do: 'moveTo', to: { x: 58, y: 66 }, dur: 0.25 },
+    { at: 1.35, actor: 'b1', do: 'flash', dur: 0.4 },
+    { at: 1.35, actor: 'brush', do: 'moveTo', to: { x: 58, y: 58 }, dur: 0.25 },
+    { at: 1.6, actor: 'brush', do: 'moveTo', to: { x: 47, y: 62 }, dur: 0.25 },
+    // 刷子活起來，到處亂飛
+    { at: 2.0, actor: 'brush', do: 'shake', amount: 1.5, dur: 0.4 },
+    { at: 2.4, actor: 'brush', do: 'moveTo', to: { x: 102, y: 36 }, arc: 6, dur: 0.3 },
+    { at: 2.4, actor: 'brush', do: 'spin', dur: 0.3 },
+    { at: 2.75, actor: 'brush', do: 'moveTo', to: { x: 60, y: 28 }, dur: 0.25 },
+    { at: 3.05, actor: 'brush', do: 'moveTo', to: { x: 120, y: 56 }, dur: 0.25 },
+    { at: 3.05, actor: 'brush', do: 'spin', dur: 0.25 },
+    { at: 2.5, actor: 'hippo', do: 'hop', amount: 6, dur: 0.35 },
+    { at: 3.0, actor: 'hippo', do: 'hop', amount: 6, dur: 0.35 },
+    // 在牆上畫了一隻小怪獸
+    { at: 3.4, actor: 'brush', do: 'moveTo', to: { x: 80, y: 47 }, dur: 0.25 },
+    { at: 3.65, actor: 'brush', do: 'shake', amount: 3, dur: 0.3 },
+    { at: 3.7, actor: 'graffiti', do: 'pop' },
+    { at: 3.95, actor: 'brush', do: 'moveTo', to: { x: 98, y: 30 }, dur: 0.2 },
+    // 河馬抓回刷子拚命刷掉
+    { at: 4.2, actor: 'hippo', do: 'moveTo', to: { x: 58, y: 70.7 }, dur: 0.3 },
+    { at: 4.3, actor: 'brush', do: 'moveTo', to: { x: 72, y: 50 }, dur: 0.2 },
+    { at: 4.5, actor: 'brush', do: 'shake', amount: 4, dur: 0.5 },
+    { at: 4.5, actor: 'graffiti', do: 'shake', amount: 1, dur: 0.5 },
+    { at: 4.9, actor: 'graffiti', do: 'vanish', dur: 0.2 },
+    // 刷子又發瘋，把磚塊刷飛
+    { at: 5.1, actor: 'brush', do: 'spin', times: 4, dur: 0.8 },
+    { at: 5.1, actor: 'brush', do: 'moveTo', to: { x: 80, y: 64 }, dur: 0.3 },
+    { at: 5.15, actor: 'hippo', do: 'moveTo', to: { x: 34, y: 70.7 }, arc: 10, dur: 0.4 },
+    { at: 5.2, actor: 'b1', do: 'vanish', dur: 0.15 },
+    { at: 5.25, actor: 'b4', do: 'vanish', dur: 0.15 },
+    { at: 5.4, actor: 'brush', do: 'moveTo', to: { x: 96, y: 66 }, dur: 0.3 },
+    { at: 5.6, actor: 'b2', do: 'vanish', dur: 0.15 },
+    { at: 5.65, actor: 'b5', do: 'vanish', dur: 0.15 },
+    { at: 6.2, actor: 'b3', do: 'vanish', dur: 0.15 },
+    { at: 6.0, actor: 'brush', do: 'moveTo', to: { x: 47, y: 62 }, arc: 8, dur: 0.4 },
+    // 牆壁
+    { at: 7.6, actor: 'hippo', do: 'tilt', amount: 12, dur: 0.4 },
+    // 白馬路過，被刷成斑馬
+    { at: 8.0, actor: 'horse', do: 'enter', from: { x: 178, y: 71.1 }, dur: 0.6 },
+    { at: 8.5, actor: 'brush', do: 'shake', amount: 1.5, dur: 0.25 },
+    { at: 8.7, actor: 'brush', do: 'moveTo', to: { x: 130, y: 62 }, arc: 50, dur: 0.4 },
+    { at: 9.1, actor: 'brush', do: 'shake', amount: 3, dur: 0.4 },
+    { at: 9.2, actor: 'horse', do: 'swap', emoji: '🦓' },
+    { at: 9.25, actor: 'horse', do: 'hop', amount: 4, dur: 0.3 },
+  ],
+  builds: [
+    // 刷飛的磚塊 → 左邊；上面一排 → 右上；最後一塊 → 回
+    { at: 5.2, dur: 0.6, strokes: [0, 1, 2, 3], from: 'b1', color: '#2E86DE' },
+    { at: 5.6, dur: 0.8, strokes: [4, 5, 6, 7, 8, 9, 10], from: 'b2', color: '#E84393' },
+    { at: 6.2, dur: 0.7, strokes: [11, 12, 13, 14, 15, 16], from: 'b3', color: '#F0A202' },
+  ],
+  glyph: [{ at: 6.9, dur: 0.4, do: 'wobble' }, { at: 7.6, dur: 0.4, do: 'shake' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.9, kind: 'bubble', actor: 'hippo', emoji: '🧼', dur: 0.6 },
+    { at: 2.0, kind: 'pop', actor: 'hippo', emoji: '❓', dur: 0.4 },
+    { at: 2.7, kind: 'burst', actor: 'brush', emoji: '🟦', n: 6, dur: 0.5 },
+    { at: 3.0, kind: 'burst', actor: 'brush', emoji: '🟥', n: 6, dur: 0.5 },
+    { at: 3.3, kind: 'burst', actor: 'brush', emoji: '🟨', n: 6, dur: 0.5 },
+    { at: 3.4, kind: 'sweat', actor: 'hippo' },
+    { at: 3.9, kind: 'pop', actor: 'hippo', emoji: '😱', dur: 0.5 },
+    { at: 4.95, kind: 'bubble', actor: 'hippo', emoji: '😮‍💨', dur: 0.4 },
+    { at: 5.2, kind: 'burst', actor: 'b1', emoji: '🟪', n: 6, dur: 0.5 },
+    { at: 5.6, kind: 'burst', actor: 'b2', emoji: '🟩', n: 6, dur: 0.5 },
+    { at: 5.6, kind: 'dizzy', actor: 'hippo', dur: 0.9 },
+    { at: 6.2, kind: 'burst', actor: 'b3', emoji: '🟧', n: 6, dur: 0.5 },
+    { at: 9.1, kind: 'burst', actor: 'horse', emoji: '⬛', n: 6, dur: 0.5 },
+    { at: 9.35, kind: 'pop', actor: 'horse', emoji: '😳', dur: 0.6 },
+    { at: 9.4, kind: 'bubble', actor: 'hippo', emoji: '😆', dur: 0.6 },
+  ],
+  camera: [
+    { at: 3.65, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 80, y: 47 } },
+    { at: 5.2, dur: 0.4, do: 'shake', amount: 1.5 },
+  ],
+  cues: [
+    { at: 1.1, sfx: 'slide' },
+    { at: 1.4, say: '牆' },
+    { at: 2.4, sfx: 'whoosh' },
+    { at: 2.7, sfx: 'plop' }, { at: 3.0, sfx: 'plop' }, { at: 3.3, sfx: 'plop' },
+    { at: 3.7, sfx: 'poof' },
+    { at: 4.5, sfx: 'slide' },
+    { at: 5.1, sfx: 'whoosh' },
+    { at: 6.95, say: '牆' },
+    { at: 7.65, sfx: 'tap' },
+    { at: 7.95, say: '牆壁' },
+    { at: 8.7, sfx: 'whoosh' },
+    { at: 9.2, sfx: 'poof' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

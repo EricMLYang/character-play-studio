@@ -1,0 +1,117 @@
+import type { Clip } from '../clip'
+
+// 肉：熊在森林烤肉，轉身拿鹽，小狗咻地把肉叼走；第二次小狗變裝成小樹偷偷靠近，被抓包，兩個一搶，肉飛上天變成「肉」。
+// 最後新的肉烤好了，熊和小狗同時撲過去——老鷹從天而降把肉叼走，兩個大眼瞪小眼。肉、肉、烤肉
+const clip: Clip = {
+  char: '肉',
+  meta: { theme: '森林烤肉', cast: '熊＋偷肉小狗＋老鷹', gags: ['轉身就被偷', '變裝成小樹露餡', '搶到肉飛上天', '老鷹黃雀在後'] },
+  duration: 10,
+  bg: { top: '#FFE8C7', bottom: '#F9C98E', floor: '#7C9A4E', scenery: 'forest' },
+  actors: [
+    { id: 'fire', emoji: '🔥', x: 38, y: 72.8, size: 10, hidden: true },
+    { id: 'meat', emoji: '🍖', x: 38, y: 63, size: 8, hidden: true, float: true },
+    { id: 'bear', emoji: '🐻', x: 18, y: 71.1, size: 14, hidden: true },
+    { id: 'dog', emoji: '🐕', x: 150, y: 71.5, size: 13, hidden: true },
+    { id: 'eagle', emoji: '🦅', x: 38, y: 58, size: 12, hidden: true, float: true },
+  ],
+  moves: [
+    { at: 0, actor: 'bear', do: 'pop' },
+    { at: 0.15, actor: 'fire', do: 'pop' },
+    { at: 0.35, actor: 'meat', do: 'pop' },
+    // 翻面：肉跳起來轉一圈
+    { at: 1.2, actor: 'meat', do: 'hop', amount: 9, dur: 0.45 },
+    { at: 1.2, actor: 'meat', do: 'spin', dur: 0.45 },
+    { at: 1.25, actor: 'bear', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
+    // 熊轉身去拿鹽，小狗咻地衝進來叼走
+    { at: 2.0, actor: 'bear', do: 'moveTo', to: { x: 5, y: 71.1 }, dur: 0.35 },
+    { at: 2.0, actor: 'dog', do: 'enter', from: { x: 178, y: 71.5 }, dur: 0.3 },
+    { at: 2.3, actor: 'dog', do: 'moveTo', to: { x: 49, y: 71.5 }, dur: 0.35 },
+    { at: 2.65, actor: 'meat', do: 'moveTo', to: { x: 47, y: 66 }, dur: 0.1 },
+    { at: 2.75, actor: 'dog', do: 'flip' },
+    { at: 2.8, actor: 'dog', do: 'moveTo', to: { x: 150, y: 71.5 }, dur: 0.35 },
+    { at: 2.8, actor: 'meat', do: 'moveTo', to: { x: 148, y: 66 }, dur: 0.35 },
+    { at: 3.15, actor: 'meat', do: 'vanish', dur: 0.1 },
+    { at: 3.0, actor: 'bear', do: 'moveTo', to: { x: 18, y: 71.1 }, dur: 0.3 },
+    // 再放一塊新的
+    { at: 3.4, actor: 'meat', do: 'moveTo', to: { x: 38, y: 63 }, dur: 0.01 },
+    { at: 3.55, actor: 'meat', do: 'pop' },
+    // 小狗變裝成小樹，一步一步靠近
+    { at: 3.5, actor: 'dog', do: 'swap', emoji: '🌳' },
+    { at: 3.75, actor: 'dog', do: 'moveTo', to: { x: 96, y: 71.5 }, dur: 0.45 },
+    { at: 4.2, actor: 'bear', do: 'tilt', amount: 12, dur: 0.3 },
+    { at: 4.5, actor: 'dog', do: 'moveTo', to: { x: 52, y: 71.5 }, dur: 0.25 },
+    // 抓包！變回小狗，兩個搶肉
+    { at: 4.8, actor: 'dog', do: 'swap', emoji: '🐕' },
+    { at: 4.8, actor: 'dog', do: 'flip' },
+    { at: 4.85, actor: 'meat', do: 'shake', amount: 2, dur: 0.35 },
+    { at: 4.85, actor: 'bear', do: 'squash', amount: -0.2, dur: 0.3 },
+    { at: 4.85, actor: 'dog', do: 'squash', amount: -0.2, dur: 0.3 },
+    { at: 5.15, actor: 'meat', do: 'moveTo', to: { x: 80, y: 28 }, arc: 10, dur: 0.35 },
+    { at: 5.15, actor: 'meat', do: 'spin', times: 2, dur: 0.35 },
+    { at: 5.5, actor: 'meat', do: 'vanish', dur: 0.1 },
+    { at: 5.2, actor: 'dog', do: 'moveTo', to: { x: 134, y: 71.5 }, arc: 8, dur: 0.4 },
+    { at: 5.2, actor: 'bear', do: 'squash', amount: 0.3, dur: 0.3 },
+    // 新的肉烤好了
+    { at: 6.0, actor: 'meat', do: 'moveTo', to: { x: 38, y: 63 }, dur: 0.01 },
+    { at: 6.9, actor: 'meat', do: 'pop' },
+    { at: 7.4, actor: 'meat', do: 'shake', amount: 0.6, dur: 0.6 },
+    // 兩個同時撲過去——老鷹先叼走
+    { at: 8.1, actor: 'bear', do: 'squash', amount: -0.3, dur: 0.2 },
+    { at: 8.1, actor: 'dog', do: 'squash', amount: -0.3, dur: 0.2 },
+    { at: 8.15, actor: 'eagle', do: 'enter', from: { x: 175, y: -10 }, dur: 0.4 },
+    { at: 8.55, actor: 'meat', do: 'moveTo', to: { x: -25, y: 2 }, dur: 0.5 },
+    { at: 8.55, actor: 'eagle', do: 'moveTo', to: { x: -25, y: -3 }, dur: 0.5 },
+    { at: 8.3, actor: 'bear', do: 'hop', amount: 7, dur: 0.35 },
+    { at: 8.3, actor: 'dog', do: 'hop', amount: 7, dur: 0.35 },
+    { at: 9.1, actor: 'bear', do: 'tilt', amount: 10, dur: 0.4 },
+    { at: 9.1, actor: 'dog', do: 'tilt', amount: -10, dur: 0.4 },
+  ],
+  builds: [
+    // 飛上天的肉 → 外框；火堆噴出的火星 → 兩個人
+    { at: 5.4, dur: 0.6, strokes: [0, 1], from: { x: 80, y: 28 }, color: '#8B4A2B' },
+    { at: 5.7, dur: 0.8, strokes: [2, 3, 4, 5], from: 'fire', color: '#E8573A' },
+  ],
+  glyph: [{ at: 6.5, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'bubble', actor: 'bear', emoji: '🤤', dur: 0.6 },
+    { at: 1.6, kind: 'zzz', actor: 'meat', emoji: '♨️', dur: 0.4 },
+    { at: 1.75, kind: 'bubble', actor: 'bear', emoji: '🧂', dur: 0.4 },
+    { at: 2.8, kind: 'puff', actor: 'dog' },
+    { at: 3.35, kind: 'pop', actor: 'bear', emoji: '❓', dur: 0.5 },
+    { at: 3.85, kind: 'bubble', actor: 'bear', emoji: '🤨', dur: 0.6 },
+    { at: 4.5, kind: 'sweat', actor: 'dog' },
+    { at: 4.8, kind: 'pop', actor: 'bear', emoji: '❗', dur: 0.45 },
+    { at: 4.8, kind: 'burst', actor: 'dog', emoji: '🍃', n: 6, dur: 0.5 },
+    { at: 5.45, kind: 'burst', x: 80, y: 28, dur: 0.45 },
+    { at: 6.9, kind: 'zzz', actor: 'meat', emoji: '♨️', dur: 1.2 },
+    { at: 7.0, kind: 'pop', actor: 'bear', emoji: '🤤', dur: 0.6 },
+    { at: 7.0, kind: 'pop', actor: 'dog', emoji: '🤤', dur: 0.6 },
+    { at: 8.2, kind: 'puff', actor: 'bear' },
+    { at: 8.2, kind: 'puff', actor: 'dog' },
+    { at: 8.7, kind: 'pop', actor: 'bear', emoji: '😱', dur: 0.5 },
+    { at: 8.7, kind: 'pop', actor: 'dog', emoji: '😱', dur: 0.5 },
+    { at: 9.25, kind: 'bubble', actor: 'bear', emoji: '😑', dur: 0.7 },
+    { at: 9.3, kind: 'sweat', actor: 'dog' },
+  ],
+  camera: [
+    { at: 4.8, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 44, y: 64 } },
+    { at: 5.45, dur: 0.3, do: 'shake', amount: 1.5 },
+  ],
+  cues: [
+    { at: 1.2, sfx: 'boing' },
+    { at: 1.45, say: '肉' },
+    { at: 2.3, sfx: 'whoosh' },
+    { at: 2.8, sfx: 'whoosh' },
+    { at: 3.75, sfx: 'slide' },
+    { at: 4.8, sfx: 'poof' },
+    { at: 5.15, sfx: 'whoosh' },
+    { at: 5.45, sfx: 'crack' },
+    { at: 6.55, say: '肉' },
+    { at: 7.6, say: '烤肉' },
+    { at: 8.2, sfx: 'whoosh' },
+    { at: 8.6, sfx: 'whoosh' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

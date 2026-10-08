@@ -1,0 +1,108 @@
+import type { Clip } from '../clip'
+
+// 腦：外星人老師出題「1＋1＝？」，機器人開始算：頭上齒輪狂轉、冒汗、冒煙、劈哩啪啦冒火花，最後「碰」一聲腦袋爆開，零件和題目飛出去變成「腦」。
+// 老師拿出筆電，筆電一秒就答出 2。老師再問筆電「2＋2」——筆電也冒煙爆掉了。腦、腦、電腦
+const clip: Clip = {
+  char: '腦',
+  meta: { theme: '太空數學課', cast: '機器人＋外星人老師＋筆電', gags: ['越想越燙', '腦袋短路爆開', '筆電秒答', '筆電也當機'] },
+  duration: 10,
+  bg: { top: '#1B1F4B', bottom: '#3A2F6B', floor: '#6C5B9B', scenery: 'space' },
+  actors: [
+    { id: 'q1', emoji: '1️⃣', x: 64, y: 24, size: 10, hidden: true, float: true },
+    { id: 'qp', emoji: '➕', x: 80, y: 24, size: 9, hidden: true, float: true },
+    { id: 'q2', emoji: '1️⃣', x: 96, y: 24, size: 10, hidden: true, float: true },
+    { id: 'gear1', emoji: '⚙️', x: 23, y: 52, size: 7, hidden: true, float: true },
+    { id: 'gear2', emoji: '⚙️', x: 35, y: 50, size: 6, hidden: true, float: true },
+    { id: 'robot', emoji: '🤖', x: 29, y: 70.3, size: 16, hidden: true },
+    { id: 'laptop', emoji: '💻', x: 118, y: 73.2, size: 9, hidden: true },
+    { id: 'alien', emoji: '👽', x: 134, y: 71.5, size: 13, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'robot', do: 'pop' },
+    { at: 0, actor: 'alien', do: 'enter', from: { x: 176, y: 71.5 }, dur: 0.6 },
+    // 出題
+    { at: 0.6, actor: 'q1', do: 'pop' },
+    { at: 0.75, actor: 'qp', do: 'pop' },
+    { at: 0.9, actor: 'q2', do: 'pop' },
+    { at: 1.4, actor: 'robot', do: 'tilt', amount: -15, dur: 0.4 },
+    // 開始算：齒輪狂轉
+    { at: 2.0, actor: 'gear1', do: 'pop' },
+    { at: 2.05, actor: 'gear2', do: 'pop' },
+    { at: 2.1, actor: 'gear1', do: 'spin', times: 4, dur: 2.0 },
+    { at: 2.1, actor: 'gear2', do: 'spin', times: -5, dur: 2.0 },
+    { at: 2.0, actor: 'robot', do: 'flash', dur: 1.0 },
+    { at: 3.1, actor: 'robot', do: 'shake', amount: 1, dur: 0.6 },
+    { at: 3.7, actor: 'robot', do: 'shake', amount: 2.5, dur: 0.5 },
+    { at: 3.7, actor: 'robot', do: 'flash', dur: 0.5 },
+    // 碰！腦袋爆開
+    { at: 4.2, actor: 'robot', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 4.2, actor: 'robot', do: 'hop', amount: 10, dur: 0.4 },
+    { at: 4.25, actor: 'gear1', do: 'moveTo', to: { x: -12, y: 18 }, arc: 10, dur: 0.6 },
+    { at: 4.25, actor: 'gear2', do: 'moveTo', to: { x: 60, y: -12 }, arc: 10, dur: 0.6 },
+    { at: 4.3, actor: 'q1', do: 'shake', amount: 2, dur: 0.4 },
+    { at: 4.3, actor: 'q2', do: 'shake', amount: 2, dur: 0.4 },
+    { at: 4.85, actor: 'q1', do: 'vanish', dur: 0.15 },
+    { at: 4.85, actor: 'qp', do: 'vanish', dur: 0.15 },
+    { at: 4.85, actor: 'q2', do: 'vanish', dur: 0.15 },
+    { at: 4.7, actor: 'robot', do: 'tilt', amount: 15, dur: 0.6 },
+    // 老師拿出筆電：一秒答出來
+    { at: 6.8, actor: 'laptop', do: 'pop' },
+    { at: 7.0, actor: 'alien', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
+    { at: 7.5, actor: 'laptop', do: 'flash', dur: 0.4 },
+    { at: 8.0, actor: 'robot', do: 'squash', amount: 0.2, dur: 0.3 },
+    // 再問 2＋2：筆電也冒煙爆掉
+    { at: 8.5, actor: 'laptop', do: 'shake', amount: 1.5, dur: 0.6 },
+    { at: 8.5, actor: 'laptop', do: 'flash', dur: 0.6 },
+    { at: 9.1, actor: 'laptop', do: 'hop', amount: 5, dur: 0.3 },
+    { at: 9.15, actor: 'alien', do: 'hop', amount: 4, dur: 0.3 },
+  ],
+  builds: [
+    // 爆開的機器人外殼 → 月；題目的數字 → 上面三撇；裡面的電線零件 → 下面
+    { at: 4.4, dur: 0.7, strokes: [0, 1, 2, 3], from: 'robot', color: '#00A8E8' },
+    { at: 4.9, dur: 0.5, strokes: [4, 5, 6], from: 'qp', color: '#FFD23F' },
+    { at: 5.3, dur: 0.9, strokes: [7, 8, 9, 10, 11, 12], from: 'robot', color: '#FF6B6B' },
+  ],
+  glyph: [{ at: 6.2, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 1.2, kind: 'pop', actor: 'robot', emoji: '❓', dur: 0.5 },
+    { at: 1.45, kind: 'bubble', actor: 'robot', emoji: '🧠', dur: 0.5 },
+    { at: 2.6, kind: 'sweat', actor: 'robot' },
+    { at: 2.9, kind: 'zzz', actor: 'robot', emoji: '♨️', dur: 1.3 },
+    { at: 3.4, kind: 'zap', actor: 'gear1', target: 'robot', dur: 0.3 },
+    { at: 3.6, kind: 'burst', actor: 'robot', emoji: '⚡', n: 6, dur: 0.5 },
+    { at: 3.9, kind: 'zap', actor: 'gear2', target: 'robot', dur: 0.3 },
+    { at: 4.2, kind: 'burst', actor: 'robot', dur: 0.45 },
+    { at: 4.25, kind: 'burst', actor: 'robot', emoji: '🔩', n: 6, dur: 0.6 },
+    { at: 4.6, kind: 'dizzy', actor: 'robot', dur: 1.4 },
+    { at: 4.6, kind: 'stink', actor: 'robot', dy: -6, dur: 1.6 },
+    { at: 4.5, kind: 'pop', actor: 'alien', emoji: '😲', dur: 0.6 },
+    { at: 7.6, kind: 'pop', actor: 'laptop', emoji: '2️⃣', dur: 0.8 },
+    { at: 8.0, kind: 'pop', actor: 'robot', emoji: '😳', dur: 0.5 },
+    { at: 8.2, kind: 'bubble', actor: 'alien', emoji: '➕', dur: 0.4 },
+    { at: 8.6, kind: 'zzz', actor: 'laptop', emoji: '♨️', dur: 0.7 },
+    { at: 9.1, kind: 'burst', actor: 'laptop', dur: 0.45 },
+    { at: 9.15, kind: 'stink', actor: 'laptop', dur: 0.85 },
+    { at: 9.3, kind: 'bubble', actor: 'robot', emoji: '😆', dur: 0.7 },
+  ],
+  camera: [
+    { at: 3.7, dur: 0.5, do: 'shake', amount: 1.2 },
+    { at: 4.2, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 30, y: 62 } },
+    { at: 9.1, dur: 0.3, do: 'shake', amount: 1.5 },
+  ],
+  cues: [
+    { at: 0.6, sfx: 'blip' }, { at: 0.75, sfx: 'blip' }, { at: 0.9, sfx: 'blip' },
+    { at: 1.5, say: '腦' },
+    { at: 2.1, sfx: 'blip' }, { at: 2.4, sfx: 'blip' }, { at: 2.7, sfx: 'blip' },
+    { at: 3.4, sfx: 'laser' },
+    { at: 3.9, sfx: 'laser' },
+    { at: 4.2, sfx: 'crack' },
+    { at: 6.25, say: '腦' },
+    { at: 7.3, say: '電腦' },
+    { at: 7.6, sfx: 'blip' },
+    { at: 8.6, sfx: 'bubble' },
+    { at: 9.1, sfx: 'poof' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

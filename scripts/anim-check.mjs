@@ -10,6 +10,8 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const root = new URL('..', import.meta.url).pathname
+// 常見多音字：語詞裡除了目標字以外不能有這些（系統朗讀會唸錯）。發現新的就加進來。
+const POLYPHONIC = new Set([...'長行樂重了得著數還都好為參落降度調傳種模地的乾色匙紅綠背空和看要會少中當差把只便覺分省'])
 const only = process.argv.slice(2).join('').replace(/\s/g, '')
 
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true, hmr: false }, appType: 'custom' })
@@ -43,6 +45,8 @@ function check(clip, { actorsAt, fxAt, buildTiming, GLYPH }) {
   else {
     if (says[0].say !== clip.char || says[1].say !== clip.char) errors.push(`前兩句要唸「${clip.char}」，現在是「${says[0].say}」「${says[1].say}」`)
     if (!says[2].say.includes(clip.char) || says[2].say === clip.char) errors.push(`第三句「${says[2].say}」要是含「${clip.char}」的語詞`)
+    const poly = [...says[2].say].filter((c) => c !== clip.char && POLYPHONIC.has(c))
+    if (poly.length) errors.push(`語詞「${says[2].say}」裡的「${poly.join('、')}」是多音字，系統朗讀可能唸錯，換一個詞`)
     if (says[0].at < 0.6 || says[0].at > 2.6) warnings.push(`第一聲在 ${says[0].at}s，建議 1–2s 之間`)
     for (let i = 1; i < 3; i++) if (says[i].at - says[i - 1].at < 0.9) warnings.push(`第 ${i} 和第 ${i + 1} 句只隔 ${(says[i].at - says[i - 1].at).toFixed(2)}s，會被打斷`)
   }

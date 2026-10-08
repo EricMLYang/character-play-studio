@@ -1,0 +1,121 @@
+import type { Clip } from '../clip'
+
+// 陽：小豬晾衣服，太陽努力曬，雲一直飄過來擋；太陽把雲推走，又來兩朵，其中一朵還在衣服上下雨。太陽氣到變超大超燙，
+// 雲全部蒸發變成「陽」。衣服一下子曬乾了——乾到縮水，T 恤變好小、長褲變短褲。小雲又探頭，被太陽一瞪就逃走。陽、陽、陽光
+const clip: Clip = {
+  char: '陽',
+  meta: { theme: '曬衣服', cast: '太陽＋雲＋小豬', gags: ['雲一直擋', '雨下在衣服上', '太陽氣到變超燙', '曬到縮水', '小雲被瞪跑'] },
+  duration: 10,
+  bg: { top: '#BDE6FF', bottom: '#E8F7FF', floor: '#8FC66A', scenery: 'hills' },
+  actors: [
+    { id: 'p1', emoji: '⚪', x: 4, y: 40, size: 2, float: true, hidden: true },
+    { id: 'p2', emoji: '⚪', x: 46, y: 40, size: 2, float: true, hidden: true },
+    { id: 'shirt', emoji: '👕', x: 13, y: 46, size: 10, float: true, hidden: true },
+    { id: 'sock', emoji: '🧦', x: 25, y: 45, size: 7, float: true, hidden: true },
+    { id: 'pants', emoji: '👖', x: 37, y: 47.5, size: 10, float: true, hidden: true },
+    { id: 'pig', emoji: '🐷', x: 24, y: 71.5, size: 13, hidden: true },
+    { id: 'sun', emoji: '☀️', x: 136, y: 18, size: 18, float: true, hidden: true },
+    { id: 'c1', emoji: '☁️', x: 136, y: 18, size: 20, float: true, hidden: true },
+    { id: 'c2', emoji: '☁️', x: 126, y: 21, size: 18, float: true, hidden: true },
+    { id: 'rainy', emoji: '🌧️', x: 146, y: 16, size: 18, float: true, hidden: true },
+    { id: 'c3', emoji: '☁️', x: 153, y: 32, size: 10, float: true, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'sun', do: 'pop' },
+    { at: 0, actor: 'pig', do: 'enter', from: { x: -12, y: 71.5 }, dur: 0.5 },
+    { at: 0.4, actor: 'shirt', do: 'pop' },
+    { at: 0.55, actor: 'sock', do: 'pop' },
+    { at: 0.7, actor: 'pants', do: 'pop' },
+    // 太陽努力曬
+    { at: 1.2, actor: 'sun', do: 'flash', dur: 0.6 },
+    { at: 1.2, actor: 'sun', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
+    // 第一朵雲擋住，被太陽推走
+    { at: 1.8, actor: 'c1', do: 'enter', from: { x: 182, y: 16 }, dur: 0.5 },
+    { at: 2.5, actor: 'sun', do: 'shake', amount: 1.5, dur: 0.3 },
+    { at: 2.7, actor: 'c1', do: 'moveTo', to: { x: 185, y: 10 }, dur: 0.35 },
+    // 又來兩朵，一朵在衣服上下雨
+    { at: 3.0, actor: 'c2', do: 'enter', from: { x: 185, y: 21 }, dur: 0.4 },
+    { at: 3.1, actor: 'rainy', do: 'enter', from: { x: 190, y: 16 }, dur: 0.4 },
+    { at: 3.5, actor: 'rainy', do: 'moveTo', to: { x: 26, y: 26 }, dur: 0.5 },
+    { at: 4.1, actor: 'pig', do: 'shake', amount: 1, dur: 0.4 },
+    // 太陽氣炸：變超大超燙，雲蒸發
+    { at: 4.3, actor: 'sun', do: 'scaleTo', amount: 1.6, dur: 0.3 },
+    { at: 4.3, actor: 'sun', do: 'shake', amount: 2, dur: 0.6 },
+    { at: 4.3, actor: 'sun', do: 'flash', dur: 0.9 },
+    { at: 4.5, actor: 'c2', do: 'vanish', dur: 0.2 },
+    { at: 5.05, actor: 'rainy', do: 'vanish', dur: 0.2 },
+    // 冷靜下來，衣服冒煙曬乾
+    { at: 6.3, actor: 'sun', do: 'scaleTo', amount: 1 / 1.6, dur: 0.4 },
+    { at: 6.9, actor: 'sun', do: 'flash', dur: 0.6 },
+    { at: 7.0, actor: 'shirt', do: 'flash', dur: 0.5 },
+    { at: 7.0, actor: 'sock', do: 'flash', dur: 0.5 },
+    { at: 7.0, actor: 'pants', do: 'flash', dur: 0.5 },
+    { at: 7.1, actor: 'pig', do: 'hop', amount: 4, dur: 0.35 },
+    // 曬到縮水
+    { at: 7.8, actor: 'shirt', do: 'scaleTo', amount: 0.45, dur: 0.3 },
+    { at: 8.05, actor: 'pants', do: 'swap', emoji: '🩳' },
+    { at: 8.05, actor: 'pants', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 8.2, actor: 'pig', do: 'shake', amount: 1.2, dur: 0.4 },
+    // 小雲探頭，被瞪跑
+    { at: 8.7, actor: 'c3', do: 'enter', from: { x: 175, y: 32 }, dur: 0.4 },
+    { at: 9.0, actor: 'sun', do: 'flash', dur: 0.4 },
+    { at: 9.0, actor: 'sun', do: 'shake', amount: 1.2, dur: 0.3 },
+    { at: 9.25, actor: 'c3', do: 'moveTo', to: { x: 190, y: 30 }, dur: 0.25 },
+  ],
+  builds: [
+    // 太陽噴出的熱光 → 阝、日；蒸發的雨雲 → 下面那半
+    { at: 4.5, dur: 0.4, strokes: [0, 1], from: 'sun', color: '#E8572A' },
+    { at: 4.75, dur: 0.5, strokes: [2, 3, 4, 5], from: 'sun', color: '#F2A516' },
+    { at: 5.0, dur: 0.8, strokes: [6, 7, 8, 9, 10], from: 'rainy', color: '#3D8FD1' },
+  ],
+  glyph: [{ at: 5.8, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.3, kind: 'line', actor: 'p1', target: 'p2', color: '#8B6B4A', width: 0.5, dur: 9.7 },
+    { at: 1.3, kind: 'pop', actor: 'pig', emoji: '😊', dur: 0.5 },
+    { at: 2.3, kind: 'bubble', actor: 'pig', emoji: '😑', dur: 0.5 },
+    { at: 4.0, kind: 'rain', actor: 'rainy', n: 7, dur: 0.9 },
+    { at: 4.15, kind: 'pop', actor: 'pig', emoji: '😭', dur: 0.5 },
+    { at: 4.35, kind: 'pop', actor: 'sun', emoji: '😡', dur: 0.8, dx: -24, dy: 18 },
+    { at: 4.5, kind: 'burst', actor: 'c2', emoji: '💨', n: 6, dur: 0.4 },
+    { at: 5.0, kind: 'burst', actor: 'rainy', emoji: '💨', n: 6, dur: 0.4 },
+    { at: 6.4, kind: 'zzz', actor: 'shirt', emoji: '♨️', dur: 1.1 },
+    { at: 6.4, kind: 'zzz', actor: 'pants', emoji: '♨️', dur: 1.1 },
+    { at: 7.1, kind: 'pop', actor: 'pig', emoji: '💕', dur: 0.5 },
+    { at: 7.8, kind: 'burst', actor: 'shirt', emoji: '💨', n: 5, dur: 0.35, dx: 7 },
+    { at: 8.05, kind: 'burst', actor: 'pants', emoji: '💨', n: 5, dur: 0.35 },
+    { at: 8.2, kind: 'pop', actor: 'pig', emoji: '😱', dur: 0.6 },
+    { at: 8.3, kind: 'sweat', actor: 'sun', dx: -12, dy: 6 },
+    { at: 8.95, kind: 'pop', actor: 'sun', emoji: '😠', dur: 0.5, dx: -22, dy: 12 },
+    { at: 8.95, kind: 'pop', actor: 'c3', emoji: '😱', dur: 0.35, dx: -14 },
+  ],
+  camera: [
+    { at: 4.3, dur: 0.6, do: 'punch', amount: 0.2, to: { x: 120, y: 30 } },
+    { at: 4.4, dur: 0.4, do: 'shake', amount: 1.8 },
+  ],
+  lights: [
+    { at: 1.9, dur: 0.3, level: 0.25 },
+    { at: 2.7, dur: 0.3, level: 0 },
+    { at: 3.2, dur: 0.3, level: 0.3 },
+    { at: 4.35, dur: 0.1, level: -0.6 },
+    { at: 4.5, dur: 0.4, level: 0 },
+    { at: 6.9, dur: 0.1, level: -0.5 },
+    { at: 7.0, dur: 0.4, level: 0 },
+  ],
+  cues: [
+    { at: 1.2, sfx: 'blip' },
+    { at: 1.4, say: '陽' },
+    { at: 2.7, sfx: 'whoosh' },
+    { at: 4.0, sfx: 'splash' },
+    { at: 4.35, sfx: 'rumble' },
+    { at: 4.5, sfx: 'poof' },
+    { at: 5.05, sfx: 'poof' },
+    { at: 5.9, say: '陽' },
+    { at: 6.95, say: '陽光' },
+    { at: 7.8, sfx: 'deflate' },
+    { at: 8.05, sfx: 'poof' },
+    { at: 9.25, sfx: 'whoosh' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

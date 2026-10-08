@@ -1,0 +1,111 @@
+import type { Clip } from '../clip'
+
+// 狼：大野狼吹房子，一吹稻草屋飛走、再吹木頭屋飛走，小豬一路逃到磚頭屋。大野狼吸到變成大氣球用力吹——磚頭屋動也不動，
+// 狼自己轉到頭暈，飛走的稻草和木頭掉回來變成「狼」。狼還想再神氣一次，結果小豬輕輕一吹，就把大野狼吹飛了。狼、狼、野狼
+const clip: Clip = {
+  char: '狼',
+  meta: { theme: '大野狼吹房子', cast: '大野狼＋小豬＋三間房子', gags: ['漸強失敗', '吸到變氣球', '磚頭屋不動狼自己暈', '小豬一吹狼飛走'] },
+  duration: 10,
+  bg: { top: '#262A5C', bottom: '#4A4F8C', floor: '#3E6B47', scenery: 'night' },
+  actors: [
+    { id: 'hut', emoji: '🛖', x: 62, y: 71.1, size: 14, hidden: true },
+    { id: 'shack', emoji: '🏚️', x: 96, y: 71.1, size: 14, hidden: true },
+    { id: 'brick', emoji: '🧱', x: 136, y: 71.1, size: 14, hidden: true },
+    { id: 'pig', emoji: '🐷', x: 71, y: 74, size: 7, hidden: true },
+    { id: 'wolf', emoji: '🐺', x: 24, y: 70.3, size: 16, hidden: true },
+    { id: 'wind', emoji: '💨', x: 36, y: 66, size: 9, hidden: true, float: true, flip: true },
+    { id: 'wind2', emoji: '💨', x: 142, y: 81, size: 6, hidden: true, float: true },
+  ],
+  moves: [
+    { at: 0, actor: 'hut', do: 'pop' },
+    { at: 0.1, actor: 'shack', do: 'pop' },
+    { at: 0.2, actor: 'brick', do: 'pop' },
+    { at: 0.3, actor: 'pig', do: 'pop' },
+    { at: 0.2, actor: 'wolf', do: 'enter', from: { x: -15, y: 70.3 }, dur: 0.5 },
+    // 第一吹：稻草屋
+    { at: 0.9, actor: 'wolf', do: 'squash', amount: -0.3, dur: 0.4 },
+    { at: 1.3, actor: 'wolf', do: 'squash', amount: 0.3, dur: 0.3 },
+    { at: 1.3, actor: 'wind', do: 'pop', dur: 0.1 },
+    { at: 1.3, actor: 'wind', do: 'moveTo', to: { x: 60, y: 68 }, dur: 0.25 },
+    { at: 1.55, actor: 'wind', do: 'vanish', dur: 0.1 },
+    { at: 1.7, actor: 'wind', do: 'moveTo', to: { x: 36, y: 66 }, dur: 0.01 },
+    { at: 1.5, actor: 'hut', do: 'moveTo', to: { x: 112, y: -15 }, arc: 8, dur: 0.6 },
+    { at: 1.5, actor: 'hut', do: 'spin', times: 2, dur: 0.6 },
+    { at: 1.6, actor: 'pig', do: 'moveTo', to: { x: 105, y: 74 }, dur: 0.4 },
+    // 第二吹：木頭屋
+    { at: 2.2, actor: 'wolf', do: 'squash', amount: -0.4, dur: 0.4 },
+    { at: 2.6, actor: 'wolf', do: 'squash', amount: 0.35, dur: 0.3 },
+    { at: 2.6, actor: 'wind', do: 'pop', dur: 0.1 },
+    { at: 2.6, actor: 'wind', do: 'moveTo', to: { x: 94, y: 68 }, dur: 0.3 },
+    { at: 2.9, actor: 'wind', do: 'vanish', dur: 0.1 },
+    { at: 3.05, actor: 'wind', do: 'moveTo', to: { x: 40, y: 64 }, dur: 0.01 },
+    { at: 2.85, actor: 'shack', do: 'moveTo', to: { x: 150, y: -15 }, arc: 8, dur: 0.6 },
+    { at: 2.85, actor: 'shack', do: 'spin', times: 2, dur: 0.6 },
+    { at: 2.95, actor: 'pig', do: 'moveTo', to: { x: 149, y: 74 }, dur: 0.5 },
+    // 第三吹：吸到變大氣球——磚頭屋動也不動
+    { at: 3.5, actor: 'wolf', do: 'scaleTo', amount: 1.4, dur: 0.6 },
+    { at: 3.5, actor: 'wolf', do: 'shake', amount: 0.8, dur: 0.6 },
+    { at: 4.2, actor: 'wolf', do: 'scaleTo', amount: 0.714, dur: 0.6 },
+    { at: 4.2, actor: 'wind', do: 'pop', dur: 0.1 },
+    { at: 4.2, actor: 'wind', do: 'scaleTo', amount: 1.8, dur: 0.1 },
+    { at: 4.2, actor: 'wind', do: 'moveTo', to: { x: 124, y: 66 }, dur: 0.45 },
+    { at: 4.65, actor: 'wind', do: 'shake', amount: 1, dur: 0.3 },
+    { at: 4.9, actor: 'wind', do: 'vanish', dur: 0.15 },
+    { at: 4.6, actor: 'brick', do: 'shake', amount: 0.25, dur: 0.4 },
+    // 狼自己轉到頭暈
+    { at: 4.85, actor: 'wolf', do: 'spin', times: 2, dur: 0.6 },
+    { at: 5.5, actor: 'wolf', do: 'tilt', amount: -15, dur: 0.8 },
+    // 再神氣一次
+    { at: 7.0, actor: 'wolf', do: 'scaleTo', amount: 1.25, dur: 0.4 },
+    { at: 7.0, actor: 'wolf', do: 'hop', amount: 4, dur: 0.4 },
+    // 小豬輕輕一吹，大野狼飛走
+    { at: 7.9, actor: 'pig', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 8.2, actor: 'pig', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 8.2, actor: 'wind2', do: 'pop', dur: 0.1 },
+    { at: 8.2, actor: 'wind2', do: 'moveTo', to: { x: 34, y: 81 }, dur: 0.35 },
+    { at: 8.55, actor: 'wind2', do: 'vanish', dur: 0.1 },
+    { at: 8.55, actor: 'wolf', do: 'moveTo', to: { x: -25, y: 28 }, arc: 10, dur: 0.7 },
+    { at: 8.55, actor: 'wolf', do: 'spin', times: 3, dur: 0.7 },
+    { at: 9.3, actor: 'pig', do: 'bounce', amount: 2, times: 3, dur: 0.6 },
+  ],
+  builds: [
+    // 飛走的稻草掉回來 → 犭；木頭 → 良
+    { at: 5.0, dur: 0.6, strokes: [0, 1, 2], from: { x: 112, y: 4 }, color: '#F2C230' },
+    { at: 5.5, dur: 0.8, strokes: [3, 4, 5, 6, 7, 8, 9], from: { x: 150, y: 4 }, color: '#D9894A' },
+  ],
+  glyph: [{ at: 6.3, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'bubble', actor: 'wolf', emoji: '🐷', dur: 0.6 },
+    { at: 1.5, kind: 'burst', x: 62, y: 64, emoji: '🌾', n: 6, dur: 0.5 },
+    { at: 1.6, kind: 'pop', actor: 'pig', emoji: '😱', dur: 0.5 },
+    { at: 1.6, kind: 'puff', actor: 'pig' },
+    { at: 2.85, kind: 'burst', x: 96, y: 64, emoji: '🪵', n: 6, dur: 0.5 },
+    { at: 2.95, kind: 'puff', actor: 'pig' },
+    { at: 3.3, kind: 'sweat', actor: 'pig' },
+    { at: 4.5, kind: 'pop', actor: 'pig', emoji: '😝', dur: 0.8 },
+    { at: 4.8, kind: 'sweat', actor: 'wolf' },
+    { at: 5.3, kind: 'dizzy', actor: 'wolf', dur: 1.5 },
+    { at: 7.2, kind: 'bubble', actor: 'wolf', emoji: '😤', dur: 0.7 },
+    { at: 8.55, kind: 'burst', actor: 'wolf', dur: 0.4 },
+    { at: 8.7, kind: 'pop', actor: 'pig', emoji: '😆', dur: 0.8 },
+  ],
+  camera: [
+    { at: 3.6, dur: 1.2, do: 'punch', amount: 0.25, to: { x: 30, y: 62 } },
+    { at: 8.55, dur: 0.4, do: 'shake', amount: 1.5 },
+  ],
+  cues: [
+    { at: 1.3, sfx: 'whoosh' },
+    { at: 1.5, say: '狼' },
+    { at: 2.6, sfx: 'whoosh' },
+    { at: 2.9, sfx: 'crack' },
+    { at: 4.2, sfx: 'whoosh' },
+    { at: 4.85, sfx: 'deflate' },
+    { at: 6.35, say: '狼' },
+    { at: 7.3, say: '野狼' },
+    { at: 8.2, sfx: 'whoosh' },
+    { at: 8.55, sfx: 'boing' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip
