@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "prompt": "node scripts/prompt.mjs",
     "anim": "node scripts/anim-candidates.mjs",
-    "anim:check": "node scripts/anim-check.mjs"
+    "anim:check": "node scripts/anim-check.mjs",
+    "emoji3d": "node scripts/emoji3d.mjs"
   },
   "dependencies": {
     "hanzi-writer": "^3.7.3",

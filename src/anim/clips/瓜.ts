@@ -1,0 +1,110 @@
+import type { Clip } from '../clip'
+
+// 瓜：河馬和小老鼠比賽吐西瓜籽。河馬一吐就飛到終點旗；小老鼠第一次吐在自己腳邊，第二次用力過猛竟然往後飛。
+// 小老鼠不小心把籽吞下去開始打嗝——每打一個嗝就射出一筆，連發變成「瓜」，贏到超大西瓜。最後又一個嗝，把自己彈到河馬頭上。瓜、瓜、西瓜
+const clip: Clip = {
+  char: '瓜',
+  meta: { theme: '吐西瓜籽比賽', cast: '河馬＋小老鼠', gags: ['大小對比', '吐到自己腳邊', '往後飛', '打嗝連發'] },
+  duration: 10,
+  bg: { top: '#E3F6FF', bottom: '#FFF3D6', floor: '#E59E5C', scenery: 'track' },
+  actors: [
+    { id: 'flag', emoji: '🚩', x: 147, y: 70, size: 10, hidden: true },
+    { id: 'prize', emoji: '🍉', x: 134, y: 68.6, size: 20, hidden: true },
+    { id: 'hippo', emoji: '🦛', x: 22, y: 67.8, size: 22, hidden: true, flip: true },
+    { id: 'mouse', emoji: '🐁', x: 42, y: 72.8, size: 10, hidden: true, flip: true },
+    { id: 'hm', emoji: '🍉', x: 33, y: 62, size: 7, hidden: true, float: true },
+    { id: 'mm', emoji: '🍉', x: 48, y: 69, size: 4, hidden: true, float: true },
+    { id: 's1', emoji: '⚫', x: 33, y: 62, size: 2.5, hidden: true, float: true },
+    { id: 's2', emoji: '⚫', x: 48, y: 70, size: 2.2, hidden: true, float: true },
+    { id: 's3', emoji: '⚫', x: 48, y: 69, size: 2.2, hidden: true, float: true },
+  ],
+  moves: [
+    { at: 0, actor: 'flag', do: 'pop' },
+    { at: 0, actor: 'hippo', do: 'pop' },
+    { at: 0.15, actor: 'mouse', do: 'pop' },
+    { at: 0.3, actor: 'hm', do: 'pop' }, { at: 0.35, actor: 'mm', do: 'pop' },
+    // 河馬：一口吃掉，一吐就到終點
+    { at: 0.7, actor: 'hm', do: 'vanish', dur: 0.15 },
+    { at: 0.7, actor: 'hippo', do: 'squash', amount: 0.2, dur: 0.3 },
+    { at: 1.1, actor: 'hippo', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 1.4, actor: 's1', do: 'pop', dur: 0.05 },
+    { at: 1.4, actor: 's1', do: 'moveTo', to: { x: 146, y: 73.5 }, dur: 0.8, arc: 30 },
+    { at: 2.2, actor: 'flag', do: 'shake', amount: 1, dur: 0.4 },
+    // 小老鼠第一次：吐在自己腳邊
+    { at: 2.5, actor: 'mm', do: 'vanish', dur: 0.15 },
+    { at: 2.6, actor: 'mouse', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 2.9, actor: 's2', do: 'pop', dur: 0.05 },
+    { at: 2.9, actor: 's2', do: 'moveTo', to: { x: 50, y: 75.5 }, dur: 0.3, arc: 3 },
+    // 第二次：用力過猛往後飛
+    { at: 3.7, actor: 'mouse', do: 'squash', amount: -0.5, dur: 0.5 },
+    { at: 3.7, actor: 'mouse', do: 'flash', dur: 0.5 },
+    { at: 4.2, actor: 's3', do: 'pop', dur: 0.05 },
+    { at: 4.2, actor: 's3', do: 'moveTo', to: { x: 6, y: 75.5 }, dur: 0.5, arc: 22 },
+    { at: 4.2, actor: 'mouse', do: 'tilt', amount: -25, dur: 0.4 },
+    // 吞下去了……打嗝連發
+    { at: 4.75, actor: 'mouse', do: 'squash', amount: -0.15, dur: 0.15 },
+    { at: 4.95, actor: 'mouse', do: 'hop', amount: 4, dur: 0.2 },
+    { at: 5.3, actor: 'mouse', do: 'hop', amount: 4, dur: 0.2 },
+    { at: 5.6, actor: 'mouse', do: 'hop', amount: 4, dur: 0.2 },
+    { at: 5.85, actor: 'mouse', do: 'hop', amount: 4, dur: 0.2 },
+    { at: 6.05, actor: 'mouse', do: 'hop', amount: 4, dur: 0.2 },
+    { at: 4.6, actor: 's2', do: 'vanish', dur: 0.2 },
+    { at: 4.8, actor: 's1', do: 'vanish', dur: 0.2 },
+    { at: 4.8, actor: 's3', do: 'vanish', dur: 0.2 },
+    // 贏到超大西瓜
+    { at: 6.9, actor: 'prize', do: 'drop', dur: 0.6 },
+    { at: 6.9, actor: 'flag', do: 'moveTo', to: { x: 150, y: 70 }, dur: 0.3 },
+    { at: 7.5, actor: 'mouse', do: 'bounce', dur: 0.6, times: 2, amount: 3 },
+    // 又一個嗝，把自己彈到河馬頭上
+    { at: 8.3, actor: 'mouse', do: 'moveTo', to: { x: 23, y: 53 }, dur: 0.5, arc: 16 },
+    { at: 8.3, actor: 'mouse', do: 'spin', times: -1, dur: 0.5 },
+    { at: 8.8, actor: 'hippo', do: 'squash', amount: 0.15, dur: 0.25 },
+    { at: 9.15, actor: 'mouse', do: 'hop', amount: 5, dur: 0.25 },
+  ],
+  builds: [
+    // 每打一個嗝射出一筆
+    { at: 4.95, dur: 0.4, strokes: [1], from: 'mouse', color: '#2E8B3A' },
+    { at: 5.3, dur: 0.4, strokes: [0], from: 'mouse', color: '#2E8B3A' },
+    { at: 5.6, dur: 0.7, strokes: [2, 3, 4], from: 'mouse', color: '#E2364E' },
+  ],
+  glyph: [{ at: 6.4, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 1.0, kind: 'bubble', actor: 'hippo', emoji: '😤', dur: 0.4 },
+    { at: 2.25, kind: 'burst', actor: 'flag', emoji: '✨', n: 5, dur: 0.5, dx: -6 },
+    { at: 2.3, kind: 'bubble', actor: 'hippo', emoji: '😎', dur: 0.5 },
+    { at: 3.25, kind: 'pop', actor: 'mouse', emoji: '😳', dur: 0.4 },
+    { at: 3.3, kind: 'pop', actor: 'hippo', emoji: '😆', dur: 0.5, dx: -10 },
+    { at: 4.7, kind: 'pop', actor: 'hippo', emoji: '😆', dur: 0.4, dx: -10 },
+    { at: 4.75, kind: 'pop', actor: 'mouse', emoji: '😨', dur: 0.25 },
+    { at: 4.95, kind: 'burst', actor: 'mouse', emoji: '🫧', n: 4, dur: 0.35 },
+    { at: 5.6, kind: 'burst', actor: 'mouse', emoji: '🫧', n: 4, dur: 0.35 },
+    { at: 6.4, kind: 'pop', actor: 'hippo', emoji: '😲', dur: 0.6, dx: -10 },
+    { at: 7.4, kind: 'burst', actor: 'prize', emoji: '✨', n: 7, dur: 0.6 },
+    { at: 7.45, kind: 'pop', actor: 'mouse', emoji: '🏆', dur: 0.6 },
+    { at: 8.25, kind: 'burst', actor: 'mouse', emoji: '🫧', n: 4, dur: 0.35 },
+    { at: 8.9, kind: 'pop', actor: 'hippo', emoji: '😳', dur: 0.7, dx: -12, dy: 8 },
+  ],
+  camera: [
+    { at: 4.2, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 36, y: 66 } },
+  ],
+  cues: [
+    { at: 0.7, sfx: 'gulp' },
+    { at: 1.4, sfx: 'whoosh' },
+    { at: 1.5, say: '瓜' },
+    { at: 2.2, sfx: 'plop' },
+    { at: 2.5, sfx: 'gulp' },
+    { at: 3.2, sfx: 'plop' },
+    { at: 4.2, sfx: 'whoosh' },
+    { at: 4.7, sfx: 'plop' },
+    { at: 4.75, sfx: 'gulp' },
+    { at: 4.95, sfx: 'hic' }, { at: 5.3, sfx: 'hic' }, { at: 5.6, sfx: 'hic' }, { at: 5.85, sfx: 'hic' }, { at: 6.05, sfx: 'hic' },
+    { at: 6.45, say: '瓜' },
+    { at: 7.0, sfx: 'boing' },
+    { at: 7.45, say: '西瓜' },
+    { at: 8.3, sfx: 'hic' },
+    { at: 9.15, sfx: 'hic' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

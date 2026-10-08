@@ -1,0 +1,122 @@
+import type { Clip } from '../clip'
+
+// 鵝：農場惡霸鵝「嘎！」一聲嚇跑小雞、再一聲嚇跑小豬，連大拖拉機開過來都被牠吼到倒車、撞進稻草堆，稻草和鵝毛變成「鵝」。
+// 這時一隻優雅的天鵝飛來，大家都看呆了；惡霸鵝不服氣去吼牠——天鵝膨大一倍吼回來，惡霸鵝嚇得一溜煙逃走。鵝、鵝、天鵝
+const clip: Clip = {
+  char: '鵝',
+  meta: { theme: '農場惡霸', cast: '鵝＋小雞＋小豬＋拖拉機＋天鵝', gags: ['越嚇越大隻', '小的嚇跑大的', '撞進稻草堆', '惡霸被吼回去'] },
+  duration: 10,
+  bg: { top: '#E3F6FF', bottom: '#FFF6D8', floor: '#9BCB5B', scenery: 'hills' },
+  actors: [
+    { id: 'hay', emoji: '🌾', x: 148, y: 70.3, size: 16, hidden: true },
+    { id: 'pig', emoji: '🐷', x: 104, y: 71.5, size: 13, hidden: true },
+    { id: 'chick', emoji: '🐥', x: 62, y: 73.6, size: 8, hidden: true },
+    { id: 'tractor', emoji: '🚜', x: 120, y: 69.4, size: 18, hidden: true },
+    { id: 'goose', emoji: '🪿', x: 28, y: 71.1, size: 14, hidden: true, flip: true },
+    { id: 'swan', emoji: '🦢', x: 122, y: 71.1, size: 14, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'hay', do: 'pop' },
+    { at: 0.1, actor: 'chick', do: 'pop' },
+    { at: 0.2, actor: 'pig', do: 'pop' },
+    { at: 0, actor: 'goose', do: 'enter', from: { x: -12, y: 71.1 }, dur: 0.6 },
+    { at: 0.6, actor: 'goose', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
+    { at: 0.7, actor: 'chick', do: 'hop', amount: 2, dur: 0.2 },
+    // 嘎！嚇跑小雞
+    { at: 1.1, actor: 'goose', do: 'squash', amount: -0.35, dur: 0.25 },
+    { at: 1.35, actor: 'goose', do: 'squash', amount: 0.3, dur: 0.2 },
+    { at: 1.5, actor: 'chick', do: 'hop', amount: 6, dur: 0.3 },
+    { at: 1.8, actor: 'chick', do: 'moveTo', to: { x: 175, y: 73.6 }, dur: 0.55 },
+    { at: 1.8, actor: 'goose', do: 'moveTo', to: { x: 66, y: 71.1 }, dur: 0.5 },
+    // 再嘎！嚇跑小豬
+    { at: 2.35, actor: 'goose', do: 'squash', amount: -0.4, dur: 0.2 },
+    { at: 2.55, actor: 'goose', do: 'squash', amount: 0.35, dur: 0.2 },
+    { at: 2.6, actor: 'pig', do: 'hop', amount: 12, dur: 0.35 },
+    { at: 2.95, actor: 'pig', do: 'moveTo', to: { x: 180, y: 71.5 }, dur: 0.5 },
+    { at: 2.95, actor: 'goose', do: 'moveTo', to: { x: 78, y: 71.1 }, dur: 0.4 },
+    // 大拖拉機來了——照樣吼
+    { at: 3.4, actor: 'tractor', do: 'enter', from: { x: 182, y: 69.4 }, dur: 0.6 },
+    { at: 4.1, actor: 'goose', do: 'squash', amount: -0.5, dur: 0.3 },
+    { at: 4.1, actor: 'goose', do: 'scaleTo', amount: 1.25, dur: 0.3 },
+    { at: 4.4, actor: 'goose', do: 'squash', amount: 0.4, dur: 0.2 },
+    { at: 4.45, actor: 'tractor', do: 'shake', amount: 2, dur: 0.4 },
+    // 拖拉機嚇到倒車，撞進稻草堆
+    { at: 4.75, actor: 'tractor', do: 'moveTo', to: { x: 140, y: 69.4 }, dur: 0.25 },
+    { at: 4.8, actor: 'goose', do: 'scaleTo', amount: 0.8, dur: 0.3 },
+    { at: 5.0, actor: 'hay', do: 'vanish', dur: 0.3 },
+    { at: 5.0, actor: 'tractor', do: 'squash', amount: 0.25, dur: 0.25 },
+    // 惡霸鵝大搖大擺走回去，抖抖羽毛
+    { at: 5.1, actor: 'goose', do: 'flip' },
+    { at: 5.1, actor: 'goose', do: 'moveTo', to: { x: 32, y: 71.1 }, dur: 0.5 },
+    { at: 5.65, actor: 'goose', do: 'flip' },
+    { at: 5.7, actor: 'goose', do: 'shake', amount: 1.5, dur: 0.4 },
+    // 天鵝飛來
+    { at: 7.0, actor: 'swan', do: 'enter', from: { x: 180, y: 30 }, dur: 0.7 },
+    { at: 7.7, actor: 'swan', do: 'squash', amount: 0.2, dur: 0.25 },
+    // 不服氣去吼天鵝
+    { at: 8.3, actor: 'goose', do: 'moveTo', to: { x: 44, y: 71.1 }, dur: 0.3 },
+    { at: 8.5, actor: 'goose', do: 'squash', amount: -0.35, dur: 0.2 },
+    { at: 8.7, actor: 'goose', do: 'squash', amount: 0.3, dur: 0.2 },
+    // 天鵝膨大吼回來
+    { at: 9.0, actor: 'swan', do: 'squash', amount: -0.5, dur: 0.25 },
+    { at: 9.0, actor: 'swan', do: 'scaleTo', amount: 1.4, dur: 0.25 },
+    { at: 9.25, actor: 'swan', do: 'squash', amount: 0.4, dur: 0.2 },
+    { at: 9.4, actor: 'goose', do: 'flip' },
+    { at: 9.4, actor: 'goose', do: 'moveTo', to: { x: -20, y: 71.1 }, dur: 0.4 },
+  ],
+  builds: [
+    // 撞散的稻草 → 我；抖下來的鵝毛 → 鳥
+    { at: 5.0, dur: 0.7, strokes: [0, 1, 2, 3, 4, 5, 6], from: 'hay', color: '#E0A526' },
+    { at: 5.7, dur: 0.55, strokes: [7, 8, 9, 10, 11, 12], from: 'goose', color: '#4A7BD0' },
+    { at: 6.1, dur: 0.5, strokes: [13, 14, 15, 16, 17], from: 'goose', style: 'drop', color: '#F07A2A' },
+  ],
+  glyph: [{ at: 6.6, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 1.35, kind: 'burst', actor: 'goose', emoji: '💢', dur: 0.4 },
+    { at: 1.5, kind: 'pop', actor: 'chick', emoji: '❗', dur: 0.3 },
+    { at: 1.8, kind: 'puff', actor: 'goose' },
+    { at: 2.55, kind: 'burst', actor: 'goose', emoji: '💢', n: 5, dur: 0.5 },
+    { at: 2.6, kind: 'pop', actor: 'pig', emoji: '😱', dur: 0.4 },
+    { at: 2.95, kind: 'puff', actor: 'pig' },
+    { at: 3.9, kind: 'pop', actor: 'goose', emoji: '😤', dur: 0.3 },
+    { at: 4.4, kind: 'burst', actor: 'goose', emoji: '💢', n: 8, dur: 0.6 },
+    { at: 4.5, kind: 'sweat', actor: 'tractor' },
+    { at: 5.0, kind: 'burst', actor: 'hay', dur: 0.4 },
+    { at: 5.3, kind: 'dizzy', actor: 'tractor', dur: 1.0 },
+    { at: 5.7, kind: 'burst', actor: 'goose', emoji: '🪶', n: 5, dur: 0.5 },
+    { at: 7.7, kind: 'burst', actor: 'swan', emoji: '✨', n: 6, dur: 0.6 },
+    { at: 7.8, kind: 'pop', actor: 'tractor', emoji: '😍', dur: 0.6 },
+    { at: 8.0, kind: 'bubble', actor: 'goose', emoji: '😤', dur: 0.45 },
+    { at: 8.7, kind: 'burst', actor: 'goose', emoji: '💢', dur: 0.35 },
+    { at: 9.25, kind: 'burst', actor: 'swan', emoji: '💢', n: 8, dur: 0.6 },
+    { at: 9.25, kind: 'pop', actor: 'goose', emoji: '😱', dur: 0.3 },
+    { at: 9.4, kind: 'puff', actor: 'goose', dur: 0.3 },
+    { at: 9.6, kind: 'pop', actor: 'tractor', emoji: '😆', dur: 0.4 },
+  ],
+  camera: [
+    { at: 4.0, dur: 0.7, do: 'punch', amount: 0.25, to: { x: 98, y: 62 } },
+    { at: 5.0, dur: 0.35, do: 'shake', amount: 1.8 },
+    { at: 9.25, dur: 0.3, do: 'shake', amount: 1.2 },
+  ],
+  cues: [
+    { at: 1.35, sfx: 'blip' },
+    { at: 1.45, say: '鵝' },
+    { at: 1.8, sfx: 'whoosh' },
+    { at: 2.55, sfx: 'blip' },
+    { at: 2.95, sfx: 'whoosh' },
+    { at: 3.4, sfx: 'rumble' },
+    { at: 4.4, sfx: 'boing' },
+    { at: 4.75, sfx: 'slide' },
+    { at: 5.0, sfx: 'bonk' },
+    { at: 5.7, sfx: 'poof' },
+    { at: 6.6, say: '鵝' },
+    { at: 7.0, sfx: 'whoosh' },
+    { at: 7.7, say: '天鵝' },
+    { at: 8.7, sfx: 'blip' },
+    { at: 9.25, sfx: 'rumble' },
+    { at: 9.4, sfx: 'whoosh' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

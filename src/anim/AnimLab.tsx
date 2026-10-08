@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CLIPS } from './clips'
-import AnimPlayer from './AnimPlayer'
+import AnimPlayer, { type Art } from './AnimPlayer'
 import './anim.css'
 
 /**
@@ -13,6 +13,7 @@ export default function AnimLab() {
   const [t, setT] = useState(() => Number(qs.get('t')) || 0)
   const [playing, setPlaying] = useState(false)
   const [run, setRun] = useState(0)
+  const [art, setArt] = useState<Art>(() => (qs.get('art') === '3d' ? '3d' : 'emoji'))
   const clip = CLIPS.find((c) => c.char === char)!
 
   const pick = (c: string) => { setChar(c); setPlaying(false); setT(0) }
@@ -34,7 +35,7 @@ export default function AnimLab() {
       </header>
 
       <div className="anim-frame">
-        <AnimPlayer key={`${char}-${run}`} clip={clip} playing={playing} t={t} onTime={setT} onEnd={() => setPlaying(false)} />
+        <AnimPlayer key={`${char}-${run}`} clip={clip} playing={playing} t={t} onTime={setT} onEnd={() => setPlaying(false)} art={art} />
         {!playing && t === 0 && <button className="anim-big-play" onClick={play} aria-label="播放">▶</button>}
       </div>
 
@@ -43,6 +44,8 @@ export default function AnimLab() {
         <input type="range" min={0} max={clip.duration} step={0.01} value={t}
           onChange={(e) => { setPlaying(false); setT(Number(e.target.value)) }} aria-label="時間" />
         <span className="anim-time">{t.toFixed(2)}s</span>
+        <button className="anim-art" onClick={() => setArt((a) => (a === '3d' ? 'emoji' : '3d'))}
+          aria-pressed={art === '3d'}>{art === '3d' ? '3D 角色' : 'Emoji 角色'}</button>
       </div>
     </div>
   )

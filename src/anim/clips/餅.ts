@@ -1,0 +1,108 @@
+import type { Clip } from '../clip'
+
+// 餅：青蛙廚師用磚頭烤箱烤餅乾。第一片火太大烤成黑炭，第二片火太小只剩一丁點，青蛙拿放大鏡才看得到。
+// 氣到把火開到最大——烤箱爆炸，噴出滿天餅乾變成「餅」，最後還滾出一個月餅；火苗跳出來，把月餅也烤焦了。餅、餅、月餅
+const clip: Clip = {
+  char: '餅',
+  meta: { theme: '烤箱烤餅乾', cast: '青蛙廚師＋烤箱＋火苗', gags: ['太焦又太小', '放大鏡才看得到', '火開太大爆炸', '又烤焦'] },
+  duration: 10,
+  bg: { top: '#FFF6E8', bottom: '#FFE3C2', floor: '#C98F5E', scenery: 'room' },
+  actors: [
+    { id: 'oven', emoji: '🧱', x: 136, y: 67, size: 24, hidden: true },
+    { id: 'plate', emoji: '🍽️', x: 74, y: 73.6, size: 8, hidden: true },
+    { id: 'frog', emoji: '🐸', x: 104, y: 71.5, size: 13, hidden: true },
+    { id: 'd1', emoji: '🍪', x: 114, y: 64, size: 6, hidden: true, float: true, tint: 'saturate(.3) brightness(1.35)' },
+    { id: 'd2', emoji: '🍪', x: 114, y: 64, size: 6, hidden: true, float: true, tint: 'saturate(.3) brightness(1.35)' },
+    { id: 'c1', emoji: '🍪', x: 134, y: 64, size: 7, hidden: true, float: true, tint: 'brightness(.22)' },
+    { id: 'c2', emoji: '🍪', x: 134, y: 64, size: 2.5, hidden: true, float: true },
+    { id: 'moon', emoji: '🥮', x: 134, y: 73.6, size: 8, hidden: true },
+    { id: 'fire', emoji: '🔥', x: 136, y: 73.2, size: 9, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'oven', do: 'pop' },
+    { at: 0.1, actor: 'fire', do: 'pop' },
+    { at: 0.3, actor: 'plate', do: 'pop' },
+    { at: 0, actor: 'frog', do: 'enter', from: { x: -15, y: 71.5 }, dur: 0.8 },
+    // 第一片：火太大，烤成黑炭
+    { at: 1.3, actor: 'd1', do: 'pop', dur: 0.15 },
+    { at: 1.45, actor: 'd1', do: 'moveTo', to: { x: 134, y: 64 }, dur: 0.3 },
+    { at: 1.75, actor: 'd1', do: 'vanish', dur: 0.1 },
+    { at: 1.8, actor: 'fire', do: 'scaleTo', amount: 1.8, dur: 0.3 },
+    { at: 1.8, actor: 'oven', do: 'shake', amount: 1.2, dur: 0.6 },
+    { at: 2.4, actor: 'c1', do: 'pop', dur: 0.1 },
+    { at: 2.45, actor: 'c1', do: 'moveTo', to: { x: 74, y: 68 }, dur: 0.5, arc: 14 },
+    { at: 3.15, actor: 'frog', do: 'tilt', amount: -15, dur: 0.3 },
+    { at: 3.25, actor: 'c1', do: 'vanish', dur: 0.15 },
+    // 第二片：火太小，只剩一丁點
+    { at: 3.4, actor: 'fire', do: 'scaleTo', amount: 0.25, dur: 0.3 },
+    { at: 3.45, actor: 'd2', do: 'pop', dur: 0.15 },
+    { at: 3.6, actor: 'd2', do: 'moveTo', to: { x: 134, y: 64 }, dur: 0.3 },
+    { at: 3.9, actor: 'd2', do: 'vanish', dur: 0.1 },
+    { at: 4.1, actor: 'c2', do: 'pop', dur: 0.1 },
+    { at: 4.15, actor: 'c2', do: 'moveTo', to: { x: 74, y: 70 }, dur: 0.45, arc: 12 },
+    { at: 4.5, actor: 'frog', do: 'moveTo', to: { x: 86, y: 71.5 }, dur: 0.2 },
+    { at: 4.6, actor: 'frog', do: 'tilt', amount: -20, dur: 0.5 },
+    // 氣到火開最大：烤箱爆炸
+    { at: 5.0, actor: 'fire', do: 'scaleTo', amount: 7, dur: 0.35 },
+    { at: 5.0, actor: 'oven', do: 'shake', amount: 2.2, dur: 0.7 },
+    { at: 5.0, actor: 'oven', do: 'flash', dur: 0.7 },
+    { at: 5.15, actor: 'frog', do: 'moveTo', to: { x: 22, y: 71.5 }, dur: 0.4, arc: 8 },
+    { at: 5.2, actor: 'plate', do: 'vanish', dur: 0.2 },
+    { at: 5.2, actor: 'c2', do: 'vanish', dur: 0.2 },
+    { at: 5.6, actor: 'oven', do: 'squash', amount: 0.35, dur: 0.3 },
+    { at: 5.9, actor: 'fire', do: 'scaleTo', amount: 0.3, dur: 0.4 },
+    // 滾出一個月餅
+    { at: 7.0, actor: 'moon', do: 'pop', dur: 0.2 },
+    { at: 7.1, actor: 'moon', do: 'moveTo', to: { x: 120, y: 73.6 }, dur: 0.5 },
+    { at: 7.1, actor: 'moon', do: 'spin', times: -1, dur: 0.5 },
+    { at: 7.6, actor: 'moon', do: 'bounce', dur: 0.4, times: 1, amount: 2 },
+    // 火苗跳出來，把月餅也烤焦
+    { at: 8.4, actor: 'fire', do: 'moveTo', to: { x: 120, y: 70 }, dur: 0.4, arc: 10 },
+    { at: 8.8, actor: 'moon', do: 'swap', emoji: '🌑' },
+    { at: 8.8, actor: 'moon', do: 'shake', amount: 1, dur: 0.4 },
+    { at: 9.0, actor: 'frog', do: 'squash', amount: 0.35, dur: 0.4 },
+    { at: 9.2, actor: 'fire', do: 'moveTo', to: { x: 136, y: 73.2 }, dur: 0.35, arc: 8 },
+  ],
+  builds: [
+    // 烤箱噴出滿天餅乾
+    { at: 5.3, dur: 0.9, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'oven', color: '#C4782A' },
+    { at: 5.8, dur: 0.8, strokes: [8, 9, 10, 11, 12, 13], from: 'oven', color: '#6B3B1C' },
+  ],
+  glyph: [{ at: 6.6, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.9, kind: 'bubble', actor: 'frog', emoji: '🍪', dur: 0.6 },
+    { at: 2.4, kind: 'burst', actor: 'oven', emoji: '💨', n: 5, dur: 0.5 },
+    { at: 2.95, kind: 'stink', actor: 'c1', dur: 0.5 },
+    { at: 3.0, kind: 'bubble', actor: 'frog', emoji: '😑', dur: 0.5 },
+    { at: 3.25, kind: 'burst', actor: 'c1', emoji: '⚫', n: 5, dur: 0.4 },
+    { at: 4.7, kind: 'pop', actor: 'frog', emoji: '🔍', dur: 0.4, dx: -12, dy: 6 },
+    { at: 4.95, kind: 'pop', actor: 'frog', emoji: '💢', dur: 0.4 },
+    { at: 5.3, kind: 'pop', actor: 'frog', emoji: '😱', dur: 0.5 },
+    { at: 5.6, kind: 'burst', actor: 'oven', emoji: '🍪', n: 8, dur: 0.7 },
+    { at: 7.7, kind: 'bubble', actor: 'frog', emoji: '❓', dur: 0.6 },
+    { at: 8.8, kind: 'burst', actor: 'moon', emoji: '💨', n: 5, dur: 0.5 },
+    { at: 9.0, kind: 'bubble', actor: 'frog', emoji: '😭', dur: 0.8 },
+  ],
+  camera: [
+    { at: 4.6, dur: 0.5, do: 'punch', amount: 0.3, to: { x: 76, y: 66 } },
+    { at: 5.6, dur: 0.5, do: 'shake', amount: 2 },
+  ],
+  cues: [
+    { at: 1.5, say: '餅' },
+    { at: 1.8, sfx: 'whoosh' },
+    { at: 2.4, sfx: 'clink' },
+    { at: 3.25, sfx: 'crack' },
+    { at: 4.1, sfx: 'clink' },
+    { at: 4.2, sfx: 'boing' },
+    { at: 5.0, sfx: 'rumble' },
+    { at: 5.6, sfx: 'poof' },
+    { at: 6.6, say: '餅' },
+    { at: 7.1, sfx: 'slide' },
+    { at: 7.6, say: '月餅' },
+    { at: 8.4, sfx: 'whoosh' },
+    { at: 8.8, sfx: 'poof' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

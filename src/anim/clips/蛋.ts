@@ -1,0 +1,105 @@
+import type { Clip } from '../clip'
+
+// 蛋：母雞等小雞孵出來。蛋裂開跑出一隻鱷魚！母雞把牠塞回去，再裂開變章魚，再塞回去——最後轟一聲跑出一隻大恐龍，蛋殼飛成「蛋」，母雞昏倒。
+// 母雞爬起來又生了一顆雞蛋，緊張地等……這次是小雞！小雞學恐龍大吼，母雞又昏倒。蛋、蛋、雞蛋
+const clip: Clip = {
+  char: '蛋',
+  meta: { theme: '孵蛋', cast: '母雞＋會變的蛋＋恐龍＋小雞', gags: ['孵出錯的動物', '塞回去重來', '大恐龍', '小雞學恐龍', '昏倒兩次'] },
+  duration: 10,
+  bg: { top: '#E6F6D4', bottom: '#FFF5D6', floor: '#B5D98A', scenery: 'hills' },
+  actors: [
+    { id: 'hen', emoji: '🐔', x: 22, y: 71.1, size: 14, hidden: true, flip: true },
+    { id: 'egg', emoji: '🥚', x: 42, y: 72, size: 12, hidden: true },
+    { id: 'egg2', emoji: '🥚', x: 34, y: 74.1, size: 7, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'hen', do: 'enter', from: { x: -12, y: 71.1 }, dur: 0.6 },
+    { at: 0.3, actor: 'egg', do: 'pop' },
+    { at: 0.9, actor: 'egg', do: 'tilt', amount: 12, dur: 0.3 },
+    { at: 1.2, actor: 'egg', do: 'tilt', amount: -12, dur: 0.3 },
+    // 裂開：鱷魚！
+    { at: 1.9, actor: 'egg', do: 'shake', dur: 0.4, amount: 1.5 },
+    { at: 2.3, actor: 'egg', do: 'swap', emoji: '🐊' },
+    { at: 2.3, actor: 'egg', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 2.35, actor: 'hen', do: 'hop', dur: 0.35, amount: 8 },
+    { at: 2.9, actor: 'hen', do: 'moveTo', to: { x: 31, y: 71.1 }, dur: 0.15 },
+    { at: 3.0, actor: 'egg', do: 'swap', emoji: '🥚' },
+    { at: 3.15, actor: 'hen', do: 'moveTo', to: { x: 22, y: 71.1 }, dur: 0.25 },
+    // 再裂開：章魚
+    { at: 3.6, actor: 'egg', do: 'shake', dur: 0.4, amount: 1.5 },
+    { at: 4.0, actor: 'egg', do: 'swap', emoji: '🐙' },
+    { at: 4.0, actor: 'egg', do: 'bounce', dur: 0.6, times: 3, amount: 2 },
+    { at: 4.6, actor: 'hen', do: 'moveTo', to: { x: 31, y: 71.1 }, dur: 0.15 },
+    { at: 4.7, actor: 'egg', do: 'swap', emoji: '🥚' },
+    { at: 4.85, actor: 'hen', do: 'moveTo', to: { x: 22, y: 71.1 }, dur: 0.25 },
+    // 第三次：轟——大恐龍
+    { at: 5.1, actor: 'egg', do: 'shake', dur: 0.8, amount: 2.5 },
+    { at: 5.1, actor: 'egg', do: 'flash', dur: 0.8 },
+    { at: 5.9, actor: 'egg', do: 'swap', emoji: '🦖' },
+    { at: 5.9, actor: 'egg', do: 'scaleTo', amount: 1.7, dur: 0.3 },
+    { at: 5.9, actor: 'egg', do: 'moveTo', to: { x: 45, y: 68.5 }, dur: 0.3 },
+    { at: 6.0, actor: 'hen', do: 'hop', dur: 0.3, amount: 6 },
+    { at: 6.0, actor: 'hen', do: 'rotateTo', amount: -90, dur: 0.3 },
+    { at: 6.3, actor: 'egg', do: 'flip' },
+    { at: 6.3, actor: 'egg', do: 'moveTo', to: { x: 130, y: 68.5 }, dur: 0.6 },
+    { at: 6.9, actor: 'egg', do: 'flip' },
+    // 母雞爬起來，生了一顆雞蛋
+    { at: 7.2, actor: 'hen', do: 'rotateTo', amount: 90, dur: 0.3 },
+    { at: 7.6, actor: 'hen', do: 'hop', dur: 0.35, amount: 6 },
+    { at: 7.75, actor: 'egg2', do: 'pop' },
+    // 回馬槍：這次是小雞……學恐龍吼
+    { at: 8.4, actor: 'egg2', do: 'tilt', amount: 15, dur: 0.3 },
+    { at: 8.6, actor: 'egg2', do: 'shake', dur: 0.4, amount: 1 },
+    { at: 9.0, actor: 'egg2', do: 'swap', emoji: '🐣' },
+    { at: 9.2, actor: 'egg2', do: 'squash', amount: -0.35, dur: 0.35 },
+    { at: 9.35, actor: 'hen', do: 'rotateTo', amount: -90, dur: 0.3 },
+    { at: 9.3, actor: 'egg', do: 'bounce', dur: 0.6, times: 2, amount: 2 },
+  ],
+  builds: [
+    // 炸開的蛋殼 → 上半；恐龍走過去 → 虫
+    { at: 5.9, dur: 0.7, strokes: [0, 1, 2, 3, 4], from: 'egg', color: '#E39A2D' },
+    { at: 6.3, dur: 0.6, strokes: [5, 6, 7, 8, 9, 10], from: 'egg', color: '#4E9F45' },
+  ],
+  glyph: [{ at: 6.95, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'bubble', actor: 'hen', emoji: '🐣', dur: 0.8 },
+    { at: 2.3, kind: 'burst', actor: 'egg', dur: 0.4 },
+    { at: 2.35, kind: 'pop', actor: 'hen', emoji: '❗', dur: 0.5 },
+    { at: 3.0, kind: 'burst', actor: 'egg', emoji: '💨', n: 6, dur: 0.4 },
+    { at: 4.1, kind: 'pop', actor: 'hen', emoji: '😑', dur: 0.5 },
+    { at: 4.7, kind: 'burst', actor: 'egg', emoji: '💨', n: 6, dur: 0.4 },
+    { at: 4.8, kind: 'sweat', actor: 'hen' },
+    { at: 5.9, kind: 'burst', actor: 'egg', emoji: '🥚', n: 6, dur: 0.5 },
+    { at: 6.35, kind: 'dizzy', actor: 'hen', dur: 0.8 },
+    { at: 7.85, kind: 'bubble', actor: 'hen', emoji: '😌', dur: 0.6 },
+    { at: 8.5, kind: 'sweat', actor: 'hen' },
+    { at: 9.0, kind: 'burst', actor: 'egg2', emoji: '✨', n: 6, dur: 0.5 },
+    { at: 9.2, kind: 'pop', actor: 'egg2', emoji: '🦖', dur: 0.6 },
+    { at: 9.3, kind: 'pop', actor: 'egg', emoji: '💕', dur: 0.6 },
+    { at: 9.5, kind: 'dizzy', actor: 'hen', dur: 0.5 },
+  ],
+  camera: [
+    { at: 5.1, dur: 0.8, do: 'punch', amount: 0.3, to: { x: 42, y: 66 } },
+    { at: 5.9, dur: 0.4, do: 'shake', amount: 1.5 },
+  ],
+  cues: [
+    { at: 0.9, sfx: 'tap' },
+    { at: 1.3, say: '蛋' },
+    { at: 2.3, sfx: 'crack' },
+    { at: 3.0, sfx: 'poof' },
+    { at: 4.0, sfx: 'crack' },
+    { at: 4.2, sfx: 'boing' },
+    { at: 4.7, sfx: 'poof' },
+    { at: 5.1, sfx: 'rumble' },
+    { at: 5.9, sfx: 'crack' },
+    { at: 6.25, sfx: 'bonk' },
+    { at: 6.95, say: '蛋' },
+    { at: 7.75, sfx: 'plop' },
+    { at: 8.0, say: '雞蛋' },
+    { at: 9.0, sfx: 'crack' },
+    { at: 9.2, sfx: 'blip' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

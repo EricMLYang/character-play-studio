@@ -250,14 +250,17 @@ export function buildTiming(b: Build) {
 }
 
 /** 每一筆落定的時間，播放器用來放「喀」的音效。 */
-export function landings(clip: Clip): { at: number; i: number; n: number }[] {
+export function landings(clip: Clip): { at: number; i: number; n: number; stroke: number }[] {
   const total = clip.builds.reduce((s, b) => s + b.strokes.length, 0)
   let k = 0
   return clip.builds.flatMap((b) => {
     const { each, stagger } = buildTiming(b)
-    return b.strokes.map((_, i) => ({ at: b.at + stagger * i + each * 0.8, i: k++, n: total }))
+    return b.strokes.map((stroke, i) => ({ at: b.at + stagger * i + each * 0.8, i: k++, n: total, stroke }))
   })
 }
+
+/** 國字全部拼好的時間。 */
+export const glyphDoneAt = (clip: Clip) => Math.max(...clip.builds.map((b) => b.at + b.dur))
 
 export function glyphAt(clip: Clip, t: number) {
   let dx = 0, s = 1, r = 0

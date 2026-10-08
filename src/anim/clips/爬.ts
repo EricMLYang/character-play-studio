@@ -1,0 +1,111 @@
+import type { Clip } from '../clip'
+
+// 爬：小壁虎要爬上岩壁插旗子。第一次爬到一半滑下來；舔舔腳底再衝，快到頂端時一滑——尾巴斷掉黏在牆上扭來扭去！
+// 岩壁塌下來、尾巴也扭成「爬」。壁虎改爬到國字頂上，得意地看出去——後面冒出一座超大的雪山，當場嚇昏滾下來。爬、爬、爬山
+const clip: Clip = {
+  char: '爬',
+  meta: { theme: '攀岩', cast: '壁虎＋岩壁', gags: ['漸強失敗', '舔腳底加速', '尾巴斷掉還在扭', '爬上去發現更高的'] },
+  duration: 10,
+  bg: { top: '#FFE6CF', bottom: '#FFC49C', floor: '#C7744A', scenery: 'desert' },
+  actors: [
+    { id: 'mtn', emoji: '🏔️', x: 140, y: 62.7, size: 34, hidden: true },
+    { id: 'w1', emoji: '🧱', x: 80, y: 70.3, size: 16, hidden: true },
+    { id: 'w2', emoji: '🧱', x: 80, y: 55.3, size: 16, hidden: true },
+    { id: 'w3', emoji: '🧱', x: 80, y: 40.3, size: 16, hidden: true },
+    { id: 'flag', emoji: '🚩', x: 82, y: 28.5, size: 9, hidden: true },
+    { id: 'tail', emoji: '〰️', x: 70, y: 36, size: 7, hidden: true, float: true },
+    { id: 'gecko', emoji: '🦎', x: 40, y: 72.8, size: 10, hidden: true, flip: true },
+  ],
+  moves: [
+    { at: 0, actor: 'w1', do: 'pop' }, { at: 0.1, actor: 'w2', do: 'pop' }, { at: 0.2, actor: 'w3', do: 'pop' },
+    { at: 0.35, actor: 'flag', do: 'pop' },
+    { at: 0, actor: 'gecko', do: 'enter', from: { x: -10, y: 72.8 }, dur: 0.7 },
+    // 第一次：爬到一半滑下來
+    { at: 1.3, actor: 'gecko', do: 'moveTo', to: { x: 69, y: 64 }, dur: 0.25, arc: 4 },
+    { at: 1.3, actor: 'gecko', do: 'rotateTo', amount: -90, dur: 0.2 },
+    { at: 1.6, actor: 'gecko', do: 'moveTo', to: { x: 69, y: 46 }, dur: 0.8 },
+    { at: 1.6, actor: 'gecko', do: 'shake', amount: 0.6, dur: 0.8 },
+    { at: 2.5, actor: 'gecko', do: 'moveTo', to: { x: 69, y: 66 }, dur: 0.3 },
+    { at: 2.8, actor: 'gecko', do: 'rotateTo', amount: 90, dur: 0.2 },
+    { at: 2.8, actor: 'gecko', do: 'moveTo', to: { x: 58, y: 72.8 }, dur: 0.2 },
+    { at: 3.0, actor: 'gecko', do: 'squash', amount: 0.35, dur: 0.25 },
+    // 舔舔腳底，衝！
+    { at: 3.5, actor: 'gecko', do: 'tilt', amount: 20, dur: 0.3 },
+    { at: 3.8, actor: 'gecko', do: 'moveTo', to: { x: 69, y: 64 }, dur: 0.2, arc: 4 },
+    { at: 3.8, actor: 'gecko', do: 'rotateTo', amount: -90, dur: 0.15 },
+    { at: 4.0, actor: 'gecko', do: 'moveTo', to: { x: 69, y: 34 }, dur: 0.45 },
+    // 快到頂：一滑，尾巴斷掉黏在牆上
+    { at: 4.45, actor: 'w3', do: 'tilt', amount: 12, dur: 0.5 },
+    { at: 4.6, actor: 'tail', do: 'pop', dur: 0.1 },
+    { at: 4.7, actor: 'tail', do: 'shake', amount: 1.2, dur: 1.0 },
+    { at: 4.65, actor: 'gecko', do: 'moveTo', to: { x: 58, y: 72.8 }, dur: 0.4 },
+    { at: 4.65, actor: 'gecko', do: 'rotateTo', amount: 90, dur: 0.3 },
+    { at: 5.05, actor: 'gecko', do: 'squash', amount: 0.4, dur: 0.25 },
+    // 岩壁塌下來
+    { at: 5.1, actor: 'w1', do: 'shake', amount: 1.5, dur: 0.25 },
+    { at: 5.1, actor: 'w2', do: 'shake', amount: 1.5, dur: 0.25 },
+    { at: 5.1, actor: 'w3', do: 'shake', amount: 1.5, dur: 0.25 },
+    { at: 5.3, actor: 'w1', do: 'vanish', dur: 0.2 }, { at: 5.3, actor: 'w2', do: 'vanish', dur: 0.2 }, { at: 5.3, actor: 'w3', do: 'vanish', dur: 0.2 },
+    { at: 5.3, actor: 'flag', do: 'moveTo', to: { x: 128, y: 73.2 }, dur: 0.5, arc: 10 },
+    { at: 5.3, actor: 'gecko', do: 'moveTo', to: { x: 30, y: 72.8 }, dur: 0.3 },
+    { at: 5.75, actor: 'tail', do: 'vanish', dur: 0.15 },
+    // 改爬國字
+    { at: 6.9, actor: 'gecko', do: 'moveTo', to: { x: 44, y: 70 }, dur: 0.2 },
+    { at: 6.9, actor: 'gecko', do: 'rotateTo', amount: -90, dur: 0.2 },
+    { at: 7.1, actor: 'gecko', do: 'moveTo', to: { x: 44, y: 9 }, dur: 0.6 },
+    { at: 7.1, actor: 'gecko', do: 'shake', amount: 0.5, dur: 0.6 },
+    { at: 7.6, actor: 'mtn', do: 'pop', dur: 0.4 },
+    { at: 7.7, actor: 'gecko', do: 'rotateTo', amount: 90, dur: 0.15 },
+    { at: 7.7, actor: 'gecko', do: 'moveTo', to: { x: 80, y: 8 }, dur: 0.4 },
+    // 後面還有更高的山——嚇昏滾下來
+    { at: 8.5, actor: 'gecko', do: 'rotateTo', amount: 90, dur: 0.2 },
+    { at: 8.85, actor: 'gecko', do: 'moveTo', to: { x: 116, y: 8 }, dur: 0.25 },
+    { at: 8.85, actor: 'gecko', do: 'spin', times: 1, dur: 0.25 },
+    { at: 9.1, actor: 'gecko', do: 'moveTo', to: { x: 116, y: 69 }, dur: 0.3 },
+    { at: 9.4, actor: 'gecko', do: 'bounce', dur: 0.3, times: 1, amount: 2 },
+  ],
+  builds: [
+    // 岩塊 → 爪；還在扭的尾巴 → 巴
+    { at: 5.3, dur: 0.7, strokes: [0, 1, 2, 3], from: 'w2', color: '#8A4F2E' },
+    { at: 5.7, dur: 0.7, strokes: [4, 5, 6, 7], from: 'tail', color: '#3C9E4C' },
+  ],
+  glyph: [{ at: 6.4, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.75, kind: 'bubble', actor: 'gecko', emoji: '🚩', dur: 0.55 },
+    { at: 2.35, kind: 'pop', actor: 'gecko', emoji: '❗', dur: 0.3, dx: 4 },
+    { at: 3.0, kind: 'puff', actor: 'gecko' },
+    { at: 3.1, kind: 'bubble', actor: 'gecko', emoji: '😑', dur: 0.4 },
+    { at: 3.5, kind: 'pop', actor: 'gecko', emoji: '👅', dur: 0.35, dx: -4 },
+    { at: 4.0, kind: 'puff', actor: 'gecko' },
+    { at: 4.6, kind: 'burst', actor: 'tail', emoji: '💢', n: 1, dur: 0.4, dx: 6 },
+    { at: 5.05, kind: 'puff', actor: 'gecko' },
+    { at: 5.15, kind: 'pop', actor: 'gecko', emoji: '😱', dur: 0.45 },
+    { at: 5.3, kind: 'burst', actor: 'w2', emoji: '🪨', n: 7, dur: 0.6 },
+    { at: 8.0, kind: 'pop', actor: 'gecko', emoji: '😎', dur: 0.4, dy: 12 },
+    { at: 8.45, kind: 'pop', actor: 'gecko', emoji: '😱', dur: 0.4, dy: 12 },
+    { at: 9.45, kind: 'dizzy', actor: 'gecko', dur: 0.55 },
+  ],
+  camera: [
+    { at: 4.55, dur: 0.6, do: 'punch', amount: 0.3, to: { x: 70, y: 40 } },
+    { at: 5.3, dur: 0.4, do: 'shake', amount: 1.8 },
+  ],
+  cues: [
+    { at: 1.3, sfx: 'boing' },
+    { at: 1.5, say: '爬' },
+    { at: 2.5, sfx: 'slide' },
+    { at: 3.0, sfx: 'bonk' },
+    { at: 3.5, sfx: 'blip' },
+    { at: 4.0, sfx: 'whoosh' },
+    { at: 4.6, sfx: 'poof' },
+    { at: 5.3, sfx: 'rumble' },
+    { at: 6.4, say: '爬' },
+    { at: 7.6, sfx: 'rumble' },
+    { at: 7.65, say: '爬山' },
+    { at: 8.5, sfx: 'deflate' },
+    { at: 9.1, sfx: 'slide' },
+    { at: 9.4, sfx: 'bonk' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

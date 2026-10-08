@@ -38,6 +38,10 @@ npm run anim -- 眼 睛
 
 先寫一句話的笑點，再排時間軸。對照 `npm run anim` 最後列出的 meta，確認跟最近幾支**不同主題、不同主角、不同主要笑點**。
 
+**一次做很多字（例如 10 個以上）**：先替每個字指定一個不重複的主題（表格裡的主題、生活場景都可以），
+再分組交給子代理平行寫，每組 5～10 個字。子代理只寫 `src/anim/clips/<字>.ts`、跑 `tsc` 和 `anim:check`，
+不開瀏覽器、不碰 git；全部寫完後由你重開 dev server，逐格看過再回報。
+
 ### 4. 寫檔
 
 新增 `src/anim/clips/<字>.ts`（檔名就是那個字），`export default` 一份 `Clip`。照 `src/anim/clips/` 裡現有的檔案寫：
@@ -57,6 +61,8 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 
 再用瀏覽器逐格看：`http://localhost:5180/anim?char=<字>&t=<秒>` 會定格在那一秒。
 - 新增劇本檔後，`/anim` 上面那排字如果沒有出現新的字，是 dev server 沒抓到新檔案：重開 `npm run dev`。
+  （子代理同時在寫檔時，頁面可能剛好在熱更新、畫面跑錯字；重新載入一次再判斷。）
+- 截圖前先抓一次整頁截圖確認舞台位置，再用 zoom 放大舞台；視窗大小每個分頁不一樣，舊的座標常常會偏。
 - Chrome 分頁常是 hidden，rAF 不跑，**不要用播放來驗證**，用 `?t=` 定格截圖。導覽後等 1 秒再截圖，不然版面還沒穩。
 - 每支至少看：開場、每個笑點的高峰、筆畫組成中、國字完成、語詞那一刻、結尾。
 - 檢查：角色有沒有互相重疊或被蓋住（actors 陣列順序就是繪製順序，後面的在上面）、頭上的東西有沒有懸空、
@@ -66,7 +72,13 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 
 ### 6. 回報與 commit
 
-回報每支的故事（一兩句、講笑點）、唸的三個詞、哪些字孩子端還看不到。使用者要 commit 時：
+回報每支的故事（一兩句、講笑點）、唸的三個詞、哪些字孩子端還看不到。
+
+**新做的字如果是孩子端隱藏中，要問使用者要不要開放**（開放是家長的決定，不要自己開）。使用者同意後，
+用 Studio「開放給孩子」背後同一支 API：`POST /api/character/visibility`，body `{"char":"字","hidden":false}`，
+再讀 `data/characters.json` 確認。
+
+使用者要 commit 時：
 直接 commit 到 main，**逐一 stage 自己改的檔案**，不要 `git add -A`；`data/characters.json` 常有家長在 Studio 的變更，不是你的就不要帶進去。
 
 ## 設計守則
@@ -115,6 +127,8 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 
 主角不一定是動物；英雄、車子、積木、整個場景都可以當主角。
 
+**不要用兒童 emoji**（🧒👦👧👶 等）當角色，專案的影片 prompt 也禁止兒童角色；需要「小孩」的故事改用動物。魔術師、廚師這類職業卡通人物可以用。
+
 ### 笑點套路
 
 每支挑 2～3 個組合，**同一批不要重複主要套路**，最近 6 支裡同一個套路最多出現 2 次（看 meta）：
@@ -145,6 +159,11 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 
 ## 引擎速查（src/anim/clip.ts）
 
+播放器會**自動**加上這些質感，劇本不用寫：角色的白色貼紙描邊與軟陰影、站在地上的角色微微呼吸、快速移動時的速度線、
+鏡頭推近／震動時背景的視差、每一筆落定時的小星光、國字拼好與影片結尾各一道掃光、國字的積木厚度與畫面暗角。
+所以劇本專心在笑點與動作；速度線會在角色每秒移動超過約 45 單位時出現，想要「咻」的感覺就讓動作快一點。
+
+
 舞台 160×90，地板 y = 74（`FLOOR`）。
 `bg` 除了三個顏色，還要選 `scenery`（背景場景，會影響質感最多）：`hills`（小丘＋雲，預設）、`city`（城市大樓）、`ocean`（海底光束、泡泡、海草）、
 `space`（星星＋行星）、`snow`（下雪＋雪丘）、`desert`（沙丘＋仙人掌）、`room`（室內：直條紋牆、窗戶、畫框、木地板）、
@@ -155,7 +174,8 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji? }`
   - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`rotateTo`（累加）、`swap`（換 emoji）、`flip`
   - 做完回原狀：`hop`（負值是往下沉）、`bounce`、`squash`（正壓扁／負拉長）、`shake`、`spin`、`tilt`、`flash`
-  - 支點在腳底：壓扁、翻倒都從地板發生。
+  - 支點在腳底：壓扁、翻倒都從地板發生。轉 90°／180°（側躺、倒栽蔥）時角色會繞腳底轉，位置要自己用 `moveTo` 補，轉完要看一下有沒有陷進地板或飄在空中。
+  - emoji 的預設朝向依 Apple Color Emoji（很多動物、車子朝左）；要朝右就在 actor 加 `flip: true`，逐格看時確認方向對。
   - 頭上頂著東西時，主角壓扁要用 `pressStack(at, dur, amount, size, ids)`（`src/anim/helpers.ts`）讓上面那疊一起沉。
 - **builds**：`{ at, dur, strokes: [筆畫編號], from: 角色 id 或 {x,y}, style?: 'fly'|'drop', color }`；每一筆落定自動有「叮」聲。
 - **fx**（跟著角色頭頂，可用 dx/dy 偏移）：`burst`（n=1 是 💥，n>1 是一圈 emoji）、`dizzy`、`bubble`（想法泡泡＋emoji）、
@@ -166,3 +186,10 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **glyph**：`{ at, dur, do: 'wobble'|'pulse'|'shake' }`
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
+
+## 3D 角色（原型，孩子端還沒用）
+
+`/anim` 試播頁右下角可以切換「Emoji 角色／3D 角色」（網址加 `&art=3d`）。3D 角色是 Microsoft Fluent Emoji 3D 圖（MIT 授權），
+放在 `public/emoji3d/`。劇本用到新的 emoji 時跑 `npm run emoji3d` 補下載並更新 `src/anim/emoji3d.ts`。
+已知問題：有些 emoji 在 3D 版朝向和 Apple 相反（例如 🚗），有些造型不一樣（🪿 是咖啡色的雁），所以還沒有換到孩子端。
+

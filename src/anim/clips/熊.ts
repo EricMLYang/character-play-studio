@@ -1,0 +1,107 @@
+import type { Clip } from '../clip'
+
+// 熊：刺蝟在營火旁打瞌睡，大熊躡手躡腳來偷蜂蜜，踩到樹枝「喀」！刺蝟拿手電筒轉頭找，大熊每次都閃到牠背後。
+// 大熊慌張抓蜂蜜，罐子飛進營火——蜂蜜和火星噴出來變成「熊」。原來帳篷裡還有一隻小熊在偷吃；小熊撲上去抱刺蝟，被刺得跳起來。熊、熊、小熊
+const clip: Clip = {
+  char: '熊',
+  meta: { theme: '露營偷蜂蜜', cast: '大熊＋刺蝟＋小熊', gags: ['其實一直在你後面', '踩到樹枝', '真正的小偷另有其人', '抱刺蝟被刺'] },
+  duration: 10,
+  bg: { top: '#FFD6B0', bottom: '#FFAE85', floor: '#7E9E57', scenery: 'forest' },
+  actors: [
+    { id: 'tent', emoji: '⛺', x: 147, y: 68.6, size: 20, hidden: true },
+    { id: 'cub', emoji: '🐻', x: 141, y: 73.2, size: 9, hidden: true },
+    { id: 'jar2', emoji: '🍯', x: 146, y: 72, size: 5, hidden: true, float: true },
+    { id: 'fire', emoji: '🔥', x: 98, y: 73.2, size: 9, hidden: true },
+    { id: 'bear', emoji: '🐻', x: 30, y: 70.3, size: 16, hidden: true },
+    { id: 'hog', emoji: '🦔', x: 124, y: 72.4, size: 11, hidden: true, flip: true },
+    { id: 'honey', emoji: '🍯', x: 116, y: 73.6, size: 8, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'tent', do: 'pop' },
+    { at: 0, actor: 'fire', do: 'pop' },
+    { at: 0.1, actor: 'hog', do: 'pop' },
+    { at: 0.15, actor: 'honey', do: 'pop' },
+    { at: 0.2, actor: 'bear', do: 'enter', from: { x: -18, y: 70.3 }, dur: 0.8 },
+    // 躡手躡腳
+    { at: 1.4, actor: 'bear', do: 'moveTo', to: { x: 56, y: 70.3 }, dur: 0.4, arc: 3 },
+    { at: 1.85, actor: 'bear', do: 'moveTo', to: { x: 80, y: 70.3 }, dur: 0.4, arc: 3 },
+    { at: 2.25, actor: 'bear', do: 'squash', amount: 0.2, dur: 0.25 },
+    // 刺蝟轉頭找——大熊閃到牠背後
+    { at: 2.4, actor: 'bear', do: 'moveTo', to: { x: 137, y: 70.3 }, dur: 0.15 },
+    { at: 2.5, actor: 'hog', do: 'flip' },
+    { at: 3.3, actor: 'bear', do: 'moveTo', to: { x: 109, y: 70.3 }, dur: 0.12 },
+    { at: 3.35, actor: 'hog', do: 'flip' },
+    // 慢慢轉回來……大熊慌了抓蜂蜜，罐子飛進營火
+    { at: 4.0, actor: 'honey', do: 'moveTo', to: { x: 112, y: 62 }, dur: 0.15 },
+    { at: 4.15, actor: 'bear', do: 'shake', amount: 1.2, dur: 0.3 },
+    { at: 4.3, actor: 'hog', do: 'flip' },
+    { at: 4.35, actor: 'honey', do: 'moveTo', to: { x: 98, y: 68 }, dur: 0.45, arc: 26 },
+    { at: 4.35, actor: 'honey', do: 'spin', times: 2, dur: 0.45 },
+    { at: 4.8, actor: 'honey', do: 'vanish', dur: 0.1 },
+    { at: 4.8, actor: 'fire', do: 'scaleTo', amount: 2.2, dur: 0.15 },
+    { at: 4.8, actor: 'fire', do: 'flash', dur: 0.5 },
+    { at: 4.9, actor: 'bear', do: 'moveTo', to: { x: 26, y: 70.3 }, dur: 0.45, arc: 14 },
+    { at: 4.9, actor: 'bear', do: 'spin', times: 1, dur: 0.45 },
+    { at: 4.9, actor: 'hog', do: 'moveTo', to: { x: 130, y: 72.4 }, dur: 0.35, arc: 8 },
+    { at: 5.6, actor: 'fire', do: 'vanish', dur: 0.4 },
+    { at: 5.35, actor: 'bear', do: 'squash', amount: 0.35, dur: 0.3 },
+    // 帳篷裡的小熊才是小偷
+    { at: 6.8, actor: 'cub', do: 'enter', from: { x: 152, y: 73.2 }, dur: 0.35 },
+    { at: 6.8, actor: 'jar2', do: 'enter', from: { x: 157, y: 72 }, dur: 0.35 },
+    { at: 7.1, actor: 'hog', do: 'flip' },
+    { at: 7.3, actor: 'cub', do: 'bounce', dur: 0.6, times: 2, amount: 2 },
+    { at: 7.3, actor: 'jar2', do: 'bounce', dur: 0.6, times: 2, amount: 2 },
+    // 撲上去抱刺蝟——被刺到跳起來
+    { at: 8.2, actor: 'cub', do: 'moveTo', to: { x: 136, y: 73.2 }, dur: 0.3, arc: 4 },
+    { at: 8.55, actor: 'cub', do: 'hop', amount: 20, dur: 0.6 },
+    { at: 8.55, actor: 'cub', do: 'spin', times: 1, dur: 0.6 },
+    { at: 8.55, actor: 'hog', do: 'squash', amount: 0.25, dur: 0.25 },
+    { at: 9.15, actor: 'cub', do: 'moveTo', to: { x: 142, y: 73.2 }, dur: 0.2 },
+    { at: 9.3, actor: 'cub', do: 'shake', amount: 1, dur: 0.5 },
+  ],
+  builds: [
+    // 蜂蜜噴出來 → 能；營火的火星 → 灬
+    { at: 4.95, dur: 1.0, strokes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], from: 'fire', color: '#E3950F' },
+    { at: 5.6, dur: 0.6, strokes: [10, 11, 12, 13], from: 'fire', color: '#E8461E' },
+  ],
+  glyph: [{ at: 6.3, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.1, kind: 'zzz', actor: 'hog', dur: 2.2 },
+    { at: 0.9, kind: 'bubble', actor: 'bear', emoji: '🍯', dur: 0.6 },
+    { at: 2.25, kind: 'burst', actor: 'bear', emoji: '🪵', n: 4, dur: 0.4, dy: 14 },
+    { at: 2.3, kind: 'pop', actor: 'hog', emoji: '❗', dur: 0.35 },
+    { at: 2.6, kind: 'line', actor: 'hog', to: { x: 66, y: 64 }, color: '#FFF2A0', width: 3, dur: 0.6, dx: -4 },
+    { at: 2.8, kind: 'bubble', actor: 'hog', emoji: '❓', dur: 0.45 },
+    { at: 2.6, kind: 'sweat', actor: 'bear', dx: -6 },
+    { at: 3.45, kind: 'line', actor: 'hog', to: { x: 156, y: 64 }, color: '#FFF2A0', width: 3, dur: 0.5, dx: 4 },
+    { at: 3.6, kind: 'bubble', actor: 'hog', emoji: '❓', dur: 0.45, dx: -16 },
+    { at: 4.0, kind: 'pop', actor: 'bear', emoji: '😱', dur: 0.4 },
+    { at: 4.8, kind: 'burst', actor: 'fire', emoji: '✨', n: 8, dur: 0.6 },
+    { at: 5.4, kind: 'dizzy', actor: 'bear', dur: 0.8 },
+    { at: 7.3, kind: 'pop', actor: 'cub', emoji: '😋', dur: 0.6, dx: -4 },
+    { at: 7.4, kind: 'pop', actor: 'bear', emoji: '❗', dur: 0.5 },
+    { at: 8.55, kind: 'burst', actor: 'hog', n: 1, dur: 0.4 },
+    { at: 8.8, kind: 'pop', actor: 'cub', emoji: '😣', dur: 0.5, dx: -6 },
+    { at: 9.1, kind: 'bubble', actor: 'bear', emoji: '😅', dur: 0.8 },
+  ],
+  camera: [
+    { at: 2.3, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 120, y: 66 } },
+    { at: 4.85, dur: 0.4, do: 'shake', amount: 2 },
+  ],
+  cues: [
+    { at: 1.5, say: '熊' },
+    { at: 2.25, sfx: 'crack' },
+    { at: 2.4, sfx: 'whoosh' },
+    { at: 3.3, sfx: 'whoosh' },
+    { at: 4.35, sfx: 'whoosh' },
+    { at: 4.8, sfx: 'poof' },
+    { at: 5.35, sfx: 'bonk' },
+    { at: 6.3, say: '熊' },
+    { at: 6.8, sfx: 'slide' },
+    { at: 7.3, say: '小熊' },
+    { at: 8.55, sfx: 'boing' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip

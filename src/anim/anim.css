@@ -2,7 +2,8 @@
 body:has(.anim-lab) { overflow: auto; }
 .anim-head { width: min(100%, 960px); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .anim-head h1 { margin: 0; font-size: 22px; }
-.anim-head nav { display: flex; gap: 8px; }
+.anim-head nav { display: flex; gap: 8px; flex: 1; min-width: 0; overflow-x: auto; padding-bottom: 4px; }
+.anim-head nav button { flex: none; }
 .anim-head button { font-family: var(--kai); font-size: 26px; width: 52px; height: 52px; border-radius: 14px;
   border: 2px solid rgba(46,42,38,.15); background: #fff; color: var(--ink); cursor: pointer; }
 .anim-head button.on { background: var(--ink); color: #fff; border-color: var(--ink); }

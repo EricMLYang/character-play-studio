@@ -1,0 +1,121 @@
+import type { Clip } from '../clip'
+
+// 椅：犀牛、公雞、蝸牛玩大風吹搶椅子。音樂一停，犀牛和公雞撞成一團；再一停，犀牛一屁股把椅子坐爛（變成「木」），
+// 公雞跳上另一張椅子卻踩到早就慢慢爬上去的蝸牛被彈飛。最後真的颳起「大風吹」，大家都被吹走，只有黏黏的蝸牛還坐在椅子上。椅、椅、椅子
+const clip: Clip = {
+  char: '椅',
+  meta: { theme: '大風吹搶椅子', cast: '犀牛＋公雞＋蝸牛＋收音機', gags: ['撞成一團', '一屁股坐爛', '慢吞吞的贏了', '真的大風吹'] },
+  duration: 10,
+  bg: { top: '#FFF7D6', bottom: '#FFE9A8', floor: '#B0BEC5', scenery: 'city' },
+  actors: [
+    { id: 'chairA', emoji: '🪑', x: 40, y: 71.5, size: 13 },
+    { id: 'chairB', emoji: '🪑', x: 80, y: 71.5, size: 13 },
+    { id: 'radio', emoji: '📻', x: 147, y: 72.8, size: 10, hidden: true },
+    { id: 'snail', emoji: '🐌', x: 12, y: 73.2, size: 9, flip: true },
+    { id: 'rhino', emoji: '🦏', x: 110, y: 70.7, size: 15 },
+    { id: 'rooster', emoji: '🐓', x: 128, y: 71.5, size: 13 },
+    { id: 'wind', emoji: '🌬️', x: 80, y: 7, size: 11, float: true, hidden: true },
+  ],
+  moves: [
+    { at: 0.1, actor: 'radio', do: 'pop' },
+    { at: 0.1, actor: 'rhino', do: 'bounce', amount: 2, times: 4, dur: 1.2 },
+    { at: 0.2, actor: 'rooster', do: 'bounce', amount: 2.5, times: 4, dur: 1.2 },
+    // 蝸牛從頭到尾慢慢爬向椅子
+    { at: 0.2, actor: 'snail', do: 'moveTo', to: { x: 33, y: 73.2 }, dur: 2.7 },
+    { at: 2.9, actor: 'snail', do: 'moveTo', to: { x: 40, y: 65.5 }, arc: 3, dur: 0.5 },
+    // 音樂停：兩個一起衝向同一張椅子，撞成一團
+    { at: 1.35, actor: 'radio', do: 'shake', amount: 1, dur: 0.3 },
+    { at: 1.45, actor: 'rhino', do: 'moveTo', to: { x: 86, y: 70.7 }, dur: 0.3 },
+    { at: 1.45, actor: 'rooster', do: 'moveTo', to: { x: 75, y: 71.5 }, arc: 14, dur: 0.35 },
+    { at: 1.85, actor: 'chairB', do: 'shake', amount: 1, dur: 0.3 },
+    { at: 1.85, actor: 'rhino', do: 'moveTo', to: { x: 110, y: 70.7 }, arc: 6, dur: 0.4 },
+    { at: 1.85, actor: 'rooster', do: 'moveTo', to: { x: 60, y: 71.5 }, arc: 12, dur: 0.45 },
+    { at: 1.85, actor: 'rooster', do: 'spin', dur: 0.45 },
+    // 音樂再響、再停
+    { at: 2.6, actor: 'rhino', do: 'bounce', amount: 2, times: 3, dur: 0.7 },
+    { at: 2.6, actor: 'rooster', do: 'bounce', amount: 2.5, times: 3, dur: 0.7 },
+    { at: 3.35, actor: 'radio', do: 'shake', amount: 1, dur: 0.3 },
+    // 公雞跳上椅子——踩到蝸牛，被彈飛
+    { at: 3.45, actor: 'rooster', do: 'moveTo', to: { x: 40, y: 56 }, arc: 10, dur: 0.35 },
+    { at: 3.8, actor: 'snail', do: 'squash', amount: 0.3, dur: 0.2 },
+    { at: 3.85, actor: 'rooster', do: 'moveTo', to: { x: 16, y: 71.5 }, arc: 18, dur: 0.5 },
+    { at: 3.85, actor: 'rooster', do: 'spin', dur: 0.5 },
+    { at: 4.35, actor: 'rooster', do: 'squash', amount: 0.3, dur: 0.25 },
+    // 犀牛一屁股坐爛椅子
+    { at: 3.45, actor: 'rhino', do: 'squash', amount: -0.3, dur: 0.2 },
+    { at: 3.6, actor: 'rhino', do: 'moveTo', to: { x: 80, y: 66 }, arc: 14, dur: 0.45 },
+    { at: 4.05, actor: 'chairB', do: 'squash', amount: 0.5, dur: 0.2 },
+    { at: 4.15, actor: 'chairB', do: 'vanish', dur: 0.15 },
+    { at: 4.15, actor: 'rhino', do: 'moveTo', to: { x: 80, y: 70.7 }, dur: 0.15 },
+    { at: 4.3, actor: 'rhino', do: 'squash', amount: 0.4, dur: 0.3 },
+    // 犀牛搖搖晃晃退到旁邊；收音機吐出音符
+    { at: 5.3, actor: 'rhino', do: 'moveTo', to: { x: 122, y: 70.7 }, dur: 0.5 },
+    { at: 5.4, actor: 'radio', do: 'bounce', amount: 2, times: 3, dur: 0.6 },
+    // 椅子！
+    { at: 7.0, actor: 'chairA', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
+    { at: 7.0, actor: 'snail', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
+    { at: 7.2, actor: 'chairA', do: 'flash', dur: 0.5 },
+    // 回馬槍：真的颳起大風吹
+    { at: 8.0, actor: 'wind', do: 'pop', dur: 0.3 },
+    { at: 8.3, actor: 'rhino', do: 'moveTo', to: { x: 185, y: 45 }, arc: 10, dur: 0.6 },
+    { at: 8.3, actor: 'rhino', do: 'spin', times: 2, dur: 0.6 },
+    { at: 8.35, actor: 'radio', do: 'moveTo', to: { x: 185, y: 55 }, dur: 0.5 },
+    { at: 8.35, actor: 'radio', do: 'spin', times: 2, dur: 0.5 },
+    { at: 8.3, actor: 'rooster', do: 'moveTo', to: { x: -20, y: 45 }, arc: 10, dur: 0.6 },
+    { at: 8.3, actor: 'rooster', do: 'spin', times: 2, dur: 0.6 },
+    { at: 8.3, actor: 'chairA', do: 'shake', amount: 1.5, dur: 1.0 },
+    { at: 8.3, actor: 'snail', do: 'shake', amount: 1.5, dur: 1.0 },
+    { at: 9.1, actor: 'wind', do: 'vanish', dur: 0.3 },
+    { at: 9.3, actor: 'snail', do: 'hop', amount: 3, dur: 0.3 },
+  ],
+  builds: [
+    // 坐爛的椅子 → 木；趴成大字的犀牛 → 大；收音機吐出的音符 → 可
+    { at: 4.2, dur: 0.8, strokes: [0, 1, 2, 3], from: { x: 80, y: 68 }, color: '#8D5524' },
+    { at: 4.9, dur: 0.55, strokes: [4, 5, 6], from: 'rhino', color: '#E53935' },
+    { at: 5.45, dur: 0.8, strokes: [7, 8, 9, 10, 11], from: 'radio', color: '#1E88E5' },
+  ],
+  glyph: [{ at: 6.25, dur: 0.4, do: 'wobble' }, { at: 9.5, dur: 0.5, do: 'pulse' }],
+  fx: [
+    { at: 0.1, kind: 'zzz', actor: 'radio', emoji: '🎵', dur: 1.3 },
+    { at: 1.35, kind: 'pop', actor: 'radio', emoji: '🔇', dur: 0.5 },
+    { at: 1.8, kind: 'burst', x: 80, y: 60, dur: 0.5 },
+    { at: 2.3, kind: 'dizzy', actor: 'rooster', dur: 0.6 },
+    { at: 2.3, kind: 'dizzy', actor: 'rhino', dur: 0.6 },
+    { at: 2.6, kind: 'zzz', actor: 'radio', emoji: '🎵', dur: 0.8 },
+    { at: 3.35, kind: 'pop', actor: 'radio', emoji: '🔇', dur: 0.5 },
+    { at: 4.0, kind: 'pop', actor: 'snail', emoji: '😌', dur: 0.7 },
+    { at: 4.1, kind: 'burst', x: 80, y: 66, dur: 0.5 },
+    { at: 4.4, kind: 'pop', actor: 'rhino', emoji: '😵', dur: 0.6 },
+    { at: 4.4, kind: 'dizzy', actor: 'rooster', dur: 1.0 },
+    { at: 5.4, kind: 'zzz', actor: 'radio', emoji: '🎵', dur: 0.8 },
+    { at: 5.6, kind: 'dizzy', actor: 'rhino', dur: 0.9 },
+    { at: 7.05, kind: 'burst', actor: 'snail', emoji: '✨', n: 6, dur: 0.6 },
+    { at: 7.3, kind: 'pop', actor: 'snail', emoji: '😎', dur: 0.7 },
+    { at: 7.5, kind: 'pop', actor: 'rooster', emoji: '😲', dur: 0.6 },
+    { at: 7.5, kind: 'pop', actor: 'rhino', emoji: '😑', dur: 0.6 },
+    { at: 8.2, kind: 'burst', x: 26, y: 50, emoji: '🍃', n: 5, dur: 0.7 },
+    { at: 8.2, kind: 'burst', x: 134, y: 50, emoji: '🍃', n: 5, dur: 0.7 },
+    { at: 8.5, kind: 'pop', actor: 'snail', emoji: '😤', dur: 0.6 },
+    { at: 9.3, kind: 'pop', actor: 'snail', emoji: '😎', dur: 0.7 },
+  ],
+  camera: [
+    { at: 1.8, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 80, y: 62 } },
+    { at: 4.1, dur: 0.4, do: 'shake', amount: 2 },
+  ],
+  cues: [
+    { at: 1.35, sfx: 'tap' },
+    { at: 1.45, sfx: 'whoosh' },
+    { at: 1.55, say: '椅' },
+    { at: 1.8, sfx: 'bonk' },
+    { at: 3.35, sfx: 'tap' },
+    { at: 3.8, sfx: 'boing' },
+    { at: 4.1, sfx: 'crack' },
+    { at: 6.3, say: '椅' },
+    { at: 7.3, say: '椅子' },
+    { at: 8.2, sfx: 'whoosh' },
+    { at: 8.4, sfx: 'whoosh' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip
