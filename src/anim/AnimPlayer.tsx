@@ -37,6 +37,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   }), [data])
 
   const ticks = useMemo(() => landings(clip), [clip])
+  const noWindow = useMemo(() => clip.actors.some((a) => a.emoji.includes('🪟')), [clip])
   const noSun = useMemo(() => clip.actors.some((a) => /☀|🌞|🌤|🌅/u.test(a.emoji)), [clip])
   const noMoon = useMemo(() => clip.actors.some((a) => /🌙|🌕|🌛|🌜|🌝|🌚/u.test(a.emoji)), [clip])
 
@@ -143,7 +144,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
         <rect x="-20" y="-20" width="200" height="130" fill={`url(#${sky})`} />
         {/* 視差：背景只跟著鏡頭動一部分，推近、震動時才有景深 */}
         <g transform={`translate(${cam.cx} ${cam.cy}) scale(${(1 + (cam.z - 1) * 0.4) / cam.z}) translate(${-cam.cx - cam.dx * 0.6} ${-cam.cy - cam.dy * 0.6})`}>
-          <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} noMoon={noMoon} noSun={noSun} />
+          <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} noMoon={noMoon} noSun={noSun} noWindow={noWindow} />
         </g>
         <Ground kind={clip.bg.scenery} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} />
         <FloorDecor kind={clip.bg.scenery} t={t} />

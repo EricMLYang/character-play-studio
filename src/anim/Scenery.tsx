@@ -6,13 +6,13 @@ import { FLOOR, type Scenery as Kind } from './clip'
  * 顏色從劇本的 bg 推出來（遠的東西混進天空色，近的東西比較飽和），所以每支配色不同但都有景深。
  * 不會動的部分用 memo 畫一次；會動的（雲、泡泡、雪、星星、螢火蟲）只看 t。
  */
-type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string; noMoon?: boolean; noSun?: boolean }
+type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string; noMoon?: boolean; noSun?: boolean; noWindow?: boolean }
 
-export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid, noMoon, noSun }: Props) {
+export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid, noMoon, noSun, noWindow }: Props) {
   const c = palette(floor, sky, bottom)
   return <g aria-hidden>
     <SceneDefs uid={uid} c={c} />
-    <StaticBack kind={kind} c={c} uid={uid} noMoon={noMoon} noSun={noSun} />
+    <StaticBack kind={kind} c={c} uid={uid} noMoon={noMoon} noSun={noSun || noWindow} />
     {MOVING_BACK[kind]?.(t, c, uid)}
     <StaticMid kind={kind} c={c} uid={uid} />
   </g>
@@ -283,14 +283,14 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean, noSun?:
     </g>
   </>,
 
-  room: (c) => <>
+  room: (c, _uid, _m, noWindow) => <>
     {/* 牆：上半淡色壁紙，下半護牆板 */}
     {Array.from({ length: 18 }, (_, i) => <rect key={i} x={-20 + i * 12} y="-20" width="6" height={FLOOR - 16 + 20} fill="#fff" opacity=".1" />)}
     <rect x="-20" y={FLOOR - 16} width="200" height="16" fill={mix(c.bottom, '#8B6A4E', 0.3)} />
     <rect x="-20" y={FLOOR - 16} width="200" height="1.4" fill="#fff" opacity=".35" />
     {Array.from({ length: 11 }, (_, i) => <rect key={i} x={-16 + i * 18} y={FLOOR - 13} width="14" height="10" rx="1" fill="none" stroke="#000" strokeOpacity=".08" strokeWidth=".6" />)}
-    {/* 窗戶：外面是藍天，旁邊有窗簾 */}
-    <g>
+    {/* 窗戶：外面是藍天，旁邊有窗簾（劇本自己有窗戶時不畫） */}
+    {!noWindow && <g>
       <rect x="10" y="10" width="26" height="22" rx="1.2" fill="#9FD8FF" />
       <rect x="10" y="10" width="26" height="9" fill="#C9ECFF" />
       <ellipse cx="18" cy="17" rx="5" ry="1.8" fill="#fff" opacity=".9" />
@@ -301,7 +301,7 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean, noSun?:
       <path d="M32,8 L40,8 L40,34 L31,34 Q34,22 32,8 Z" fill="#F59AA8" />
       <path d="M6,8 L14,8 Q12,22 15,34 L12,34 Q9,22 10,8 Z" fill="#000" opacity=".08" />
       <rect x="4" y="6.5" width="38" height="2" rx="1" fill="#B88A5E" />
-    </g>
+    </g>}
     {/* 畫框與架子 */}
     <g>
       <rect x="128" y="12" width="20" height="15" rx="0.8" fill="#C9A06A" />
