@@ -88,8 +88,10 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   const sky = `sky${uid}`, gloss = `gloss${uid}`, vignette = `vig${uid}`, shine = `shine${uid}`, glyphClip = `gclip${uid}`
 
   const renderActor = (a: (typeof visible)[number]) => {
-    // 以腳底為支點：壓扁、翻倒都從地板上發生
-    const base = a.y + a.size * 0.42
+    // 以腳底為支點：壓扁、翻倒都從地板上發生。
+    // 但側躺（接近 90°）時身體會轉到地板下面，所以轉得越斜就把支點往上抬，側躺時剛好躺在地板上。
+    const tip = a.float ? 0 : Math.min(1, Math.abs(Math.sin((a.r * Math.PI) / 180)))
+    const base = a.y + a.size * 0.42 - tip * a.size * 0.42 * a.s
     // 站在地上的角色會微微呼吸，畫面不會有完全靜止的死角；每個角色節奏錯開
     const breath = a.float ? 0 : Math.sin(t * 6.9 + phase(a.id)) * 0.022
     // 3D 圖有些跟 Apple emoji 朝反方向，劇本照 Apple 寫，這裡再翻回來
