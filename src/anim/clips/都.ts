@@ -52,7 +52,7 @@ const clip: Clip = {
     { at: 5.1, kind: 'sweat', actor: 'pig' },
     { at: 6.4, kind: 'burst', x: 136, y: 44, emoji: '⭐', n: 7, dur: 0.6 },
     { at: 6.6, kind: 'dizzy', actor: 'ele', dur: 1.0 },
-    { at: 9.2, kind: 'pop', actor: 'ele', emoji: '🙋', dur: 0.8 },
+    { at: 9.2, kind: 'pop', actor: 'ele', emoji: '😆', dur: 0.8 },
   ],
   camera: [
     { at: 5.0, dur: 0.8, do: 'punch', amount: 0.15, to: { x: 30, y: 36 } },

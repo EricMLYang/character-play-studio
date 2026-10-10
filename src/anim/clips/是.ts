@@ -60,7 +60,7 @@ const clip: Clip = {
     { at: 5.6, kind: 'pop', actor: 'dog', emoji: '😮', dur: 0.6 },
     { at: 5.6, kind: 'pop', actor: 'cat', emoji: '😮', dur: 0.6 },
     { at: 5.7, kind: 'pop', actor: 'pig', emoji: '😳', dur: 0.7 },
-    { at: 8.4, kind: 'pop', actor: 'pig', emoji: '🙋', dur: 0.9 },
+    { at: 8.4, kind: 'pop', actor: 'pig', emoji: '😅', dur: 0.9 },
     { at: 8.6, kind: 'sweat', actor: 'pig' },
   ],
   camera: [
