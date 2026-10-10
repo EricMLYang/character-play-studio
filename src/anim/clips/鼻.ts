@@ -8,10 +8,10 @@ const clip: Clip = {
   duration: 10,
   bg: { top: '#F6FFE8', bottom: '#E0F3C6', floor: '#B4DB8A', scenery: 'forest' },
   actors: [
-    { id: 'flower', emoji: '🌻', x: 52, y: 73.2, size: 9, hidden: true },
-    { id: 'ele', emoji: '🐘', x: 30, y: 68.6, size: 20, hidden: true, flip: true },
-    { id: 'bee', emoji: '🐝', x: 52, y: 64, size: 5, hidden: true, float: true },
-    { id: 'drip', emoji: '💧', x: 30, y: 72, size: 4, hidden: true, float: true },
+    { id: 'flower', emoji: '🌻', x: 56, y: 70, size: 15, hidden: true },
+    { id: 'ele', emoji: '🐘', x: 28, y: 67, size: 24, hidden: true, flip: true },
+    { id: 'bee', emoji: '🐝', x: 56, y: 60, size: 8, hidden: true, float: true },
+    { id: 'drip', emoji: '💧', x: 30, y: 73, size: 6, hidden: true, float: true },
   ],
   moves: [
     { at: 0, actor: 'flower', do: 'pop' },
@@ -21,14 +21,14 @@ const clip: Clip = {
     { at: 1.3, actor: 'ele', do: 'tilt', amount: 12, dur: 0.6 },
     // 蜜蜂飛出來，鑽進鼻子
     { at: 2.0, actor: 'bee', do: 'pop' },
-    { at: 2.2, actor: 'bee', do: 'moveTo', to: { x: 41, y: 70 }, dur: 0.3, arc: 4 },
+    { at: 2.2, actor: 'bee', do: 'moveTo', to: { x: 39, y: 70 }, dur: 0.3, arc: 4 },
     { at: 2.5, actor: 'bee', do: 'vanish', dur: 0.08 },
     // 哈……（沒打出來）
     { at: 2.9, actor: 'ele', do: 'squash', amount: -0.3, dur: 0.6 },
     // 哈……哈……哈啾！
     { at: 3.9, actor: 'ele', do: 'squash', amount: -0.38, dur: 0.6 },
     { at: 4.5, actor: 'ele', do: 'squash', amount: 0.45, dur: 0.3 },
-    { at: 4.5, actor: 'ele', do: 'moveTo', to: { x: 20, y: 68.6 }, dur: 0.3 },
+    { at: 4.5, actor: 'ele', do: 'moveTo', to: { x: 20, y: 67 }, dur: 0.3 },
     { at: 4.5, actor: 'bee', do: 'pop', dur: 0.05 },
     { at: 4.5, actor: 'bee', do: 'moveTo', to: { x: 180, y: 34 }, dur: 0.4 },
     { at: 4.5, actor: 'bee', do: 'spin', dur: 0.4, times: 3 },
@@ -39,12 +39,12 @@ const clip: Clip = {
     { at: 6.3, actor: 'drip', do: 'pop' },
     { at: 6.4, actor: 'drip', do: 'bounce', dur: 0.6, times: 2, amount: -1.5 },
     { at: 7.1, actor: 'ele', do: 'squash', amount: -0.15, dur: 0.3 },
-    { at: 7.1, actor: 'drip', do: 'moveTo', to: { x: 25, y: 69 }, dur: 0.2 },
+    { at: 7.1, actor: 'drip', do: 'moveTo', to: { x: 27, y: 69 }, dur: 0.2 },
     { at: 7.3, actor: 'drip', do: 'vanish', dur: 0.05 },
     // 蜜蜂氣沖沖飛回來，又鑽進去
     { at: 8.0, actor: 'bee', do: 'moveTo', to: { x: 58, y: 52 }, dur: 0.01 },
     { at: 8.0, actor: 'bee', do: 'enter', from: { x: 175, y: 30 }, dur: 0.6 },
-    { at: 8.7, actor: 'bee', do: 'moveTo', to: { x: 31, y: 70 }, dur: 0.25 },
+    { at: 8.7, actor: 'bee', do: 'moveTo', to: { x: 31, y: 69 }, dur: 0.25 },
     { at: 8.95, actor: 'bee', do: 'vanish', dur: 0.05 },
     { at: 9.0, actor: 'ele', do: 'squash', amount: -0.3, dur: 0.6 },
     { at: 9.6, actor: 'bee', do: 'pop', dur: 0.05 },
