@@ -13,7 +13,7 @@ const clip: Clip = {
     { id: 'c1', emoji: '☁️', x: 20, y: 22, size: 12.5, hidden: true, float: true },
     { id: 'c2', emoji: '☁️', x: 144, y: 50, size: 12.5, hidden: true, float: true },
     { id: 'c3', emoji: '☁️', x: 40, y: 10, size: 11.2, hidden: true, float: true },
-    { id: 'peng', emoji: '🐧', x: 144, y: 71.2, size: 13.8, hidden: true },
+    { id: 'peng', emoji: '🐧', x: 140, y: 71.2, size: 13.8, hidden: true },
   ],
   moves: [
     { at: 0, actor: 'plane', do: 'rotateTo', amount: 45, dur: 0 },
