@@ -394,8 +394,8 @@ const MID: Partial<Record<Kind, (c: Pal, uid: string) => JSX.Element>> = {
   </>,
   desert: (c) => <>
     <path d={ridge([4, 9, 6, 2, 2, 3, 8, 5], FLOOR, 200)} fill={mix(c.floor, '#fff', 0.15)} />
-    <Cactus x={14} base={FLOOR + 1} h={16} />
-    <Cactus x={148} base={FLOOR + 1} h={12} />
+    <Cactus x={5} base={FLOOR + 1} h={15} />
+    <Cactus x={157} base={FLOOR + 1} h={12} />
   </>,
   city: (c) => <>
     {/* 近一點的大樓：有明暗面、會亮的窗戶 */}
