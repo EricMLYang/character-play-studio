@@ -53,8 +53,8 @@ const clip: Clip = {
     ...pressStack(4.2, 0.45, 0.5, 15, ['box']),
     // 箱子掉下來，樹懶躺平
     { at: 4.88, actor: 'box', do: 'moveTo', to: { x: 44, y: 72.8 }, arc: 4, dur: 0.25 },
-    { at: 4.99, actor: 'sloth', do: 'rotateTo', amount: 90, dur: 0.4 },
-    { at: 4.99, actor: 'sloth', do: 'moveTo', to: { x: 22, y: 63.2 }, dur: 0.4 },
+    { at: 4.99, actor: 'sloth', do: 'squash', amount: 0.35, dur: 0.5 },
+    { at: 4.99, actor: 'sloth', do: 'moveTo', to: { x: 24, y: 69.1 }, dur: 0.4 },
     { at: 5.15, actor: 'box', do: 'vanish', dur: 0.15 },
     // 螞蟻丟來毛線球
     { at: 5.55, actor: 'yarn', do: 'pop' },
@@ -67,8 +67,7 @@ const clip: Clip = {
     { at: 8.68, actor: 'truck', do: 'moveTo', to: { x: 200, y: 67.8 }, dur: 0.8 },
     { at: 8.68, actor: 'ant', do: 'moveTo', to: { x: 200, y: 55 }, dur: 0.8 },
     // 樹懶醒來，用超慢速度追
-    { at: 8.9, actor: 'sloth', do: 'rotateTo', amount: -90, dur: 0.3 },
-    { at: 8.9, actor: 'sloth', do: 'moveTo', to: { x: 28, y: 69.1 }, dur: 0.3 },
+    { at: 8.9, actor: 'sloth', do: 'hop', amount: 5, dur: 0.3 },
     { at: 9.21, actor: 'sloth', do: 'moveTo', to: { x: 33, y: 69.1 }, dur: 0.9 },
   ],
   builds: [
