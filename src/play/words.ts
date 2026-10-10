@@ -19,6 +19,12 @@ export const WORDS: { chars: string; label?: string }[] = [
   { chars: '米飯' }, { chars: '吃瓜' }, { chars: '紅豆' }, { chars: '水餃' }, { chars: '月餅' }, { chars: '蛋糕' }, { chars: '糖果' }, { chars: '湯麵' }, { chars: '菜包' }, { chars: '木耳' },
   // 家裡
   { chars: '書桌' }, { chars: '紙筆' }, { chars: '畫板' }, { chars: '門窗' }, { chars: '竹椅' }, { chars: '秒鐘' }, { chars: '夜燈' }, { chars: '刀劍' },
+  // 新開放的字
+  { chars: '爸媽' }, { chars: '姐妹' }, { chars: '公婆' }, { chars: '你好' }, { chars: '可愛' }, { chars: '喜樂' }, { chars: '新舊' },
+  { chars: '太空' }, { chars: '不要' }, { chars: '來去' }, { chars: '都是' }, { chars: '很乖' }, { chars: '也會' },
+  { chars: '一三四五六七八九十千', label: '🔢 數一數' }, { chars: '橙粉棕', label: '🎨 顏色' },
+  { chars: '哥弟叔姑孫', label: '👪 一家人' }, { chars: '今昨午晚年時分', label: '🕐 時間' },
+  { chars: '他給在有呆背甲長老露粥相親', label: '🌟 新來的字' },
   // 湊不成詞的，用主題收
   { chars: '口日目田中', label: '🔲 有方框的字' }, { chars: '眼腦髮腳', label: '🙋 我的身體' },
   { chars: '獅哭醜累', label: '🦁 獅子怎麼了？' }, { chars: '湖虹', label: '🌈 湖上有彩虹' },

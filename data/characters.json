@@ -4026,7 +4026,6 @@
       "priority": 84,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9afc5567-ea34-437d-a157-d8ea773eb8e8",
       "promptedAt": "2026-10-03T07:23:19.450Z"
     },
@@ -4140,7 +4139,6 @@
       "priority": 87,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6c482241-8fa8-4cac-ac4c-ebc83a030b0a",
       "promptedAt": "2026-10-03T07:23:18.240Z"
     },
@@ -4172,7 +4170,6 @@
       "priority": 88,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6941168b-9276-456a-9a28-bcdeaf0aa8ec",
       "promptedAt": "2026-10-03T07:23:17.814Z"
     },
@@ -4253,7 +4250,6 @@
       "priority": 90,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8fd21ab2-8adc-406a-88ea-d14147aa29a3",
       "promptedAt": "2026-10-03T07:23:17.850Z"
     },
@@ -4285,7 +4281,6 @@
       "priority": 91,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6eab0630-2816-447e-8f57-5905b059ecc8",
       "promptedAt": "2026-10-03T07:23:18.348Z"
     },
@@ -4317,7 +4312,6 @@
       "priority": 92,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3b0af979-b6c5-4f72-b37d-c7c5e8934471",
       "promptedAt": "2026-10-03T07:23:17.934Z"
     },
@@ -4349,7 +4343,6 @@
       "priority": 93,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "cb26c39a-f898-4f78-b1cb-c12e4ae56df3",
       "promptedAt": "2026-10-03T07:23:18.034Z"
     },
@@ -4381,7 +4374,6 @@
       "priority": 94,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b9ff3e54-13b0-46b4-8138-0e2237860881",
       "promptedAt": "2026-10-03T07:23:17.833Z"
     },
@@ -4413,7 +4405,6 @@
       "priority": 95,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2e8a5c14-3fa7-4327-8f85-a39306f995a0",
       "promptedAt": "2026-10-03T07:23:18.000Z"
     },
@@ -4445,7 +4436,6 @@
       "priority": 96,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c31806d3-4965-49bc-98b2-4f18c1dd140e",
       "promptedAt": "2026-10-03T07:27:15.253Z"
     },
@@ -4477,7 +4467,6 @@
       "priority": 97,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "73bedc47-795b-4f9f-bc6a-15e74f678a45",
       "promptedAt": "2026-10-03T07:23:18.157Z"
     },
@@ -4560,7 +4549,6 @@
       "priority": 99,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "872a4585-d599-4c81-84d4-125c774e56e1",
       "promptedAt": "2026-10-03T07:23:18.183Z"
     },
@@ -4643,7 +4631,6 @@
       "priority": 101,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d14f779b-4bea-4c62-8daf-15323a77e01f",
       "promptedAt": "2026-10-03T07:27:15.361Z"
     },
@@ -4676,7 +4663,6 @@
       "priority": 102,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ddfcb066-5351-4280-88b2-3788634d4f4f",
       "promptedAt": "2026-10-03T07:27:15.335Z"
     },
@@ -4709,7 +4695,6 @@
       "priority": 103,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "de71ebdb-a45c-45f1-ab0d-da4310a9d94e",
       "promptedAt": "2026-10-03T07:27:27.937Z"
     },
@@ -4742,7 +4727,6 @@
       "priority": 104,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "006bd196-5a28-4560-bed1-1c4c77314ac8",
       "promptedAt": "2026-10-03T07:23:18.827Z"
     },
@@ -4775,7 +4759,6 @@
       "priority": 105,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c2e2b7a3-c3da-41e0-a617-2d32de4323f7",
       "promptedAt": "2026-10-03T07:23:17.867Z"
     },
@@ -4808,7 +4791,6 @@
       "priority": 106,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "809b4121-ec9e-46dd-998d-da608b1a9311",
       "promptedAt": "2026-10-03T07:27:16.301Z"
     },
@@ -4841,7 +4823,6 @@
       "priority": 107,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "a67ede91-500e-4b06-9ecd-c1d366834dc2",
       "promptedAt": "2026-10-03T07:23:17.967Z"
     },
@@ -4874,7 +4855,6 @@
       "priority": 108,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5a6469df-d3f7-4a2b-b974-c3ac72dee963",
       "promptedAt": "2026-10-03T07:27:15.529Z"
     },
@@ -4907,7 +4887,6 @@
       "priority": 109,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8cfe0014-53a3-460e-aefe-8de969d0f73d",
       "promptedAt": "2026-10-03T07:27:15.755Z"
     },
@@ -4939,7 +4918,6 @@
       "priority": 110,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3061d50e-8fdd-4870-b5a9-e5f92d1836b6",
       "promptedAt": "2026-10-03T07:23:18.557Z"
     },
@@ -4972,7 +4950,6 @@
       "priority": 111,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b0f1562f-7893-45c5-b256-55aa3d01c447",
       "promptedAt": "2026-10-03T07:27:15.797Z"
     },
@@ -5009,7 +4986,6 @@
       "priority": 112,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9a05e239-2fb5-4d6d-b1ec-e7f37f8d97a6",
       "promptedAt": "2026-10-03T07:27:15.284Z"
     },
@@ -5046,7 +5022,6 @@
       "priority": 113,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "39750b65-5dcf-463d-b82f-81ce5c79f6e4",
       "promptedAt": "2026-10-03T07:27:17.846Z"
     },
@@ -5083,7 +5058,6 @@
       "priority": 114,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6f031f91-2b7c-4754-b4ee-97f496bb4419",
       "promptedAt": "2026-10-03T07:27:17.703Z"
     },
@@ -5120,7 +5094,6 @@
       "priority": 115,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9dbcc4c2-5fad-4477-ac6d-3a2d3c13c3ab",
       "promptedAt": "2026-10-03T07:27:15.590Z"
     },
@@ -5157,7 +5130,6 @@
       "priority": 116,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6b3d99fa-4132-40f7-a577-bc0c410039ed",
       "promptedAt": "2026-10-03T07:27:16.272Z"
     },
@@ -5193,7 +5165,6 @@
       "priority": 117,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3a3795a5-67ab-4aef-b0f2-2f5ff61702c1",
       "promptedAt": "2026-10-03T07:27:17.259Z"
     },
@@ -5230,7 +5201,6 @@
       "priority": 118,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "41b26fcd-9a8f-4db2-a6c9-3ae84614e2a8",
       "promptedAt": "2026-10-03T07:27:16.751Z"
     },
@@ -5267,7 +5237,6 @@
       "priority": 119,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3af76a43-8a01-40e1-a65e-6fa1f0d1f85a",
       "promptedAt": "2026-10-03T07:27:15.886Z"
     },
@@ -5304,7 +5273,6 @@
       "priority": 120,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0b035f48-e2b2-4b1b-ad85-653955631f43",
       "promptedAt": "2026-10-03T07:27:15.654Z"
     },
@@ -5341,7 +5309,6 @@
       "priority": 121,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d1d3ee64-a2df-4265-8238-df5c053f74a3",
       "promptedAt": "2026-10-03T07:27:15.840Z"
     },
@@ -5378,7 +5345,6 @@
       "priority": 122,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "af11e399-b985-47d8-bfe1-a97787b73d62",
       "promptedAt": "2026-10-03T07:23:18.402Z"
     },
@@ -5415,7 +5381,6 @@
       "priority": 123,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "64c6d494-1ce1-4b8e-ad12-2d10286072e2",
       "promptedAt": "2026-10-03T07:23:18.537Z"
     },
@@ -5452,7 +5417,6 @@
       "priority": 124,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "4d047315-6d1c-42ee-91a7-824b5ce592d3",
       "promptedAt": "2026-10-03T07:23:18.017Z"
     },
@@ -5489,7 +5453,6 @@
       "priority": 125,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d24b33a3-2bf2-4530-9f3d-d5ab7e2ef19b",
       "promptedAt": "2026-10-03T07:23:18.438Z"
     },
@@ -5526,7 +5489,6 @@
       "priority": 126,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "bd929899-1c90-4d6b-a1da-2fd90a6ffba8",
       "promptedAt": "2026-10-03T07:23:18.456Z"
     },
@@ -5563,7 +5525,6 @@
       "priority": 127,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9892d675-1b59-4d21-a7d8-86e761855251",
       "promptedAt": "2026-10-03T07:27:15.555Z"
     },
@@ -5600,7 +5561,6 @@
       "priority": 128,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8b17e935-8cae-48d6-9f3a-aed348f176bc",
       "promptedAt": "2026-10-03T07:23:18.420Z"
     },
@@ -5781,7 +5741,6 @@
       "priority": 133,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6a902774-2b88-4475-86d7-3d642a138d30",
       "promptedAt": "2026-10-03T07:23:19.895Z"
     },
@@ -5925,7 +5884,6 @@
       "priority": 137,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2fb228c4-cd4f-4ebe-8c04-de950f1869f1",
       "promptedAt": "2026-10-03T07:23:19.361Z"
     },
@@ -6465,7 +6423,6 @@
       "priority": 149,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8cf9f4e0-cef8-48de-bb3f-ef22fce62c84",
       "promptedAt": "2026-10-03T07:27:16.523Z"
     },
@@ -6501,7 +6458,6 @@
       "priority": 150,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b80909b9-e821-4d65-9f24-56587af377a1",
       "promptedAt": "2026-10-03T07:27:17.109Z"
     },
@@ -6538,7 +6494,6 @@
       "priority": 151,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5120230c-ca95-4912-9a2b-c37f5b70f848",
       "promptedAt": "2026-10-03T07:27:16.424Z"
     },
@@ -6898,7 +6853,6 @@
       "priority": 160,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "97868571-2a02-4ec9-81d5-f4a21f941f72",
       "promptedAt": "2026-10-03T07:23:20.308Z"
     },
@@ -7219,7 +7173,6 @@
       "priority": 170,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6fc7d7d3-c1a6-41fe-96c2-9d05f9a7f022",
       "promptedAt": "2026-10-03T07:23:19.006Z"
     },
@@ -7252,7 +7205,6 @@
       "priority": 171,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "68b3c182-44b3-401a-ba1e-b656fa622823",
       "promptedAt": "2026-10-03T07:23:18.312Z"
     },
@@ -7285,7 +7237,6 @@
       "priority": 172,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "a23eb698-6456-4ebe-b95b-3d99331293b9",
       "promptedAt": "2026-10-03T07:23:18.615Z"
     },
@@ -7445,7 +7396,6 @@
       "priority": 177,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "232595b5-cac4-46cc-92f7-4c90978bd53e",
       "promptedAt": "2026-10-03T07:23:20.432Z"
     },
@@ -7510,7 +7460,6 @@
       "priority": 179,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d56eec62-521c-4b2f-b464-62f7874e4c60",
       "promptedAt": "2026-10-03T07:23:19.782Z"
     },
@@ -7543,7 +7492,6 @@
       "priority": 180,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "dcfc8594-cdf1-4ee7-9f97-0143125e62a4",
       "promptedAt": "2026-10-03T07:23:18.768Z"
     },
@@ -7575,7 +7523,6 @@
       "priority": 181,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "7e327a59-1e22-427e-8e9c-b3d47528f0d9",
       "promptedAt": "2026-10-03T07:23:20.052Z"
     },
@@ -7722,7 +7669,6 @@
       "priority": 185,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6e3e6a04-e283-4bb1-b5ba-563eb333c69e",
       "promptedAt": "2026-10-03T07:23:17.901Z"
     },
@@ -7901,7 +7847,6 @@
       "priority": 190,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "82cbe1c9-f232-4660-8b87-c82510671706",
       "promptedAt": "2026-10-03T07:23:18.518Z"
     },
@@ -7933,7 +7878,6 @@
       "priority": 191,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d869e39b-c274-4fa3-9c50-608a8f2dada4",
       "promptedAt": "2026-10-03T07:23:18.846Z"
     },
@@ -7970,7 +7914,6 @@
       "priority": 192,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "de51f3c0-ba0f-44d6-9f75-a90e45c789c1",
       "promptedAt": "2026-10-03T07:23:18.086Z"
     },
@@ -8075,7 +8018,6 @@
       "priority": 195,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "f510e150-fc2a-42de-83ec-1ab5bd3ba970",
       "promptedAt": "2026-10-03T07:27:16.233Z"
     },
@@ -8107,7 +8049,6 @@
       "priority": 196,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "f8d84d0a-7123-4194-b742-33a9a88b30c2",
       "promptedAt": "2026-10-03T07:23:17.950Z"
     },
@@ -8135,7 +8076,6 @@
       "priority": 197,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "eaacfd5f-517e-465b-828d-7893a7343b3b",
       "promptedAt": "2026-10-03T07:23:18.807Z"
     },
@@ -8208,7 +8148,6 @@
       "priority": 199,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "fb6dd2f5-c0d6-40d5-8312-0d34e865fba5",
       "promptedAt": "2026-10-03T07:23:18.203Z"
     },
@@ -9445,7 +9384,6 @@
       "priority": 235,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6698e379-63f5-4324-a929-f34f63186e4b",
       "promptedAt": "2026-10-03T07:27:17.032Z"
     },
@@ -9618,7 +9556,6 @@
       "priority": 240,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "96be6adc-6105-4c31-951a-71507939da3d",
       "promptedAt": "2026-10-03T07:27:17.993Z"
     },
@@ -10119,7 +10056,6 @@
       "priority": 254,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "4bf0e779-3991-4d8c-99ee-e5576508c726",
       "promptedAt": "2026-10-03T07:27:17.137Z"
     },
@@ -10972,6 +10908,14 @@
         "attempts": []
       },
       "2026-10-10": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-11": {
         "queue": [
           "喝",
           "眼",
