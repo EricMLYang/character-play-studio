@@ -3513,7 +3513,7 @@
           "audioMode": "original",
           "volume": 0.7,
           "feedbackCount": 0,
-          "checkedAt": "2026-10-03T07:32:54.682Z",
+          "checkedAt": "2026-10-10T00:12:48.452Z",
           "checks": {
             "shape": true,
             "pronunciation": true,
@@ -3556,7 +3556,6 @@
       "priority": 74,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "22ce02ae-ba6d-4ac3-bc24-bceeaa46cc53",
       "promptedAt": "2026-10-03T07:23:18.259Z"
     },
@@ -3585,13 +3584,30 @@
         "hook": "一個戴著藍色棒球帽、臉上掛著笑容的玩具男孩公仔，開心地揮揮手，還轉了一個小圈圈。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 75,
-      "media": [],
+      "media": [
+        {
+          "file": "男-7ad29db8-6c0f-466b-b963-28943490c477.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-09T09:03:51.042Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-09T09:04:06.726Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "87602561-5dfc-46e5-b746-3891ec229cbb",
-      "promptedAt": "2026-10-03T07:23:19.382Z"
+      "promptedAt": "2026-10-03T07:23:19.382Z",
+      "needsRedo": false
     },
     {
       "char": "尖",
@@ -3666,23 +3682,30 @@
         "morph": "the glyph 問 stands still as a solid sculpture while the toy owl tilts its head side to side and the balloon bobs gently overhead",
         "hook": "一隻好奇的玩具貓頭鷹頭上飄著一顆黃色問號氣球，牠歪著頭東看看、西看看，氣球也跟著輕輕晃來晃去。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 77,
       "media": [
         {
           "file": "問-5ce7f134-5a57-4414-8789-e60581637973.mp4",
           "kind": "video",
           "addedAt": "2026-10-04T01:12:37.747Z",
-          "review": "draft",
+          "review": "published",
           "audioMode": "original",
           "volume": 0.7,
-          "feedbackCount": 0
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:12:26.504Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
         }
       ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "690f2031-719a-40d7-8461-2ab3090de01b",
-      "promptedAt": "2026-10-03T07:23:18.295Z"
+      "promptedAt": "2026-10-03T07:23:18.295Z",
+      "needsRedo": false
     },
     {
       "char": "間",
@@ -3709,13 +3732,30 @@
         "hook": "一間迷你玩具房間裡擺著小小的家具，一個玩具小人走進去，「啪」地打開一盞迷你檯燈，房間立刻亮了起來。"
       },
       "scene": "grow",
-      "status": "prompted",
+      "status": "live",
       "priority": 78,
-      "media": [],
+      "media": [
+        {
+          "file": "間-3933fc7e-73fb-4426-9598-4e46961fac75.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-10T00:15:35.046Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:17:03.362Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "164ff07f-3c62-4e5f-bde0-c2b10337be85",
-      "promptedAt": "2026-10-03T07:23:20.481Z"
+      "promptedAt": "2026-10-03T07:23:20.481Z",
+      "needsRedo": false
     },
     {
       "char": "雷",
@@ -3756,7 +3796,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "97fe6801-2efe-41ea-85be-dac09ca0d807",
       "promptedAt": "2026-10-03T07:23:20.581Z"
     },
@@ -3785,13 +3824,30 @@
         "hook": "一面鑲著小塑膠花的閃亮玩具鏡框立在舞台上，一道亮晶晶的光掃過鏡面，鏡子跟著閃閃發光。"
       },
       "scene": "glow",
-      "status": "prompted",
+      "status": "live",
       "priority": 80,
-      "media": [],
+      "media": [
+        {
+          "file": "美-7af315c1-6ba5-432f-a84e-64da9dd03bd5.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-09T09:00:59.447Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-09T09:01:27.730Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "85ddd15e-3896-4812-bc13-cefaacd0039a",
-      "promptedAt": "2026-10-03T07:23:19.761Z"
+      "promptedAt": "2026-10-03T07:23:19.761Z",
+      "needsRedo": false
     },
     {
       "char": "加",
@@ -3818,13 +3874,30 @@
         "hook": "玩具加油槍旁邊擺著一塊積木，另一塊積木緩緩飄過來，「啪」地一聲疊上去，變成兩塊疊在一起的積木。"
       },
       "scene": "zap",
-      "status": "prompted",
+      "status": "live",
       "priority": 81,
-      "media": [],
+      "media": [
+        {
+          "file": "加-82c864db-8c93-4a3e-98b6-fc7b14a764cc.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-10T00:06:40.363Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:06:57.988Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "d9d46c0d-e6e7-4d91-98e3-7fc72f82af34",
-      "promptedAt": "2026-10-03T07:23:18.103Z"
+      "promptedAt": "2026-10-03T07:23:18.103Z",
+      "needsRedo": false
     },
     {
       "char": "閃",
@@ -3851,13 +3924,29 @@
         "hook": "一根裝在彈簧上的亮晶晶玩具閃電，「咻」地往旁邊快速一閃，又立刻定住不動。"
       },
       "scene": "fire",
-      "status": "prompted",
+      "status": "live",
       "priority": 82,
-      "media": [],
+      "media": [
+        {
+          "file": "閃-2ca5ab1e-01de-4b00-abd6-563aec3c1b43.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-10T00:11:31.460Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:11:49.178Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "22127cbb-fd48-4db8-bf39-5408d6f93913",
-      "promptedAt": "2026-10-03T07:23:20.457Z"
+      "promptedAt": "2026-10-03T07:23:20.457Z",
+      "needsRedo": false
     },
     {
       "char": "東",
@@ -3883,13 +3972,30 @@
         "morph": "the glyph 東 stands still as a solid sculpture while the compass needle wobbles and finally settles pointing straight at the tiny sunrise",
         "hook": "一個玩具指南針的紅色指針晃了又晃，最後穩穩地指向舞台上一個迷你玩具日出背景。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 83,
-      "media": [],
+      "media": [
+        {
+          "file": "東-e73ff0bd-c133-4690-a7b5-b84ab31f8f02.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-10T00:20:22.028Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:20:57.490Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "7c254903-cf76-483e-83cc-26628d2b68a2",
-      "promptedAt": "2026-10-03T07:23:18.886Z"
+      "promptedAt": "2026-10-03T07:23:18.886Z",
+      "needsRedo": false
     },
     {
       "char": "相",
@@ -3948,13 +4054,30 @@
         "morph": "the glyph 聞 stands still as a solid sculpture while the toy puppy's nose wiggles and little scent swirls drift up from the toy flower",
         "hook": "一隻玩具小狗鼻子誇張地抽動著，幾道小小的香氣線條從旁邊的玩具小花飄向牠的鼻子。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 85,
-      "media": [],
+      "media": [
+        {
+          "file": "聞-255ccbbc-33b2-4b0e-b03d-ac9c33032ebd.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-09T13:05:05.729Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-09T13:05:24.542Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "1a7b0cb6-6410-449f-bdf7-a83a8b746f09",
-      "promptedAt": "2026-10-03T07:23:19.805Z"
+      "promptedAt": "2026-10-03T07:23:19.805Z",
+      "needsRedo": false
     },
     {
       "char": "岩",
@@ -3985,7 +4108,6 @@
       "priority": 86,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3e2beecb-a110-468c-bcee-7b69207d378a",
       "promptedAt": "2026-10-03T07:23:18.499Z"
     },
@@ -4078,13 +4200,30 @@
         "morph": "the two drumsticks glide into place one above the other, forming two even horizontal bars stacked with a small gap between them",
         "hook": "兩根一模一樣的亮亮玩具鼓棒本來並排躺著，慢慢滑動疊成上下兩條橫線，中間留著一點小小的空隙。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 89,
-      "media": [],
+      "media": [
+        {
+          "file": "二-5cfaac99-febe-4b25-87a8-2c4391b905bd.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-10T00:04:21.525Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-10T00:04:38.310Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "fb1744dd-79d3-42b4-900f-bbe4149a7c14",
-      "promptedAt": "2026-10-03T07:23:17.918Z"
+      "promptedAt": "2026-10-03T07:23:17.918Z",
+      "needsRedo": false
     },
     {
       "char": "三",
@@ -4367,13 +4506,30 @@
         "hook": "一座亮晶晶的玩具金色獎盃頂著一個閃亮的太陽形勳章，獎盃轉了一圈，勳章跟著閃了一下光。"
       },
       "scene": "glow",
-      "status": "prompted",
+      "status": "live",
       "priority": 98,
-      "media": [],
+      "media": [
+        {
+          "file": "百-c338af05-1851-48c4-ad50-df214927c98c.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-06T11:50:12.312Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-06T11:50:31.759Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "bf993e52-7306-4f2b-b974-0bed627a8a43",
-      "promptedAt": "2026-10-03T07:27:16.910Z"
+      "promptedAt": "2026-10-03T07:27:16.910Z",
+      "needsRedo": false
     },
     {
       "char": "千",
@@ -4433,13 +4589,30 @@
         "hook": "一面小玩具鏡子前站著一個開心的玩具小人，牠對著鏡子裡的自己揮揮手，還拍了拍自己的胸口。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 100,
-      "media": [],
+      "media": [
+        {
+          "file": "我-338c132e-8513-4e53-941a-f9890ef22b60.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-06T12:10:42.788Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-06T12:10:59.470Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "32373549-e378-4e07-9046-cc211403515a",
-      "promptedAt": "2026-10-03T07:27:16.076Z"
+      "promptedAt": "2026-10-03T07:27:16.076Z",
+      "needsRedo": false
     },
     {
       "char": "你",
@@ -5464,7 +5637,6 @@
       "priority": 129,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b5662f5f-435c-4da6-aa75-9a89d6923820",
       "promptedAt": "2026-10-03T07:23:20.823Z"
     },
@@ -5501,7 +5673,6 @@
       "priority": 130,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c7d9b0ef-730e-448b-9970-5153002b21cd",
       "promptedAt": "2026-10-03T07:23:18.330Z"
     },
@@ -5538,7 +5709,6 @@
       "priority": 131,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "784503f8-fb57-44d2-ba48-03dfe2d64580",
       "promptedAt": "2026-10-03T07:23:19.277Z"
     },
@@ -5575,7 +5745,6 @@
       "priority": 132,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e58a5ea9-22da-4b9e-8568-55169738fff9",
       "promptedAt": "2026-10-03T07:23:19.961Z"
     },
@@ -5649,7 +5818,6 @@
       "priority": 134,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "4f2afc6a-83d8-4a19-8439-f7cc0c9f3554",
       "promptedAt": "2026-10-03T07:23:19.849Z"
     },
@@ -5686,7 +5854,6 @@
       "priority": 135,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3d3707ba-a44d-4bc8-a063-2fc0873f2f82",
       "promptedAt": "2026-10-03T07:23:20.029Z"
     },
@@ -5723,7 +5890,6 @@
       "priority": 136,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "70943228-9015-4285-93d2-687a049efe9a",
       "promptedAt": "2026-10-03T07:23:18.692Z"
     },
@@ -5796,7 +5962,6 @@
       "priority": 138,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0d92ece8-5792-401a-8d33-db223da2b9e7",
       "promptedAt": "2026-10-03T07:23:20.678Z"
     },
@@ -5833,7 +5998,6 @@
       "priority": 139,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e8bd423c-57f3-4e6a-8eac-00dcc965dd01",
       "promptedAt": "2026-10-03T07:23:19.872Z"
     },
@@ -5870,7 +6034,6 @@
       "priority": 140,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "68e3b61c-9a1a-489f-a697-45c1e067363f",
       "promptedAt": "2026-10-03T07:23:19.984Z"
     },
@@ -5907,7 +6070,6 @@
       "priority": 141,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5e0811c5-00f0-41c8-8274-d320bf653418",
       "promptedAt": "2026-10-03T07:23:20.006Z"
     },
@@ -5940,13 +6102,30 @@
         "hook": "絨毛玩偶臉上兩條毛毛蟲造型的眉毛忽然動了起來，一下往上挑、一下往下皺，最後彎成一對開心的小彎月，玩偶整張臉都跟著笑開了。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 142,
-      "media": [],
+      "media": [
+        {
+          "file": "眉-e4b613b9-d1d2-42a2-8a84-e61c91596be7.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-08T10:37:40.286Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-08T10:37:58.247Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "f703acaf-5834-418e-b0e4-4da01cd8a260",
-      "promptedAt": "2026-10-03T07:23:19.474Z"
+      "promptedAt": "2026-10-03T07:23:19.474Z",
+      "needsRedo": false
     },
     {
       "char": "紅",
@@ -5981,7 +6160,6 @@
       "priority": 143,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "7b1e0ce3-b0a5-4bba-96e9-57ba00c08cdd",
       "promptedAt": "2026-10-03T07:27:17.183Z"
     },
@@ -6014,13 +6192,30 @@
         "hook": "亮黃色的玩具小鴨浮在小澡盆裡，一道陽光灑下來，鴨子身上的黃色瞬間亮得像金子一樣，牠還得意地「嘎」了一聲，晃了晃尾巴。"
       },
       "scene": "glow",
-      "status": "prompted",
+      "status": "live",
       "priority": 144,
-      "media": [],
+      "media": [
+        {
+          "file": "黃-28086f2d-f3cd-4cd9-97e1-d77e43f59c41.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-08T10:44:38.975Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-08T10:44:56.590Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "c7477d78-f2c3-45c5-9ff6-1a74d3e42a12",
-      "promptedAt": "2026-10-03T07:23:20.774Z"
+      "promptedAt": "2026-10-03T07:23:20.774Z",
+      "needsRedo": false
     },
     {
       "char": "藍",
@@ -6051,13 +6246,30 @@
         "hook": "藍色的玩具鯨魚圓圓的臉上笑咪咪的，頭頂的噴水孔忽然「咻」地噴出一道小水柱，水花在陽光下閃著藍藍的光，像把整片海洋都噴了出來。"
       },
       "scene": "rain",
-      "status": "prompted",
+      "status": "live",
       "priority": 145,
-      "media": [],
+      "media": [
+        {
+          "file": "藍-3695aacb-6976-4d4f-9643-659d7db517a0.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-08T10:49:08.669Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-08T10:50:04.811Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "de008fd1-2793-47ae-a553-a1e7261f8225",
-      "promptedAt": "2026-10-03T07:23:20.122Z"
+      "promptedAt": "2026-10-03T07:23:20.122Z",
+      "needsRedo": false
     },
     {
       "char": "綠",
@@ -6088,13 +6300,30 @@
         "hook": "綠色的玩具青蛙坐在圓圓的荷葉積木上，鼓起腮幫子「呱」地叫了一聲，牠身邊的荷葉積木周圍竟冒出一圈嫩綠色的小葉子，越長越茂盛。"
       },
       "scene": "grow",
-      "status": "prompted",
+      "status": "live",
       "priority": 146,
-      "media": [],
+      "media": [
+        {
+          "file": "綠-273579df-20e6-4a00-9811-0d1fa392756f.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-08T10:52:02.536Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-08T10:52:24.814Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "2784d639-423e-452c-828f-831cc2048b15",
-      "promptedAt": "2026-10-03T07:23:19.738Z"
+      "promptedAt": "2026-10-03T07:23:19.738Z",
+      "needsRedo": false
     },
     {
       "char": "白",
@@ -6125,13 +6354,30 @@
         "hook": "圓滾滾的白色玩具綿羊站在小山丘積木上，牠身上的毛忽然蓬鬆地脹大了起來，變得又大又白，像一朵飄下來的雲，牠還滿意地咩了一聲。"
       },
       "scene": "glow",
-      "status": "prompted",
+      "status": "live",
       "priority": 147,
-      "media": [],
+      "media": [
+        {
+          "file": "白-a816c9a8-fc1c-4b12-9915-cf743478e8ce.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-05T12:52:40.755Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-05T12:52:57.850Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "8d94df3a-b59a-4391-a1cb-11247bef9253",
-      "promptedAt": "2026-10-03T07:23:19.425Z"
+      "promptedAt": "2026-10-03T07:23:19.425Z",
+      "needsRedo": false
     },
     {
       "char": "紫",
@@ -6161,13 +6407,30 @@
         "morph": "the glyph 紫 stands still as a solid sculpture while the toy grape beads jiggle and shine under a twinkling light like tiny gems",
         "hook": "小竹籃裡裝著一串圓滾滾、亮紫色的玩具葡萄，燈光一照，葡萄珠子跟著輕輕晃動，閃閃發亮，像一串會發光的紫色寶石。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 148,
-      "media": [],
+      "media": [
+        {
+          "file": "紫-2da5e090-babc-4f20-8fe0-1377454c8c6f.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-05T12:50:07.544Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-05T12:50:24.390Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "b2e21df8-b164-4dab-94f9-e7e5c38c54d9",
-      "promptedAt": "2026-10-03T07:23:19.695Z"
+      "promptedAt": "2026-10-03T07:23:19.695Z",
+      "needsRedo": false
     },
     {
       "char": "橙",
@@ -6307,7 +6570,6 @@
       "priority": 152,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "29290037-1d82-4c1a-b85e-bf3b2d9b47c9",
       "promptedAt": "2026-10-03T07:23:19.152Z"
     },
@@ -6336,13 +6598,30 @@
         "hook": "一隻圓滾滾的玩具小熊搖搖晃晃走到小板凳前，「咚」地一聲坐了下去，屁股穩穩地黏在板凳上，滿意地晃了晃小短腿。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 153,
-      "media": [],
+      "media": [
+        {
+          "file": "坐-c3096882-2e97-43f2-a370-0193d6aba053.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-05T12:59:13.064Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-05T12:59:29.877Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "9fc0ecd1-d503-4db7-934f-519d8efb55b4",
-      "promptedAt": "2026-10-03T07:23:18.366Z"
+      "promptedAt": "2026-10-03T07:23:18.366Z",
+      "needsRedo": false
     },
     {
       "char": "睡",
@@ -6369,13 +6648,30 @@
         "hook": "一隻毛茸茸的玩具無尾熊窩進小吊床，旁邊的月亮小夜燈輕輕發亮，牠的眼睛慢慢瞇起來，頭上冒出一個又一個小小的「Z」，越來越大。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 154,
-      "media": [],
+      "media": [
+        {
+          "file": "睡-d22051eb-d44c-4e35-bffd-b9226b817fa6.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-05T12:55:06.216Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-05T12:55:23.890Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "da2ad6b9-5e02-4b58-93f9-5f145d6c2046",
-      "promptedAt": "2026-10-03T07:23:19.518Z"
+      "promptedAt": "2026-10-03T07:23:19.518Z",
+      "needsRedo": false
     },
     {
       "char": "唱",
@@ -6402,13 +6698,30 @@
         "hook": "一隻黃色玩具小鴨站上小舞台，抓著迷你麥克風，嘴巴一張開，一顆顆彩色的音符就「噗噗噗」地從嘴裡冒出來，飄向空中轉圈圈。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 155,
-      "media": [],
+      "media": [
+        {
+          "file": "唱-c385331a-aea4-47d8-8d8a-695ea686cf3d.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-07T12:00:18.850Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-07T12:00:38.628Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "9577d973-91cc-4cef-9b2e-d6c13d523130",
-      "promptedAt": "2026-10-03T07:23:18.277Z"
+      "promptedAt": "2026-10-03T07:23:18.277Z",
+      "needsRedo": false
     },
     {
       "char": "游",
@@ -6435,13 +6748,30 @@
         "hook": "一條橡皮玩具小魚套著迷你游泳圈，在藍色玩具泳池裡「咕嚕咕嚕」游了一圈，尾巴一甩，濺起一小片水花，剛好打溼了旁邊的石頭。"
       },
       "scene": "rain",
-      "status": "prompted",
+      "status": "live",
       "priority": 156,
-      "media": [],
+      "media": [
+        {
+          "file": "游-2d0a1e3b-e68a-43b8-991f-1e9c6be98f73.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-07T12:02:47.293Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-07T12:03:03.959Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "dd937774-716b-437c-a475-563dc2a98a78",
-      "promptedAt": "2026-10-03T07:23:19.090Z"
+      "promptedAt": "2026-10-03T07:23:19.090Z",
+      "needsRedo": false
     },
     {
       "char": "爬",
@@ -6472,7 +6802,6 @@
       "priority": 157,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3c276e6e-bdbb-48cf-961b-61b8b4f6ed9f",
       "promptedAt": "2026-10-03T07:23:19.235Z"
     },
@@ -6505,7 +6834,6 @@
       "priority": 158,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "306023c1-b239-4213-9508-ba27cd543202",
       "promptedAt": "2026-10-03T07:23:18.673Z"
     },
@@ -6538,7 +6866,6 @@
       "priority": 159,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "cb78f315-6fd7-4ba7-8a4d-fb036e1dce75",
       "promptedAt": "2026-10-03T07:23:18.634Z"
     },
@@ -6604,7 +6931,6 @@
       "priority": 161,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0daca3d6-b5c5-4a05-b723-eb66ea23880c",
       "promptedAt": "2026-10-03T07:23:19.048Z"
     },
@@ -6637,7 +6963,6 @@
       "priority": 162,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8ae37c8a-b838-4e73-acc7-10305fcb75d1",
       "promptedAt": "2026-10-03T07:23:19.606Z"
     },
@@ -6670,7 +6995,6 @@
       "priority": 163,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "92f9ce15-f6ef-48fb-899c-c5a789044750",
       "promptedAt": "2026-10-03T07:23:19.940Z"
     },
@@ -6703,7 +7027,6 @@
       "priority": 164,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "99d35645-ae95-4384-9978-82e474e2d440",
       "promptedAt": "2026-10-03T07:23:18.221Z"
     },
@@ -6736,7 +7059,6 @@
       "priority": 165,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ef3d75cc-ae79-46ca-8c79-41519381791a",
       "promptedAt": "2026-10-03T07:23:18.749Z"
     },
@@ -6769,7 +7091,6 @@
       "priority": 166,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5c5fa0fc-fd31-41ac-9888-315a9545ebef",
       "promptedAt": "2026-10-03T07:23:18.730Z"
     },
@@ -6802,7 +7123,6 @@
       "priority": 167,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "1636cb3e-9f0f-4e5b-b15a-6b4607814b6c",
       "promptedAt": "2026-10-03T07:23:18.653Z"
     },
@@ -6835,7 +7155,6 @@
       "priority": 168,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d4b425ff-645d-4cb9-b458-0e18e5a0b649",
       "promptedAt": "2026-10-03T07:23:17.883Z"
     },
@@ -6868,7 +7187,6 @@
       "priority": 169,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d87ec3ce-9ce0-4db4-b8e6-d79e0e959666",
       "promptedAt": "2026-10-03T07:23:18.711Z"
     },
@@ -6999,7 +7317,6 @@
       "priority": 173,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "245cdf1c-4a9e-4fd8-9c7f-0ef16aa95f7a",
       "promptedAt": "2026-10-03T07:23:20.378Z"
     },
@@ -7032,7 +7349,6 @@
       "priority": 174,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ca7ec91d-7497-4cf2-b5a9-a918ef651cf2",
       "promptedAt": "2026-10-03T07:23:19.918Z"
     },
@@ -7065,7 +7381,6 @@
       "priority": 175,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "6ce8af73-8d9d-4b4a-ae8e-23608e3ece06",
       "promptedAt": "2026-10-03T07:23:19.403Z"
     },
@@ -7098,7 +7413,6 @@
       "priority": 176,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "14c8cf24-1723-4ac0-a2aa-46c72f35876e",
       "promptedAt": "2026-10-03T07:23:19.561Z"
     },
@@ -7164,7 +7478,6 @@
       "priority": 178,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3792922d-8bd1-4d6f-bc17-f77a236f7feb",
       "promptedAt": "2026-10-03T07:23:19.540Z"
     },
@@ -7295,7 +7608,6 @@
       "priority": 182,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2c7a0e46-0698-4884-8dd8-69b02f1a4ac7",
       "promptedAt": "2026-10-03T07:23:18.069Z"
     },
@@ -7324,13 +7636,30 @@
         "hook": "一隻玩具小熊坐在冒著熱氣的玩具茶壺旁邊，熱氣「咻咻」地往上冒，小熊拿起一片葉子拚命搧風，臉都紅通通的，還吐了吐舌頭。"
       },
       "scene": "fire",
-      "status": "prompted",
+      "status": "live",
       "priority": 183,
-      "media": [],
+      "media": [
+        {
+          "file": "熱-9124760e-b8e8-41ea-b62c-694743106352.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-06T12:44:02.224Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-06T12:44:18.167Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "e1aa159d-9cf7-4d77-be8f-4c5415e4b047",
-      "promptedAt": "2026-10-03T07:23:19.193Z"
+      "promptedAt": "2026-10-03T07:23:19.193Z",
+      "needsRedo": false
     },
     {
       "char": "累",
@@ -7361,7 +7690,6 @@
       "priority": 184,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d638ec49-8e91-4c04-a334-d5aaf68f4435",
       "promptedAt": "2026-10-03T07:23:19.717Z"
     },
@@ -7423,13 +7751,30 @@
         "hook": "一隻玩具小獅子挺起胸膛，抬頭看著眼前紙做的小山，深呼吸一口氣，勇敢地跨出一大步往前走，尾巴也跟著驕傲地翹了起來。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 186,
-      "media": [],
+      "media": [
+        {
+          "file": "勇-ec8a185d-efca-43bc-8e7a-f57d4f141dc3.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-06T12:47:04.131Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-06T12:47:43.840Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "hidden": true,
       "activePromptId": "af053636-9a0a-4c86-8120-ee2378f7732c",
-      "promptedAt": "2026-10-03T07:23:18.121Z"
+      "promptedAt": "2026-10-03T07:23:18.121Z",
+      "needsRedo": false
     },
     {
       "char": "怕",
@@ -7460,7 +7805,6 @@
       "priority": 187,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e7718277-0f76-4696-93f1-711e1b350193",
       "promptedAt": "2026-10-03T07:23:18.576Z"
     },
@@ -7493,7 +7837,6 @@
       "priority": 188,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "873c1247-a8f1-4890-baf6-e82b2293e84f",
       "promptedAt": "2026-10-03T07:23:18.596Z"
     },
@@ -7526,7 +7869,6 @@
       "priority": 189,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "334da2f8-f1be-4e8a-af37-a7ca881f4c4b",
       "promptedAt": "2026-10-03T07:27:16.047Z"
     },
@@ -7661,7 +8003,6 @@
       "priority": 193,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e5fd2107-9fd2-408d-9c35-2e2f37798c40",
       "promptedAt": "2026-10-03T07:23:19.583Z"
     },
@@ -7698,7 +8039,6 @@
       "priority": 194,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "dc8b1c05-fc9c-405d-8cca-a5a6c8faa48b",
       "promptedAt": "2026-10-03T07:27:16.172Z"
     },
@@ -7832,7 +8172,6 @@
       "priority": 198,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0b83df26-980c-4ab7-a1fc-adc1a1243a00",
       "promptedAt": "2026-10-03T07:23:18.384Z"
     },
@@ -7906,7 +8245,6 @@
       "priority": 200,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "52d4229d-0e57-4363-bc96-84fc15fa9486",
       "promptedAt": "2026-10-03T07:27:17.808Z"
     },
@@ -7943,7 +8281,6 @@
       "priority": 201,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "adb9d655-5242-4209-8abb-ee361a2cee6b",
       "promptedAt": "2026-10-03T07:27:15.404Z"
     },
@@ -7980,7 +8317,6 @@
       "priority": 202,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "bbca2801-58e5-4bb8-9aba-fe385d673220",
       "promptedAt": "2026-10-03T07:27:17.557Z"
     },
@@ -8017,7 +8353,6 @@
       "priority": 203,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "56deb77b-265e-4b85-b8f5-e605453bd655",
       "promptedAt": "2026-10-03T07:27:17.770Z"
     },
@@ -8054,7 +8389,6 @@
       "priority": 204,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "1267cbbf-1dcd-498e-94a6-5507c9f7258f",
       "promptedAt": "2026-10-03T07:23:19.319Z"
     },
@@ -8091,7 +8425,6 @@
       "priority": 205,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "4051d54f-303c-42b2-a483-7e907021f594",
       "promptedAt": "2026-10-03T07:23:19.173Z"
     },
@@ -8124,7 +8457,6 @@
       "priority": 206,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0d4a2dfe-5557-4338-871c-c919361e2bc1",
       "promptedAt": "2026-10-03T07:27:17.614Z"
     },
@@ -8161,7 +8493,6 @@
       "priority": 207,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d10d529f-ee05-4e67-9949-09137fdabe7a",
       "promptedAt": "2026-10-03T07:23:20.238Z"
     },
@@ -8198,7 +8529,6 @@
       "priority": 208,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "44b0b07c-ecad-4214-8533-5a03a33b41fa",
       "promptedAt": "2026-10-03T07:23:20.191Z"
     },
@@ -8235,7 +8565,6 @@
       "priority": 209,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e9a03070-811b-40e5-aebe-d4c537dc86a2",
       "promptedAt": "2026-10-03T07:23:20.261Z"
     },
@@ -8272,7 +8601,6 @@
       "priority": 210,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "590c43f9-5f9e-48ea-975a-873c6fe53d0a",
       "promptedAt": "2026-10-03T07:23:20.702Z"
     },
@@ -8305,7 +8633,6 @@
       "priority": 211,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "54756645-9f25-40fb-b892-c1d1989019e4",
       "promptedAt": "2026-10-03T07:23:20.726Z"
     },
@@ -8342,7 +8669,6 @@
       "priority": 212,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "285c2e4e-ed73-4114-9e6c-618a2639abf6",
       "promptedAt": "2026-10-03T07:27:16.812Z"
     },
@@ -8375,7 +8701,6 @@
       "priority": 213,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9fc42a8a-09a3-4536-a567-8cbd88d5e464",
       "promptedAt": "2026-10-03T07:23:19.299Z"
     },
@@ -8412,7 +8737,6 @@
       "priority": 214,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "7882219e-3c7b-4fdd-9f3b-dc12bf8bc8b9",
       "promptedAt": "2026-10-03T07:23:20.751Z"
     },
@@ -8449,7 +8773,6 @@
       "priority": 215,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "58f5ae41-1a93-4c21-84a0-fcdbeaabd13f",
       "promptedAt": "2026-10-03T07:23:20.847Z"
     },
@@ -8482,7 +8805,6 @@
       "priority": 216,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2f747c3b-9224-4f38-aa14-930b86edb97f",
       "promptedAt": "2026-10-03T07:23:20.285Z"
     },
@@ -8515,7 +8837,6 @@
       "priority": 217,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "1fd26301-768b-4be8-af99-cad8fdaefc79",
       "promptedAt": "2026-10-03T07:23:20.215Z"
     },
@@ -8548,7 +8869,6 @@
       "priority": 218,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "bef7a792-4173-4002-9393-fe8134762a85",
       "promptedAt": "2026-10-03T07:23:20.168Z"
     },
@@ -8581,7 +8901,6 @@
       "priority": 219,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "63685d7a-3f0d-414d-b448-d0d75526e374",
       "promptedAt": "2026-10-03T07:23:20.332Z"
     },
@@ -8614,7 +8933,6 @@
       "priority": 220,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "26b22cb4-3174-474a-aa53-d2ca6bd7c8f4",
       "promptedAt": "2026-10-03T07:27:16.714Z"
     },
@@ -8647,7 +8965,6 @@
       "priority": 221,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "272623fe-0c44-4e9a-8a5e-179bc4ee7cc3",
       "promptedAt": "2026-10-03T07:23:20.557Z"
     },
@@ -8684,7 +9001,6 @@
       "priority": 222,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d7f95d96-d2a2-49a5-a3fc-13f64a488a39",
       "promptedAt": "2026-10-03T07:23:20.606Z"
     },
@@ -8721,7 +9037,6 @@
       "priority": 223,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "acb134fc-5b5a-4f5d-a65b-99290d14670d",
       "promptedAt": "2026-10-03T07:23:20.532Z"
     },
@@ -8758,7 +9073,6 @@
       "priority": 224,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "f0783f26-a715-42a5-b687-f6dca69b99d3",
       "promptedAt": "2026-10-03T07:23:18.052Z"
     },
@@ -8795,7 +9109,6 @@
       "priority": 225,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9dd85f19-9495-47ad-9709-1bc5e627ec59",
       "promptedAt": "2026-10-03T07:23:19.027Z"
     },
@@ -8832,7 +9145,6 @@
       "priority": 226,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e713c4b1-3dac-440a-b545-c4ae4ee5f959",
       "promptedAt": "2026-10-03T07:23:19.070Z"
     },
@@ -8865,7 +9177,6 @@
       "priority": 227,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "3237b73d-9813-4f6c-8947-bfb8e5367a4a",
       "promptedAt": "2026-10-03T07:23:19.111Z"
     },
@@ -8898,7 +9209,6 @@
       "priority": 228,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b0591bf9-18f6-48aa-a3ce-445bbef28ab2",
       "promptedAt": "2026-10-03T07:23:18.925Z"
     },
@@ -8927,7 +9237,6 @@
       "priority": 229,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "70ccb43f-9907-4b62-8591-76bfaf4ca37b",
       "promptedAt": "2026-10-03T07:27:16.451Z"
     },
@@ -8964,7 +9273,6 @@
       "priority": 230,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d11738a6-ea85-4e93-befb-f66bdd67461b",
       "promptedAt": "2026-10-03T07:27:17.462Z"
     },
@@ -9001,7 +9309,6 @@
       "priority": 231,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "03a7741b-1d68-4879-adbf-f2fd67844185",
       "promptedAt": "2026-10-03T07:27:16.495Z"
     },
@@ -9038,7 +9345,6 @@
       "priority": 232,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "057ab6e5-4a93-477c-bfc5-8b7494982885",
       "promptedAt": "2026-10-03T07:27:17.520Z"
     },
@@ -9071,7 +9377,6 @@
       "priority": 233,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5ed61b28-dc11-479c-a6e7-8e57d0552347",
       "promptedAt": "2026-10-03T07:27:16.388Z"
     },
@@ -9104,7 +9409,6 @@
       "priority": 234,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "84589340-ab6f-452a-8957-3230435e5398",
       "promptedAt": "2026-10-03T07:27:16.361Z"
     },
@@ -9178,7 +9482,6 @@
       "priority": 236,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "7e4469d6-9169-4752-bbe6-4352c11fcc0f",
       "promptedAt": "2026-10-03T07:27:16.550Z"
     },
@@ -9211,7 +9514,6 @@
       "priority": 237,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "aa3e7e92-06b5-4e77-9411-a262d96a3e91",
       "promptedAt": "2026-10-03T07:27:15.965Z"
     },
@@ -9248,7 +9550,6 @@
       "priority": 238,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "fa0cda77-92ec-4655-835e-10a50c329319",
       "promptedAt": "2026-10-03T07:27:16.594Z"
     },
@@ -9285,7 +9586,6 @@
       "priority": 239,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "a9a82365-bb59-417e-be01-51ab3bfe36a8",
       "promptedAt": "2026-10-03T07:27:16.621Z"
     },
@@ -9351,7 +9651,6 @@
       "priority": 241,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c69ead0c-2930-4dd9-ae05-d187a93643d3",
       "promptedAt": "2026-10-03T07:27:17.585Z"
     },
@@ -9388,7 +9687,6 @@
       "priority": 242,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8346c451-b88f-45f0-a75a-b5224c806321",
       "promptedAt": "2026-10-03T07:23:20.506Z"
     },
@@ -9425,7 +9723,6 @@
       "priority": 243,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d68502ae-6e6b-48ce-9084-b894f5c0cb51",
       "promptedAt": "2026-10-03T07:27:18.065Z"
     },
@@ -9462,7 +9759,6 @@
       "priority": 244,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "14a9a165-b17f-4fd9-8ca7-faf1a68852d7",
       "promptedAt": "2026-10-03T07:27:18.183Z"
     },
@@ -9499,7 +9795,6 @@
       "priority": 245,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "47a65321-3dc1-4176-b36e-31cf37f1b9ee",
       "promptedAt": "2026-10-03T07:27:17.491Z"
     },
@@ -9536,7 +9831,6 @@
       "priority": 246,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "eb94e022-4096-4aea-a20f-11cf60366094",
       "promptedAt": "2026-10-03T07:23:19.827Z"
     },
@@ -9573,7 +9867,6 @@
       "priority": 247,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "54da5138-e2aa-4406-b94d-7b3fb074b2da",
       "promptedAt": "2026-10-03T07:23:20.146Z"
     },
@@ -9610,7 +9903,6 @@
       "priority": 248,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "a4e35de6-dbc8-456f-a613-90f8d2951ffe",
       "promptedAt": "2026-10-03T07:23:19.672Z"
     },
@@ -9647,7 +9939,6 @@
       "priority": 249,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c8c056b3-fb56-484c-bf2b-e535ff0beb5d",
       "promptedAt": "2026-10-03T07:23:20.630Z"
     },
@@ -9684,7 +9975,6 @@
       "priority": 250,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "06cdb038-80b4-4023-a7bd-3f1b0080a21f",
       "promptedAt": "2026-10-03T07:23:20.099Z"
     },
@@ -9721,7 +10011,6 @@
       "priority": 251,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ab63d6b4-4023-4332-aadf-e51284e0a757",
       "promptedAt": "2026-10-03T07:23:19.340Z"
     },
@@ -9758,7 +10047,6 @@
       "priority": 252,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ba9593d0-1f51-493f-81ae-7c8f9191e4e8",
       "promptedAt": "2026-10-03T07:27:17.741Z"
     },
@@ -9795,7 +10083,6 @@
       "priority": 253,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "47297b29-b288-4f17-93c9-11acc5b4b862",
       "promptedAt": "2026-10-03T07:23:19.132Z"
     },
@@ -9869,7 +10156,6 @@
       "priority": 255,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "74136e7c-3f4c-42b5-87d0-3508166219d3",
       "promptedAt": "2026-10-03T07:27:18.097Z"
     },
@@ -9906,7 +10192,6 @@
       "priority": 256,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0f63da2a-0b7a-4580-ab12-4a8ac1b4a45a",
       "promptedAt": "2026-10-03T07:23:18.139Z"
     },
@@ -9943,7 +10228,6 @@
       "priority": 257,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5440c6f5-a523-490b-9bee-0ca9359e6542",
       "promptedAt": "2026-10-03T07:23:19.650Z"
     },
@@ -9980,7 +10264,6 @@
       "priority": 258,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "91ed0fe1-ebea-46d5-8acf-74ce59cbff12",
       "promptedAt": "2026-10-03T07:27:17.876Z"
     },
@@ -10017,7 +10300,6 @@
       "priority": 259,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "fd65cc82-37b6-4143-adb7-779a499923bb",
       "promptedAt": "2026-10-03T07:27:16.848Z"
     },
@@ -10054,7 +10336,6 @@
       "priority": 260,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b540ea58-376d-42d8-b1cb-6e80fee698c5",
       "promptedAt": "2026-10-03T07:23:20.076Z"
     },
@@ -10089,9 +10370,18 @@
       "scene": "grow",
       "status": "prompted",
       "priority": 261,
-      "media": [],
+      "media": [
+        {
+          "file": "辣-61adf667-0f2b-4303-86b8-2983417ec60a.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-07T11:48:46.896Z",
+          "review": "draft",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0
+        }
+      ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ebfdded0-ef67-4017-aac1-77787e69ee00",
       "promptedAt": "2026-10-03T07:23:20.355Z"
     },
@@ -10127,7 +10417,6 @@
       "priority": 262,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "a6d53c0b-6534-493d-ae73-5aff80d8f201",
       "promptedAt": "2026-10-03T07:27:17.081Z"
     },
@@ -10163,7 +10452,6 @@
       "priority": 263,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8076d171-0861-4bdb-8ff2-0b68314e1b4b",
       "promptedAt": "2026-10-03T07:27:17.214Z"
     },
@@ -10199,7 +10487,6 @@
       "priority": 264,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "27795e50-849e-40c0-9284-6645d4392e48",
       "promptedAt": "2026-10-03T07:23:18.965Z"
     },
@@ -10235,7 +10522,6 @@
       "priority": 265,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "0ddde1b3-c8e5-49a4-bdbd-ce719e526170",
       "promptedAt": "2026-10-03T07:23:18.987Z"
     },
@@ -10271,7 +10557,6 @@
       "priority": 266,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2e9c0a1e-8a7a-4e5c-8de5-5fa4de3c68bf",
       "promptedAt": "2026-10-03T07:23:19.628Z"
     },
@@ -10307,7 +10592,6 @@
       "priority": 267,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "33cf83a6-ee15-443c-a11e-43a068b82b1f",
       "promptedAt": "2026-10-03T07:23:19.257Z"
     },
@@ -10343,7 +10627,6 @@
       "priority": 268,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "868eec48-1581-4836-9a34-e2c0456e07e7",
       "promptedAt": "2026-10-03T07:23:18.906Z"
     },
@@ -10380,7 +10663,6 @@
       "priority": 269,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c93e8476-c3a4-4e20-b2c2-b4c874a1bd57",
       "promptedAt": "2026-10-03T07:23:19.215Z"
     },
@@ -10416,7 +10698,6 @@
       "priority": 270,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "30d78c25-8b5d-4446-a08d-4e34406c0330",
       "promptedAt": "2026-10-03T07:23:20.407Z"
     },
@@ -10452,7 +10733,6 @@
       "priority": 271,
       "media": [],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "5bba1973-63f2-420b-9f13-760327a2eb9b",
       "promptedAt": "2026-10-03T07:23:17.984Z"
     }
@@ -10644,6 +10924,54 @@
         "attempts": []
       },
       "2026-10-04": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-05": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-06": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-07": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-08": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-09": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-10": {
         "queue": [
           "喝",
           "眼",
