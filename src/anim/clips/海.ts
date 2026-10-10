@@ -6,7 +6,7 @@ const clip: Clip = {
   char: '海',
   meta: { theme: '衝浪', cast: '企鵝＋海浪＋海豚', gags: ['漸強失敗', '浪越來越大', '模仿失敗', '臉栽進水裡'] },
   duration: 10,
-  bg: { top: '#FFE8C2', bottom: '#BFE9FF', floor: '#3FA9DD', scenery: 'hills' },
+  bg: { top: '#FFE8C2', bottom: '#BFE9FF', floor: '#3FA9DD', scenery: 'sea' },
   actors: [
     { id: 'board', emoji: '🛹', x: 28, y: 73.6, size: 8, hidden: true },
     { id: 'peng', emoji: '🐧', x: 28, y: 67, size: 12, hidden: true },

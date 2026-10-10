@@ -266,6 +266,23 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean, noSun?:
     </g>
   </>,
 
+  sea: (c, uid, _m, noSun) => <>
+    {!noSun && <Sun x={126} y={18} r={6} uid={uid} />}
+    {/* 海平線：遠的海比較淡，接近天空 */}
+    <rect x="-20" y={FLOOR - 16} width="200" height="16" fill={mix(c.floor, c.bottom, 0.45)} />
+    <rect x="-20" y={FLOOR - 16.4} width="200" height="0.8" fill="#fff" opacity=".6" />
+    <g filter={`url(#far${uid})`}>
+      <path d={`M2,${FLOOR - 16} q8,-7 18,-6 q6,-3 12,0 q4,1 6,6 Z`} fill={mix('#5FA35F', c.bottom, 0.45)} />
+      <path d={`M138,${FLOOR - 16} q5,-4 10,-3 q5,-1 8,3 Z`} fill={mix('#5FA35F', c.bottom, 0.55)} />
+    </g>
+    {/* 遠方的帆船 */}
+    <g opacity=".75" transform={`translate(104 ${FLOOR - 17})`}>
+      <path d="M-4,0 L4,0 L3,1.6 L-3,1.6 Z" fill="#8A5A3B" />
+      <path d="M0,-0.2 L0,-7 L3.6,-0.8 Z" fill="#fff" />
+      <path d="M-0.4,-0.2 L-0.4,-5.4 L-3,-0.8 Z" fill="#F4F4F4" />
+    </g>
+  </>,
+
   room: (c) => <>
     {/* 牆：上半淡色壁紙，下半護牆板 */}
     {Array.from({ length: 18 }, (_, i) => <rect key={i} x={-20 + i * 12} y="-20" width="6" height={FLOOR - 16 + 20} fill="#fff" opacity=".1" />)}
@@ -321,6 +338,14 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean, noSun?:
 // ---------- 會動的遠景 ----------
 const MOVING_BACK: Partial<Record<Kind, (t: number, c: Pal, uid: string) => JSX.Element>> = {
   hills: (t, _c, uid) => <Clouds t={t} uid={uid} />,
+  sea: (t, _c, uid) => <>
+    <Clouds t={t} uid={uid} o={0.85} />
+    {/* 海面上的波光：一條條小白線慢慢閃 */}
+    {Array.from({ length: 14 }, (_, i) => {
+      const x = ((i * 23 + t * 2) % 180) - 10, y = FLOOR - 14 + (i % 4) * 3.4
+      return <rect key={i} x={x} y={y} width={3 + (i % 3)} height=".45" rx=".2" fill="#fff" opacity={0.25 + 0.3 * Math.abs(Math.sin(t * 1.6 + i))} />
+    })}
+  </>,
   forest: (t, _c, uid) => <Clouds t={t} uid={uid} o={0.7} />,
   desert: (t, _c, uid) => <Clouds t={t} uid={uid} o={0.45} />,
   city: (t, _c, uid) => <Clouds t={t} uid={uid} o={0.75} />,
@@ -439,6 +464,7 @@ const MID: Partial<Record<Kind, (c: Pal, uid: string) => JSX.Element>> = {
   </>,
   track: () => <></>,
   room: () => <></>,
+  sea: () => <></>,
 }
 
 function Cactus({ x, base, h }: { x: number; base: number; h: number }) {
@@ -503,6 +529,15 @@ function Pebbles({ color, n = 18 }: { color: string; n?: number }) {
 }
 
 const MOVING_FRONT: Partial<Record<Kind, (t: number) => JSX.Element>> = {
+  sea: (t) => <>
+    {Array.from({ length: 4 }, (_, row) => (
+      <path key={row} fill="none" stroke="#fff" strokeWidth={0.5 + row * 0.15} strokeLinecap="round" opacity={0.45 - row * 0.06}
+        d={Array.from({ length: 12 }, (_, i) => {
+          const x = -20 + i * 18 + ((t * (4 + row * 2)) % 18), y = FLOOR + 2.5 + row * 4 + Math.sin(t * 2 + i + row) * 0.5
+          return `M${x},${y} q2.2,-1.4 4.5,0 q2.2,1.4 4.5,0`
+        }).join(' ')} />
+    ))}
+  </>,
   ocean: (t) => <>
     {[10, 24, 136, 150].map((x, i) => (
       <path key={i} d={`M${x},${FLOOR + 2} q${2 + Math.sin(t * 2 + i) * 1.6},-5 0,-10 q${-2 + Math.sin(t * 2 + i + 1) * 1.6},-5 0,-10 q${2 + Math.sin(t * 2 + i + 2) * 1.2},-4 0,-7`}

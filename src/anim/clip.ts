@@ -8,7 +8,7 @@
 
 export type Vec = { x: number; y: number }
 
-export type Scenery = 'hills' | 'city' | 'ocean' | 'space' | 'snow' | 'desert' | 'room' | 'night' | 'forest' | 'track'
+export type Scenery = 'hills' | 'city' | 'ocean' | 'space' | 'snow' | 'desert' | 'room' | 'night' | 'forest' | 'track' | 'sea'
 
 export type Actor = {
   id: string
