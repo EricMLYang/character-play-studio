@@ -229,7 +229,10 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
               <circle cx={-4.6} cy={5.2} r={1.5} fill="#fff" stroke="rgba(0,0,0,.15)" strokeWidth=".3" />
               <ellipse rx={6.8} ry={5.2} fill="#fff" stroke="rgba(0,0,0,.15)" strokeWidth=".4" />
             </>}
-            {f.emoji && <Emoji char={f.emoji} size={f.size} art={art} />}
+            {f.emoji && (SPLAT[f.emoji]
+              // 色塊方塊當成油漆／顏料點：畫成一顆有亮點的圓滴，不要一塊方形貼紙
+              ? <g><circle r={f.size * 0.36} fill={SPLAT[f.emoji]} /><circle cx={-f.size * 0.12} cy={-f.size * 0.12} r={f.size * 0.1} fill="#fff" opacity=".7" /></g>
+              : <Emoji char={f.emoji} size={f.size} art={art} />)}
             {f.beam && <polygon points={f.beam.map((q) => `${q.x},${q.y}`).join(' ')} fill="#FFF27A" opacity=".45" />}
             {f.line && <>
               <line x1={f.line.from.x} y1={f.line.from.y} x2={f.line.to.x} y2={f.line.to.y} stroke={f.line.color}
@@ -262,6 +265,10 @@ function shade(hex: string, k: number) {
 }
 
 /** 角色描邊：兩層白色細光暈疊成貼紙邊，再加一點往下的軟陰影。 */
+const SPLAT: Record<string, string> = {
+  '🟥': '#F0473E', '🟦': '#3D8BEF', '🟨': '#F7C531', '🟩': '#4CBF5A', '🟪': '#9B5DE5', '🟧': '#F58A2E', '⬛': '#2B2B33', '⬜': '#F4F4F4', '🟫': '#8A5A3B',
+}
+
 /** 3D 角色：不描白邊，只有一點往下的柔和陰影，像打了光的玩偶。 */
 const SOFT = 'drop-shadow(0 0.9px 0.8px rgba(40,30,60,.28))'
 
