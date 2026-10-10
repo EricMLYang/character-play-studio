@@ -10,8 +10,8 @@ const clip: Clip = {
   actors: [
     { id: 'stool', emoji: '🪑', x: 12, y: 72.8, size: 10, hidden: true },
     { id: 'hog', emoji: '🦔', x: 12, y: 72.3, size: 11.2, hidden: true, flip: true },
-    { id: 'ele', emoji: '🐘', x: 28, y: 67.8, size: 22, hidden: true, flip: true },
-    { id: 'gir', emoji: '🦒', x: 42, y: 65.2, size: 28, hidden: true },
+    { id: 'ele', emoji: '🐘', x: 24, y: 67.8, size: 21, hidden: true, flip: true },
+    { id: 'gir', emoji: '🦒', x: 38, y: 65.2, size: 26, hidden: true },
     { id: 'drum', emoji: '🥁', x: 148, y: 71.8, size: 12.5, hidden: true },
     { id: 'horn', emoji: '🎺', x: 146, y: 46, size: 10, hidden: true, float: true },
     { id: 'dragon', emoji: '🐉', x: 128, y: 54, size: 20, hidden: true, float: true },
