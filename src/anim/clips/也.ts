@@ -49,7 +49,7 @@ const clip: Clip = {
   glyph: [{ at: 7.15, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
   fx: [
     { at: 0.8, kind: 'pop', actor: 'monkey', emoji: '🍌', dur: 0.6 },
-    { at: 1.0, kind: 'pop', actor: 'parrot', emoji: '🙋', dur: 0.6 },
+    { at: 1.0, kind: 'bubble', actor: 'parrot', emoji: '🍌', dur: 0.6 },
     { at: 4.9, kind: 'burst', actor: 'monkey', dur: 0.4 },
     { at: 5.3, kind: 'dizzy', actor: 'monkey', dur: 1.2 },
     { at: 5.5, kind: 'bubble', actor: 'parrot', emoji: '🤔', dur: 0.5 },
