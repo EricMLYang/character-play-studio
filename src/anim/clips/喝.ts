@@ -8,7 +8,7 @@ const clip: Clip = {
   duration: 10,
   bg: { top: '#FFE6EC', bottom: '#FFD2DD', floor: '#D8F3EE', scenery: 'hills' },
   actors: [
-    { id: 'bot', emoji: '🤖', x: 26, y: 69.7, size: 16.2, hidden: true },
+    { id: 'bot', emoji: '🤖', x: 26, y: 68, size: 20.2, hidden: true },
     { id: 'c1', emoji: '🥤', x: 40, y: 64, size: 10, hidden: true },
     { id: 'c2', emoji: '🥤', x: 40, y: 64, size: 10, hidden: true },
     { id: 'c3', emoji: '🥤', x: 40, y: 64, size: 10, hidden: true },

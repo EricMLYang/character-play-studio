@@ -8,7 +8,7 @@ const clip: Clip = {
   duration: 10,
   bg: { top: '#1B1240', bottom: '#3B2A78', floor: '#8C86A8', scenery: 'space' },
   actors: [
-    { id: 'tree', emoji: '🌳', x: 10, y: 70.7, size: 15, hidden: true },
+    { id: 'tree', emoji: '🌳', x: 16, y: 70.7, size: 15, hidden: true },
     { id: 'rocket', emoji: '🚀', x: 132, y: 68.5, size: 17.5 },
     { id: 'alien', emoji: '👽', x: 28, y: 70.2, size: 16.2, hidden: true },
     { id: 'twig', emoji: '🌿', x: 38, y: 64, size: 8.8, float: true, hidden: true },

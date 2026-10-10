@@ -52,7 +52,7 @@ const clip: Clip = {
     { at: 8.37, actor: 'bread', do: 'swap', emoji: '🎁' },
     { at: 8.37, actor: 'bread', do: 'squash', amount: -0.3, dur: 0.25 },
     { at: 8.73, actor: 'dog', do: 'rotateTo', amount: -90, dur: 0.3 },
-    { at: 8.73, actor: 'dog', do: 'moveTo', to: { x: 22, y: 70.2 }, dur: 0.3 },
+    { at: 8.73, actor: 'dog', do: 'moveTo', to: { x: 28, y: 70.2 }, dur: 0.3 },
     { at: 9, actor: 'cat', do: 'bounce', dur: 0.8, times: 3, amount: 2 },
   ],
   builds: [
