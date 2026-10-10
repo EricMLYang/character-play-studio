@@ -6,13 +6,13 @@ import { FLOOR, type Scenery as Kind } from './clip'
  * 顏色從劇本的 bg 推出來（遠的東西混進天空色，近的東西比較飽和），所以每支配色不同但都有景深。
  * 不會動的部分用 memo 畫一次；會動的（雲、泡泡、雪、星星、螢火蟲）只看 t。
  */
-type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string; noMoon?: boolean }
+type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string; noMoon?: boolean; noSun?: boolean }
 
-export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid, noMoon }: Props) {
+export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid, noMoon, noSun }: Props) {
   const c = palette(floor, sky, bottom)
   return <g aria-hidden>
     <SceneDefs uid={uid} c={c} />
-    <StaticBack kind={kind} c={c} uid={uid} noMoon={noMoon} />
+    <StaticBack kind={kind} c={c} uid={uid} noMoon={noMoon} noSun={noSun} />
     {MOVING_BACK[kind]?.(t, c, uid)}
     <StaticMid kind={kind} c={c} uid={uid} />
   </g>
@@ -178,21 +178,21 @@ function Pine({ x, base, h, fill, snow }: { x: number; base: number; h: number; 
 }
 
 // ---------- 遠景（不會動） ----------
-const StaticBack = memo(function StaticBack({ kind, c, uid, noMoon }: { kind: Kind; c: Pal; uid: string; noMoon?: boolean }) {
-  return <>{BACK[kind]?.(c, uid, noMoon)}</>
+const StaticBack = memo(function StaticBack({ kind, c, uid, noMoon, noSun }: { kind: Kind; c: Pal; uid: string; noMoon?: boolean; noSun?: boolean }) {
+  return <>{BACK[kind]?.(c, uid, noMoon, noSun)}</>
 })
 
-const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean) => JSX.Element>> = {
-  hills: (c, uid) => <>
-    <Sun x={128} y={18} uid={uid} />
+const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean, noSun?: boolean) => JSX.Element>> = {
+  hills: (c, uid, _m, noSun) => <>
+    {!noSun && <Sun x={128} y={18} uid={uid} />}
     <g filter={`url(#far${uid})`}>
       <path d={ridge([16, 24, 19, 28, 22, 17, 25, 20], FLOOR)} fill={`url(#hillF${uid})`} />
     </g>
     <rect x="-20" y={FLOOR - 30} width="200" height="30" fill={`url(#haze${uid})`} />
   </>,
 
-  forest: (c, uid) => <>
-    <Sun x={34} y={14} r={5} uid={uid} />
+  forest: (c, uid, _m, noSun) => <>
+    {!noSun && <Sun x={34} y={14} r={5} uid={uid} />}
     <g filter={`url(#far${uid})`} opacity=".8">
       {Array.from({ length: 14 }, (_, i) => <Pine key={i} x={-14 + i * 14 + (i % 3) * 3} base={FLOOR} h={30 + ((i * 7) % 11)} fill={c.far} />)}
     </g>
@@ -211,8 +211,8 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean) => JSX.
     <rect x="-20" y={FLOOR - 30} width="200" height="30" fill={`url(#haze${uid})`} />
   </>,
 
-  desert: (c, uid) => <>
-    <circle cx="124" cy="20" r="40" fill={`url(#sun${uid})`} opacity=".7" />
+  desert: (c, uid, _m, noSun) => <>
+    {!noSun && <circle cx="124" cy="20" r="40" fill={`url(#sun${uid})`} opacity=".7" />}
     <g filter={`url(#far${uid})`}>
       {/* 平頂山 */}
       <path d={`M-20,${FLOOR} L-20,${FLOOR - 14} L6,${FLOOR - 14} L10,${FLOOR - 22} L34,${FLOOR - 22} L40,${FLOOR - 12} L60,${FLOOR - 10} L64,${FLOOR} Z`} fill={mix(c.far, '#D9825B', 0.3)} />
@@ -221,8 +221,8 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean) => JSX.
     <rect x="-20" y={FLOOR - 30} width="200" height="30" fill={`url(#haze${uid})`} />
   </>,
 
-  city: (c, uid) => <>
-    <Sun x={136} y={14} r={5} uid={uid} />
+  city: (c, uid, _m, noSun) => <>
+    {!noSun && <Sun x={136} y={14} r={5} uid={uid} />}
     {/* 遠方天際線：霧霧的一排 */}
     <g filter={`url(#far${uid})`} fill={mix(c.far, '#7F8DB3', 0.4)} opacity=".75">
       {[[-20, 26], [-6, 34], [6, 22], [18, 40], [30, 28], [44, 46], [56, 30], [70, 36], [84, 24], [96, 42], [110, 32], [124, 38], [138, 26], [150, 34], [164, 28]].map(([x, h], i) => (
@@ -299,8 +299,8 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean) => JSX.
     <ellipse cx="80" cy="10" rx="70" ry="40" fill="#FFF3C9" opacity=".22" />
   </>,
 
-  track: (c, uid) => <>
-    <Sun x={30} y={12} r={5} uid={uid} />
+  track: (c, uid, _m, noSun) => <>
+    {!noSun && <Sun x={30} y={12} r={5} uid={uid} />}
     {/* 看台：一階一階，觀眾是彩色小點 */}
     <g>
       <path d={`M-20,${FLOOR - 26} L180,${FLOOR - 26} L180,${FLOOR} L-20,${FLOOR} Z`} fill={mix(c.far, '#6D7FA6', 0.35)} />
