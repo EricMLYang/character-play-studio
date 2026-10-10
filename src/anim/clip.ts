@@ -29,7 +29,7 @@ export type Actor = {
 }
 
 /** 會留下結果的動作（位置、大小、角度、出場、退場、換造型）。 */
-type Lasting = 'enter' | 'pop' | 'drop' | 'vanish' | 'moveTo' | 'scaleTo' | 'rotateTo' | 'swap' | 'flip'
+type Lasting = 'enter' | 'pop' | 'drop' | 'vanish' | 'moveTo' | 'scaleTo' | 'rotateTo' | 'swap' | 'flip' | 'tint'
 /** 做完就回原狀的動作。 */
 type Passing = 'hop' | 'bounce' | 'squash' | 'shake' | 'spin' | 'tilt' | 'flash'
 
@@ -50,6 +50,8 @@ export type Move = {
   times?: number
   /** swap 換成的 emoji */
   emoji?: string
+  /** tint 換成的 CSS filter（空字串＝拿掉） */
+  filter?: string
 }
 
 /** 一組筆畫組合出來：從某個角色（或某個點）飛過去，或從上面掉下來。 */
@@ -144,7 +146,7 @@ export const bounceOut = (p: number) => {
 
 const DEFAULT_DUR: Record<Move['do'], number> = {
   enter: 0.6, pop: 0.35, drop: 0.6, vanish: 0.25, moveTo: 0.5, scaleTo: 0.4, rotateTo: 0.25, swap: 0,
-  flip: 0,
+  flip: 0, tint: 0,
   hop: 0.4, bounce: 0.8, squash: 0.25, shake: 0.5, spin: 0.5, tilt: 0.35, flash: 0.6,
 }
 export const durOf = (m: Move) => m.dur ?? DEFAULT_DUR[m.do]
@@ -185,6 +187,7 @@ export function actorsAt(clip: Clip, t: number): ActorState[] {
         case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
         case 'rotateTo': st.r += lerp(0, m.amount ?? 0, e); break
         case 'swap': if (m.emoji) st.emoji = m.emoji; break
+        case 'tint': st.tint = m.filter || undefined; break
         case 'flip': st.flip = !st.flip; break
         default: {
           if (!live) break
