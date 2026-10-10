@@ -10,6 +10,7 @@ import Viewer from './Viewer'
 import Town from './Town'
 import Lab from './Lab'
 import { setParts } from './parts'
+import { groupMovies } from './words'
 
 export type Filter = 'all' | 'video' | 'unwatched'
 export type Screen = 'home' | 'town' | 'lab'
@@ -60,8 +61,12 @@ export default function PlayApp() {
     return () => window.removeEventListener('online', sync)
   }, [sync])
 
-  // 有動畫的字也算有影片，跟著排到前面（sort 是穩定的，其餘順序不變）
-  const all = useMemo(() => browseCharacters(lib?.characters || []).sort((a, b) => Number(hasMovie(b)) - Number(hasMovie(a))), [lib])
+  // 有影片（含動畫）的字排在前面，而且照 words.ts 排成一個個詞；上一個／下一個也照這個順序走
+  const { all, groups } = useMemo(() => {
+    const visible = browseCharacters(lib?.characters || [])
+    const groups = groupMovies(visible.filter(hasMovie))
+    return { groups, all: [...groups.flatMap((g) => g.items), ...visible.filter((c) => !hasMovie(c))] }
+  }, [lib])
   const items = useMemo(() => {
     const q = query.trim().toLowerCase()
     return all.filter((c) =>
@@ -115,6 +120,7 @@ export default function PlayApp() {
       ) : (
       <Home
         items={items}
+        groups={!query.trim() && filter !== 'unwatched' ? groups : null}
         total={all.length}
         watched={progress.watched}
         todayCount={todayCount}

@@ -3,6 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 import { tap } from '../lib/sfx'
 import type { Filter, Screen } from './PlayApp'
+import type { WordGroup } from './words'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -11,9 +12,11 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen,
+  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen,
 }: {
   items: CharEntry[]
+  /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
+  groups: WordGroup[] | null
   total: number
   watched: Progress['watched']
   todayCount: number
@@ -27,6 +30,28 @@ export default function Home({
   residents: number
   onScreen: (s: Screen) => void
 }) {
+  // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
+  const card = (c: CharEntry, hue: number, i: number) => {
+    const count = watched[c.char]?.count || 0
+    const video = hasMovie(c)
+    return (
+      <button
+        key={c.char}
+        data-char={c.char}
+        className={'card' + (video ? ' card-video' : '')}
+        style={{ ['--hue' as any]: `var(--c${hue})`, ['--i' as any]: i }}
+        aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
+        onClick={() => { tap(); onPick(c.char) }}
+      >
+        <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
+        <span className="card-char">{c.char}</span>
+        <span className="card-zhuyin">{c.zhuyin}</span>
+        {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
+        {count > 0 && <span className="card-count">看過 {count} 次</span>}
+      </button>
+    )
+  }
+
   return (
     <div className="home">
       <header className="home-bar">
@@ -71,29 +96,24 @@ export default function Home({
         <TodayStars count={todayCount} />
       </div>
 
-      <div className="grid" aria-label="字卡瀏覽">
-        {items.map((c, i) => {
-          const count = watched[c.char]?.count || 0
-          const video = hasMovie(c)
-          return (
-            <button
-              key={c.char}
-              data-char={c.char}
-              className={'card' + (video ? ' card-video' : '')}
-              style={{ ['--hue' as any]: `var(--c${c.priority % 8})`, ['--i' as any]: i }}
-              aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
-              onClick={() => { tap(); onPick(c.char) }}
-            >
-              <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
-              <span className="card-char">{c.char}</span>
-              <span className="card-zhuyin">{c.zhuyin}</span>
-              {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
-              {count > 0 && <span className="card-count">看過 {count} 次</span>}
-            </button>
-          )
-        })}
-        {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
-      </div>
+      {groups ? (
+        <div className="grid grouped" aria-label="字卡瀏覽">
+          {[...groups, ...(filter === 'all' ? [{ key: 'more', label: '📚 更多字卡', items: items.filter((c) => !hasMovie(c)) }] : [])]
+            .filter((g) => g.items.length)
+            .map((g, gi) => (
+              <div key={g.key} className={'word' + (g.label ? ' word-theme' : '')} role="group" aria-label={g.label || g.key}>
+                {g.label && <span className="word-label">{g.label}</span>}
+                <div className="word-cards">{g.items.map((c) => card(c, g.key === 'more' ? c.priority % 8 : gi % 8, items.indexOf(c)))}</div>
+              </div>
+            ))}
+          {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
+        </div>
+      ) : (
+        <div className="grid" aria-label="字卡瀏覽">
+          {items.map((c, i) => card(c, c.priority % 8, i))}
+          {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
+        </div>
+      )}
     </div>
   )
 }
