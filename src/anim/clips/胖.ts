@@ -11,7 +11,7 @@ const clip: Clip = {
     { id: 'donut', emoji: '🍩', x: 116, y: 73.9, size: 7.5, hidden: true },
     { id: 'panda', emoji: '🐼', x: 26, y: 68.6, size: 20, hidden: true },
     { id: 'burger', emoji: '🍔', x: 117, y: 60, size: 8.8, hidden: true, float: true },
-    { id: 'coach', emoji: '🐓', x: 148, y: 71.2, size: 13.8, hidden: true },
+    { id: 'coach', emoji: '🐓', x: 152, y: 71.2, size: 13.8, hidden: true },
     { id: 'cookie', emoji: '🍪', x: 140, y: 64, size: 6.2, hidden: true, float: true },
   ],
   moves: [
@@ -19,7 +19,7 @@ const clip: Clip = {
     { at: 0.2, actor: 'coach', do: 'pop' },
     { at: 0.5, actor: 'coach', do: 'hop', dur: 0.3, amount: 4 },
     // 跑步
-    { at: 1, actor: 'panda', do: 'moveTo', to: { x: 128, y: 68.6 }, dur: 0.6 },
+    { at: 1, actor: 'panda', do: 'moveTo', to: { x: 132, y: 68.6 }, dur: 0.6 },
     { at: 1, actor: 'panda', do: 'bounce', dur: 0.6, times: 4, amount: 2 },
     { at: 1.69, actor: 'donut', do: 'pop', dur: 0.25 },
     { at: 1.9, actor: 'donut', do: 'moveTo', to: { x: 127, y: 66 }, dur: 0.2, arc: 4 },
