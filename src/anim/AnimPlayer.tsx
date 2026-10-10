@@ -148,9 +148,11 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
 
         {/* 地上的影子：離地愈高愈小愈淡，跳起來才看得出高度 */}
         {visible.filter((a) => !a.float).map((a) => {
-          const h = Math.max(0, FLOOR - (a.y + a.size * 0.42))
+          const feet = a.y + a.size * 0.42
+          const h = Math.max(0, FLOOR - feet)
           const k = 1 - Math.min(1, h / 40)
-          return <ellipse key={`sh-${a.id}`} cx={a.x} cy={FLOOR + 1.4} rx={a.size * 0.34 * a.s * a.sx * (0.4 + 0.6 * k)}
+          // 站在比較前面的地上（腳在地平線下面）的角色，影子跟著畫在腳下
+          return <ellipse key={`sh-${a.id}`} cx={a.x} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * 0.34 * a.s * a.sx * (0.4 + 0.6 * k)}
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
 

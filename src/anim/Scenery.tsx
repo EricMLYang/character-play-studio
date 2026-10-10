@@ -305,7 +305,7 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string) => JSX.Element>> = {
       <path d={`M-20,${FLOOR - 26} L180,${FLOOR - 26} L180,${FLOOR} L-20,${FLOOR} Z`} fill={mix(c.far, '#6D7FA6', 0.35)} />
       {[0, 1, 2, 3].map((r) => <rect key={r} x="-20" y={FLOOR - 26 + r * 6} width="200" height="0.8" fill="#fff" opacity=".2" />)}
       {Array.from({ length: 4 }, (_, r) => Array.from({ length: 44 }, (_, i) => (
-        <g key={`${r}-${i}`}>
+        <g key={`${r}-${i}`} opacity=".6">
           <circle cx={-18 + i * 4.6 + (r % 2) * 2.3} cy={FLOOR - 23.5 + r * 6} r="1.4"
             fill={['#FF8A80', '#80D8FF', '#FFE57F', '#B9F6CA', '#E1BEE7', '#FFCC80'][(i * 7 + r * 3) % 6]} />
           <circle cx={-18 + i * 4.6 + (r % 2) * 2.3} cy={FLOOR - 25.6 + r * 6} r="0.9" fill="#F2C9A0" />
