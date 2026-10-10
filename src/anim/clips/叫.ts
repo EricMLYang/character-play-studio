@@ -38,7 +38,7 @@ const clip: Clip = {
     { at: 7.3, actor: 'alarm', do: 'flash', dur: 0.9 },
     { at: 7.65, actor: 'pig', do: 'hop', amount: 14, dur: 0.5 },
     // 打哈欠，壓著鬧鐘繼續睡
-    { at: 8.67, actor: 'pig', do: 'moveTo', to: { x: 113, y: 68.6 }, dur: 0.3 },
+    { at: 8.67, actor: 'pig', do: 'moveTo', to: { x: 122, y: 68.6 }, dur: 0.3 },
     { at: 8.89, actor: 'alarm', do: 'scaleTo', amount: 0.5, dur: 0.2 },
     { at: 8.89, actor: 'pig', do: 'squash', amount: 0.25, dur: 0.3 },
     { at: 9.12, actor: 'rooster', do: 'rotateTo', amount: 90, dur: 0.3 },
