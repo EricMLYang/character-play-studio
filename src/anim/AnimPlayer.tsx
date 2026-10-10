@@ -2,21 +2,22 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { loadChar, type CharData } from '../play/Strokes'
 import { say } from '../lib/audio'
 import * as sfx from '../lib/sfx'
-import Scenery, { FloorDecor } from './Scenery'
+import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
+import { FLIP_3D } from './flip3d'
 import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 
 /**
  * 播放一份劇本。畫面只看 t：播放時用 rAF 推進 t，拖曳或 frozenAt 時直接指定 t。
  * 唸字與音效只在「正常往前播」跨過時間點時觸發，拖曳不會出聲。
  */
-export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emoji' }: {
+export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d' }: {
   clip: Clip
   playing: boolean
   t: number
   onTime: (t: number) => void
   onEnd?: () => void
-  /** emoji：系統 emoji 字；3d：換成 public/emoji3d 的 3D 渲染圖（沒有圖的照樣用 emoji 字） */
+  /** 3d（預設）：public/emoji3d 的 3D 渲染圖（沒有圖的照樣用 emoji 字）；emoji：系統 emoji 字 */
   art?: Art
 }) {
   const [data, setData] = useState<CharData | null>(null)
@@ -80,6 +81,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
   const dark = lightAt(clip, t)
   // 同一頁可能有兩個播放器（Studio 預覽），漸層 id 不能撞
   const uid = useId().replace(/:/g, '')
+  const warm = `warm${uid}`
   const sky = `sky${uid}`, gloss = `gloss${uid}`, vignette = `vig${uid}`, shine = `shine${uid}`, glyphClip = `gclip${uid}`
 
   const renderActor = (a: (typeof visible)[number]) => {
@@ -87,10 +89,12 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
     const base = a.y + a.size * 0.42
     // 站在地上的角色會微微呼吸，畫面不會有完全靜止的死角；每個角色節奏錯開
     const breath = a.float ? 0 : Math.sin(t * 6.9 + phase(a.id)) * 0.022
-    const sx = a.s * a.sx * (a.flip ? -1 : 1) * (1 - breath * 0.5)
+    // 3D 圖有些跟 Apple emoji 朝反方向，劇本照 Apple 寫，這裡再翻回來
+    const flip = a.flip !== (art === '3d' && FLIP_3D.has(codeOf(a.emoji)))
+    const sx = a.s * a.sx * (flip ? -1 : 1) * (1 - breath * 0.5)
     const sy = a.s * a.sy * (1 + breath)
     // 白色貼紙描邊＋軟陰影：emoji 看起來像一張張立體貼紙，不再平貼在背景上
-    const filter = [a.tint, STICKER, a.glow && `drop-shadow(0 0 ${2 + a.glow * 4}px #FFD400) brightness(${1 + a.glow * 0.6})`].filter(Boolean).join(' ')
+    const filter = [a.tint, art === '3d' ? SOFT : STICKER, a.glow && `drop-shadow(0 0 ${2 + a.glow * 4}px #FFD400) brightness(${1 + a.glow * 0.6})`].filter(Boolean).join(' ')
     return (
       <g key={a.id} opacity={a.o}
         transform={`translate(${a.x} ${base}) rotate(${a.r}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
@@ -101,7 +105,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
   }
 
   return (
-    <svg className="anim-stage" viewBox="0 0 160 90" role="img" aria-label={`${clip.char} 的動畫`}>
+    <svg className="anim-stage" viewBox="0 0 160 90" style={{ filter: 'saturate(1.18) contrast(1.06)' }} role="img" aria-label={`${clip.char} 的動畫`}>
       <defs>
         <linearGradient id={sky} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={clip.bg.top} />
@@ -121,6 +125,11 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
           {/* clipPath 裡不能放 <g>，轉換要寫在每個 path 上 */}
           {data.strokes.map((d, i) => <path key={i} d={d} transform={GLYPH_TRANSFORM} />)}
         </clipPath>}
+        <radialGradient id={warm} cx=".2" cy=".05" r="1.1">
+          <stop offset="0" stopColor="#FFF1C9" stopOpacity=".6" />
+          <stop offset=".55" stopColor="#FFF1C9" stopOpacity=".15" />
+          <stop offset="1" stopColor="#3A2A55" stopOpacity=".4" />
+        </radialGradient>
         <radialGradient id={vignette} cx=".5" cy=".5" r=".75">
           <stop offset=".6" stopColor="#000" stopOpacity="0" />
           <stop offset="1" stopColor="#000" stopOpacity=".16" />
@@ -132,10 +141,9 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
         <rect x="-20" y="-20" width="200" height="130" fill={`url(#${sky})`} />
         {/* 視差：背景只跟著鏡頭動一部分，推近、震動時才有景深 */}
         <g transform={`translate(${cam.cx} ${cam.cy}) scale(${(1 + (cam.z - 1) * 0.4) / cam.z}) translate(${-cam.cx - cam.dx * 0.6} ${-cam.cy - cam.dy * 0.6})`}>
-          <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} />
+          <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} />
         </g>
-        <rect x="-20" y={FLOOR} width="200" height="40" fill={clip.bg.floor} />
-        <rect x="-20" y={FLOOR} width="200" height="1.2" fill="#fff" opacity=".55" />
+        <Ground kind={clip.bg.scenery} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} />
         <FloorDecor kind={clip.bg.scenery} t={t} />
 
         {/* 地上的影子：離地愈高愈小愈淡，跳起來才看得出高度 */}
@@ -205,6 +213,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
         })}
 
         {visible.filter((a) => !a.top).map(renderActor)}
+        <Foreground kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} />
         {/* 關燈：黑幕蓋住整個舞台，只剩 top 的角色（發亮的眼睛）和漫畫效果 */}
         {dark > 0 && <rect x="-20" y="-20" width="200" height="130" fill="#120E24" opacity={dark * 0.94} />}
         {/* level 是負的：相機閃光燈，整個畫面一白 */}
@@ -236,6 +245,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = 'emo
           </g>
         ))}
       </g>
+      {/* 整體光線：左上方暖暖的陽光、下方稍暗，畫面才有空氣感 */}
+      <rect width="160" height="90" fill={`url(#${warm})`} pointerEvents="none" style={{ mixBlendMode: 'soft-light' }} />
       <rect width="160" height="90" fill={`url(#${vignette})`} pointerEvents="none" />
     </svg>
   )
@@ -249,6 +260,9 @@ function shade(hex: string, k: number) {
 }
 
 /** 角色描邊：兩層白色細光暈疊成貼紙邊，再加一點往下的軟陰影。 */
+/** 3D 角色：不描白邊，只有一點往下的柔和陰影，像打了光的玩偶。 */
+const SOFT = 'drop-shadow(0 0.9px 0.8px rgba(40,30,60,.28))'
+
 const STICKER = 'drop-shadow(0 0 0.45px #fff) drop-shadow(0 0 0.45px #fff) drop-shadow(0 0 0.3px #fff) drop-shadow(0 0.8px 0.6px rgba(0,0,0,.3))'
 
 /** 由 id 算一個固定的相位，讓每個角色呼吸的節奏不一樣。 */

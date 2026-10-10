@@ -13,7 +13,7 @@ export default function AnimLab() {
   const [t, setT] = useState(() => Number(qs.get('t')) || 0)
   const [playing, setPlaying] = useState(false)
   const [run, setRun] = useState(0)
-  const [art, setArt] = useState<Art>(() => (qs.get('art') === '3d' ? '3d' : 'emoji'))
+  const [art, setArt] = useState<Art>(() => (qs.get('art') === 'emoji' ? 'emoji' : '3d'))
   const clip = CLIPS.find((c) => c.char === char)!
 
   const pick = (c: string) => { setChar(c); setPlaying(false); setT(0) }

@@ -418,7 +418,8 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
 }
 
 export function cameraAt(clip: Clip, t: number) {
-  let z = 1, cx = 80, cy = 45, dx = 0, dy = 0
+  // 整支片鏡頭一直很慢地往前推一點點，畫面不會像一張靜止的圖
+  let z = 1 + 0.035 * easeInOut(clamp(t / clip.duration)), cx = 80, cy = 46, dx = 0, dy = 0
   for (const c of clip.camera ?? []) {
     if (t < c.at || t > c.at + c.dur) continue
     const p = (t - c.at) / c.dur
