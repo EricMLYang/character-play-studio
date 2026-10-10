@@ -6,13 +6,13 @@ import { FLOOR, type Scenery as Kind } from './clip'
  * 顏色從劇本的 bg 推出來（遠的東西混進天空色，近的東西比較飽和），所以每支配色不同但都有景深。
  * 不會動的部分用 memo 畫一次；會動的（雲、泡泡、雪、星星、螢火蟲）只看 t。
  */
-type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string }
+type Props = { kind?: Kind; t: number; floor: string; sky: string; bottom: string; uid: string; noMoon?: boolean }
 
-export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid }: Props) {
+export default function Scenery({ kind = 'hills', t, floor, sky, bottom, uid, noMoon }: Props) {
   const c = palette(floor, sky, bottom)
   return <g aria-hidden>
     <SceneDefs uid={uid} c={c} />
-    <StaticBack kind={kind} c={c} uid={uid} />
+    <StaticBack kind={kind} c={c} uid={uid} noMoon={noMoon} />
     {MOVING_BACK[kind]?.(t, c, uid)}
     <StaticMid kind={kind} c={c} uid={uid} />
   </g>
@@ -178,11 +178,11 @@ function Pine({ x, base, h, fill, snow }: { x: number; base: number; h: number; 
 }
 
 // ---------- 遠景（不會動） ----------
-const StaticBack = memo(function StaticBack({ kind, c, uid }: { kind: Kind; c: Pal; uid: string }) {
-  return <>{BACK[kind]?.(c, uid)}</>
+const StaticBack = memo(function StaticBack({ kind, c, uid, noMoon }: { kind: Kind; c: Pal; uid: string; noMoon?: boolean }) {
+  return <>{BACK[kind]?.(c, uid, noMoon)}</>
 })
 
-const BACK: Partial<Record<Kind, (c: Pal, uid: string) => JSX.Element>> = {
+const BACK: Partial<Record<Kind, (c: Pal, uid: string, noMoon?: boolean) => JSX.Element>> = {
   hills: (c, uid) => <>
     <Sun x={128} y={18} uid={uid} />
     <g filter={`url(#far${uid})`}>
@@ -232,13 +232,14 @@ const BACK: Partial<Record<Kind, (c: Pal, uid: string) => JSX.Element>> = {
     <rect x="-20" y={FLOOR - 40} width="200" height="40" fill={`url(#haze${uid})`} />
   </>,
 
-  night: (c, uid) => <>
-    <g>
+  night: (c, uid, noMoon) => <>
+    {/* 劇本自己有月亮（🌙）時不要畫兩個 */}
+    {!noMoon && <g>
       <circle cx="132" cy="16" r="26" fill={`url(#sun${uid})`} opacity=".45" />
       <circle cx="132" cy="16" r="6.5" fill="#FFF6D6" />
       <circle cx="129.5" cy="14.5" r="1.3" fill="#E9DDB4" opacity=".7" />
       <circle cx="134" cy="18.5" r="0.9" fill="#E9DDB4" opacity=".6" />
-    </g>
+    </g>}
     <path d={ridge([14, 20, 16, 24, 18, 13, 21, 17], FLOOR)} fill={mix(c.floor, '#0E1030', 0.55)} />
   </>,
 
