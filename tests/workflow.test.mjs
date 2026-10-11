@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { createServer } from 'vite'
-import { taiwanDay, completeWatch, addFeedback, publishMedia, publishedMedia, addTrace, discover, validStrokes } from '../shared/domain.mjs'
+import { taiwanDay, completeWatch, addFeedback, publishMedia, publishedMedia, addTrace, discover, validStrokes, saveWord, validWord, MAX_WORDS } from '../shared/domain.mjs'
 import { browseCharacters } from '../shared/selection.mjs'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
@@ -299,6 +299,32 @@ test('trace and discover events persist, retry idempotently and reject bad input
   const found = await request('/discover', { char: '日', id: 'discover-event-1', at: trace.at })
   assert.equal(found.body.lab['日'], trace.at)
   assert.equal(loadProgress().watched['山'].count, 2, 'watch history is untouched')
+})
+
+test('the word train keeps the newest words, drops the oldest, and lets the child remove one', () => {
+  const at = (d) => `2026-09-${String(d).padStart(2, '0')}T10:00:00Z`
+  let p = { watched: {} }
+  for (let d = 1; d <= MAX_WORDS + 1; d++) p = saveWord(p, `山${d}`, at(d))
+  assert.equal(Object.keys(p.words).length, MAX_WORDS)
+  assert.ok(!p.words['山1'], 'the oldest word leaves when the list is full')
+  p = saveWord(p, '山2', at(20))
+  assert.equal(Object.keys(p.words)[0], '山2', 'riding an old word again moves it to the front')
+  // 離線補送的舊事件不能把比較新的組合蓋掉或刪掉
+  assert.equal(saveWord(p, '山2', at(15)).words['山2'], at(20))
+  assert.equal(saveWord(p, '山2', at(15), true).words['山2'], at(20))
+  assert.ok(!('山2' in saveWord(p, '山2', at(21), true).words))
+  for (const bad of ['山', '山木日火水', 3, undefined]) assert.equal(validWord(bad), false)
+  assert.equal(validWord('木木'), true, 'the same character twice is a fine word')
+})
+
+test('word train events persist and reject words with unknown characters', async () => {
+  const word = { char: '山木', id: 'word-event-1', at: '2026-09-21T10:00:00Z' }
+  assert.equal((await request('/word', word)).status, 200)
+  assert.equal(loadProgress().words['山木'], word.at)
+  assert.equal((await request('/word', { ...word, id: 'word-event-2', char: '山不存在' })).status, 422)
+  assert.equal((await request('/word', { ...word, id: 'word-event-3', char: '山' })).status, 422)
+  const removed = await request('/word', { ...word, id: 'word-event-4', at: '2026-09-22T10:00:00Z', remove: true })
+  assert.ok(!('山木' in removed.body.words))
 })
 
 test('failed generation retains spent credit and releases the pending work for a retry', async () => {

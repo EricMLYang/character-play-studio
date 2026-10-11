@@ -3,7 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 import { tap } from '../lib/sfx'
 import type { Filter, Screen } from './PlayApp'
-import type { WordGroup } from './words'
+import { hueMap, type WordGroup } from './words'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -12,7 +12,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen,
+  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen, onRide,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -29,6 +29,8 @@ export default function Home({
   onReset: () => void
   residents: number
   onScreen: (s: Screen) => void
+  /** 坐一次他自己接的字火車 */
+  onRide: (text: string) => void
 }) {
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   const card = (c: CharEntry, hue: number, i: number) => {
@@ -51,6 +53,12 @@ export default function Home({
       </button>
     )
   }
+
+  // 他自己接的詞：每節車廂保留那個字在原本的詞裡的顏色（跟字火車貨架一樣），原本的詞照舊依序配色
+  const mineCount = groups?.filter((g) => g.mine).length || 0
+  const hueOf = hueMap(groups || [])
+  const hueIn = (g: WordGroup, gi: number, c: CharEntry) =>
+    g.key === 'more' ? c.priority % 8 : g.mine ? hueOf.get(c.char) ?? 0 : (gi - mineCount) % 8
 
   return (
     <div className="home">
@@ -92,6 +100,10 @@ export default function Home({
             <span className="place-icon" aria-hidden>🧪</span>
             <span><b>魔法鍋</b><small>字會變成別的字</small></span>
           </button>
+          <button className="place place-train" onClick={() => { tap(); onScreen('train') }}>
+            <span className="place-icon" aria-hidden>🚂</span>
+            <span><b>字火車</b><small>自己接一個詞</small></span>
+          </button>
         </div>
         <TodayStars count={todayCount} />
       </div>
@@ -101,9 +113,14 @@ export default function Home({
           {[...groups, ...(filter === 'all' ? [{ key: 'more', label: '📚 更多字卡', items: items.filter((c) => !hasMovie(c)) }] : [])]
             .filter((g) => g.items.length)
             .map((g, gi) => (
-              <div key={g.key} className={'word' + (g.label ? ' word-theme' : '')} role="group" aria-label={g.label || g.key}>
-                {g.label && <span className="word-label">{g.label}</span>}
-                <div className="word-cards">{g.items.map((c) => card(c, g.key === 'more' ? c.priority % 8 : gi % 8, items.indexOf(c)))}</div>
+              <div key={(g.mine ? 'mine:' : '') + g.key} className={'word' + (g.label ? ' word-theme' : '') + (g.mine ? ' word-mine' : '')}
+                role="group" aria-label={g.mine ? `我接的「${g.key}」` : g.label || g.key}>
+                {g.mine ? (
+                  <button className="word-label word-ride" onClick={() => { tap(); onRide(g.key) }} aria-label={`坐字火車「${g.key}」`}>
+                    {g.label}<span className="word-ride-go" aria-hidden>▶</span>
+                  </button>
+                ) : g.label && <span className="word-label">{g.label}</span>}
+                <div className="word-cards">{g.items.map((c) => card(c, hueIn(g, gi, c), items.indexOf(c)))}</div>
               </div>
             ))}
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}

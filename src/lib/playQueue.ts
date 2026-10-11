@@ -1,5 +1,5 @@
 import { recordPlay, ApiError } from './api'
-import { completeWatch, addTrace, discover } from '../../shared/domain.mjs'
+import { completeWatch, addTrace, discover, saveWord } from '../../shared/domain.mjs'
 import type { Progress } from '../types'
 
 // 沿用舊的 key：升級前還沒送出的觀看紀錄（沒有 kind）照樣當觀看送出
@@ -8,11 +8,14 @@ export type PlayEvent =
   | { kind?: 'watch'; char: string; id: string; at: string }
   | { kind: 'trace'; char: string; id: string; at: string; strokes: number[][] }
   | { kind: 'discover'; char: string; id: string; at: string }
+  /** char 是整個詞 */
+  | { kind: 'word'; char: string; id: string; at: string; remove?: boolean }
 
 /** 伺服器與畫面用同一套規則套用事件，離線時畫面先動、之後再補送。 */
 export function applyEvent(progress: Progress, event: PlayEvent): Progress {
   if (event.kind === 'trace') return addTrace(progress, event.char, event.strokes, event.at)
   if (event.kind === 'discover') return discover(progress, event.char, event.at)
+  if (event.kind === 'word') return saveWord(progress, event.char, event.at, event.remove)
   return completeWatch(progress, event.char, event.at)
 }
 

@@ -51,6 +51,24 @@ export function discover(progress, char, at = new Date().toISOString()) {
   return { ...progress, lab: { ...progress.lab, [char]: at } }
 }
 
+/** 孩子自己組的詞最多留幾個：首頁要放得下，新的擠掉最舊的。 */
+export const MAX_WORDS = 8
+
+/** 自己組的詞：2～4 個字，可以重複（跳跳）。 */
+export const validWord = (text) => typeof text === 'string' && [...text].length >= 2 && [...text].length <= 4
+
+/**
+ * 孩子自己組的詞（字火車）：記最後一次組出來的時間，新的排前面，超過上限丟掉最舊的。
+ * remove 是他自己按掉；比那次更新的組合不受影響（離線補送時順序可能亂掉）。
+ */
+export function saveWord(progress, text, at = new Date().toISOString(), remove = false) {
+  const { [text]: previous, ...rest } = progress.words || {}
+  if (previous && Date.parse(previous) > Date.parse(at)) return progress
+  if (remove) return previous === undefined ? progress : { ...progress, words: rest }
+  const words = Object.entries({ ...rest, [text]: at }).sort((a, b) => Date.parse(b[1]) - Date.parse(a[1])).slice(0, MAX_WORDS)
+  return { ...progress, words: Object.fromEntries(words) }
+}
+
 /** 筆跡只收合理的形狀：最多 40 筆，每筆最多 64 個點，座標在字框附近。 */
 export function validStrokes(strokes) {
   return Array.isArray(strokes) && strokes.length > 0 && strokes.length <= 40 && strokes.every((s) =>

@@ -9,11 +9,12 @@ import Home from './Home'
 import Viewer from './Viewer'
 import Town from './Town'
 import Lab from './Lab'
+import Train, { Ride } from './Train'
 import { setParts } from './parts'
-import { groupMovies } from './words'
+import { groupMovies, hueMap, type WordGroup } from './words'
 
 export type Filter = 'all' | 'video' | 'unwatched'
-export type Screen = 'home' | 'town' | 'lab'
+export type Screen = 'home' | 'town' | 'lab' | 'train'
 const EMPTY: Progress = { watched: {} }
 
 export default function PlayApp() {
@@ -23,6 +24,7 @@ export default function PlayApp() {
   const [filter, setFilter] = useState<Filter>('all')
   const [active, setActive] = useState<string | null>(null)
   const [screen, setScreen] = useState<Screen>('home')
+  const [ride, setRide] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [syncError, setSyncError] = useState(false)
   const home = useRef<HTMLDivElement>(null)
@@ -31,7 +33,7 @@ export default function PlayApp() {
   // 觀看層開著時，背後的字庫要完全退出（不能被 Tab 進去、讀屏也不該唸）；關閉後回到剛才那張字卡
   useEffect(() => {
     const el = home.current as (HTMLDivElement & { inert?: boolean }) | null
-    if (el) el.inert = Boolean(active)
+    if (el) el.inert = Boolean(active || ride)
     if (active) { lastActive.current = active; return }
     const char = lastActive.current
     lastActive.current = null
@@ -43,7 +45,7 @@ export default function PlayApp() {
     } else {
       el.querySelector<HTMLButtonElement>('.chip[aria-pressed="true"]')?.focus()
     }
-  }, [active])
+  }, [active, ride])
 
   const sync = useCallback(() => {
     flushEvents().then(() => setSyncError(false)).catch(() => setSyncError(true))
@@ -67,6 +69,13 @@ export default function PlayApp() {
     const groups = groupMovies(visible.filter(hasMovie))
     return { groups, all: [...groups.flatMap((g) => g.items), ...visible.filter((c) => !hasMovie(c))] }
   }, [lib])
+  // 他在字火車組的詞，新的在前；詞裡有字被藏起來或拿掉影片就先不放
+  const mine = useMemo<WordGroup[]>(() => {
+    const byChar = new Map(groups.flatMap((g) => g.items).map((c) => [c.char, c]))
+    return Object.entries(progress.words || {}).sort((a, b) => Date.parse(b[1]) - Date.parse(a[1]))
+      .map(([text]) => ({ key: text, label: '🚂 我接的', mine: true, items: [...text].map((ch) => byChar.get(ch)!) }))
+      .filter((g) => g.items.every(Boolean))
+  }, [groups, progress.words])
   const items = useMemo(() => {
     const q = query.trim().toLowerCase()
     return all.filter((c) =>
@@ -104,6 +113,10 @@ export default function PlayApp() {
     record({ kind: 'discover', char, id: crypto.randomUUID(), at: new Date().toISOString() })
   }, [record, progress.lab])
 
+  const saveWord = useCallback((text: string, remove = false) => {
+    record({ kind: 'word', char: text, id: crypto.randomUUID(), at: new Date().toISOString(), ...(remove ? { remove } : {}) })
+  }, [record])
+
   if (!lib) return <div className="boot">{error || '載入中…'}</div>
 
   const entry = all.find((c) => c.char === active)
@@ -117,10 +130,13 @@ export default function PlayApp() {
         <Town residents={progress.town || {}} library={all} onPick={setActive} onBack={() => setScreen('home')} />
       ) : screen === 'lab' ? (
         <Lab library={all} found={progress.lab || {}} onDiscover={markDiscovered} onPick={setActive} onBack={() => setScreen('home')} />
+      ) : screen === 'train' ? (
+        <Train groups={groups} saved={mine.map((g) => g.key)} onBack={() => setScreen('home')}
+          onRide={(text) => { saveWord(text); setRide(text) }} onRemove={(text) => saveWord(text, true)} />
       ) : (
       <Home
         items={items}
-        groups={!query.trim() && filter !== 'unwatched' ? groups : null}
+        groups={!query.trim() && filter !== 'unwatched' ? [...mine, ...groups] : null}
         total={all.length}
         watched={progress.watched}
         todayCount={todayCount}
@@ -133,6 +149,7 @@ export default function PlayApp() {
         onReset={() => { setQuery(''); setFilter('all') }}
         residents={Object.keys(progress.town || {}).length}
         onScreen={setScreen}
+        onRide={setRide}
       />
       )}
       </div>
@@ -153,6 +170,12 @@ export default function PlayApp() {
           onTraced={markTraced}
           onTown={() => { setActive(null); setScreen('town') }}
         />
+      )}
+      {ride && (
+        <Ride key={ride} text={ride} library={all} hues={hueMap(groups)}
+          onWatched={(c) => markWatched(c, crypto.randomUUID())}
+          onClose={() => setRide(null)}
+          onBuild={() => { setRide(null); setScreen('train') }} />
       )}
       {syncError && <button className="sync-note" onClick={sync}>觀看紀錄已暫存，點此重試儲存</button>}
     </div>

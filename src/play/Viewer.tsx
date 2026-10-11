@@ -306,7 +306,7 @@ function Scene({ entry }: { entry: CharEntry }) {
 }
 
 /** 看完的彩帶。CSS 動畫，沒有圖檔。 */
-function Confetti() {
+export function Confetti() {
   return (
     <div className="confetti" aria-hidden>
       {Array.from({ length: 18 }, (_, i) => <span key={i} style={{ ['--i' as any]: i }} />)}

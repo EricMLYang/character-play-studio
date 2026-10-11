@@ -31,7 +31,8 @@ export const WORDS: { chars: string; label?: string }[] = [
   { chars: '弓力戰犬', label: '🏹 小勇士' },
 ]
 
-export type WordGroup = { key: string; label?: string; items: CharEntry[] }
+/** mine：孩子在字火車自己組的詞，key 就是那個詞 */
+export type WordGroup = { key: string; label?: string; items: CharEntry[]; mine?: boolean }
 
 /**
  * 把有影片的字照 WORDS 分組。詞少了任何一個字（字被藏起來、動畫拿掉）就不成詞，
@@ -50,4 +51,11 @@ export function groupMovies(movies: CharEntry[]): WordGroup[] {
   const rest = movies.filter((c) => !placed.has(c.char))
   if (rest.length) groups.push({ key: 'new', label: '🆕 新影片', items: rest })
   return groups
+}
+
+/** 每個字在首頁的顏色：跟著它所在的詞（第幾組）。字火車的車廂、他自己接的詞都用這個，同一個字到哪裡都同色。 */
+export function hueMap(groups: WordGroup[]) {
+  const hues = new Map<string, number>()
+  groups.filter((g) => !g.mine).forEach((g, i) => g.items.forEach((c) => { if (!hues.has(c.char)) hues.set(c.char, i % 8) }))
+  return hues
 }

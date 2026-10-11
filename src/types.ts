@@ -49,6 +49,8 @@ export type Progress = {
   town?: Record<string, Resident>
   /** 魔法鍋變出來過的字 → 第一次發現的時間 */
   lab?: Record<string, string>
+  /** 字火車：他自己組的詞 → 最後一次組的時間 */
+  words?: Record<string, string>
 }
 
 export type Library = {
