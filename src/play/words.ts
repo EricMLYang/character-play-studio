@@ -8,7 +8,7 @@ import type { CharEntry } from '../types'
 /** pin：排在最前面，連他在字火車自己接的詞都排在它後面 */
 export const WORDS: { chars: string; label?: string; pin?: boolean }[] = [
   // 他的名字放最前面
-  { chars: '楊捷睿', label: '⭐ 我的名字', pin: true },
+  { chars: '楊捷睿', label: '🏎️ 楊捷睿賽車手', pin: true },
   // 好玩的、動物
   { chars: '機器貓' }, { chars: '超人' }, { chars: '快跑' }, { chars: '飛走' }, { chars: '龍蝦' }, { chars: '火車' }, { chars: '河馬' }, { chars: '小鳥' }, { chars: '金魚' }, { chars: '牛肉' },
   { chars: '大象' }, { chars: '豬鼻' }, { chars: '猴王' }, { chars: '天鵝' }, { chars: '龜慢兔急' }, { chars: '鴨嘴' }, { chars: '虎牙' }, { chars: '熊抱' }, { chars: '灰狼' }, { chars: '黑豹' },

@@ -1,10 +1,10 @@
 import type { Clip } from '../clip'
 
-// 捷：賽車和獵豹比賽，旗子一揮「咻」——賽車快到衝出畫面，只好倒車回來；再比一次又快到原地打轉，轉得頭昏眼花，
-// 閃電尾巴變成「扌」，獵豹的腳印變成右邊，「捷」站好了。這時捷運「咻」地滑進站——比他們兩個都快。捷、捷、捷運
+// 捷（楊捷睿賽車手 第二集）：接著第一集衝進賽車場，賽車和獵豹比賽，旗子一揮「咻」——賽車快到衝出畫面，只好倒車回來；再比一次又快到原地打轉，轉得頭昏眼花，
+// 閃電尾巴變成「扌」，獵豹的腳印變成右邊，「捷」站好了。這時捷運「咻」地滑進站——比他們兩個都快，賽車不服氣追上去（接第三集）。捷、捷、捷運
 const clip: Clip = {
   char: '捷',
-  meta: { theme: '賽車場', cast: '賽車＋獵豹＋旗子＋捷運', gags: ['快到衝出畫面倒車回來', '原地打轉轉到昏', '捷運比誰都快'] },
+  meta: { theme: '楊捷睿賽車手②比賽', cast: '賽車＋獵豹＋旗子＋捷運', gags: ['快到衝出畫面倒車回來', '原地打轉轉到昏', '捷運比誰都快'] },
   duration: 10,
   bg: { top: '#BFE3FF', bottom: '#EEF7FF', floor: '#A7B0BA', scenery: 'track' },
   actors: [
@@ -14,8 +14,9 @@ const clip: Clip = {
     { id: 'train', emoji: '🚈', x: 138, y: 66, size: 24, hidden: true },
   ],
   moves: [
-    { at: 0, actor: 'car', do: 'pop' },
-    { at: 0.1, actor: 'cheetah', do: 'pop' },
+    // 從第一集衝出畫面，這一集從左邊衝進來
+    { at: 0, actor: 'car', do: 'enter', from: { x: -20, y: 70 }, dur: 0.35 },
+    { at: 0.05, actor: 'cheetah', do: 'enter', from: { x: -25, y: 66 }, dur: 0.45 },
     { at: 0.3, actor: 'flag', do: 'drop', dur: 0.5 },
     // 催油門
     { at: 0.7, actor: 'car', do: 'shake', amount: 1, dur: 0.5 },

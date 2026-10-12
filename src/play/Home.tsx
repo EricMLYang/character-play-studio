@@ -29,7 +29,7 @@ export default function Home({
   onReset: () => void
   residents: number
   onScreen: (s: Screen) => void
-  /** 坐一次他自己接的字火車 */
+  /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
 }) {
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
@@ -117,8 +117,9 @@ export default function Home({
             .map((g, gi) => (
               <div key={(g.mine ? 'mine:' : '') + g.key} className={'word' + (g.label ? ' word-theme' : '') + (g.mine ? ' word-mine' : '')}
                 role="group" aria-label={g.mine ? `我接的「${g.key}」` : g.label || g.key}>
-                {g.mine ? (
-                  <button className="word-label word-ride" onClick={() => { tap(); onRide(g.key) }} aria-label={`坐字火車「${g.key}」`}>
+                {/* 他接的詞、釘在最前面的名字：點標籤一節一節連著播 */}
+                {g.mine || g.pin ? (
+                  <button className="word-label word-ride" onClick={() => { tap(); onRide(g.key) }} aria-label={g.pin ? `連著看「${g.label}」` : `坐字火車「${g.key}」`}>
                     {g.label}<span className="word-ride-go" aria-hidden>▶</span>
                   </button>
                 ) : g.label && <span className="word-label">{g.label}</span>}
