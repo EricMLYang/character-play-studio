@@ -136,7 +136,7 @@ export default function PlayApp() {
       ) : (
       <Home
         items={items}
-        groups={!query.trim() && filter !== 'unwatched' ? [...mine, ...groups] : null}
+        groups={!query.trim() && filter !== 'unwatched' ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
         total={all.length}
         watched={progress.watched}
         todayCount={todayCount}

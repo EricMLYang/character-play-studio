@@ -10671,6 +10671,88 @@
       "feedback": [],
       "activePromptId": "5bba1973-63f2-420b-9f13-760327a2eb9b",
       "promptedAt": "2026-10-03T07:23:17.984Z"
+    },
+    {
+      "char": "楊",
+      "zhuyin": "ㄧㄤˊ",
+      "meaning": "楊樹；也是姓，楊捷睿的楊",
+      "emoji": "🌳",
+      "words": [
+        {
+          "text": "楊樹",
+          "emoji": "🌳"
+        },
+        {
+          "text": "楊柳",
+          "emoji": "🌿"
+        },
+        {
+          "text": "姓楊",
+          "emoji": "🏷️"
+        }
+      ],
+      "concept": {
+        "object": "a tall poplar tree with fluttering silver-green leaves and a brave little ninja panda",
+        "morph": "the ninja panda leaps through the poplar branches and the falling leaves and trunk snap together into the glyph 楊",
+        "hook": "楊樹很高很高，小忍者熊貓一跳就跳上樹頂，樹枝和樹葉嘩啦啦拼成一個帥氣的楊字！"
+      },
+      "scene": "grow",
+      "status": "seed",
+      "priority": 272,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "捷",
+      "zhuyin": "ㄐㄧㄝˊ",
+      "meaning": "很快、動作靈活；楊捷睿的捷",
+      "emoji": "⚡",
+      "words": [
+        {
+          "text": "捷運",
+          "emoji": "🚇"
+        },
+        {
+          "text": "敏捷",
+          "emoji": "🐆"
+        },
+        {
+          "text": "快捷",
+          "emoji": "⚡"
+        }
+      ],
+      "concept": {
+        "object": "a shiny red race car with lightning stripes",
+        "morph": "the race car zooms so fast that its lightning trail draws the strokes of 捷",
+        "hook": "小賽車跑得超級快，咻一下衝過終點，留下的閃電尾巴就變成一個捷字！"
+      },
+      "scene": "zap",
+      "status": "seed",
+      "priority": 273,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "睿",
+      "zhuyin": "ㄖㄨㄟˋ",
+      "meaning": "看得很遠、很聰明；楊捷睿的睿",
+      "emoji": "🦉",
+      "words": [
+        {
+          "text": "睿智",
+          "emoji": "🦉"
+        }
+      ],
+      "concept": {
+        "object": "a clever owl detective with a big magnifying glass",
+        "morph": "the owl detective follows clues and the clues line up into the glyph 睿",
+        "hook": "聰明的貓頭鷹偵探拿著放大鏡，一個線索一個線索找，最後線索排成一個睿字！"
+      },
+      "scene": "glow",
+      "status": "seed",
+      "priority": 274,
+      "media": [],
+      "feedback": []
     }
   ],
   "production": {

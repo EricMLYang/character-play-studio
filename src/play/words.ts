@@ -5,7 +5,10 @@ import type { CharEntry } from '../types'
  * 湊不成詞的字用主題收在一起（有 label 的那幾組）。
  * 新做好動畫的字會先落到最後的「新影片」，記得回來把它排進某個詞。
  */
-export const WORDS: { chars: string; label?: string }[] = [
+/** pin：排在最前面，連他在字火車自己接的詞都排在它後面 */
+export const WORDS: { chars: string; label?: string; pin?: boolean }[] = [
+  // 他的名字放最前面
+  { chars: '楊捷睿', label: '⭐ 我的名字', pin: true },
   // 好玩的、動物
   { chars: '機器貓' }, { chars: '超人' }, { chars: '快跑' }, { chars: '飛走' }, { chars: '龍蝦' }, { chars: '火車' }, { chars: '河馬' }, { chars: '小鳥' }, { chars: '金魚' }, { chars: '牛肉' },
   { chars: '大象' }, { chars: '豬鼻' }, { chars: '猴王' }, { chars: '天鵝' }, { chars: '龜慢兔急' }, { chars: '鴨嘴' }, { chars: '虎牙' }, { chars: '熊抱' }, { chars: '灰狼' }, { chars: '黑豹' },
@@ -32,7 +35,7 @@ export const WORDS: { chars: string; label?: string }[] = [
 ]
 
 /** mine：孩子在字火車自己組的詞，key 就是那個詞 */
-export type WordGroup = { key: string; label?: string; items: CharEntry[]; mine?: boolean }
+export type WordGroup = { key: string; label?: string; items: CharEntry[]; mine?: boolean; pin?: boolean }
 
 /**
  * 把有影片的字照 WORDS 分組。詞少了任何一個字（字被藏起來、動畫拿掉）就不成詞，
@@ -46,7 +49,7 @@ export function groupMovies(movies: CharEntry[]): WordGroup[] {
     const items = [...w.chars].map((ch) => byChar.get(ch)).filter((c): c is CharEntry => Boolean(c))
     if (!items.length || (!w.label && items.length < [...w.chars].length)) continue
     items.forEach((c) => placed.add(c.char))
-    groups.push({ key: w.chars, label: w.label, items })
+    groups.push({ key: w.chars, label: w.label, items, ...(w.pin ? { pin: true } : {}) })
   }
   const rest = movies.filter((c) => !placed.has(c.char))
   if (rest.length) groups.push({ key: 'new', label: '🆕 新影片', items: rest })

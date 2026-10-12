@@ -55,10 +55,12 @@ export default function Home({
   }
 
   // 他自己接的詞：每節車廂保留那個字在原本的詞裡的顏色（跟字火車貨架一樣），原本的詞照舊依序配色
+  // 釘在最前面的詞（名字）排在他接的詞前面，配色要扣掉中間那幾組
   const mineCount = groups?.filter((g) => g.mine).length || 0
+  const pinCount = groups?.filter((g) => g.pin).length || 0
   const hueOf = hueMap(groups || [])
   const hueIn = (g: WordGroup, gi: number, c: CharEntry) =>
-    g.key === 'more' ? c.priority % 8 : g.mine ? hueOf.get(c.char) ?? 0 : (gi - mineCount) % 8
+    g.key === 'more' ? c.priority % 8 : g.mine ? hueOf.get(c.char) ?? 0 : (gi < pinCount ? gi : gi - mineCount) % 8
 
   return (
     <div className="home">
