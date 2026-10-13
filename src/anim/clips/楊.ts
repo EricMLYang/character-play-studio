@@ -1,43 +1,51 @@
 import type { Clip } from '../clip'
+import { ride } from '../helpers'
 
-// 楊（楊捷睿賽車手 第一集）：小賽車在楊樹下睡覺，鬧鐘一響要出發——第一次發動「噗」熄火，第二次催太猛「碰」撞上楊樹，彈回車庫。
-// 樹葉掉下來變成「木」，太陽變成「日」，排氣管的煙拼成右下，「楊」站好了。這時獵豹跑來下戰帖，兩個「咻」地衝出畫面（接第二集）。楊、楊、楊樹
+// 楊（楊捷睿賽車手 第一集：練習）：楊捷睿在楊樹下的小賽車裡睡著了，鬧鐘一響開始練車——第一次發動「噗」熄火，
+// 第二次催太猛「碰」撞上楊樹，車子彈回去，他自己飛進樹上卡住。樹葉變成「木」、太陽變成「日」、排氣管的煙拼成右下，「楊」站好了。
+// 車子自己開回來接他，他從樹上掉進駕駛座，想著比賽「咻」地衝出畫面（接第二集）。楊、楊、楊樹
 const clip: Clip = {
   char: '楊',
-  meta: { theme: '楊捷睿賽車手①出發', cast: '賽車＋楊樹＋太陽＋獵豹', gags: ['發動熄火', '催太猛撞樹彈回來', '獵豹下戰帖'] },
+  meta: { theme: '楊捷睿賽車手①練習', cast: '楊捷睿＋賽車＋楊樹＋太陽', gags: ['發動熄火', '撞樹人飛進樹上', '車子自己回來接他'] },
   duration: 10,
   bg: { top: '#9FD8FF', bottom: '#E6F6FF', floor: '#9CD67E', scenery: 'hills' },
   actors: [
     { id: 'sun', emoji: '☀️', x: 20, y: 15, size: 14, hidden: true, float: true },
     { id: 'tree', emoji: '🌳', x: 140, y: 62, size: 36, hidden: true },
     { id: 'car', emoji: '🏎️', x: 26, y: 70, size: 19, hidden: true, flip: true },
-    { id: 'cheetah', emoji: '🐆', x: 148, y: 66, size: 20, hidden: true },
+    { id: 'boy', emoji: '👦', x: 26, y: 67, size: 11, hidden: true },
   ],
   moves: [
     { at: 0, actor: 'sun', do: 'pop' },
     { at: 0, actor: 'tree', do: 'pop' },
-    { at: 0.1, actor: 'car', do: 'pop' },
-    // 鬧鐘響，跳起來
-    { at: 1.0, actor: 'car', do: 'hop', amount: 6, dur: 0.3 },
-    // 第一次發動：抖一抖——噗，熄火
-    { at: 1.6, actor: 'car', do: 'shake', amount: 1, dur: 0.5 },
-    { at: 2.1, actor: 'car', do: 'squash', amount: 0.25, dur: 0.3 },
-    // 第二次催太猛，衝出去撞上楊樹
-    { at: 2.9, actor: 'car', do: 'shake', amount: 2, dur: 0.4 },
-    { at: 3.3, actor: 'car', do: 'moveTo', to: { x: 124, y: 70 }, dur: 0.25 },
+    ...ride([
+      { at: 0.1, actor: 'car', do: 'pop' },
+      // 鬧鐘響，跳起來
+      { at: 1.0, actor: 'car', do: 'hop', amount: 6, dur: 0.3 },
+      // 第一次發動：抖一抖——噗，熄火
+      { at: 1.6, actor: 'car', do: 'shake', amount: 1, dur: 0.5 },
+      { at: 2.1, actor: 'car', do: 'squash', amount: 0.25, dur: 0.3 },
+      // 第二次催太猛，衝出去
+      { at: 2.9, actor: 'car', do: 'shake', amount: 2, dur: 0.4 },
+      { at: 3.3, actor: 'car', do: 'moveTo', to: { x: 124, y: 70 }, dur: 0.25 },
+    ], 'boy', -3, 19),
+    // 撞上楊樹：車子彈回去，人飛進樹上卡住
     { at: 3.55, actor: 'tree', do: 'shake', amount: 2, dur: 0.6 },
-    // 彈回車庫
+    { at: 3.55, actor: 'boy', do: 'moveTo', to: { x: 136, y: 42 }, arc: 10, dur: 0.35 },
+    { at: 3.9, actor: 'boy', do: 'shake', amount: 1, dur: 0.4 },
     { at: 3.7, actor: 'car', do: 'moveTo', to: { x: 26, y: 70 }, dur: 0.6 },
     { at: 3.7, actor: 'car', do: 'hop', amount: 5, dur: 0.4 },
     { at: 4.3, actor: 'car', do: 'squash', amount: 0.3, dur: 0.25 },
     // 楊樹
     { at: 7.2, actor: 'tree', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
-    // 獵豹跑來下戰帖
-    { at: 8.0, actor: 'cheetah', do: 'enter', from: { x: 190, y: 66 }, dur: 0.4 },
-    { at: 8.6, actor: 'car', do: 'shake', amount: 1.5, dur: 0.3 },
-    { at: 8.9, actor: 'cheetah', do: 'flip' },
-    { at: 9.0, actor: 'cheetah', do: 'moveTo', to: { x: 195, y: 66 }, dur: 0.35 },
-    { at: 9.05, actor: 'car', do: 'moveTo', to: { x: 195, y: 70 }, dur: 0.35 },
+    { at: 7.2, actor: 'boy', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
+    // 車子自己開過來接他，他從樹上掉進駕駛座
+    { at: 8.0, actor: 'car', do: 'moveTo', to: { x: 134, y: 70 }, dur: 0.5 },
+    { at: 8.6, actor: 'boy', do: 'moveTo', to: { x: 134, y: 67 }, dur: 0.3 },
+    { at: 8.9, actor: 'car', do: 'squash', amount: 0.25, dur: 0.25 },
+    // 出發去比賽！
+    { at: 9.15, actor: 'car', do: 'moveTo', to: { x: 195, y: 70 }, dur: 0.3 },
+    { at: 9.15, actor: 'boy', do: 'moveTo', to: { x: 195, y: 67 }, dur: 0.3 },
   ],
   builds: [
     // 撞下來的樹葉 → 木；太陽 → 日；排氣管的煙 → 右下那幾筆
@@ -47,18 +55,20 @@ const clip: Clip = {
   ],
   glyph: [{ at: 6.15, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
   fx: [
-    { at: 0.2, kind: 'zzz', actor: 'car', dur: 0.8 },
-    { at: 1.0, kind: 'pop', actor: 'car', emoji: '⏰', dur: 0.6 },
+    { at: 0.2, kind: 'zzz', actor: 'boy', dur: 0.8 },
+    { at: 1.0, kind: 'pop', actor: 'boy', emoji: '⏰', dur: 0.6 },
     { at: 1.6, kind: 'puff', actor: 'car', dur: 0.5 },
     { at: 2.2, kind: 'pop', actor: 'car', emoji: '💨', dur: 0.5 },
-    { at: 2.6, kind: 'sweat', actor: 'car' },
+    { at: 2.5, kind: 'sweat', actor: 'boy' },
     { at: 2.9, kind: 'burst', actor: 'car', emoji: '🔥', n: 4, dur: 0.4 },
     { at: 3.55, kind: 'burst', x: 128, y: 58, emoji: '💥', n: 1, dur: 0.4 },
     { at: 3.6, kind: 'burst', x: 140, y: 42, emoji: '🍃', n: 6, dur: 0.6 },
+    { at: 4.0, kind: 'pop', actor: 'boy', emoji: '😵', dur: 0.7 },
     { at: 4.3, kind: 'dizzy', actor: 'car', dur: 0.9 },
-    { at: 7.2, kind: 'burst', x: 140, y: 38, emoji: '🍃', n: 5, dur: 0.6 },
-    { at: 8.3, kind: 'bubble', actor: 'cheetah', emoji: '🏁', dx: -14, dur: 0.8 },
-    { at: 8.6, kind: 'pop', actor: 'car', emoji: '💢', dur: 0.4 },
+    { at: 7.2, kind: 'burst', x: 140, y: 36, emoji: '🍃', n: 5, dur: 0.6 },
+    { at: 7.4, kind: 'pop', actor: 'boy', emoji: '😅', dur: 0.6 },
+    { at: 8.1, kind: 'pop', actor: 'car', emoji: '📢', dur: 0.4 },
+    { at: 8.75, kind: 'bubble', actor: 'boy', emoji: '🏁', dx: -12, dur: 0.4 },
   ],
   camera: [
     { at: 3.55, dur: 0.35, do: 'shake', amount: 1.5 },
@@ -75,8 +85,9 @@ const clip: Clip = {
     { at: 4.3, sfx: 'boing' },
     { at: 6.2, say: '楊' },
     { at: 7.25, say: '楊樹' },
-    { at: 8.0, sfx: 'whoosh' },
-    { at: 9.0, sfx: 'whoosh' },
+    { at: 8.1, sfx: 'blip' },
+    { at: 8.9, sfx: 'plop' },
+    { at: 9.15, sfx: 'whoosh' },
     { at: 9.5, sfx: 'cheer' },
   ],
 }
