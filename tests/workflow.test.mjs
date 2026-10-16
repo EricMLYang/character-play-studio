@@ -9,6 +9,8 @@ import { browseCharacters } from '../shared/selection.mjs'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
 process.env.CPS_STORAGE_ROOT = storage
+// 唸字音檔要跑 say，測試不做（句子的整理另外用純函式驗）
+process.env.CPS_VOICE = 'off'
 const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash, audioFor } = await import('../server/core.mjs')
 const { generatePrompt, creativeBrief } = await import('../server/prompt-generation.mjs')
 const { apiPlugin } = await import('../server/api.mjs')

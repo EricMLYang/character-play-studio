@@ -10,6 +10,7 @@ export const STORAGE = process.env.CPS_STORAGE_ROOT || ROOT
 export const DATA = path.join(STORAGE, 'data')
 export const MEDIA = path.join(STORAGE, 'media')
 export const STROKES = path.join(STORAGE, 'public', 'strokes')
+export const VOICE = path.join(STORAGE, 'public', 'voice')
 
 const readJSON = (p, fallback) => {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')) } catch (error) {

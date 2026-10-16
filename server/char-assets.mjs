@@ -3,6 +3,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, DATA, STROKES, loadCharacters } from './core.mjs'
+import { syncVoice, textsForEntry } from './voice.mjs'
 
 const STROKE_SOURCE = path.join(ROOT, 'node_modules/hanzi-writer-data')
 const DICTIONARY_URL = 'https://raw.githubusercontent.com/skishore/makemeahanzi/master/dictionary.txt'
@@ -172,16 +173,24 @@ let queue = Promise.resolve()
  * 連續按兩次開放也不會讓比較舊的結果最後才寫進去。
  * 拆字資料要連網：沒網路時筆順照樣更新，字的家族留到下一次再算，不讓家長的操作失敗。
  */
-export function refreshCharacterAssets() {
+export function refreshCharacterAssets({ voiceFor } = {}) {
   const run = async () => {
-    const chars = loadCharacters().characters.map((c) => c.char)
+    const db = loadCharacters()
+    const chars = db.characters.map((c) => c.char)
     const { missing } = syncStrokes(chars)
+    const result = { missingStrokes: missing }
     try {
       await syncParts(chars)
-      return { missingStrokes: missing }
     } catch (error) {
-      return { missingStrokes: missing, partsError: `字的家族這次沒有更新：${error.message}` }
+      result.partsError = `字的家族這次沒有更新：${error.message}`
     }
+    // 唸字音檔只補這個字的幾句（幾秒鐘），整批清理留給 dev server 開機時做
+    const entry = voiceFor && db.characters.find((c) => c.char === voiceFor)
+    if (entry) {
+      const voice = await syncVoice({ texts: textsForEntry(entry) })
+      if (!voice.skipped) result.voice = { written: voice.written, failed: voice.failed.map((f) => f.text) }
+    }
+    return result
   }
   const result = queue.then(run)
   queue = result.catch(() => {})

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
-import { say, sayRepeat } from '../lib/audio'
+import { preloadVoice, say, sayRepeat } from '../lib/audio'
 import { publishedMedia } from '../../shared/domain.mjs'
 import { useVideoVoice } from '../lib/useVideoVoice'
 import { cheer, swipe } from '../lib/sfx'
@@ -89,6 +89,8 @@ export default function Viewer({
 
   // 把焦點從搜尋框拿過來，方向鍵才會是上一個／下一個
   useEffect(() => { root.current?.focus() }, [])
+  // 這個字會唸到的句子先抓好
+  useEffect(() => { preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook]) }, [entry])
   useEffect(() => () => clearTimeout(toTrace.current), [])
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { json, dispatch } from './http.mjs'
-import { MEDIA, STROKES } from './core.mjs'
+import { MEDIA, STROKES, VOICE } from './core.mjs'
+import { syncVoice } from './voice.mjs'
 import { libraryRoutes } from './routes/library.mjs'
 import { promptRoutes } from './routes/prompt.mjs'
 import { mediaRoutes } from './routes/media.mjs'
@@ -57,6 +58,31 @@ export function apiPlugin() {
         if (!fs.existsSync(file)) return json(res, 404, { error: '沒有筆順資料' })
         res.setHeader('Content-Type', 'application/json; charset=utf-8')
         fs.createReadStream(file).pipe(res)
+      })
+
+      // 唸字音檔也從儲存根目錄給（平常就是 public/voice/）
+      server.middlewares.use('/voice', (req, res, next) => {
+        const name = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '')
+        const file = path.join(VOICE, name)
+        if (!file.startsWith(VOICE + path.sep) || !/\.(m4a|json)$/.test(name)) return next()
+        if (!fs.existsSync(file)) return json(res, 404, { error: '沒有這句的音檔' })
+        res.setHeader('Content-Type', name.endsWith('.json') ? 'application/json; charset=utf-8' : 'audio/mp4')
+        res.setHeader('Cache-Control', 'no-cache')
+        fs.createReadStream(file).pipe(res)
+      })
+
+      // 開機先在背景把缺的音檔補齊（字庫新字、新劇本的 cue）；劇本一存檔也補
+      const report = (what) => (r) => {
+        if (r?.skipped || !r) return
+        if (r.written || r.failed.length) server.config.logger.info(`唸字音檔（${what}）：新做 ${r.written} 句${r.failed.length ? `，失敗 ${r.failed.length} 句` : ''}`)
+      }
+      // anim:check 這種只借 middleware 的短命伺服器不做
+      if (!server.config.server.middlewareMode) syncVoice().then(report('開機'), (e) => server.config.logger.warn(`唸字音檔沒做成：${e.message}`))
+      let pending = null
+      server.watcher?.on('all', (_event, file) => {
+        if (!/[\\/]src[\\/]anim[\\/]clips[\\/][^\\/]+\.ts$/.test(file)) return
+        clearTimeout(pending)
+        pending = setTimeout(() => syncVoice().then(report('劇本'), () => {}), 1500)
       })
 
       server.middlewares.use('/api', (req, res, next) => {

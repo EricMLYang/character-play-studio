@@ -3,6 +3,7 @@ import { isGenerating } from '../prompt-generation.mjs'
 import { suggestCharacterMetadata, validateCharacterFields } from '../character-metadata.mjs'
 import { loadCharacters, saveCharacters } from '../core.mjs'
 import { refreshCharacterAssets } from '../char-assets.mjs'
+import { syncVoice, textsForEntry } from '../voice.mjs'
 
 const findEntry = (db, char, message = '找不到這個字') => db.characters.find((c) => c.char === char) || fail(404, message)
 
@@ -27,12 +28,12 @@ export const characterRoutes = {
       hidden: true,
     })
     saveCharacters(db)
-    return { ok: true, assets: await refreshCharacterAssets() }
+    return { ok: true, assets: await refreshCharacterAssets({ voiceFor: body.char }) }
   },
 
   'POST /character/suggest': ({ body, signal }) => suggestCharacterMetadata({ ...body, signal }),
 
-  'POST /character/update': ({ body: raw }) => {
+  'POST /character/update': async ({ body: raw }) => {
     const body = validateCharacterFields(raw)
     const db = loadCharacters()
     const entry = findEntry(db, body.char, '找不到這個字，可能已刪除')
@@ -41,7 +42,9 @@ export const characterRoutes = {
     if (body.scene) entry.scene = body.scene
     else delete entry.scene
     saveCharacters(db)
-    return { ok: true, entry }
+    // 語詞或小故事改了，唸的句子跟著換：補做這個字的音檔
+    const voice = await syncVoice({ texts: textsForEntry(entry) })
+    return { ok: true, entry, ...(voice.skipped ? {} : { voice: { written: voice.written, failed: voice.failed.map((f) => f.text) } }) }
   },
 
   'POST /character/delete': async ({ body }) => {
@@ -68,7 +71,7 @@ export const characterRoutes = {
     db.characters.push(entry)
     db.deletedCharacters = db.deletedCharacters.filter((c) => c.char !== char)
     saveCharacters(db)
-    return { ok: true, assets: await refreshCharacterAssets() }
+    return { ok: true, assets: await refreshCharacterAssets({ voiceFor: char }) }
   },
 
   // ---- 這個字要不要出現在孩子端 ----
@@ -79,6 +82,6 @@ export const characterRoutes = {
     if (hidden) entry.hidden = true
     else delete entry.hidden
     saveCharacters(db)
-    return { ok: true, entry, assets: await refreshCharacterAssets() }
+    return { ok: true, entry, assets: await refreshCharacterAssets({ voiceFor: char }) }
   },
 }

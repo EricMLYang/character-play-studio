@@ -4,7 +4,8 @@
  */
 let ctx: AudioContext | null = null
 
-function audio() {
+/** 整個 app 共用一個 AudioContext：唸字音檔也從這裡播，第一次點擊解鎖之後大家都能出聲。 */
+export function audioContext() {
   const Ctor = window.AudioContext || (window as any).webkitAudioContext
   if (!Ctor) return null
   if (!ctx) ctx = new Ctor()
@@ -20,7 +21,7 @@ function audio() {
  */
 function tone(delay: number, from: number, to: number, dur: number, type: OscillatorType, peak: number) {
   try {
-    const ac = audio()
+    const ac = audioContext()
     if (!ac) return
     const at = ac.currentTime + delay
     const osc = ac.createOscillator()

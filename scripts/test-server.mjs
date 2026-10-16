@@ -6,6 +6,7 @@ import { createServer } from 'vite'
 
 const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-browser-'))
 process.env.CPS_STORAGE_ROOT = storage
+process.env.CPS_VOICE = process.env.CPS_VOICE || 'off'
 const { saveCharacters, ROOT } = await import('../server/core.mjs')
 const db = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/characters.json'), 'utf8'))
 delete db.production
