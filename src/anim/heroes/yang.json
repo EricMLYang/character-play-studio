@@ -1,0 +1,17 @@
+{
+  "name": "楊捷睿",
+  "look": "A cute cartoon boy, about 6 years old, Taiwanese, short black hair, big round dark eyes, wearing a red racing jacket with a yellow lightning stripe, blue shorts and white sneakers, chibi proportions with a big head",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 7,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a cheerful smile, arms relaxed",
+    "happy": "Full body visible, jumping in the air with both arms raised in celebration, big open-mouth laugh",
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "drive": "Upper body only from the waist up, both hands gripping a black steering wheel, leaning forward with a determined grin, facing slightly to the left",
+    "think": "Full body visible, standing with one hand on chin thinking hard, eyes looking up",
+    "surprised": {
+      "text": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge, same boy with short black hair and red racing jacket",
+      "seed": 71
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { loadChar, type CharData } from '../play/Strokes'
-import { say } from '../lib/audio'
+import { preloadVoice, say } from '../lib/audio'
 import * as sfx from '../lib/sfx'
 import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
@@ -27,8 +27,10 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     let alive = true
     setData(null)
     loadChar(clip.char).then((d) => alive && setData(d)).catch(() => {})
+    // 唸字音檔先抓好，cue 到的那一刻才不會慢半拍
+    preloadVoice(clip.cues.map((c) => ('say' in c ? c.say : undefined)))
     return () => { alive = false }
-  }, [clip.char])
+  }, [clip])
 
   const centers = useMemo<Vec[]>(() => (data?.medians ?? []).map((m) => {
     const x = m.reduce((s, p) => s + p[0], 0) / m.length
@@ -73,14 +75,26 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   }, [t, playing, clip, ticks])
 
   const actors = actorsAt(clip, t)
-  // 0.05 秒前的位置：算速度，快速移動時畫速度線
+  // 0.05 秒前的位置：算速度，快速移動時畫速度線、沿著方向拉長、拖殘影
   const before = new Map(actorsAt(clip, Math.max(0, t - 0.05)).map((a) => [a.id, a]))
+  const velocity = (a: { id: string; x: number; y: number }) => {
+    const b = before.get(a.id)
+    if (!b || !b.visible) return { vx: 0, vy: 0, speed: 0 }
+    const vx = (a.x - b.x) / 0.05, vy = (a.y - b.y) / 0.05
+    return { vx, vy, speed: Math.hypot(vx, vy) }
+  }
   const doneAt = useMemo(() => glyphDoneAt(clip), [clip])
   const strokes = data ? strokesAt(clip, t, centers) : []
   const g = glyphAt(clip, t)
   const fx = fxAt(clip, t)
-  const cam = cameraAt(clip, t)
+  const cam = cameraAt(clip, t, actors)
   const visible = actors.filter((a) => a.visible)
+  // 殘影：跑得非常快的角色後面留兩個淡淡的分身（卡通的「咻」）
+  const ghosts = visible.filter((a) => !a.top && velocity(a).speed > 80).flatMap((a) =>
+    [0.035, 0.07].map((lag, i) => {
+      const past = actorsAt(clip, Math.max(0, t - lag)).find((x) => x.id === a.id)
+      return past && past.visible ? { ...past, id: `${a.id}-ghost${i}`, o: past.o * (i ? 0.14 : 0.3), glow: 0 } : null
+    }).filter((x): x is NonNullable<typeof x> => x !== null))
   const dark = lightAt(clip, t)
   // 同一頁可能有兩個播放器（Studio 預覽），漸層 id 不能撞
   const uid = useId().replace(/:/g, '')
@@ -96,8 +110,13 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     const breath = a.float ? 0 : Math.sin(t * 6.9 + phase(a.id)) * 0.022
     // 3D 圖有些跟 Apple emoji 朝反方向，劇本照 Apple 寫，這裡再翻回來
     const flip = a.flip !== (art === '3d' && FLIP_3D.has(codeOf(a.emoji)))
-    const sx = a.s * a.sx * (flip ? -1 : 1) * (1 - breath * 0.5)
-    const sy = a.s * a.sy * (1 + breath)
+    // 拉伸：移動得快就順著方向拉長一點、另一軸縮一點（squash & stretch），停下來自然回彈
+    const v = velocity(a)
+    const k = Math.min(0.22, Math.max(0, v.speed - 40) / 700)
+    const horizontal = Math.abs(v.vx) >= Math.abs(v.vy)
+    const stretchX = horizontal ? 1 + k : 1 - k * 0.5, stretchY = horizontal ? 1 - k * 0.5 : 1 + k
+    const sx = a.s * a.sx * (flip ? -1 : 1) * (1 - breath * 0.5) * stretchX
+    const sy = a.s * a.sy * (1 + breath) * stretchY
     // 白色貼紙描邊＋軟陰影：emoji 看起來像一張張立體貼紙，不再平貼在背景上
     const filter = [a.tint, art === '3d' ? SOFT : STICKER, a.glow && `drop-shadow(0 0 ${2 + a.glow * 4}px #FFD400) brightness(${1 + a.glow * 0.6})`].filter(Boolean).join(' ')
     return (
@@ -201,10 +220,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
 
         {/* 速度線：跑得快、飛得快的角色後面拖幾條白線 */}
         {visible.filter((a) => !a.top).map((a) => {
-          const b = before.get(a.id)
-          if (!b || !b.visible) return null
-          const vx = (a.x - b.x) / 0.05, vy = (a.y - b.y) / 0.05
-          const speed = Math.hypot(vx, vy)
+          const { vx, vy, speed } = velocity(a)
           if (speed < 45) return null
           const ux = vx / speed, uy = vy / speed
           const len = Math.min(speed * 0.08, 14) * a.s
@@ -219,6 +235,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
           </g>
         })}
 
+        {ghosts.map(renderActor)}
         {visible.filter((a) => !a.top).map(renderActor)}
         <Foreground kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} />
         {/* 關燈：黑幕蓋住整個舞台，只剩 top 的角色（發亮的眼睛）和漫畫效果 */}
@@ -290,8 +307,14 @@ export type Art = 'emoji' | '3d'
 
 const codeOf = (e: string) => [...e.replace(/\uFE0F/g, '')].map((c) => c.codePointAt(0)!.toString(16)).join('-')
 
+/** 主角圖：劇本寫 emoji: 'hero:<主角>/<姿勢>'，圖在 public/hero/<主角>/<姿勢>.png（npm run hero 產生）。 */
+export const HERO_PREFIX = 'hero:'
+
 /** 一個 emoji，置中在 (0,0)。3D 圖的四邊留白比 emoji 字多一點，放大一點才會一樣大。 */
 function Emoji({ char, size, art }: { char: string; size: number; art: Art }) {
+  if (char.startsWith(HERO_PREFIX)) {
+    return <image href={`/hero/${char.slice(HERO_PREFIX.length)}.png`} x={-size / 2} y={-size / 2} width={size} height={size} />
+  }
   const code = art === '3d' ? codeOf(char) : ''
   if (code && EMOJI_3D.has(code)) {
     const s = size * 1.08

@@ -1,0 +1,17 @@
+{
+  "name": "酷炫車子",
+  "look": "A cool cartoon sports car with a face, sleek low body painted glossy electric blue with orange flame decals and a big rear spoiler, big friendly eyes in the windshield and a smiling front grille, chunky black wheels with silver rims, side view facing left",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 58,
+  "poses": {
+    "idle": "Full body side view visible, parked on the ground facing left with a confident cool smile",
+    "happy": "Full body side view visible, bouncing in the air on its wheels with a huge happy grin, eyes closed with joy, headlights glowing",
+    "dizzy": {
+      "text": "Full body side view visible, sitting crooked on the ground with swirly spiral eyes and its tongue out of the grille, one wheel wobbling off",
+      "seed": 59
+    },
+    "surprised": "Full body side view visible, eyes huge and mouth grille wide open in shock, body jumped up slightly",
+    "fast": "Full body side view visible, racing to the left leaning forward with a fierce determined grin, front wheels lifted off the ground, flames from the exhaust",
+    "broken": "Full body side view visible, stopped with the hood open and grey smoke puffing out, a flat front tire, sad droopy eyes"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "機器人",
+  "look": "A cute cartoon robot, boxy light blue metal body with rounded corners, a round head with a glass dome and a small antenna with a red light, two big round glowing cyan eyes on a dark screen face, orange accent panels, stubby arms with claw hands, short legs with rolling treads, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 42,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly smiling screen face, arms relaxed",
+    "happy": "Full body visible, jumping in the air with both arms raised in celebration, screen face showing a big happy smile with heart eyes",
+    "dizzy": "Full body visible, sitting on the ground dizzy, screen face showing spiral eyes, antenna bent, head tilted",
+    "surprised": "Full body visible, standing with screen face showing huge wide eyes and an O-shaped mouth, both claw hands up in shock",
+    "broken": "Full body visible, standing with a chest panel open showing loose wires and springs, screen face showing X eyes, little sparks and a puff of smoke from the head",
+    "fly": "Full body visible, flying upward with blue flames shooting from rocket boosters under the feet, arms stretched forward like a superhero, screen face showing a determined grin"
+  }
+}

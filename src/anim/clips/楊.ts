@@ -12,8 +12,9 @@ const clip: Clip = {
   actors: [
     { id: 'sun', emoji: '☀️', x: 20, y: 15, size: 14, hidden: true, float: true },
     { id: 'tree', emoji: '🌳', x: 140, y: 62, size: 36, hidden: true },
+    // 楊捷睿本人：public/hero/yang/（npm run hero），坐在駕駛座用 drive、撞飛後 dizzy。畫在車子前面（陣列在前），車身會遮住腳，看起來才像坐在車裡
+    { id: 'boy', emoji: 'hero:yang/drive', x: 26, y: 69, size: 13, hidden: true },
     { id: 'car', emoji: '🏎️', x: 26, y: 70, size: 19, hidden: true, flip: true },
-    { id: 'boy', emoji: '👦', x: 26, y: 67, size: 11, hidden: true },
   ],
   moves: [
     { at: 0, actor: 'sun', do: 'pop' },
@@ -27,25 +28,28 @@ const clip: Clip = {
       { at: 2.1, actor: 'car', do: 'squash', amount: 0.25, dur: 0.3 },
       // 第二次催太猛，衝出去
       { at: 2.9, actor: 'car', do: 'shake', amount: 2, dur: 0.4 },
-      { at: 3.3, actor: 'car', do: 'moveTo', to: { x: 124, y: 70 }, dur: 0.25 },
-    ], 'boy', -3, 19),
+      // 先往後縮一下再衝出去（預備動作），用 in 緩動像真的在加速
+      { at: 3.3, actor: 'car', do: 'moveTo', to: { x: 124, y: 70 }, dur: 0.3, anticipate: 3, ease: 'in' },
+    ], 'boy', -1, 19),
     // 撞上楊樹：車子彈回去，人飛進樹上卡住
     { at: 3.55, actor: 'tree', do: 'shake', amount: 2, dur: 0.6 },
-    { at: 3.55, actor: 'boy', do: 'moveTo', to: { x: 136, y: 42 }, arc: 10, dur: 0.35 },
+    { at: 3.55, actor: 'boy', do: 'swap', emoji: 'hero:yang/dizzy' },
+    { at: 3.55, actor: 'boy', do: 'moveTo', to: { x: 136, y: 42 }, arc: 10, dur: 0.35, ease: 'out' },
     { at: 3.9, actor: 'boy', do: 'shake', amount: 1, dur: 0.4 },
-    { at: 3.7, actor: 'car', do: 'moveTo', to: { x: 26, y: 70 }, dur: 0.6 },
+    { at: 3.7, actor: 'car', do: 'moveTo', to: { x: 26, y: 70 }, dur: 0.6, ease: 'out' },
     { at: 3.7, actor: 'car', do: 'hop', amount: 5, dur: 0.4 },
     { at: 4.3, actor: 'car', do: 'squash', amount: 0.3, dur: 0.25 },
     // 楊樹
     { at: 7.2, actor: 'tree', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
     { at: 7.2, actor: 'boy', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
     // 車子自己開過來接他，他從樹上掉進駕駛座
-    { at: 8.0, actor: 'car', do: 'moveTo', to: { x: 134, y: 70 }, dur: 0.5 },
-    { at: 8.6, actor: 'boy', do: 'moveTo', to: { x: 134, y: 67 }, dur: 0.3 },
+    { at: 8.0, actor: 'car', do: 'moveTo', to: { x: 134, y: 70 }, dur: 0.5, ease: 'back' },
+    { at: 8.6, actor: 'boy', do: 'swap', emoji: 'hero:yang/drive' },
+    { at: 8.6, actor: 'boy', do: 'moveTo', to: { x: 134, y: 69 }, dur: 0.3, ease: 'bounce' },
     { at: 8.9, actor: 'car', do: 'squash', amount: 0.25, dur: 0.25 },
     // 出發去比賽！
-    { at: 9.15, actor: 'car', do: 'moveTo', to: { x: 195, y: 70 }, dur: 0.3 },
-    { at: 9.15, actor: 'boy', do: 'moveTo', to: { x: 195, y: 67 }, dur: 0.3 },
+    { at: 9.15, actor: 'car', do: 'moveTo', to: { x: 195, y: 70 }, dur: 0.35, anticipate: 3, ease: 'in' },
+    { at: 9.15, actor: 'boy', do: 'moveTo', to: { x: 195, y: 69 }, dur: 0.35, anticipate: 3, ease: 'in' },
   ],
   builds: [
     // 撞下來的樹葉 → 木；太陽 → 日；排氣管的煙 → 右下那幾筆
@@ -63,7 +67,6 @@ const clip: Clip = {
     { at: 2.9, kind: 'burst', actor: 'car', emoji: '🔥', n: 4, dur: 0.4 },
     { at: 3.55, kind: 'burst', x: 128, y: 58, emoji: '💥', n: 1, dur: 0.4 },
     { at: 3.6, kind: 'burst', x: 140, y: 42, emoji: '🍃', n: 6, dur: 0.6 },
-    { at: 4.0, kind: 'pop', actor: 'boy', emoji: '😵', dur: 0.7 },
     { at: 4.3, kind: 'dizzy', actor: 'car', dur: 0.9 },
     { at: 7.2, kind: 'burst', x: 140, y: 36, emoji: '🍃', n: 5, dur: 0.6 },
     { at: 7.4, kind: 'pop', actor: 'boy', emoji: '😅', dur: 0.6 },
@@ -71,7 +74,11 @@ const clip: Clip = {
     { at: 8.75, kind: 'bubble', actor: 'boy', emoji: '🏁', dx: -12, dur: 0.4 },
   ],
   camera: [
+    // 催油門時鏡頭慢慢靠近賽車，衝出去的瞬間跟拍，撞樹後退回全景讓筆畫拼字
+    { at: 2.9, dur: 0.4, do: 'zoom', amount: 1.3, actor: 'car' },
+    { at: 3.3, dur: 0.25, do: 'follow', actor: 'car', amount: 1.3 },
     { at: 3.55, dur: 0.35, do: 'shake', amount: 1.5 },
+    { at: 3.7, dur: 0.6, do: 'zoom', amount: 1 },
     { at: 7.1, dur: 0.8, do: 'punch', amount: 0.12, to: { x: 140, y: 50 } },
   ],
   cues: [

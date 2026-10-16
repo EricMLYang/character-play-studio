@@ -19,7 +19,7 @@ export const codeOf = (e) => [...norm(e)].map((c) => c.codePointAt(0).toString(1
 const used = new Set(['💥', '✨', '💫', '❓', '💦', '💨', '💤', '❗', '💧'])
 const clipDir = join(root, 'src/anim/clips')
 for (const f of readdirSync(clipDir).filter((f) => f.endsWith('.ts') && f !== 'index.ts')) {
-  for (const m of readFileSync(join(clipDir, f), 'utf8').matchAll(/emoji: '([^']+)'/g)) used.add(m[1])
+  for (const m of readFileSync(join(clipDir, f), 'utf8').matchAll(/emoji: '([^']+)'/g)) if (!m[1].startsWith('hero:')) used.add(m[1])
 }
 
 const missing = [...used].filter((e) => !existsSync(join(outDir, `${codeOf(e)}.png`)))

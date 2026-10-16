@@ -15,8 +15,8 @@ const clip: Clip = {
     { id: 'ramp', emoji: '🛹', x: 62, y: 72, size: 14, hidden: true },
     { id: 'owl', emoji: '🦉', x: 10, y: 72, size: 12, hidden: true },
     { id: 'cheetah', emoji: '🐆', x: 44, y: 66, size: 20, hidden: true, flip: true },
+    { id: 'boy', emoji: 'hero:yang/drive', x: 24, y: 69, size: 13, hidden: true },
     { id: 'car', emoji: '🏎️', x: 24, y: 70, size: 19, hidden: true, flip: true },
-    { id: 'boy', emoji: '👦', x: 24, y: 67, size: 11, hidden: true },
   ],
   moves: [
     { at: 0, actor: 'rock', do: 'pop' },
@@ -25,9 +25,9 @@ const clip: Clip = {
     { at: 0.35, actor: 'cheetah', do: 'enter', from: { x: -20, y: 66 }, dur: 0.45 },
     { at: 1.0, actor: 'owl', do: 'hop', amount: 4, dur: 0.3 },
     // 獵豹硬撞石頭——撞到頭昏
-    { at: 1.6, actor: 'cheetah', do: 'moveTo', to: { x: 66, y: 66 }, dur: 0.25 },
+    { at: 1.6, actor: 'cheetah', do: 'moveTo', to: { x: 66, y: 66 }, dur: 0.3, anticipate: 4, ease: 'in' },
     { at: 1.85, actor: 'rock', do: 'shake', amount: 1, dur: 0.3 },
-    { at: 1.9, actor: 'cheetah', do: 'moveTo', to: { x: 44, y: 66 }, dur: 0.35 },
+    { at: 1.9, actor: 'cheetah', do: 'moveTo', to: { x: 44, y: 66 }, dur: 0.35, ease: 'out' },
     // 教練照他說的放滑板當跳台
     { at: 4.0, actor: 'owl', do: 'hop', amount: 5, dur: 0.3 },
     { at: 4.1, actor: 'ramp', do: 'pop' },
@@ -41,16 +41,19 @@ const clip: Clip = {
       { at: 3.2, actor: 'car', do: 'shake', amount: 1.5, dur: 0.5 },
       { at: 3.7, actor: 'car', do: 'moveTo', to: { x: 26, y: 70 }, dur: 0.4 },
       // 衝上跳台，飛過石頭！
+      { at: 3.3, actor: 'boy', do: 'swap', emoji: 'hero:yang/think' },
+      { at: 4.3, actor: 'boy', do: 'swap', emoji: 'hero:yang/drive' },
       { at: 4.4, actor: 'car', do: 'squash', amount: -0.3, dur: 0.25 },
       { at: 4.65, actor: 'car', do: 'moveTo', to: { x: 140, y: 70 }, arc: 34, dur: 0.7 },
+      { at: 7.8, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
       { at: 5.35, actor: 'car', do: 'squash', amount: 0.3, dur: 0.25 },
-    ], 'boy', -3, 19),
+    ], 'boy', -1, 19),
     // 獵豹學他，卻沒踩跳台——直接撞碎石頭
-    { at: 5.4, actor: 'cheetah', do: 'moveTo', to: { x: 70, y: 66 }, dur: 0.25 },
+    { at: 5.4, actor: 'cheetah', do: 'moveTo', to: { x: 70, y: 66 }, dur: 0.3, anticipate: 4, ease: 'in' },
     { at: 5.65, actor: 'rock', do: 'vanish', dur: 0.15 },
     { at: 5.75, actor: 'cheetah', do: 'moveTo', to: { x: 36, y: 66 }, dur: 0.4 },
     // 睿智：獎盃落到他手上
-    { at: 7.4, actor: 'trophy', do: 'moveTo', to: { x: 140, y: 53 }, dur: 0.4 },
+    { at: 7.4, actor: 'trophy', do: 'moveTo', to: { x: 140, y: 53 }, dur: 0.5, ease: 'bounce' },
     { at: 7.8, actor: 'boy', do: 'hop', amount: 3, dur: 0.3 },
     { at: 7.7, actor: 'owl', do: 'bounce', amount: 3, times: 2, dur: 0.5 },
     // 大家向隊長敬禮，一起跳
@@ -73,7 +76,6 @@ const clip: Clip = {
     { at: 2.2, kind: 'dizzy', actor: 'cheetah', dur: 0.9 },
     { at: 3.2, kind: 'sweat', actor: 'boy' },
     { at: 3.4, kind: 'puff', actor: 'car', dur: 0.4 },
-    { at: 3.4, kind: 'bubble', actor: 'boy', emoji: '🤔', dur: 0.5 },
     { at: 3.95, kind: 'pop', actor: 'boy', emoji: '💡', dur: 0.5 },
     { at: 4.65, kind: 'burst', actor: 'car', emoji: '⭐', n: 5, dur: 0.6 },
     { at: 5.35, kind: 'puff', actor: 'car', dur: 0.4 },
@@ -87,7 +89,9 @@ const clip: Clip = {
     { at: 9.2, kind: 'burst', x: 142, y: 18, emoji: '🎉', n: 5, dur: 0.8 },
   ],
   camera: [
-    { at: 4.65, dur: 0.7, do: 'punch', amount: 0.12, to: { x: 90, y: 50 } },
+    // 飛過大石頭時鏡頭跟著賽車飛，落地後退回全景讓碎石拼字
+    { at: 4.4, dur: 0.3, do: 'follow', actor: 'car', amount: 1.3 },
+    { at: 5.35, dur: 0.4, do: 'zoom', amount: 1 },
     { at: 5.6, dur: 0.3, do: 'shake', amount: 1.5 },
   ],
   cues: [

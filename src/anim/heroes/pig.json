@@ -1,0 +1,14 @@
+{
+  "name": "豬探長",
+  "look": "A cute cartoon pig detective, round pink body, curly tail, wearing a brown checkered deerstalker hat and a beige trench coat with a dark belt, big friendly eyes, a big round snout, standing on two legs, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 23,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a confident smile, one hand on the coat collar",
+    "happy": "Full body visible, jumping in the air with both arms raised in celebration, big open-mouth laugh",
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes, hat tilted and falling off",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge, hat popping up",
+    "think": "Full body visible, standing and looking through a big round magnifying glass held in one hand, one eye enlarged by the lens, serious thinking face",
+    "point": "Full body visible, standing and pointing forward with one hoof dramatically, like saying I found the culprit, determined face"
+  }
+}

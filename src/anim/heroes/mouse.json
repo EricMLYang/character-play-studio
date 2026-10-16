@@ -1,0 +1,17 @@
+{
+  "name": "傑利鼠（原創小老鼠）",
+  "look": "A cute cheeky cartoon mouse, small and round, light brown fur with a cream belly, big round ears with pink insides, big shiny black eyes, a tiny pink nose with whiskers, a long thin tail, standing on two legs like a cartoon character, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 11,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a mischievous grin, hands behind the back",
+    "happy": {
+      "text": "Full body visible, jumping high in the air with both arms raised, big open-mouth laugh, eyes closed with joy, feet far above the ground, nothing drawn under the feet",
+      "seed": 13
+    },
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both paws on cheeks, eyes huge",
+    "sneak": "Full body visible, tiptoeing sideways to the left with a sly smile, one finger on lips, knees bent",
+    "cheese": "Full body visible, standing and hugging a big yellow wedge of cheese with holes, drooling happily"
+  }
+}

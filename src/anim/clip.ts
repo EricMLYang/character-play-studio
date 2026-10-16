@@ -33,11 +33,21 @@ type Lasting = 'enter' | 'pop' | 'drop' | 'vanish' | 'moveTo' | 'scaleTo' | 'rot
 /** 做完就回原狀的動作。 */
 type Passing = 'hop' | 'bounce' | 'squash' | 'shake' | 'spin' | 'tilt' | 'flash'
 
+/**
+ * 緩動：inOut（預設，慢起慢停）、out（衝出去然後煞車）、in（慢慢加速）、linear（等速，機械）、
+ * back（衝過頭再彈回來：跟隨動作）、bounce（落地彈幾下）、elastic（像橡皮筋晃到停）。
+ */
+export type Ease = 'inOut' | 'in' | 'out' | 'linear' | 'back' | 'bounce' | 'elastic'
+
 export type Move = {
   at: number
   dur?: number
   actor: string
   do: Lasting | Passing
+  /** moveTo／enter／scaleTo／rotateTo 的緩動方式 */
+  ease?: Ease
+  /** moveTo／enter：出發前先往反方向縮這麼遠再衝出去（預備動作），單位是舞台距離，3～6 就很明顯 */
+  anticipate?: number
   /** moveTo 的終點 */
   to?: Vec
   /** enter 的起點（預設從左邊外面進來） */
@@ -99,8 +109,15 @@ export type Fx = {
   n?: number
 }
 
-/** 鏡頭：punch 往某一點推近再退回（笑點用），shake 震一下（撞到、打雷）。 */
-export type Camera = { at: number; dur: number; do: 'punch' | 'shake'; amount?: number; to?: Vec }
+/**
+ * 鏡頭。做完就回原狀：punch 往某一點推近再退回（笑點用）、shake 震一下（撞到、打雷）。
+ * 會留下結果（維持到下一個 zoom／follow）：zoom 在 dur 內推到 amount 倍並停住，中心是 to 或 actor（amount 1 就是回到全景）；
+ * follow 跟拍：鏡頭一直對著那個角色走（amount 是倍率，預設 1.5）。鏡頭永遠不會推出畫好的背景外面。
+ */
+export type Camera =
+  | { at: number; dur: number; do: 'punch' | 'shake'; amount?: number; to?: Vec }
+  | { at: number; dur: number; do: 'zoom'; amount?: number; to?: Vec; actor?: string }
+  | { at: number; dur: number; do: 'follow'; actor: string; amount?: number }
 
 /** 燈光：level 0 正常、1 全黑、負數是白色閃光（-1 整片白，相機閃光燈），在 dur 內漸變過去。 */
 export type Light = { at: number; dur: number; level: number }
@@ -144,6 +161,12 @@ export const bounceOut = (p: number) => {
   return n * (p -= 2.625 / d) * p + 0.984375
 }
 
+const elasticOut = (p: number) => (p === 0 || p === 1 ? p : 2 ** (-10 * p) * Math.sin((p * 10 - 0.75) * ((2 * Math.PI) / 3)) + 1)
+const EASES: Record<Ease, (p: number) => number> = {
+  inOut: easeInOut, in: (p) => p * p * p, out: (p) => 1 - (1 - p) ** 3, linear: (p) => p, back: backOut, bounce: bounceOut, elastic: elasticOut,
+}
+export const easeBy = (e?: Ease) => EASES[e ?? 'inOut']
+
 const DEFAULT_DUR: Record<Move['do'], number> = {
   enter: 0.6, pop: 0.35, drop: 0.6, vanish: 0.25, moveTo: 0.5, scaleTo: 0.4, rotateTo: 0.25, swap: 0,
   flip: 0, tint: 0,
@@ -164,15 +187,20 @@ export function actorsAt(clip: Clip, t: number): ActorState[] {
       const d = durOf(m)
       const p = d > 0 ? clamp((t - m.at) / d) : 1
       const live = t <= m.at + d
-      const e = easeInOut(p)
-      const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * p)
+      // 預備動作：前 22% 往反方向縮，之後才真的出發
+      const ant = (m.do === 'moveTo' || m.do === 'enter') && m.anticipate ? m.anticipate : 0
+      const pm = ant ? clamp((p - 0.22) / 0.78) : p
+      const e = easeBy(m.ease)(pm)
+      const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * pm)
+      const pull = ant ? ant * Math.sin(Math.PI * clamp(p / 0.22)) : 0
       // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
       if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
       switch (m.do) {
         case 'enter': {
           const from = m.from ?? { x: -15, y: st.y }
           st.visible = true
-          st.x = lerp(from.x, st.x, e); st.y = lerp(from.y, st.y, e) - arcUp
+          const dir = unit(from, { x: st.x, y: st.y })
+          st.x = lerp(from.x, st.x, e) - dir.x * pull; st.y = lerp(from.y, st.y, e) - arcUp - dir.y * pull
           break
         }
         case 'pop': st.visible = true; st.s *= backOut(p); break
@@ -182,7 +210,10 @@ export function actorsAt(clip: Clip, t: number): ActorState[] {
           if (p >= 1) st.visible = false
           break
         case 'moveTo':
-          if (m.to) { st.x = lerp(st.x, m.to.x, e); st.y = lerp(st.y, m.to.y, e) - arcUp }
+          if (m.to) {
+            const dir = unit({ x: st.x, y: st.y }, m.to)
+            st.x = lerp(st.x, m.to.x, e) - dir.x * pull; st.y = lerp(st.y, m.to.y, e) - arcUp - dir.y * pull
+          }
           break
         case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
         case 'rotateTo': st.r += lerp(0, m.amount ?? 0, e); break
@@ -204,6 +235,12 @@ export function actorsAt(clip: Clip, t: number): ActorState[] {
     }
     return st
   })
+}
+
+/** a → b 的單位向量（兩點重疊時是 0 向量）。 */
+function unit(a: Vec, b: Vec): Vec {
+  const len = Math.hypot(b.x - a.x, b.y - a.y)
+  return len ? { x: (b.x - a.x) / len, y: (b.y - a.y) / len } : { x: 0, y: 0 }
 }
 
 // ---------- 國字 ----------
@@ -420,24 +457,65 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
   return out
 }
 
-export function cameraAt(clip: Clip, t: number) {
+/** 畫好的背景範圍（AnimPlayer 的天空矩形）：鏡頭推近時視野不能超出這裡，不然會露白。 */
+const PAINTED = { x0: -20, y0: -20, x1: 180, y1: 110 }
+const HOME = { z: 1, cx: 80, cy: 46 }
+
+type CamState = { z: number; cx: number; cy: number }
+type CamLasting = Extract<Camera, { do: 'zoom' | 'follow' }>
+
+export function cameraAt(clip: Clip, t: number, actors: ActorState[] = actorsAt(clip, t)) {
+  const ops = [...(clip.camera ?? [])]
+  const lasting = ops.filter((c): c is CamLasting => c.do === 'zoom' || c.do === 'follow').sort((a, b) => a.at - b.at)
+  const where = (id: string | undefined, at: number, fallback: Vec): Vec => {
+    if (!id) return fallback
+    const a = (at === t ? actors : actorsAt(clip, at)).find((x) => x.id === id)
+    return a ? { x: a.x, y: a.y } : fallback
+  }
+  // 留下結果的鏡頭：每一個從「上一個在它開始時的狀態」漸變到自己的目標；follow 的目標跟著角色跑
+  const stateAt = (i: number, at: number): CamState => {
+    if (i < 0) return HOME
+    const c = lasting[i]
+    if (at < c.at) return stateAt(i - 1, at)
+    const from = stateAt(i - 1, c.at)
+    const p = easeInOut(clamp(c.dur > 0 ? (at - c.at) / c.dur : 1))
+    const z = c.do === 'follow' ? (c.amount ?? 1.5) : (c.amount ?? 1.4)
+    const center = c.do === 'follow' ? where(c.actor, at, { x: from.cx, y: from.cy })
+      : c.to ?? where(c.actor, at, { x: HOME.cx, y: HOME.cy })
+    return { z: lerp(from.z, z, p), cx: lerp(from.cx, center.x, p), cy: lerp(from.cy, center.y, p) }
+  }
+  let { z, cx, cy } = stateAt(lasting.length - 1, t)
   // 整支片鏡頭一直很慢地往前推一點點，畫面不會像一張靜止的圖
-  let z = 1 + 0.035 * easeInOut(clamp(t / clip.duration)), cx = 80, cy = 46, dx = 0, dy = 0
-  for (const c of clip.camera ?? []) {
+  z *= 1 + 0.035 * easeInOut(clamp(t / clip.duration))
+  let dx = 0, dy = 0
+  for (const c of ops) {
+    if (c.do !== 'punch' && c.do !== 'shake') continue
     if (t < c.at || t > c.at + c.dur) continue
     const p = (t - c.at) / c.dur
     if (c.do === 'punch') {
       // 快速推近、停住、慢慢退回
       const k = p < 0.15 ? backOut(p / 0.15) : p > 0.7 ? 1 - easeInOut((p - 0.7) / 0.3) : 1
       z *= 1 + (c.amount ?? 0.25) * k
-      if (c.to) { cx = c.to.x; cy = c.to.y }
+      if (c.to) { cx = lerp(cx, c.to.x, k); cy = lerp(cy, c.to.y, k) }
     } else {
       const k = (c.amount ?? 1.5) * (1 - p)
       dx += Math.sin(p * 61) * k
       dy += Math.cos(p * 47) * k * 0.7
     }
   }
+  // 視野不能跑出畫好的背景；往下最多到舞台底（跟拍地上的角色時不要看到一大片地板）
+  z = Math.max(z, 1)
+  const hw = 80 / z, hh = 45 / z
+  cx = clamp(cx, PAINTED.x0 + hw, PAINTED.x1 - hw)
+  cy = clamp(cy, PAINTED.y0 + hh, 90 - hh)
   return { z, cx, cy, dx, dy }
+}
+
+/** 時間 t 看得到的舞台範圍（給 anim:check 檢查國字有沒有被鏡頭切掉）。 */
+export function viewAt(clip: Clip, t: number) {
+  const { z, cx, cy, dx, dy } = cameraAt(clip, t)
+  const hw = 80 / z, hh = 45 / z
+  return { x0: cx - dx - hw, x1: cx - dx + hw, y0: cy - dy - hh, y1: cy - dy + hh }
 }
 
 export function lightAt(clip: Clip, t: number) {

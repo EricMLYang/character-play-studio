@@ -12,3 +12,9 @@ data/progress.json
 
 # build 產物
 *.tsbuildinfo
+
+# 唸字音檔由 say 產生（npm run voice，dev server 也會自動補），每台 Mac 自己做
+public/voice/
+
+# 主角圖的中間產物（去背前後的原圖），成品在 public/hero/<主角>/<姿勢>.png
+public/hero/*/.work/

@@ -54,10 +54,12 @@ npm run anim -- 眼 睛
 
 ```bash
 npx tsc -b && npm test
-npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒有漏、角色 id、國字完成後有沒有被擋住、效果有沒有出界
+npm run anim:check -- 字1 字2   # 檢查唸字次數與時機、筆畫有沒有漏、角色 id 與主角圖、國字完成後有沒有被擋住或被鏡頭切掉、效果有沒有出界
 ```
 
 `anim:check` 的「錯誤」一定要修；「注意」看情況：東西飛過字前面不到 0.5 秒、刻意從畫面外進來的效果可以留著。
+唸字的「會被打斷」是用**真實音檔長度**算的（`public/voice/index.json`，dev server 開著就會自動把新劇本的句子做好；
+沒有就先跑 `npm run voice`），所以這一項要認真修：把下一句往後挪，或把前一句提早。
 
 再用瀏覽器逐格看：`http://localhost:5180/anim?char=<字>&t=<秒>` 會定格在那一秒。
 - 新增劇本檔後，`/anim` 上面那排字如果沒有出現新的字，是 dev server 沒抓到新檔案：重開 `npm run dev`。
@@ -68,7 +70,7 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 - 檢查：角色有沒有互相重疊或被蓋住（actors 陣列順序就是繪製順序，後面的在上面）、頭上的東西有沒有懸空、
   效果有沒有被畫面邊緣切掉、國字完成後有沒有角色擋住字、結尾鏡頭推近時重要角色還在不在畫面裡、console 沒有錯誤。
 - 不要點孩子端的字卡來測：播完會寫一筆觀看紀錄到 `data/progress.json`（那是孩子的真實紀錄）。真的點了要刪掉那筆。
-- **你聽不到聲音**。回報時要請使用者戴耳機確認唸字時機與音效。
+- **你聽不到聲音**，但唸字的**時機**可以用 `anim:check` 驗（音檔長度是已知的）。回報時只需要請使用者確認**發音**對不對（多音字）與音效好不好聽。
 
 ### 6. 回報與 commit
 
@@ -103,7 +105,8 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 - 語詞在那個東西出現或那個動作發生的那一刻。
 - 語詞優先從字卡的 `words` 挑；一定要含這個字、讀音跟字卡注音一致；**語詞裡其他字不能是多音字**
   （避開 長、行、樂、重、了、得、著、數、還、都、好、為、參、落、降、度、調、傳、種、模⋯⋯），因為系統朗讀會唸錯。
-- 唸字用 Mac 系統朗讀，一次只能唸一句（新的會打斷舊的），每句之間至少隔 0.9 秒。
+- 唸字是預先做好的音檔（`server/voice.mjs` 用這台 Mac 的 `say` 做，dev server 開著會自動補新劇本的句子）。
+  一次只能唸一句（新的會打斷舊的），所以下一句要等上一句唸完：`anim:check` 會用真實長度告訴你夠不夠。
 
 ### 卡司與主題（輪流換，不要老用同一種）
 
@@ -152,7 +155,10 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 
 - **預備動作**：跳、衝、踢之前先 `squash` 負值（拉長蓄力），落地 `squash` 正值，再加 `puff` 揚塵。
 - **停頓**：失敗後停 0.3–0.5 秒，讓 `sweat`／`bubble`（😑😅❓）出來，笑點才落得下來。
-- **鏡頭**：笑點高峰用 `camera` 的 `punch` 推近主角，撞擊用 `shake`。一支 1～3 次就好。
+- **鏡頭**：笑點高峰用 `camera` 的 `punch` 推近主角，撞擊用 `shake`；追逐、衝刺、飛過去用 `follow` 跟拍（跟著角色走），
+  蓄力時用 `zoom` 慢慢靠近，動作結束用 `zoom` `amount: 1` 退回全景。一支 1～3 次就好，**國字拼好之前要回到全景**。
+- **預備動作與跟隨動作**：衝出去的 `moveTo` 加 `anticipate: 3`（先往後縮再衝）、`ease: 'in'`（越跑越快）；
+  煞車、落地用 `ease: 'back'`（衝過頭彈回來）或 `'bounce'`；被彈開用 `ease: 'out'`。跑得快的角色會自動拉長、拖殘影、畫速度線。
 - **擬人反應**：旁觀者的反應（偷笑 😆、翻白眼 😑、愛心 💕）常比主角更好笑。
 - **筆畫要從故事裡長出來**：被丟出去的杯子、掉下來的蘋果、閃電、煙霧……不要憑空出現。
 - **變化**：背景配色、筆畫顏色（可以兩個部件不同色）、筆畫組成方式（`fly`／`drop`、從哪個東西飛出來）每支都換。
@@ -171,8 +177,10 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與間隔、筆畫有沒�
 emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）。
 
 - **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter) }`。陣列順序＝繪製順序。
-- **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji? }`
-  - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`rotateTo`（累加）、`swap`（換 emoji）、`flip`
+- **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate? }`
+  - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
+  - `ease`（moveTo／enter／scaleTo／rotateTo）：`inOut`（預設）、`in`（加速）、`out`（煞車）、`linear`、`back`（衝過頭彈回）、`bounce`（落地彈）、`elastic`（晃到停）
+  - `anticipate`（moveTo／enter）：出發前先往反方向縮這麼遠（舞台單位，3～6）
   - 做完回原狀：`hop`（負值是往下沉）、`bounce`、`squash`（正壓扁／負拉長）、`shake`、`spin`、`tilt`、`flash`
   - 支點在腳底：壓扁、翻倒都從地板發生。轉 90°／180°（側躺、倒栽蔥）時角色會繞腳底轉，位置要自己用 `moveTo` 補，轉完要看一下有沒有陷進地板或飄在空中。
   - emoji 的預設朝向依 Apple Color Emoji（很多動物、車子朝左）；要朝右就在 actor 加 `flip: true`，逐格看時確認方向對。
@@ -181,11 +189,33 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **fx**（跟著角色頭頂，可用 dx/dy 偏移）：`burst`（n=1 是 💥，n>1 是一圈 emoji）、`dizzy`、`bubble`（想法泡泡＋emoji）、
   `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`、
   `line`（從 actor 拉線到 target 或 to：蜘蛛絲白色細線、雷射紅色粗線，用 color／width）、`beam`（飛碟往下的牽引光束，n 是底部寬度）
-- **camera**：`{ at, dur, do: 'punch'|'shake', amount?, to? }`
+- **camera**：做完就回原狀 `{ at, dur, do: 'punch'|'shake', amount?, to? }`；會留下結果（維持到下一個）：
+  `{ do: 'zoom', amount?(倍率，1 = 全景), to? | actor? }`、`{ do: 'follow', actor, amount? }`（跟拍）。視野永遠不會推出背景外面。
 - **lights**：`{ at, dur, level }`，0 正常、1 全黑、負數是白色閃光（相機閃光燈：-0.9 再 0.3 秒回到 0）
 - **glyph**：`{ at, dur, do: 'wobble'|'pulse'|'shake' }`
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
+
+## 主角（固定造型的角色）
+
+`public/hero/<主角>/<姿勢>.png` 是用本機開源模型畫的固定造型角色。每個主角都有 idle、happy、dizzy、surprised，再加兩個自己的招牌姿勢：
+
+| 主角 | id | 招牌姿勢 | 適合的故事 |
+|---|---|---|---|
+| 楊捷睿（賽車手） | `yang` | `drive`（握方向盤，坐車用）、`think` | 賽車三部曲、任何需要「小孩主角」的故事 |
+| 調皮小老鼠 | `mouse` | `sneak`（踮腳偷溜）、`cheese`（抱起司） | 偷吃、躲貓貓、小蝦米對大鯨魚 |
+| 豬探長 | `pig` | `think`（拿放大鏡）、`point`（「就是你！」） | 辦案、找東西、其實犯人一直在背後 |
+| 浣熊助手 花生 | `raccoon` | `carry`（抱一大疊東西）、`salute`（敬禮） | 跟豬探長搭檔、幫倒忙、疊疊樂 |
+| 機器人 | `robot` | `broken`（壞掉冒煙）、`fly`（噴火飛） | 失控、模仿、太空 |
+| 酷炫車子 | `car` | `fast`（衝刺）、`broken`（爆胎冒煙） | 賽車、追逐（它自己就是主角，不用再放 🏎️） |
+
+劇本裡 `emoji: 'hero:pig/idle'` 就是他，換表情用 `swap`（`emoji: 'hero:pig/dizzy'`）。同一個主角所有姿勢同一個比例、腳底對齊，
+動物與小孩 `size` 13～15 和一台 size 19 的車相配；`car` 本身當車用 size 19～22。坐車用 `ride(..., 'boy', -4, 19)`。
+他們都是**原創角色**（小老鼠不是任何卡通的造型），不受「不用兒童 emoji」那條限制。可以互相搭檔（豬探長＋花生）。
+
+要加姿勢或新主角：改／新增 `src/anim/heroes/<主角>.json`（look 是長相、poses 是每個姿勢一句英文），跑 `npm run hero`
+（需要 `uv tool install mflux` 與 `uv tool install 'rembg[cpu,cli]'`，Z-Image Turbo 模型第一次會下載）。
+只會補缺的姿勢；想重畫某個姿勢：`npm run hero -- yang dizzy`，不滿意就改 seed 再跑。看成品：`/anim?char=楊&t=4`。
 
 ## 3D 角色（原型，孩子端還沒用）
 

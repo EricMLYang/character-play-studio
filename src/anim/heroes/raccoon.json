@@ -1,0 +1,14 @@
+{
+  "name": "浣熊助手 花生",
+  "look": "A cute cartoon raccoon assistant named Peanut, small and fluffy, grey fur with a black mask around the eyes and a striped bushy tail, wearing a tiny red bow tie and a small yellow messenger bag across the chest, big eager eyes, standing on two legs, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 31,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with an eager helpful smile, holding a small notebook and pencil",
+    "happy": "Full body visible, jumping in the air with both arms raised in celebration, big open-mouth laugh",
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both paws on cheeks, eyes huge",
+    "carry": "Full body visible, standing and carrying a tall wobbly stack of boxes and papers that is taller than its head, straining with effort",
+    "salute": "Full body visible, standing straight and saluting with one paw, proud serious face, chest out"
+  }
+}
