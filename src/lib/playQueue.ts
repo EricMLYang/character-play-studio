@@ -1,23 +1,14 @@
 import { recordPlay, ApiError } from './api'
-import { completeWatch, addTrace, discover, saveWord } from '../../shared/domain.mjs'
-import type { Progress } from '../types'
+import { applyEvent, eventKind, type PlayEvent } from '../../shared/play-events.mjs'
+
+/**
+ * 孩子端的紀錄先排進瀏覽器的佇列、畫面先動，再依序送給伺服器；離線時留著，連上線再補送。
+ * 紀錄有哪幾種、怎麼套用，在 shared/play-events.mjs（伺服器用同一張表）。
+ */
+export { applyEvent, type PlayEvent }
 
 // 沿用舊的 key：升級前還沒送出的觀看紀錄（沒有 kind）照樣當觀看送出
 const KEY = 'character-play-pending-watches'
-export type PlayEvent =
-  | { kind?: 'watch'; char: string; id: string; at: string }
-  | { kind: 'trace'; char: string; id: string; at: string; strokes: number[][] }
-  | { kind: 'discover'; char: string; id: string; at: string }
-  /** char 是整個詞 */
-  | { kind: 'word'; char: string; id: string; at: string; remove?: boolean }
-
-/** 伺服器與畫面用同一套規則套用事件，離線時畫面先動、之後再補送。 */
-export function applyEvent(progress: Progress, event: PlayEvent): Progress {
-  if (event.kind === 'trace') return addTrace(progress, event.char, event.strokes, event.at)
-  if (event.kind === 'discover') return discover(progress, event.char, event.at)
-  if (event.kind === 'word') return saveWord(progress, event.char, event.at, event.remove)
-  return completeWatch(progress, event.char, event.at)
-}
 
 let memory: PlayEvent[] | undefined
 export function pendingEvents(): PlayEvent[] {
@@ -41,9 +32,10 @@ export function flushEvents(): Promise<void> {
   if (flushing) return flushing
   flushing = (async () => {
     while (pendingEvents().length) {
-      const { kind = 'watch', ...body } = pendingEvents()[0]
+      const event = pendingEvents()[0]
+      const { kind: _kind, ...body } = event
       try {
-        await recordPlay(kind, body)
+        await recordPlay(eventKind(event), body)
       } catch (error) {
         // 422：伺服器永遠不會收這筆（例如字已經被家長刪掉），留著只會擋住後面的紀錄
         if (!(error instanceof ApiError && error.status === 422)) throw error

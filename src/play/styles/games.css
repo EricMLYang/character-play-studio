@@ -1,0 +1,26 @@
+/* ---------- 遊戲共用：放字的貨架、提示、底下那一排（圖鑑／我的火車）、結果按鈕 ---------- */
+.game-x { position: absolute; top: -8px; right: -8px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; font-family: var(--ui); font-size: 14px; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+.game-hint { min-height: 1.5em; margin: 0; font-size: 17px; font-weight: 700; color: rgba(46,42,38,.75); }
+.game-actions { display: flex; gap: 12px; margin-top: 6px; }
+.game-actions .nav-btn { flex: none; min-width: 170px; }
+.game-shelf { min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); grid-auto-rows: 84px;
+  gap: 10px; align-content: start; padding: 6px 4px 12px; }
+.shelf-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 20px;
+  background: var(--hue); font-family: var(--kai); font-size: 36px; font-weight: 700; line-height: 1;
+  box-shadow: 0 5px 0 rgba(0,0,0,.13); transition: transform .12s cubic-bezier(.2,1.7,.4,1); }
+.shelf-item span { font-family: var(--ui); font-size: 22px; }
+.shelf-item:hover:not(:disabled) { transform: translateY(-3px) rotate(-2deg); }
+.shelf-item:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,.13); }
+.shelf-item:disabled { opacity: .5; }
+.game-tray { display: flex; align-items: center; gap: 14px; padding: 10px 28px calc(14px + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,.7); border-top: 2px solid rgba(46,42,38,.06); }
+.game-tray-title { flex-shrink: 0; font-size: 17px; font-weight: 800; }
+.game-tray-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: thin; }
+.lab :focus-visible, .town :focus-visible, .train :focus-visible, .ride :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+@media (max-width: 700px) {
+  .game-shelf { grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); grid-auto-rows: 70px; }
+  .game-tray { padding: 8px 14px calc(10px + env(safe-area-inset-bottom)); }
+  .game-tray-title { display: none; }
+}

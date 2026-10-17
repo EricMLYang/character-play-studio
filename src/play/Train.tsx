@@ -2,12 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { say, stopSpeech } from '../lib/audio'
 import { cheer, plop, tap, whoosh } from '../lib/sfx'
-import { publishedMedia } from '../../shared/domain.mjs'
-import { useVideoVoice } from '../lib/useVideoVoice'
 import AnimMedia from '../anim/AnimMedia'
-import { clipFor } from '../anim/clips'
-import { Confetti } from './Viewer'
 import { hueMap, type WordGroup } from './words'
+import { pickSource } from './source'
+import VideoPlayer from './VideoPlayer'
+import { Confetti, SubBar, hueVar } from './ui'
 
 const CARS = 4
 
@@ -31,7 +30,7 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
     groups.forEach((g) => g.items.forEach((entry) => { if (!seen.has(entry.char)) seen.set(entry.char, { entry, hue: hues.get(entry.char) ?? 0 }) }))
     return seen
   }, [groups, hues])
-  const hue = (char: string) => `var(--c${hues.get(char) ?? 0})`
+  const hue = (char: string) => hueVar(hues.get(char) ?? 0)
   const full = cars.length >= CARS
 
   // 連點兩下時畫面還沒更新，用 ref 接著排，第二個字才不會蓋掉第一個
@@ -63,11 +62,7 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
 
   return (
     <div className="train">
-      <header className="sub-bar">
-        <button className="viewer-close" onClick={onBack}>← 回字卡</button>
-        <h2 className="sub-title">🚂 字火車</h2>
-        <span className="sub-stat">自己接一個詞</span>
-      </header>
+      <SubBar title="🚂 字火車" stat="自己接一個詞" onBack={onBack} />
 
       <div className="train-main">
         <section className="train-yard" aria-label="火車">
@@ -80,7 +75,7 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
                 <button key={i} className="train-car full" style={{ ['--hue' as any]: hue(char) }}
                   onClick={() => remove(i)} aria-label={`把「${char}」拿下來`}>
                   <span className="train-car-emoji" aria-hidden>{entry?.emoji}</span>{char}
-                  <span className="lab-slot-x" aria-hidden>✕</span>
+                  <span className="game-x" aria-hidden>✕</span>
                 </button>
               ) : <span key={i} className={'train-car' + (i === cars.length ? ' next' : '')} aria-hidden>{i === cars.length ? '＋' : ''}</span>
             })}
@@ -89,12 +84,12 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
             <button className="train-say" onClick={() => say(cars.join(''), 0.8)} aria-label={`唸「${cars.join('')}」`}>🔊 {cars.join('')}</button>
           )}
           <button className="nav-btn primary train-go" disabled={cars.length < 2} onClick={go}>🚂 開火車！</button>
-          <p className="lab-hint" role="status">{hint}</p>
+          <p className="game-hint" role="status">{hint}</p>
         </section>
 
-        <section className="lab-shelf" aria-label="可以接上火車的字">
+        <section className="game-shelf" aria-label="可以接上火車的字">
           {[...shelf.values()].map(({ entry, hue }) => (
-            <button key={entry.char} className="shelf-item" style={{ ['--hue' as any]: `var(--c${hue})` }}
+            <button key={entry.char} className="shelf-item" style={{ ['--hue' as any]: hueVar(hue) }}
               disabled={full} onClick={() => add(entry.char)} aria-label={`接上「${entry.char}」`}>
               <span aria-hidden>{entry.emoji}</span>{entry.char}
             </button>
@@ -102,9 +97,9 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
         </section>
       </div>
 
-      <section className="lab-book" aria-label="我的火車">
-        <span className="lab-book-title">🚃 我的火車</span>
-        <div className="lab-book-row">
+      <section className="game-tray" aria-label="我的火車">
+        <span className="game-tray-title">🚃 我的火車</span>
+        <div className="game-tray-row">
           {saved.length ? saved.map((text) => (
             <span key={text} className="train-saved">
               <button className="train-saved-go" onClick={() => onRide(text)} aria-label={`再坐一次「${text}」`}>▶ {text}</button>
@@ -169,7 +164,7 @@ export function Ride({ text, library, hues, onWatched, onClose, onBuild }: {
     clearTimeout(timer.current)
     timer.current = window.setTimeout(() => jump(at + 1), 700)
   }
-  const color = (c?: CharEntry) => `var(--c${(c && hues.get(c.char)) ?? 0})`
+  const color = (c?: CharEntry) => hueVar((c && hues.get(c.char)) ?? 0)
   const again = () => { setRound((r) => r + 1); jump(0) }
 
   return (
@@ -199,7 +194,7 @@ export function Ride({ text, library, hues, onWatched, onClose, onBuild }: {
               ))}
               <span className="viewer-say" aria-hidden>🔊</span>
             </button>
-            <div className="lab-result-actions">
+            <div className="game-actions">
               <button className="nav-btn primary" onClick={again}>🔁 再坐一次</button>
               <button className="nav-btn write" onClick={onBuild}>🚂 再接一個</button>
             </div>
@@ -219,41 +214,13 @@ export function Ride({ text, library, hues, onWatched, onClose, onBuild }: {
   )
 }
 
-/** 一節車廂：上架影片優先，沒有就播動畫。影片壞了直接跳下一節，不要卡住整列火車。 */
+/** 一節車廂：上架影片優先，沒有就播動畫（不放圖片）。影片壞了直接跳下一節，不要卡住整列火車。 */
 function Leg({ entry, onEnd }: { entry: CharEntry; onEnd: (watched: boolean) => void }) {
   const [failed, setFailed] = useState(false)
-  const [blocked, setBlocked] = useState(false)
-  const [ready, setReady] = useState(false)
-  const video = failed ? undefined : publishedMedia(entry).find((m) => m.kind === 'video')
-  const clip = video ? undefined : clipFor(entry.char)
-  const el = useRef<HTMLVideoElement>(null)
-  const voice = useVideoVoice(entry.char, video?.audioMode === 'narration', video?.volume ?? 0.7)
+  const source = pickSource(entry, { video: failed }, { images: false })
+  useEffect(() => { if (source.kind === 'card') onEnd(false) }, [source.kind])
 
-  useEffect(() => {
-    const v = el.current
-    if (!video || !v) return
-    v.volume = video.volume ?? 0.7
-    v.play().catch(() => setBlocked(true))
-  }, [video])
-  useEffect(() => { if (!video && !clip) onEnd(false) }, [video, clip])
-
-  if (video) return (
-    <>
-      <video ref={el} className={'viewer-media' + (ready ? '' : ' loading')} src={`/media/${encodeURIComponent(video.file)}`}
-        playsInline preload="auto" muted={video.audioMode === 'narration'} disablePictureInPicture
-        onLoadedMetadata={() => setReady(true)}
-        onPlaying={(e) => { setBlocked(false); voice.update(e.currentTarget) }}
-        onTimeUpdate={(e) => voice.update(e.currentTarget)}
-        onPause={() => voice.stop()}
-        onError={() => setFailed(true)}
-        onEnded={() => onEnd(true)} />
-      {blocked && (
-        <button className="tap-play" aria-label="播放" onClick={() => { el.current?.play().catch(() => setBlocked(true)) }}>
-          <span>▶</span>
-        </button>
-      )}
-    </>
-  )
-  if (clip) return <AnimMedia clip={clip} onEnd={() => onEnd(true)} />
+  if (source.kind === 'video') return <VideoPlayer char={entry.char} media={source.media} onEnded={() => onEnd(true)} onFailed={() => setFailed(true)} />
+  if (source.kind === 'clip') return <AnimMedia clip={source.clip} onEnd={() => onEnd(true)} />
   return null
 }

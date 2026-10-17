@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CLIPS } from './clips'
 import AnimPlayer, { type Art } from './AnimPlayer'
-import './anim.css'
+import '../play/play.css'
 
 /**
  * /anim：動畫取代影片的原型試播頁。

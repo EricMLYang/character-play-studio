@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react'
 import type { CharEntry, Resident } from '../types'
 import { say } from '../lib/audio'
 import { tap } from '../lib/sfx'
+import { LINES } from '../../shared/voice-lines.mjs'
 import { Handwriting } from './Glyphs'
+import { SubBar, hueOf, hueVar } from './ui'
 
 /** 寫幾次長多大：一次是小不點，五次以上戴皇冠。 */
 const levelOf = (traces: number) => Math.min(traces, 5)
@@ -14,9 +16,10 @@ const seed = (char: string) => [...char].reduce((h, c) => (h * 31 + c.codePointA
  * 我的小鎮：他描完的字會搬進來，用他自己的筆跡當身體。
  * 點居民會跳一下、唸出自己和一個語詞；再寫一次就長大。
  */
-export default function Town({ residents, library, onPick, onBack }: {
+export default function Town({ residents, library, hues, onPick, onBack }: {
   residents: Record<string, Resident>
   library: CharEntry[]
+  hues: Map<string, number>
   onPick: (char: string) => void
   onBack: () => void
 }) {
@@ -34,16 +37,12 @@ export default function Town({ residents, library, onPick, onBack }: {
     setTalking(entry.char)
     setHop((h) => h + 1)
     const word = entry.words?.[Math.floor(Math.random() * entry.words.length)]
-    say(word ? `我是${entry.char}！${word.text}的${entry.char}` : `我是${entry.char}！`, 0.8)
+    say(word ? LINES.townWord(entry.char, word.text) : LINES.townHello(entry.char), 0.8)
   }
 
   return (
     <div className="town">
-      <header className="sub-bar">
-        <button className="viewer-close" onClick={onBack}>← 回字卡</button>
-        <h2 className="sub-title">🏡 我的小鎮</h2>
-        <span className="sub-stat">{people.length ? `住了 ${people.length} 個字` : '還是一片空地'}</span>
-      </header>
+      <SubBar title="🏡 我的小鎮" stat={people.length ? `住了 ${people.length} 個字` : '還是一片空地'} onBack={onBack} />
 
       <div className="town-land">
         <div className="town-sky" aria-hidden><span className="town-sun">☀️</span><span className="town-cloud c1">☁️</span><span className="town-cloud c2">☁️</span></div>
@@ -55,7 +54,7 @@ export default function Town({ residents, library, onPick, onBack }: {
               const speaking = talking === entry.char
               return (
                 <div key={entry.char} className="resident-cell" style={{
-                  ['--hue' as any]: `var(--c${entry.priority % 8})`, ['--lv' as any]: level, ['--i' as any]: i,
+                  ['--hue' as any]: hueVar(hueOf(entry, hues)), ['--lv' as any]: level, ['--i' as any]: i,
                   ['--walk' as any]: `${7 + (s % 6)}s`, ['--delay' as any]: `${-(s % 9)}s`, ['--dy' as any]: `${(s >> 3) % 22}px`,
                 }}>
                   {speaking && (

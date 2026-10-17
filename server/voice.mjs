@@ -11,6 +11,7 @@ import os from 'node:os'
 import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 import { ROOT, VOICE, loadCharacters } from './core.mjs'
+import { linesForEntry } from '../shared/voice-lines.mjs'
 
 export const VOICE_NAME = process.env.CPS_VOICE && process.env.CPS_VOICE !== 'off' ? process.env.CPS_VOICE : 'Meijia'
 const enabled = () => process.platform === 'darwin' && process.env.CPS_VOICE !== 'off'
@@ -21,13 +22,8 @@ const PARALLEL = 4
 /** 音檔檔名：聲音＋句子的雜湊。換聲音就是另一組檔，舊的會在整批同步時清掉。 */
 export const voiceFile = (text) => createHash('sha1').update(`${VOICE_NAME}\n${text}`).digest('hex').slice(0, 16) + '.m4a'
 
-/** 一個字在孩子端會唸到的所有句子（跟 Viewer、Town 唸的字串一字不差）。 */
-export function textsForEntry(entry) {
-  const out = [entry.char, `我是${entry.char}！`]
-  for (const w of entry.words ?? []) if (w?.text) out.push(w.text, `我是${entry.char}！${w.text}的${entry.char}`)
-  if (entry.concept?.hook) out.push(entry.concept.hook)
-  return out
-}
+/** 一個字在孩子端會唸到的所有句子。句型跟畫面共用 shared/voice-lines.mjs，才會一字不差。 */
+export const textsForEntry = linesForEntry
 
 /** 整個字庫（含孩子端隱藏中的字，開放時才不用等）加上額外句子，去重。 */
 export function voiceTexts(db, extra = []) {

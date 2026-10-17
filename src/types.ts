@@ -44,13 +44,21 @@ export type CharEntry = {
 /** 小鎮居民：他描完的字。strokes 是他自己的筆跡，hanzi-writer 內部座標。 */
 export type Resident = { traces: number; first: string; last: string; strokes: number[][] }
 
+/**
+ * 孩子的進度（data/progress.json）。新遊戲要記東西就在這裡加一個欄位，
+ * 規則寫在 shared/domain.mjs，紀錄種類登記在 shared/play-events.mjs。
+ */
 export type Progress = {
+  /** 檔案格式版本，伺服器載入時自動升級（server/progress.mjs） */
+  version?: number
   watched: Record<string, { count: number; last: string }>
   town?: Record<string, Resident>
   /** 魔法鍋變出來過的字 → 第一次發現的時間 */
   lab?: Record<string, string>
   /** 字火車：他自己組的詞 → 最後一次組的時間 */
   words?: Record<string, string>
+  /** 已經算過的事件編號（防離線重送重複算）；伺服器自己管，畫面只用來過濾還沒送出的紀錄 */
+  completedEvents?: Record<string, { char: string; day: string }>
 }
 
 export type Library = {

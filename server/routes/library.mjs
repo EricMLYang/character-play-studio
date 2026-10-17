@@ -1,5 +1,6 @@
 import { cliProviders } from '../ai-cli.mjs'
-import { loadCharacters, saveCharacters, loadTemplate, loadProgress, productionDay } from '../core.mjs'
+import { loadCharacters, saveCharacters, loadTemplate, productionDay } from '../core.mjs'
+import { loadProgress } from '../progress.mjs'
 import { loadParts } from '../char-assets.mjs'
 
 export const libraryRoutes = {

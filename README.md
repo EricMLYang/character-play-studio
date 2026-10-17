@@ -195,18 +195,41 @@ CLI 預設生成並保存版本，新國字會自動加入字庫。`--today` 與
 data/characters.json       字庫 + 狀態 + 每日製作紀錄（進 git，可 diff）
 data/prompts/<字>.json     每個字保存過的 AI prompt 版本全文（進 git）
 data/prompt-template.json  prompt 三層
-data/progress.json         觀看紀錄、小鎮居民（他的筆跡）、魔法鍋發現（不進 git）
+data/progress.json         觀看紀錄、小鎮居民（他的筆跡）、魔法鍋發現、字火車的詞（不進 git）
 media/                     影片圖片（不進 git，靠 Google Drive 同步）
 public/strokes/            筆順資料，字庫變動時自動更新（進 git，離線可用）
 data/parts.json            哪個字裡面有哪個字，字庫變動時自動重算（進 git）
 ```
 
-觀看完成、描字搬進小鎮、魔法鍋發現都採用唯一事件編號避免重複記錄；重播看完會增加次數。尚未成功儲存的事件會留在瀏覽器暫存，重試或重開後再同步。
+觀看完成、描字搬進小鎮、魔法鍋發現、字火車組詞都採用唯一事件編號避免重複記錄；重播看完會增加次數。尚未成功儲存的事件會留在瀏覽器暫存，重試或重開後再同步。伺服器記得的事件編號保留 60 天後自動清掉，`progress.json` 不會一直長大；舊格式的檔案第一次載入時自動升級（`server/progress.mjs`）。
+
+## 孩子端的程式怎麼分
+
+```
+src/play/PlayApp.tsx     外框：載入字庫與進度、現在在哪個畫面、記紀錄
+src/play/games.tsx       遊戲清單（小鎮、魔法鍋、字火車）：首頁入口按鈕與網址都從這裡來
+src/play/route.ts        網址 #/lab?c=口 ↔ 畫面；手機的「返回」會關字卡、回上一個畫面
+src/play/Viewer.tsx      看一個字；流程狀態在 viewerFlow.ts，播什麼在 source.ts
+src/play/VideoPlayer.tsx 播上架影片（觀看層與字火車共用）
+src/play/ui.tsx          共用小元件：上方列、彩帶、大播放鍵、字的顏色
+src/play/styles/*.css    一個區域一個樣式檔，play.css 依序接起來
+shared/play-events.mjs   孩子端紀錄的種類與規則（畫面與伺服器共用同一張表）
+shared/voice-lines.mjs   固定台詞的句型（畫面與預先做音檔共用）
+server/progress.mjs      progress.json 的讀寫、格式升級、存一筆紀錄
+```
+
+### 加一個新遊戲
+
+1. 畫面元件 `src/play/<Game>.tsx`，上方列用 `ui.tsx` 的 `SubBar`，字的顏色用 `hueOf`；樣式放 `src/play/styles/<game>.css`，在 `play.css` 最後接上。
+2. 要記進度：規則寫成純函式放 `shared/domain.mjs`；`shared/play-events.mjs` 加一種紀錄（伺服器自動多一條 `POST /api/<種類>`）；`src/types.ts` 的 `Progress` 加欄位、`shared/play-events.d.mts` 的 `PlayEvent` 加一型。
+3. 有固定台詞：`shared/voice-lines.mjs` 加句型並放進 `linesForEntry`，音檔會自動預先做好。
+4. `src/play/games.tsx` 的 `GAMES` 加一筆，首頁就多一顆入口按鈕，網址是 `#/<id>`。
+5. 規則的測試放 `tests/`（參考 `magic-pot.test.mjs`、`play-structure.test.mjs`）。
 
 ## 驗證
 
 ```bash
-npm test          # 隔離暫存字庫，驗證日期、額度、回饋、上架、觀看／描字／發現紀錄 API
+npm test          # 隔離暫存字庫，驗證日期、額度、回饋、上架、孩子端紀錄 API 與進度檔升級
 npm run build     # TypeScript + 前端編譯
 npm run strokes   # 手動重抽筆順（平常 Studio 增刪、開放字時會自動做）
 npm run parts     # 手動重算字的家族（改了 SKIP 排除表之後；第一次需要連網）

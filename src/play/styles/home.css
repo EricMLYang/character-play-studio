@@ -1,0 +1,154 @@
+/* ---------- 字庫 ---------- */
+.home { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+.home[inert] { filter: saturate(.9); }
+.home-bar { display: flex; align-items: center; gap: 14px; padding: 18px 28px 12px; flex-wrap: wrap; }
+.home-title { margin: 0 8px 0 0; font-family: var(--kai); font-size: 30px; font-weight: 700; letter-spacing: .06em;
+  background: linear-gradient(120deg, var(--c0), var(--c4) 50%, var(--c5)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.search { flex: 1 1 260px; max-width: 460px; min-width: 0; height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid transparent;
+  background: #fff; font: inherit; font-size: 17px; color: var(--ink); outline: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.06); }
+.search:focus { border-color: var(--c0); }
+.search::placeholder { color: rgba(46,42,38,.55); }
+.home-filters { display: flex; gap: 6px; }
+.chip { min-height: 44px; padding: 9px 14px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 14px;
+  box-shadow: 0 3px 0 rgba(0,0,0,.05); }
+.chip.on { background: var(--ink); color: #fff; }
+.chip.surprise { background: var(--c2); }
+.chip.surprise:disabled { opacity: .45; }
+.home-stat { margin-left: auto; font-size: 14px; color: rgba(46,42,38,.72); }
+.today { margin-left: auto; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.today-stars { display: flex; gap: 1px; font-size: 24px; line-height: 1; }
+.today-stars span { animation: pop .5s cubic-bezier(.2,1.7,.4,1) both; animation-delay: calc(var(--i) * .07s); }
+.today-label { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.72); white-space: nowrap; }
+.home-parent { padding: 9px 16px; border-radius: 999px; background: #fff; color: var(--ink); font-size: 14px; font-weight: 700;
+  box-shadow: 0 3px 0 rgba(0,0,0,.05); touch-action: none;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.home-parent.holding { background: var(--c0); color: #fff; }
+.home-parent-hint { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 30;
+  background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 14px; }
+
+/* 列高一定要寫死：auto 列會跟著容器高度被攤平，而字卡自己算高度，兩邊不一致就會整片互相蓋住 */
+.grid { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); grid-auto-rows: 260px; gap: 18px;
+  padding: 8px 28px calc(48px + env(safe-area-inset-bottom)); }
+/* 有影片的字一個詞一組：組內字卡靠緊、同色，組與組之間留大一點的空，整組不會被拆到兩行 */
+.grid.grouped { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 22px 26px; }
+/* 詞組外框。以前跟觀看層的語詞按鈕共用 .word，按鈕的規則一直蓋在這上面；拆開時把實際畫出來的樣子原封不動寫在這裡 */
+.word { display: inline-flex; flex-direction: column; align-items: center; gap: 11px; min-height: 76px; padding: 8px 12px 8px 26px;
+  border-radius: 999px; background: #fff; font-family: var(--kai); font-size: 48px; font-weight: 700; color: var(--ink); line-height: 1;
+  box-shadow: 0 6px 0 rgba(0,0,0,.09), 0 14px 26px rgba(0,0,0,.08);
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.word:hover { transform: translateY(-2px); }
+.word:active { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
+.word-cards { display: flex; flex-wrap: wrap; gap: 8px; }
+.word-cards > .card { width: 158px; height: 260px; }
+/* 標題不撐寬：外框跟著字卡寬度走 */
+.word-label { width: 0; min-width: 100%; padding: 2px 10px 0; font-size: 16px; font-weight: 800; color: var(--ink); white-space: nowrap; }
+.grid.grouped > .home-empty { flex-basis: 100%; }
+.home-empty { grid-column: 1 / -1; align-self: start; padding: 28px 0; text-align: center; color: rgba(46,42,38,.75); font-size: 18px; line-height: 1.8; }
+.home-empty button { margin-top: 14px; padding: 10px 20px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 15px;
+  box-shadow: 0 3px 0 rgba(0,0,0,.06); }
+
+.card { position: relative; height: 100%; border-radius: 28px; background: var(--hue); overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 8px; padding: 18px 10px 30px; outline: none;
+  box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12);
+  transition: transform .2s cubic-bezier(.2,1.7,.4,1), box-shadow .2s;
+  /* backwards 而不是 both：動畫跑完就交還一般樣式，:hover 的 transform 才不會被最後一格蓋掉 */
+  animation: cardIn .38s cubic-bezier(.2,1.5,.4,1) backwards; animation-delay: calc(min(var(--i) * 22ms, 680ms)); }
+.card::before { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.42), transparent 60%); }
+.card > span { position: relative; }
+.card > .card-badge, .card > .card-count { position: absolute; }
+.card:hover, .card:focus-visible { transform: translateY(-6px) scale(1.03); box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18); }
+.card:focus-visible { outline: 4px solid var(--ink); outline-offset: 3px; }
+.card:active { transform: translateY(2px) scale(.98); }
+/* 深色字：白字在這八個亮色上只有 1.6–2.8:1，孩子看不清楚 */
+.card-char { font-family: var(--kai); font-size: clamp(64px, 6.2vw, 80px); font-weight: 700; color: var(--ink); line-height: 1;
+  text-shadow: 0 2px 0 rgba(255,255,255,.45); }
+.card-zhuyin { font-family: var(--bopomofo); font-size: 24px; line-height: 1.4; font-weight: 700; letter-spacing: .08em; color: var(--ink);
+  padding: 2px 12px; border-radius: 12px; background: rgba(255,255,255,.85); }
+.card-emoji { display: grid; place-items: center; width: 66px; height: 66px; flex-shrink: 0; font-size: 44px; line-height: 1;
+  border-radius: 24px; background: rgba(255,255,255,.65); transform: rotate(-6deg); transition: transform .2s;
+  animation: nudge 5s ease-in-out infinite; animation-delay: calc(var(--i) * -.21s); }
+.card:hover .card-emoji, .card:focus-visible .card-emoji { animation: none; transform: rotate(6deg) scale(1.08); }
+.card-badge { position: absolute; top: 10px; right: 8px; padding: 4px 6px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; }
+.card-count { position: absolute; bottom: 10px; right: 12px; padding: 3px 10px; border-radius: 999px;
+  background: rgba(255,255,255,.92); color: var(--ink); font-size: 12px; font-weight: 700; }
+
+.home-invite { display: flex; align-items: center; gap: 16px; padding: 10px 28px 20px; }
+.home-invite h2 { margin: 0; font-size: 25px; }
+.home-invite p { margin: 4px 0 0; font-size: 15px; color: #645449; }
+.home-mascot { font-size: 46px; transform: rotate(-8deg); }
+.home :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.viewer-exits { display: flex; flex-wrap: wrap; gap: 8px; }
+.viewer-close { min-height: 46px; }
+.viewer-close.viewer-browse { background: #ffe28b; font-size: 17px; box-shadow: 0 4px 0 #ddba60; }
+
+
+/* ---------- 首頁的去處：小鎮、魔法鍋、字火車（games.tsx 的 GAMES） ---------- */
+.home-places { display: flex; gap: 12px; margin-left: auto; }
+.home-places + .today { margin-left: 8px; }
+.place { display: flex; align-items: center; gap: 10px; min-height: 68px; padding: 8px 20px 8px 10px; border-radius: 24px;
+  text-align: left; box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.place:hover { transform: translateY(-3px) rotate(-1deg); }
+.place:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+.place b { display: block; font-size: 20px; }
+.place small { display: block; font-size: 13px; font-weight: 700; color: rgba(46,42,38,.72); }
+.place-icon { display: grid; place-items: center; width: 50px; height: 50px; font-size: 32px; border-radius: 18px; background: rgba(255,255,255,.7);
+  animation: nudge 4s ease-in-out infinite; }
+.place-town { background: #BDEBC4; }
+.place-lab { background: #D9D2FF; }
+.place-lab .place-icon { animation-delay: -2s; }
+.place-train { background: #FFD9B8; }
+.place-train .place-icon { animation-delay: -1s; }
+
+/* 首頁上他自己接的詞：外框是火車的顏色，標題可以點來坐一次 */
+.word.word-mine { background: rgba(255,217,184,.7); box-shadow: inset 0 0 0 2px #FFC08A; }
+.word-ride { display: flex; align-items: center; justify-content: space-between; gap: 8px; text-align: left; }
+.word-ride-go { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c0); color: #fff; font-size: 15px;
+  padding-left: 2px; box-shadow: 0 3px 0 #d9662f; }
+
+@media (max-width: 700px) {
+  .home-bar { gap: 10px; padding: 12px 14px 8px; }
+  .home-title { font-size: 24px; margin-right: 0; }
+  .search { flex: 1 1 100%; order: 3; height: 46px; max-width: none; }
+  .home-filters { order: 4; flex: 1 1 auto; }
+  .home-stat { order: 5; margin-left: auto; }
+  .home-parent { margin-left: auto; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); grid-auto-rows: 218px; gap: 12px;
+    padding: 6px 14px calc(32px + env(safe-area-inset-bottom)); }
+  .grid.grouped { gap: 14px; }
+  .word { flex-shrink: 0; scroll-snap-align: center; font-size: 36px; min-height: 62px; gap: 8px; padding: 6px 8px 6px 26px; border-radius: 28px; }
+  .word-cards { gap: 6px; }
+  .word-cards > .card { width: 140px; height: 218px; }
+  .card { border-radius: 22px; padding-top: 14px; gap: 6px; }
+  .card-char { font-size: 60px; }
+  .card-emoji { font-size: 38px; width: 58px; height: 58px; border-radius: 20px; }
+  .card-zhuyin { font-size: 22px; }
+  .card-badge { top: 8px; right: 6px; font-size: 10px; }
+  .home-invite { padding: 6px 14px 14px; gap: 10px; }
+  .home-invite h2 { font-size: 20px; }
+  .home-invite p { font-size: 13px; }
+  .home-mascot { font-size: 32px; }
+  .today-stars { font-size: 20px; }
+  .today-label { font-size: 12px; }
+  .home-invite { flex-wrap: wrap; }
+  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; }
+  /* 三個去處擠在 390px：圖示疊在名字上面，副標拿掉 */
+  .place { flex: 1 1 0; min-width: 0; min-height: 60px; flex-direction: column; gap: 2px; padding: 6px; text-align: center; }
+  .place small { display: none; }
+  .place b { font-size: 17px; }
+  .place-icon { width: 42px; height: 42px; font-size: 26px; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-invite { display: none; }
+  /* 小鎮與魔法鍋的入口不能跟著標語一起藏起來 */
+  .home-invite { display: flex; padding: 2px 14px 8px; }
+  .home-invite > :not(.home-places) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card-emoji { transition: none; }
+}

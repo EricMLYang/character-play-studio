@@ -1,19 +1,22 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
-import { preloadVoice, say, sayRepeat } from '../lib/audio'
-import { publishedMedia } from '../../shared/domain.mjs'
-import { useVideoVoice } from '../lib/useVideoVoice'
+import { preloadVoice, say, sayRepeat, stopSpeech } from '../lib/audio'
 import { cheer, swipe } from '../lib/sfx'
 import { sceneFor, SCENE_PIECES } from './scenes'
 import { partsOf, hidesIn } from './parts'
 import Strokes from './Strokes'
 import AnimMedia from '../anim/AnimMedia'
-import { clipFor } from '../anim/clips'
+import { pickSource, mediaUrl, type Broken } from './source'
+import VideoPlayer from './VideoPlayer'
+import { flow, initialFlow } from './viewerFlow'
+import { Confetti, hueOf, hueVar } from './ui'
 
-type Phase = 'object' | 'morph' | 'hold' | 'write' | 'finished'
-
+/**
+ * 看一個字：播素材（影片 → 動畫 → 圖片 → 字卡動畫，見 source.ts），看完接自己描字，描完搬進小鎮。
+ * 流程狀態在 viewerFlow.ts；這裡只管畫面、計時器與音效。
+ */
 export default function Viewer({
-  entry, count, traces, library, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
+  entry, count, traces, library, hues, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
 }: {
   entry: CharEntry
   count: number
@@ -21,6 +24,8 @@ export default function Viewer({
   traces: number
   /** 孩子端看得到的字，用來決定部件字卡能不能點過去。 */
   library: CharEntry[]
+  /** 每個字的顏色（hueMap），跟首頁同色 */
+  hues: Map<string, number>
   prev?: CharEntry
   next?: CharEntry
   onGo: (e: CharEntry) => void
@@ -31,46 +36,29 @@ export default function Viewer({
   onTraced: (e: CharEntry, strokes: number[][]) => void
   onTown: () => void
 }) {
-  const media = publishedMedia(entry)
-  const [failed, setFailed] = useState(false)       // 影片檔壞了 → 退回字卡
-  const [imageFailed, setImageFailed] = useState(false)
-  const [blocked, setBlocked] = useState(false)     // 自動播放被擋 → 給大播放鍵
-  const [ready, setReady] = useState(false)         // 尺寸未知前先不顯示，避免先閃出小框
-  const video = failed ? undefined : media.find((m) => m.kind === 'video')
-  // 沒有上架影片、但有動畫劇本的字：動畫當影片播，比靜態圖片優先
-  const clip = video ? undefined : clipFor(entry.char)
-  const image = clip || imageFailed ? undefined : media.find((m) => m.kind === 'image')
-  const [phase, setPhase] = useState<Phase>('object')
-  const [round, setRound] = useState(0)
-  const [done, setDone] = useState(false)
-  const [noStrokes, setNoStrokes] = useState(false) // 這個字沒有筆順資料 → 退回純字卡動畫
-  const [trace, setTrace] = useState(false)         // 有影片的字，看完之後自己描一次
-  const [traced, setTraced] = useState(false)
-  // 描完那一刻的小鎮次數；之後 traces 會 +1，但訊息要照描之前的狀態說
-  const [moved, setMoved] = useState<number | null>(null)
+  const [broken, setBroken] = useState<Broken>({})      // 檔案壞了 → 往下一種素材退
+  const [imageReady, setImageReady] = useState(false)   // 尺寸未知前先不顯示，避免先閃出小框
+  const [state, dispatch] = useReducer(flow, initialFlow)
+  const { round, phase, done, trace, traced, moved, noStrokes } = state
+  const source = pickSource(entry, broken)
+  const bare = source.kind === 'card'
   const root = useRef<HTMLDivElement>(null)
-  const videoEl = useRef<HTMLVideoElement>(null)
   const toTrace = useRef<number | undefined>(undefined)
   const completed = useRef(false)
   const eventId = useRef(crypto.randomUUID())
   const completeRef = useRef(onComplete)
   completeRef.current = onComplete
+
   const traceDone = (strokes: number[][]) => {
-    setTraced(true)
-    setMoved(traces)
+    dispatch({ type: 'traced', before: traces })
     onTraced(entry, strokes)
   }
-  const narration = video?.audioMode === 'narration'
-  const voice = useVideoVoice(entry.char, narration, video?.volume ?? 0.7)
-  const bare = !video && !clip && !image
 
   const finish = () => {
     if (completed.current) return
     completed.current = true
-    setDone(true)
-    // 'write' 要留著：描字面板就掛在這個階段，換成 finished 會在示範播完的瞬間把它收掉
-    setPhase((p) => (p === 'write' ? p : 'finished'))
-    voice.stop()
+    dispatch({ type: 'finish' })
+    stopSpeech()
     // 沒素材的字在筆順示範播完就算看過，慶祝留到孩子自己描完再放
     if (!bare) cheer()
     completeRef.current(entry, eventId.current)
@@ -80,11 +68,11 @@ export default function Viewer({
   const endMedia = () => {
     finish()
     clearTimeout(toTrace.current)
-    toTrace.current = window.setTimeout(() => setTrace(true), 900)
+    toTrace.current = window.setTimeout(() => dispatch({ type: 'trace', on: true }), 900)
   }
   const toggleTrace = () => {
     clearTimeout(toTrace.current)   // 手動切回影片時，別讓排程把他又推回筆順
-    setTrace((t) => !t)
+    dispatch({ type: 'trace' })
   }
 
   // 把焦點從搜尋框拿過來，方向鍵才會是上一個／下一個
@@ -93,32 +81,21 @@ export default function Viewer({
   useEffect(() => { preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook]) }, [entry])
   useEffect(() => () => clearTimeout(toTrace.current), [])
 
-  useEffect(() => {
-    if (!video || trace) return
-    setBlocked(false)
-    const el = videoEl.current
-    if (!el) return
-    el.currentTime = 0
-    el.volume = video.volume ?? 0.7
-    el.play().catch(() => setBlocked(true))
-  }, [video, trace, round])
-
   // 圖片：載入好才開始算停留（慢圖片不能還沒看到就記一次），並照家長審核過的音量唸這個字
+  const image = source.kind === 'image' ? source.media : undefined
   useEffect(() => {
-    if (video || !image || !ready || trace) return
+    if (!image || !imageReady || trace) return
     const stop = image.audioMode === 'original' ? () => {} : sayRepeat(entry.char, 2, 1500, image.volume ?? 0.7)
     const t = setTimeout(endMedia, 3000)
     return () => { clearTimeout(t); stop() }
-  }, [entry.char, video, image, ready, trace, round])
+  }, [entry.char, image, imageReady, trace, round])
 
   // 沒有素材：emoji 登場 → 變成國字 → 定格看笑點 → 一筆一畫寫出來，最後換孩子描
   useEffect(() => {
     if (!bare) return
-    setPhase('object')
-    setNoStrokes(false)
-    const t1 = setTimeout(() => setPhase('morph'), 1200)
-    const t2 = setTimeout(() => setPhase('hold'), 2300)
-    const t3 = setTimeout(() => setPhase('write'), 3800)
+    const t1 = setTimeout(() => dispatch({ type: 'phase', phase: 'morph' }), 1200)
+    const t2 = setTimeout(() => dispatch({ type: 'phase', phase: 'hold' }), 2300)
+    const t3 = setTimeout(() => dispatch({ type: 'phase', phase: 'write' }), 3800)
     const stop = sayRepeat(entry.char, 3, 1500, 0.7)
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); stop() }
   }, [entry.char, bare, round])
@@ -144,12 +121,8 @@ export default function Viewer({
     completed.current = false
     eventId.current = crypto.randomUUID()
     clearTimeout(toTrace.current)
-    setDone(false)
-    setTrace(false)
-    setTraced(false)
-    setMoved(null)
-    voice.reset()
-    setRound((r) => r + 1)
+    stopSpeech()
+    dispatch({ type: 'replay' })
   }
 
   const hook = entry.concept?.hook
@@ -164,7 +137,7 @@ export default function Viewer({
 
   return (
     <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
-      style={{ ['--hue' as any]: `var(--c${entry.priority % 8})` }}>
+      style={{ ['--hue' as any]: hueVar(hueOf(entry, hues)) }}>
       <header className="viewer-bar">
         <div className="viewer-exits">
           <button className="viewer-close viewer-browse" onClick={onBrowseVideos}>← 🎬 回影片字卡</button>
@@ -184,7 +157,7 @@ export default function Viewer({
       {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
-            <button key={word.text} className="word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
+            <button key={word.text} className="say-word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
               {word.emoji && <span className="word-emoji" aria-hidden>{word.emoji}</span>}
               <span className="word-text">
                 {[...(word.text || '')].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
@@ -220,47 +193,23 @@ export default function Viewer({
         {trace ? (
           <div className="stage stage-write">
             <Scene entry={entry} />
-            <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={traceDone} onUnavailable={() => setTrace(false)} />
+            <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={traceDone} onUnavailable={() => dispatch({ type: 'trace', on: false })} />
           </div>
-        ) : video ? (
-          <>
-            <video
-              ref={videoEl}
-              className={'viewer-media' + (ready ? '' : ' loading')}
-              src={`/media/${encodeURIComponent(video.file)}`}
-              controls
-              controlsList="nodownload noplaybackrate"
-              disablePictureInPicture
-              playsInline
-              preload="auto"
-              muted={narration}
-              onLoadedMetadata={() => setReady(true)}
-              onPlaying={(e) => { setBlocked(false); voice.update(e.currentTarget) }}
-              onTimeUpdate={(e) => voice.update(e.currentTarget)}
-              onPause={() => voice.stop()}
-              onSeeking={() => voice.reset()}
-              onError={() => setFailed(true)}
-              onEnded={endMedia}
-            />
-            {blocked && (
-              <button className="tap-play" aria-label="播放"
-                onClick={() => { videoEl.current?.play().catch(() => setBlocked(true)) }}>
-                <span>▶</span>
-              </button>
-            )}
-          </>
-        ) : clip ? (
-          <AnimMedia key={round} clip={clip} onEnd={endMedia} />
-        ) : image ? (
-          <img className={'viewer-media' + (ready ? '' : ' loading')} src={`/media/${encodeURIComponent(image.file)}`} alt={entry.char}
-            onLoad={() => setReady(true)} onError={() => setImageFailed(true)} />
+        ) : source.kind === 'video' ? (
+          <VideoPlayer key={round} char={entry.char} media={source.media} controls
+            onEnded={endMedia} onFailed={() => setBroken((b) => ({ ...b, video: true }))} />
+        ) : source.kind === 'clip' ? (
+          <AnimMedia key={round} clip={source.clip} onEnd={endMedia} />
+        ) : source.kind === 'image' ? (
+          <img className={'viewer-media' + (imageReady ? '' : ' loading')} src={mediaUrl(source.media)} alt={entry.char}
+            onLoad={() => setImageReady(true)} onError={() => setBroken((b) => ({ ...b, image: true }))} />
         ) : (
           <div className={`stage stage-${phase}`}>
             <Scene entry={entry} />
             <div className="stage-emoji">{entry.emoji}</div>
             <div className="stage-char">{entry.char}</div>
             {phase === 'write' && !noStrokes
-              ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={traceDone} onUnavailable={() => setNoStrokes(true)} />
+              ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={traceDone} onUnavailable={() => dispatch({ type: 'noStrokes' })} />
               : <div className="stage-zhuyin">{entry.zhuyin}</div>}
           </div>
         )}
@@ -303,15 +252,6 @@ function Scene({ entry }: { entry: CharEntry }) {
   return (
     <div className={`scene scene-${kind}`} aria-hidden>
       {Array.from({ length: SCENE_PIECES[kind] }, (_, i) => <span key={i} style={{ ['--i' as any]: i }} />)}
-    </div>
-  )
-}
-
-/** 看完的彩帶。CSS 動畫，沒有圖檔。 */
-export function Confetti() {
-  return (
-    <div className="confetti" aria-hidden>
-      {Array.from({ length: 18 }, (_, i) => <span key={i} style={{ ['--i' as any]: i }} />)}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
 import { FLIP_3D } from './flip3d'
 import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import './anim.css'
 
 /**
  * 播放一份劇本。畫面只看 t：播放時用 rAF 推進 t，拖曳或 frozenAt 時直接指定 t。

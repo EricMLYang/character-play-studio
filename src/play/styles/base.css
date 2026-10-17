@@ -1,0 +1,84 @@
+:root {
+  /* 卡片色盤：明亮但不刺眼，深色文字在上面都過得了對比 */
+  --c0: #FF8A4C; --c1: #4CC3FF; --c2: #FFC53D; --c3: #6BD37B;
+  --c4: #FF7BA9; --c5: #9B8CFF; --c6: #34D3C0; --c7: #FF6B6B;
+  --paper: #FFF6E9;
+  --ink: #2E2A26;
+  /* 教學用楷書。macOS 上是 Kaiti TC 命中；BiauKai/DFKai-SB 留給有裝標楷體的機器 */
+  --kai: "BiauKai", "Kaiti TC", "STKaiti", "DFKai-SB", "Kaiti SC",
+         "PingFang TC", "Hiragino Sans CNS", serif;
+  --ui: -apple-system, "PingFang TC", "Hiragino Sans CNS", system-ui, sans-serif;
+  /* 注音符號要指定有 Bopomofo 字符的字型，不然會出現豆腐字 */
+  --bopomofo: "PingFang TC", "Heiti TC", "Hiragino Sans CNS", "Apple LiGothic",
+              "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--ui); overflow: hidden; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+button:disabled { cursor: default; }
+.boot { display: grid; place-items: center; height: 100%; font-size: 24px; opacity: .5; }
+
+.play { position: relative; height: 100%; overflow: hidden; }
+
+/* ---------- 背景軟球 ---------- */
+.blobs { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .22; }
+.b1 { width: 46vw; height: 46vw; background: var(--c2); left: -12vw; top: -14vw; animation: drift 26s ease-in-out infinite; }
+.b2 { width: 38vw; height: 38vw; background: var(--c1); right: -10vw; bottom: -12vw; animation: drift 32s ease-in-out infinite reverse; }
+.b3 { width: 30vw; height: 30vw; background: var(--c4); right: 22vw; top: -10vw; animation: drift 40s ease-in-out infinite; }
+@keyframes drift { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(4vw,5vh) scale(1.12) } }
+
+
+.sync-note { position: fixed; bottom: 8px; right: 12px; z-index: 30; font-size: 12px; background: #fff; padding: 8px 12px; border-radius: 12px; }
+.screen { position: relative; z-index: 1; height: 100%; }
+
+/* 遊戲畫面共用的上方列（ui.tsx 的 SubBar） */
+.sub-bar { display: flex; align-items: center; gap: 16px; padding: 16px 28px 10px; flex-wrap: wrap; }
+.sub-title { margin: 0; font-size: 28px; }
+.sub-stat { margin-left: auto; padding: 8px 16px; border-radius: 999px; background: #fff; font-size: 15px; font-weight: 700; }
+
+@media (max-width: 700px) {
+  .sub-bar { gap: 10px; padding: 12px 14px 8px; }
+  .sub-title { font-size: 22px; }
+}
+
+/* ---------- 共用動畫 ---------- */
+@keyframes pop { from { opacity: 0; transform: scale(.5) } to { opacity: 1; transform: scale(1) } }
+@keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.045) } }
+@keyframes wobble { 0%,100% { transform: rotate(-4deg) } 50% { transform: rotate(4deg) } }
+@keyframes dropIn { 0% { opacity: 0; transform: translateY(-40vh) scale(.6) } 60% { transform: translateY(0) scale(1.18) }
+  75% { transform: scaleX(1.25) scaleY(.78) } 100% { opacity: 1; transform: scale(1) } }
+@keyframes morphOut { 0% { opacity: 1; transform: scale(1) } 100% { opacity: 0; transform: scale(.3) rotate(-25deg) } }
+@keyframes morphIn { 0% { opacity: 0; transform: scale(.25) rotate(20deg) } 70% { opacity: 1; transform: scale(1.12) rotate(0) }
+  100% { opacity: 1; transform: scale(1) } }
+@keyframes charOut { to { opacity: 0; transform: scale(.72) } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(16px) scale(.94) } to { opacity: 1; transform: none } }
+@keyframes nudge { 0%, 86%, 100% { transform: rotate(-6deg) } 91% { transform: rotate(-15deg) scale(1.07) }
+  96% { transform: rotate(3deg) scale(1.04) } }
+@keyframes fall { to { transform: translateY(96vh) } }
+@keyframes rise { 0% { transform: translateY(0) scale(.55); opacity: 0 } 22% { opacity: .85 }
+  100% { transform: translateY(-48vh) scale(.15); opacity: 0 } }
+@keyframes ring { 0% { transform: scale(.32); opacity: 0 } 25% { opacity: .55 } 100% { transform: scale(1.5); opacity: 0 } }
+@keyframes sprout { 0% { transform: scaleY(0) rotate(-12deg) } 45% { transform: scaleY(1) rotate(7deg) }
+  72% { transform: scaleY(1) rotate(-7deg) } 100% { transform: scaleY(0) rotate(0) } }
+@keyframes cross { 0% { transform: translate(0, 0) } 50% { transform: translate(55vw, -4vh) } 100% { transform: translate(120vw, 0) } }
+@keyframes hop { 0%, 100% { transform: translateY(0) scaleY(.86) } 50% { transform: translateY(-24vh) scaleY(1) } }
+@keyframes zap { 0%, 68%, 100% { transform: scale(0) rotate(0); opacity: 0 }
+  10% { transform: scale(1.2) rotate(15deg); opacity: .9 } 28% { transform: scale(.8) rotate(-10deg); opacity: 0 } }
+@keyframes twinkle { 0%, 100% { transform: scale(0) rotate(0); opacity: 0 } 50% { transform: scale(1) rotate(45deg); opacity: .95 } }
+@keyframes popUp { from { opacity: 0; transform: translateX(var(--tx, 0)) translateY(30px) scale(.8) } }
+@keyframes wander { 0%, 100% { transform: translateX(-16px) } 50% { transform: translateX(16px) } }
+@keyframes bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
+@keyframes boing { 0% { transform: translateY(0) } 35% { transform: translateY(-42px) scale(1.08, .94) } 70% { transform: translateY(0) scale(1.1, .88) } 100% { transform: none } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
+@keyframes look { 0%, 100% { transform: translateX(-4px) } 50% { transform: translateX(3px) } }
+@keyframes step { from { transform: translateY(0) } to { transform: translateY(-4px) } }
+@keyframes ink { to { stroke-dashoffset: 0 } }
+@keyframes stir { from { transform: rotate(0deg) } to { transform: rotate(40deg) } }
+@keyframes shake { 0%, 100% { translate: 0 } 25% { translate: -3px 1px } 75% { translate: 3px -1px } }
+@keyframes confetti { 0% { opacity: 1; transform: translateY(0) rotate(0) } 100% { opacity: 0; transform: translateY(85vh) rotate(680deg) } }
+
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }

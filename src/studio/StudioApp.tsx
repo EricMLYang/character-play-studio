@@ -6,6 +6,8 @@ import MediaReview from './MediaReview'
 import { clipFor } from '../anim/clips'
 import AnimMedia from '../anim/AnimMedia'
 import CharacterEditor from './CharacterEditor'
+import '../play/play.css'
+import './studio.css'
 
 const STATUS: Record<string, string> = {
   seed: '待生成', prompted: '已出 prompt', live: '已上架',

@@ -6,13 +6,15 @@ import { hidesIn } from './parts'
 import { brew, recipes, type Brew } from './brew'
 import { CharArt } from './Glyphs'
 import { sceneFor } from './scenes'
+import { SubBar, hueOf, hueVar } from './ui'
 
 /**
  * 魔法鍋：丟一兩個字進去攪一攪，看會變出什麼。
  * 一個字會變成「藏著它的字」，重複丟同一個字會一直發現新的；兩個字有配方或好笑的反應。
  */
-export default function Lab({ library, found, onDiscover, onPick, onBack }: {
+export default function Lab({ library, hues, found, onDiscover, onPick, onBack }: {
   library: CharEntry[]
+  hues: Map<string, number>
   found: Record<string, string>
   onDiscover: (char: string) => void
   onPick: (char: string) => void
@@ -71,11 +73,7 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
 
   return (
     <div className="lab">
-      <header className="sub-bar">
-        <button className="viewer-close" onClick={onBack}>← 回字卡</button>
-        <h2 className="sub-title">🧪 魔法鍋</h2>
-        <span className="sub-stat">變出 {discovered} / {book.length} 個字</span>
-      </header>
+      <SubBar title="🧪 魔法鍋" stat={`變出 ${discovered} / ${book.length} 個字`} onBack={onBack} />
 
       <div className="lab-main">
         <section className="lab-pot-area" aria-label="魔法鍋">
@@ -83,10 +81,10 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
             {[0, 1].map((i) => {
               const char = picked[i]
               return char ? (
-                <button key={i} className="lab-slot full" style={{ ['--hue' as any]: `var(--c${byChar.get(char)!.priority % 8})` }}
+                <button key={i} className="lab-slot full" style={{ ['--hue' as any]: hueVar(hueOf(byChar.get(char)!, hues)) }}
                   onClick={() => remove(i)} aria-label={`把「${char}」拿出來`}>
                   <span className="lab-slot-emoji" aria-hidden>{byChar.get(char)?.emoji}</span>{char}
-                  <span className="lab-slot-x" aria-hidden>✕</span>
+                  <span className="game-x" aria-hidden>✕</span>
                 </button>
               ) : <span key={i} className="lab-slot" aria-hidden>{i === 0 ? '？' : '＋'}</span>
             })}
@@ -102,7 +100,7 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
           <button className="nav-btn primary lab-stir" disabled={!picked.length || stirring} onClick={stir}>
             {stirring ? '咕嚕咕嚕…' : '🪄 攪一攪！'}
           </button>
-          <p className="lab-hint" role="status">{stirring ? '' : hint}</p>
+          <p className="game-hint" role="status">{stirring ? '' : hint}</p>
 
           {result && r && !stirring && (
             <div className={`lab-result lab-result-${r.kind}`} role="status">
@@ -124,7 +122,7 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
                 <span className="lab-react-emoji" aria-hidden>🫧</span>
                 <p className="lab-line">噗～「{r.char}」一個人變不出來，<br />再丟一個字陪它！</p>
               </>}
-              <div className="lab-result-actions">
+              <div className="game-actions">
                 {(r.kind === 'make' || r.kind === 'inside') && (
                   <button className="nav-btn write" onClick={() => onPick(r.char)}>▶ 去看「{r.char}」</button>
                 )}
@@ -134,9 +132,9 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
           )}
         </section>
 
-        <section className="lab-shelf" aria-label="可以丟進鍋子的字">
+        <section className="game-shelf" aria-label="可以丟進鍋子的字">
           {shelf.map((c) => (
-            <button key={c.char} className="shelf-item" style={{ ['--hue' as any]: `var(--c${c.priority % 8})` }}
+            <button key={c.char} className="shelf-item" style={{ ['--hue' as any]: hueVar(hueOf(c, hues)) }}
               disabled={stirring || picked.length >= 2} onClick={() => add(c.char)} aria-label={`把「${c.char}」丟進鍋子`}>
               <span aria-hidden>{c.emoji}</span>{c.char}
             </button>
@@ -144,9 +142,9 @@ export default function Lab({ library, found, onDiscover, onPick, onBack }: {
         </section>
       </div>
 
-      <section className="lab-book" aria-label="魔法圖鑑">
-        <span className="lab-book-title">📖 魔法圖鑑</span>
-        <div className="lab-book-row">
+      <section className="game-tray" aria-label="魔法圖鑑">
+        <span className="game-tray-title">📖 魔法圖鑑</span>
+        <div className="game-tray-row">
           {book.map((rcp) => found[rcp.char] ? (
             <button key={rcp.char} className="book-slot got" onClick={() => onPick(rcp.char)} aria-label={`去看「${rcp.char}」`}>{rcp.char}</button>
           ) : (

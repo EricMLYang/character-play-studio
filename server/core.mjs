@@ -12,13 +12,13 @@ export const MEDIA = path.join(STORAGE, 'media')
 export const STROKES = path.join(STORAGE, 'public', 'strokes')
 export const VOICE = path.join(STORAGE, 'public', 'voice')
 
-const readJSON = (p, fallback) => {
+export const readJSON = (p, fallback) => {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')) } catch (error) {
     if (error.code === 'ENOENT') return fallback
     throw error
   }
 }
-const writeJSON = (p, v) => {
+export const writeJSON = (p, v) => {
   fs.mkdirSync(path.dirname(p), { recursive: true })
   const temporary = `${p}.tmp`
   fs.writeFileSync(temporary, JSON.stringify(v, null, 2) + '\n', 'utf8')
@@ -64,8 +64,10 @@ export function saveCharacters(db) {
   writeJSON(path.join(DATA, 'characters.json'), stored)
 }
 export const loadTemplate = () => readJSON(path.join(ROOT, 'data/prompt-template.json'), null)
-export const loadProgress = () => readJSON(path.join(DATA, 'progress.json'), { watched: {} })
-export const saveProgress = (d) => writeJSON(path.join(DATA, 'progress.json'), d)
+
+/** 只要知道「有哪些字」的時候用：只讀主字庫檔，不把每個字的 prompt 版本都讀進來。 */
+export const characterSet = () =>
+  new Set(readJSON(path.join(DATA, 'characters.json'), { characters: [] }).characters.map((c) => c.char))
 
 export function contextHash(entry, template = loadTemplate()) {
   return createHash('sha256').update(JSON.stringify({ char: entry.char, meaning: entry.meaning, zhuyin: entry.zhuyin,

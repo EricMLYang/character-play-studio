@@ -11,9 +11,10 @@ const storage = fs.mkdtempSync(path.join(os.tmpdir(), 'cps-tests-'))
 process.env.CPS_STORAGE_ROOT = storage
 // 唸字音檔要跑 say，測試不做（句子的整理另外用純函式驗）
 process.env.CPS_VOICE = 'off'
-const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, loadProgress, currentPrompt, loadTemplate, contextHash, audioFor } = await import('../server/core.mjs')
+const { buildPrompt, productionDay, recordSubmission, loadCharacters, saveCharacters, currentPrompt, loadTemplate, contextHash, audioFor } = await import('../server/core.mjs')
 const { generatePrompt, creativeBrief } = await import('../server/prompt-generation.mjs')
 const { apiPlugin } = await import('../server/api.mjs')
+const { loadProgress } = await import('../server/progress.mjs')
 const { setDictionaryLoader } = await import('../server/char-assets.mjs')
 // 字的家族要用的拆字資料：測試不連網，只放要驗的那個字
 setDictionaryLoader(async () => JSON.stringify({ character: '串', decomposition: '⿰木木', matches: [[0], [0], [0], [0], [1], [1], [1], [1]] }))
@@ -194,6 +195,7 @@ test('watch retries are idempotent and completions persist', async () => {
   assert.equal(retry.body.watched['山'].count, 1)
   assert.equal(taiwanDay(retry.body.watched['山'].last), '2026-09-05')
   assert.equal(loadProgress().watched['山'].count, 1)
+  assert.equal(loadProgress().completedEvents['watch-event-1'].char, '山', 'the event id is remembered with the day it arrived')
   assert.equal((await request('/watch', { ...event, id: 'watch-event-2', at: '2026-09-06T01:00:00Z' })).body.watched['山'].count, 2)
 })
 

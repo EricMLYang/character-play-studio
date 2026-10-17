@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 import { tap } from '../lib/sfx'
-import type { Filter, Screen } from './PlayApp'
+import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 
 const FILTERS: { id: Filter; label: string }[] = [
@@ -12,7 +12,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, residents, onScreen, onRide,
+  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -27,8 +27,9 @@ export default function Home({
   onPick: (char: string) => void
   onSurprise: () => void
   onReset: () => void
-  residents: number
-  onScreen: (s: Screen) => void
+  /** 看完字卡之後可以去的地方（games.tsx 的 GAMES） */
+  places: { id: string; icon: string; title: string; subtitle: string }[]
+  onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
 }) {
@@ -92,20 +93,14 @@ export default function Home({
           <h2>{filter === 'video' ? '選一張，來看小影片！' : '今天想認識哪個字？'}</h2>
           <p>看看小圖，點點字卡，自己選！</p>
         </div>
-        {/* 看完字卡之後還有地方可以去：他寫的字住在小鎮，字丟進鍋子會變出別的字 */}
+        {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
-          <button className="place place-town" onClick={() => { tap(); onScreen('town') }}>
-            <span className="place-icon" aria-hidden>🏡</span>
-            <span><b>我的小鎮</b><small>{residents ? `住了 ${residents} 個字` : '寫一個字搬進來'}</small></span>
-          </button>
-          <button className="place place-lab" onClick={() => { tap(); onScreen('lab') }}>
-            <span className="place-icon" aria-hidden>🧪</span>
-            <span><b>魔法鍋</b><small>字會變成別的字</small></span>
-          </button>
-          <button className="place place-train" onClick={() => { tap(); onScreen('train') }}>
-            <span className="place-icon" aria-hidden>🚂</span>
-            <span><b>字火車</b><small>自己接一個詞</small></span>
-          </button>
+          {places.map((p) => (
+            <button key={p.id} className={`place place-${p.id}`} onClick={() => { tap(); onScreen(p.id) }}>
+              <span className="place-icon" aria-hidden>{p.icon}</span>
+              <span><b>{p.title}</b><small>{p.subtitle}</small></span>
+            </button>
+          ))}
         </div>
         <TodayStars count={todayCount} />
       </div>
