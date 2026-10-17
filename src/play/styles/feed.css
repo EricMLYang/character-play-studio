@@ -1,0 +1,94 @@
+/* ---------- 餵大怪獸 ---------- */
+.place-feed { background: #FFE0EC; }
+.place-feed .place-icon { animation-delay: -3s; }
+
+.feed { position: relative; height: 100%; display: flex; flex-direction: column; background: linear-gradient(#FFEFF5, #FFF6E9 60%); }
+.feed :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* 上面一排盤子：吃掉一道，盤子上就出現那個字的圖 */
+.feed-plates { display: flex; justify-content: center; gap: 10px; padding: 0 16px 6px; }
+.feed-plate { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #fff; font-size: 28px;
+  box-shadow: inset 0 0 0 4px #F2E6DA, 0 3px 0 rgba(0,0,0,.06); }
+.feed-plate.done { animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+
+.feed-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(300px, 1fr) minmax(0, 1.2fr); gap: 20px; padding: 0 28px 14px;
+  --fly-x: -38vw; --fly-y: -4vh; }
+.feed-stage { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 0; }
+
+/* 怪獸：平常輕輕晃，吃越多肚子越大 */
+.feed-monster { width: min(46vh, 34vw); height: auto; max-height: 100%; min-height: 0; object-fit: contain;
+  /* 肚子用 scale 屬性，跟 transform 的晃動動畫分開，兩個疊得起來 */
+  scale: calc(1 + var(--full, 0) * .16); transform-origin: bottom center; transition: scale .5s cubic-bezier(.2,1.7,.4,1);
+  animation: bob 1.6s ease-in-out infinite; pointer-events: none; user-select: none; }
+.phase-chomp .feed-monster { animation: chomp .35s ease-in-out 2; }
+.phase-oops .feed-monster { animation: wobble .5s ease-in-out 2; }
+.phase-yum .feed-monster, .phase-full .feed-monster { animation: boing .7s cubic-bezier(.2,1.6,.4,1) infinite; }
+.feed-preload { display: none; }
+
+.feed-bubble { position: relative; min-height: 64px; display: flex; align-items: center; justify-content: center; white-space: nowrap; padding: 12px 22px; border-radius: 26px; background: #fff;
+  font-size: 24px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.1); animation: pop .3s cubic-bezier(.2,1.7,.4,1) both; }
+.feed-bubble::after { content: ''; position: absolute; left: 50%; bottom: -9px; width: 18px; height: 18px; background: #fff; transform: translateX(-50%) rotate(45deg); }
+.feed-bubble b { font-family: var(--kai); font-size: 1.3em; }
+.feed-ask { display: flex; align-items: center; gap: 10px; font-size: 26px; font-weight: 800; }
+.feed-ask span { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--c2); font-size: 22px;
+  animation: breathe 1.4s ease-in-out infinite; }
+
+.feed-table { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.feed-cards { display: flex; gap: 28px; }
+/* 只有字：白底、沒有圖、沒有顏色，要靠讀字 */
+.feed-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  width: min(30vh, 22vw, 220px); height: min(36vh, 26vw, 260px); border-radius: 32px; background: #fff;
+  box-shadow: 0 8px 0 rgba(0,0,0,.1), 0 18px 34px rgba(0,0,0,.08); animation: dropIn .5s both;
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1), opacity .3s; }
+.feed-card + .feed-card { animation-delay: .1s; }
+.feed-card-char { font-family: var(--kai); font-size: min(20vh, 15vw, 150px); font-weight: 700; line-height: 1; }
+.feed-card:hover:not(:disabled) { transform: translateY(-4px) rotate(-2deg); }
+.feed-card:active:not(:disabled) { transform: translateY(5px) scale(.97); }
+/* 點錯的那張翻開：給他看那是什麼 */
+.feed-card.flipped { opacity: .55; background: #F4EEE7; animation: flipIn .45s both; }
+.feed-card.flipped .feed-card-char { font-size: min(13vh, 10vw, 96px); }
+.feed-card-emoji { font-size: min(9vh, 7vw, 64px); line-height: 1; }
+/* 再提示一次：正確的那張發亮 */
+.feed-card.hint { box-shadow: 0 0 0 6px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 40px rgba(255,197,61,.8); animation: breathe 1s ease-in-out infinite; }
+/* 飛進怪獸嘴巴 */
+.feed-card.flying { animation: flyIn .6s cubic-bezier(.5,0,.8,.4) forwards; }
+
+.feed-reveal { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.feed-reveal-emoji { font-size: min(22vh, 16vw, 160px); line-height: 1.1; animation: dropIn .6s both; }
+.feed-reveal-char { font-family: var(--kai); font-size: min(14vh, 10vw, 100px); line-height: 1; }
+.feed-reveal-word { padding: 8px 18px; border-radius: 999px; background: #fff; font-family: var(--kai); font-size: 30px; font-weight: 700;
+  box-shadow: 0 4px 0 rgba(0,0,0,.08); }
+.feed-done { gap: 14px; }
+.feed-done-title { margin: 0; font-size: 22px; font-weight: 800; }
+.feed-done-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.feed-done-char { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 84px; height: 92px; justify-content: center; border-radius: 22px;
+  background: #fff; font-family: var(--kai); font-size: 40px; font-weight: 700; line-height: 1; box-shadow: 0 5px 0 rgba(0,0,0,.1); }
+.feed-done-char span { font-family: var(--ui); font-size: 24px; }
+.feed-tip { text-align: center; padding: 0 16px calc(12px + env(safe-area-inset-bottom)); }
+
+.feed-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; text-align: center;
+  font-size: 20px; line-height: 1.7; }
+.feed-empty p { margin: 0; }
+.feed-empty .feed-monster { width: min(36vh, 60vw); }
+.feed-empty .nav-btn { flex: none; }
+
+@keyframes chomp { 0%, 100% { transform: none } 50% { transform: scale(1.08, .9) } }
+@keyframes flipIn { from { transform: rotateY(90deg) } to { transform: rotateY(0) } }
+@keyframes flyIn { to { transform: translate(var(--fly-x), var(--fly-y)) scale(.12) rotate(-30deg); opacity: 0 } }
+
+@media (max-width: 700px) {
+  .feed-plates { gap: 6px; }
+  .feed-plate { width: 40px; height: 40px; font-size: 22px; }
+  /* 手機：怪獸在上、盤子在下，卡片往上飛進嘴巴 */
+  .feed-main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; padding: 0 14px 10px; --fly-x: 0px; --fly-y: -30vh; }
+  .feed-monster { width: auto; height: min(30vh, 62vw); }
+  .feed-bubble { min-height: 52px; font-size: 20px; padding: 8px 16px; }
+  .feed-ask { font-size: 22px; }
+  .feed-cards { gap: 16px; }
+  .feed-card { width: 40vw; height: 46vw; max-height: 30vh; border-radius: 26px; }
+  .feed-card-char { font-size: min(30vw, 22vh); }
+  .feed-reveal-emoji { font-size: min(22vh, 30vw); }
+  .feed-reveal-char { font-size: min(12vh, 18vw); }
+  .feed-reveal-word { font-size: 24px; }
+  .feed-done-char { width: 60px; height: 70px; font-size: 30px; }
+}

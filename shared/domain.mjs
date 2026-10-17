@@ -69,6 +69,22 @@ export function saveWord(progress, text, at = new Date().toISOString(), remove =
   return { ...progress, words: Object.fromEntries(words) }
 }
 
+/**
+ * 餵大怪獸：聽到字、自己把字找出來。每個字有一個「記住程度」box（0–5），
+ * 答對升一級、隔更久再考；答錯降一級、今天再考一次。隔幾天再想起來，比一直重看記得牢。
+ */
+export const RECALL_DAYS = [0, 1, 2, 4, 7, 15]
+
+export function recall(progress, char, ok, at = new Date().toISOString()) {
+  const previous = progress.recall?.[char]
+  const counts = { right: (previous?.right || 0) + (ok ? 1 : 0), wrong: (previous?.wrong || 0) + (ok ? 0 : 1) }
+  // 離線補送的舊事件：次數照算，但不能把比較新的那次決定的排程改掉
+  if (previous && Date.parse(at) < Date.parse(previous.last)) return { ...progress, recall: { ...progress.recall, [char]: { ...previous, ...counts } } }
+  const box = ok ? Math.min((previous?.box ?? 0) + 1, RECALL_DAYS.length - 1) : Math.max((previous?.box ?? 0) - 1, 0)
+  const due = taiwanDay(Date.parse(at) + (ok ? RECALL_DAYS[box] : 0) * 864e5)
+  return { ...progress, recall: { ...progress.recall, [char]: { box, due, last: at, ...counts } } }
+}
+
 /** 筆跡只收合理的形狀：最多 40 筆，每筆最多 64 個點，座標在字框附近。 */
 export function validStrokes(strokes) {
   return Array.isArray(strokes) && strokes.length > 0 && strokes.length <= 40 && strokes.every((s) =>

@@ -1,4 +1,4 @@
-import { completeWatch, addTrace, discover, validStrokes, saveWord, validWord } from './domain.mjs'
+import { completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall } from './domain.mjs'
 
 /**
  * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞。
@@ -18,6 +18,8 @@ export const PLAY_EVENTS = {
   // char 是整個詞，每個字都要在字庫裡
   word: { error: '組詞紀錄不正確', valid: (e) => validWord(e.char), chars: (e) => [...e.char],
     apply: (p, e) => saveWord(p, e.char, e.at, e.remove === true) },
+  // 餵大怪獸：這個字第一次就找對了沒有
+  recall: { error: '餵怪獸紀錄不正確', valid: (e) => typeof e.ok === 'boolean', apply: (p, e) => recall(p, e.char, e.ok, e.at) },
 }
 
 /** 升級前排進佇列的觀看紀錄沒有 kind，照樣當觀看。 */

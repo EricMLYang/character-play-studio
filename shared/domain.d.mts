@@ -11,3 +11,5 @@ export function saveWord(progress: Progress, text: string, at?: string, remove?:
 export function validStrokes(strokes: unknown): strokes is number[][]
 export const SCENES: Scene[]
 export const feedbackTags: string[]
+export const RECALL_DAYS: number[]
+export function recall(progress: Progress, char: string, ok: boolean, at?: string): Progress

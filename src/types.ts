@@ -48,6 +48,8 @@ export type Resident = { traces: number; first: string; last: string; strokes: n
  * 孩子的進度（data/progress.json）。新遊戲要記東西就在這裡加一個欄位，
  * 規則寫在 shared/domain.mjs，紀錄種類登記在 shared/play-events.mjs。
  */
+export type Recall = { box: number; due: string; last: string; right: number; wrong: number }
+
 export type Progress = {
   /** 檔案格式版本，伺服器載入時自動升級（server/progress.mjs） */
   version?: number
@@ -57,6 +59,8 @@ export type Progress = {
   lab?: Record<string, string>
   /** 字火車：他自己組的詞 → 最後一次組的時間 */
   words?: Record<string, string>
+  /** 餵大怪獸：每個字記住的程度（box 0–5）、下次該考的日子（台灣日期）、對錯次數 */
+  recall?: Record<string, Recall>
   /** 已經算過的事件編號（防離線重送重複算）；伺服器自己管，畫面只用來過濾還沒送出的紀錄 */
   completedEvents?: Record<string, { char: string; day: string }>
 }

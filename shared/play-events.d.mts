@@ -6,6 +6,8 @@ export type PlayEvent =
   | { kind: 'discover'; char: string; id: string; at: string }
   /** char 是整個詞 */
   | { kind: 'word'; char: string; id: string; at: string; remove?: boolean }
+  /** 餵大怪獸：ok 是第一次就找對 */
+  | { kind: 'recall'; char: string; id: string; at: string; ok: boolean }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>
 
 export const PLAY_EVENTS: Record<PlayEventKind, {

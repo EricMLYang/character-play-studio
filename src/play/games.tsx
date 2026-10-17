@@ -5,9 +5,11 @@ import type { WordGroup } from './words'
 import Town from './Town'
 import Lab from './Lab'
 import Train from './Train'
+import Feed from './Feed'
+import { knownCount } from './dishes'
 
 /**
- * 首頁上「看完字卡之後可以去的地方」。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
+ * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -68,6 +70,14 @@ export const GAMES: Game[] = [
       <Train groups={ctx.groups} saved={ctx.savedWords} onBack={ctx.back}
         onRide={(text) => { ctx.record({ kind: 'word', char: text }); ctx.ride(text) }}
         onRemove={(text) => ctx.record({ kind: 'word', char: text, remove: true })} />
+    ),
+  },
+  {
+    id: 'feed', icon: '🍽️', title: '餵大怪獸',
+    subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
+    render: (ctx) => (
+      <Feed library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },
 ]
