@@ -1,0 +1,18 @@
+{
+  "name": "大怪獸",
+  "look": "A huge round fuzzy cartoon monster, fluffy purple fur, one short white horn on top of the head, two big googly eyes, a wide goofy grin with two little teeth, tiny feet, short fuzzy arms, chubby and soft, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 83,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly goofy smile, arms relaxed",
+    "happy": {
+      "seed": 2083,
+      "text": "Full body visible, jumping high in the air with both arms raised in celebration, big open-mouth laugh, eyes closed with joy, feet above the ground, nothing drawn under the feet, no shadow on the ground"
+    },
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
+    "roar": "Full body visible, standing with arms up and mouth wide open in a big silly roar, but looking more cute than scary",
+    "oops": "Full body visible, standing with an embarrassed sheepish grin, one hand scratching the head, shoulders shrugged, like saying oops I broke it"
+  },
+  "cutout": "birefnet-general"
+}

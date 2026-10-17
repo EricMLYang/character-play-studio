@@ -1,99 +1,135 @@
-import type { Clip } from '../clip'
+import type { Clip, Move, Vec } from '../clip'
 
-// 脫：小蛇好癢，扭一扭「咻」地脫下一層皮溜走了。老鼠、青蛙、大象一個個經過，都被那條空空的蛇皮嚇得跳起來逃跑。
-// 小蛇回來又脫了一次皮，轉頭看到自己的蛇皮——連牠自己都嚇跑了；大象正在笑，空蛇皮動了一下，大象又嚇一跳。脫、脫、脫皮
+// 脫：發條鯊魚和橡膠恐龍穿大雨鞋、圍長圍巾，拿泡棉劍決鬥。鯊魚撲過去咬錯，把恐龍的雨鞋咬掉；恐龍單腳跳、手太短只好整個身體揮，揮空兩個一起轉圈；
+// 頭昏昏撞頭「啵」——雨鞋、圍巾、泡棉劍全被震飛，落成「脫」。鯊魚把尾巴上最後一隻雨鞋也甩掉，雨鞋翻一圈倒扣在恐龍頭上。脫、脫、脫掉
+type Kit = Record<string, Vec>
+// 身上的東西跟著主人走（moveTo 照偏移、hop／shake／bounce 照抄）
+const withKit = (kit: Kit, ms: Move[]): Move[] => ms.flatMap((m) => [m, ...Object.entries(kit).flatMap(([id, o]): Move[] => {
+  if (m.do === 'moveTo' && m.to) return [{ ...m, actor: id, to: { x: m.to.x + o.x, y: m.to.y + o.y } }]
+  if (m.do === 'hop' || m.do === 'bounce' || m.do === 'shake') return [{ ...m, actor: id }]
+  if (m.do === 'spin' || m.do === 'tilt') return [{ at: m.at, dur: m.dur, actor: id, do: 'shake', amount: 2 }]
+  return []
+})])
+const SK: Kit = { sscarf: { x: 2, y: -7 }, ssword: { x: 8, y: -6 }, sboot: { x: -6, y: 2 } }
+const DK: Kit = { dscarf: { x: -2, y: -8 }, dsword: { x: -8, y: -7 } }
+const FLY = ['sscarf', 'ssword', 'dscarf', 'dsword', 'dboot']
+
 const clip: Clip = {
   char: '脫',
-  meta: { theme: '沙漠蛇脫皮', cast: '小蛇＋空蛇皮＋老鼠＋青蛙＋大象', gags: ['空殼嚇人', '一個比一個大隻都被嚇跑', '連自己都被嚇到', '空皮又動了一下'] },
+  meta: { theme: '雨鞋圍巾決鬥', cast: '發條鯊魚＋橡膠恐龍＋雨鞋＋圍巾＋泡棉劍', gags: ['咬錯咬掉雨鞋', '手太短整個身體揮空', '一起轉圈撞頭', '雨鞋倒扣在頭上'] },
   duration: 10,
-  bg: { top: '#FFF3D9', bottom: '#FFD9A0', floor: '#E3B26B', scenery: 'desert' },
+  bg: { top: '#FFF6D8', bottom: '#EAF4FF', floor: '#D7E9F7', scenery: 'snow' },
   actors: [
-    { id: 'skin', emoji: '🐍', x: 30, y: 69.6, size: 17.5, hidden: true, tint: 'grayscale(1) brightness(1.55) opacity(.7)' },
-    { id: 'skin2', emoji: '🐍', x: 22, y: 69.6, size: 17.5, hidden: true, tint: 'grayscale(1) brightness(1.55) opacity(.7)' },
-    { id: 'snake', emoji: '🐍', x: 30, y: 69.6, size: 17.5, hidden: true },
-    { id: 'mouse', emoji: '🐁', x: 70, y: 72.8, size: 10, hidden: true },
-    { id: 'frog', emoji: '🐸', x: 82, y: 71.2, size: 13.8, hidden: true },
-    { id: 'ele', emoji: '🐘', x: 140, y: 67.8, size: 22, hidden: true },
+    { id: 'shark', emoji: 'hero:shark/idle', x: 40, y: 71.1, size: 14, flip: true },
+    { id: 'sboot', emoji: '👢', x: 34, y: 73, size: 6 },
+    { id: 'sscarf', emoji: '🧣', x: 42, y: 64, size: 6, float: true },
+    { id: 'ssword', emoji: '🗡️', x: 48, y: 65, size: 7, float: true, flip: true },
+    { id: 'dino', emoji: 'hero:dino/idle', x: 120, y: 70.7, size: 15 },
+    { id: 'dboot', emoji: '👢', x: 123, y: 73.2, size: 6 },
+    { id: 'dscarf', emoji: '🧣', x: 118, y: 62.7, size: 6, float: true },
+    { id: 'dsword', emoji: '🗡️', x: 112, y: 63.7, size: 7, float: true },
   ],
   moves: [
-    { at: 0, actor: 'snake', do: 'pop' },
-    { at: 0.4, actor: 'snake', do: 'shake', amount: 1.5, dur: 0.6 },
-    // 扭一扭，咻！脫下一層皮
-    { at: 1, actor: 'snake', do: 'squash', amount: -0.3, dur: 0.3 },
-    { at: 1.31, actor: 'skin', do: 'pop', dur: 0.05 },
-    { at: 1.31, actor: 'snake', do: 'moveTo', to: { x: 14, y: 69.6 }, dur: 0.3 },
-    { at: 1.36, actor: 'snake', do: 'flash', dur: 0.6 },
-    { at: 2.01, actor: 'snake', do: 'moveTo', to: { x: -15, y: 69.6 }, dur: 0.45 },
-    // 老鼠嚇跑
-    { at: 2.38, actor: 'mouse', do: 'enter', from: { x: 175, y: 72.8 }, dur: 0.5 },
-    { at: 3.03, actor: 'mouse', do: 'hop', amount: 10, dur: 0.4 },
-    { at: 3.46, actor: 'mouse', do: 'flip' },
-    { at: 3.46, actor: 'mouse', do: 'moveTo', to: { x: 180, y: 72.8 }, dur: 0.35 },
-    // 青蛙嚇跑
-    { at: 3.35, actor: 'frog', do: 'enter', from: { x: 178, y: 71.2 }, dur: 0.5 },
-    { at: 4, actor: 'frog', do: 'hop', amount: 18, dur: 0.45 },
-    { at: 4, actor: 'frog', do: 'spin', dur: 0.45 },
-    { at: 4.54, actor: 'frog', do: 'moveTo', to: { x: 182, y: 71.2 }, dur: 0.35 },
-    // 大象也嚇到跳起來，落地咚！
-    { at: 4.22, actor: 'ele', do: 'enter', from: { x: 185, y: 67.8 }, dur: 0.5 },
-    { at: 4.86, actor: 'ele', do: 'hop', amount: 12, dur: 0.45 },
-    { at: 5.35, actor: 'ele', do: 'squash', amount: 0.3, dur: 0.3 },
-    { at: 5.4, actor: 'skin', do: 'hop', amount: 12, dur: 0.3 },
-    { at: 5.45, actor: 'skin', do: 'vanish', dur: 0.25 },
-    // 小蛇回來，又脫一次皮
-    { at: 6.7, actor: 'snake', do: 'moveTo', to: { x: 22, y: 69.6 }, dur: 0.5 },
-    { at: 7.3, actor: 'snake', do: 'squash', amount: -0.3, dur: 0.3 },
-    { at: 7.55, actor: 'skin2', do: 'pop', dur: 0.05 },
-    { at: 7.55, actor: 'snake', do: 'moveTo', to: { x: 38, y: 69.6 }, dur: 0.3 },
-    { at: 7.6, actor: 'snake', do: 'flash', dur: 0.6 },
-    // 回頭看到自己的皮：嚇得跳過蛇皮逃走
-    { at: 8.22, actor: 'snake', do: 'flip' },
-    { at: 8.49, actor: 'snake', do: 'hop', amount: 12, dur: 0.4 },
-    { at: 8.89, actor: 'snake', do: 'moveTo', to: { x: -20, y: 69.6 }, arc: 18, dur: 0.5 },
-    { at: 8.89, actor: 'snake', do: 'spin', dur: 0.5 },
-    // 大象在笑……空皮動了一下
-    { at: 9.29, actor: 'skin2', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 9.51, actor: 'ele', do: 'hop', amount: 8, dur: 0.35 },
-    { at: 9.51, actor: 'ele', do: 'shake', amount: 1.5, dur: 0.5 },
+    ...withKit(SK, [
+      // 盯著恐龍的劍，蓄力撲過去
+      { at: 0.9, actor: 'shark', do: 'squash', amount: -0.3, dur: 0.3 },
+      { at: 1.2, actor: 'shark', do: 'moveTo', to: { x: 99, y: 71.1 }, dur: 0.35, anticipate: 4, ease: 'in' },
+      // 咬到雨鞋，往回扯
+      { at: 1.8, actor: 'shark', do: 'moveTo', to: { x: 62, y: 71.1 }, dur: 0.4, ease: 'out' },
+      { at: 2.9, actor: 'shark', do: 'spin', times: 1, dur: 0.5 },
+      // 頭昏昏撞在一起
+      { at: 3.9, actor: 'shark', do: 'moveTo', to: { x: 72, y: 71.1 }, dur: 0.4, ease: 'in' },
+      { at: 4.35, actor: 'shark', do: 'moveTo', to: { x: 26, y: 71.1 }, dur: 0.5, ease: 'out' },
+    ]),
+    { at: 0.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 1.55, actor: 'dboot', do: 'moveTo', to: { x: 107, y: 66 }, dur: 0.1 },
+    { at: 1.8, actor: 'dboot', do: 'moveTo', to: { x: 70, y: 66 }, dur: 0.4, ease: 'out' },
+    { at: 2.9, actor: 'dboot', do: 'shake', amount: 2, dur: 0.5 },
+    { at: 3.9, actor: 'dboot', do: 'moveTo', to: { x: 80, y: 66 }, dur: 0.4, ease: 'in' },
+    { at: 2.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    ...withKit(DK, [
+      // 少一隻雨鞋，單腳跳
+      { at: 1.7, actor: 'dino', do: 'bounce', amount: 4, times: 3, dur: 0.8 },
+      // 手太短，整個身體揮——揮空
+      { at: 2.55, actor: 'dino', do: 'tilt', amount: -35, dur: 0.35 },
+      { at: 2.9, actor: 'dino', do: 'spin', times: -1, dur: 0.5 },
+      { at: 3.9, actor: 'dino', do: 'moveTo', to: { x: 88, y: 70.7 }, dur: 0.4, ease: 'in' },
+      { at: 4.35, actor: 'dino', do: 'moveTo', to: { x: 134, y: 70.7 }, dur: 0.5, ease: 'out' },
+    ]),
+    { at: 1.6, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
+    { at: 2.5, actor: 'dino', do: 'swap', emoji: 'hero:dino/reach' },
+    { at: 3.4, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
+    { at: 3.4, actor: 'dino', do: 'swap', emoji: 'hero:dino/dizzy' },
+    { at: 3.4, actor: 'shark', do: 'tilt', amount: 10, dur: 0.5 },
+    { at: 3.4, actor: 'dino', do: 'tilt', amount: -10, dur: 0.5 },
+    // 啵！撞頭
+    { at: 4.3, actor: 'shark', do: 'squash', amount: 0.4, dur: 0.3 },
+    { at: 4.3, actor: 'dino', do: 'squash', amount: 0.4, dur: 0.3 },
+    // 所有東西被震飛
+    { at: 4.35, actor: 'sscarf', do: 'moveTo', to: { x: 58, y: 14 }, dur: 0.35, ease: 'out' },
+    { at: 4.35, actor: 'ssword', do: 'moveTo', to: { x: 70, y: 6 }, dur: 0.35, ease: 'out' },
+    { at: 4.35, actor: 'dboot', do: 'moveTo', to: { x: 82, y: 4 }, dur: 0.35, ease: 'out' },
+    { at: 4.35, actor: 'dscarf', do: 'moveTo', to: { x: 100, y: 10 }, dur: 0.35, ease: 'out' },
+    { at: 4.35, actor: 'dsword', do: 'moveTo', to: { x: 110, y: 18 }, dur: 0.35, ease: 'out' },
+    ...FLY.map((id) => ({ at: 4.35, actor: id, do: 'spin' as const, times: 2, dur: 0.6 })),
+    { at: 4.95, actor: 'sscarf', do: 'vanish', dur: 0.2 },
+    { at: 4.95, actor: 'ssword', do: 'vanish', dur: 0.2 },
+    { at: 5.5, actor: 'dboot', do: 'vanish', dur: 0.2 },
+    { at: 5.5, actor: 'dscarf', do: 'vanish', dur: 0.2 },
+    { at: 5.5, actor: 'dsword', do: 'vanish', dur: 0.2 },
+    // 一屁股坐下，傻笑
+    { at: 4.85, actor: 'shark', do: 'squash', amount: 0.25, dur: 0.3 },
+    { at: 4.85, actor: 'dino', do: 'squash', amount: 0.25, dur: 0.3 },
+    { at: 5.9, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    { at: 5.9, actor: 'dino', do: 'swap', emoji: 'hero:dino/happy' },
+    // 鯊魚把尾巴上最後一隻雨鞋也甩掉——翻一圈倒扣在恐龍頭上
+    { at: 6.85, actor: 'shark', do: 'tilt', amount: 25, dur: 0.3 },
+    { at: 6.95, actor: 'sboot', do: 'moveTo', to: { x: 134, y: 57 }, arc: 30, dur: 0.6, ease: 'linear' },
+    { at: 6.95, actor: 'sboot', do: 'rotateTo', amount: 540, dur: 0.6 },
+    { at: 7.55, actor: 'dino', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 7.6, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
+    // 恐龍想握手，手太短，整個身體往前傾——還是好遠
+    { at: 8.3, actor: 'dino', do: 'swap', emoji: 'hero:dino/reach' },
+    { at: 8.3, actor: 'dino', do: 'tilt', amount: -30, dur: 0.7 },
+    { at: 8.3, actor: 'sboot', do: 'tilt', amount: -30, dur: 0.7 },
+    { at: 9.0, actor: 'shark', do: 'swap', emoji: 'hero:shark/spin' },
+    { at: 9.05, actor: 'shark', do: 'spin', times: 1, dur: 0.6 },
   ],
   builds: [
-    // 被震飛的蛇皮 → 月；大象一跺腳，沙子掉下來 → 兌
-    { at: 5.4, dur: 0.6, strokes: [0, 1, 2, 3], from: 'skin', color: '#4E9A3A' },
-    { at: 5.65, dur: 0.9, strokes: [4, 5, 6, 7, 8, 9, 10], from: { x: 110, y: 20 }, style: 'drop', color: '#C2410C' },
+    // 鯊魚的圍巾和劍 → 月；恐龍的雨鞋、圍巾和劍 → 兌
+    { at: 4.95, dur: 0.55, strokes: [0, 1, 2, 3], from: 'sscarf', color: '#1971C2' },
+    { at: 5.5, dur: 0.9, strokes: [4, 5, 6, 7, 8, 9, 10], from: 'dboot', color: '#1864AB' },
   ],
-  glyph: [{ at: 6.55, dur: 0.4, do: 'wobble' }, { at: 9.56, dur: 0.5, do: 'pulse' }],
+  glyph: [{ at: 6.4, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
   fx: [
-    { at: 0.4, kind: 'bubble', actor: 'snake', emoji: '😣', dur: 0.6 },
-    { at: 1.52, kind: 'burst', actor: 'snake', emoji: '✨', n: 5, dur: 0.4, dx: 8 },
-    { at: 1.74, kind: 'pop', actor: 'snake', emoji: '😏', dur: 0.4 },
-    { at: 2.98, kind: 'pop', actor: 'mouse', emoji: '😱', dur: 0.5 },
-    { at: 3.95, kind: 'pop', actor: 'frog', emoji: '😱', dur: 0.5 },
-    { at: 4.81, kind: 'pop', actor: 'ele', emoji: '😱', dur: 0.6 },
-    { at: 5.35, kind: 'puff', actor: 'ele' },
-    { at: 7.2, kind: 'pop', actor: 'ele', emoji: '❓', dur: 0.4 },
-    { at: 7.73, kind: 'burst', actor: 'snake', emoji: '✨', n: 5, dur: 0.5 },
-    { at: 8.36, kind: 'pop', actor: 'snake', emoji: '😱', dur: 0.5 },
-    { at: 8.58, kind: 'bubble', actor: 'ele', emoji: '😆', dur: 0.7 },
-    { at: 9.47, kind: 'pop', actor: 'ele', emoji: '😱', dur: 0.6 },
+    { at: 0.35, kind: 'pop', actor: 'shark', emoji: '😋', dur: 0.5 },
+    { at: 1.6, kind: 'pop', actor: 'dino', emoji: '❗', dur: 0.5 },
+    { at: 2.55, kind: 'sweat', actor: 'dino', dur: 0.5 },
+    { at: 3.4, kind: 'dizzy', actor: 'shark', dur: 0.9 },
+    { at: 3.4, kind: 'dizzy', actor: 'dino', dur: 0.9 },
+    { at: 4.3, kind: 'burst', actor: 'shark', dx: 8, dur: 0.4 },
+    { at: 4.85, kind: 'puff', actor: 'shark', dur: 0.4 },
+    { at: 4.85, kind: 'puff', actor: 'dino', dur: 0.4 },
+    { at: 7.6, kind: 'pop', actor: 'shark', emoji: '😆', dur: 0.6 },
+    { at: 8.4, kind: 'sweat', actor: 'dino', dur: 0.6 },
   ],
   camera: [
-    { at: 5.35, dur: 0.35, do: 'shake', amount: 2 },
-    { at: 8.31, dur: 0.6, do: 'punch', amount: 0.25, to: { x: 30, y: 64 } },
+    { at: 1.2, dur: 0.3, do: 'follow', actor: 'shark', amount: 1.3 },
+    { at: 1.9, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 4.3, dur: 0.45, do: 'punch', amount: 0.18, to: { x: 80, y: 62 } },
   ],
   cues: [
-    { at: 1.31, sfx: 'slide' },
-    { at: 1.42, say: '脫' },
-    { at: 3.03, sfx: 'boing' },
-    { at: 4, sfx: 'boing' },
-    { at: 4.86, sfx: 'boing' },
-    { at: 5.35, sfx: 'rumble' },
-    { at: 6.6, say: '脫' },
-    { at: 7.55, sfx: 'slide' },
-    { at: 7.6, say: '脫皮' },
-    { at: 8.49, sfx: 'boing' },
-    { at: 8.89, sfx: 'whoosh' },
-    { at: 9.51, sfx: 'boing' },
-    { at: 9.73, sfx: 'cheer' },
+    { at: 0.3, sfx: 'tap' },
+    { at: 1.25, say: '脫' },
+    { at: 1.55, sfx: 'gulp' },
+    { at: 1.7, sfx: 'boing' },
+    { at: 2.55, sfx: 'whoosh' },
+    { at: 2.9, sfx: 'whoosh' },
+    { at: 4.3, sfx: 'boing' },
+    { at: 6.45, say: '脫' },
+    { at: 7.0, say: '脫掉' },
+    { at: 7.55, sfx: 'plop' },
+    { at: 9.5, sfx: 'cheer' },
   ],
 }
 

@@ -1,82 +1,115 @@
 import type { Clip } from '../clip'
 
-// 露：熊去露營，搭好帳篷開心伸懶腰——一朵小雨雲飄過來，只下在牠頭上。熊往左跑，雲跟著；往右跑，雲也跟著！
-// 熊鑽進帳篷躲雨，雲也硬擠進去，帳篷「噗」一聲噴出雨水和腳印，變成「露」。熊探出頭，雲在牠頭上又下了一點點。露、露、露營
+// 露：拉布拉多警長吹哨要抓一顆在草地上亂跳的調皮露珠——衝過頭、四腳煞車滑過去；回頭再追，被自己的前腳絆倒翻跟斗，露珠還跳到他鼻子上嘲笑他。
+// 他趴低搖屁股、飛撲肚皮「啪」壓下去：噴起的水珠落成上面的「雨」，煞車的滑痕拉成下面的「路」，拼出「露」。
+// 唸「露水」時他全身一甩，一串小水珠灑在草地上；最後其中一顆又蹦蹦跳跳逃走了。露、露、露水
 const clip: Clip = {
   char: '露',
-  meta: { theme: '露營', cast: '熊＋跟屁蟲雨雲＋帳篷', gags: ['雲只下在你頭上', '跑到哪跟到哪', '連帳篷都擠進來'] },
+  meta: { theme: '警長抓露珠', cast: '拉布拉多警長＋調皮露珠', gags: ['衝過頭四腳煞車', '被自己絆倒翻跟斗', '跳到鼻子上嘲笑', '飛撲肚皮壓', '又一顆逃走'] },
   duration: 10,
-  bg: { top: '#CFEAFF', bottom: '#EEF8EE', floor: '#7FB069', scenery: 'forest' },
+  bg: { top: '#E6FCF5', bottom: '#FFF9DB', floor: '#B2F2BB', scenery: 'hills' },
   actors: [
-    { id: 'tent', emoji: '⛺', x: 144, y: 65, size: 28, hidden: true },
-    { id: 'bear', emoji: '🐻', x: 96, y: 68.6, size: 20, hidden: true },
-    { id: 'cloud', emoji: '🌧️', x: 96, y: 34, size: 18, hidden: true, float: true },
+    { id: 'dog', emoji: 'hero:sheriff/idle', x: 28, y: 71.1, size: 14, hidden: true, flip: true },
+    { id: 'drop', emoji: '💧', x: 108, y: 73.6, size: 7 },
+    { id: 'd1', emoji: '💧', x: 138, y: 74.5, size: 4, hidden: true },
+    { id: 'd2', emoji: '💧', x: 145, y: 74.5, size: 4, hidden: true },
+    { id: 'd3', emoji: '💧', x: 152, y: 74.5, size: 4, hidden: true },
   ],
   moves: [
-    { at: 0, actor: 'tent', do: 'pop' },
-    { at: 0.1, actor: 'bear', do: 'enter', from: { x: -16, y: 68.6 }, dur: 0.9 },
-    // 開心伸懶腰
-    { at: 1.2, actor: 'bear', do: 'squash', amount: -0.25, dur: 0.5 },
-    // 小雨雲飄過來，只下在熊頭上
-    { at: 1.9, actor: 'cloud', do: 'enter', from: { x: -20, y: 20 }, dur: 0.8 },
-    { at: 2.8, actor: 'bear', do: 'squash', amount: 0.2, dur: 0.4 },
-    // 往左跑——雲跟著
-    { at: 3.5, actor: 'bear', do: 'flip' },
-    { at: 3.55, actor: 'bear', do: 'moveTo', to: { x: 36, y: 68.6 }, dur: 0.45 },
-    { at: 3.9, actor: 'cloud', do: 'moveTo', to: { x: 36, y: 34 }, dur: 0.45 },
-    // 往右跑——雲也跟著
-    { at: 4.8, actor: 'bear', do: 'flip' },
-    { at: 4.85, actor: 'bear', do: 'moveTo', to: { x: 112, y: 68.6 }, dur: 0.45 },
-    { at: 5.2, actor: 'cloud', do: 'moveTo', to: { x: 112, y: 34 }, dur: 0.45 },
-    // 鑽進帳篷躲雨……雲也硬擠進去
-    { at: 5.85, actor: 'bear', do: 'moveTo', to: { x: 144, y: 68.6 }, dur: 0.25 },
-    { at: 6.05, actor: 'bear', do: 'vanish', dur: 0.15 },
-    { at: 6.35, actor: 'cloud', do: 'moveTo', to: { x: 144, y: 58 }, dur: 0.3 },
-    { at: 6.35, actor: 'cloud', do: 'scaleTo', amount: 0.4, dur: 0.3 },
-    { at: 6.6, actor: 'cloud', do: 'vanish', dur: 0.1 },
-    { at: 6.7, actor: 'tent', do: 'shake', amount: 1.5, dur: 0.5 },
-    { at: 6.7, actor: 'tent', do: 'squash', amount: -0.25, dur: 0.4 },
-    // 熊探出頭，雲又在頭上下一點點
-    { at: 8.1, actor: 'bear', do: 'moveTo', to: { x: 125, y: 68.6 }, dur: 0.01 },
-    { at: 8.12, actor: 'bear', do: 'pop', dur: 0.3 },
-    { at: 8.5, actor: 'cloud', do: 'moveTo', to: { x: 126, y: 42 }, dur: 0.01 },
-    { at: 8.52, actor: 'cloud', do: 'scaleTo', amount: 1.5, dur: 0.01 },
-    { at: 8.55, actor: 'cloud', do: 'pop', dur: 0.3 },
+    { at: 0, actor: 'dog', do: 'pop', dur: 0.35 },
+    // 露珠「啵」跳走；警長瞪大眼、吹哨、指著它
+    { at: 0.4, actor: 'drop', do: 'moveTo', to: { x: 128, y: 73.6 }, arc: 10, dur: 0.45 },
+    { at: 0.45, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at: 0.9, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/whistle' },
+    { at: 1.1, actor: 'drop', do: 'bounce', times: 2, amount: 4, dur: 0.6 },
+    // 後腳蹬地——衝！
+    { at: 1.6, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/run' },
+    { at: 1.6, actor: 'dog', do: 'squash', amount: -0.3, dur: 0.3 },
+    { at: 1.9, actor: 'dog', do: 'moveTo', to: { x: 138, y: 71.1 }, dur: 0.45, anticipate: 4, ease: 'in' },
+    // 露珠往反方向跳走，警長四腳煞車滑過頭
+    { at: 1.95, actor: 'drop', do: 'moveTo', to: { x: 48, y: 73.6 }, arc: 12, dur: 0.45 },
+    { at: 2.35, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at: 2.35, actor: 'dog', do: 'moveTo', to: { x: 143, y: 71.1 }, dur: 0.25, ease: 'back' },
+    // 回頭再追，被自己的前腳絆倒翻跟斗
+    { at: 2.65, actor: 'dog', do: 'flip' },
+    { at: 2.65, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/run' },
+    { at: 2.7, actor: 'dog', do: 'moveTo', to: { x: 64, y: 71.1 }, dur: 0.45, ease: 'in' },
+    { at: 3.15, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    { at: 3.15, actor: 'dog', do: 'moveTo', to: { x: 52, y: 71.1 }, arc: 8, dur: 0.4, ease: 'out' },
+    { at: 3.15, actor: 'dog', do: 'spin', times: -1, dur: 0.4 },
+    // 露珠跳到他鼻子上嘲笑，又彈走
+    { at: 3.55, actor: 'drop', do: 'moveTo', to: { x: 47, y: 63 }, arc: 6, dur: 0.25 },
+    { at: 3.85, actor: 'drop', do: 'moveTo', to: { x: 112, y: 73.6 }, arc: 14, dur: 0.45 },
+    // 趴低搖屁股——飛撲！
+    { at: 4.1, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/run' },
+    { at: 4.1, actor: 'dog', do: 'flip' },
+    { at: 4.15, actor: 'dog', do: 'squash', amount: 0.25, dur: 0.4 },
+    { at: 4.15, actor: 'dog', do: 'shake', amount: 0.8, dur: 0.4 },
+    { at: 4.55, actor: 'dog', do: 'moveTo', to: { x: 112, y: 71.6 }, arc: 26, dur: 0.5, ease: 'inOut' },
+    { at: 5.05, actor: 'dog', do: 'squash', amount: 0.45, dur: 0.3 },
+    { at: 5.05, actor: 'drop', do: 'vanish', dur: 0.1 },
+    { at: 5.1, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    // 搖搖晃晃站起來，走到旁邊
+    { at: 5.6, actor: 'dog', do: 'moveTo', to: { x: 128, y: 71.1 }, dur: 0.45 },
+    { at: 6.1, actor: 'dog', do: 'flip' },
+    { at: 6.1, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/idle' },
+    // 「露水」：全身一甩，水珠灑到草地上
+    { at: 6.8, actor: 'dog', do: 'shake', amount: 2.5, dur: 0.6 },
+    { at: 7.05, actor: 'd1', do: 'pop', dur: 0.25 },
+    { at: 7.15, actor: 'd2', do: 'pop', dur: 0.25 },
+    { at: 7.25, actor: 'd3', do: 'pop', dur: 0.25 },
+    { at: 7.7, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/happy' },
+    { at: 7.7, actor: 'dog', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 8.1, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/idle' },
+    // 回馬槍：最後那顆又蹦蹦跳跳逃走了
+    { at: 8.4, actor: 'd3', do: 'moveTo', to: { x: 158, y: 74.5 }, arc: 6, dur: 0.3 },
+    { at: 8.7, actor: 'd3', do: 'moveTo', to: { x: 175, y: 74.5 }, arc: 8, dur: 0.35 },
+    { at: 8.5, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at: 8.95, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/whistle' },
+    { at: 8.95, actor: 'dog', do: 'squash', amount: -0.15, dur: 0.3 },
   ],
   builds: [
-    // 擠進帳篷的雨 → 上面的雨字頭；熊踩出來的濕腳印 → 下面的路
-    { at: 6.75, dur: 0.7, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'tent', color: '#3D8BEF' },
-    { at: 7.1, dur: 1.0, strokes: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], from: 'tent', color: '#8A5A3B' },
+    // 噴起來的水珠落成「雨」；煞車滑痕拉成「路」
+    { at: 5.1, dur: 0.7, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'drop', style: 'drop', color: '#1971C2' },
+    { at: 5.3, dur: 0.85, strokes: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], from: 'dog', color: '#1971C2' },
   ],
-  glyph: [{ at: 8.15, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  glyph: [{ at: 6.2, dur: 0.4, do: 'wobble' }, { at: 9.35, dur: 0.6, do: 'pulse' }],
   fx: [
-    { at: 1.3, kind: 'pop', actor: 'bear', emoji: '😊', dur: 0.8 },
-    { at: 2.7, kind: 'rain', actor: 'cloud', n: 7, dur: 0.9, dy: 6 },
-    { at: 3.0, kind: 'pop', actor: 'bear', emoji: '😑', dur: 0.6 },
-    { at: 4.35, kind: 'rain', actor: 'cloud', n: 7, dur: 0.8, dy: 6 },
-    { at: 4.4, kind: 'sweat', actor: 'bear' },
-    { at: 5.65, kind: 'rain', actor: 'cloud', n: 7, dur: 0.6, dy: 6 },
-    { at: 5.7, kind: 'pop', actor: 'bear', emoji: '😫', dur: 0.4 },
-    { at: 6.7, kind: 'burst', actor: 'tent', emoji: '💦', n: 8, dur: 0.6 },
-    { at: 8.85, kind: 'rain', actor: 'cloud', n: 4, dur: 0.9, dy: 6 },
-    { at: 9.0, kind: 'pop', actor: 'bear', emoji: '😑', dur: 0.8, dx: -12, dy: 4 },
+    { at: 0.45, kind: 'pop', actor: 'dog', emoji: '❗', dur: 0.4 },
+    { at: 0.9, kind: 'zzz', actor: 'dog', emoji: '🎵', dur: 0.6 },
+    { at: 1.15, kind: 'pop', actor: 'drop', emoji: '✨', dur: 0.4 },
+    { at: 1.6, kind: 'puff', actor: 'dog', dur: 0.4 },
+    { at: 2.35, kind: 'puff', actor: 'dog', dur: 0.5 },
+    { at: 3.3, kind: 'dizzy', actor: 'dog', dur: 0.8 },
+    { at: 3.6, kind: 'pop', actor: 'drop', emoji: '😝', dur: 0.5 },
+    { at: 4.2, kind: 'pop', actor: 'dog', emoji: '😛', dur: 0.4 },
+    { at: 5.05, kind: 'burst', actor: 'dog', emoji: '💧', n: 8, dur: 0.6 },
+    { at: 6.85, kind: 'burst', actor: 'dog', emoji: '💧', n: 6, dur: 0.6 },
+    { at: 7.25, kind: 'pop', actor: 'd2', emoji: '✨', dur: 0.4 },
+    { at: 7.75, kind: 'pop', actor: 'dog', emoji: '⭐', dx: -6, dur: 0.5 },
+    { at: 8.95, kind: 'zzz', actor: 'dog', emoji: '🎵', dur: 0.6 },
   ],
   camera: [
-    { at: 2.8, dur: 0.8, do: 'punch', amount: 0.2, to: { x: 96, y: 54 } },
-    { at: 6.7, dur: 0.35, do: 'shake', amount: 1.5 },
+    // 第一次衝刺跟拍；飛撲前退回全景，壓下去時震
+    { at: 1.9, dur: 0.25, do: 'follow', actor: 'dog', amount: 1.3 },
+    { at: 2.5, dur: 0.3, do: 'zoom', amount: 1 },
+    { at: 5.05, dur: 0.4, do: 'shake', amount: 1.2 },
   ],
   cues: [
-    { at: 1.25, say: '露' },
-    { at: 2.7, sfx: 'splash' },
-    { at: 3.55, sfx: 'whoosh' },
-    { at: 4.35, sfx: 'splash' },
-    { at: 4.85, sfx: 'whoosh' },
-    { at: 5.65, sfx: 'splash' },
-    { at: 6.05, sfx: 'slide' },
-    { at: 6.7, sfx: 'poof' },
-    { at: 8.2, say: '露' },
-    { at: 9.1, say: '露營' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.4, sfx: 'boing' },
+    { at: 0.9, sfx: 'blip' },
+    { at: 1.15, say: '露' },
+    { at: 1.95, sfx: 'whoosh' },
+    { at: 2.35, sfx: 'slide' },
+    { at: 3.15, sfx: 'bonk' },
+    { at: 3.55, sfx: 'boing' },
+    { at: 4.55, sfx: 'whoosh' },
+    { at: 5.05, sfx: 'splash' },
+    { at: 6.2, say: '露' },
+    { at: 6.9, say: '露水' },
+    { at: 8.4, sfx: 'boing' },
+    { at: 8.95, sfx: 'blip' },
+    { at: 9.45, sfx: 'cheer' },
   ],
 }
 

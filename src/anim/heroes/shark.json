@@ -1,0 +1,14 @@
+{
+  "name": "發條鯊魚",
+  "look": "A chunky cartoon wind-up toy shark, glossy light blue plastic body with a white belly, a big silver wind-up key on its back, a wide toothy friendly grin with round white teeth, big googly eyes, short stubby fins, standing upright on its tail fin like a cartoon character, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 151,
+  "poses": {
+    "idle": "Full body visible, standing upright on its tail fin facing slightly to the left with a friendly toothy grin, fins relaxed",
+    "happy": "Full body visible, jumping high in the air with both fins raised in celebration, big open-mouth laugh, eyes closed with joy, nothing drawn under it",
+    "dizzy": "Full body visible, lying tilted on the ground dizzy with swirly spiral eyes and tongue out, wind-up key spinning",
+    "surprised": "Full body visible, standing upright with mouth wide open in shock, fins on cheeks, eyes huge",
+    "chomp": "Full body visible, lunging to the left with jaws open extremely wide, ready to chomp, eyes squeezed shut",
+    "spin": "Full body visible, spinning in a circle on the ground, body leaning, motion swirl lines around it, wind-up key turning, silly face"
+  }
+}

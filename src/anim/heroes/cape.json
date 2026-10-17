@@ -1,0 +1,20 @@
+{
+  "name": "披風英雄",
+  "look": "A chunky cartoon action-figure hero toy with a big proud grin and rosy cheeks, a lime green bodysuit with a big orange star emblem on the chest, a purple eye mask, purple boots and gloves, and a bright orange cape that is far too long and trails on the ground, chibi proportions, clearly a plastic toy figure",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 109,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly heroic smile, arms relaxed",
+    "happy": "Full body visible, jumping high in the air with both arms raised in celebration, big open-mouth laugh, eyes closed with joy, feet above the ground, nothing drawn under the feet",
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": {
+      "text": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
+      "seed": 1109
+    },
+    "fly": {
+      "seed": 2109,
+      "text": "Full body visible, flying to the left horizontally with one fist stretched forward, the very long orange cape streaming behind, determined grin, the same lime green hood covering the whole head as always"
+    },
+    "pose": "Full body visible, standing in a proud heroic pose with fists on hips, chest puffed out, the overly long cape draped over the ground"
+  }
+}

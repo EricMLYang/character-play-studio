@@ -1,0 +1,18 @@
+{
+  "name": "玩具戰士",
+  "look": "A chunky cartoon toy warrior figure, round shiny silver helmet with a red plume, a brave grin with rosy cheeks, holding a soft orange foam sword and a round blue shield with a star, short sturdy legs, chibi proportions, clearly a plastic toy figure",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 139,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly brave smile, arms relaxed",
+    "happy": {
+      "seed": 2139,
+      "text": "Full body visible, jumping high in the air with both arms raised in celebration, big open-mouth laugh, eyes closed with joy, feet above the ground, nothing drawn under the feet, no shadow on the ground"
+    },
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
+    "swing": "Full body visible, swinging the foam sword in a huge wild sideways arc, body twisting so hard it is about to spin around, overconfident face",
+    "shield": "Full body visible, crouching and hiding completely behind the round blue shield, only scared eyes and the red plume peeking out"
+  },
+  "cutout": "birefnet-general"
+}

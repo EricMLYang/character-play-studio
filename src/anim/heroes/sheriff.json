@@ -1,0 +1,27 @@
+{
+  "name": "拉布拉多警長",
+  "look": "A big friendly cartoon Labrador dog sheriff, golden-yellow fur, floppy ears, a brown cowboy sheriff hat, a shiny gold star badge on a light blue shirt, a silver whistle on a red cord around the neck, standing on two legs, chibi proportions",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 71,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly confident smile, arms relaxed",
+    "happy": {
+      "text": "Full body visible, jumping high in the air with both arms raised in celebration, big open-mouth laugh, eyes closed with joy, feet above the ground, nothing drawn under the feet",
+      "seed": 1071
+    },
+    "dizzy": {
+      "text": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+      "seed": 1071
+    },
+    "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
+    "whistle": {
+      "seed": 2071,
+      "text": "Full body visible, standing and blowing the whistle hard with puffed cheeks, one paw raised like a traffic cop saying stop"
+    },
+    "run": {
+      "seed": 2071,
+      "text": "Full body visible, running fast to the left, leaning forward, ears flying back, tongue out, determined face"
+    }
+  },
+  "cutout": "birefnet-general"
+}

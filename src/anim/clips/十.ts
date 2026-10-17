@@ -1,75 +1,97 @@
 import type { Clip } from '../clip'
 
-// 十：河馬警察在十字路口指揮交通。左手一指，車子往右開；右手一指，車子往左開；兩手一起指——
-// 好多車同時衝過來，河馬轉得頭昏，一條馬路變成橫的、一條變成直的，就是「十」！最後一隻小鴨子慢慢走過，大家都停下來等。十、十、十字路口
+// 十：積木小隊只要輕輕按一下服務鈴，卻疊成高塔、退到最左邊蓄力、全速衝過頭，「碰」一聲撞扁在右邊牆上。
+// 彈回來一震，積木散開卡成一橫一豎的「十」；暈頭轉向的隊長輕輕一按，月亮跳出來。最後又用力過猛按一次，月亮被震得翻跟斗。十、十、十月
 const clip: Clip = {
   char: '十',
-  meta: { theme: '交通警察', cast: '河馬警察＋車子＋小鴨子', gags: ['指揮得越來越亂', '轉到頭昏', '小鴨子讓大家等'] },
+  meta: { theme: '積木小隊按按鈕', cast: '積木小隊＋服務鈴＋月亮', gags: ['小事卯足全力衝過頭', '撞牆壓成扁餅', '輕輕一按才成功', '回馬槍又用力過猛'] },
   duration: 10,
-  bg: { top: '#E3EEFF', bottom: '#F6F9FF', floor: '#9AA5B1', scenery: 'city' },
+  bg: { top: '#FFF6E3', bottom: '#FFFBF2', floor: '#CDEBDD', scenery: 'room' },
   actors: [
-    { id: 'hippo', emoji: '🦛', x: 80, y: 67, size: 24, hidden: true },
-    { id: 'hat', emoji: '🧢', x: 80, y: 56, size: 9, hidden: true, float: true, tint: 'hue-rotate(200deg)' },
-    { id: 'car1', emoji: '🚗', x: -20, y: 70, size: 16, hidden: true, flip: true },
-    { id: 'car2', emoji: '🚕', x: 180, y: 70, size: 16, hidden: true },
-    { id: 'bus', emoji: '🚌', x: 180, y: 68, size: 20, hidden: true },
-    { id: 'duck', emoji: '🦆', x: 40, y: 72, size: 11, hidden: true, flip: true },
+    { id: 'bell', emoji: '🛎️', x: 122, y: 72, size: 9 },
+    { id: 'moon', emoji: '🌝', x: 22, y: 18, size: 14, hidden: true, float: true },
+    { id: 'brick', emoji: 'hero:brick/march', x: 24, y: 70.7, size: 15, hidden: true, flip: true },
   ],
   moves: [
-    { at: 0, actor: 'hippo', do: 'pop' },
-    { at: 0.15, actor: 'hat', do: 'drop', dur: 0.5 },
-    // 左手一指——車往右開
-    { at: 1.2, actor: 'hippo', do: 'tilt', amount: -15, dur: 0.4 },
-    { at: 1.4, actor: 'car1', do: 'pop', dur: 0.01 },
-    { at: 1.4, actor: 'car1', do: 'moveTo', to: { x: 190, y: 70 }, dur: 1.2 },
-    // 右手一指——車往左開
-    { at: 2.8, actor: 'hippo', do: 'tilt', amount: 15, dur: 0.4 },
-    { at: 3.0, actor: 'car2', do: 'pop', dur: 0.01 },
-    { at: 3.0, actor: 'car2', do: 'moveTo', to: { x: -30, y: 70 }, dur: 1.2 },
-    // 兩手一起指——好多車衝過來，轉到頭昏
-    { at: 4.5, actor: 'hippo', do: 'squash', amount: -0.2, dur: 0.3 },
-    { at: 4.7, actor: 'car1', do: 'moveTo', to: { x: -20, y: 70 }, dur: 0.01 },
-    { at: 4.72, actor: 'car1', do: 'moveTo', to: { x: 190, y: 70 }, dur: 0.8 },
-    { at: 4.8, actor: 'bus', do: 'pop', dur: 0.01 },
-    { at: 4.8, actor: 'bus', do: 'moveTo', to: { x: -30, y: 68 }, dur: 0.9 },
-    { at: 4.8, actor: 'hippo', do: 'shake', amount: 2.5, dur: 1.0 },
-    { at: 4.8, actor: 'hippo', do: 'flip' }, { at: 5.0, actor: 'hippo', do: 'flip' }, { at: 5.2, actor: 'hippo', do: 'flip' }, { at: 5.4, actor: 'hippo', do: 'flip' },
-    { at: 4.8, actor: 'hat', do: 'moveTo', to: { x: 120, y: 30 }, dur: 0.8, arc: 10 },
-    { at: 5.6, actor: 'hat', do: 'vanish', dur: 0.2 },
-    { at: 5.9, actor: 'hippo', do: 'moveTo', to: { x: 30, y: 67 }, dur: 0.5, arc: 6 },
-    // 小鴨子慢慢走過，大家停下來等
-    { at: 7.4, actor: 'duck', do: 'pop', dur: 0.2 },
-    { at: 7.6, actor: 'duck', do: 'moveTo', to: { x: 130, y: 72 }, dur: 2.0 },
-    { at: 7.6, actor: 'duck', do: 'bounce', amount: 1.5, times: 6, dur: 2.0 },
+    // 踏步進場，看到鈴
+    { at: 0, actor: 'brick', do: 'enter', from: { x: -15, y: 70.7 }, dur: 0.8 },
+    { at: 0, actor: 'brick', do: 'bounce', amount: 2, times: 4, dur: 0.8 },
+    { at: 1.4, actor: 'brick', do: 'swap', emoji: 'hero:brick/stack' },
+    { at: 1.4, actor: 'brick', do: 'squash', amount: -0.3, dur: 0.35 },
+    // 退到最左邊，蹲低蓄力冒煙
+    { at: 1.9, actor: 'brick', do: 'moveTo', to: { x: 11, y: 70.7 }, dur: 0.4 },
+    { at: 2.35, actor: 'brick', do: 'squash', amount: 0.3, dur: 0.4 },
+    { at: 2.35, actor: 'brick', do: 'shake', amount: 0.8, dur: 0.4 },
+    // 全速衝！從鈴上面擦過去，撞扁在右邊牆上
+    { at: 2.8, actor: 'brick', do: 'moveTo', to: { x: 151, y: 70.7 }, dur: 0.4, anticipate: 4, ease: 'in' },
+    { at: 2.8, actor: 'bell', do: 'hop', amount: 2, dur: 0.2 },
+    { at: 3.2, actor: 'brick', do: 'swap', emoji: 'hero:brick/dizzy' },
+    { at: 3.2, actor: 'brick', do: 'squash', amount: -0.6, dur: 0.5 },
+    // 彈回來滑到中間，一震散開
+    { at: 3.8, actor: 'brick', do: 'moveTo', to: { x: 92, y: 70.7 }, dur: 0.5, ease: 'back' },
+    { at: 3.8, actor: 'brick', do: 'hop', amount: 5, dur: 0.3 },
+    { at: 4.35, actor: 'brick', do: 'shake', amount: 1.5, dur: 0.4 },
+    // 暈暈地晃到鈴旁邊，輕輕一按
+    { at: 5.3, actor: 'brick', do: 'moveTo', to: { x: 134, y: 70.7 }, dur: 0.6 },
+    { at: 5.3, actor: 'brick', do: 'tilt', amount: 10, dur: 0.6 },
+    { at: 5.95, actor: 'brick', do: 'flip' },
+    { at: 6.1, actor: 'brick', do: 'hop', amount: 2, dur: 0.2 },
+    { at: 6.2, actor: 'bell', do: 'squash', amount: 0.3, dur: 0.2 },
+    { at: 6.25, actor: 'moon', do: 'pop', dur: 0.4 },
+    { at: 6.7, actor: 'moon', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
+    // 得意地扭一扭、鞠個躬
+    { at: 7.1, actor: 'brick', do: 'swap', emoji: 'hero:brick/happy' },
+    { at: 7.2, actor: 'brick', do: 'bounce', amount: 2, times: 3, dur: 0.6 },
+    { at: 7.9, actor: 'brick', do: 'tilt', amount: -18, dur: 0.4 },
+    // 回馬槍：再按一次——又用力過猛，月亮被震得翻跟斗
+    { at: 8.4, actor: 'brick', do: 'swap', emoji: 'hero:brick/stack' },
+    { at: 8.4, actor: 'brick', do: 'squash', amount: 0.3, dur: 0.3 },
+    { at: 8.7, actor: 'brick', do: 'moveTo', to: { x: 123, y: 66 }, arc: 12, dur: 0.35 },
+    { at: 9.05, actor: 'bell', do: 'squash', amount: 0.6, dur: 0.3 },
+    { at: 9.05, actor: 'brick', do: 'squash', amount: 0.4, dur: 0.3 },
+    { at: 9.05, actor: 'moon', do: 'spin', times: 1, dur: 0.5 },
+    { at: 9.1, actor: 'moon', do: 'hop', amount: 4, dur: 0.4 },
+    { at: 9.35, actor: 'brick', do: 'moveTo', to: { x: 136, y: 70.7 }, arc: 5, dur: 0.3 },
+    { at: 9.4, actor: 'brick', do: 'swap', emoji: 'hero:brick/dizzy' },
   ],
   builds: [
-    // 橫的馬路、直的馬路
-    { at: 5.6, dur: 0.5, strokes: [0], from: 'car1', color: '#3D7DD8' },
-    { at: 6.0, dur: 0.5, strokes: [1], style: 'drop', from: { x: 80, y: 0 }, color: '#E86A33' },
+    // 一震散開：一排積木卡成一橫，剩下的直直掉下來穿過中間
+    { at: 4.4, dur: 0.35, strokes: [0], from: 'brick', color: '#E03131' },
+    { at: 4.8, dur: 0.4, strokes: [1], from: 'brick', style: 'drop', color: '#E03131' },
   ],
-  glyph: [{ at: 6.6, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  glyph: [{ at: 5.25, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
   fx: [
-    { at: 0.6, kind: 'pop', actor: 'hippo', emoji: '😎', dur: 0.6 },
-    { at: 1.2, kind: 'pop', actor: 'hippo', emoji: '👈', dur: 0.6, dx: -16 },
-    { at: 2.8, kind: 'pop', actor: 'hippo', emoji: '👉', dur: 0.6 },
-    { at: 4.5, kind: 'pop', actor: 'hippo', emoji: '😱', dur: 0.4 },
-    { at: 5.8, kind: 'dizzy', actor: 'hippo', dur: 1.4 },
-    { at: 7.6, kind: 'zzz', actor: 'duck', emoji: '🎵', dur: 1.6 },
-    { at: 8.4, kind: 'pop', actor: 'hippo', emoji: '😌', dur: 0.8 },
+    { at: 0.9, kind: 'pop', actor: 'brick', emoji: '❗', dur: 0.5 },
+    { at: 1.0, kind: 'bubble', actor: 'brick', emoji: '🛎️', dur: 0.5, dx: 6 },
+    { at: 3.2, kind: 'burst', actor: 'brick', n: 1, dur: 0.35, dx: -6 },
+    { at: 3.5, kind: 'dizzy', actor: 'brick', dur: 0.6, dx: -4 },
+    { at: 3.9, kind: 'puff', actor: 'brick', dur: 0.5 },
+    { at: 5.4, kind: 'dizzy', actor: 'brick', dur: 0.7 },
+    { at: 6.25, kind: 'burst', actor: 'moon', emoji: '✨', n: 5, dur: 0.6 },
+    { at: 6.6, kind: 'zzz', actor: 'moon', dur: 1.2, dx: 10, dy: 8 },
+    { at: 9.1, kind: 'burst', actor: 'bell', n: 1, dur: 0.3 },
+    { at: 9.4, kind: 'pop', actor: 'moon', emoji: '😵', dur: 0.6 },
   ],
   camera: [
-    { at: 4.8, dur: 1.0, do: 'punch', amount: 0.2, to: { x: 80, y: 60 } },
+    // 衝刺跟拍，撞牆退回全景
+    { at: 2.8, dur: 0.3, do: 'follow', actor: 'brick', amount: 1.3 },
+    { at: 3.2, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 3.2, dur: 0.3, do: 'shake', amount: 1.5 },
+    { at: 9.05, dur: 0.6, do: 'punch', amount: 0.1, to: { x: 124, y: 66 } },
   ],
   cues: [
-    { at: 0.7, say: '十' },
-    { at: 1.4, sfx: 'whoosh' },
-    { at: 3.0, sfx: 'whoosh' },
-    { at: 4.7, sfx: 'whoosh' },
-    { at: 4.8, sfx: 'rumble' },
-    { at: 5.9, sfx: 'plop' },
-    { at: 6.65, say: '十' },
-    { at: 7.6, say: '十字路口' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0, sfx: 'tap' },
+    { at: 1.4, say: '十' },
+    { at: 2.35, sfx: 'rumble' },
+    { at: 2.8, sfx: 'whoosh' },
+    { at: 3.2, sfx: 'bonk' },
+    { at: 3.8, sfx: 'slide' },
+    { at: 5.3, say: '十' },
+    { at: 6.2, sfx: 'clink' },
+    { at: 6.4, say: '十月' },
+    { at: 9.05, sfx: 'clink' },
+    { at: 9.1, sfx: 'boing' },
+    { at: 9.6, sfx: 'cheer' },
   ],
 }
 

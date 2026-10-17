@@ -1,0 +1,14 @@
+{
+  "name": "太空人玩偶",
+  "look": "A bouncy cute cartoon astronaut toy, puffy white spacesuit with orange patches, a big round clear fishbowl helmet showing a cheerful round face, a small backpack, chunky white boots, chibi proportions, clearly a soft toy figure",
+  "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",
+  "seed": 211,
+  "poses": {
+    "idle": "Full body visible, standing on the ground facing slightly to the left with a friendly cheerful smile, arms relaxed",
+    "happy": "Full body visible, jumping high in the air with both arms raised in celebration, big open-mouth laugh, eyes closed with joy, feet above the ground, nothing drawn under the feet",
+    "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
+    "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
+    "float": "Full body visible, floating in the air in zero gravity, arms and legs spread wide, slightly tilted, surprised happy face, nothing drawn under the feet",
+    "salute": "Full body visible, standing straight and giving a proud salute with one gloved hand"
+  }
+}
