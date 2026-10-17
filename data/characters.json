@@ -5629,12 +5629,29 @@
         "hook": "發條玩具嘴唇「喀啦喀啦」地開開合合，蹦蹦跳跳地在桌上前進，跳到桌子邊緣還「啵」地張大了一下，好像在跟大家說再見，就掉進了準備好的小枕頭裡。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 130,
-      "media": [],
+      "media": [
+        {
+          "file": "嘴-926769f2-13e6-4820-8205-fa8a467006bd.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T07:47:54.309Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T07:48:09.322Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "c7d9b0ef-730e-448b-9970-5153002b21cd",
-      "promptedAt": "2026-10-03T07:23:18.330Z"
+      "promptedAt": "2026-10-03T07:23:18.330Z",
+      "needsRedo": false
     },
     {
       "char": "牙",
@@ -5665,12 +5682,29 @@
         "hook": "浴室架子上站著一顆亮晶晶的白色玩具牙齒，頭上還戴著小牙刷帽子；牠開心地轉了一圈，表面「叮」地閃過一道亮光，好像在說「刷得好乾淨」。"
       },
       "scene": "glow",
-      "status": "prompted",
+      "status": "live",
       "priority": 131,
-      "media": [],
+      "media": [
+        {
+          "file": "牙-cc0ccf95-d7db-48da-9f80-b7dc91b5d078.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T07:53:10.069Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T07:53:29.378Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "784503f8-fb57-44d2-ba48-03dfe2d64580",
-      "promptedAt": "2026-10-03T07:23:19.277Z"
+      "promptedAt": "2026-10-03T07:23:19.277Z",
+      "needsRedo": false
     },
     {
       "char": "腦",
@@ -5916,12 +5950,29 @@
         "hook": "玩具梳子旁邊夾著一把亮晶晶的毛線頭髮，用閃亮的髮夾夾著；毛線頭髮忽然蓬鬆地彈起來，變成一束綁著緞帶的馬尾，隨風輕輕晃動。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 138,
-      "media": [],
+      "media": [
+        {
+          "file": "髮-18585033-91a2-49f3-88e9-d71fe3bcc892.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T00:47:16.638Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T00:47:34.597Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "0d92ece8-5792-401a-8d33-db223da2b9e7",
-      "promptedAt": "2026-10-03T07:23:20.678Z"
+      "promptedAt": "2026-10-03T07:23:20.678Z",
+      "needsRedo": false
     },
     {
       "char": "肩",
@@ -6521,12 +6572,29 @@
         "morph": "the glyph 灰 stands still as a solid sculpture while a puff of gray dust drifts up and tickles the bunny's nose, making it sneeze",
         "hook": "一堆蓬鬆的灰色玩具灰塵旁邊坐著一隻灰灰的兔子，風一吹，灰塵飄到兔子鼻子上，牠「哈啾」打了一個噴嚏，耳朵都抖了一下。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 152,
-      "media": [],
+      "media": [
+        {
+          "file": "灰-dd7e2fc0-4358-4925-bba2-aeffe3f0d9e4.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T08:44:02.239Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T08:44:17.717Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "29290037-1d82-4c1a-b85e-bf3b2d9b47c9",
-      "promptedAt": "2026-10-03T07:23:19.152Z"
+      "promptedAt": "2026-10-03T07:23:19.152Z",
+      "needsRedo": false
     },
     {
       "char": "坐",
@@ -6817,12 +6885,29 @@
         "hook": "兩隻玩具小熊張開手臂，緊緊抱在一起，越抱越用力，牠們中間突然「啵」地冒出幾顆粉紅色小愛心，慢慢往上飄走。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 159,
-      "media": [],
+      "media": [
+        {
+          "file": "抱-ee564894-fc0e-4e1b-b5d1-eac8f5abd388.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T07:56:48.326Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T07:57:18.462Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "cb78f315-6fd7-4ba7-8a4d-fb036e1dce75",
-      "promptedAt": "2026-10-03T07:23:18.634Z"
+      "promptedAt": "2026-10-03T07:23:18.634Z",
+      "needsRedo": false
     },
     {
       "char": "親",
@@ -6977,12 +7062,29 @@
         "hook": "一隻玩具小公雞站上籬笆，抬頭挺胸，嘴巴張得好大，「咕咕咕」大叫一聲，聲音太大聲，把自己頭上的羽毛都震得翹了起來。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 164,
-      "media": [],
+      "media": [
+        {
+          "file": "叫-f3f80922-642b-49e1-af93-f304f8f4dccb.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-12T11:31:11.851Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-12T11:31:29.893Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "99d35645-ae95-4384-9978-82e474e2d440",
-      "promptedAt": "2026-10-03T07:23:18.221Z"
+      "promptedAt": "2026-10-03T07:23:18.221Z",
+      "needsRedo": false
     },
     {
       "char": "摸",
@@ -7264,12 +7366,29 @@
         "morph": "the glyph 醜 stands still as a solid sculpture while the lumpy monster tries on the trophy's ribbon and it tangles into a funny knot",
         "hook": "一隻歪歪扭扭、鈕釦眼睛裝反了的玩具怪獸，笨拙地想戴上小獎盃旁邊的彩帶，結果彩帶纏成一團，牠自己也忍不住呵呵笑了出來。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 173,
-      "media": [],
+      "media": [
+        {
+          "file": "醜-7997c7b3-eba6-4517-90fc-bf0db9c6abe6.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T02:49:18.165Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T02:49:36.532Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "245cdf1c-4a9e-4fd8-9c7f-0ef16aa95f7a",
-      "promptedAt": "2026-10-03T07:23:20.378Z"
+      "promptedAt": "2026-10-03T07:23:20.378Z",
+      "needsRedo": false
     },
     {
       "char": "胖",
@@ -8536,12 +8655,29 @@
         "hook": "黃澄澄的小鴨玩具戴著水手帽，一上一下地在水面漂呀漂，每次沉下去就「呱」地叫一聲，剛好漂到站得直挺挺的鴨字旁邊，還吐了個小泡泡。"
       },
       "scene": "fly",
-      "status": "prompted",
+      "status": "live",
       "priority": 210,
-      "media": [],
+      "media": [
+        {
+          "file": "鴨-f735838c-9009-4e27-9cd9-43d4a8ef2bcd.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T07:41:24.827Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T07:41:48.119Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "590c43f9-5f9e-48ea-975a-873c6fe53d0a",
-      "promptedAt": "2026-10-03T07:23:20.702Z"
+      "promptedAt": "2026-10-03T07:23:20.702Z",
+      "needsRedo": false
     },
     {
       "char": "鵝",
@@ -8836,12 +8972,29 @@
         "hook": "金黃色黑斑點的小豹玩偶擺出帥氣的撲跳姿勢，用力一躍想撲向一根羽毛玩具，結果「咕嚕」一聲滾成一團，滾到站得直挺挺的豹字腳邊才停下來，還有點頭暈。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 219,
-      "media": [],
+      "media": [
+        {
+          "file": "豹-84ddf8ef-717f-49af-848f-dc977a92a814.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T08:50:37.034Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T08:50:53.462Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "63685d7a-3f0d-414d-b448-d0d75526e374",
-      "promptedAt": "2026-10-03T07:23:20.332Z"
+      "promptedAt": "2026-10-03T07:23:20.332Z",
+      "needsRedo": false
     },
     {
       "char": "燕",
@@ -9044,12 +9197,29 @@
         "hook": "小小的河流模型裡有一條彎彎的藍色小溪，胖胖的玩具河馬泡在水裡，慢慢地走過站得直挺挺的河字，嘴巴一張一合地吹出一串圓圓的泡泡，飄呀飄地飄走了。"
       },
       "scene": "rain",
-      "status": "prompted",
+      "status": "live",
       "priority": 225,
-      "media": [],
+      "media": [
+        {
+          "file": "河-ab85ff54-1631-4d7e-aa72-8a45ef53219a.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T00:54:40.481Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T00:54:56.848Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "9dd85f19-9495-47ad-9709-1bc5e627ec59",
-      "promptedAt": "2026-10-03T07:23:19.027Z"
+      "promptedAt": "2026-10-03T07:23:19.027Z",
+      "needsRedo": false
     },
     {
       "char": "海",
@@ -9416,12 +9586,29 @@
         "hook": "一桶亮晶晶的玩具金沙，配著小鏟子和紅色小水桶，旁邊還有一把迷你海灘傘；沙子一粒一粒慢慢倒下來，堆成一座歪歪的小沙堡，堡頂還插了一片小貝殼。"
       },
       "scene": "grow",
-      "status": "prompted",
+      "status": "live",
       "priority": 236,
-      "media": [],
+      "media": [
+        {
+          "file": "沙-2ee73377-e47c-4868-8d5b-26c830af2de6.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T12:33:46.304Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T12:34:02.354Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "7e4469d6-9169-4752-bbe6-4352c11fcc0f",
-      "promptedAt": "2026-10-03T07:27:16.550Z"
+      "promptedAt": "2026-10-03T07:27:16.550Z",
+      "needsRedo": false
     },
     {
       "char": "島",
@@ -9908,12 +10095,29 @@
         "hook": "一個圓滾滾的玩具茶壺，壺嘴彎彎的，旁邊配著一個迷你玩具茶杯；茶壺慢慢往前傾，倒出一道金黃色的玩具茶水，杯子裡冒出一縷縷熱氣。"
       },
       "scene": "grow",
-      "status": "prompted",
+      "status": "live",
       "priority": 250,
-      "media": [],
+      "media": [
+        {
+          "file": "茶-a0113860-7d76-4e5b-bf56-d707f31501d2.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-11T12:29:58.730Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-11T12:30:14.478Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "06cdb038-80b4-4023-a7bd-3f1b0080a21f",
-      "promptedAt": "2026-10-03T07:23:20.099Z"
+      "promptedAt": "2026-10-03T07:23:20.099Z",
+      "needsRedo": false
     },
     {
       "char": "瓜",
@@ -10268,12 +10472,29 @@
         "hook": "一條凹凸不平的玩具苦瓜，表面疙疙瘩瘩的淡綠色，直挺挺地立在小木頭砧板上；苦瓜突然抖了一下，臉皺成一團，眼睛瞇得緊緊的，好像在說「好苦喔」。"
       },
       "scene": "grow",
-      "status": "prompted",
+      "status": "live",
       "priority": 260,
-      "media": [],
+      "media": [
+        {
+          "file": "苦-f4ed820a-33fb-44c5-ba39-8dd1e74c6dcc.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-12T11:51:05.175Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-12T11:53:01.094Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "b540ea58-376d-42d8-b1cb-6e80fee698c5",
-      "promptedAt": "2026-10-03T07:23:20.076Z"
+      "promptedAt": "2026-10-03T07:23:20.076Z",
+      "needsRedo": false
     },
     {
       "char": "辣",
@@ -11004,6 +11225,54 @@
         "attempts": []
       },
       "2026-10-11": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-12": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-13": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-14": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-15": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-16": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-17": {
         "queue": [
           "喝",
           "眼",
