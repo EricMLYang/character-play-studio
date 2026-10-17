@@ -52,6 +52,8 @@ export function stroke(index: number, total: number) {
 export function cheer() {
   ;[523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(i * 0.11, f, f, 0.26, 'triangle', 0.1))
 }
+/** 打一下小鼓：點菜前咚咚兩聲，讓孩子知道要聽了。 */
+export const drum = () => tone(0, 190, 80, 0.16, 'sine', 0.2)
 /** 丟進鍋子：噗通。 */
 export const plop = () => tone(0, 320, 140, 0.18, 'sine', 0.14)
 /** 攪一攪：一串往上冒的泡泡。 */

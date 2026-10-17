@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, gulp, hic, tap } from '../lib/sfx'
+import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { DISHES, pickDecoy, pickDishes } from './dishes'
@@ -16,7 +16,12 @@ type Phase = 'hello' | 'ask' | 'oops' | 'chomp' | 'yum' | 'full'
 
 const POSE: Record<Phase, string> = { hello: 'roar', ask: 'idle', oops: 'oops', chomp: 'surprised', yum: 'happy', full: 'happy' }
 /** 這句話大概要唸多久（有音檔就用音檔長度），下一句才不會蓋掉它 */
-const lasts = (text: string) => (voiceDuration(text) ?? 1.3) * 1000
+const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000
+/** 句子之間的空拍：固定長度，聽起來才有節奏 */
+const BEAT = 380
+/** 點完菜他還沒選，隔多久再提醒一次、最多提醒幾次 */
+const REMIND_AFTER = 4500
+const REMINDERS = 2
 
 export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   library: CharEntry[]
@@ -44,6 +49,22 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const target = dishes[at]
   const entry = target ? byChar.get(target) : undefined
 
+  /**
+   * 有節奏地點菜：咚、咚 →「我要吃火！」→「火！」→「火！」。
+   * 題目字一次唸三遍，他還沒點就隔一下整段再唸，最多提醒 REMINDERS 次。
+   */
+  const ask = (char: string, reminders = REMINDERS, lead = 0) => {
+    let t = lead
+    later(drum, t)
+    later(drum, t + 200)
+    t += 520
+    for (const text of [LINES.feedAsk(char), char, char]) {
+      later(() => say(text, 0.8), t)
+      t += lasts(text) + BEAT
+    }
+    if (reminders > 0) later(() => ask(char, reminders - 1), t + REMIND_AFTER)
+  }
+
   const serve = (list: string[], i: number) => {
     const char = list[i]
     const decoy = pickDecoy(char, pool, everyone)
@@ -52,13 +73,13 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
     setMissed(false)
     setWrong(null)
     setPhase('ask')
-    later(() => say(LINES.feedAsk(char), 0.8), 350)
+    ask(char, REMINDERS, 350)
   }
 
   // 一進來先喊肚子餓，再點第一道菜
   useEffect(() => {
     if (!dishes.length) return
-    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, ...dishes.flatMap((c) => [LINES.feedAsk(c), byChar.get(c)?.words?.[0]?.text ?? c])])
+    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, ...dishes.flatMap((c) => [LINES.feedAsk(c), c, byChar.get(c)?.words?.[0]?.text ?? c])])
     setPhase('hello')
     say(FIXED_LINES.feedHungry, 0.8)
     later(() => serve(dishes, 0), lasts(FIXED_LINES.feedHungry) + 300)
@@ -67,6 +88,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
 
   const pick = (char: string) => {
     if (phase !== 'ask' || char === wrong) return
+    clear()   // 還沒唸完的題目與提醒都停掉
     if (char === target) {
       if (!missed) onRecall(target, true)
       setPhase('chomp')
@@ -93,7 +115,9 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
     setPhase('oops')
     boing()
     say(LINES.feedNotThis(char), 0.8)
-    later(() => { setPhase('ask'); say(LINES.feedAsk(target), 0.8) }, lasts(LINES.feedNotThis(char)) + 300)
+    const pause = lasts(LINES.feedNotThis(char)) + BEAT
+    later(() => setPhase('ask'), pause)
+    ask(target, REMINDERS, pause)
   }
 
   const again = () => {
@@ -130,7 +154,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
             {phase === 'ask' && (
-              <button className="feed-ask" onClick={() => { tap(); say(LINES.feedAsk(target), 0.8) }} aria-label="再聽一次要吃什麼">
+              <button className="feed-ask" onClick={() => { tap(); clear(); ask(target, 1) }} aria-label="再聽一次要吃什麼">
                 我要吃…<span aria-hidden>🔊</span>
               </button>
             )}
