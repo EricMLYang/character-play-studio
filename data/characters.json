@@ -566,8 +566,8 @@
       ],
       "feedback": [],
       "emoji": "🦶",
-      "activePromptId": "121366c6-fd44-48e0-b7ea-62d1e8fa9c60",
-      "promptedAt": "2026-09-23T13:22:30.697Z",
+      "activePromptId": "37bd01da-e395-4b50-aecb-8a4da0348735",
+      "promptedAt": "2026-10-17T07:44:31.978Z",
       "needsRedo": false,
       "words": [
         {
@@ -1362,8 +1362,8 @@
       ],
       "feedback": [],
       "emoji": "🐑",
-      "activePromptId": "c8c0bfc9-df5d-4148-a10b-bbd1f0000419",
-      "promptedAt": "2026-10-03T07:27:17.296Z",
+      "activePromptId": "64dffbed-6ea5-4c50-b7f3-dfad974f1402",
+      "promptedAt": "2026-10-16T23:12:34.356Z",
       "words": [
         {
           "text": "綿羊",
@@ -3185,8 +3185,8 @@
       "priority": 64,
       "media": [],
       "feedback": [],
-      "activePromptId": "e29daecc-3e42-49b9-a1cd-0a3862ea3b0c",
-      "promptedAt": "2026-10-03T07:27:15.712Z",
+      "activePromptId": "7141e7ae-a362-4c17-b4f2-7dbae9802299",
+      "promptedAt": "2026-10-16T23:13:32.091Z",
       "words": [
         {
           "text": "喝水",
@@ -3217,8 +3217,8 @@
       "priority": 65,
       "media": [],
       "feedback": [],
-      "activePromptId": "f207fd79-d4b2-45ea-82d2-46633f609c1e",
-      "promptedAt": "2026-10-03T07:27:16.964Z",
+      "activePromptId": "dd9cd881-ec4f-4912-bc4d-83dc2c9b8de3",
+      "promptedAt": "2026-10-16T23:14:19.466Z",
       "words": [
         {
           "text": "眼睛",
@@ -3249,8 +3249,8 @@
       "priority": 66,
       "media": [],
       "feedback": [],
-      "activePromptId": "4c67f02e-7d8d-489c-87cb-38df29361945",
-      "promptedAt": "2026-10-03T07:27:18.025Z",
+      "activePromptId": "9f89e4b5-c319-4686-ab84-0dbe85cccbcb",
+      "promptedAt": "2026-10-16T23:15:26.733Z",
       "words": [
         {
           "text": "頭髮",
@@ -3281,8 +3281,8 @@
       "priority": 67,
       "media": [],
       "feedback": [],
-      "activePromptId": "7bf3ed2f-3e88-483c-91da-8329c9e43256",
-      "promptedAt": "2026-10-03T07:27:15.922Z",
+      "activePromptId": "eb8a7e0c-67f7-489d-b58c-8e4c1aa4a658",
+      "promptedAt": "2026-10-16T23:16:30.280Z",
       "words": [
         {
           "text": "回家",
@@ -3313,8 +3313,8 @@
       "priority": 68,
       "media": [],
       "feedback": [],
-      "activePromptId": "2b956c48-4e21-4c2d-8885-266737191f24",
-      "promptedAt": "2026-10-03T07:23:18.866Z",
+      "activePromptId": "daedf2f0-8a87-40f3-9525-c59236a857d7",
+      "promptedAt": "2026-10-16T23:17:30.609Z",
       "words": [
         {
           "text": "看書",
@@ -3345,8 +3345,8 @@
       "priority": 69,
       "media": [],
       "feedback": [],
-      "activePromptId": "562886b0-f343-427f-9244-513fa8ee0ca8",
-      "promptedAt": "2026-10-03T07:23:18.945Z",
+      "activePromptId": "53965fde-6576-4992-b2f2-8901ca971703",
+      "promptedAt": "2026-10-16T23:18:24.020Z",
       "words": [
         {
           "text": "水果",
@@ -3377,8 +3377,8 @@
       "priority": 70,
       "media": [],
       "feedback": [],
-      "activePromptId": "e4992565-9e7c-4f18-99e8-e915954a1a85",
-      "promptedAt": "2026-10-03T07:23:20.653Z",
+      "activePromptId": "f804e1d5-468b-443c-8c5a-af522e114bb9",
+      "promptedAt": "2026-10-16T23:19:47.147Z",
       "words": [
         {
           "text": "高興",
@@ -3409,8 +3409,8 @@
       "priority": 71,
       "media": [],
       "feedback": [],
-      "activePromptId": "9aea5811-f075-429f-878e-a7dd4c3c6b2d",
-      "promptedAt": "2026-10-03T07:23:20.798Z",
+      "activePromptId": "6e9b35a7-9cc9-4a95-917f-bdd59fff1c63",
+      "promptedAt": "2026-10-16T23:20:50.876Z",
       "words": [
         {
           "text": "黑色",
@@ -3556,8 +3556,8 @@
       "priority": 74,
       "media": [],
       "feedback": [],
-      "activePromptId": "22ce02ae-ba6d-4ac3-bc24-bceeaa46cc53",
-      "promptedAt": "2026-10-03T07:23:18.259Z"
+      "activePromptId": "824a4f9b-5012-482c-9e24-3c3dea4c4ce0",
+      "promptedAt": "2026-10-16T23:22:11.347Z"
     },
     {
       "char": "男",
@@ -3796,8 +3796,8 @@
         }
       ],
       "feedback": [],
-      "activePromptId": "97fe6801-2efe-41ea-85be-dac09ca0d807",
-      "promptedAt": "2026-10-03T07:23:20.581Z"
+      "activePromptId": "79d41a30-9c03-4d0a-b006-f98def6ace95",
+      "promptedAt": "2026-10-17T07:45:09.433Z"
     },
     {
       "char": "美",
@@ -4026,8 +4026,8 @@
       "priority": 84,
       "media": [],
       "feedback": [],
-      "activePromptId": "9afc5567-ea34-437d-a157-d8ea773eb8e8",
-      "promptedAt": "2026-10-03T07:23:19.450Z"
+      "activePromptId": "9d1cdc8f-0e50-42b6-8068-0d5531a235aa",
+      "promptedAt": "2026-10-16T23:23:08.204Z"
     },
     {
       "char": "聞",
@@ -4107,8 +4107,8 @@
       "priority": 86,
       "media": [],
       "feedback": [],
-      "activePromptId": "3e2beecb-a110-468c-bcee-7b69207d378a",
-      "promptedAt": "2026-10-03T07:23:18.499Z"
+      "activePromptId": "b8e27e97-c061-4f2b-a385-d7fbbdd51a55",
+      "promptedAt": "2026-10-16T23:23:53.740Z"
     },
     {
       "char": "呆",
@@ -4139,8 +4139,8 @@
       "priority": 87,
       "media": [],
       "feedback": [],
-      "activePromptId": "6c482241-8fa8-4cac-ac4c-ebc83a030b0a",
-      "promptedAt": "2026-10-03T07:23:18.240Z"
+      "activePromptId": "b05c2a3a-a068-4534-92d7-bb14e509373f",
+      "promptedAt": "2026-10-16T23:24:38.316Z"
     },
     {
       "char": "一",
@@ -4170,8 +4170,8 @@
       "priority": 88,
       "media": [],
       "feedback": [],
-      "activePromptId": "6941168b-9276-456a-9a28-bcdeaf0aa8ec",
-      "promptedAt": "2026-10-03T07:23:17.814Z"
+      "activePromptId": "ada93bfa-190d-46d1-9b85-d8faaadb2b21",
+      "promptedAt": "2026-10-16T23:25:28.609Z"
     },
     {
       "char": "二",
@@ -4250,8 +4250,8 @@
       "priority": 90,
       "media": [],
       "feedback": [],
-      "activePromptId": "8fd21ab2-8adc-406a-88ea-d14147aa29a3",
-      "promptedAt": "2026-10-03T07:23:17.850Z"
+      "activePromptId": "23c7b498-59cc-49d3-adfc-1a658f5eddab",
+      "promptedAt": "2026-10-16T23:26:21.219Z"
     },
     {
       "char": "四",
@@ -4281,8 +4281,8 @@
       "priority": 91,
       "media": [],
       "feedback": [],
-      "activePromptId": "6eab0630-2816-447e-8f57-5905b059ecc8",
-      "promptedAt": "2026-10-03T07:23:18.348Z"
+      "activePromptId": "f18086d7-388c-40ff-8154-069d0343562c",
+      "promptedAt": "2026-10-16T23:27:27.276Z"
     },
     {
       "char": "五",
@@ -4312,8 +4312,8 @@
       "priority": 92,
       "media": [],
       "feedback": [],
-      "activePromptId": "3b0af979-b6c5-4f72-b37d-c7c5e8934471",
-      "promptedAt": "2026-10-03T07:23:17.934Z"
+      "activePromptId": "0d421d7c-3132-4ccb-af7a-09077d357549",
+      "promptedAt": "2026-10-16T23:29:01.305Z"
     },
     {
       "char": "六",
@@ -4343,8 +4343,8 @@
       "priority": 93,
       "media": [],
       "feedback": [],
-      "activePromptId": "cb26c39a-f898-4f78-b1cb-c12e4ae56df3",
-      "promptedAt": "2026-10-03T07:23:18.034Z"
+      "activePromptId": "2cd1d945-ed1a-44f4-87df-39564274e02f",
+      "promptedAt": "2026-10-16T23:30:03.454Z"
     },
     {
       "char": "七",
@@ -4374,8 +4374,8 @@
       "priority": 94,
       "media": [],
       "feedback": [],
-      "activePromptId": "b9ff3e54-13b0-46b4-8138-0e2237860881",
-      "promptedAt": "2026-10-03T07:23:17.833Z"
+      "activePromptId": "e40dc1d2-c910-46c2-9bd4-71ca97af9291",
+      "promptedAt": "2026-10-16T23:31:13.785Z"
     },
     {
       "char": "八",
@@ -4405,8 +4405,8 @@
       "priority": 95,
       "media": [],
       "feedback": [],
-      "activePromptId": "2e8a5c14-3fa7-4327-8f85-a39306f995a0",
-      "promptedAt": "2026-10-03T07:23:18.000Z"
+      "activePromptId": "39b329bc-52be-43a9-85c2-c40e13411fe7",
+      "promptedAt": "2026-10-16T23:32:34.505Z"
     },
     {
       "char": "九",
@@ -4436,8 +4436,8 @@
       "priority": 96,
       "media": [],
       "feedback": [],
-      "activePromptId": "c31806d3-4965-49bc-98b2-4f18c1dd140e",
-      "promptedAt": "2026-10-03T07:27:15.253Z"
+      "activePromptId": "102da49a-138d-4924-ae56-4f1d15564dd9",
+      "promptedAt": "2026-10-16T23:33:39.814Z"
     },
     {
       "char": "十",
@@ -4467,8 +4467,8 @@
       "priority": 97,
       "media": [],
       "feedback": [],
-      "activePromptId": "73bedc47-795b-4f9f-bc6a-15e74f678a45",
-      "promptedAt": "2026-10-03T07:23:18.157Z"
+      "activePromptId": "6d482757-fa89-418b-9247-ff587a6dcd85",
+      "promptedAt": "2026-10-16T23:34:42.598Z"
     },
     {
       "char": "百",
@@ -4549,8 +4549,8 @@
       "priority": 99,
       "media": [],
       "feedback": [],
-      "activePromptId": "872a4585-d599-4c81-84d4-125c774e56e1",
-      "promptedAt": "2026-10-03T07:23:18.183Z"
+      "activePromptId": "62bacbc7-47e0-4ba0-9e4e-4f39f4a40fa0",
+      "promptedAt": "2026-10-16T23:35:40.049Z"
     },
     {
       "char": "我",
@@ -4631,8 +4631,8 @@
       "priority": 101,
       "media": [],
       "feedback": [],
-      "activePromptId": "d14f779b-4bea-4c62-8daf-15323a77e01f",
-      "promptedAt": "2026-10-03T07:27:15.361Z"
+      "activePromptId": "f875e00b-0a19-4895-8623-61cf3f6b997b",
+      "promptedAt": "2026-10-16T23:36:43.988Z"
     },
     {
       "char": "他",
@@ -4663,8 +4663,8 @@
       "priority": 102,
       "media": [],
       "feedback": [],
-      "activePromptId": "ddfcb066-5351-4280-88b2-3788634d4f4f",
-      "promptedAt": "2026-10-03T07:27:15.335Z"
+      "activePromptId": "c7229340-b71a-4ac1-a9ab-f672c4e2a017",
+      "promptedAt": "2026-10-16T23:37:42.042Z"
     },
     {
       "char": "好",
@@ -4695,8 +4695,8 @@
       "priority": 103,
       "media": [],
       "feedback": [],
-      "activePromptId": "de71ebdb-a45c-45f1-ab0d-da4310a9d94e",
-      "promptedAt": "2026-10-03T07:27:27.937Z"
+      "activePromptId": "bf46b59a-5777-459c-aea5-ef939ba75f31",
+      "promptedAt": "2026-10-16T23:38:27.333Z"
     },
     {
       "char": "是",
@@ -4727,8 +4727,8 @@
       "priority": 104,
       "media": [],
       "feedback": [],
-      "activePromptId": "006bd196-5a28-4560-bed1-1c4c77314ac8",
-      "promptedAt": "2026-10-03T07:23:18.827Z"
+      "activePromptId": "56cc41c7-d825-4736-a38f-d5d9c0c7dcc1",
+      "promptedAt": "2026-10-16T23:39:30.121Z"
     },
     {
       "char": "不",
@@ -4759,8 +4759,8 @@
       "priority": 105,
       "media": [],
       "feedback": [],
-      "activePromptId": "c2e2b7a3-c3da-41e0-a617-2d32de4323f7",
-      "promptedAt": "2026-10-03T07:23:17.867Z"
+      "activePromptId": "86e9c1e8-732d-448e-b937-256db3b2cbd4",
+      "promptedAt": "2026-10-16T23:40:32.435Z"
     },
     {
       "char": "有",
@@ -4791,8 +4791,8 @@
       "priority": 106,
       "media": [],
       "feedback": [],
-      "activePromptId": "809b4121-ec9e-46dd-998d-da608b1a9311",
-      "promptedAt": "2026-10-03T07:27:16.301Z"
+      "activePromptId": "79f63ce4-afa6-491a-bd58-9af44a97f6f7",
+      "promptedAt": "2026-10-16T23:41:29.995Z"
     },
     {
       "char": "來",
@@ -4823,8 +4823,8 @@
       "priority": 107,
       "media": [],
       "feedback": [],
-      "activePromptId": "a67ede91-500e-4b06-9ecd-c1d366834dc2",
-      "promptedAt": "2026-10-03T07:23:17.967Z"
+      "activePromptId": "560f83b0-4e7a-4d8f-b936-85268b6e2a33",
+      "promptedAt": "2026-10-16T23:42:17.499Z"
     },
     {
       "char": "去",
@@ -4855,8 +4855,8 @@
       "priority": 108,
       "media": [],
       "feedback": [],
-      "activePromptId": "5a6469df-d3f7-4a2b-b974-c3ac72dee963",
-      "promptedAt": "2026-10-03T07:27:15.529Z"
+      "activePromptId": "c537bc13-d9e8-46c2-b308-14f3cfbbdd47",
+      "promptedAt": "2026-10-16T23:43:16.470Z"
     },
     {
       "char": "在",
@@ -4887,8 +4887,8 @@
       "priority": 109,
       "media": [],
       "feedback": [],
-      "activePromptId": "8cfe0014-53a3-460e-aefe-8de969d0f73d",
-      "promptedAt": "2026-10-03T07:27:15.755Z"
+      "activePromptId": "12d4f51f-2597-4674-a108-b4fc87a27be6",
+      "promptedAt": "2026-10-16T23:44:07.228Z"
     },
     {
       "char": "很",
@@ -4918,8 +4918,8 @@
       "priority": 110,
       "media": [],
       "feedback": [],
-      "activePromptId": "3061d50e-8fdd-4870-b5a9-e5f92d1836b6",
-      "promptedAt": "2026-10-03T07:23:18.557Z"
+      "activePromptId": "baf6db9d-d79e-491e-a75e-a8aa92a0d482",
+      "promptedAt": "2026-10-16T23:44:50.225Z"
     },
     {
       "char": "太",
@@ -4950,8 +4950,8 @@
       "priority": 111,
       "media": [],
       "feedback": [],
-      "activePromptId": "b0f1562f-7893-45c5-b256-55aa3d01c447",
-      "promptedAt": "2026-10-03T07:27:15.797Z"
+      "activePromptId": "26efca70-86ab-4d96-a05c-0f36e64f4a53",
+      "promptedAt": "2026-10-16T23:45:36.057Z"
     },
     {
       "char": "也",
@@ -4986,8 +4986,8 @@
       "priority": 112,
       "media": [],
       "feedback": [],
-      "activePromptId": "9a05e239-2fb5-4d6d-b1ec-e7f37f8d97a6",
-      "promptedAt": "2026-10-03T07:27:15.284Z"
+      "activePromptId": "28c6ec35-58a0-4c32-8249-885f96a90479",
+      "promptedAt": "2026-10-16T23:46:41.908Z"
     },
     {
       "char": "都",
@@ -5022,8 +5022,8 @@
       "priority": 113,
       "media": [],
       "feedback": [],
-      "activePromptId": "39750b65-5dcf-463d-b82f-81ce5c79f6e4",
-      "promptedAt": "2026-10-03T07:27:17.846Z"
+      "activePromptId": "16a15f39-b950-48e8-8318-c07b5ee7c4b2",
+      "promptedAt": "2026-10-16T23:47:38.403Z"
     },
     {
       "char": "要",
@@ -5058,8 +5058,8 @@
       "priority": 114,
       "media": [],
       "feedback": [],
-      "activePromptId": "6f031f91-2b7c-4754-b4ee-97f496bb4419",
-      "promptedAt": "2026-10-03T07:27:17.703Z"
+      "activePromptId": "75adb0ec-3737-401c-b2fe-c11d2d2c1a54",
+      "promptedAt": "2026-10-16T23:48:19.309Z"
     },
     {
       "char": "可",
@@ -5094,8 +5094,8 @@
       "priority": 115,
       "media": [],
       "feedback": [],
-      "activePromptId": "9dbcc4c2-5fad-4477-ac6d-3a2d3c13c3ab",
-      "promptedAt": "2026-10-03T07:27:15.590Z"
+      "activePromptId": "d9b89c12-3025-462e-bbde-e39dd166c163",
+      "promptedAt": "2026-10-16T23:49:18.509Z"
     },
     {
       "char": "會",
@@ -5130,8 +5130,8 @@
       "priority": 116,
       "media": [],
       "feedback": [],
-      "activePromptId": "6b3d99fa-4132-40f7-a577-bc0c410039ed",
-      "promptedAt": "2026-10-03T07:27:16.272Z"
+      "activePromptId": "ef0d3a7c-9d90-4d4b-8b0c-923ceddbdfb7",
+      "promptedAt": "2026-10-16T23:50:15.199Z"
     },
     {
       "char": "給",
@@ -5165,8 +5165,8 @@
       "priority": 117,
       "media": [],
       "feedback": [],
-      "activePromptId": "3a3795a5-67ab-4aef-b0f2-2f5ff61702c1",
-      "promptedAt": "2026-10-03T07:27:17.259Z"
+      "activePromptId": "50883b23-8c59-4407-a201-41f80d06a203",
+      "promptedAt": "2026-10-16T23:51:12.723Z"
     },
     {
       "char": "爸",
@@ -5201,8 +5201,8 @@
       "priority": 118,
       "media": [],
       "feedback": [],
-      "activePromptId": "41b26fcd-9a8f-4db2-a6c9-3ae84614e2a8",
-      "promptedAt": "2026-10-03T07:27:16.751Z"
+      "activePromptId": "5a01362c-9176-4356-ba82-37f792523405",
+      "promptedAt": "2026-10-16T23:52:18.356Z"
     },
     {
       "char": "媽",
@@ -5237,8 +5237,8 @@
       "priority": 119,
       "media": [],
       "feedback": [],
-      "activePromptId": "3af76a43-8a01-40e1-a65e-6fa1f0d1f85a",
-      "promptedAt": "2026-10-03T07:27:15.886Z"
+      "activePromptId": "e8cf7fb6-06e1-4f21-b697-b64c13202bda",
+      "promptedAt": "2026-10-16T23:53:09.648Z"
     },
     {
       "char": "哥",
@@ -5273,8 +5273,8 @@
       "priority": 120,
       "media": [],
       "feedback": [],
-      "activePromptId": "0b035f48-e2b2-4b1b-ad85-653955631f43",
-      "promptedAt": "2026-10-03T07:27:15.654Z"
+      "activePromptId": "99ed34a1-3bea-4351-8b00-b38c84872553",
+      "promptedAt": "2026-10-16T23:54:09.592Z"
     },
     {
       "char": "姐",
@@ -5309,8 +5309,8 @@
       "priority": 121,
       "media": [],
       "feedback": [],
-      "activePromptId": "d1d3ee64-a2df-4265-8238-df5c053f74a3",
-      "promptedAt": "2026-10-03T07:27:15.840Z"
+      "activePromptId": "65603867-2b39-4b1f-8014-f86b12394212",
+      "promptedAt": "2026-10-16T23:55:10.833Z"
     },
     {
       "char": "妹",
@@ -5345,8 +5345,8 @@
       "priority": 122,
       "media": [],
       "feedback": [],
-      "activePromptId": "af11e399-b985-47d8-bfe1-a97787b73d62",
-      "promptedAt": "2026-10-03T07:23:18.402Z"
+      "activePromptId": "bdf3c63e-5b79-4d83-a253-d1910458ac30",
+      "promptedAt": "2026-10-17T07:39:19.116Z"
     },
     {
       "char": "弟",
@@ -5381,8 +5381,8 @@
       "priority": 123,
       "media": [],
       "feedback": [],
-      "activePromptId": "64c6d494-1ce1-4b8e-ad12-2d10286072e2",
-      "promptedAt": "2026-10-03T07:23:18.537Z"
+      "activePromptId": "bf6358f3-8d18-4676-9a11-da1525fefc21",
+      "promptedAt": "2026-10-16T23:57:28.315Z"
     },
     {
       "char": "公",
@@ -5417,8 +5417,8 @@
       "priority": 124,
       "media": [],
       "feedback": [],
-      "activePromptId": "4d047315-6d1c-42ee-91a7-824b5ce592d3",
-      "promptedAt": "2026-10-03T07:23:18.017Z"
+      "activePromptId": "570b8ba2-31ba-4347-b44f-706fc161cb21",
+      "promptedAt": "2026-10-17T07:39:52.399Z"
     },
     {
       "char": "婆",
@@ -5453,8 +5453,8 @@
       "priority": 125,
       "media": [],
       "feedback": [],
-      "activePromptId": "d24b33a3-2bf2-4530-9f3d-d5ab7e2ef19b",
-      "promptedAt": "2026-10-03T07:23:18.438Z"
+      "activePromptId": "6aba0bd7-5ac1-4f90-86e5-7390fcc53cd4",
+      "promptedAt": "2026-10-16T23:59:32.538Z"
     },
     {
       "char": "孫",
@@ -5489,8 +5489,8 @@
       "priority": 126,
       "media": [],
       "feedback": [],
-      "activePromptId": "bd929899-1c90-4d6b-a1da-2fd90a6ffba8",
-      "promptedAt": "2026-10-03T07:23:18.456Z"
+      "activePromptId": "b1c3db7b-d024-4a66-90eb-afb4229ae5f9",
+      "promptedAt": "2026-10-17T07:40:34.642Z"
     },
     {
       "char": "叔",
@@ -5525,8 +5525,8 @@
       "priority": 127,
       "media": [],
       "feedback": [],
-      "activePromptId": "9892d675-1b59-4d21-a7d8-86e761855251",
-      "promptedAt": "2026-10-03T07:27:15.555Z"
+      "activePromptId": "bc322017-7524-4975-9bd7-26ec6326fdf3",
+      "promptedAt": "2026-10-17T00:01:36.144Z"
     },
     {
       "char": "姑",
@@ -5561,8 +5561,8 @@
       "priority": 128,
       "media": [],
       "feedback": [],
-      "activePromptId": "8b17e935-8cae-48d6-9f3a-aed348f176bc",
-      "promptedAt": "2026-10-03T07:23:18.420Z"
+      "activePromptId": "79f143c1-78ae-4a77-98ac-c8e26268b064",
+      "promptedAt": "2026-10-17T07:41:07.155Z"
     },
     {
       "char": "鼻",
@@ -5597,8 +5597,8 @@
       "priority": 129,
       "media": [],
       "feedback": [],
-      "activePromptId": "b5662f5f-435c-4da6-aa75-9a89d6923820",
-      "promptedAt": "2026-10-03T07:23:20.823Z"
+      "activePromptId": "6a49e09d-45ef-4cce-b2d3-59e7986f6979",
+      "promptedAt": "2026-10-17T07:41:44.756Z"
     },
     {
       "char": "嘴",
@@ -5705,8 +5705,8 @@
       "priority": 132,
       "media": [],
       "feedback": [],
-      "activePromptId": "e58a5ea9-22da-4b9e-8568-55169738fff9",
-      "promptedAt": "2026-10-03T07:23:19.961Z"
+      "activePromptId": "08a29dfa-93d9-4066-9a19-970b5c297490",
+      "promptedAt": "2026-10-17T00:04:30.480Z"
     },
     {
       "char": "背",
@@ -5741,8 +5741,8 @@
       "priority": 133,
       "media": [],
       "feedback": [],
-      "activePromptId": "6a902774-2b88-4475-86d7-3d642a138d30",
-      "promptedAt": "2026-10-03T07:23:19.895Z"
+      "activePromptId": "ab0832be-e75f-4f0d-8cdb-d6fc068cf82a",
+      "promptedAt": "2026-10-17T00:05:19.223Z"
     },
     {
       "char": "肚",
@@ -5777,8 +5777,8 @@
       "priority": 134,
       "media": [],
       "feedback": [],
-      "activePromptId": "4f2afc6a-83d8-4a19-8439-f7cc0c9f3554",
-      "promptedAt": "2026-10-03T07:23:19.849Z"
+      "activePromptId": "170b5633-2970-40c2-bd16-1926584b9508",
+      "promptedAt": "2026-10-17T07:42:15.086Z"
     },
     {
       "char": "臉",
@@ -5813,8 +5813,8 @@
       "priority": 135,
       "media": [],
       "feedback": [],
-      "activePromptId": "3d3707ba-a44d-4bc8-a063-2fc0873f2f82",
-      "promptedAt": "2026-10-03T07:23:20.029Z"
+      "activePromptId": "5500a134-baa7-4a3e-a154-a7f26fbba4c0",
+      "promptedAt": "2026-10-17T00:07:00.199Z"
     },
     {
       "char": "指",
@@ -5849,8 +5849,8 @@
       "priority": 136,
       "media": [],
       "feedback": [],
-      "activePromptId": "70943228-9015-4285-93d2-687a049efe9a",
-      "promptedAt": "2026-10-03T07:23:18.692Z"
+      "activePromptId": "bdab097d-b1d1-4bfc-92c9-97c07efc8e0c",
+      "promptedAt": "2026-10-17T07:42:43.911Z"
     },
     {
       "char": "甲",
@@ -5884,8 +5884,8 @@
       "priority": 137,
       "media": [],
       "feedback": [],
-      "activePromptId": "2fb228c4-cd4f-4ebe-8c04-de950f1869f1",
-      "promptedAt": "2026-10-03T07:23:19.361Z"
+      "activePromptId": "ad490508-4ba6-4eab-87ca-8c7a103f1aeb",
+      "promptedAt": "2026-10-17T00:08:47.316Z"
     },
     {
       "char": "髮",
@@ -5956,8 +5956,8 @@
       "priority": 139,
       "media": [],
       "feedback": [],
-      "activePromptId": "e8bd423c-57f3-4e6a-8eac-00dcc965dd01",
-      "promptedAt": "2026-10-03T07:23:19.872Z"
+      "activePromptId": "4bb1f210-d5a3-4c80-a522-0e0c46a72418",
+      "promptedAt": "2026-10-17T00:09:44.733Z"
     },
     {
       "char": "腿",
@@ -5992,8 +5992,8 @@
       "priority": 140,
       "media": [],
       "feedback": [],
-      "activePromptId": "68e3b61c-9a1a-489f-a697-45c1e067363f",
-      "promptedAt": "2026-10-03T07:23:19.984Z"
+      "activePromptId": "70bfc739-bed7-46e4-b7ce-aa2939b6c2d1",
+      "promptedAt": "2026-10-17T00:10:36.968Z"
     },
     {
       "char": "膝",
@@ -6028,8 +6028,8 @@
       "priority": 141,
       "media": [],
       "feedback": [],
-      "activePromptId": "5e0811c5-00f0-41c8-8274-d320bf653418",
-      "promptedAt": "2026-10-03T07:23:20.006Z"
+      "activePromptId": "358fbc0d-95a5-46ac-81a3-9e39c6b28acb",
+      "promptedAt": "2026-10-17T07:43:08.053Z"
     },
     {
       "char": "眉",
@@ -6118,8 +6118,8 @@
       "priority": 143,
       "media": [],
       "feedback": [],
-      "activePromptId": "7b1e0ce3-b0a5-4bba-96e9-57ba00c08cdd",
-      "promptedAt": "2026-10-03T07:27:17.183Z"
+      "activePromptId": "b0dd4b3c-a0db-4eef-b1ff-0acb7800d780",
+      "promptedAt": "2026-10-17T00:12:11.476Z"
     },
     {
       "char": "黃",
@@ -6423,8 +6423,8 @@
       "priority": 149,
       "media": [],
       "feedback": [],
-      "activePromptId": "8cf9f4e0-cef8-48de-bb3f-ef22fce62c84",
-      "promptedAt": "2026-10-03T07:27:16.523Z"
+      "activePromptId": "65fb8ea4-f583-43fe-8cf8-e30a9f5e5cf4",
+      "promptedAt": "2026-10-17T00:13:15.034Z"
     },
     {
       "char": "粉",
@@ -6458,8 +6458,8 @@
       "priority": 150,
       "media": [],
       "feedback": [],
-      "activePromptId": "b80909b9-e821-4d65-9f24-56587af377a1",
-      "promptedAt": "2026-10-03T07:27:17.109Z"
+      "activePromptId": "f78841e6-6033-4a50-8ff0-6dd2e07c6436",
+      "promptedAt": "2026-10-17T00:14:00.330Z"
     },
     {
       "char": "棕",
@@ -6494,8 +6494,8 @@
       "priority": 151,
       "media": [],
       "feedback": [],
-      "activePromptId": "5120230c-ca95-4912-9a2b-c37f5b70f848",
-      "promptedAt": "2026-10-03T07:27:16.424Z"
+      "activePromptId": "2177088a-c06d-4ab5-b919-8277f23dabd8",
+      "promptedAt": "2026-10-17T00:14:49.623Z"
     },
     {
       "char": "灰",
@@ -6757,8 +6757,8 @@
       "priority": 157,
       "media": [],
       "feedback": [],
-      "activePromptId": "3c276e6e-bdbb-48cf-961b-61b8b4f6ed9f",
-      "promptedAt": "2026-10-03T07:23:19.235Z"
+      "activePromptId": "d2ab7d8a-74f7-4293-a8d3-6472825b0b93",
+      "promptedAt": "2026-10-17T00:15:40.460Z"
     },
     {
       "char": "拍",
@@ -6789,8 +6789,8 @@
       "priority": 158,
       "media": [],
       "feedback": [],
-      "activePromptId": "306023c1-b239-4213-9508-ba27cd543202",
-      "promptedAt": "2026-10-03T07:23:18.673Z"
+      "activePromptId": "bb9a4917-dd65-4325-aba7-057e28463bbe",
+      "promptedAt": "2026-10-17T00:16:31.385Z"
     },
     {
       "char": "抱",
@@ -6853,8 +6853,8 @@
       "priority": 160,
       "media": [],
       "feedback": [],
-      "activePromptId": "97868571-2a02-4ec9-81d5-f4a21f941f72",
-      "promptedAt": "2026-10-03T07:23:20.308Z"
+      "activePromptId": "feeabd53-9204-4fbc-8621-d35e1efff45b",
+      "promptedAt": "2026-10-17T00:17:27.417Z"
     },
     {
       "char": "洗",
@@ -6885,8 +6885,8 @@
       "priority": 161,
       "media": [],
       "feedback": [],
-      "activePromptId": "0daca3d6-b5c5-4a05-b723-eb66ea23880c",
-      "promptedAt": "2026-10-03T07:23:19.048Z"
+      "activePromptId": "5c02ecca-64fb-4a75-8e7f-8c4d832eebac",
+      "promptedAt": "2026-10-17T00:18:22.661Z"
     },
     {
       "char": "穿",
@@ -6917,8 +6917,8 @@
       "priority": 162,
       "media": [],
       "feedback": [],
-      "activePromptId": "8ae37c8a-b838-4e73-acc7-10305fcb75d1",
-      "promptedAt": "2026-10-03T07:23:19.606Z"
+      "activePromptId": "d0e73ef7-738a-4f93-88de-6db9f79b2514",
+      "promptedAt": "2026-10-17T00:19:02.330Z"
     },
     {
       "char": "脫",
@@ -6949,8 +6949,8 @@
       "priority": 163,
       "media": [],
       "feedback": [],
-      "activePromptId": "92f9ce15-f6ef-48fb-899c-c5a789044750",
-      "promptedAt": "2026-10-03T07:23:19.940Z"
+      "activePromptId": "048cb714-7e68-4f56-afc2-c3adddb6df80",
+      "promptedAt": "2026-10-17T00:19:59.141Z"
     },
     {
       "char": "叫",
@@ -7013,8 +7013,8 @@
       "priority": 165,
       "media": [],
       "feedback": [],
-      "activePromptId": "ef3d75cc-ae79-46ca-8c79-41519381791a",
-      "promptedAt": "2026-10-03T07:23:18.749Z"
+      "activePromptId": "be61632f-ea75-491f-a032-59b620f20907",
+      "promptedAt": "2026-10-17T00:20:47.105Z"
     },
     {
       "char": "推",
@@ -7045,8 +7045,8 @@
       "priority": 166,
       "media": [],
       "feedback": [],
-      "activePromptId": "5c5fa0fc-fd31-41ac-9888-315a9545ebef",
-      "promptedAt": "2026-10-03T07:23:18.730Z"
+      "activePromptId": "47b2a5af-d114-4453-abdd-d04a88cf2978",
+      "promptedAt": "2026-10-17T00:21:24.710Z"
     },
     {
       "char": "拉",
@@ -7077,8 +7077,8 @@
       "priority": 167,
       "media": [],
       "feedback": [],
-      "activePromptId": "1636cb3e-9f0f-4e5b-b15a-6b4607814b6c",
-      "promptedAt": "2026-10-03T07:23:18.653Z"
+      "activePromptId": "3c28d427-823b-4b16-a99c-4462391eaf2d",
+      "promptedAt": "2026-10-17T00:22:18.817Z"
     },
     {
       "char": "丟",
@@ -7109,8 +7109,8 @@
       "priority": 168,
       "media": [],
       "feedback": [],
-      "activePromptId": "d4b425ff-645d-4cb9-b458-0e18e5a0b649",
-      "promptedAt": "2026-10-03T07:23:17.883Z"
+      "activePromptId": "d8e4b8ac-28bf-4c55-8393-56446c1864dc",
+      "promptedAt": "2026-10-17T00:22:53.760Z"
     },
     {
       "char": "接",
@@ -7141,8 +7141,8 @@
       "priority": 169,
       "media": [],
       "feedback": [],
-      "activePromptId": "d87ec3ce-9ce0-4db4-b8e6-d79e0e959666",
-      "promptedAt": "2026-10-03T07:23:18.711Z"
+      "activePromptId": "df9008fe-9383-4204-a9a4-187591345d58",
+      "promptedAt": "2026-10-17T00:23:33.309Z"
     },
     {
       "char": "樂",
@@ -7173,8 +7173,8 @@
       "priority": 170,
       "media": [],
       "feedback": [],
-      "activePromptId": "6fc7d7d3-c1a6-41fe-96c2-9d05f9a7f022",
-      "promptedAt": "2026-10-03T07:23:19.006Z"
+      "activePromptId": "d98b2ba5-e579-4e83-9806-2773c4d7d82e",
+      "promptedAt": "2026-10-17T00:24:33.860Z"
     },
     {
       "char": "喜",
@@ -7205,8 +7205,8 @@
       "priority": 171,
       "media": [],
       "feedback": [],
-      "activePromptId": "68b3c182-44b3-401a-ba1e-b656fa622823",
-      "promptedAt": "2026-10-03T07:23:18.312Z"
+      "activePromptId": "da6b5897-211b-45e3-91a3-d6dd2e87769a",
+      "promptedAt": "2026-10-17T00:25:26.460Z"
     },
     {
       "char": "愛",
@@ -7237,8 +7237,8 @@
       "priority": 172,
       "media": [],
       "feedback": [],
-      "activePromptId": "a23eb698-6456-4ebe-b95b-3d99331293b9",
-      "promptedAt": "2026-10-03T07:23:18.615Z"
+      "activePromptId": "d0b24067-251a-411b-9ec2-af9320604345",
+      "promptedAt": "2026-10-17T00:26:07.469Z"
     },
     {
       "char": "醜",
@@ -7300,8 +7300,8 @@
       "priority": 174,
       "media": [],
       "feedback": [],
-      "activePromptId": "ca7ec91d-7497-4cf2-b5a9-a918ef651cf2",
-      "promptedAt": "2026-10-03T07:23:19.918Z"
+      "activePromptId": "e9908bf4-4abf-414b-87f5-dc39daa54a9f",
+      "promptedAt": "2026-10-17T00:26:53.163Z"
     },
     {
       "char": "瘦",
@@ -7332,8 +7332,8 @@
       "priority": 175,
       "media": [],
       "feedback": [],
-      "activePromptId": "6ce8af73-8d9d-4b4a-ae8e-23608e3ece06",
-      "promptedAt": "2026-10-03T07:23:19.403Z"
+      "activePromptId": "d1414618-daef-48a6-8002-8db8c525c5a2",
+      "promptedAt": "2026-10-17T00:27:59.742Z"
     },
     {
       "char": "矮",
@@ -7364,8 +7364,8 @@
       "priority": 176,
       "media": [],
       "feedback": [],
-      "activePromptId": "14c8cf24-1723-4ac0-a2aa-46c72f35876e",
-      "promptedAt": "2026-10-03T07:23:19.561Z"
+      "activePromptId": "67f78696-ab33-43de-b56f-60cab3ef4a75",
+      "promptedAt": "2026-10-17T00:28:56.449Z"
     },
     {
       "char": "長",
@@ -7396,8 +7396,8 @@
       "priority": 177,
       "media": [],
       "feedback": [],
-      "activePromptId": "232595b5-cac4-46cc-92f7-4c90978bd53e",
-      "promptedAt": "2026-10-03T07:23:20.432Z"
+      "activePromptId": "daf27424-9129-4ff6-b487-146438f2d601",
+      "promptedAt": "2026-10-17T00:29:39.047Z"
     },
     {
       "char": "短",
@@ -7428,8 +7428,8 @@
       "priority": 178,
       "media": [],
       "feedback": [],
-      "activePromptId": "3792922d-8bd1-4d6f-bc17-f77a236f7feb",
-      "promptedAt": "2026-10-03T07:23:19.540Z"
+      "activePromptId": "191d64f5-45e3-468a-93e6-3b181525170d",
+      "promptedAt": "2026-10-17T00:30:46.930Z"
     },
     {
       "char": "老",
@@ -7460,14 +7460,14 @@
       "priority": 179,
       "media": [],
       "feedback": [],
-      "activePromptId": "d56eec62-521c-4b2f-b464-62f7874e4c60",
-      "promptedAt": "2026-10-03T07:23:19.782Z"
+      "activePromptId": "d56841c1-3bca-4817-a93f-ff39adc63d65",
+      "promptedAt": "2026-10-17T00:31:33.726Z"
     },
     {
       "char": "新",
       "zhuyin": "ㄒㄧㄣ",
       "meaning": "new",
-      "emoji": "✨",
+      "emoji": "👟",
       "words": [
         {
           "text": "新的",
@@ -7492,8 +7492,8 @@
       "priority": 180,
       "media": [],
       "feedback": [],
-      "activePromptId": "dcfc8594-cdf1-4ee7-9f97-0143125e62a4",
-      "promptedAt": "2026-10-03T07:23:18.768Z"
+      "activePromptId": "4884f650-3aa4-4976-b7ce-459191ba56df",
+      "promptedAt": "2026-10-17T00:32:14.768Z"
     },
     {
       "char": "舊",
@@ -7523,8 +7523,8 @@
       "priority": 181,
       "media": [],
       "feedback": [],
-      "activePromptId": "7e327a59-1e22-427e-8e9c-b3d47528f0d9",
-      "promptedAt": "2026-10-03T07:23:20.052Z"
+      "activePromptId": "4107d15a-ba0c-41c3-9e7d-e52a08765568",
+      "promptedAt": "2026-10-17T00:33:17.052Z"
     },
     {
       "char": "冷",
@@ -7555,8 +7555,8 @@
       "priority": 182,
       "media": [],
       "feedback": [],
-      "activePromptId": "2c7a0e46-0698-4884-8dd8-69b02f1a4ac7",
-      "promptedAt": "2026-10-03T07:23:18.069Z"
+      "activePromptId": "84b255c6-3490-4de8-84ba-eacf08ad04b2",
+      "promptedAt": "2026-10-17T00:33:58.535Z"
     },
     {
       "char": "熱",
@@ -7637,8 +7637,8 @@
       "priority": 184,
       "media": [],
       "feedback": [],
-      "activePromptId": "d638ec49-8e91-4c04-a334-d5aaf68f4435",
-      "promptedAt": "2026-10-03T07:23:19.717Z"
+      "activePromptId": "51cb57cd-8ac8-4c75-98b2-df188076052e",
+      "promptedAt": "2026-10-17T00:34:55.129Z"
     },
     {
       "char": "乖",
@@ -7669,8 +7669,8 @@
       "priority": 185,
       "media": [],
       "feedback": [],
-      "activePromptId": "6e3e6a04-e283-4bb1-b5ba-563eb333c69e",
-      "promptedAt": "2026-10-03T07:23:17.901Z"
+      "activePromptId": "8818f385-af38-4c51-98da-0ea60053dc46",
+      "promptedAt": "2026-10-17T00:36:16.951Z"
     },
     {
       "char": "勇",
@@ -7751,8 +7751,8 @@
       "priority": 187,
       "media": [],
       "feedback": [],
-      "activePromptId": "e7718277-0f76-4696-93f1-711e1b350193",
-      "promptedAt": "2026-10-03T07:23:18.576Z"
+      "activePromptId": "135ed1c7-92e6-4a54-95e5-8c00262df3a3",
+      "promptedAt": "2026-10-17T00:37:17.705Z"
     },
     {
       "char": "急",
@@ -7783,8 +7783,8 @@
       "priority": 188,
       "media": [],
       "feedback": [],
-      "activePromptId": "873c1247-a8f1-4890-baf6-e82b2293e84f",
-      "promptedAt": "2026-10-03T07:23:18.596Z"
+      "activePromptId": "b75be6e6-780a-49af-af6f-0265729a4ff6",
+      "promptedAt": "2026-10-17T00:38:04.918Z"
     },
     {
       "char": "慢",
@@ -7815,8 +7815,8 @@
       "priority": 189,
       "media": [],
       "feedback": [],
-      "activePromptId": "334da2f8-f1be-4e8a-af37-a7ca881f4c4b",
-      "promptedAt": "2026-10-03T07:27:16.047Z"
+      "activePromptId": "d0b9927b-97a7-4341-912b-34151286dd73",
+      "promptedAt": "2026-10-17T00:38:46.232Z"
     },
     {
       "char": "年",
@@ -7847,8 +7847,8 @@
       "priority": 190,
       "media": [],
       "feedback": [],
-      "activePromptId": "82cbe1c9-f232-4660-8b87-c82510671706",
-      "promptedAt": "2026-10-03T07:23:18.518Z"
+      "activePromptId": "2ecc07e4-0df3-4337-b5fa-b747adc867cf",
+      "promptedAt": "2026-10-17T00:39:38.954Z"
     },
     {
       "char": "時",
@@ -7878,8 +7878,8 @@
       "priority": 191,
       "media": [],
       "feedback": [],
-      "activePromptId": "d869e39b-c274-4fa3-9c50-608a8f2dada4",
-      "promptedAt": "2026-10-03T07:23:18.846Z"
+      "activePromptId": "493e11c9-4600-4f95-a412-270f4fd4774a",
+      "promptedAt": "2026-10-17T00:40:39.490Z"
     },
     {
       "char": "分",
@@ -7914,8 +7914,8 @@
       "priority": 192,
       "media": [],
       "feedback": [],
-      "activePromptId": "de51f3c0-ba0f-44d6-9f75-a90e45c789c1",
-      "promptedAt": "2026-10-03T07:23:18.086Z"
+      "activePromptId": "6d6d7829-3f6c-47e2-acdd-e4048107c607",
+      "promptedAt": "2026-10-17T00:41:23.986Z"
     },
     {
       "char": "秒",
@@ -7946,8 +7946,8 @@
       "priority": 193,
       "media": [],
       "feedback": [],
-      "activePromptId": "e5fd2107-9fd2-408d-9c35-2e2f37798c40",
-      "promptedAt": "2026-10-03T07:23:19.583Z"
+      "activePromptId": "015dcb9d-63de-4729-ad11-93f139905923",
+      "promptedAt": "2026-10-17T00:42:22.682Z"
     },
     {
       "char": "早",
@@ -7982,8 +7982,8 @@
       "priority": 194,
       "media": [],
       "feedback": [],
-      "activePromptId": "dc8b1c05-fc9c-405d-8cca-a5a6c8faa48b",
-      "promptedAt": "2026-10-03T07:27:16.172Z"
+      "activePromptId": "941e4c45-6dc1-46ea-b03f-e143965dd81a",
+      "promptedAt": "2026-10-17T00:43:17.879Z"
     },
     {
       "char": "晚",
@@ -8018,8 +8018,8 @@
       "priority": 195,
       "media": [],
       "feedback": [],
-      "activePromptId": "f510e150-fc2a-42de-83ec-1ab5bd3ba970",
-      "promptedAt": "2026-10-03T07:27:16.233Z"
+      "activePromptId": "3001b7ea-a455-48ee-9738-368bfd1a2414",
+      "promptedAt": "2026-10-17T00:44:23.429Z"
     },
     {
       "char": "今",
@@ -8049,8 +8049,8 @@
       "priority": 196,
       "media": [],
       "feedback": [],
-      "activePromptId": "f8d84d0a-7123-4194-b742-33a9a88b30c2",
-      "promptedAt": "2026-10-03T07:23:17.950Z"
+      "activePromptId": "7107819c-ffb5-4970-b6d8-358145c476a6",
+      "promptedAt": "2026-10-17T00:45:14.023Z"
     },
     {
       "char": "昨",
@@ -8076,8 +8076,8 @@
       "priority": 197,
       "media": [],
       "feedback": [],
-      "activePromptId": "eaacfd5f-517e-465b-828d-7893a7343b3b",
-      "promptedAt": "2026-10-03T07:23:18.807Z"
+      "activePromptId": "34abf77f-1dad-4af1-8631-92c2b21cd09e",
+      "promptedAt": "2026-10-17T00:45:54.776Z"
     },
     {
       "char": "夜",
@@ -8112,8 +8112,8 @@
       "priority": 198,
       "media": [],
       "feedback": [],
-      "activePromptId": "0b83df26-980c-4ab7-a1fc-adc1a1243a00",
-      "promptedAt": "2026-10-03T07:23:18.384Z"
+      "activePromptId": "b17e20f1-2544-4d68-a975-f3c81a86bdbb",
+      "promptedAt": "2026-10-17T00:46:54.202Z"
     },
     {
       "char": "午",
@@ -8148,8 +8148,8 @@
       "priority": 199,
       "media": [],
       "feedback": [],
-      "activePromptId": "fb6dd2f5-c0d6-40d5-8312-0d34e865fba5",
-      "promptedAt": "2026-10-03T07:23:18.203Z"
+      "activePromptId": "9b62e6a3-da66-441b-b982-a56738d219dc",
+      "promptedAt": "2026-10-17T00:47:48.678Z"
     },
     {
       "char": "貓",
@@ -8184,8 +8184,8 @@
       "priority": 200,
       "media": [],
       "feedback": [],
-      "activePromptId": "52d4229d-0e57-4363-bc96-84fc15fa9486",
-      "promptedAt": "2026-10-03T07:27:17.808Z"
+      "activePromptId": "6d616c53-aea5-451e-8b84-da32a372e839",
+      "promptedAt": "2026-10-17T00:48:41.701Z"
     },
     {
       "char": "兔",
@@ -8220,8 +8220,8 @@
       "priority": 201,
       "media": [],
       "feedback": [],
-      "activePromptId": "adb9d655-5242-4209-8abb-ee361a2cee6b",
-      "promptedAt": "2026-10-03T07:27:15.404Z"
+      "activePromptId": "e67bc0f6-d44d-4e4d-b9f4-7463bd2d49d4",
+      "promptedAt": "2026-10-17T00:49:43.634Z"
     },
     {
       "char": "虎",
@@ -8256,8 +8256,8 @@
       "priority": 202,
       "media": [],
       "feedback": [],
-      "activePromptId": "bbca2801-58e5-4bb8-9aba-fe385d673220",
-      "promptedAt": "2026-10-03T07:27:17.557Z"
+      "activePromptId": "35951655-6e11-4e31-89e3-6043000b2fbb",
+      "promptedAt": "2026-10-17T00:50:14.246Z"
     },
     {
       "char": "象",
@@ -8292,8 +8292,8 @@
       "priority": 203,
       "media": [],
       "feedback": [],
-      "activePromptId": "56deb77b-265e-4b85-b8f5-e605453bd655",
-      "promptedAt": "2026-10-03T07:27:17.770Z"
+      "activePromptId": "eb742af9-b080-43d1-b366-d82a11c73aef",
+      "promptedAt": "2026-10-17T00:50:58.018Z"
     },
     {
       "char": "猴",
@@ -8328,8 +8328,8 @@
       "priority": 204,
       "media": [],
       "feedback": [],
-      "activePromptId": "1267cbbf-1dcd-498e-94a6-5507c9f7258f",
-      "promptedAt": "2026-10-03T07:23:19.319Z"
+      "activePromptId": "be1905d9-0504-4668-825e-bb64187f94d0",
+      "promptedAt": "2026-10-17T00:51:42.868Z"
     },
     {
       "char": "熊",
@@ -8364,8 +8364,8 @@
       "priority": 205,
       "media": [],
       "feedback": [],
-      "activePromptId": "4051d54f-303c-42b2-a483-7e907021f594",
-      "promptedAt": "2026-10-03T07:23:19.173Z"
+      "activePromptId": "de9c7de3-e865-4390-80f1-72e32ec66897",
+      "promptedAt": "2026-10-17T00:52:18.222Z"
     },
     {
       "char": "蛇",
@@ -8396,8 +8396,8 @@
       "priority": 206,
       "media": [],
       "feedback": [],
-      "activePromptId": "0d4a2dfe-5557-4338-871c-c919361e2bc1",
-      "promptedAt": "2026-10-03T07:27:17.614Z"
+      "activePromptId": "287918de-d5c9-4342-8594-e0eafceb1313",
+      "promptedAt": "2026-10-17T00:52:53.476Z"
     },
     {
       "char": "蝶",
@@ -8432,8 +8432,8 @@
       "priority": 207,
       "media": [],
       "feedback": [],
-      "activePromptId": "d10d529f-ee05-4e67-9949-09137fdabe7a",
-      "promptedAt": "2026-10-03T07:23:20.238Z"
+      "activePromptId": "a4b4f0b9-8a2f-4734-a021-a8ef11704e41",
+      "promptedAt": "2026-10-17T00:53:46.961Z"
     },
     {
       "char": "蜂",
@@ -8468,8 +8468,8 @@
       "priority": 208,
       "media": [],
       "feedback": [],
-      "activePromptId": "44b0b07c-ecad-4214-8533-5a03a33b41fa",
-      "promptedAt": "2026-10-03T07:23:20.191Z"
+      "activePromptId": "793fa38b-7ab8-4e80-8bb8-e92062acf3ae",
+      "promptedAt": "2026-10-17T00:54:26.033Z"
     },
     {
       "char": "蟲",
@@ -8504,8 +8504,8 @@
       "priority": 209,
       "media": [],
       "feedback": [],
-      "activePromptId": "e9a03070-811b-40e5-aebe-d4c537dc86a2",
-      "promptedAt": "2026-10-03T07:23:20.261Z"
+      "activePromptId": "a889761c-3d5a-4467-a792-c09f7de9907b",
+      "promptedAt": "2026-10-17T00:55:30.719Z"
     },
     {
       "char": "鴨",
@@ -8572,8 +8572,8 @@
       "priority": 211,
       "media": [],
       "feedback": [],
-      "activePromptId": "54756645-9f25-40fb-b892-c1d1989019e4",
-      "promptedAt": "2026-10-03T07:23:20.726Z"
+      "activePromptId": "fdda70b9-e942-416a-8733-050f808631bc",
+      "promptedAt": "2026-10-17T00:56:19.902Z"
     },
     {
       "char": "獅",
@@ -8608,8 +8608,8 @@
       "priority": 212,
       "media": [],
       "feedback": [],
-      "activePromptId": "285c2e4e-ed73-4114-9e6c-618a2639abf6",
-      "promptedAt": "2026-10-03T07:27:16.812Z"
+      "activePromptId": "4e864756-fbde-4d93-a4f7-999f0046197c",
+      "promptedAt": "2026-10-17T00:57:25.131Z"
     },
     {
       "char": "狼",
@@ -8640,8 +8640,8 @@
       "priority": 213,
       "media": [],
       "feedback": [],
-      "activePromptId": "9fc42a8a-09a3-4536-a567-8cbd88d5e464",
-      "promptedAt": "2026-10-03T07:23:19.299Z"
+      "activePromptId": "540b3649-5d40-4267-8c8c-91ac18f79d0f",
+      "promptedAt": "2026-10-17T00:58:23.455Z"
     },
     {
       "char": "鹿",
@@ -8676,8 +8676,8 @@
       "priority": 214,
       "media": [],
       "feedback": [],
-      "activePromptId": "7882219e-3c7b-4fdd-9f3b-dc12bf8bc8b9",
-      "promptedAt": "2026-10-03T07:23:20.751Z"
+      "activePromptId": "4ac358c3-4f8f-487d-b2f4-4106159d4f5d",
+      "promptedAt": "2026-10-17T00:59:14.895Z"
     },
     {
       "char": "龜",
@@ -8712,8 +8712,8 @@
       "priority": 215,
       "media": [],
       "feedback": [],
-      "activePromptId": "58f5ae41-1a93-4c21-84a0-fcdbeaabd13f",
-      "promptedAt": "2026-10-03T07:23:20.847Z"
+      "activePromptId": "406d8e51-3c2c-48a9-96c0-c0d2b7b15730",
+      "promptedAt": "2026-10-17T01:00:05.562Z"
     },
     {
       "char": "蟹",
@@ -8744,8 +8744,8 @@
       "priority": 216,
       "media": [],
       "feedback": [],
-      "activePromptId": "2f747c3b-9224-4f38-aa14-930b86edb97f",
-      "promptedAt": "2026-10-03T07:23:20.285Z"
+      "activePromptId": "35509876-814f-41eb-af13-906896c3a79d",
+      "promptedAt": "2026-10-17T01:00:55.165Z"
     },
     {
       "char": "蝦",
@@ -8776,8 +8776,8 @@
       "priority": 217,
       "media": [],
       "feedback": [],
-      "activePromptId": "1fd26301-768b-4be8-af99-cad8fdaefc79",
-      "promptedAt": "2026-10-03T07:23:20.215Z"
+      "activePromptId": "e0492747-c3bf-4f2b-a813-d5ae301fd6cb",
+      "promptedAt": "2026-10-17T01:01:41.854Z"
     },
     {
       "char": "蛙",
@@ -8808,8 +8808,8 @@
       "priority": 218,
       "media": [],
       "feedback": [],
-      "activePromptId": "bef7a792-4173-4002-9393-fe8134762a85",
-      "promptedAt": "2026-10-03T07:23:20.168Z"
+      "activePromptId": "6d838fc9-23e8-48cf-a838-816692cd7f1a",
+      "promptedAt": "2026-10-17T01:03:03.451Z"
     },
     {
       "char": "豹",
@@ -8872,8 +8872,8 @@
       "priority": 220,
       "media": [],
       "feedback": [],
-      "activePromptId": "26b22cb4-3174-474a-aa53-d2ca6bd7c8f4",
-      "promptedAt": "2026-10-03T07:27:16.714Z"
+      "activePromptId": "be0299c0-0988-4bbe-a6c3-c7f05bb56ee3",
+      "promptedAt": "2026-10-17T01:03:47.335Z"
     },
     {
       "char": "雲",
@@ -8904,8 +8904,8 @@
       "priority": 221,
       "media": [],
       "feedback": [],
-      "activePromptId": "272623fe-0c44-4e9a-8a5e-179bc4ee7cc3",
-      "promptedAt": "2026-10-03T07:23:20.557Z"
+      "activePromptId": "91b7bbee-e049-456c-aa96-b38b51eece38",
+      "promptedAt": "2026-10-17T01:04:30.367Z"
     },
     {
       "char": "風",
@@ -8940,8 +8940,8 @@
       "priority": 222,
       "media": [],
       "feedback": [],
-      "activePromptId": "d7f95d96-d2a2-49a5-a3fc-13f64a488a39",
-      "promptedAt": "2026-10-03T07:23:20.606Z"
+      "activePromptId": "bd30d663-326e-4529-abbe-1c02a5c12ea9",
+      "promptedAt": "2026-10-17T01:05:26.316Z"
     },
     {
       "char": "雪",
@@ -8976,8 +8976,8 @@
       "priority": 223,
       "media": [],
       "feedback": [],
-      "activePromptId": "acb134fc-5b5a-4f5d-a65b-99290d14670d",
-      "promptedAt": "2026-10-03T07:23:20.532Z"
+      "activePromptId": "b15765b3-2acb-4b4c-be0b-4623731eab0e",
+      "promptedAt": "2026-10-17T01:06:20.332Z"
     },
     {
       "char": "冰",
@@ -9012,8 +9012,8 @@
       "priority": 224,
       "media": [],
       "feedback": [],
-      "activePromptId": "f0783f26-a715-42a5-b687-f6dca69b99d3",
-      "promptedAt": "2026-10-03T07:23:18.052Z"
+      "activePromptId": "208e0268-5419-4cea-a142-49692b1a13ef",
+      "promptedAt": "2026-10-17T01:07:22.408Z"
     },
     {
       "char": "河",
@@ -9084,8 +9084,8 @@
       "priority": 226,
       "media": [],
       "feedback": [],
-      "activePromptId": "e713c4b1-3dac-440a-b545-c4ae4ee5f959",
-      "promptedAt": "2026-10-03T07:23:19.070Z"
+      "activePromptId": "c76e5404-3080-455d-8a57-1996c58282c5",
+      "promptedAt": "2026-10-17T01:08:27.517Z"
     },
     {
       "char": "湖",
@@ -9116,8 +9116,8 @@
       "priority": 227,
       "media": [],
       "feedback": [],
-      "activePromptId": "3237b73d-9813-4f6c-8947-bfb8e5367a4a",
-      "promptedAt": "2026-10-03T07:23:19.111Z"
+      "activePromptId": "4147e269-ce67-4458-8f59-34f4c231639d",
+      "promptedAt": "2026-10-17T01:09:08.792Z"
     },
     {
       "char": "林",
@@ -9148,8 +9148,8 @@
       "priority": 228,
       "media": [],
       "feedback": [],
-      "activePromptId": "b0591bf9-18f6-48aa-a3ce-445bbef28ab2",
-      "promptedAt": "2026-10-03T07:23:18.925Z"
+      "activePromptId": "1d12e55c-b198-4f74-aa5b-038aa18d1b9d",
+      "promptedAt": "2026-10-17T01:09:59.556Z"
     },
     {
       "char": "森",
@@ -9176,8 +9176,8 @@
       "priority": 229,
       "media": [],
       "feedback": [],
-      "activePromptId": "70ccb43f-9907-4b62-8591-76bfaf4ca37b",
-      "promptedAt": "2026-10-03T07:27:16.451Z"
+      "activePromptId": "894645ac-64f8-484d-ab41-2a58e179cb5d",
+      "promptedAt": "2026-10-17T01:11:13.240Z"
     },
     {
       "char": "草",
@@ -9212,8 +9212,8 @@
       "priority": 230,
       "media": [],
       "feedback": [],
-      "activePromptId": "d11738a6-ea85-4e93-befb-f66bdd67461b",
-      "promptedAt": "2026-10-03T07:27:17.462Z"
+      "activePromptId": "aeeb8a6c-41a5-4606-aa10-e8292f85b852",
+      "promptedAt": "2026-10-17T01:12:17.332Z"
     },
     {
       "char": "樹",
@@ -9248,8 +9248,8 @@
       "priority": 231,
       "media": [],
       "feedback": [],
-      "activePromptId": "03a7741b-1d68-4879-adbf-f2fd67844185",
-      "promptedAt": "2026-10-03T07:27:16.495Z"
+      "activePromptId": "29d2e5f1-74b5-49ff-bac6-2849e5205782",
+      "promptedAt": "2026-10-17T01:13:02.468Z"
     },
     {
       "char": "葉",
@@ -9284,8 +9284,8 @@
       "priority": 232,
       "media": [],
       "feedback": [],
-      "activePromptId": "057ab6e5-4a93-477c-bfc5-8b7494982885",
-      "promptedAt": "2026-10-03T07:27:17.520Z"
+      "activePromptId": "c65a5c98-7189-4b15-8697-659de6a2ede1",
+      "promptedAt": "2026-10-17T01:13:45.827Z"
     },
     {
       "char": "根",
@@ -9316,8 +9316,8 @@
       "priority": 233,
       "media": [],
       "feedback": [],
-      "activePromptId": "5ed61b28-dc11-479c-a6e7-8e57d0552347",
-      "promptedAt": "2026-10-03T07:27:16.388Z"
+      "activePromptId": "34bf45a9-aaba-4144-af6e-247c9ee57be8",
+      "promptedAt": "2026-10-17T01:14:26.090Z"
     },
     {
       "char": "枝",
@@ -9348,8 +9348,8 @@
       "priority": 234,
       "media": [],
       "feedback": [],
-      "activePromptId": "84589340-ab6f-452a-8957-3230435e5398",
-      "promptedAt": "2026-10-03T07:27:16.361Z"
+      "activePromptId": "2a830359-0329-4c2d-a960-8bcf79b8585c",
+      "promptedAt": "2026-10-17T01:15:50.953Z"
     },
     {
       "char": "空",
@@ -9384,8 +9384,8 @@
       "priority": 235,
       "media": [],
       "feedback": [],
-      "activePromptId": "6698e379-63f5-4324-a929-f34f63186e4b",
-      "promptedAt": "2026-10-03T07:27:17.032Z"
+      "activePromptId": "8f5bb212-6fbf-434e-a388-acf7d52764aa",
+      "promptedAt": "2026-10-17T01:16:38.624Z"
     },
     {
       "char": "沙",
@@ -9452,8 +9452,8 @@
       "priority": 237,
       "media": [],
       "feedback": [],
-      "activePromptId": "aa3e7e92-06b5-4e77-9411-a262d96a3e91",
-      "promptedAt": "2026-10-03T07:27:15.965Z"
+      "activePromptId": "adcd3df5-69a7-4d07-b344-ce9a114c0de7",
+      "promptedAt": "2026-10-17T01:17:21.951Z"
     },
     {
       "char": "洞",
@@ -9488,8 +9488,8 @@
       "priority": 238,
       "media": [],
       "feedback": [],
-      "activePromptId": "fa0cda77-92ec-4655-835e-10a50c329319",
-      "promptedAt": "2026-10-03T07:27:16.594Z"
+      "activePromptId": "a66d3e34-1eaf-47a2-b979-d2ed3d6a84de",
+      "promptedAt": "2026-10-17T01:18:11.805Z"
     },
     {
       "char": "浪",
@@ -9524,8 +9524,8 @@
       "priority": 239,
       "media": [],
       "feedback": [],
-      "activePromptId": "a9a82365-bb59-417e-be01-51ab3bfe36a8",
-      "promptedAt": "2026-10-03T07:27:16.621Z"
+      "activePromptId": "bc40ab7c-2397-4553-9fff-1e504c7fcbb2",
+      "promptedAt": "2026-10-17T01:19:09.052Z"
     },
     {
       "char": "露",
@@ -9556,8 +9556,8 @@
       "priority": 240,
       "media": [],
       "feedback": [],
-      "activePromptId": "96be6adc-6105-4c31-951a-71507939da3d",
-      "promptedAt": "2026-10-03T07:27:17.993Z"
+      "activePromptId": "86737fab-8ea5-49bf-aad1-2f20ee538735",
+      "promptedAt": "2026-10-17T01:19:58.606Z"
     },
     {
       "char": "虹",
@@ -9588,8 +9588,8 @@
       "priority": 241,
       "media": [],
       "feedback": [],
-      "activePromptId": "c69ead0c-2930-4dd9-ae05-d187a93643d3",
-      "promptedAt": "2026-10-03T07:27:17.585Z"
+      "activePromptId": "87a6ce02-dd6b-4ea3-84ed-9de1d5d59572",
+      "promptedAt": "2026-10-17T01:20:49.743Z"
     },
     {
       "char": "陽",
@@ -9624,8 +9624,8 @@
       "priority": 242,
       "media": [],
       "feedback": [],
-      "activePromptId": "8346c451-b88f-45f0-a75a-b5224c806321",
-      "promptedAt": "2026-10-03T07:23:20.506Z"
+      "activePromptId": "46d5e3b8-b1f2-49af-8580-b3eb98449435",
+      "promptedAt": "2026-10-17T01:21:49.066Z"
     },
     {
       "char": "飯",
@@ -9660,8 +9660,8 @@
       "priority": 243,
       "media": [],
       "feedback": [],
-      "activePromptId": "d68502ae-6e6b-48ce-9084-b894f5c0cb51",
-      "promptedAt": "2026-10-03T07:27:18.065Z"
+      "activePromptId": "bb62f9e2-3577-483b-aaff-482d861b1415",
+      "promptedAt": "2026-10-17T01:22:29.928Z"
     },
     {
       "char": "麵",
@@ -9696,8 +9696,8 @@
       "priority": 244,
       "media": [],
       "feedback": [],
-      "activePromptId": "14a9a165-b17f-4fd9-8ca7-faf1a68852d7",
-      "promptedAt": "2026-10-03T07:27:18.183Z"
+      "activePromptId": "5960feb7-b38a-479a-bdc1-560197e23475",
+      "promptedAt": "2026-10-17T01:23:12.748Z"
     },
     {
       "char": "菜",
@@ -9732,8 +9732,8 @@
       "priority": 245,
       "media": [],
       "feedback": [],
-      "activePromptId": "47a65321-3dc1-4176-b36e-31cf37f1b9ee",
-      "promptedAt": "2026-10-03T07:27:17.491Z"
+      "activePromptId": "6805b6b9-5b65-4e18-bdb0-dfac2df66f73",
+      "promptedAt": "2026-10-17T01:24:02.247Z"
     },
     {
       "char": "肉",
@@ -9768,8 +9768,8 @@
       "priority": 246,
       "media": [],
       "feedback": [],
-      "activePromptId": "eb94e022-4096-4aea-a20f-11cf60366094",
-      "promptedAt": "2026-10-03T07:23:19.827Z"
+      "activePromptId": "465fde1c-17a1-4d76-b9e5-58a22db5471e",
+      "promptedAt": "2026-10-17T01:24:47.358Z"
     },
     {
       "char": "蛋",
@@ -9804,8 +9804,8 @@
       "priority": 247,
       "media": [],
       "feedback": [],
-      "activePromptId": "54da5138-e2aa-4406-b94d-7b3fb074b2da",
-      "promptedAt": "2026-10-03T07:23:20.146Z"
+      "activePromptId": "717b3f92-da4f-4e95-b7b4-fdd2ffcd1d5c",
+      "promptedAt": "2026-10-17T01:25:24.578Z"
     },
     {
       "char": "糖",
@@ -9840,8 +9840,8 @@
       "priority": 248,
       "media": [],
       "feedback": [],
-      "activePromptId": "a4e35de6-dbc8-456f-a613-90f8d2951ffe",
-      "promptedAt": "2026-10-03T07:23:19.672Z"
+      "activePromptId": "e157e702-8b64-457a-979a-b820850da878",
+      "promptedAt": "2026-10-17T01:26:15.774Z"
     },
     {
       "char": "餅",
@@ -9876,8 +9876,8 @@
       "priority": 249,
       "media": [],
       "feedback": [],
-      "activePromptId": "c8c056b3-fb56-484c-bf2b-e535ff0beb5d",
-      "promptedAt": "2026-10-03T07:23:20.630Z"
+      "activePromptId": "5ece9f92-dd80-490b-970d-1bf26c22503f",
+      "promptedAt": "2026-10-17T01:27:09.474Z"
     },
     {
       "char": "茶",
@@ -9948,8 +9948,8 @@
       "priority": 251,
       "media": [],
       "feedback": [],
-      "activePromptId": "ab63d6b4-4023-4332-aadf-e51284e0a757",
-      "promptedAt": "2026-10-03T07:23:19.340Z"
+      "activePromptId": "33f753e5-9c1c-4a62-bb41-5941cd6f594d",
+      "promptedAt": "2026-10-17T01:27:57.794Z"
     },
     {
       "char": "豆",
@@ -9984,8 +9984,8 @@
       "priority": 252,
       "media": [],
       "feedback": [],
-      "activePromptId": "ba9593d0-1f51-493f-81ae-7c8f9191e4e8",
-      "promptedAt": "2026-10-03T07:27:17.741Z"
+      "activePromptId": "a1714479-f290-42ef-a069-f44d430401ff",
+      "promptedAt": "2026-10-17T01:28:52.057Z"
     },
     {
       "char": "湯",
@@ -10020,8 +10020,8 @@
       "priority": 253,
       "media": [],
       "feedback": [],
-      "activePromptId": "47297b29-b288-4f17-93c9-11acc5b4b862",
-      "promptedAt": "2026-10-03T07:23:19.132Z"
+      "activePromptId": "3f71c8e8-c64f-4791-ae63-3d28acb66cb2",
+      "promptedAt": "2026-10-17T01:29:47.403Z"
     },
     {
       "char": "粥",
@@ -10056,8 +10056,8 @@
       "priority": 254,
       "media": [],
       "feedback": [],
-      "activePromptId": "4bf0e779-3991-4d8c-99ee-e5576508c726",
-      "promptedAt": "2026-10-03T07:27:17.137Z"
+      "activePromptId": "780e3060-f87b-47ce-9b8f-a3864e8e92d3",
+      "promptedAt": "2026-10-17T01:30:36.725Z"
     },
     {
       "char": "餃",
@@ -10092,8 +10092,8 @@
       "priority": 255,
       "media": [],
       "feedback": [],
-      "activePromptId": "74136e7c-3f4c-42b5-87d0-3508166219d3",
-      "promptedAt": "2026-10-03T07:27:18.097Z"
+      "activePromptId": "e61e0968-b818-4e94-8bc1-a16dc069249f",
+      "promptedAt": "2026-10-17T01:31:31.587Z"
     },
     {
       "char": "包",
@@ -10128,8 +10128,8 @@
       "priority": 256,
       "media": [],
       "feedback": [],
-      "activePromptId": "0f63da2a-0b7a-4580-ab12-4a8ac1b4a45a",
-      "promptedAt": "2026-10-03T07:23:18.139Z"
+      "activePromptId": "73a2618f-27b6-427c-a10b-032687788bac",
+      "promptedAt": "2026-10-17T01:32:19.791Z"
     },
     {
       "char": "糕",
@@ -10164,8 +10164,8 @@
       "priority": 257,
       "media": [],
       "feedback": [],
-      "activePromptId": "5440c6f5-a523-490b-9bee-0ca9359e6542",
-      "promptedAt": "2026-10-03T07:23:19.650Z"
+      "activePromptId": "ce526e8a-c6a7-43db-8e81-c91cf2f33dff",
+      "promptedAt": "2026-10-17T01:33:08.648Z"
     },
     {
       "char": "酸",
@@ -10200,8 +10200,8 @@
       "priority": 258,
       "media": [],
       "feedback": [],
-      "activePromptId": "91ed0fe1-ebea-46d5-8acf-74ce59cbff12",
-      "promptedAt": "2026-10-03T07:27:17.876Z"
+      "activePromptId": "f78dd5a2-ae5c-4314-ba15-782407b663c6",
+      "promptedAt": "2026-10-17T01:33:57.361Z"
     },
     {
       "char": "甜",
@@ -10236,8 +10236,8 @@
       "priority": 259,
       "media": [],
       "feedback": [],
-      "activePromptId": "fd65cc82-37b6-4143-adb7-779a499923bb",
-      "promptedAt": "2026-10-03T07:27:16.848Z"
+      "activePromptId": "ebcf6d4e-7154-42d4-837f-aa2f29bd873e",
+      "promptedAt": "2026-10-17T01:34:45.140Z"
     },
     {
       "char": "苦",
@@ -10318,8 +10318,8 @@
         }
       ],
       "feedback": [],
-      "activePromptId": "ebfdded0-ef67-4017-aac1-77787e69ee00",
-      "promptedAt": "2026-10-03T07:23:20.355Z"
+      "activePromptId": "32e462d8-9041-4491-8a97-6eb048dcbe60",
+      "promptedAt": "2026-10-17T07:45:37.950Z"
     },
     {
       "char": "筆",
@@ -10353,8 +10353,8 @@
       "priority": 262,
       "media": [],
       "feedback": [],
-      "activePromptId": "a6d53c0b-6534-493d-ae73-5aff80d8f201",
-      "promptedAt": "2026-10-03T07:27:17.081Z"
+      "activePromptId": "59e50f85-34fd-421d-853c-34093402e04d",
+      "promptedAt": "2026-10-17T01:35:47.867Z"
     },
     {
       "char": "紙",
@@ -10388,8 +10388,8 @@
       "priority": 263,
       "media": [],
       "feedback": [],
-      "activePromptId": "8076d171-0861-4bdb-8ff2-0b68314e1b4b",
-      "promptedAt": "2026-10-03T07:27:17.214Z"
+      "activePromptId": "50ce1390-1b7a-4424-8ef0-f6b198ca8db5",
+      "promptedAt": "2026-10-17T01:36:57.952Z"
     },
     {
       "char": "桌",
@@ -10423,8 +10423,8 @@
       "priority": 264,
       "media": [],
       "feedback": [],
-      "activePromptId": "27795e50-849e-40c0-9284-6645d4392e48",
-      "promptedAt": "2026-10-03T07:23:18.965Z"
+      "activePromptId": "00dde7ab-1be7-4e3b-b511-657e8c80f6a7",
+      "promptedAt": "2026-10-17T01:37:55.691Z"
     },
     {
       "char": "椅",
@@ -10458,8 +10458,8 @@
       "priority": 265,
       "media": [],
       "feedback": [],
-      "activePromptId": "0ddde1b3-c8e5-49a4-bdbd-ce719e526170",
-      "promptedAt": "2026-10-03T07:23:18.987Z"
+      "activePromptId": "9fea485e-f833-45c4-820c-01578e41a806",
+      "promptedAt": "2026-10-17T01:38:28.355Z"
     },
     {
       "char": "窗",
@@ -10493,8 +10493,8 @@
       "priority": 266,
       "media": [],
       "feedback": [],
-      "activePromptId": "2e9c0a1e-8a7a-4e5c-8de5-5fa4de3c68bf",
-      "promptedAt": "2026-10-03T07:23:19.628Z"
+      "activePromptId": "6c6085e0-69a8-4bbb-80fb-3c7bd9f7cf81",
+      "promptedAt": "2026-10-17T01:39:17.671Z"
     },
     {
       "char": "牆",
@@ -10528,8 +10528,8 @@
       "priority": 267,
       "media": [],
       "feedback": [],
-      "activePromptId": "33cf83a6-ee15-443c-a11e-43a068b82b1f",
-      "promptedAt": "2026-10-03T07:23:19.257Z"
+      "activePromptId": "0a87d5d9-1bc9-4483-af7e-3607629d524d",
+      "promptedAt": "2026-10-17T01:40:13.818Z"
     },
     {
       "char": "板",
@@ -10563,8 +10563,8 @@
       "priority": 268,
       "media": [],
       "feedback": [],
-      "activePromptId": "868eec48-1581-4836-9a34-e2c0456e07e7",
-      "promptedAt": "2026-10-03T07:23:18.906Z"
+      "activePromptId": "7050dd98-3df5-42c3-8339-816732a4f36f",
+      "promptedAt": "2026-10-17T01:40:58.142Z"
     },
     {
       "char": "燈",
@@ -10599,8 +10599,8 @@
       "priority": 269,
       "media": [],
       "feedback": [],
-      "activePromptId": "c93e8476-c3a4-4e20-b2c2-b4c874a1bd57",
-      "promptedAt": "2026-10-03T07:23:19.215Z"
+      "activePromptId": "22ecb571-cbc8-4736-a188-8bbfb7b1b145",
+      "promptedAt": "2026-10-17T01:41:45.997Z"
     },
     {
       "char": "鐘",
@@ -10634,8 +10634,8 @@
       "priority": 270,
       "media": [],
       "feedback": [],
-      "activePromptId": "30d78c25-8b5d-4446-a08d-4e34406c0330",
-      "promptedAt": "2026-10-03T07:23:20.407Z"
+      "activePromptId": "ada11f45-137b-44d9-a1b2-14b4d0089718",
+      "promptedAt": "2026-10-17T01:42:44.172Z"
     },
     {
       "char": "傘",
@@ -10669,8 +10669,8 @@
       "priority": 271,
       "media": [],
       "feedback": [],
-      "activePromptId": "5bba1973-63f2-420b-9f13-760327a2eb9b",
-      "promptedAt": "2026-10-03T07:23:17.984Z"
+      "activePromptId": "e7436f0f-f1af-4a59-bed4-301fa887ce7f",
+      "promptedAt": "2026-10-17T01:43:25.217Z"
     },
     {
       "char": "楊",
@@ -10697,10 +10697,12 @@
         "hook": "楊樹很高很高，小忍者熊貓一跳就跳上樹頂，樹枝和樹葉嘩啦啦拼成一個帥氣的楊字！"
       },
       "scene": "grow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 272,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "6706e059-c6b5-4954-9541-2f7d9f91e14b",
+      "promptedAt": "2026-10-17T01:44:44.139Z"
     },
     {
       "char": "捷",
@@ -10727,10 +10729,12 @@
         "hook": "小賽車跑得超級快，咻一下衝過終點，留下的閃電尾巴就變成一個捷字！"
       },
       "scene": "zap",
-      "status": "seed",
+      "status": "prompted",
       "priority": 273,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "892aba49-0fe8-4fbb-a904-4d94e0c65eb2",
+      "promptedAt": "2026-10-17T01:45:37.814Z"
     },
     {
       "char": "睿",
@@ -10749,10 +10753,12 @@
         "hook": "聰明的貓頭鷹偵探拿著放大鏡，一個線索一個線索找，最後線索排成一個睿字！"
       },
       "scene": "glow",
-      "status": "seed",
+      "status": "prompted",
       "priority": 274,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "3f692346-077c-45f5-bc23-effff6b8e4b8",
+      "promptedAt": "2026-10-17T07:43:46.884Z"
     }
   ],
   "production": {

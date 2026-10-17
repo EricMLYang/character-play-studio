@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "note": "預設以玩具、卡通角色與物件的視覺笑點增加趣味，卡司與笑點套路輪流換；畫面每 1.5–2 秒就有新變化，唸出的詞彙在畫面上有對應的東西；無真人、兒童或任何品牌授權角色。",
+  "version": 8,
+  "note": "v8：每支片是一個「安排清楚、一眼看懂」的肢體笑點——衝、撞、追、對打、彈射、疊高倒、滑壘撞飛、骨牌……輪流換，不每次都打架；主角用這年紀愛的原創角色（調皮小老鼠、豬探長、浣熊花生、拉布拉多警長、機器人、大怪獸、賽車、恐龍……），卡司與套路照字輪轉；唸出的詞彙在畫面上有對應的東西；無真人、兒童或任何品牌授權角色。",
   "scenePolicy": "CAST AND PRESENTATION: Use stylized animated characters and objects only — toy figures and action figures, toy robots, cartoon animals and creatures, toy vehicles, building bricks, expressive objects and abstract shapes. Give the lead a real personality and let it act, react and fail before it succeeds. Never show real people, realistic human figures, children, or a live-action presenter; a human-shaped lead must read unmistakably as a toy figure or cartoon character, not as a person. Never depict, name or imitate any real-world branded, licensed or copyrighted character, franchise, mascot, logo or signature costume — invent an original character in the requested archetype instead. Narration is off-screen only; do not show a presenter. Omit audience age, gender and demographic descriptions from the final video prompt.",
   "constraints": [
     "Exactly 8 seconds long, single continuous shot.",
@@ -14,14 +14,14 @@
   "audio": "Audio: a warm, friendly off-screen voice speaks in clear Taiwanese Mandarin. First pronounce the target character \"{char}\" twice with a short pause between each utterance, then say ONE simple everyday word containing that exact character once. The spoken sequence is: character, character, word. {wordChoice} Use the same reading and meaning of the target as taught in this clip; the target character may appear anywhere in the word. PRONUNCIATION SAFETY: a video model often misreads polyphonic characters, so pick a word in which every character other than the target has only one common reading (avoid 長、行、樂、重、了、得、著、數、還、都、好、為、參、落、降、度、調、傳、種、模 and similar), and never use a word whose reading differs by region. Use Taiwan standard (教育部) readings and Taiwanese Mandarin habits — no Mainland readings, no erhua (兒化) endings, no pinyin-style neutral-tone shortcuts. Write the spoken line in the prompt WITH Zhuyin for every syllable, e.g. 人、人、機器人 (ㄖㄣˊ、ㄖㄣˊ、ㄐㄧ ㄑㄧˋ ㄖㄣˊ), and tell the voice to read exactly those syllables, with clear tones, slowly and distinctly. For example, for 人 the entire spoken line is \"人、人、機器人\"; for 木 it is \"木、木、木頭\". Stop after the word: do not keep chanting the isolated character or repeat the whole line. Include the exact chosen spoken line in Traditional Chinese in the video prompt, not just an instruction to choose a word. SPEECH-TO-PICTURE MATCH: the chosen word must be visibly echoed on screen. Stage the three utterances so each has something happening in the picture — the first utterance lands as the build begins, the second as the strokes snap into place, and the word is spoken exactly as the lead acts it out or the thing it names pops into view (an animated object, creature or gesture the word describes, never written text). The lead may react with a happy sound-free gesture, but no extra dialogue. Fit all three utterances naturally within the 8 seconds without rushing; keep the finished glyph clearly visible when the word is spoken. The vocabulary word is audio only: keep only the single target glyph as text on screen, with no vocabulary text or subtitles. No extra spoken explanation, English translation, or background music louder than the voice.",
   "styleRules": [
     {
-      "id": "visual-comedy",
-      "text": "Build one clear, physical, laugh-out-loud gag into the teaching action — slapstick a six-year-old can follow without words. Let the lead try, fail in a silly way, react, and only then let the glyph come together. Good material: trying far too hard and overshooting, a prop that fights back, an absurd size mismatch, a double-take, a pile-up that collapses, an object reacting with comic surprise. Use a readable setup, a brief anticipation pause, and one big funny payoff before the final glyph hold. Tie the joke to this glyph's shape or meaning, make it different from the other clips in the library, and describe the actual comic action rather than calling it funny. Keep it warm and silly: no injury, fear, humiliation or loud startling sounds. The joke must not distort the final strokes, interrupt narration, or eat into the final 3-second clear hold.",
-      "reason": "預設：讓 6 歲孩子笑出聲的具體肢體笑點，每支都要不一樣",
+      "id": "clear-physical-gag",
+      "text": "CLEAR PHYSICAL COMEDY: build the whole clip around ONE big, easy-to-read physical gag — a charge, a crash, a chase, a friendly duel, a launch, a tumble — that a six-year-old can follow without a single word. Arrange it plainly: (1) in the first second show who the lead is and what it wants (it stares at the goal, points, or visibly winds up); (2) one try that goes wrong in a bigger, sillier way; (3) ONE big impact — a BONK, SPLAT, CRASH or pile-up — with cartoon squash-and-stretch, a wobble and a dazed grin, and the pieces shaken loose by that impact land as the strokes of the glyph; (4) a tiny victory pose or one more small bump at the very end. Keep staging simple: only two or three things on screen, the lead moving clearly across the frame (left to right, or toward the camera), big readable motion and poses, nothing busy behind. Describe the actual comic action beat by beat instead of calling it funny. Keep it warm and harmless: cartoon bonks only, nobody gets hurt, scared or humiliated, no loud startling sounds.",
+      "reason": "預設：孩子最容易懂、最會笑的是看得清楚的衝撞追打；安排要一眼看懂誰想幹嘛、哪裡出錯、哪一下撞上",
       "enabled": true
     },
     {
       "id": "constant-change",
-      "text": "Never let the picture sit still: something new and different must happen roughly every 1.5 to 2 seconds — a new action, a new gag escalation, a new reaction, a new thing arriving — so a restless six-year-old always has a reason to keep watching. Build the clip as an escalating chain of 4 distinct moments (try, twist, bigger twist, payoff), each visibly unlike the last, rather than one long slow transformation. Vary the speed and rhythm between moments (a quick dash, a beat of silence, a big bounce). During the final 3-second hold the glyph itself stays perfectly still and readable, but the lead keeps living — a proud pose, a tiny dance, a happy wobble, a sidelong glance — without covering or touching the strokes.",
+      "text": "Never let the picture sit still: something new must happen roughly every 1.5 to 2 seconds — a new action, a bigger run-up, a new reaction, a new thing arriving — so a restless six-year-old always has a reason to keep watching. Build the clip as an escalating chain of 4 distinct moments (want it, try and miss, the big crash, the payoff), each visibly unlike the last, never one long slow transformation. Vary the rhythm: a quick dash, a frozen beat of anticipation before the hit, a big bounce after. During the final 3-second hold the glyph itself stays perfectly still and readable, but the lead keeps living — a proud pose, a wobbly dizzy stagger, a tiny dance, a sidelong glance — without covering or touching the strokes.",
       "reason": "預設：6 歲孩子需要持續有新東西看，不是慢慢變形再乾等定格",
       "enabled": true
     },
@@ -47,24 +47,69 @@
   "outputTemplate": "【目標國字】：{char}\n【設計概念】：{concept}\n【8s Video Prompt】:\n```text\n{prompt}\n```",
   "castRoster": [
     {
-      "id": "detective-pig",
-      "zh": "豬探長",
-      "text": "a stout cartoon detective pig in a checked deerstalker hat, carrying a magnifying glass far too big for him"
+      "id": "cheeky-mouse",
+      "zh": "調皮小老鼠",
+      "text": "a tiny cheeky cartoon mouse (an original design) with big round ears, lightning fast, forever one step ahead of whoever is chasing it and always grinning about it"
     },
     {
-      "id": "toy-warrior",
-      "zh": "玩具戰士",
-      "text": "a chunky toy warrior with a foam sword and a round shield, all bravado and very little skill"
+      "id": "detective-pig",
+      "zh": "豬探長",
+      "text": "a stout cartoon detective pig in a checked deerstalker hat, carrying a magnifying glass far too big for him, who charges toward every clue at full speed"
+    },
+    {
+      "id": "raccoon-peanut",
+      "zh": "浣熊助手花生",
+      "text": "a cartoon raccoon sidekick named Peanut, always carrying a wobbling stack of things far too tall for him and saluting at the wrong moment"
+    },
+    {
+      "id": "labrador-sheriff",
+      "zh": "拉布拉多警長",
+      "text": "a big friendly cartoon Labrador sheriff dog with a star badge and a whistle, who charges in to keep order and skids straight past the trouble"
     },
     {
       "id": "toy-robot",
       "zh": "玩具機器人",
-      "text": "a boxy toy robot built from mismatched parts, one arm noticeably longer than the other"
+      "text": "a boxy toy robot built from mismatched parts, one arm noticeably longer than the other, whose motors always run a little too strong"
+    },
+    {
+      "id": "big-monster",
+      "zh": "大怪獸",
+      "text": "a huge round fuzzy cartoon monster with one horn and a goofy grin, far clumsier than scary, who knocks things over just by turning around"
     },
     {
       "id": "race-car",
       "zh": "賽車",
-      "text": "a squeaky pull-back toy race car with googly eyes that always overshoots its target"
+      "text": "a squeaky pull-back toy race car with googly eyes that always overshoots its target and crashes into things nose first"
+    },
+    {
+      "id": "rubber-dino",
+      "zh": "橡膠恐龍",
+      "text": "a rubber dinosaur with enormous feet and comically tiny arms that cannot reach anything, so it uses its whole body instead"
+    },
+    {
+      "id": "caped-hero",
+      "zh": "披風英雄",
+      "text": "a caped action-figure hero whose cape is three sizes too long and keeps flopping over his own head mid-flight"
+    },
+    {
+      "id": "felt-ninja",
+      "zh": "布忍者",
+      "text": "a tiny felt ninja who is spectacularly bad at hiding, convinced nobody can see him, and whose smoke bombs go off at the wrong time"
+    },
+    {
+      "id": "toy-warrior",
+      "zh": "玩具戰士",
+      "text": "a chunky toy warrior with a foam sword and a round shield, all bravado and very little skill, who swings so hard he spins himself around"
+    },
+    {
+      "id": "toy-shark",
+      "zh": "發條鯊魚",
+      "text": "a chunky wind-up toy shark that chomps at everything and always bites the wrong thing, then spins in a circle on dry land"
+    },
+    {
+      "id": "toy-pirate",
+      "zh": "玩具海盜",
+      "text": "a barrel-shaped toy pirate with a parrot that flatly refuses to cooperate and lands on the worst possible spot"
     },
     {
       "id": "building-bricks",
@@ -72,71 +117,33 @@
       "text": "a squad of interlocking building bricks that march, stack themselves and topple at the worst possible moment"
     },
     {
-      "id": "caped-hero",
-      "zh": "披風英雄",
-      "text": "a caped action-figure hero whose cape is three sizes too long and keeps flopping over his own head"
+      "id": "fire-crew",
+      "zh": "消防小隊",
+      "text": "a chunky toy fire engine and its crew, with a hose that has a mind of its own and blasts whoever is holding it"
     },
     {
-      "id": "capsule-creature",
-      "zh": "扭蛋小怪獸",
-      "text": "a round fuzzy pocket creature toy that bursts out of a gachapon capsule and bounces off everything"
-    },
-    {
-      "id": "rubber-dino",
-      "zh": "橡膠恐龍",
-      "text": "a rubber dinosaur with enormous feet and comically tiny arms that cannot reach anything"
+      "id": "little-alien",
+      "zh": "小外星人",
+      "text": "a small green cartoon alien in a toy flying saucer whose tractor beam keeps picking up the wrong thing, including itself"
     },
     {
       "id": "astronaut",
       "zh": "太空人玩偶",
-      "text": "a bouncy astronaut toy in a fishbowl helmet who keeps drifting off the ground at the wrong moment"
-    },
-    {
-      "id": "felt-ninja",
-      "zh": "布忍者",
-      "text": "a tiny felt ninja who is spectacularly bad at hiding and is convinced nobody can see him"
-    },
-    {
-      "id": "toy-pirate",
-      "zh": "玩具海盜",
-      "text": "a barrel-shaped toy pirate with a parrot that flatly refuses to cooperate"
-    },
-    {
-      "id": "chef-animal",
-      "zh": "廚師動物",
-      "text": "a rotund cartoon chef animal in a tall hat, flinging dough with far more confidence than accuracy"
-    },
-    {
-      "id": "magician-rabbit",
-      "zh": "兔子魔術師",
-      "text": "a cartoon magician rabbit in a top hat whose tricks always misfire in a harmless, funnier way"
-    },
-    {
-      "id": "fire-crew",
-      "zh": "消防小隊",
-      "text": "a chunky toy fire engine and its crew, with a hose that has a mind of its own"
-    },
-    {
-      "id": "windup-band",
-      "zh": "發條樂團",
-      "text": "a wind-up animal band whose instruments clash, honk and topple over in sequence"
-    },
-    {
-      "id": "lab-mouse",
-      "zh": "科學家老鼠",
-      "text": "a bespectacled cartoon lab mouse among bubbling beakers that fizz over on cue"
+      "text": "a bouncy astronaut toy in a fishbowl helmet who keeps drifting off the ground at the wrong moment and bonking into things"
     }
   ],
   "gagPlaybook": [
-    "OVERSHOOT: the lead rushes at the job with far too much power, flies past, skids back, and only the second, gentler try works.",
-    "PROP FIGHTS BACK: the tool or prop has its own opinion and keeps doing the wrong thing until the lead outsmarts it.",
-    "SIZE MISMATCH: something is comically too big or too tiny, and the lead has to improvise with it.",
-    "DOMINO PILE-UP: one small bump sets off a chain of tumbling pieces that, by luck, land as the glyph.",
-    "HIDE AND PEEK: parts of the glyph keep sneaking in from the edges and playfully dodging the lead before settling.",
-    "COPYCAT: a second small thing mimics everything the lead does one beat late, causing a harmless mix-up.",
-    "TUG-OF-WAR: two sides pull the pieces in opposite directions until they spring together into place.",
-    "SURPRISE POP: something bursts out of a capsule, box or hat, and the lead gets a double-take before carrying on.",
-    "WRONG-THEN-RIGHT: the lead proudly builds a silly wrong shape first, notices, shrugs, and fixes it in one quick move.",
-    "BOUNCE CHAIN: a bouncing, rolling or sliding thing ricochets around the frame and each hit drops one stroke into place."
+    "CHARGE AND CRASH: the lead spots its goal far across the frame, digs in its feet, leans way back in a visible wind-up, then charges at full speed — straight into a wall, a door or a giant object with a big squashy BONK; the pieces shaken loose by the crash drop into place as the glyph while the lead wobbles out flattened, with a dizzy grin.",
+    "CHASE: a small quick thing (a runaway snack, an escaping stroke-piece, a tiny rival) zips around the frame while the lead chases it in bigger and bigger loops, skidding round corners and tripping over its own feet, until the lead catches it with a flying leap and a belly-flop; the skid trails and tumbling pile settle as the glyph.",
+    "FRIENDLY DUEL: the lead and a rival square off like a cartoon showdown — foam swords, pillows, water balloons or a sumo bump of bellies; each swing has a huge wind-up and misses, both spin around from the momentum, then bump heads with a BOINK and sit down dazed; the things knocked out of their hands land as the glyph and they shake hands at the end.",
+    "TUG-OF-WAR: the lead and a rival grab the two ends of something and pull, leaning further and further back with feet skidding and faces turning red, until it suddenly stretches or lets go and both fly backwards onto their bottoms; the released pieces spring into place as the glyph.",
+    "LAUNCH: the lead is loaded onto a catapult, springboard or toy cannon, counts down with a drumroll pose, and is launched across the frame in a huge arc — flies right past the target, bounces off the far side and lands upside-down in a bucket; everything knocked loose along the way settles as the glyph.",
+    "STACK AND TOPPLE: the lead piles things higher and higher, balancing on tiptoe, the tower swaying wider with every piece; one tiny extra piece goes on top — pause — and the whole stack comes down in a tumbling heap that lands as the glyph, burying the lead with only its eyes poking out.",
+    "BELLY SLIDE PILE-UP: the lead takes a long run-up, dives onto its belly and slides across the slippery floor like a bowling ball, knocking over a whole row of rivals or objects like bowling pins; they tumble, spin and land in a heap that forms the glyph, and the lead pops up at the end with a strike pose.",
+    "BOUNCE CHAIN: the lead (or a ball it kicked) bounces and ricochets wildly around the frame — floor, wall, ceiling, a rival's head — and every hit knocks one stroke into place with a satisfying clack; the last bounce drops the lead sitting proudly on top of the finished glyph.",
+    "TOO MUCH POWER: the lead winds up with enormous effort for a tiny job (pressing a small button, closing a lid, patting a thing), rockets straight past it and skids back with smoking feet; the gentle second tap works, and the chaos from the overshoot has left the strokes lying exactly in place.",
+    "BIG VERSUS TINY: a huge rival blusters, flexes and charges at the tiny lead; the tiny one simply steps aside or gives one little poke, and the big one topples over like a falling tree with a THUMP that shakes the strokes into place; the tiny lead stands on its belly in a victory pose.",
+    "SNEAK AND SURPRISE: the lead tiptoes with exaggerated high steps to grab something while a guard dozes; every step squeaks, it almost makes it — then the guard wakes up, both scream face to face, and the panicked scramble and collision scatter the pieces into the glyph.",
+    "DOMINO CHAIN: one small bump from the lead sets off a chain reaction — a row of things falling one after another, faster and faster, each knocking the next — ending with the lead itself being flipped into the air and landing on the last spot as the glyph completes; the lead gives a surprised thumbs-up."
   ]
 }
