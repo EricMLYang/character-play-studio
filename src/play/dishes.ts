@@ -42,6 +42,23 @@ export function pickDecoy(target: string, known: string[], everyone: string[], r
   return from[Math.floor(random() * from.length)]
 }
 
+/**
+ * 點錯的字這一輪再上一次：隔兩道菜再考（後面菜不夠就排最後），他剛看過答案、隔一下再自己找一次才記得住。
+ * 至少要隔一道：馬上再考只是照著剛剛的答案點。最後一道點錯、或一個字已經上過兩次，就留給下一輪（記住程度已經排今天再考）。
+ */
+export function requeue(queue: string[], at: number, char: string, gap = 2) {
+  if (queue.filter((c) => c === char).length >= 2 || at + 1 >= queue.length) return queue
+  const i = Math.min(at + 1 + gap, queue.length)
+  return [...queue.slice(0, i), char, ...queue.slice(i)]
+}
+
+/** 這一輪的結算：自己找對過的字（有一次沒點錯就算），跟每次都要提示才吃到、該回去再看看的字。 */
+export function recap(served: { char: string; ok: boolean }[]) {
+  const good = [...new Set(served.filter((s) => s.ok).map((s) => s.char))]
+  const again = [...new Set(served.filter((s) => !s.ok && !good.includes(s.char)).map((s) => s.char))]
+  return { good, again }
+}
+
 /** 認得幾個字：至少有一次第一次就找對、而且還沒退回原點的字。 */
 export const knownCount = (progress: Progress) => Object.values(progress.recall || {}).filter((r) => r.box > 0).length
 

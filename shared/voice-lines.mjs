@@ -18,6 +18,7 @@ export const LINES = {
 export const FIXED_LINES = {
   feedHungry: '我肚子好餓喔！',
   feedFull: '我吃飽了！謝謝你！',
+  feedRecap: '我吃到了這些字！',
 }
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */

@@ -6,5 +6,5 @@ export const LINES: {
   feedAsk: (char: string) => string
   feedNotThis: (char: string) => string
 }
-export const FIXED_LINES: Record<'feedHungry' | 'feedFull', string>
+export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap', string>
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

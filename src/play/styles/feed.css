@@ -10,6 +10,8 @@
 .feed-plate { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #fff; font-size: 28px;
   box-shadow: inset 0 0 0 4px #F2E6DA, 0 3px 0 rgba(0,0,0,.06); }
 .feed-plate.done { animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+/* 點錯後再上一次的那道：虛線盤子 */
+.feed-plate.encore { box-shadow: inset 0 0 0 3px #F2E6DA, 0 0 0 2px #fff, 0 0 0 4px #F5C9D8; }
 
 .feed-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(300px, 1fr) minmax(0, 1.2fr); gap: 20px; padding: 0 28px 14px;
   --fly-x: -38vw; --fly-y: -4vh; }
@@ -50,20 +52,32 @@
 .feed-card-emoji { font-size: min(9vh, 7vw, 64px); line-height: 1; }
 /* 再提示一次：正確的那張發亮 */
 .feed-card.hint { box-shadow: 0 0 0 6px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 40px rgba(255,197,61,.8); animation: breathe 1s ease-in-out infinite; }
-/* 飛進怪獸嘴巴 */
-.feed-card.flying { animation: flyIn .6s cubic-bezier(.5,0,.8,.4) forwards; }
+/* 找對了：卡片上變出圖，另一張退場 */
+.feed-card.got { animation: none; transform: scale(1.06); box-shadow: 0 0 0 6px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 40px rgba(255,197,61,.6); }
+.feed-card.got .feed-card-emoji { font-size: min(14vh, 10vw, 104px); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.feed-card.got .feed-card-char { font-size: min(11vh, 8vw, 80px); }
+.feed-card.gone { animation: none; opacity: 0; transform: scale(.85); }
+/* 怪獸把圖吃掉：圖飛進嘴巴，卡片淡掉 */
+.feed-card.eaten { transform: none; background: transparent; box-shadow: none; transition: background .3s, box-shadow .3s; }
+.feed-card.eaten .feed-card-char { opacity: 0; transition: opacity .25s; }
+.feed-card.eaten .feed-card-emoji { animation: flyIn .6s cubic-bezier(.5,0,.8,.4) forwards; }
+.feed-pick { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.feed-got-word { padding: 8px 18px; border-radius: 999px; background: #fff; font-family: var(--kai); font-size: 30px; font-weight: 700;
+  box-shadow: 0 4px 0 rgba(0,0,0,.08); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) .15s both; }
 
 .feed-reveal { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
-.feed-reveal-emoji { font-size: min(22vh, 16vw, 160px); line-height: 1.1; animation: dropIn .6s both; }
-.feed-reveal-char { font-family: var(--kai); font-size: min(14vh, 10vw, 100px); line-height: 1; }
-.feed-reveal-word { padding: 8px 18px; border-radius: 999px; background: #fff; font-family: var(--kai); font-size: 30px; font-weight: 700;
-  box-shadow: 0 4px 0 rgba(0,0,0,.08); }
 .feed-done { gap: 14px; }
 .feed-done-title { margin: 0; font-size: 22px; font-weight: 800; }
 .feed-done-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .feed-done-char { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 84px; height: 92px; justify-content: center; border-radius: 22px;
   background: #fff; font-family: var(--kai); font-size: 40px; font-weight: 700; line-height: 1; box-shadow: 0 5px 0 rgba(0,0,0,.1); }
 .feed-done-char span { font-family: var(--ui); font-size: 24px; }
+.feed-done-char { animation: pop .4s cubic-bezier(.2,1.7,.4,1) backwards; transition: transform .2s cubic-bezier(.2,1.7,.4,1), box-shadow .2s; }
+/* 怪獸正在唸的那個字：跳起來發亮 */
+.feed-done-char.reading { transform: translateY(-8px) scale(1.18); box-shadow: 0 0 0 5px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 30px rgba(255,197,61,.7); }
+/* 靠提示才吃到的字：不唸、不排名，只是放在旁邊讓他點去再看一次 */
+.feed-review { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 700; color: #8a7a6c; }
+.feed-review-char { width: 48px; height: 48px; border-radius: 16px; background: #F4EEE7; font-family: var(--kai); font-size: 28px; font-weight: 700; color: var(--ink); }
 .feed-tip { text-align: center; padding: 0 16px calc(12px + env(safe-area-inset-bottom)); }
 
 .feed-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; text-align: center;
@@ -87,8 +101,8 @@
   .feed-cards { gap: 16px; }
   .feed-card { width: 40vw; height: 46vw; max-height: 30vh; border-radius: 26px; }
   .feed-card-char { font-size: min(30vw, 22vh); }
-  .feed-reveal-emoji { font-size: min(22vh, 30vw); }
-  .feed-reveal-char { font-size: min(12vh, 18vw); }
-  .feed-reveal-word { font-size: 24px; }
+  .feed-card.got .feed-card-emoji { font-size: min(22vw, 13vh); }
+  .feed-card.got .feed-card-char { font-size: min(18vw, 11vh); }
+  .feed-got-word { font-size: 24px; }
   .feed-done-char { width: 60px; height: 70px; font-size: 30px; }
 }

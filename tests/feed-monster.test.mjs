@@ -15,7 +15,7 @@ registerHooks({
 const { recall, RECALL_DAYS } = await import('../shared/domain.mjs')
 const { acceptEvent, applyEvent } = await import('../shared/play-events.mjs')
 const { setParts } = await import('../src/play/parts.ts')
-const { pickDishes, pickDecoy, looksAlike, knownCount } = await import('../src/play/dishes.ts')
+const { pickDishes, pickDecoy, looksAlike, knownCount, requeue, recap } = await import('../src/play/dishes.ts')
 
 // 2026-10-17 10:00 台灣時間
 const at = '2026-10-17T02:00:00Z'
@@ -88,4 +88,19 @@ test('the other card never looks like the one he is looking for', () => {
 test('he "knows" a character once it has climbed at least one level', () => {
   assert.equal(knownCount({ watched: {}, recall: { 火: { box: 1 }, 水: { box: 0 }, 山: { box: 3 } } }), 2)
   assert.equal(knownCount({ watched: {} }), 0)
+})
+
+test('a missed character comes back two dishes later, at most once more per round', () => {
+  const q = ['山', '水', '火', '木', '日']
+  assert.deepEqual(requeue(q, 0, '山'), ['山', '水', '火', '山', '木', '日'], 'two dishes in between')
+  assert.deepEqual(requeue(q, 3, '木'), ['山', '水', '火', '木', '日', '木'], 'near the end it goes last')
+  assert.equal(requeue(q, 4, '日'), q, 'right after the answer is just copying, so the last dish waits for the next round')
+  const twice = requeue(q, 0, '山')
+  assert.equal(requeue(twice, 3, '山'), twice, 'missing it again waits for the next round')
+})
+
+test('the recap only reads out what he found by himself', () => {
+  const served = [{ char: '山', ok: true }, { char: '水', ok: false }, { char: '火', ok: false }, { char: '水', ok: true }, { char: '火', ok: false }]
+  assert.deepEqual(recap(served), { good: ['山', '水'], again: ['火'] })
+  assert.deepEqual(recap([]), { good: [], again: [] })
 })
