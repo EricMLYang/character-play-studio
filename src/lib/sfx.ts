@@ -87,6 +87,32 @@ export function boom() {
   tone(0, 140, 40, 0.5, 'sine', 0.25)
   ;[1318.5, 1568, 2093, 1760, 2637].forEach((f, i) => tone(0.25 + i * 0.07, f, f, 0.18, 'triangle', 0.05))
 }
+/** 打哈欠：往下滑的長長一聲。 */
+export function yawn() {
+  tone(0, 520, 380, 0.35, 'sine', 0.08)
+  tone(0.3, 420, 180, 0.9, 'sine', 0.08)
+}
+/** 打呼：吸一口沙沙的氣，再呼嚕呼嚕吐出來。 */
+export function snore() {
+  noise(0, 0.5, 0.05)
+  tone(0.55, 95, 70, 0.7, 'sawtooth', 0.045)
+  tone(0.55, 190, 140, 0.7, 'sine', 0.03)
+}
+/** 超大的嗝：低低的、抖抖的。 */
+export function burp() {
+  ;[0, 0.07, 0.14, 0.21, 0.28].forEach((t, i) => tone(t, 130 - i * 8, 90 - i * 6, 0.1, 'sawtooth', 0.09))
+  noise(0, 0.35, 0.06)
+}
+/** 咻～飛上天：比 whoosh 長，帶一陣風聲。 */
+export function liftoff() {
+  noise(0, 0.7, 0.08)
+  tone(0, 300, 1600, 0.7, 'sine', 0.06)
+}
+/** 變身：一串往上爬的亮晶晶音階。 */
+export function magic() {
+  ;[523.25, 659.25, 783.99, 1046.5, 1318.5, 1568, 2093].forEach((f, i) => tone(i * 0.08, f, f, 0.3, 'triangle', 0.06))
+  tone(0.6, 1046.5, 2093, 0.5, 'sine', 0.05)
+}
 /** 丟進鍋子：噗通。 */
 export const plop = () => tone(0, 320, 140, 0.18, 'sine', 0.14)
 /** 攪一攪：一串往上冒的泡泡。 */

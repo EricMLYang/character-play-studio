@@ -12,7 +12,12 @@
     "dizzy": "Full body visible, sitting on the ground dizzy with swirly spiral eyes and tongue sticking out, head tilted",
     "surprised": "Full body visible, standing with mouth wide open in shock, both hands on cheeks, eyes huge",
     "roar": "Full body visible, standing with arms up and mouth wide open in a big silly roar, but looking more cute than scary",
-    "oops": "Full body visible, standing with an embarrassed sheepish grin, one hand scratching the head, shoulders shrugged, like saying oops I broke it"
+    "oops": "Full body visible, standing with an embarrassed sheepish grin, one hand scratching the head, shoulders shrugged, like saying oops I broke it",
+    "sleep": {
+      "seed": 4183,
+      "text": "Full body visible, sitting slumped on the ground fast asleep, BOTH eyes completely closed drawn as two peaceful downward curved lines, small round open mouth snoring, head drooping to one side, arms resting on its big round belly, no open eyes"
+    },
+    "stuffed": "Full body visible, standing with a very round overstuffed belly, both hands holding the belly, cheeks puffed out, eyes squeezed, about to burp"
   },
   "cutout": "birefnet-general"
 }

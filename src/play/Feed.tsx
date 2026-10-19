@@ -1,23 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, boom, cheer, drum, gulp, hic, inflate, tap } from '../lib/sfx'
+import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { BURST, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
 import { Confetti, SubBar } from './ui'
+import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 
 /**
  * 餵大怪獸：怪獸說「我要吃火！」，孩子從兩張只有字的卡片裡找出來餵牠。
  * 卡片上沒有圖、沒有顏色：要靠讀字，不是看圖。找對了，卡片上才變出圖，怪獸把那個圖吃掉，那是獎勵。
  * 找錯不是錯：怪獸說「這是水耶！」，翻開給他看那是什麼，再提示正確的那張，一定吃得到；
  * 這個字隔兩道菜會再上一次，讓他自己再找一次。
- * 自己找到的字會把肚子越撐越大，連續塞滿 BURST 個就「砰！」炸成星星和剛吃的東西，暈暈地縮回來再吃。
+ * 自己找到的字會把肚子越撐越大，塞滿 BURST 個就發生一件大事（爆炸、睡著、打嗝飛上天、變彩虹，見 finales.ts），再回來繼續吃。
  * 最後怪獸只把他自己找對的字一個一個唸出來，靠提示才吃到的放在旁邊「再去看看」。
  */
-type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'swell' | 'boom' | 'back' | 'recap' | 'full'
+type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'swell' | 'climax' | 'back' | 'recap' | 'full'
 
-const POSE: Record<Phase, string> = { hello: 'roar', ask: 'idle', oops: 'oops', got: 'surprised', chomp: 'surprised', yum: 'happy', swell: 'surprised', boom: 'surprised', back: 'dizzy', recap: 'happy', full: 'happy' }
+const POSE: Record<Phase, string> = { hello: 'roar', ask: 'idle', oops: 'oops', got: 'surprised', chomp: 'surprised', yum: 'happy', swell: 'stuffed', climax: 'surprised', back: 'dizzy', recap: 'happy', full: 'happy' }
 /** 這句話大概要唸多久（有音檔就用音檔長度），下一句才不會蓋掉它 */
 const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000
 /** 句子之間的空拍：固定長度，聽起來才有節奏 */
@@ -27,6 +28,10 @@ const REMIND_AFTER = 4500
 const REMINDERS = 2
 
 type Served = { char: string; ok: boolean }
+
+/** 結局袋子跨輪保留：再餵一次也不會馬上又是同一種 */
+let finaleBag: FinaleId[] = []
+let lastFinale: FinaleId | null = null
 
 export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   library: CharEntry[]
@@ -54,6 +59,8 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const [belly, setBelly] = useState(0)
   /** 爆炸時噴出來的東西：剛剛吃下去的那幾個圖 */
   const [burst, setBurst] = useState<string[]>([])
+  /** 這次撐滿演哪一種 */
+  const [finale, setFinale] = useState<FinaleId>('boom')
   /** 結算時正在唸第幾個字 */
   const [reading, setReading] = useState(-1)
   const recorded = useRef(new Set<string>())
@@ -116,7 +123,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   // 一進來先喊肚子餓，再點第一道菜
   useEffect(() => {
     if (!dishes.length) return
-    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, FIXED_LINES.feedSwell, FIXED_LINES.feedBoom, FIXED_LINES.feedAgain, ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
+    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, ...FINALE_IDS.flatMap((id) => [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]), ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
     recorded.current = new Set()
     setQueue(dishes)
     setServed([])
@@ -148,14 +155,18 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
       later(() => { setServed(all); setBelly(fill.boom ? BURST : fill.belly); setPhase('yum') }, t)
       t += 900
       if (!fill.boom) { later(next, t); return }
-      // 塞滿了：肚子越脹越大、發抖 → 砰！噴出星星和剛吃的東西 → 暈暈地縮回原本大小
+      // 塞滿了：抽一種結局。撐得發抖 → 大事發生（爆炸／睡著／飛上天／變彩虹）→ 縮回原本大小，再繼續吃
+      const pickd = pickFinale(finaleBag, lastFinale)
+      finaleBag = pickd.bag
+      lastFinale = pickd.id
+      const f = FINALES[pickd.id]
       const eaten = all.filter((s) => s.ok).slice(-BURST).map((s) => byChar.get(s.char)?.emoji || '✨')
-      later(() => { setPhase('swell'); inflate(); say(FIXED_LINES.feedSwell, 0.8) }, t)
-      t += Math.max(1200, lasts(FIXED_LINES.feedSwell) + 200)
-      later(() => { setBurst(eaten); setBelly(0); setPhase('boom'); boom(); say(FIXED_LINES.feedBoom, 0.8) }, t)
-      t += 1300
-      later(() => { setPhase('back'); say(FIXED_LINES.feedAgain, 0.8) }, t)
-      t += lasts(FIXED_LINES.feedAgain) + BEAT
+      later(() => { setFinale(pickd.id); setPhase('swell'); f.swellSfx(); say(f.swell, 0.8) }, t)
+      t += Math.max(1200, lasts(f.swell) + 200)
+      later(() => { setBurst(eaten); setBelly(0); setPhase('climax'); f.climaxSfx(later); say(f.climax, 0.8) }, t)
+      t += Math.max(f.climaxMs, lasts(f.climax) + 300)
+      later(() => { setPhase('back'); say(f.back, 0.8) }, t)
+      t += lasts(f.back) + BEAT
       later(next, t)
       return
     }
@@ -192,6 +203,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   }
 
   const { good, again: review } = recap(served)
+  const pose = phase === 'swell' || phase === 'climax' || phase === 'back' ? FINALES[finale].pose[phase] : POSE[phase]
   const done = phase === 'recap' || phase === 'full'
   /** 這道是剛剛點錯、再上一次的字 */
   const encore = queue.indexOf(target) < at
@@ -207,8 +219,8 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
         ))}
       </div>
 
-      <div className={`feed-main phase-${phase}` + (belly === BURST - 1 ? ' nearly' : '')}>
-        <section className="feed-stage" aria-live="polite">
+      <div className={`feed-main phase-${phase} finale-${finale}` + (belly === BURST - 1 ? ' nearly' : '')}>
+        <section className="feed-stage" aria-live="polite" style={{ ['--belly' as any]: belly / BURST }}>
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
             {phase === 'ask' && (
@@ -220,27 +232,18 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
             {phase === 'got' && '哇！'}
             {phase === 'chomp' && '啊嗚～'}
             {phase === 'yum' && (belly >= BURST ? '我的肚子…' : '好好吃！')}
-            {phase === 'swell' && '肚子好撐喔…'}
-            {phase === 'boom' && '砰！'}
-            {phase === 'back' && '好好玩！我還要吃！'}
+            {(phase === 'swell' || phase === 'climax' || phase === 'back') && FINALES[finale][phase]}
             {phase === 'recap' && (reading >= 0 ? <>「<b>{good[reading]}</b>」！</> : '我吃到了這些字！')}
             {phase === 'full' && '我吃飽了！謝謝你！'}
           </div>
-          <img className="feed-monster" src={`/hero/monster/${POSE[phase]}.png`} alt="大怪獸"
-            style={{ ['--belly' as any]: belly / BURST }} />
-          {phase === 'boom' && (
-            <div className="feed-burst" aria-hidden>
-              {[...burst, '⭐', '✨', '💥', ...burst, '⭐', '✨', '🌟', ...burst, '⭐', '💫'].map((e, i, list) => (
-                <span key={i} style={{ ['--a' as any]: `${(i * 360) / list.length}deg`, ['--d' as any]: `${130 + (i % 3) * 45}px` }}>{e}</span>
-              ))}
-            </div>
-          )}
+          <img className="feed-monster" src={`/hero/monster/${pose}.png`} alt="大怪獸" />
+          {phase === 'climax' && <FinaleFx id={finale} eaten={burst} />}
           <div className={'feed-belly' + (belly === BURST - 1 ? ' nearly' : '')} aria-label={`肚子裡有 ${belly} 個字，${BURST} 個就會爆炸`} role="img">
             {Array.from({ length: BURST }, (_, i) => <span key={i} className={i < belly ? 'full' : ''} />)}
           </div>
           {/* 預先載入其他表情，換的時候不會閃 */}
           <span className="feed-preload" aria-hidden>
-            {[...new Set(Object.values(POSE))].map((p) => <img key={p} src={`/hero/monster/${p}.png`} alt="" />)}
+            {[...new Set([...Object.values(POSE), ...FINALE_IDS.flatMap((id) => Object.values(FINALES[id].pose))])].map((p) => <img key={p} src={`/hero/monster/${p}.png`} alt="" />)}
           </span>
         </section>
 
@@ -273,7 +276,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
               )}
               {phase === 'full' && good.length > 0 && <Confetti />}
             </div>
-          ) : ['yum', 'swell', 'boom', 'back'].includes(phase) ? null : (
+          ) : ['yum', 'swell', 'climax', 'back'].includes(phase) ? null : (
             <div className="feed-pick">
               <div className="feed-cards">
                 {options.map((c) => {
@@ -300,6 +303,41 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
       </div>
       {phase === 'ask' && !missed && at === 0 && <p className="game-hint feed-tip">聽聽看牠要吃哪個字，點那一張餵牠！</p>}
       {phase === 'ask' && encore && !missed && <p className="game-hint feed-tip">剛剛那個字又來了，這次自己找找看！</p>}
+    </div>
+  )
+}
+
+/** 大事發生那一拍的畫面效果：每種結局各自一組，樣式在 feed.css 的 .feed-fx-<id> */
+function FinaleFx({ id, eaten }: { id: FinaleId; eaten: string[] }) {
+  if (id === 'boom') {
+    const bits = [...eaten, '⭐', '✨', '💥', ...eaten, '⭐', '✨', '🌟', ...eaten, '⭐', '💫']
+    return (
+      <div className="feed-fx feed-fx-boom" aria-hidden>
+        {bits.map((e, i) => <span key={i} style={{ ['--a' as any]: `${(i * 360) / bits.length}deg`, ['--d' as any]: `${180 + (i % 3) * 60}px` }}>{e}</span>)}
+      </div>
+    )
+  }
+  if (id === 'sleep') {
+    return (
+      <div className="feed-fx feed-fx-sleep" aria-hidden>
+        <span className="moon">🌙</span>
+        {['⭐', '✨', '⭐', '✨', '⭐'].map((e, i) => <span key={i} className="star" style={{ ['--i' as any]: i }}>{e}</span>)}
+        {['z', 'Z', 'Z', 'z', 'Z'].map((e, i) => <span key={i} className="zzz" style={{ ['--i' as any]: i }}>{e}</span>)}
+      </div>
+    )
+  }
+  if (id === 'rocket') {
+    return (
+      <div className="feed-fx feed-fx-rocket" aria-hidden>
+        {Array.from({ length: 7 }, (_, i) => <span key={i} className="puff" style={{ ['--i' as any]: i }}>💨</span>)}
+        {eaten.map((e, i) => <span key={`e${i}`} className="crumb" style={{ ['--i' as any]: i }}>{e}</span>)}
+      </div>
+    )
+  }
+  return (
+    <div className="feed-fx feed-fx-rainbow" aria-hidden>
+      <span className="arc" />
+      {Array.from({ length: 12 }, (_, i) => <span key={i} className="spark" style={{ ['--i' as any]: i }}>{['✨', '🌟', '💖', '⭐'][i % 4]}</span>)}
     </div>
   )
 }

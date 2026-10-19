@@ -119,3 +119,21 @@ test('the belly fills only with characters he found himself, and bursts when ful
   assert.deepEqual(fillBelly(2, false), { belly: 2, boom: false })
   assert.deepEqual(fillBelly(BURST - 1, true), { belly: 0, boom: true })
 })
+
+test('every finale shows up once before any repeats, and never twice in a row', async () => {
+  const { pickFinale, FINALE_IDS, FINALES } = await import('../src/play/finales.ts')
+  const { FIXED_LINES } = await import('../shared/voice-lines.mjs')
+  let bag = [], last = null
+  const seen = []
+  for (let i = 0; i < FINALE_IDS.length * 5; i++) {
+    const r = pickFinale(bag, last, Math.random)
+    assert.notEqual(r.id, last)
+    seen.push(r.id); bag = r.bag; last = r.id
+  }
+  for (let round = 0; round < 5; round++) {
+    assert.deepEqual([...new Set(seen.slice(round * 4, round * 4 + 4))].sort(), [...FINALE_IDS].sort())
+  }
+  // 台詞都要預先做音檔
+  const fixed = new Set(Object.values(FIXED_LINES))
+  for (const id of FINALE_IDS) for (const line of [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]) assert.ok(fixed.has(line), line)
+})

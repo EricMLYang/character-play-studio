@@ -23,6 +23,18 @@ export const FIXED_LINES = {
   feedSwell: '肚子好撐喔…',
   feedBoom: '砰！',
   feedAgain: '好好玩！我還要吃！',
+  /** 吃太飽睡著 */
+  feedSleepy: '吃得好飽…好想睡喔…',
+  feedSnore: '呼…呼…',
+  feedWake: '我睡飽了！還要吃！',
+  /** 打嗝飛上天 */
+  feedBloat: '肚子好脹喔…',
+  feedBurp: '嗝～！',
+  feedFly: '哇！我飛上天又掉下來了！',
+  /** 變成彩虹怪獸 */
+  feedWarm: '肚子熱熱的…',
+  feedMagic: '變！',
+  feedRainbow: '我變成彩虹怪獸了！',
 }
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */
