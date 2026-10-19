@@ -54,6 +54,39 @@ export function cheer() {
 }
 /** 打一下小鼓：點菜前咚咚兩聲，讓孩子知道要聽了。 */
 export const drum = () => tone(0, 190, 80, 0.16, 'sine', 0.2)
+/** 肚子越脹越大：往上拉的嗚～ */
+export function inflate() {
+  tone(0, 160, 520, 0.9, 'sine', 0.1)
+  tone(0.05, 240, 780, 0.85, 'triangle', 0.04)
+}
+/** 一陣白噪音：爆炸的「砰」靠它才有沙沙的質感。 */
+function noise(delay: number, dur: number, peak: number) {
+  try {
+    const ac = audioContext()
+    if (!ac) return
+    const at = ac.currentTime + delay
+    const buffer = ac.createBuffer(1, Math.ceil(ac.sampleRate * dur), ac.sampleRate)
+    const data = buffer.getChannelData(0)
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length)
+    const src = ac.createBufferSource()
+    const filter = ac.createBiquadFilter()
+    const gain = ac.createGain()
+    src.buffer = buffer
+    filter.type = 'lowpass'
+    filter.frequency.setValueAtTime(1800, at)
+    filter.frequency.exponentialRampToValueAtTime(200, at + dur)
+    gain.gain.setValueAtTime(peak, at)
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + dur)
+    src.connect(filter).connect(gain).connect(ac.destination)
+    src.start(at)
+  } catch { /* 沒有音效也要能繼續玩 */ }
+}
+/** 肚子撐爆：低低的砰，接一串亮晶晶的星星聲。 */
+export function boom() {
+  noise(0, 0.6, 0.22)
+  tone(0, 140, 40, 0.5, 'sine', 0.25)
+  ;[1318.5, 1568, 2093, 1760, 2637].forEach((f, i) => tone(0.25 + i * 0.07, f, f, 0.18, 'triangle', 0.05))
+}
 /** 丟進鍋子：噗通。 */
 export const plop = () => tone(0, 320, 140, 0.18, 'sine', 0.14)
 /** 攪一攪：一串往上冒的泡泡。 */

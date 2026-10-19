@@ -17,17 +17,41 @@
   --fly-x: -38vw; --fly-y: -4vh; }
 .feed-stage { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 0; }
 
-/* 怪獸：平常輕輕晃，吃越多肚子越大 */
+/* 怪獸：平常輕輕晃，自己找到的字越多肚子越大（--belly 0 → 1，塞滿就爆炸） */
 .feed-monster { width: min(46vh, 34vw); height: auto; max-height: 100%; min-height: 0; object-fit: contain;
   /* 肚子用 scale 屬性，跟 transform 的晃動動畫分開，兩個疊得起來 */
-  scale: calc(1 + var(--full, 0) * .16); transform-origin: bottom center; transition: scale .5s cubic-bezier(.2,1.7,.4,1);
+  scale: calc(1 + var(--belly, 0) * .42); transform-origin: bottom center; transition: scale .5s cubic-bezier(.2,1.7,.4,1), opacity .15s;
   animation: bob 1.6s ease-in-out infinite; pointer-events: none; user-select: none; }
 .phase-chomp .feed-monster { animation: chomp .35s ease-in-out 2; }
 .phase-oops .feed-monster { animation: wobble .5s ease-in-out 2; }
 .phase-yum .feed-monster, .phase-full .feed-monster { animation: boing .7s cubic-bezier(.2,1.6,.4,1) infinite; }
 .feed-preload { display: none; }
+/* 快撐爆了：點菜的時候也一直發抖 */
+.phase-ask.nearly .feed-monster, .phase-oops.nearly .feed-monster { animation: jiggle .45s ease-in-out infinite; }
+/* 撐爆前：再脹一大圈、越抖越兇 */
+.phase-swell .feed-monster { scale: 1.62; transition: scale 1.1s cubic-bezier(.3,0,.7,1); animation: tremble .09s linear infinite; }
+/* 砰！怪獸不見，畫面震一下 */
+.phase-boom .feed-monster { opacity: 0; scale: 1.9; transition: scale .12s, opacity .12s; animation: none; }
+.phase-boom .feed-stage { animation: shake .4s ease-out; }
+/* 縮回原本大小，暈暈的 */
+.phase-back .feed-monster { scale: 1; animation: popBack .6s cubic-bezier(.2,1.7,.4,1) both, wobble .6s ease-in-out .6s 2; }
 
-.feed-bubble { position: relative; min-height: 64px; display: flex; align-items: center; justify-content: center; white-space: nowrap; padding: 12px 22px; border-radius: 26px; background: #fff;
+/* 爆炸：一圈白光，再噴出星星和剛剛吃下去的東西 */
+.feed-burst { position: absolute; left: 50%; top: 58%; width: 0; height: 0; pointer-events: none; z-index: 3; }
+.feed-burst::before { content: ''; position: absolute; left: -60px; top: -60px; width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(#fff 30%, rgba(255,230,140,.9) 55%, rgba(255,200,80,0) 70%); animation: flash .5s ease-out forwards; }
+.feed-burst span { position: absolute; left: 0; top: 0; font-size: 40px; line-height: 1; translate: -50% -50%;
+  animation: fling 1.1s cubic-bezier(.15,.8,.3,1) forwards; }
+.feed-burst span:nth-child(3n) { font-size: 28px; animation-duration: 1.25s; }
+
+/* 肚子量表：自己找到一個字亮一格，亮滿就爆炸 */
+.feed-belly { display: flex; gap: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.7); position: relative; z-index: 2; }
+.feed-belly span { width: 18px; height: 18px; border-radius: 50%; background: #F2E6DA; transition: background .3s; }
+.feed-belly span.full { background: #FF8A5B; box-shadow: 0 0 10px rgba(255,138,91,.7); animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+.feed-belly.nearly span.full { animation: breathe .6s ease-in-out infinite; }
+.phase-boom .feed-belly span, .phase-swell .feed-belly span { background: #FF5B5B; }
+
+.feed-bubble { position: relative; z-index: 2; min-height: 64px; display: flex; align-items: center; justify-content: center; white-space: nowrap; padding: 12px 22px; border-radius: 26px; background: #fff;
   font-size: 24px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.1); animation: pop .3s cubic-bezier(.2,1.7,.4,1) both; }
 .feed-bubble::after { content: ''; position: absolute; left: 50%; bottom: -9px; width: 18px; height: 18px; background: #fff; transform: translateX(-50%) rotate(45deg); }
 .feed-bubble b { font-family: var(--kai); font-size: 1.3em; }
@@ -86,6 +110,13 @@
 .feed-empty .feed-monster { width: min(36vh, 60vw); }
 .feed-empty .nav-btn { flex: none; }
 
+@keyframes jiggle { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(-2.5deg) translateY(-2px) } 75% { transform: rotate(2.5deg) translateY(-2px) } }
+@keyframes tremble { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-4px) rotate(-1deg) } 75% { transform: translateX(4px) rotate(1deg) } }
+@keyframes shake { 0%, 100% { transform: none } 20% { transform: translate(-10px, 6px) } 40% { transform: translate(9px, -6px) } 60% { transform: translate(-6px, 3px) } 80% { transform: translate(4px, -2px) } }
+@keyframes flash { from { transform: scale(.2); opacity: 1 } to { transform: scale(4.5); opacity: 0 } }
+@keyframes fling { 0% { transform: rotate(var(--a)) translateY(0) rotate(calc(-1 * var(--a))) scale(.3); opacity: 1 }
+  70% { opacity: 1 } 100% { transform: rotate(var(--a)) translateY(calc(-1 * var(--d))) rotate(calc(-1 * var(--a))) scale(1.2); opacity: 0 } }
+@keyframes popBack { from { transform: scale(.2) } to { transform: none } }
 @keyframes chomp { 0%, 100% { transform: none } 50% { transform: scale(1.08, .9) } }
 @keyframes flipIn { from { transform: rotateY(90deg) } to { transform: rotateY(0) } }
 @keyframes flyIn { to { transform: translate(var(--fly-x), var(--fly-y)) scale(.12) rotate(-30deg); opacity: 0 } }
@@ -95,7 +126,9 @@
   .feed-plate { width: 40px; height: 40px; font-size: 22px; }
   /* 手機：怪獸在上、盤子在下，卡片往上飛進嘴巴 */
   .feed-main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; padding: 0 14px 10px; --fly-x: 0px; --fly-y: -30vh; }
-  .feed-monster { width: auto; height: min(30vh, 62vw); }
+  .feed-monster { width: auto; height: min(30vh, 62vw); scale: calc(1 + var(--belly, 0) * .3); }
+  .phase-swell .feed-monster { scale: 1.42; }
+  .feed-burst span { font-size: 30px; }
   .feed-bubble { min-height: 52px; font-size: 20px; padding: 8px 16px; }
   .feed-ask { font-size: 22px; }
   .feed-cards { gap: 16px; }

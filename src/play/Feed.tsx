@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
+import { boing, boom, cheer, drum, gulp, hic, inflate, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
-import { DISHES, pickDecoy, pickDishes, recap, requeue } from './dishes'
+import { BURST, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
 import { Confetti, SubBar } from './ui'
 
 /**
@@ -12,11 +12,12 @@ import { Confetti, SubBar } from './ui'
  * 卡片上沒有圖、沒有顏色：要靠讀字，不是看圖。找對了，卡片上才變出圖，怪獸把那個圖吃掉，那是獎勵。
  * 找錯不是錯：怪獸說「這是水耶！」，翻開給他看那是什麼，再提示正確的那張，一定吃得到；
  * 這個字隔兩道菜會再上一次，讓他自己再找一次。
+ * 自己找到的字會把肚子越撐越大，連續塞滿 BURST 個就「砰！」炸成星星和剛吃的東西，暈暈地縮回來再吃。
  * 最後怪獸只把他自己找對的字一個一個唸出來，靠提示才吃到的放在旁邊「再去看看」。
  */
-type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'recap' | 'full'
+type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'swell' | 'boom' | 'back' | 'recap' | 'full'
 
-const POSE: Record<Phase, string> = { hello: 'roar', ask: 'idle', oops: 'oops', got: 'surprised', chomp: 'surprised', yum: 'happy', recap: 'happy', full: 'happy' }
+const POSE: Record<Phase, string> = { hello: 'roar', ask: 'idle', oops: 'oops', got: 'surprised', chomp: 'surprised', yum: 'happy', swell: 'surprised', boom: 'surprised', back: 'dizzy', recap: 'happy', full: 'happy' }
 /** 這句話大概要唸多久（有音檔就用音檔長度），下一句才不會蓋掉它 */
 const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000
 /** 句子之間的空拍：固定長度，聽起來才有節奏 */
@@ -49,6 +50,10 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const [missed, setMissed] = useState(false)
   const [wrong, setWrong] = useState<string | null>(null)
   const [served, setServed] = useState<Served[]>([])
+  /** 肚子裡塞了幾個自己找到的字（塞滿 BURST 個就爆炸） */
+  const [belly, setBelly] = useState(0)
+  /** 爆炸時噴出來的東西：剛剛吃下去的那幾個圖 */
+  const [burst, setBurst] = useState<string[]>([])
   /** 結算時正在唸第幾個字 */
   const [reading, setReading] = useState(-1)
   const recorded = useRef(new Set<string>())
@@ -111,10 +116,12 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   // 一進來先喊肚子餓，再點第一道菜
   useEffect(() => {
     if (!dishes.length) return
-    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
+    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, FIXED_LINES.feedSwell, FIXED_LINES.feedBoom, FIXED_LINES.feedAgain, ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
     recorded.current = new Set()
     setQueue(dishes)
     setServed([])
+    setBelly(0)
+    setBurst([])
     setReading(-1)
     setPhase('hello')
     say(FIXED_LINES.feedHungry, 0.8)
@@ -135,8 +142,21 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
       const shown = Math.max(1300, lasts(word) + 300)
       // 怪獸把圖吃掉，盤子上出現那個圖
       later(() => { setPhase('chomp'); gulp() }, shown)
-      later(() => { setServed(all); setPhase('yum') }, shown + 650)
-      later(() => (at + 1 < queue.length ? serve(queue, at + 1) : finish(all)), shown + 650 + 900)
+      const fill = fillBelly(belly, !missed)
+      const next = () => (at + 1 < queue.length ? serve(queue, at + 1) : finish(all))
+      let t = shown + 650
+      later(() => { setServed(all); setBelly(fill.boom ? BURST : fill.belly); setPhase('yum') }, t)
+      t += 900
+      if (!fill.boom) { later(next, t); return }
+      // 塞滿了：肚子越脹越大、發抖 → 砰！噴出星星和剛吃的東西 → 暈暈地縮回原本大小
+      const eaten = all.filter((s) => s.ok).slice(-BURST).map((s) => byChar.get(s.char)?.emoji || '✨')
+      later(() => { setPhase('swell'); inflate(); say(FIXED_LINES.feedSwell, 0.8) }, t)
+      t += Math.max(1200, lasts(FIXED_LINES.feedSwell) + 200)
+      later(() => { setBurst(eaten); setBelly(0); setPhase('boom'); boom(); say(FIXED_LINES.feedBoom, 0.8) }, t)
+      t += 1300
+      later(() => { setPhase('back'); say(FIXED_LINES.feedAgain, 0.8) }, t)
+      t += lasts(FIXED_LINES.feedAgain) + BEAT
+      later(next, t)
       return
     }
     // 點錯：怪獸說那是什麼字，翻開給他看，再點一次菜；正確的那張發亮。這個字等一下會再上一次
@@ -187,7 +207,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
         ))}
       </div>
 
-      <div className={`feed-main phase-${phase}`}>
+      <div className={`feed-main phase-${phase}` + (belly === BURST - 1 ? ' nearly' : '')}>
         <section className="feed-stage" aria-live="polite">
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
@@ -199,12 +219,25 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
             {phase === 'oops' && wrong && <>這是「<b>{wrong}</b>」耶！</>}
             {phase === 'got' && '哇！'}
             {phase === 'chomp' && '啊嗚～'}
-            {phase === 'yum' && '好好吃！'}
+            {phase === 'yum' && (belly >= BURST ? '我的肚子…' : '好好吃！')}
+            {phase === 'swell' && '肚子好撐喔…'}
+            {phase === 'boom' && '砰！'}
+            {phase === 'back' && '好好玩！我還要吃！'}
             {phase === 'recap' && (reading >= 0 ? <>「<b>{good[reading]}</b>」！</> : '我吃到了這些字！')}
             {phase === 'full' && '我吃飽了！謝謝你！'}
           </div>
           <img className="feed-monster" src={`/hero/monster/${POSE[phase]}.png`} alt="大怪獸"
-            style={{ ['--full' as any]: Math.min(1, served.length / DISHES) }} />
+            style={{ ['--belly' as any]: belly / BURST }} />
+          {phase === 'boom' && (
+            <div className="feed-burst" aria-hidden>
+              {[...burst, '⭐', '✨', '💥', ...burst, '⭐', '✨', '🌟', ...burst, '⭐', '💫'].map((e, i, list) => (
+                <span key={i} style={{ ['--a' as any]: `${(i * 360) / list.length}deg`, ['--d' as any]: `${130 + (i % 3) * 45}px` }}>{e}</span>
+              ))}
+            </div>
+          )}
+          <div className={'feed-belly' + (belly === BURST - 1 ? ' nearly' : '')} aria-label={`肚子裡有 ${belly} 個字，${BURST} 個就會爆炸`} role="img">
+            {Array.from({ length: BURST }, (_, i) => <span key={i} className={i < belly ? 'full' : ''} />)}
+          </div>
           {/* 預先載入其他表情，換的時候不會閃 */}
           <span className="feed-preload" aria-hidden>
             {[...new Set(Object.values(POSE))].map((p) => <img key={p} src={`/hero/monster/${p}.png`} alt="" />)}
@@ -240,7 +273,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
               )}
               {phase === 'full' && good.length > 0 && <Confetti />}
             </div>
-          ) : phase === 'yum' ? null : (
+          ) : ['yum', 'swell', 'boom', 'back'].includes(phase) ? null : (
             <div className="feed-pick">
               <div className="feed-cards">
                 {options.map((c) => {

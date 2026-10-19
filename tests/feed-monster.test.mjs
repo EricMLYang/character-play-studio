@@ -15,7 +15,7 @@ registerHooks({
 const { recall, RECALL_DAYS } = await import('../shared/domain.mjs')
 const { acceptEvent, applyEvent } = await import('../shared/play-events.mjs')
 const { setParts } = await import('../src/play/parts.ts')
-const { pickDishes, pickDecoy, looksAlike, knownCount, requeue, recap } = await import('../src/play/dishes.ts')
+const { pickDishes, pickDecoy, looksAlike, knownCount, requeue, recap, fillBelly, BURST } = await import('../src/play/dishes.ts')
 
 // 2026-10-17 10:00 台灣時間
 const at = '2026-10-17T02:00:00Z'
@@ -103,4 +103,19 @@ test('the recap only reads out what he found by himself', () => {
   const served = [{ char: '山', ok: true }, { char: '水', ok: false }, { char: '火', ok: false }, { char: '水', ok: true }, { char: '火', ok: false }]
   assert.deepEqual(recap(served), { good: ['山', '水'], again: ['火'] })
   assert.deepEqual(recap([]), { good: [], again: [] })
+})
+
+test('the belly fills only with characters he found himself, and bursts when full', () => {
+  let belly = 0, booms = 0
+  for (const ok of [true, true, false, true, true]) {
+    const next = fillBelly(belly, ok)
+    if (next.boom) booms++
+    belly = next.belly
+  }
+  // 對、對、（提示）、對 → 第三個自己找到的字撐爆；後面再吃一個
+  assert.equal(booms, 1)
+  assert.equal(belly, 1)
+  // 靠提示吃到的不變大，也不縮回去
+  assert.deepEqual(fillBelly(2, false), { belly: 2, boom: false })
+  assert.deepEqual(fillBelly(BURST - 1, true), { belly: 0, boom: true })
 })

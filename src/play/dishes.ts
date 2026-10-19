@@ -59,6 +59,18 @@ export function recap(served: { char: string; ok: boolean }[]) {
   return { good, again }
 }
 
+/** 自己找到幾個字會把肚子撐爆 */
+export const BURST = 3
+
+/**
+ * 肚子：自己找到的字一個一個塞進去，越塞越大，塞滿 BURST 個就「砰！」炸開，縮回原本大小再繼續吃。
+ * 靠提示才吃到的字照樣吃，但不算進肚子：不會變大，也不會縮回去（找錯不是錯，只是這道不算）。
+ */
+export function fillBelly(belly: number, ok: boolean, burst = BURST) {
+  if (!ok) return { belly, boom: false }
+  return belly + 1 >= burst ? { belly: 0, boom: true } : { belly: belly + 1, boom: false }
+}
+
 /** 認得幾個字：至少有一次第一次就找對、而且還沒退回原點的字。 */
 export const knownCount = (progress: Progress) => Object.values(progress.recall || {}).filter((r) => r.box > 0).length
 
