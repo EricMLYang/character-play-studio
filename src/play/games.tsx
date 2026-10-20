@@ -6,10 +6,11 @@ import Town from './Town'
 import Lab from './Lab'
 import Train from './Train'
 import Feed from './Feed'
+import Puzzle from './Puzzle'
 import { knownCount } from './dishes'
 
 /**
- * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
+ * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、詞語拼圖。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -78,6 +79,14 @@ export const GAMES: Game[] = [
     render: (ctx) => (
       <Feed library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
         onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
+    ),
+  },
+  {
+    id: 'puzzle', icon: '🧩', title: '詞語拼圖',
+    subtitle: (p) => { const n = Object.keys(p.puzzles || {}).length; return n ? `收集了 ${n} 個詞` : '把詞拼起來' },
+    render: (ctx) => (
+      <Puzzle library={ctx.library} hues={ctx.hues} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+        onSolve={(word, char, ok) => ctx.record({ kind: 'puzzle', char, word, ok })} />
     ),
   },
 ]

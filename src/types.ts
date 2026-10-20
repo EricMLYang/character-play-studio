@@ -49,6 +49,7 @@ export type Resident = { traces: number; first: string; last: string; strokes: n
  * 規則寫在 shared/domain.mjs，紀錄種類登記在 shared/play-events.mjs。
  */
 export type Recall = { box: number; due: string; last: string; right: number; wrong: number }
+export type Puzzle = { char: string; first: string; last: string; count: number; right: number }
 
 export type Progress = {
   /** 檔案格式版本，伺服器載入時自動升級（server/progress.mjs） */
@@ -61,6 +62,8 @@ export type Progress = {
   words?: Record<string, string>
   /** 餵大怪獸：每個字記住的程度（box 0–5）、下次該考的日子（台灣日期）、對錯次數 */
   recall?: Record<string, Recall>
+  /** 詞語拼圖：拼好過的詞 → 補的是哪個字、第一次與最後一次拼好的時間、拼了幾次、幾次第一下就對 */
+  puzzles?: Record<string, Puzzle>
   /** 已經算過的事件編號（防離線重送重複算）；伺服器自己管，畫面只用來過濾還沒送出的紀錄 */
   completedEvents?: Record<string, { char: string; day: string }>
 }

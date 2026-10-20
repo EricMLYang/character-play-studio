@@ -5,6 +5,7 @@ export const LINES: {
   townWord: (char: string, word: string) => string
   feedAsk: (char: string) => string
   feedNotThis: (char: string) => string
+  puzzleAsk: (char: string, word: string) => string
 }
-export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow', string>
+export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew', string>
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

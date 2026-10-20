@@ -8,6 +8,8 @@ export type PlayEvent =
   | { kind: 'word'; char: string; id: string; at: string; remove?: boolean }
   /** 餵大怪獸：ok 是第一次就找對 */
   | { kind: 'recall'; char: string; id: string; at: string; ok: boolean }
+  /** 詞語拼圖：char 是補上的字，word 是整個詞，ok 是第一下就找對 */
+  | { kind: 'puzzle'; char: string; id: string; at: string; word: string; ok: boolean }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>
 
 export const PLAY_EVENTS: Record<PlayEventKind, {

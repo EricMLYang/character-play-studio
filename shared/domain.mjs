@@ -85,6 +85,26 @@ export function recall(progress, char, ok, at = new Date().toISOString()) {
   return { ...progress, recall: { ...progress.recall, [char]: { box, due, last: at, ...counts } } }
 }
 
+/**
+ * 詞語拼圖：看圖聽詞，把詞裡缺的那個字補上。拼好的詞收進他的詞語圖鑑。
+ * 記第一次拼好的時間（圖鑑照這個排）、最後一次、拼了幾次、其中幾次第一下就找對。
+ */
+export const validPuzzle = (event) => typeof event.word === 'string' && typeof event.ok === 'boolean' &&
+  [...event.word].length >= 2 && [...event.word].length <= 4 && [...event.word].includes(event.char)
+
+export function solvePuzzle(progress, word, char, ok, at = new Date().toISOString()) {
+  const previous = progress.puzzles?.[word]
+  const time = Date.parse(at)
+  const entry = {
+    char,
+    first: previous && Date.parse(previous.first) < time ? previous.first : at,
+    last: previous && Date.parse(previous.last) > time ? previous.last : at,
+    count: (previous?.count || 0) + 1,
+    right: (previous?.right || 0) + (ok ? 1 : 0),
+  }
+  return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
+}
+
 /** 筆跡只收合理的形狀：最多 40 筆，每筆最多 64 個點，座標在字框附近。 */
 export function validStrokes(strokes) {
   return Array.isArray(strokes) && strokes.length > 0 && strokes.length <= 40 && strokes.every((s) =>

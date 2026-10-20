@@ -1,0 +1,130 @@
+/* ---------- 詞語拼圖 ---------- */
+.place-puzzle { background: #CDEBFF; }
+.place-puzzle .place-icon { animation-delay: -1.5s; }
+
+.puz { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(#EAF6FF, #F4FBEF 65%); }
+.puz :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* 右上角：圖鑑，數字是收集了幾個詞 */
+.puz-book-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: #fff; font-size: 20px;
+  box-shadow: 0 4px 0 rgba(0,0,0,.08); transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.puz-book-btn b { font-size: 18px; }
+.puz-book-btn:active { transform: translateY(3px); }
+
+/* 上面一排拼圖片：拼好一個，片上就出現那個詞的圖 */
+.puz-pieces { display: flex; justify-content: center; gap: 10px; padding: 0 16px 6px; }
+.puz-piece { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 14px; background: #fff; font-size: 28px;
+  box-shadow: inset 0 0 0 3px #D7E6F2, 0 3px 0 rgba(0,0,0,.06); }
+.puz-piece.now { box-shadow: inset 0 0 0 3px var(--c1), 0 3px 0 rgba(0,0,0,.06); }
+.puz-piece.done { background: #FFF6C8; box-shadow: inset 0 0 0 3px var(--c2), 0 3px 0 rgba(0,0,0,.06); animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+/* 找錯後再來一次的那題：外面多一圈 */
+.puz-piece.encore { outline: 3px dashed #BFD7EA; outline-offset: 2px; }
+
+.puz-main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; gap: 10px; padding: 0 20px 10px; }
+
+/* 圖跟詞：圖一開始是灰灰的影子，拼好才變成彩色跳起來 */
+.puz-board { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.puz-pic { font-size: min(27vh, 38vw, 230px); line-height: 1.05; filter: brightness(0) opacity(.14); transition: filter .5s;
+  user-select: none; animation: dropIn .5s both; }
+.puz-pic.alive { filter: none; animation: boing .8s cubic-bezier(.2,1.6,.4,1) 2; }
+.puz-new { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--c4); color: #fff; font-size: 13px; font-weight: 800; }
+.puz-new.big { position: absolute; top: 4%; right: -40%; padding: 6px 16px; font-size: 22px; rotate: 10deg;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) .15s both; }
+
+.puz-word { position: relative; display: flex; gap: 12px; padding: 12px 16px; border-radius: 28px; background: rgba(255,255,255,.55); }
+.puz-word:disabled { cursor: default; }
+.puz-tile, .puz-slot { display: grid; place-items: center; width: min(126px, 21vw, 16vh); height: min(126px, 21vw, 16vh); border-radius: 26px;
+  font-family: var(--kai); font-size: min(94px, 16vw, 12vh); font-weight: 700; line-height: 1; }
+.puz-tile { background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.08); }
+/* 缺的那一格：虛線框，問號輕輕呼吸 */
+.puz-slot { background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 4px #9CC3DD; outline: 3px dashed #fff; outline-offset: -10px; color: #9CC3DD; }
+.puz-slot > span { font-family: var(--ui); font-size: .7em; animation: breathe 1.4s ease-in-out infinite; }
+.puz-slot.filled { background: #FFF6C8; color: var(--ink); outline: none; box-shadow: 0 0 0 5px var(--c2), 0 5px 0 rgba(0,0,0,.08), 0 0 30px rgba(255,197,61,.6);
+  animation: slotIn .45s cubic-bezier(.2,1.7,.4,1) both; }
+.phase-alive .puz-tile { animation: hop .5s cubic-bezier(.2,1.6,.4,1) both; }
+.phase-alive .puz-tile:nth-child(2) { animation-delay: .08s; }
+.phase-alive .puz-tile:nth-child(3) { animation-delay: .16s; }
+.puz-listen { position: absolute; right: -16px; top: -16px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--c2); font-size: 20px; box-shadow: 0 3px 0 rgba(0,0,0,.1); animation: breathe 1.4s ease-in-out infinite; }
+
+/* 下面的字卡：只有字 */
+.puz-cards { display: flex; justify-content: center; gap: 22px; }
+.puz-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  width: min(150px, 26vw); height: min(160px, 22vh, 30vw); border-radius: 28px; background: #fff;
+  box-shadow: 0 8px 0 rgba(0,0,0,.1), 0 16px 30px rgba(0,0,0,.07); animation: dropIn .5s both;
+  transition: transform .2s cubic-bezier(.2,1.7,.4,1), opacity .3s; }
+.puz-card:nth-child(2) { animation-delay: .08s; }
+.puz-card:nth-child(3) { animation-delay: .16s; }
+.puz-card-char { font-family: var(--kai); font-size: min(108px, 18vw, 15vh); font-weight: 700; line-height: 1; }
+.puz-card:hover:not(:disabled) { transform: translateY(-4px) rotate(-2deg); }
+.puz-card:active:not(:disabled) { transform: translateY(5px) scale(.97); }
+.puz-card.flipped { opacity: .55; background: #EEF2F5; animation: flipIn .45s both; }
+.puz-card.flipped .puz-card-char { font-size: min(66px, 12vw, 9vh); }
+.puz-card-emoji { font-size: min(48px, 9vw, 6vh); line-height: 1; }
+.puz-card.hint { box-shadow: 0 0 0 6px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 40px rgba(255,197,61,.8); animation: breathe 1s ease-in-out infinite; }
+/* 拼上去了：那張往上飛進格子，其他的退場 */
+.puz-card.used { animation: none; transform: translateY(-120px) scale(.5); opacity: 0; transition: transform .4s cubic-bezier(.5,0,.7,.4), opacity .4s; }
+.puz-card.gone { animation: none; opacity: 0; transform: scale(.85); }
+
+.puz-tip { text-align: center; padding: 0 16px calc(12px + env(safe-area-inset-bottom)); }
+
+/* 拼完一輪：這一輪的詞排成貼紙，一個一個唸 */
+.puz-done { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 10px 20px 20px; }
+.puz-done-title { margin: 0; font-size: 26px; font-weight: 800; animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.puz-done-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+
+.puz-sticker { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 120px; padding: 12px 14px 10px;
+  border-radius: 24px; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.1); animation: pop .4s cubic-bezier(.2,1.7,.4,1) backwards;
+  transition: transform .2s cubic-bezier(.2,1.7,.4,1), box-shadow .2s; }
+.puz-sticker:active { transform: translateY(3px); }
+.puz-sticker-pic { font-size: 54px; line-height: 1.1; }
+.puz-done .puz-sticker { min-width: 140px; padding: 16px 18px 12px; }
+.puz-done .puz-sticker-pic { font-size: 70px; }
+.puz-done .puz-sticker-word { font-size: 40px; }
+.puz-sticker-word { font-family: var(--kai); font-size: 32px; font-weight: 700; line-height: 1.1; letter-spacing: 2px; }
+.puz-sticker-word .mine { color: var(--c0); }
+.puz-sticker .puz-new { position: absolute; top: -8px; right: -8px; rotate: 12deg; }
+.puz-sticker.reading { transform: translateY(-8px) scale(1.12); box-shadow: 0 0 0 5px var(--c2), 0 8px 0 rgba(0,0,0,.1), 0 0 30px rgba(255,197,61,.7); }
+
+/* 圖鑑：一個字一排，拼好的詞點了會唸；還沒拼過的只有影子 */
+.puz-shelf { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr)); align-content: start; gap: 14px; padding: 4px 28px calc(24px + env(safe-area-inset-bottom)); }
+.puz-row { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-radius: 28px; background: rgba(255,255,255,.55); animation: popUp .4s cubic-bezier(.2,1.6,.4,1) both; }
+.puz-row-char { flex: none; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 22px; background: var(--hue, var(--c1)); color: #fff;
+  font-family: var(--kai); font-size: 52px; font-weight: 700; box-shadow: 0 5px 0 rgba(0,0,0,.12); }
+.puz-row-char:active { transform: translateY(3px); }
+.puz-row-words { display: flex; flex-wrap: wrap; gap: 10px; }
+.puz-row .puz-sticker { min-width: 112px; padding: 8px 12px 6px; }
+.puz-row .puz-sticker-pic { font-size: 44px; }
+.puz-row .puz-sticker-word { font-size: 28px; }
+.puz-sticker.locked { background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 3px rgba(156,195,221,.5); animation: none; }
+.puz-sticker.locked .puz-sticker-pic { filter: brightness(0) opacity(.14); }
+.puz-sticker.locked .puz-sticker-word { color: #9CC3DD; }
+
+.puz-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; text-align: center; font-size: 20px; line-height: 1.7; }
+.puz-empty p { margin: 0; }
+.puz-empty-icon { font-size: 90px; }
+.puz-empty .nav-btn { flex: none; }
+
+@keyframes slotIn { from { transform: translateY(-40px) scale(.6) } to { transform: none } }
+@keyframes hop { 0%, 100% { transform: none } 40% { transform: translateY(-14px) } }
+
+@media (max-width: 700px) {
+  .puz-pieces { gap: 6px; }
+  .puz-piece { width: 40px; height: 40px; font-size: 22px; border-radius: 12px; }
+  .puz-main { padding: 0 14px 8px; }
+  .puz-cards { gap: 12px; }
+  .puz-new.big { right: -10%; font-size: 18px; }
+  .puz-sticker { min-width: 96px; padding: 10px; }
+  .puz-sticker-pic { font-size: 42px; }
+  .puz-sticker-word { font-size: 26px; }
+  .puz-shelf { gap: 10px; padding: 4px 14px 20px; }
+  .puz-row { align-items: flex-start; gap: 10px; padding: 8px; }
+  .puz-row-char { width: 52px; height: 52px; font-size: 38px; border-radius: 16px; }
+  .puz-row .puz-sticker { min-width: 84px; padding: 6px 8px; }
+  .puz-row .puz-sticker-pic { font-size: 34px; }
+  .puz-row .puz-sticker-word { font-size: 22px; }
+  .puz-done .puz-sticker { min-width: 100px; padding: 10px; }
+  .puz-done .puz-sticker-pic { font-size: 46px; }
+  .puz-done .puz-sticker-word { font-size: 28px; }
+  .puz-book-btn { padding: 4px 10px; font-size: 17px; }
+}

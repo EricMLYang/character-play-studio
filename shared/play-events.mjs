@@ -1,7 +1,7 @@
-import { completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall } from './domain.mjs'
+import { completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle } from './domain.mjs'
 
 /**
- * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞。
+ * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞、餵怪獸、詞語拼圖。
  * 孩子端（離線時畫面先動）跟伺服器（真的存檔）都從這張表套用，規則只寫一次。
  *
  * 新遊戲要記東西：在這裡加一種，規則本身寫在 domain.mjs（純函式、好測）。
@@ -20,6 +20,8 @@ export const PLAY_EVENTS = {
     apply: (p, e) => saveWord(p, e.char, e.at, e.remove === true) },
   // 餵大怪獸：這個字第一次就找對了沒有
   recall: { error: '餵怪獸紀錄不正確', valid: (e) => typeof e.ok === 'boolean', apply: (p, e) => recall(p, e.char, e.ok, e.at) },
+  // 詞語拼圖：char 是他補上的字（要在字庫裡），word 是整個詞（其他字不一定在字庫裡）
+  puzzle: { error: '拼圖紀錄不正確', valid: validPuzzle, apply: (p, e) => solvePuzzle(p, e.word, e.char, e.ok, e.at) },
 }
 
 /** 升級前排進佇列的觀看紀錄沒有 kind，照樣當觀看。 */

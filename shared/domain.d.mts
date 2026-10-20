@@ -13,3 +13,5 @@ export const SCENES: Scene[]
 export const feedbackTags: string[]
 export const RECALL_DAYS: number[]
 export function recall(progress: Progress, char: string, ok: boolean, at?: string): Progress
+export function validPuzzle(event: unknown): boolean
+export function solvePuzzle(progress: Progress, word: string, char: string, ok: boolean, at?: string): Progress
