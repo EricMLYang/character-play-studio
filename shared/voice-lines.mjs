@@ -14,6 +14,8 @@ export const LINES = {
   feedNotThis: (char) => `這是${char}耶！`,
   /** 詞語拼圖：先唸詞，再說要補的是哪個字（生日的日） */
   puzzleAsk: (char, word) => `${word}的${char}`,
+  /** 詞語拼圖：這個字的詞全部收集到了 */
+  puzzleAll: (char) => `${char}的詞全部找到了！`,
 }
 
 /** 跟字無關、每次都一樣的句子 */
@@ -49,6 +51,7 @@ export const FIXED_LINES = {
 export function linesForEntry(entry) {
   const out = [entry.char, LINES.townHello(entry.char), LINES.feedAsk(entry.char), LINES.feedNotThis(entry.char)]
   for (const w of entry.words ?? []) if (w?.text) out.push(w.text, LINES.townWord(entry.char, w.text), LINES.puzzleAsk(entry.char, w.text))
+  if (entry.words?.length) out.push(LINES.puzzleAll(entry.char))
   if (entry.concept?.hook) out.push(entry.concept.hook)
   return out
 }

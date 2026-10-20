@@ -120,8 +120,8 @@ test('the book groups words by character and shows the ones still to find', asyn
     月亮: { char: '月', first: '2026-10-19T00:00:00Z', last: at, count: 1, right: 1 },
   } }
   assert.deepEqual(shelves(library, progress), [
-    { char: '月', solved: ['月亮'], rest: [] },
-    { char: '日', solved: ['生日'], rest: ['日出', '日記'] },
+    { char: '月', solved: ['月亮'], rest: [], complete: false },
+    { char: '日', solved: ['生日'], rest: ['日出', '日記'], complete: false },
   ])
 })
 
@@ -217,4 +217,14 @@ test('the puzzle gets easier when he needs lots of help and trickier when he alm
   const { pickPictureDecoys } = await import('../src/play/puzzles.ts')
   const all = [{ text: '月亮', emoji: '🌙' }, { text: '火車', emoji: '🚂' }, { text: '金魚', emoji: '🐠' }]
   for (let k = 0; k < 10; k++) assert.equal(pickPictureDecoys('火山', '🌋', all, 2, Math.random, true)[0], '火車')
+})
+
+test('finishing every word of a character is noticed, but a character with one word is too easy to count', async () => {
+  const { completesChar, shelves } = await import('../src/play/puzzles.ts')
+  const sun = entry('日', [['生日', '🎂'], ['日出', '🌅']])
+  assert.equal(completesChar(sun, new Set(['生日'])), false)
+  assert.equal(completesChar(sun, new Set(['生日', '日出'])), true)
+  assert.equal(completesChar(entry('睿', [['睿智', '🦉']]), new Set(['睿智'])), false)
+  const solved = (c) => ({ char: c, first: at, last: at, count: 1, right: 1 })
+  assert.equal(shelves([sun], { watched: {}, puzzles: { 生日: solved('日'), 日出: solved('日') } })[0].complete, true)
 })

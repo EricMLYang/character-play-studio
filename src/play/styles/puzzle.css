@@ -44,6 +44,9 @@
 .puz-new.big { position: absolute; top: 4%; right: -40%; padding: 6px 16px; font-size: 22px; rotate: 10deg;
   box-shadow: 0 4px 0 rgba(0,0,0,.12); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) .15s both; }
 
+/* 這個字的詞全部收集到了 */
+.puz-crown { position: absolute; top: -6px; left: 50%; translate: -50% 0; z-index: 2; white-space: nowrap; padding: 8px 18px; border-radius: 999px; background: #FFF6C8;
+  font-size: 22px; font-weight: 800; box-shadow: 0 0 0 4px var(--c2), 0 6px 0 rgba(0,0,0,.1), 0 0 30px rgba(255,197,61,.7); animation: popUp .5s cubic-bezier(.2,1.6,.4,1) .2s both; }
 .puz-word { position: relative; display: flex; gap: 12px; padding: 12px 16px; border-radius: 28px; background: rgba(255,255,255,.55); }
 .puz-word:disabled { cursor: default; }
 .puz-tile, .puz-slot { display: grid; place-items: center; width: min(126px, 21vw, 16vh); height: min(126px, 21vw, 16vh); border-radius: 26px;
@@ -105,6 +108,9 @@
 .puz-row-char { flex: none; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 22px; background: var(--hue, var(--c1)); color: #fff;
   font-family: var(--kai); font-size: 52px; font-weight: 700; box-shadow: 0 5px 0 rgba(0,0,0,.12); }
 .puz-row-char:active { transform: translateY(3px); }
+.puz-row-char { position: relative; }
+.puz-row-crown { position: absolute; top: -16px; right: -10px; font-size: 26px; rotate: 18deg; }
+.puz-row.complete { background: #FFF6C8; box-shadow: inset 0 0 0 3px rgba(255,197,61,.6); }
 .puz-row-words { display: flex; flex-wrap: wrap; gap: 10px; }
 .puz-row .puz-sticker { min-width: 112px; padding: 8px 12px 6px; }
 .puz-row .puz-sticker-pic { font-size: 44px; }

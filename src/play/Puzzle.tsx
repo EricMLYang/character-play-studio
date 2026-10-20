@@ -4,7 +4,7 @@ import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, drum, snap, stash, tap } from '../lib/sfx'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { requeue } from './dishes'
-import { collection, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
+import { collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
 import { Confetti, SubBar, hueOf, hueVar } from './ui'
 
 /**
@@ -20,7 +20,8 @@ const BEAT = 380
 const REMIND_AFTER = 5000
 const REMINDERS = 2
 
-type Solved = { word: string; ok: boolean; fresh: boolean }
+/** crown：拼好這個詞，這個字的詞就全部收集到了 */
+type Solved = { word: string; ok: boolean; fresh: boolean; crown?: boolean }
 /** 一輪裡每一題都第一下就找對（至少三題才算） */
 const perfect = (all: Solved[]) => all.length >= 3 && all.every((s) => s.ok)
 
@@ -105,7 +106,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
   // 一進來先說「來拼詞語囉！」，再出第一題
   useEffect(() => {
     if (!round.length) return
-    preloadVoice([FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, FIXED_LINES.puzzlePerfect, ...round.flatMap((r) => r.kind === 'picture'
+    preloadVoice([...round.map((r) => LINES.puzzleAll(r.char)), FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, FIXED_LINES.puzzlePerfect, ...round.flatMap((r) => r.kind === 'picture'
       ? r.options
       : [r.word, LINES.puzzleAsk(r.char, r.word), ...r.options.map((o) => LINES.feedNotThis(o))])])
     const words = round.map((r) => r.word)
@@ -131,12 +132,21 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
         onSolve(item.word, item.char, ok)
       }
       const fresh = !before.current.has(item.word) && !solved.some((s) => s.word === item.word)
-      const all = [...solved, { word: item.word, ok, fresh }]
+      // 這個字的詞是不是剛好收集完了（之前還沒收完、拼了這個就收完）
+      const had = new Set([...before.current, ...solved.map((s) => s.word)])
+      const entry = byChar.get(item.char)
+      const crown = fresh && !completesChar(entry, had) && completesChar(entry, new Set([...had, item.word]))
+      const all = [...solved, { word: item.word, ok, fresh, crown }]
       // 喀！卡片進到格子裡 → 圖變成彩色跳起來，再唸一次整個詞
       snap()
       setPhase('snap')
       later(() => { setSolved(all); setPhase('alive'); say(item.word, 0.8); if (fresh) stash() }, 450)
-      const shown = 450 + Math.max(1700, lasts(item.word) + 900)
+      let shown = 450 + Math.max(1700, lasts(item.word) + 900)
+      if (crown) {
+        const line = LINES.puzzleAll(item.char)
+        later(() => { cheer(); say(line, 0.8) }, 450 + lasts(item.word) + BEAT)
+        shown = Math.max(shown, 450 + lasts(item.word) + BEAT + lasts(line) + 700)
+      }
       later(() => (at + 1 < queue.length ? serve(queue, at + 1) : finish(all)), shown)
       return
     }
@@ -186,8 +196,8 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
         {shelf.length ? (
           <div className="puz-shelf">
             {shelves(library, progress).map((row) => (
-              <section key={row.char} className="puz-row" aria-label={`「${row.char}」的詞`}>
-                <button className="puz-row-char" style={{ ['--hue' as any]: hueVar(byChar.get(row.char) ? hueOf(byChar.get(row.char)!, hues) : 1) }} onClick={() => { tap(); onPick(row.char) }} aria-label={`去看「${row.char}」`}>{row.char}</button>
+              <section key={row.char} className={'puz-row' + (row.complete ? ' complete' : '')} aria-label={row.complete ? `「${row.char}」的詞全部找到了` : `「${row.char}」的詞`}>
+                <button className="puz-row-char" style={{ ['--hue' as any]: hueVar(byChar.get(row.char) ? hueOf(byChar.get(row.char)!, hues) : 1) }} onClick={() => { tap(); onPick(row.char) }} aria-label={`去看「${row.char}」`}>{row.char}{row.complete && <span className="puz-row-crown" aria-hidden>👑</span>}</button>
                 <div className="puz-row-words">
                   {row.solved.map((w) => (
                     <button key={w} className="puz-sticker" onClick={() => { tap(); say(w, 0.8) }} aria-label={`聽「${w}」`}>
@@ -272,7 +282,8 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
             {item.kind === 'picture' && !filled
               ? <div className="puz-pic-slot" aria-hidden><span>?</span></div>
               : <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '') + (item.kind === 'picture' ? ' landed' : '')} aria-hidden>{item.emoji}</div>}
-            {phase === 'alive' && current?.fresh && <span className="puz-new big" role="status">新的詞！</span>}
+            {phase === 'alive' && current?.crown && <span className="puz-crown" role="status">👑「{item.char}」的詞全部找到了！</span>}
+            {phase === 'alive' && current?.fresh && !current.crown && <span className="puz-new big" role="status">新的詞！</span>}
             <button className="puz-word" onClick={() => { if (phase === 'ask') { tap(); clear(); ask(item, 1) } }} disabled={phase !== 'ask'}
               aria-label={`再聽一次：${item.word}`}>
               {[...item.word].map((c, i) => i === item.slot && item.kind === 'char'

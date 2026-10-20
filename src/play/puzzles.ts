@@ -179,7 +179,8 @@ export function shelves(library: CharEntry[], progress: Progress) {
     const entry = byChar.get(char)
     const solved = done.filter((d) => d.char === char).map((d) => d.word)
     const rest = (entry ? wordsFor(entry) : []).map((w) => w.text).filter((w) => !solved.includes(w))
-    return { char, solved, rest }
+    // 只有一個詞的字不算「收集完」，太容易了
+    return { char, solved, rest, complete: rest.length === 0 && solved.length > 1 }
   })
 }
 
@@ -190,6 +191,12 @@ export function shelves(library: CharEntry[], progress: Progress) {
 export function exampleWord(entry: CharEntry, random = Math.random) {
   const concrete = wordsFor(entry).filter((w) => !NO_PICTURE.has(w.text))
   return concrete.length ? concrete[Math.floor(random() * concrete.length)] : entry.words?.[0]
+}
+
+/** 拼好 word 之後，這個字能拼的詞是不是全部收集到了（have：已經拼過的詞）。 */
+export function completesChar(entry: CharEntry | undefined, have: Set<string>) {
+  const words = entry ? wordsFor(entry) : []
+  return words.length > 1 && words.every((w) => have.has(w.text))
 }
 
 /** 圖鑑：拼好過的詞，新的在前。 */
