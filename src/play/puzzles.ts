@@ -79,7 +79,7 @@ export function wordsFor(entry: CharEntry) {
  * - 還沒拼過的詞優先，圖鑑才會一直有新東西；都拼過了就挑最久沒拼的
  * - 同一個字的新詞裡，畫得出來的具體詞先上（火山比小心好懂），再來是詞裡其他字他也看過的（火山比擁抱好認）
  * - 上次要靠提示才拼好的詞，下一輪先回來複習，但一輪最多 REVIEWS 個，不要整輪都是他不熟的
- * - 一輪裡每個字只出一次，不會整輪都在找同一個字
+ * - 一輪裡每個字只出一次，不會整輪都在找同一個字；同一個詞也只出一次（火山同時是火和山的詞）
  * 第一題放最有把握的字暖身（不放複習的詞）。
  */
 export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, pictures = PICTURE_ROUNDS): PuzzleItem[] {
@@ -107,7 +107,15 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   const ranked = shuffle(choices.filter((c) => !c.review), random).sort((a, b) => Number(b.fresh) - Number(a.fresh) || seen(b.entry) - seen(a.entry))
   const top = ranked.slice(0, n * 2)
   const warm = top[0] ?? reviews[0]
-  const rest = [...reviews, ...shuffle(top.slice(1), random)].filter((c) => c !== warm).slice(0, n - 1)
+  // 複習的先排進去，再補其他的；畫面用詞當題目的編號，同一個詞不能出兩次
+  const used = new Set(warm ? [warm.word.text] : [])
+  const rest: typeof choices = []
+  for (const c of [...reviews, ...shuffle(top.slice(1), random), ...ranked.slice(n * 2)]) {
+    if (rest.length >= n - 1) break
+    if (c === warm || used.has(c.word.text)) continue
+    used.add(c.word.text)
+    rest.push(c)
+  }
   const picked = [warm, ...shuffle(rest, random)].filter(Boolean)
   const known = watched.map((c) => c.char)
   const everyone = library.map((c) => c.char)

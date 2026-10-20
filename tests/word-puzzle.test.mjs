@@ -228,3 +228,18 @@ test('finishing every word of a character is noticed, but a character with one w
   const solved = (c) => ({ char: c, first: at, last: at, count: 1, right: 1 })
   assert.equal(shelves([sun], { watched: {}, puzzles: { 生日: solved('日'), 日出: solved('日') } })[0].complete, true)
 })
+
+test('a word shared by two characters is asked only once per round', () => {
+  // 火山 is a word of both 火 and 山; 機器人 of 機, 器 and 人
+  const library = [
+    entry('火', [['火山', '🌋']]), entry('山', [['火山', '🌋']]),
+    entry('機', [['機器人', '🤖']]), entry('器', [['機器人', '🤖']]), entry('人', [['機器人', '🤖']]),
+    entry('水', [['喝水', '🥤']]), entry('月', [['月亮', '🌙']]),
+  ]
+  const watched = Object.fromEntries(['火', '山', '機', '器', '人', '水', '月'].map((c) => [c, { count: 1, last: at }]))
+  for (let k = 0; k < 30; k++) {
+    const round = pickPuzzles(library, { watched }, Math.random)
+    assert.equal(new Set(round.map((r) => r.word)).size, round.length, round.map((r) => r.word).join(' '))
+    assert.equal(round.length, 4, '火山、機器人、喝水、月亮')
+  }
+})
