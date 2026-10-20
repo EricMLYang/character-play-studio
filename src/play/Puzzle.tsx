@@ -19,6 +19,8 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length +
 const BEAT = 380
 const REMIND_AFTER = 5000
 const REMINDERS = 2
+/** 提醒完還是沒點：再等這麼久，就讓對的那張發亮（算有提示，這個詞等一下再考一次） */
+const HINT_AFTER = 4000
 
 /** crown：拼好這個詞，這個字的詞就全部收集到了 */
 type Solved = { word: string; ok: boolean; fresh: boolean; crown?: boolean }
@@ -55,6 +57,9 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)) }
   const clear = () => { timers.current.forEach(clearTimeout); timers.current = [] }
   const item: PuzzleItem | undefined = items.get(queue[at])
+  // 排好的提醒觸發時要看「現在」是第幾題、有沒有提示過（排的時候的值可能已經舊了）
+  const now = useRef({ at, missed })
+  now.current = { at, missed }
   const byChar = useMemo(() => new Map(library.map((c) => [c.char, c])), [library])
   /** 圖鑑裡的詞要找回它的圖 */
   const pictures = useMemo(() => new Map(library.flatMap((c) => (c.words || []).filter((w) => w.emoji).map((w) => [w.text, w.emoji!] as const))), [library])
@@ -73,6 +78,16 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       t += lasts(text) + BEAT
     }
     if (reminders > 0) later(() => ask(it, reminders - 1, 0, true), t + REMIND_AFTER)
+    else later(() => showHint(it), t + HINT_AFTER)
+  }
+
+  /** 唸了好幾次他還是沒點：對的那張發亮，不要讓他一直卡著 */
+  const showHint = (it: PuzzleItem) => {
+    if (now.current.missed) return
+    const i = now.current.at
+    setQueue((q) => requeue(q, i, it.word))
+    setMissed(true)
+    tap()
   }
 
   const serve = (list: string[], i: number) => {
@@ -322,6 +337,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       {!done && phase === 'ask' && !missed && !encore && item?.review && <p className="game-hint puz-tip">上次這個詞有一點難，這次自己找找看！</p>}
       {!done && phase === 'ask' && encore && !missed && <p className="game-hint puz-tip">剛剛那個詞又來了，這次自己找找看！</p>}
       {!done && phase === 'oops' && wrong && <p className="game-hint puz-tip">這是「{wrong}」，找找看發亮的那一張！</p>}
+      {!done && phase === 'ask' && missed && !wrong && <p className="game-hint puz-tip">找找看發亮的那一張！</p>}
     </div>
   )
 }
