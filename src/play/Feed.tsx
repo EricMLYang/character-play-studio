@@ -144,6 +144,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
     preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, ...FINALE_IDS.flatMap((id) => [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]), ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
     recorded.current = new Set()
     setQueue(dishes)
+    setAt(0)
     setServed([])
     setBelly(0)
     setBurst([])

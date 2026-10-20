@@ -128,6 +128,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
     recorded.current = new Set()
     before.current = new Set(Object.keys(progress.puzzles || {}))
     setQueue(words)
+    setAt(0)
     setSolved([])
     setReading(-1)
     setPhase('hello')
