@@ -254,3 +254,14 @@ test('in the book, a shared word solved under one character counts for the other
     { char: '火', solved: ['火山'], rest: ['火車'], complete: false },
   ])
 })
+
+test('the warm-up question has two cards, unless he is doing great', () => {
+  const chars = ['日', '月', '火', '水', '山']
+  const library = chars.map((c) => entry(c, [[c + '甲', '🎈']]))
+  const watched = Object.fromEntries(chars.map((c) => [c, { count: 1, last: at }]))
+  const round = pickPuzzles(library, { watched }, Math.random, 5, 0)
+  assert.equal(round[0].options.length, 2)
+  assert.ok(round.slice(1).every((r) => r.options.length === 3))
+  const great = { 甲乙: { char: '甲', first: at, last: at, count: 10, right: 10 } }
+  assert.equal(pickPuzzles(library, { watched, puzzles: great }, Math.random, 5, 0)[0].options.length, 3)
+})

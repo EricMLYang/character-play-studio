@@ -80,7 +80,7 @@ export function wordsFor(entry: CharEntry) {
  * - 同一個字的新詞裡，畫得出來的具體詞先上（火山比小心好懂），再來是詞裡其他字他也看過的（火山比擁抱好認）
  * - 上次要靠提示才拼好的詞，下一輪先回來複習，但一輪最多 REVIEWS 個，不要整輪都是他不熟的
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字；同一個詞也只出一次（火山同時是火和山的詞）
- * 第一題放最有把握的字暖身（不放複習的詞）。
+ * 第一題放最有把握的字暖身（不放複習的詞），而且只放兩張卡（做得很好的時候照樣三張）。
  */
 export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, pictures = PICTURE_ROUNDS): PuzzleItem[] {
   const level = puzzleLevel(progress)
@@ -130,7 +130,7 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
       const others = pickPictureDecoys(word.text, word.emoji!, allWords, cards - 1, random, tricky)
       if (others.length === cards - 1) return { kind: 'picture' as const, ...base, options: shuffle([word.text, ...others], random) }
     }
-    const decoys = pickDecoys(entry.char, word.text, known, everyone, cards - 1, random, tricky)
+    const decoys = pickDecoys(entry.char, word.text, known, everyone, (i === 0 && !tricky ? 2 : cards) - 1, random, tricky)
     return { kind: 'char' as const, ...base, options: shuffle([entry.char, ...decoys], random) }
   })
 }
