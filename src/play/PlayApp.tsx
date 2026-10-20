@@ -179,7 +179,7 @@ export default function PlayApp() {
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
-      {syncError && <button className="sync-note" onClick={sync}>觀看紀錄已暫存，點此重試儲存</button>}
+      {syncError && <button className="sync-note" onClick={sync}>玩的紀錄先存在這台裝置，點這裡再存一次</button>}
     </div>
   )
 }
