@@ -10,6 +10,7 @@
   box-shadow: 0 4px 0 rgba(0,0,0,.08); transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
 .puz-book-btn b { display: inline-block; font-size: 18px; animation: pop .45s cubic-bezier(.2,1.7,.4,1) both; }
 .puz-book-btn:active { transform: translateY(3px); }
+.puz-book-btn:disabled { opacity: .6; }
 
 /* 上面一排拼圖片：拼好一個，片上就出現那個詞的圖 */
 .puz-pieces { display: flex; justify-content: center; gap: 10px; padding: 0 16px 6px; }

@@ -159,17 +159,22 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
     setRound(newRound())
   }
 
-  const openBook = () => { tap(); clear(); stopSpeech(); setBook(true) }
+  /** 卡片正在飛、圖正在跳的那一兩秒不能開圖鑑（排好的下一步會被取消，回來就卡住了） */
+  const canOpenBook = phase === 'hello' || phase === 'ask' || phase === 'oops' || phase === 'recap' || phase === 'done'
+  const openBook = () => { if (!canOpenBook) return; tap(); clear(); stopSpeech(); setBook(true) }
   const closeBook = () => {
     tap()
     setBook(false)
-    // 題目做到一半去看圖鑑：回來從這一題重新唸
-    if (phase === 'ask' || phase === 'oops') serve(queue, at)
+    // 題目做到一半（或還沒開始）去看圖鑑：回來從這一題重新唸；結算唸到一半就直接停在結算
+    // 開場還沒出題時，題號還停在上一輪，要從第一題開始
+    if (phase === 'hello') serve(queue, 0)
+    else if (phase === 'ask' || phase === 'oops') serve(queue, at)
+    else if (phase === 'recap') { setReading(-1); setPhase('done') }
   }
 
   const shelf = collection(progress)
   const bookButton = (
-    <button className="puz-book-btn" onClick={openBook} aria-label={`打開詞語圖鑑，收集了 ${shelf.length} 個詞`}>
+    <button className="puz-book-btn" onClick={openBook} disabled={!canOpenBook} aria-label={`打開詞語圖鑑，收集了 ${shelf.length} 個詞`}>
       📖 <b key={shelf.length}>{shelf.length}</b>
     </button>
   )
