@@ -185,10 +185,14 @@ export function shelves(library: CharEntry[], progress: Progress) {
   const done = collection(progress)
   const order = [...new Set(done.map((d) => d.char))]
   const byChar = new Map(library.map((c) => [c.char, c]))
+  const have = new Set(done.map((d) => d.word))
   return order.map((char) => {
     const entry = byChar.get(char)
-    const solved = done.filter((d) => d.char === char).map((d) => d.word)
-    const rest = (entry ? wordsFor(entry) : []).map((w) => w.text).filter((w) => !solved.includes(w))
+    // 這個字的詞只要拼過就算（火山在「火」那題拼的，「山」這排也算拼過）
+    const own = done.filter((d) => d.char === char).map((d) => d.word)
+    const words = (entry ? wordsFor(entry) : []).map((w) => w.text)
+    const solved = [...new Set([...own, ...words.filter((w) => have.has(w))])]
+    const rest = words.filter((w) => !have.has(w))
     // 只有一個詞的字不算「收集完」，太容易了
     return { char, solved, rest, complete: rest.length === 0 && solved.length > 1 }
   })

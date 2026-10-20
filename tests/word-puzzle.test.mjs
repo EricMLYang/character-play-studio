@@ -243,3 +243,14 @@ test('a word shared by two characters is asked only once per round', () => {
     assert.equal(round.length, 4, '火山、機器人、喝水、月亮')
   }
 })
+
+test('in the book, a shared word solved under one character counts for the other too', async () => {
+  const { shelves } = await import('../src/play/puzzles.ts')
+  const library = [entry('火', [['火山', '🌋'], ['火車', '🚂']]), entry('山', [['火山', '🌋'], ['爬山', '🧗']])]
+  const solved = (c, first) => ({ char: c, first, last: first, count: 1, right: 1 })
+  const rows = shelves(library, { watched: {}, puzzles: { 火山: solved('火', '2026-10-18T00:00:00Z'), 爬山: solved('山', '2026-10-19T00:00:00Z') } })
+  assert.deepEqual(rows, [
+    { char: '山', solved: ['爬山', '火山'], rest: [], complete: true },
+    { char: '火', solved: ['火山'], rest: ['火車'], complete: false },
+  ])
+})
