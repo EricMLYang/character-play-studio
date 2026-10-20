@@ -55,3 +55,12 @@
   .ride-word { gap: 6px; padding: 10px; }
   .ride-word-char { font-size: min(14vh, 64px); padding: 8px; border-radius: 18px; }
 }
+
+/* 接出真的詞：詞的圖跳出來 */
+.train-real { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 999px; background: #FFF6C8; font-size: 18px; font-weight: 800;
+  box-shadow: 0 0 0 3px var(--c2), 0 4px 0 rgba(0,0,0,.08); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.train-real span { font-size: 34px; line-height: 1; }
+/* 能接成真詞的下一個字：輕輕發亮 */
+.shelf-item.glow { box-shadow: 0 0 0 4px var(--c2), 0 5px 0 rgba(0,0,0,.13), 0 0 22px rgba(255,197,61,.75); animation: breathe 1.2s ease-in-out infinite; }
+.ride-real { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: min(22vh, 160px); line-height: 1; animation: popUp .5s cubic-bezier(.2,1.6,.4,1) .3s both; }
+.ride-real span { padding: 4px 14px; border-radius: 999px; background: #FFF6C8; font-size: 20px; font-weight: 800; box-shadow: 0 0 0 3px var(--c2); }

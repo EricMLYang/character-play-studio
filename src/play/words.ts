@@ -62,3 +62,28 @@ export function hueMap(groups: WordGroup[]) {
   groups.filter((g) => !g.mine).forEach((g, i) => g.items.forEach((c) => { if (!hues.has(c.char)) hues.set(c.char, i % 8) }))
   return hues
 }
+
+/**
+ * 字火車的「真的詞」：字卡語詞裡，每個字都在貨架上（有影片）的詞，例如 火車、機器人。
+ * 回傳 詞 → 圖。孩子接出真的詞時給他看圖；接到一半時，能接成真詞的下一個字會發亮。
+ */
+export function realWords(entries: CharEntry[], shelf: Set<string>, maxLength = 4) {
+  const out = new Map<string, string>()
+  for (const e of entries) for (const w of e.words || []) {
+    const chars = [...w.text]
+    if (w.emoji && chars.length >= 2 && chars.length <= maxLength && chars.every((c) => shelf.has(c)) && !out.has(w.text)) out.set(w.text, w.emoji)
+  }
+  return out
+}
+
+/** 火車上已經有 prefix，再接哪些字可以接成（或繼續接向）真的詞。 */
+export function nextChars(prefix: string, real: Map<string, string>) {
+  const out = new Set<string>()
+  if (!prefix) return out
+  const n = [...prefix].length
+  for (const word of real.keys()) {
+    const chars = [...word]
+    if (chars.length > n && chars.slice(0, n).join('') === prefix) out.add(chars[n])
+  }
+  return out
+}
