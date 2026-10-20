@@ -27,6 +27,8 @@ const BEAT = 380
 /** 點完菜他還沒選，隔多久再提醒一次、最多提醒幾次 */
 const REMIND_AFTER = 4500
 const REMINDERS = 2
+/** 提醒完還是沒點：再等這麼久，就讓對的那張發亮（算沒自己找到，這個字等一下再上一次） */
+const HINT_AFTER = 4000
 
 type Served = { char: string; ok: boolean }
 
@@ -69,6 +71,9 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)) }
   const clear = () => { timers.current.forEach(clearTimeout); timers.current = [] }
   const target = queue[at]
+  // 排好的提醒觸發時要看「現在」是第幾道、有沒有提示過（排的時候的值可能已經舊了）
+  const now = useRef({ at, missed })
+  now.current = { at, missed }
   /** 找對時唸的詞：每一輪替每道菜換一個（具體的詞優先），多聽到幾個詞 */
   const dishWords = useMemo(() => new Map(dishes.map((c) => [c, byChar.get(c) ? exampleWord(byChar.get(c)!) : undefined])), [dishes, byChar])
   const wordOf = (c: string) => dishWords.get(c)?.text ?? c
@@ -92,6 +97,17 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
       t += lasts(text) + BEAT
     }
     if (reminders > 0) later(() => ask(char, reminders - 1), t + REMIND_AFTER)
+    else later(() => showHint(char), t + HINT_AFTER)
+  }
+
+  /** 唸了好幾次他還是沒點：對的那張發亮，不要讓他一直卡著 */
+  const showHint = (char: string) => {
+    if (now.current.missed) return
+    const i = now.current.at
+    record(char, false)
+    setQueue((q) => requeue(q, i, char))
+    setMissed(true)
+    tap()
   }
 
   const serve = (list: string[], i: number) => {
@@ -305,6 +321,7 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
       </div>
       {phase === 'ask' && !missed && at === 0 && <p className="game-hint feed-tip">聽聽看牠要吃哪個字，點那一張餵牠！</p>}
       {phase === 'ask' && encore && !missed && <p className="game-hint feed-tip">剛剛那個字又來了，這次自己找找看！</p>}
+      {phase === 'ask' && missed && !wrong && <p className="game-hint feed-tip">找找看發亮的那一張！</p>}
     </div>
   )
 }
