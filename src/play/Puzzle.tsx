@@ -56,16 +56,20 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
   /** 圖鑑裡的詞要找回它的圖 */
   const pictures = useMemo(() => new Map(library.flatMap((c) => (c.words || []).filter((w) => w.emoji).map((w) => [w.text, w.emoji!] as const))), [library])
 
-  /** 唸題目：「生日」→「生日的日」。他還沒點就隔一下再唸一次，最多 REMINDERS 次。 */
-  const ask = (it: PuzzleItem, reminders = REMINDERS, lead = 0) => {
+  /**
+   * 唸題目。補字：「生日」→「生日的日」。看詞找圖：先只問「哪一張圖是這個詞？」讓他自己讀；
+   * 他還沒點、或剛剛找錯，就把詞唸出來當提示（hint）。還沒點就隔一下再唸一次，最多 REMINDERS 次。
+   */
+  const ask = (it: PuzzleItem, reminders = REMINDERS, lead = 0, hint = false) => {
     let t = lead
     later(drum, t)
     t += 300
-    for (const text of [it.word, LINES.puzzleAsk(it.char, it.word)]) {
+    const lines = it.kind === 'picture' ? [...(hint ? [it.word] : []), FIXED_LINES.puzzlePicture] : [it.word, LINES.puzzleAsk(it.char, it.word)]
+    for (const text of lines) {
       later(() => say(text, 0.8), t)
       t += lasts(text) + BEAT
     }
-    if (reminders > 0) later(() => ask(it, reminders - 1), t + REMIND_AFTER)
+    if (reminders > 0) later(() => ask(it, reminders - 1, 0, true), t + REMIND_AFTER)
   }
 
   const serve = (list: string[], i: number) => {
@@ -97,7 +101,9 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
   // 一進來先說「來拼詞語囉！」，再出第一題
   useEffect(() => {
     if (!round.length) return
-    preloadVoice([FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, ...round.flatMap((r) => [r.word, LINES.puzzleAsk(r.char, r.word), ...r.options.map((o) => LINES.feedNotThis(o))])])
+    preloadVoice([FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, ...round.flatMap((r) => r.kind === 'picture'
+      ? r.options
+      : [r.word, LINES.puzzleAsk(r.char, r.word), ...r.options.map((o) => LINES.feedNotThis(o))])])
     const words = round.map((r) => r.word)
     recorded.current = new Set()
     before.current = new Set(Object.keys(progress.puzzles || {}))
@@ -110,10 +116,11 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
     return () => { clear(); stopSpeech() }
   }, [round])
 
-  const pick = (char: string) => {
-    if (phase !== 'ask' || !item || char === wrong) return
+  /** 點了一張卡：char 題是字，picture 題是詞 */
+  const pick = (card: string) => {
+    if (phase !== 'ask' || !item || card === wrong) return
     clear()
-    if (char === item.char) {
+    if (card === (item.kind === 'picture' ? item.word : item.char)) {
       const ok = !missed
       if (!recorded.current.has(item.word)) {
         recorded.current.add(item.word)
@@ -121,7 +128,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       }
       const fresh = !before.current.has(item.word) && !solved.some((s) => s.word === item.word)
       const all = [...solved, { word: item.word, ok, fresh }]
-      // 喀！字卡進到格子裡 → 影子變成彩色的圖跳起來，再唸一次整個詞
+      // 喀！卡片進到格子裡 → 圖變成彩色跳起來，再唸一次整個詞
       snap()
       setPhase('snap')
       later(() => { setSolved(all); setPhase('alive'); say(item.word, 0.8); if (fresh) stash() }, 450)
@@ -129,16 +136,17 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       later(() => (at + 1 < queue.length ? serve(queue, at + 1) : finish(all)), shown)
       return
     }
-    // 找錯：翻開那張說它是什麼字，對的那張發亮，再唸一次題目；這個詞等一下再來一次
+    // 找錯：翻開那張說它是什麼（字：「這是月耶！」；圖：那張圖的詞「月亮」），對的那張發亮，再唸一次題目；這個詞等一下再來一次
     if (!missed) setQueue((q) => requeue(q, at, item.word))
     setMissed(true)
-    setWrong(char)
+    setWrong(card)
     setPhase('oops')
     boing()
-    say(LINES.feedNotThis(char), 0.8)
-    const pause = lasts(LINES.feedNotThis(char)) + BEAT
+    const line = item.kind === 'picture' ? card : LINES.feedNotThis(card)
+    say(line, 0.8)
+    const pause = lasts(line) + BEAT
     later(() => setPhase('ask'), pause)
-    ask(item, REMINDERS, pause)
+    ask(item, REMINDERS, pause, true)
   }
 
   const again = () => {
@@ -252,28 +260,37 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       ) : item && (
         <div className={`puz-main phase-${phase}`}>
           <section className="puz-board" aria-live="polite">
-            <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '')} aria-hidden>{item.emoji}</div>
+            {item.kind === 'picture' && !filled
+              ? <div className="puz-pic-slot" aria-hidden><span>?</span></div>
+              : <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '') + (item.kind === 'picture' ? ' landed' : '')} aria-hidden>{item.emoji}</div>}
             {phase === 'alive' && current?.fresh && <span className="puz-new big" role="status">新的詞！</span>}
             <button className="puz-word" onClick={() => { if (phase === 'ask') { tap(); clear(); ask(item, 1) } }} disabled={phase !== 'ask'}
               aria-label={`再聽一次：${item.word}`}>
-              {[...item.word].map((c, i) => i === item.slot
+              {[...item.word].map((c, i) => i === item.slot && item.kind === 'char'
                 ? <span key={i} className={'puz-slot' + (filled ? ' filled' : '')}>{filled ? c : <span aria-hidden>?</span>}</span>
                 : <span key={i} className="puz-tile">{c}</span>)}
               {phase === 'ask' && <span className="puz-listen" aria-hidden>🔊</span>}
             </button>
           </section>
 
-          <section className="puz-cards" aria-label="字卡">
+          <section className={'puz-cards' + (item.kind === 'picture' ? ' pictures' : '')} aria-label={item.kind === 'picture' ? '圖卡' : '字卡'}>
             {options.map((c) => {
+              const answer = item.kind === 'picture' ? item.word : item.char
               const flipped = c === wrong
-              const hint = missed && c === item.char && phase === 'ask'
-              const used = c === item.char && filled
-              const gone = c !== item.char && filled
+              const hint = missed && c === answer && phase === 'ask'
+              const used = c === answer && filled
+              const gone = c !== answer && filled
               return (
                 <button key={`${at}-${c}`} className={'puz-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (used ? ' used' : '') + (gone ? ' gone' : '')}
-                  disabled={phase !== 'ask' || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `放「${c}」`}>
-                  {flipped && <span className="puz-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}
-                  <span className="puz-card-char">{c}</span>
+                  disabled={phase !== 'ask' || flipped} onClick={() => pick(c)}
+                  aria-label={item.kind === 'picture' ? (flipped ? `這是「${c}」` : `放這張圖`) : (flipped ? `這是「${c}」` : `放「${c}」`)}>
+                  {item.kind === 'picture' ? <>
+                    <span className="puz-card-pic" aria-hidden>{pictures.get(c)}</span>
+                    {flipped && <span className="puz-card-word">{c}</span>}
+                  </> : <>
+                    {flipped && <span className="puz-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}
+                    <span className="puz-card-char">{c}</span>
+                  </>}
                 </button>
               )
             })}
@@ -281,6 +298,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
         </div>
       )}
       {!done && phase === 'ask' && !missed && at === 0 && solved.length === 0 && <p className="game-hint puz-tip">聽聽看缺了哪個字，點那一張把詞拼起來！</p>}
+      {!done && phase === 'ask' && !missed && !encore && item?.kind === 'picture' && <p className="game-hint puz-tip">讀讀看這是什麼詞，把對的圖放上去！</p>}
       {!done && phase === 'ask' && encore && !missed && <p className="game-hint puz-tip">剛剛那個詞又來了，這次自己找找看！</p>}
       {!done && phase === 'oops' && wrong && <p className="game-hint puz-tip">這是「{wrong}」，找找看發亮的那一張！</p>}
     </div>

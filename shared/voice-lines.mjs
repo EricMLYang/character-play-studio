@@ -41,6 +41,7 @@ export const FIXED_LINES = {
   puzzleHello: '來拼詞語囉！',
   puzzleRecap: '你拼好了這些詞！',
   puzzleNew: '新的詞！',
+  puzzlePicture: '哪一張圖是這個詞？',
 }
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */

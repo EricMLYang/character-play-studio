@@ -9,8 +9,15 @@ import { looksAlike } from './dishes'
 
 /** 一輪拼幾個詞 */
 export const PIECES = 5
+/** 一輪最多幾題「看詞找圖」 */
+export const PICTURE_ROUNDS = 2
 
 export type PuzzleItem = {
+  /**
+   * char：詞缺一個字，聽「生日的日」把字卡補上（聽音認字）。
+   * picture：整個詞寫出來，圖是空的，讀懂了把對的那張圖放上去（讀懂詞義）；只出詞裡每個字他都看過的詞。
+   */
+  kind: 'char' | 'picture'
   /** 整個詞 */
   word: string
   /** 圖 */
@@ -19,7 +26,7 @@ export type PuzzleItem = {
   char: string
   /** 缺在第幾個位置 */
   slot: number
-  /** 字卡（含答案，已經洗好） */
+  /** 卡片（含答案，已經洗好）：char 題是字，picture 題是詞（卡片上畫那個詞的圖） */
   options: string[]
 }
 
@@ -39,7 +46,7 @@ export function wordsFor(entry: CharEntry) {
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字
  * 第一題放最有把握的字暖身。
  */
-export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, cards = 3): PuzzleItem[] {
+export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, cards = 3, pictures = PICTURE_ROUNDS): PuzzleItem[] {
   const watched = library.filter((c) => progress.watched[c.char] && wordsFor(c).length)
   const seen = (c: CharEntry) => progress.watched[c.char]?.count || 0
   const done = progress.puzzles || {}
@@ -59,11 +66,37 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   const picked = [top[0], ...shuffle(top.slice(1), random)].filter(Boolean).slice(0, n)
   const known = watched.map((c) => c.char)
   const everyone = library.map((c) => c.char)
-  return picked.map(({ entry, word }) => {
+  const allWords = library.flatMap((c) => wordsFor(c))
+  // 看詞找圖：第一題不出（先暖身），只出每個字都看過的詞
+  const readable = (w: string) => [...w].every((c) => progress.watched[c])
+  const pictureAt = new Set(shuffle(picked.map((_, i) => i).filter((i) => i > 0 && readable(picked[i].word.text)), random).slice(0, pictures))
+  return picked.map(({ entry, word }, i) => {
     const chars = [...word.text]
+    const base = { word: word.text, emoji: word.emoji!, char: entry.char, slot: chars.indexOf(entry.char) }
+    if (pictureAt.has(i)) {
+      const others = pickPictureDecoys(word.text, word.emoji!, allWords, cards - 1, random)
+      if (others.length === cards - 1) return { kind: 'picture' as const, ...base, options: shuffle([word.text, ...others], random) }
+    }
     const decoys = pickDecoys(entry.char, word.text, known, everyone, cards - 1, random)
-    return { word: word.text, emoji: word.emoji!, char: entry.char, slot: chars.indexOf(entry.char), options: shuffle([entry.char, ...decoys], random) }
+    return { kind: 'char' as const, ...base, options: shuffle([entry.char, ...decoys], random) }
   })
+}
+
+/**
+ * 看詞找圖的其他圖：圖不能跟答案一樣、彼此也不重複；跟答案沒有共同字的詞先挑（日出 跟 生日 都有日，太像，留給以後）。
+ */
+export function pickPictureDecoys(word: string, emoji: string, all: { text: string; emoji?: string }[], n: number, random = Math.random) {
+  const share = (w: string) => [...w].some((c) => word.includes(c))
+  const pool = shuffle(all.filter((w) => w.text !== word && w.emoji && w.emoji !== emoji), random).sort((a, b) => Number(share(a.text)) - Number(share(b.text)))
+  const out: string[] = []
+  const used = new Set([emoji])
+  for (const w of pool) {
+    if (out.length >= n) break
+    if (used.has(w.emoji!)) continue
+    used.add(w.emoji!)
+    out.push(w.text)
+  }
+  return out
 }
 
 /**

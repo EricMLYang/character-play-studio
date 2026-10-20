@@ -123,3 +123,29 @@ test('the book groups words by character and shows the ones still to find', asyn
     { char: '日', solved: ['生日'], rest: ['日出', '日記'] },
   ])
 })
+
+test('picture puzzles only use words he can read, never come first, and show different pictures', async () => {
+  const { pickPictureDecoys } = await import('../src/play/puzzles.ts')
+  const chars = ['火', '山', '水', '口', '大', '小']
+  const library = [
+    entry('火', [['火山', '🌋']]), entry('山', [['山口', '⛰️']]), entry('水', [['口水', '🤤']]),
+    entry('大', [['大口', '😮']]), entry('小', [['小山', '🗻']]), entry('口', [['人口', '👥']]),
+  ]
+  const watched = Object.fromEntries(chars.map((c) => [c, { count: 1, last: at }]))
+  for (let k = 0; k < 20; k++) {
+    const round = pickPuzzles(library, { watched }, Math.random)
+    assert.equal(round[0].kind, 'char', 'the first one warms up')
+    assert.ok(round.filter((r) => r.kind === 'picture').length <= 2)
+    for (const r of round.filter((r) => r.kind === 'picture')) {
+      assert.ok([...r.word].every((c) => watched[c]), `${r.word} is readable`)
+      assert.ok(r.options.includes(r.word))
+      const emojis = r.options.map((o) => library.flatMap((c) => c.words).find((w) => w.text === o).emoji)
+      assert.equal(new Set(emojis).size, r.options.length, 'all pictures differ')
+    }
+    // 人口 has 人, which he has not watched: never a picture puzzle
+    assert.ok(!round.some((r) => r.kind === 'picture' && r.word === '人口'))
+  }
+  // 跟答案沒有共同字的詞先當干擾
+  const all = [{ text: '日出', emoji: '🌅' }, { text: '月亮', emoji: '🌙' }, { text: '火山', emoji: '🌋' }, { text: '同圖', emoji: '🎂' }]
+  assert.deepEqual(pickPictureDecoys('生日', '🎂', all, 2, seq([0.5])).sort(), ['月亮', '火山'])
+})
