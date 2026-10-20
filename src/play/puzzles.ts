@@ -14,6 +14,21 @@ export const PICTURE_ROUNDS = 2
 /** 一輪最多幾題複習（上次要靠提示才拼好的詞） */
 export const REVIEWS = 2
 
+/**
+ * 難度跟著他走：看他拼過的詞第一下就找對的比例（至少拼過 8 次才算數）。
+ * - easy（不到一半）：只放兩張卡
+ * - hard（八成以上）：補字題放一張長得像的字（日、目），看詞找圖放一個有共同字的詞（火車、火山），要真的讀清楚
+ * - 其他：三張卡、干擾的字長得不像
+ */
+export type Level = 'easy' | 'normal' | 'hard'
+export function puzzleLevel(progress: Progress): Level {
+  const all = Object.values(progress.puzzles || {})
+  const count = all.reduce((n, p) => n + p.count, 0)
+  if (count < 8) return 'normal'
+  const rate = all.reduce((n, p) => n + p.right, 0) / count
+  return rate < 0.5 ? 'easy' : rate >= 0.8 ? 'hard' : 'normal'
+}
+
 export type PuzzleItem = {
   /**
    * char：詞缺一個字，聽「生日的日」把字卡補上（聽音認字）。
@@ -65,7 +80,10 @@ export function wordsFor(entry: CharEntry) {
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字
  * 第一題放最有把握的字暖身（不放複習的詞）。
  */
-export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, cards = 3, pictures = PICTURE_ROUNDS): PuzzleItem[] {
+export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, pictures = PICTURE_ROUNDS): PuzzleItem[] {
+  const level = puzzleLevel(progress)
+  const cards = level === 'easy' ? 2 : 3
+  const tricky = level === 'hard'
   const watched = library.filter((c) => progress.watched[c.char] && wordsFor(c).length)
   const seen = (c: CharEntry) => progress.watched[c.char]?.count || 0
   const done = progress.puzzles || {}
@@ -99,20 +117,26 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
     const chars = [...word.text]
     const base = { word: word.text, emoji: word.emoji!, char: entry.char, slot: chars.indexOf(entry.char), ...(review ? { review: true } : {}) }
     if (pictureAt.has(i)) {
-      const others = pickPictureDecoys(word.text, word.emoji!, allWords, cards - 1, random)
+      const others = pickPictureDecoys(word.text, word.emoji!, allWords, cards - 1, random, tricky)
       if (others.length === cards - 1) return { kind: 'picture' as const, ...base, options: shuffle([word.text, ...others], random) }
     }
-    const decoys = pickDecoys(entry.char, word.text, known, everyone, cards - 1, random)
+    const decoys = pickDecoys(entry.char, word.text, known, everyone, cards - 1, random, tricky)
     return { kind: 'char' as const, ...base, options: shuffle([entry.char, ...decoys], random) }
   })
 }
 
 /**
- * 看詞找圖的其他圖：圖不能跟答案一樣、彼此也不重複；跟答案沒有共同字的詞先挑（日出 跟 生日 都有日，太像，留給以後）。
+ * 看詞找圖的其他圖：圖不能跟答案一樣、彼此也不重複；跟答案沒有共同字的詞先挑（日出 跟 生日 都有日，太像）。
+ * alike（難一點）：反過來先挑一個有共同字的詞，要讀清楚另一個字才分得出來。
  */
-export function pickPictureDecoys(word: string, emoji: string, all: { text: string; emoji?: string }[], n: number, random = Math.random) {
+export function pickPictureDecoys(word: string, emoji: string, all: { text: string; emoji?: string }[], n: number, random = Math.random, alike = false) {
   const share = (w: string) => [...w].some((c) => word.includes(c))
-  const pool = shuffle(all.filter((w) => w.text !== word && w.emoji && w.emoji !== emoji && !NO_PICTURE.has(w.text)), random).sort((a, b) => Number(share(a.text)) - Number(share(b.text)))
+  const pool = shuffle(all.filter((w) => w.text !== word && w.emoji && w.emoji !== emoji && !NO_PICTURE.has(w.text)), random)
+    .sort((a, b) => Number(share(a.text)) - Number(share(b.text)))
+  if (alike) {
+    const i = pool.findIndex((w) => share(w.text))
+    if (i > 0) pool.unshift(...pool.splice(i, 1))
+  }
   const out: string[] = []
   const used = new Set([emoji])
   for (const w of pool) {
@@ -128,10 +152,15 @@ export function pickPictureDecoys(word: string, emoji: string, all: { text: stri
  * 其他的字卡：不在這個詞裡、長得不像答案、彼此也不重複；優先挑他看過的字。
  * 看過的字不夠就從整個字庫補。
  */
-export function pickDecoys(target: string, word: string, known: string[], everyone: string[], n: number, random = Math.random) {
+export function pickDecoys(target: string, word: string, known: string[], everyone: string[], n: number, random = Math.random, alike = false) {
   const inWord = new Set(word)
   const ok = (c: string) => c !== target && !inWord.has(c) && !looksAlike(c, target)
   const out: string[] = []
+  // 難一點：先放一張他看過、長得像的字
+  if (alike) {
+    const similar = shuffle(known.filter((c) => c !== target && !inWord.has(c) && looksAlike(c, target)), random)[0]
+    if (similar && n > 0) out.push(similar)
+  }
   for (const pool of [shuffle(known.filter(ok), random), shuffle(everyone.filter(ok), random)]) {
     for (const c of pool) if (out.length < n && !out.includes(c)) out.push(c)
   }

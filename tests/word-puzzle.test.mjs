@@ -192,3 +192,29 @@ test('a word he needed help with comes back next round, but never as the warm-up
     assert.equal(new Set(round.map((r) => r.char)).size, 5)
   }
 })
+
+test('the puzzle gets easier when he needs lots of help and trickier when he almost never does', async () => {
+  const { puzzleLevel } = await import('../src/play/puzzles.ts')
+  const rec = (count, right) => ({ watched: {}, puzzles: { 甲乙: { char: '甲', first: at, last: at, count, right } } })
+  assert.equal(puzzleLevel(rec(3, 0)), 'normal', 'too few tries to judge')
+  assert.equal(puzzleLevel(rec(10, 4)), 'easy')
+  assert.equal(puzzleLevel(rec(10, 6)), 'normal')
+  assert.equal(puzzleLevel(rec(10, 8)), 'hard')
+
+  setParts({ 日: [{ char: '口', strokes: [0, 1, 3] }], 目: [{ char: '口', strokes: [0, 1, 4] }] })
+  const library = [entry('日', [['生日', '🎂']]), entry('目', [['目光', '👀']]), entry('火', [['火山', '🌋']]), entry('水', [['喝水', '🥤']])]
+  const watched = { 日: { count: 9, last: at }, 目: { count: 1, last: at }, 火: { count: 1, last: at }, 水: { count: 1, last: at } }
+  const easy = pickPuzzles(library, { ...rec(10, 2), watched })
+  assert.ok(easy.every((r) => r.options.length === 2), 'two cards when it is hard for him')
+  for (let k = 0; k < 10; k++) {
+    const hard = pickPuzzles(library, { ...rec(10, 9), watched }, Math.random, 5, 0)
+    const sun = hard.find((r) => r.char === '日')
+    assert.ok(sun.options.includes('目'), 'a look-alike card when he is doing great')
+    assert.equal(sun.options.length, 3)
+  }
+  setParts({})
+  // 看詞找圖難一點：先挑有共同字的詞
+  const { pickPictureDecoys } = await import('../src/play/puzzles.ts')
+  const all = [{ text: '月亮', emoji: '🌙' }, { text: '火車', emoji: '🚂' }, { text: '金魚', emoji: '🐠' }]
+  for (let k = 0; k < 10; k++) assert.equal(pickPictureDecoys('火山', '🌋', all, 2, Math.random, true)[0], '火車')
+})
