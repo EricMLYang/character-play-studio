@@ -4022,12 +4022,29 @@
         "hook": "兩個玩具小人伸出手互相握了握，中間一顆金色小愛心跟著微微發亮。"
       },
       "scene": "bounce",
-      "status": "prompted",
+      "status": "live",
       "priority": 84,
-      "media": [],
+      "media": [
+        {
+          "file": "相-5f47ff83-1dcf-47df-9dfe-a0abf4af439c.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-19T11:57:05.818Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-19T11:57:21.749Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "9d1cdc8f-0e50-42b6-8068-0d5531a235aa",
-      "promptedAt": "2026-10-16T23:23:08.204Z"
+      "promptedAt": "2026-10-16T23:23:08.204Z",
+      "needsRedo": false
     },
     {
       "char": "聞",
@@ -4851,12 +4868,29 @@
         "hook": "玩具小車原本停在舞台中間，突然「咻」地往旁邊衝出去，一下子就消失在舞台邊緣。"
       },
       "scene": "fly",
-      "status": "prompted",
+      "status": "live",
       "priority": 108,
-      "media": [],
+      "media": [
+        {
+          "file": "去-384071b5-b01c-4e45-a4b8-801e543fbb27.mp4",
+          "kind": "video",
+          "addedAt": "2026-10-19T11:54:30.830Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-10-19T11:54:47.434Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "c537bc13-d9e8-46c2-b308-14f3cfbbdd47",
-      "promptedAt": "2026-10-16T23:43:16.470Z"
+      "promptedAt": "2026-10-16T23:43:16.470Z",
+      "needsRedo": false
     },
     {
       "char": "在",
@@ -11273,6 +11307,38 @@
         "attempts": []
       },
       "2026-10-17": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-18": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-19": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-20": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-10-21": {
         "queue": [
           "喝",
           "眼",
