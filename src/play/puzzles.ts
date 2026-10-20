@@ -145,6 +145,15 @@ export function shelves(library: CharEntry[], progress: Progress) {
   })
 }
 
+/**
+ * 別的遊戲要順口唸一個有這個字的詞（餵大怪獸找對時）：每次換一個，畫得出來的具體詞優先，
+ * 不要每次都是字卡上的第一個詞。沒有能用的就退回第一個詞。
+ */
+export function exampleWord(entry: CharEntry, random = Math.random) {
+  const concrete = wordsFor(entry).filter((w) => !NO_PICTURE.has(w.text))
+  return concrete.length ? concrete[Math.floor(random() * concrete.length)] : entry.words?.[0]
+}
+
 /** 圖鑑：拼好過的詞，新的在前。 */
 export function collection(progress: Progress) {
   return Object.entries(progress.puzzles || {}).sort((a, b) => Date.parse(b[1].first) - Date.parse(a[1].first)).map(([word, p]) => ({ word, ...p }))

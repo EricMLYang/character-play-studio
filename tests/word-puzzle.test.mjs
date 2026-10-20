@@ -166,3 +166,12 @@ test('a concrete word comes before an abstract one of the same character, even w
   const progress = { watched: { 苦: { count: 1, last: at }, 吃: { count: 5, last: at } } }
   for (const r of [0.1, 0.5, 0.9]) assert.equal(pickPuzzles(library, progress, seq([r]))[0].word, '苦瓜')
 })
+
+test('other games say a concrete word of the character, not always the first one', async () => {
+  const { exampleWord } = await import('../src/play/puzzles.ts')
+  const e = entry('心', [['小心', '⚠️'], ['開心', '😄'], ['點心', '🍪']])
+  assert.equal(exampleWord(e, seq([0])).text, '開心')
+  assert.equal(exampleWord(e, seq([0.99])).text, '點心')
+  // 沒有能用的詞就退回第一個
+  assert.equal(exampleWord(entry('你', [['你的', '👉']]), seq([0.5])).text, '你的')
+})

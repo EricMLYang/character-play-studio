@@ -7,6 +7,7 @@ import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { BURST, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
+import { exampleWord } from './puzzles'
 
 /**
  * 餵大怪獸：怪獸說「我要吃火！」，孩子從兩張只有字的卡片裡找出來餵牠。
@@ -68,8 +69,9 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)) }
   const clear = () => { timers.current.forEach(clearTimeout); timers.current = [] }
   const target = queue[at]
-  const entry = target ? byChar.get(target) : undefined
-  const wordOf = (c: string) => byChar.get(c)?.words?.[0]?.text ?? c
+  /** 找對時唸的詞：每一輪替每道菜換一個（具體的詞優先），多聽到幾個詞 */
+  const dishWords = useMemo(() => new Map(dishes.map((c) => [c, byChar.get(c) ? exampleWord(byChar.get(c)!) : undefined])), [dishes, byChar])
+  const wordOf = (c: string) => dishWords.get(c)?.text ?? c
   const record = (char: string, ok: boolean) => {
     if (recorded.current.has(char)) return
     recorded.current.add(char)
@@ -294,8 +296,8 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
                   )
                 })}
               </div>
-              {phase === 'got' && entry?.words?.[0] && (
-                <span className="feed-got-word" role="status">{entry.words[0].emoji} {entry.words[0].text}</span>
+              {phase === 'got' && target && dishWords.get(target) && (
+                <span className="feed-got-word" role="status">{dishWords.get(target)!.emoji} {dishWords.get(target)!.text}</span>
               )}
             </div>
           )}
