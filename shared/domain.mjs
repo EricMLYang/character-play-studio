@@ -87,7 +87,8 @@ export function recall(progress, char, ok, at = new Date().toISOString()) {
 
 /**
  * 詞語拼圖：看圖聽詞，把詞裡缺的那個字補上。拼好的詞收進他的詞語圖鑑。
- * 記第一次拼好的時間（圖鑑照這個排）、最後一次、拼了幾次、其中幾次第一下就找對。
+ * 記第一次拼好的時間（圖鑑照這個排）、最後一次、拼了幾次、其中幾次第一下就找對，
+ * 以及最後一次是不是第一下就對（lastOk：沒對的詞下一輪先回來複習）。
  */
 export const validPuzzle = (event) => typeof event.word === 'string' && typeof event.ok === 'boolean' &&
   [...event.word].length >= 2 && [...event.word].length <= 4 && [...event.word].includes(event.char)
@@ -95,12 +96,15 @@ export const validPuzzle = (event) => typeof event.word === 'string' && typeof e
 export function solvePuzzle(progress, word, char, ok, at = new Date().toISOString()) {
   const previous = progress.puzzles?.[word]
   const time = Date.parse(at)
+  // 離線補送的舊紀錄：次數照算，但「最後一次」的時間與結果留給比較新的那筆
+  const newer = !previous || Date.parse(previous.last) <= time
   const entry = {
     char,
     first: previous && Date.parse(previous.first) < time ? previous.first : at,
-    last: previous && Date.parse(previous.last) > time ? previous.last : at,
+    last: newer ? at : previous.last,
     count: (previous?.count || 0) + 1,
     right: (previous?.right || 0) + (ok ? 1 : 0),
+    lastOk: newer ? ok : previous.lastOk ?? true,
   }
   return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
 }

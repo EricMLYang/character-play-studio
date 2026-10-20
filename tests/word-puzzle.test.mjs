@@ -23,14 +23,15 @@ const entry = (char, words) => ({ char, words: words.map(([text, emoji]) => ({ t
 
 test('a solved word goes into the book with when, how often and how often on the first try', () => {
   let p = solvePuzzle({ watched: {} }, '生日', '日', true, at)
-  assert.deepEqual(p.puzzles['生日'], { char: '日', first: at, last: at, count: 1, right: 1 })
+  assert.deepEqual(p.puzzles['生日'], { char: '日', first: at, last: at, count: 1, right: 1, lastOk: true })
   p = solvePuzzle(p, '生日', '日', false, '2026-10-21T02:00:00Z')
-  assert.deepEqual(p.puzzles['生日'], { char: '日', first: at, last: '2026-10-21T02:00:00Z', count: 2, right: 1 })
+  assert.deepEqual(p.puzzles['生日'], { char: '日', first: at, last: '2026-10-21T02:00:00Z', count: 2, right: 1, lastOk: false })
   // 離線補送的舊紀錄：次數照算，第一次與最後一次的時間不會被弄亂
   p = solvePuzzle(p, '生日', '日', true, '2026-10-19T02:00:00Z')
   assert.equal(p.puzzles['生日'].first, '2026-10-19T02:00:00Z')
   assert.equal(p.puzzles['生日'].last, '2026-10-21T02:00:00Z')
   assert.equal(p.puzzles['生日'].count, 3)
+  assert.equal(p.puzzles['生日'].lastOk, false, 'an older right answer does not hide the newer miss')
 })
 
 test('the server takes a puzzle only when the filled-in character is in the library and in the word', () => {
@@ -174,4 +175,20 @@ test('other games say a concrete word of the character, not always the first one
   assert.equal(exampleWord(e, seq([0.99])).text, '點心')
   // 沒有能用的詞就退回第一個
   assert.equal(exampleWord(entry('你', [['你的', '👉']]), seq([0.5])).text, '你的')
+})
+
+test('a word he needed help with comes back next round, but never as the warm-up and at most two of them', () => {
+  const chars = ['日', '月', '火', '水', '山', '木', '土']
+  const library = chars.map((c) => entry(c, [[c + '甲', '🎈'], [c + '乙', '🎁']]))
+  const watched = Object.fromEntries(chars.map((c, i) => [c, { count: 10 - i, last: at }]))
+  const missed = (c) => ({ char: c, first: at, last: at, count: 1, right: 0, lastOk: false })
+  const progress = { watched, puzzles: { 月甲: missed('月'), 火甲: missed('火'), 水甲: missed('水') } }
+  for (let k = 0; k < 20; k++) {
+    const round = pickPuzzles(library, progress, Math.random)
+    const reviews = round.filter((r) => progress.puzzles[r.word])
+    assert.equal(reviews.length, 2, 'two of the three missed words come back')
+    assert.ok(!progress.puzzles[round[0].word], 'the warm-up is not a review')
+    assert.equal(round.length, 5)
+    assert.equal(new Set(round.map((r) => r.char)).size, 5)
+  }
 })

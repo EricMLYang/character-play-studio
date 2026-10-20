@@ -49,7 +49,7 @@ export type Resident = { traces: number; first: string; last: string; strokes: n
  * 規則寫在 shared/domain.mjs，紀錄種類登記在 shared/play-events.mjs。
  */
 export type Recall = { box: number; due: string; last: string; right: number; wrong: number }
-export type Puzzle = { char: string; first: string; last: string; count: number; right: number }
+export type Puzzle = { char: string; first: string; last: string; count: number; right: number; lastOk?: boolean }
 
 export type Progress = {
   /** 檔案格式版本，伺服器載入時自動升級（server/progress.mjs） */

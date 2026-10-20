@@ -302,7 +302,8 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
         </div>
       )}
       {!done && phase === 'ask' && !missed && at === 0 && solved.length === 0 && <p className="game-hint puz-tip">聽聽看缺了哪個字，點那一張把詞拼起來！</p>}
-      {!done && phase === 'ask' && !missed && !encore && item?.kind === 'picture' && <p className="game-hint puz-tip">讀讀看這是什麼詞，把對的圖放上去！</p>}
+      {!done && phase === 'ask' && !missed && !encore && item?.kind === 'picture' && !item.review && <p className="game-hint puz-tip">讀讀看這是什麼詞，把對的圖放上去！</p>}
+      {!done && phase === 'ask' && !missed && !encore && item?.review && <p className="game-hint puz-tip">上次這個詞有一點難，這次自己找找看！</p>}
       {!done && phase === 'ask' && encore && !missed && <p className="game-hint puz-tip">剛剛那個詞又來了，這次自己找找看！</p>}
       {!done && phase === 'oops' && wrong && <p className="game-hint puz-tip">這是「{wrong}」，找找看發亮的那一張！</p>}
     </div>

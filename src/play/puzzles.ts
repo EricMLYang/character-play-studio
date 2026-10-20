@@ -11,6 +11,8 @@ import { looksAlike } from './dishes'
 export const PIECES = 5
 /** 一輪最多幾題「看詞找圖」 */
 export const PICTURE_ROUNDS = 2
+/** 一輪最多幾題複習（上次要靠提示才拼好的詞） */
+export const REVIEWS = 2
 
 export type PuzzleItem = {
   /**
@@ -28,6 +30,8 @@ export type PuzzleItem = {
   slot: number
   /** 卡片（含答案，已經洗好）：char 題是字，picture 題是詞（卡片上畫那個詞的圖） */
   options: string[]
+  /** 上次要靠提示才拼好、這輪回來複習的詞 */
+  review?: boolean
 }
 
 /**
@@ -57,8 +61,9 @@ export function wordsFor(entry: CharEntry) {
  * - 只用他看過的字，看越多次的字越前面（最可能認得）
  * - 還沒拼過的詞優先，圖鑑才會一直有新東西；都拼過了就挑最久沒拼的
  * - 同一個字的新詞裡，畫得出來的具體詞先上（火山比小心好懂），再來是詞裡其他字他也看過的（火山比擁抱好認）
+ * - 上次要靠提示才拼好的詞，下一輪先回來複習，但一輪最多 REVIEWS 個，不要整輪都是他不熟的
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字
- * 第一題放最有把握的字暖身。
+ * 第一題放最有把握的字暖身（不放複習的詞）。
  */
 export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, cards = 3, pictures = PICTURE_ROUNDS): PuzzleItem[] {
   const watched = library.filter((c) => progress.watched[c.char] && wordsFor(c).length)
@@ -67,28 +72,32 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   const lastTime = (word: string) => (done[word] ? Date.parse(done[word].last) : -Infinity)
   /** 詞裡其他的字，他看過幾個 */
   const familiar = (word: string, char: string) => [...word].filter((c) => c !== char && progress.watched[c]).length
-  // 每個字挑一個詞：沒拼過的先，拼過的挑最久沒拼的
+  // 每個字挑一個詞：上次沒拼對的先複習，再來是沒拼過的，都拼過了挑最久沒拼的
   const choices = watched.map((entry) => {
     const words = shuffle(wordsFor(entry), random)
     const concrete = (w: string) => (NO_PICTURE.has(w) ? 0 : 1)
+    const again = words.find((w) => done[w.text]?.lastOk === false)
     const fresh = words.filter((w) => !done[w.text])
       .sort((a, b) => concrete(b.text) - concrete(a.text) || familiar(b.text, entry.char) - familiar(a.text, entry.char))
-    const word = fresh[0] ?? [...words].sort((a, b) => lastTime(a.text) - lastTime(b.text))[0]
-    return { entry, word, fresh: fresh.length > 0 }
+    const word = again ?? fresh[0] ?? [...words].sort((a, b) => lastTime(a.text) - lastTime(b.text))[0]
+    return { entry, word, review: Boolean(again), fresh: !again && fresh.length > 0 }
   })
-  // 有新詞的字先；同樣有新詞的，看越多次的越前面，但打散一點，不要每次都同一批
-  const ranked = shuffle(choices, random).sort((a, b) => Number(b.fresh) - Number(a.fresh) || seen(b.entry) - seen(a.entry))
+  const reviews = shuffle(choices.filter((c) => c.review), random).slice(0, REVIEWS)
+  // 其他的：有新詞的字先；同樣有新詞的，看越多次的越前面，但打散一點，不要每次都同一批
+  const ranked = shuffle(choices.filter((c) => !c.review), random).sort((a, b) => Number(b.fresh) - Number(a.fresh) || seen(b.entry) - seen(a.entry))
   const top = ranked.slice(0, n * 2)
-  const picked = [top[0], ...shuffle(top.slice(1), random)].filter(Boolean).slice(0, n)
+  const warm = top[0] ?? reviews[0]
+  const rest = [...reviews, ...shuffle(top.slice(1), random)].filter((c) => c !== warm).slice(0, n - 1)
+  const picked = [warm, ...shuffle(rest, random)].filter(Boolean)
   const known = watched.map((c) => c.char)
   const everyone = library.map((c) => c.char)
   const allWords = library.flatMap((c) => wordsFor(c))
   // 看詞找圖：第一題不出（先暖身），只出每個字都看過的詞
   const readable = (w: string) => !NO_PICTURE.has(w) && [...w].every((c) => progress.watched[c])
   const pictureAt = new Set(shuffle(picked.map((_, i) => i).filter((i) => i > 0 && readable(picked[i].word.text)), random).slice(0, pictures))
-  return picked.map(({ entry, word }, i) => {
+  return picked.map(({ entry, word, review }, i) => {
     const chars = [...word.text]
-    const base = { word: word.text, emoji: word.emoji!, char: entry.char, slot: chars.indexOf(entry.char) }
+    const base = { word: word.text, emoji: word.emoji!, char: entry.char, slot: chars.indexOf(entry.char), ...(review ? { review: true } : {}) }
     if (pictureAt.has(i)) {
       const others = pickPictureDecoys(word.text, word.emoji!, allWords, cards - 1, random)
       if (others.length === cards - 1) return { kind: 'picture' as const, ...base, options: shuffle([word.text, ...others], random) }
