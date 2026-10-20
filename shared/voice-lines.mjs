@@ -42,6 +42,7 @@ export const FIXED_LINES = {
   puzzleRecap: '你拼好了這些詞！',
   puzzleNew: '新的詞！',
   puzzlePicture: '哪一張圖是這個詞？',
+  puzzlePerfect: '全部自己拼出來了！好厲害！',
 }
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */

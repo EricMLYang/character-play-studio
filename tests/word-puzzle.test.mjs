@@ -149,3 +149,20 @@ test('picture puzzles only use words he can read, never come first, and show dif
   const all = [{ text: '日出', emoji: '🌅' }, { text: '月亮', emoji: '🌙' }, { text: '火山', emoji: '🌋' }, { text: '同圖', emoji: '🎂' }]
   assert.deepEqual(pickPictureDecoys('生日', '🎂', all, 2, seq([0.5])).sort(), ['月亮', '火山'])
 })
+
+test('grammar words and words too hard for a small child never become puzzles; abstract ones are never picture questions', async () => {
+  const { SKIP_WORDS, NO_PICTURE } = await import('../src/play/puzzles.ts')
+  assert.ok(SKIP_WORDS.has('你的') && NO_PICTURE.has('中間'))
+  assert.deepEqual(wordsFor(entry('你', [['你的', '👉'], ['你好', '👋']])).map((w) => w.text), ['你好'])
+  const library = [entry('中', [['中間', '↔️']]), entry('火', [['火山', '🌋']]), entry('山', [['火山', '🌋'], ['山洞', '🕳️']])]
+  const watched = { 中: { count: 9, last: at }, 間: { count: 1, last: at }, 火: { count: 1, last: at }, 山: { count: 1, last: at }, 洞: { count: 1, last: at } }
+  for (let k = 0; k < 20; k++) {
+    for (const r of pickPuzzles(library, { watched }, Math.random)) if (r.word === '中間') assert.equal(r.kind, 'char')
+  }
+})
+
+test('a concrete word comes before an abstract one of the same character, even when he knows more of the abstract one', () => {
+  const library = [entry('苦', [['吃苦', '🥲'], ['苦瓜', '🥒']])]
+  const progress = { watched: { 苦: { count: 1, last: at }, 吃: { count: 5, last: at } } }
+  for (const r of [0.1, 0.5, 0.9]) assert.equal(pickPuzzles(library, progress, seq([r]))[0].word, '苦瓜')
+})

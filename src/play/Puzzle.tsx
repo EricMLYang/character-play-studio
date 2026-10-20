@@ -21,6 +21,8 @@ const REMIND_AFTER = 5000
 const REMINDERS = 2
 
 type Solved = { word: string; ok: boolean; fresh: boolean }
+/** 一輪裡每一題都第一下就找對（至少三題才算） */
+const perfect = (all: Solved[]) => all.length >= 3 && all.every((s) => s.ok)
 
 export default function Puzzle({ library, hues, progress, onSolve, onPick, onBack }: {
   library: CharEntry[]
@@ -95,13 +97,15 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       later(() => { setReading(i); say(w, 0.8) }, t)
       t += Math.max(lasts(w), 600) + BEAT
     })
+    // 每一題都是第一下就找對：再誇一句
+    if (perfect(all)) later(() => { setReading(-1); cheer(); say(FIXED_LINES.puzzlePerfect, 0.8) }, t)
     later(() => { setReading(-1); setPhase('done') }, t + 200)
   }
 
   // 一進來先說「來拼詞語囉！」，再出第一題
   useEffect(() => {
     if (!round.length) return
-    preloadVoice([FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, ...round.flatMap((r) => r.kind === 'picture'
+    preloadVoice([FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, FIXED_LINES.puzzlePerfect, ...round.flatMap((r) => r.kind === 'picture'
       ? r.options
       : [r.word, LINES.puzzleAsk(r.char, r.word), ...r.options.map((o) => LINES.feedNotThis(o))])])
     const words = round.map((r) => r.word)
@@ -166,7 +170,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
   const shelf = collection(progress)
   const bookButton = (
     <button className="puz-book-btn" onClick={openBook} aria-label={`打開詞語圖鑑，收集了 ${shelf.length} 個詞`}>
-      📖 <b>{shelf.length}</b>
+      📖 <b key={shelf.length}>{shelf.length}</b>
     </button>
   )
 
@@ -230,7 +234,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
       <SubBar title="🧩 詞語拼圖" stat={bookButton} onBack={onBack} />
       <div className="puz-pieces" aria-label={`拼好了 ${solved.length} / ${queue.length} 個`}>
         {queue.map((w, i) => (
-          <span key={i} className={'puz-piece' + (i < solved.length ? ' done' : '') + (i === at && !done ? ' now' : '') + (queue.indexOf(w) < i ? ' encore' : '')}>
+          <span key={i} className={'puz-piece' + (i < solved.length ? ' done' : '') + (solved[i]?.ok ? ' ok' : '') + (i === at && !done ? ' now' : '') + (queue.indexOf(w) < i ? ' encore' : '')}>
             {i < solved.length ? items.get(solved[i].word)?.emoji : ''}
           </span>
         ))}
@@ -238,7 +242,7 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
 
       {done ? (
         <div className="puz-done" role="status">
-          <p className="puz-done-title">你拼好了這些詞！</p>
+          <p className="puz-done-title">{perfect(solved) ? '🌟 全部自己拼出來了！' : '你拼好了這些詞！'}</p>
           <div className="puz-done-row">
             {recapWords.map((w, i) => (
               <button key={w} className={'puz-sticker' + (i === reading ? ' reading' : '')} style={{ animationDelay: `${i * 0.08}s` }}

@@ -30,11 +30,25 @@ export type PuzzleItem = {
   options: string[]
 }
 
-/** 這個字可以拿來拼的詞：要有圖、2～4 個字、這個字在詞裡只出現一次。 */
+/**
+ * 字卡上的語詞是給大人解釋字用的，有些對幼兒太難、或只是文法（你的、有的），拿來拼圖只會卡住他。
+ * 這些不出題。要調整直接改這張表（字卡上的語詞不受影響）。
+ */
+export const SKIP_WORDS = new Set([
+  '你的', '他的', '其他', '有的', '在這裡', '還給', '交給', '時候', '辣的', '指著', '很快',
+  '快捷', '敏捷', '膝關節', '屈膝', '犬齒', '獅子座', '腿軟', '翹腿', '龜速', '猴急', '多嘴', '嘴饞', '酸痛', '背部',
+])
+/** 圖畫不出意思的詞（中間↔️、小心⚠️）：可以補字，但不出「看詞找圖」。 */
+export const NO_PICTURE = new Set([
+  '中間', '上面', '入口', '小心', '大家', '時間', '準時', '現在', '今年', '星期', '分開', '超級', '好玩', '有趣', '沒有',
+  '他們', '滿足', '忍耐', '忍住', '不怕', '著急', '急忙', '走開', '給你', '送給', '大叫', '背後', '親愛', '甜心', '辛苦', '吃苦',
+])
+
+/** 這個字可以拿來拼的詞：要有圖、2～4 個字、這個字在詞裡只出現一次、不在 SKIP_WORDS。 */
 export function wordsFor(entry: CharEntry) {
   return (entry.words || []).filter((w) => {
     const chars = [...w.text]
-    return w.emoji && chars.length >= 2 && chars.length <= 4 && chars.filter((c) => c === entry.char).length === 1
+    return w.emoji && !SKIP_WORDS.has(w.text) && chars.length >= 2 && chars.length <= 4 && chars.filter((c) => c === entry.char).length === 1
   })
 }
 
@@ -42,7 +56,7 @@ export function wordsFor(entry: CharEntry) {
  * 這一輪的詞。
  * - 只用他看過的字，看越多次的字越前面（最可能認得）
  * - 還沒拼過的詞優先，圖鑑才會一直有新東西；都拼過了就挑最久沒拼的
- * - 同一個字的新詞裡，詞裡其他字他也看過的先上（火山比擁抱好認）
+ * - 同一個字的新詞裡，畫得出來的具體詞先上（火山比小心好懂），再來是詞裡其他字他也看過的（火山比擁抱好認）
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字
  * 第一題放最有把握的字暖身。
  */
@@ -56,7 +70,9 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   // 每個字挑一個詞：沒拼過的先，拼過的挑最久沒拼的
   const choices = watched.map((entry) => {
     const words = shuffle(wordsFor(entry), random)
-    const fresh = words.filter((w) => !done[w.text]).sort((a, b) => familiar(b.text, entry.char) - familiar(a.text, entry.char))
+    const concrete = (w: string) => (NO_PICTURE.has(w) ? 0 : 1)
+    const fresh = words.filter((w) => !done[w.text])
+      .sort((a, b) => concrete(b.text) - concrete(a.text) || familiar(b.text, entry.char) - familiar(a.text, entry.char))
     const word = fresh[0] ?? [...words].sort((a, b) => lastTime(a.text) - lastTime(b.text))[0]
     return { entry, word, fresh: fresh.length > 0 }
   })
@@ -68,7 +84,7 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   const everyone = library.map((c) => c.char)
   const allWords = library.flatMap((c) => wordsFor(c))
   // 看詞找圖：第一題不出（先暖身），只出每個字都看過的詞
-  const readable = (w: string) => [...w].every((c) => progress.watched[c])
+  const readable = (w: string) => !NO_PICTURE.has(w) && [...w].every((c) => progress.watched[c])
   const pictureAt = new Set(shuffle(picked.map((_, i) => i).filter((i) => i > 0 && readable(picked[i].word.text)), random).slice(0, pictures))
   return picked.map(({ entry, word }, i) => {
     const chars = [...word.text]
@@ -87,7 +103,7 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
  */
 export function pickPictureDecoys(word: string, emoji: string, all: { text: string; emoji?: string }[], n: number, random = Math.random) {
   const share = (w: string) => [...w].some((c) => word.includes(c))
-  const pool = shuffle(all.filter((w) => w.text !== word && w.emoji && w.emoji !== emoji), random).sort((a, b) => Number(share(a.text)) - Number(share(b.text)))
+  const pool = shuffle(all.filter((w) => w.text !== word && w.emoji && w.emoji !== emoji && !NO_PICTURE.has(w.text)), random).sort((a, b) => Number(share(a.text)) - Number(share(b.text)))
   const out: string[] = []
   const used = new Set([emoji])
   for (const w of pool) {
