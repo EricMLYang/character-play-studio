@@ -5,6 +5,7 @@ import { feedbackTags } from '../../shared/domain.mjs'
 import MediaReview from './MediaReview'
 import { clipFor } from '../anim/clips'
 import AnimMedia from '../anim/AnimMedia'
+import LearningSummary from './LearningSummary'
 import CharacterEditor from './CharacterEditor'
 import '../play/play.css'
 import './studio.css'
@@ -274,7 +275,7 @@ export default function StudioApp() {
         <main className="st-main">
           {error && <div className="st-error" role="alert">{error}</div>}
           {!entry ? (
-            <div className="st-empty">← 選一個字開始</div>
+            <LearningSummary progress={lib.progress} characters={lib.characters} onPick={pick} />
           ) : (
             <>
               <div className="st-head">
