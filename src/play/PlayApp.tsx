@@ -69,6 +69,8 @@ export default function PlayApp() {
     return () => window.removeEventListener('online', sync)
   }, [sync])
 
+  /** 他在詞語拼圖拼過的詞（字卡頁的語詞旁邊標拼圖） */
+  const puzzled = useMemo(() => new Set(Object.keys(progress.puzzles || {})), [progress.puzzles])
   // 有影片（含動畫）的字排在前面，而且照 words.ts 排成一個個詞；上一個／下一個也照這個順序走
   const { all, groups, hues } = useMemo(() => {
     const visible = browseCharacters(lib?.characters || [])
@@ -159,6 +161,7 @@ export default function PlayApp() {
           traces={progress.town?.[entry.char]?.traces || 0}
           library={all}
           hues={hues}
+          puzzled={puzzled}
           prev={index > 0 ? items[index - 1] : undefined}
           next={index >= 0 && index < items.length - 1 ? items[index + 1] : undefined}
           onGo={(c) => open(c.char)}

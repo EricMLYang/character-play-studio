@@ -16,7 +16,7 @@ import { Confetti, hueOf, hueVar } from './ui'
  * 流程狀態在 viewerFlow.ts；這裡只管畫面、計時器與音效。
  */
 export default function Viewer({
-  entry, count, traces, library, hues, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
+  entry, count, traces, library, hues, puzzled, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
 }: {
   entry: CharEntry
   count: number
@@ -26,6 +26,8 @@ export default function Viewer({
   library: CharEntry[]
   /** 每個字的顏色（hueMap），跟首頁同色 */
   hues: Map<string, number>
+  /** 他在詞語拼圖拼過的詞：語詞旁邊標一片拼圖 */
+  puzzled?: Set<string>
   prev?: CharEntry
   next?: CharEntry
   onGo: (e: CharEntry) => void
@@ -163,6 +165,7 @@ export default function Viewer({
                 {[...(word.text || '')].map((c, i) => <span key={i} className={c === entry.char ? 'word-hit' : ''}>{c}</span>)}
               </span>
               <span className="word-say" aria-hidden>🔊</span>
+              {puzzled?.has(word.text) && <span className="word-got" title="拼過了" aria-label="這個詞拼過了">🧩</span>}
             </button>
           ))}</div>
           <div className="band-links">
