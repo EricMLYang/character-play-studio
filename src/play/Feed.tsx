@@ -140,7 +140,8 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
 
   // 一進來先喊肚子餓，再點第一道菜
   useEffect(() => {
-    if (!dishes.length) return
+    // 不到兩道菜時畫面是「先去看幾個字」，不要在背後喊肚子餓、點菜
+    if (dishes.length < 2) return
     preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, ...FINALE_IDS.flatMap((id) => [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]), ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
     recorded.current = new Set()
     setQueue(dishes)

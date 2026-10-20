@@ -120,7 +120,8 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
 
   // 一進來先說「來拼詞語囉！」，再出第一題
   useEffect(() => {
-    if (!round.length) return
+    // 不到兩題時畫面是「先去看幾個字」，不要在背後開場、出題
+    if (round.length < 2) return
     preloadVoice([...round.map((r) => LINES.puzzleAll(r.char)), FIXED_LINES.puzzleHello, FIXED_LINES.puzzleRecap, FIXED_LINES.puzzlePicture, FIXED_LINES.puzzlePerfect, ...round.flatMap((r) => r.kind === 'picture'
       ? r.options
       : [r.word, LINES.puzzleAsk(r.char, r.word), ...r.options.map((o) => LINES.feedNotThis(o))])])
