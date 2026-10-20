@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { CLIPS } from './clips'
+import { useEffect, useState } from 'react'
+import { loadAllClips } from './clips'
+import type { Clip } from './clip'
 import AnimPlayer, { type Art } from './AnimPlayer'
 import '../play/play.css'
 
@@ -8,6 +9,13 @@ import '../play/play.css'
  * 網址可帶 ?char=果&t=3.2 直接定格在某一秒（截圖驗證用）。
  */
 export default function AnimLab() {
+  // 劇本是按需載入的，試播頁要全部列出來，先全部載入
+  const [clips, setClips] = useState<Clip[] | null>(null)
+  useEffect(() => { loadAllClips().then(setClips) }, [])
+  return clips ? <Lab clips={clips} /> : <div className="boot">載入動畫中…</div>
+}
+
+function Lab({ clips: CLIPS }: { clips: Clip[] }) {
   const qs = new URLSearchParams(location.search)
   const [char, setChar] = useState(() => CLIPS.find((c) => c.char === qs.get('char'))?.char ?? CLIPS[0].char)
   const [t, setT] = useState(() => Number(qs.get('t')) || 0)

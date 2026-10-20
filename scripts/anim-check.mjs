@@ -20,7 +20,8 @@ const only = process.argv.slice(2).join('').replace(/\s/g, '')
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true, hmr: false }, appType: 'custom' })
 let failed = false
 try {
-  const { CLIPS } = await server.ssrLoadModule('/src/anim/clips/index.ts')
+  const { loadAllClips } = await server.ssrLoadModule('/src/anim/clips/index.ts')
+  const CLIPS = await loadAllClips()
   const engine = await server.ssrLoadModule('/src/anim/clip.ts')
   const clips = only ? CLIPS.filter((c) => only.includes(c.char)) : CLIPS
   for (const clip of clips) {

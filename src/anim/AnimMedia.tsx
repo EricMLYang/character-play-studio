@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { stopSpeech } from '../lib/audio'
 import AnimPlayer from './AnimPlayer'
 import type { Clip } from './clip'
+import { cachedClip, loadClip } from './clips'
 
 /**
  * 播放器裡的動畫短片：當成一支影片用。開啟就自動播，底下有暫停與拖曳，播完呼叫 onEnd。
@@ -36,4 +37,19 @@ export default function AnimMedia({ clip, onEnd, autoplay = true }: { clip: Clip
       </div>
     </div>
   )
+}
+
+/**
+ * 用字播動畫：劇本還沒載入就先下載（第一次要一下下），載入過的直接播。
+ * 播放器、字火車、Studio 都用這個，不必自己管載入。
+ */
+export function ClipMedia({ char, onEnd, autoplay = true }: { char: string; onEnd: () => void; autoplay?: boolean }) {
+  const [clip, setClip] = useState<Clip | undefined>(() => cachedClip(char))
+  useEffect(() => {
+    let alive = true
+    if (!clip || clip.char !== char) loadClip(char).then((c) => { if (alive) { setClip(c); if (!c) onEnd() } }, () => { if (alive) onEnd() })
+    return () => { alive = false }
+  }, [char])
+  if (!clip || clip.char !== char) return <div className="anim-media anim-loading" aria-label="動畫載入中" />
+  return <AnimMedia clip={clip} onEnd={onEnd} autoplay={autoplay} />
 }

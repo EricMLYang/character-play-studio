@@ -3,8 +3,8 @@ import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
 import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
 import { feedbackTags } from '../../shared/domain.mjs'
 import MediaReview from './MediaReview'
-import { clipFor } from '../anim/clips'
-import AnimMedia from '../anim/AnimMedia'
+import { hasClip } from '../anim/clips'
+import { ClipMedia } from '../anim/AnimMedia'
 import LearningSummary from './LearningSummary'
 import CharacterEditor from './CharacterEditor'
 import '../play/play.css'
@@ -245,7 +245,7 @@ export default function StudioApp() {
                   <span>
                     <span className={'st-badge b-' + c.status}>{STATUS[c.status]}</span>
                     {c.hidden && <span className="st-badge b-hidden">孩子端隱藏</span>}
-                    {clipFor(c.char) && <span className="st-badge b-anim">有動畫</span>}
+                    {hasClip(c.char) && <span className="st-badge b-anim">有動畫</span>}
                   </span>
                 </span>
                 {c.needsRedo && <span className="st-redo">要重做</span>}
@@ -303,10 +303,10 @@ export default function StudioApp() {
                 </div>
               </div>
 
-              {clipFor(entry.char) && <section className="st-card">
+              {hasClip(entry.char) && <section className="st-card">
                 <div className="st-card-bar"><h4>動畫</h4></div>
                 <p className="st-dim">還沒有上架影片時，孩子端會播這段動畫；影片上架後自動改播影片。</p>
-                <div className="st-anim"><AnimMedia key={entry.char} clip={clipFor(entry.char)!} onEnd={() => {}} autoplay={false} /></div>
+                <div className="st-anim"><ClipMedia key={entry.char} char={entry.char} onEnd={() => {}} autoplay={false} /></div>
               </section>}
 
               <section className="st-card">

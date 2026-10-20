@@ -5,7 +5,7 @@ import { cheer, swipe } from '../lib/sfx'
 import { sceneFor, SCENE_PIECES } from './scenes'
 import { partsOf, hidesIn } from './parts'
 import Strokes from './Strokes'
-import AnimMedia from '../anim/AnimMedia'
+import { ClipMedia } from '../anim/AnimMedia'
 import { pickSource, mediaUrl, type Broken } from './source'
 import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
@@ -202,7 +202,7 @@ export default function Viewer({
           <VideoPlayer key={round} char={entry.char} media={source.media} controls
             onEnded={endMedia} onFailed={() => setBroken((b) => ({ ...b, video: true }))} />
         ) : source.kind === 'clip' ? (
-          <AnimMedia key={round} clip={source.clip} onEnd={endMedia} />
+          <ClipMedia key={round} char={source.char} onEnd={endMedia} />
         ) : source.kind === 'image' ? (
           <img className={'viewer-media' + (imageReady ? '' : ' loading')} src={mediaUrl(source.media)} alt={entry.char}
             onLoad={() => setImageReady(true)} onError={() => setBroken((b) => ({ ...b, image: true }))} />

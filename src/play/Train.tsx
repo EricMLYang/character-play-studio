@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { say, stopSpeech } from '../lib/audio'
 import { cheer, plop, stash, tap, whoosh } from '../lib/sfx'
-import AnimMedia from '../anim/AnimMedia'
+import { ClipMedia } from '../anim/AnimMedia'
 import { hueMap, nextChars, realWords, type WordGroup } from './words'
 import { pickSource } from './source'
 import VideoPlayer from './VideoPlayer'
@@ -235,6 +235,6 @@ function Leg({ entry, onEnd }: { entry: CharEntry; onEnd: (watched: boolean) => 
   useEffect(() => { if (source.kind === 'card') onEnd(false) }, [source.kind])
 
   if (source.kind === 'video') return <VideoPlayer char={entry.char} media={source.media} onEnded={() => onEnd(true)} onFailed={() => setFailed(true)} />
-  if (source.kind === 'clip') return <AnimMedia clip={source.clip} onEnd={() => onEnd(true)} />
+  if (source.kind === 'clip') return <ClipMedia char={source.char} onEnd={() => onEnd(true)} />
   return null
 }

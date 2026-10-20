@@ -1,7 +1,6 @@
 import type { CharEntry, Media } from '../types'
-import type { Clip } from '../anim/clip'
 import { publishedMedia } from '../../shared/domain.mjs'
-import { clipFor } from '../anim/clips'
+import { hasClip } from '../anim/clips'
 
 /**
  * 一個字要播什麼：上架影片 → 動畫劇本 → 上架圖片 → 字卡動畫（什麼都沒有）。
@@ -9,7 +8,8 @@ import { clipFor } from '../anim/clips'
  */
 export type Source =
   | { kind: 'video'; media: Media }
-  | { kind: 'clip'; clip: Clip }
+  /** 動畫劇本：用 ClipMedia 播，要播時才下載那一支 */
+  | { kind: 'clip'; char: string }
   | { kind: 'image'; media: Media }
   | { kind: 'card' }
 
@@ -19,8 +19,7 @@ export function pickSource(entry: CharEntry, broken: Broken = {}, { images = tru
   const media = publishedMedia(entry)
   const video = broken.video ? undefined : media.find((m) => m.kind === 'video')
   if (video) return { kind: 'video', media: video }
-  const clip = clipFor(entry.char)
-  if (clip) return { kind: 'clip', clip }
+  if (hasClip(entry.char)) return { kind: 'clip', char: entry.char }
   const image = !images || broken.image ? undefined : media.find((m) => m.kind === 'image')
   if (image) return { kind: 'image', media: image }
   return { kind: 'card' }
