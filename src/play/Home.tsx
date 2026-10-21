@@ -5,6 +5,7 @@ import { hasMovie } from '../anim/clips'
 import { tap } from '../lib/sfx'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
+import type { Nudge } from './nudge'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -13,7 +14,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide,
+  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, nudge, onNudge,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -39,6 +40,9 @@ export default function Home({
   onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
+  /** 首頁那隻角色現在要跟他說的話（nudge.ts） */
+  nudge: Nudge
+  onNudge: (go: string | null) => void
 }) {
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   const card = (c: CharEntry, hue: number, i: number) => {
@@ -103,11 +107,14 @@ export default function Home({
       </header>
 
       <div className="home-invite">
-        <span className="home-mascot" aria-hidden="true">🌟</span>
-        <div>
-          <h2>{filter === 'video' ? '選一張，來看小影片！' : '今天想認識哪個字？'}</h2>
-          <p>看看小圖，點點字卡，自己選！</p>
-        </div>
+        {/* 今天可以做什麼：角色看他的紀錄挑一件事說，按一下直接過去（規則在 nudge.ts） */}
+        <button className="buddy" onClick={() => { tap(); onNudge(nudge.go) }} aria-label={`${nudge.text} ${nudge.cta}`}>
+          <img className="buddy-img" src={`/hero/${nudge.hero}/${nudge.pose}.png`} alt="" />
+          <span className="buddy-say">
+            <b>{nudge.text}</b>
+            <small>{nudge.cta}</small>
+          </span>
+        </button>
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
           {places.map((p) => (

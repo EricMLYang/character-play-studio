@@ -13,6 +13,7 @@ import { Ride } from './Train'
 import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
+import { pickNudge } from './nudge'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -129,6 +130,9 @@ export default function PlayApp() {
     return Object.values(progress.watched).filter((w) => taiwanDay(w.last) === today).length
   }, [progress])
 
+  // 首頁那隻角色要說的話。進度一變就重挑，所以做完一件事它會換下一句
+  const nudge = useMemo(() => pickNudge(all, progress, stars, caps), [all, progress, stars, caps])
+
   // ---------- 去哪裡 ----------
   const here: Route = { screen }
   /** 開一個字：已經開著別的字（上一個／下一個）就換掉，不要讓返回鍵一個一個退 */
@@ -185,6 +189,12 @@ export default function PlayApp() {
             places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress) }))}
             onScreen={toScreen}
             onRide={startRide}
+            nudge={nudge}
+            onNudge={(go) => {
+              if (!go) surprise()
+              else if (go.startsWith('char:')) open(go.slice(5))
+              else toScreen(go)
+            }}
           />
         )}
       </div>
