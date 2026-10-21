@@ -94,3 +94,13 @@ test('每一句都有角色、有按鈕的字', () => {
     assert.ok(n.text.length > 4 && n.cta.length > 2, JSON.stringify(n))
   }
 })
+
+test('快開到下一個寶箱：講還差幾顆，這是他最近的一個獎勵', async () => {
+  const { STARS_PER } = await import('../src/play/partners.ts')
+  const progress = { watched: watched('火水山木', todayAt), ...played }
+  // 距離下一個寶箱剩兩顆
+  const stars = new Map([['火', STARS_PER - 2]])
+  const n = pickNudge(library, progress, stars, new Map([['火', 99]]), today)
+  assert.match(n.text, /2 顆星星/)
+  assert.ok(n.go)
+})

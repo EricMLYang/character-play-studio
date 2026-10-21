@@ -1,5 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { taiwanDay } from '../../shared/domain.mjs'
+import { nextPartner } from './partners'
 
 /**
  * 首頁上那隻角色現在要跟他說什麼。
@@ -36,6 +37,7 @@ const WHO: Record<string, { hero: string; pose: string }> = {
   puzzle: { hero: 'raccoon', pose: 'idle' },
   town: { hero: 'sheriff', pose: 'idle' },
   star: { hero: 'cape', pose: 'happy' },
+  chest: { hero: 'pirate', pose: 'happy' },
 }
 
 /**
@@ -84,6 +86,13 @@ export function pickNudge(
       : { ...WHO.feed, text: `我肚子餓了，有 ${due} 個字想吃！`, cta: '去餵牠 →', go: 'feed' }
   }
 
+  // 快開到下一個寶箱了：這是他現在最近的一個獎勵，講出來他才知道差一點點
+  const total = [...stars.values()].reduce((sum, n) => sum + n, 0)
+  const chest = nextPartner(total)
+  if (enough && chest && chest.need <= 3) {
+    return { ...WHO.chest, text: `再 ${chest.need} 顆星星就有新夥伴了！`, cta: '去拿星星 →', go: 'river' }
+  }
+
   // 差一顆就滿星的字：講那個字，不講數字
   const nearly = [...stars].filter(([char, n]) => n > 0 && n + 1 === (caps.get(char) ?? 5) && library.some((c) => c.char === char))
   if (nearly.length) {
@@ -93,6 +102,5 @@ export function pickNudge(
 
   // 沒有特別該做的事：講他已經拿到的，再順手推一個地方
   if (!enough) return { ...WHO.card, text: '再多看幾個字，遊戲裡就有更多字可以玩！', cta: '挑一個字 →', go: null }
-  const total = [...stars.values()].reduce((sum, n) => sum + n, 0)
   return { ...WHO.star, text: `你已經收集了 ${total} 顆星星！再去拿幾顆？`, cta: '去過河 →', go: 'river' }
 }

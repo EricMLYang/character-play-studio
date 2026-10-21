@@ -6,6 +6,7 @@ import { tap } from '../lib/sfx'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 import type { Nudge } from './nudge'
+import type { Quest } from './today'
 import { nextPartner } from './partners'
 
 const FILTERS: { id: Filter; label: string }[] = [
@@ -15,7 +16,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, nudge, onNudge,
+  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -41,6 +42,9 @@ export default function Home({
   onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
+  /** 今天的三件事（today.ts） */
+  quests: Quest[]
+  questsDone: boolean
   /** 首頁那隻角色現在要跟他說的話（nudge.ts） */
   nudge: Nudge
   onNudge: (go: string | null) => void
@@ -125,9 +129,31 @@ export default function Home({
             </button>
           ))}
         </div>
-        <StarBank total={starTotal} />
         <TodayStars count={todayCount} />
       </div>
+
+      {/* 今天的三件事：看得完、有進度、做完打勾。沒有失敗也沒有倒數（today.ts） */}
+      {(quests.length > 1 || starTotal > 0) && (
+        <div className={'quests' + (questsDone ? ' all' : '')} aria-label="今天的三件事">
+          <StarBank total={starTotal} />
+          {quests.length > 1 && <span className="quests-title">{questsDone ? '🎉 今天的三件事都做完了！' : '今天的三件事'}</span>}
+          {quests.length > 1 && quests.map((q) => {
+            const done = q.done >= q.need
+            return (
+              <button key={q.id} className={'quest' + (done ? ' done' : '')} onClick={() => { tap(); onNudge(q.go) }}
+                aria-label={`${q.label}，已經做到 ${q.done} 個${done ? '，完成了' : ''}`}>
+                <span className="quest-icon" aria-hidden>{done ? '✅' : q.icon}</span>
+                <span className="quest-text">
+                  <b className="quest-long">{q.label}</b>
+                  <b className="quest-short" aria-hidden>{q.short}</b>
+                  <span className="quest-bar" aria-hidden><i style={{ width: `${(q.done / q.need) * 100}%` }} /></span>
+                </span>
+                <span className="quest-n" aria-hidden>{q.done}/{q.need}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {groups ? (
         <div className="grid grouped" aria-label="字卡瀏覽">
@@ -241,7 +267,7 @@ function ParentGate() {
         onKeyUp={cancel}
         onBlur={cancel}
         onContextMenu={(e) => e.preventDefault()}
-      >👪 家長（長按）</button>
+      >👪<span className="parent-label"> 家長（長按）</span></button>
       {hint && <div className="home-parent-hint" role="status">長按一秒才會進入家長專區</div>}
     </>
   )

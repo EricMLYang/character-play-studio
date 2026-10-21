@@ -14,6 +14,7 @@ import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
 import { pickNudge } from './nudge'
+import { allDone, todayQuests } from './today'
 import { PARTNERS, partnerCount, type Partner } from './partners'
 import Chest from './Chest'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
@@ -105,15 +106,18 @@ export default function PlayApp() {
 
   // 星星可能在任何一個遊戲裡拿到（看完影片、描完字、餵怪獸認出來、拼好詞、魔法鍋變出來），
   // 所以「拿到了！」這一下放在最外框，一個地方管全部，遊戲本身不用各做一次。
-  const [pop, setPop] = useState<{ key: number; char: string; full: boolean } | null>(null)
+  const [pop, setPop] = useState<{ key: number; icon: string; text: string; big: boolean } | null>(null)
   /** 星星集滿一段，開出一位新夥伴（partners.ts） */
   const [chest, setChest] = useState<Partner | null>(null)
-  const before = useRef<{ stars: Map<string, number>; total: number } | null>(null)
+  // 今天的三件事（today.ts）：三件都做完要慶祝一次
+  const quests = useMemo(() => todayQuests(progress), [progress])
+  const questsDone = allDone(quests)
+  const before = useRef<{ stars: Map<string, number>; total: number; quests: boolean } | null>(null)
   useEffect(() => {
     // 字庫還沒載到的時候 progress 是空的，整份進度一進來會看起來像「剛剛拿到兩百顆星」
     if (!lib) return
     const was = before.current
-    before.current = { stars, total: starTotal }
+    before.current = { stars, total: starTotal, quests: questsDone }
     // 第一次拿到真的進度：這些星星是以前拿的，不是現在拿到的，不慶祝
     if (!was) return
     // 開寶箱比單顆星星大，同一下兩件事都發生時先演寶箱
@@ -121,15 +125,22 @@ export default function PlayApp() {
       setChest(PARTNERS[partnerCount(starTotal) - 1])
       return
     }
+    if (questsDone && !was.quests) {
+      magic()
+      setPop({ key: Date.now(), icon: '🎉', text: '今天三件事都做完了！', big: true })
+      return
+    }
     const got = [...stars].find(([char, n]) => n > (was.stars.get(char) || 0))
     if (!got) return
     const full = got[1] >= (caps.get(got[0]) ?? 5)
     if (full) magic()
-    setPop({ key: Date.now(), char: got[0], full })
-  }, [stars, starTotal, caps, lib])
+    setPop(full
+      ? { key: Date.now(), icon: '👑', text: `「${got[0]}」的星星集滿了！`, big: true }
+      : { key: Date.now(), icon: '⭐', text: `「${got[0]}」拿到一顆星星！`, big: false })
+  }, [stars, starTotal, caps, lib, questsDone])
   useEffect(() => {
     if (!pop) return
-    const t = setTimeout(() => setPop(null), pop.full ? 3200 : 2200)
+    const t = setTimeout(() => setPop(null), pop.big ? 3200 : 2200)
     return () => clearTimeout(t)
   }, [pop])
 
@@ -198,6 +209,8 @@ export default function PlayApp() {
             places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress) }))}
             onScreen={toScreen}
             onRide={startRide}
+            quests={quests}
+            questsDone={questsDone}
             nudge={nudge}
             onNudge={(go) => {
               if (!go) surprise()
@@ -239,10 +252,10 @@ export default function PlayApp() {
       {pop && !chest && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
-          {pop.full && <div className="star-rain" aria-hidden><Confetti /></div>}
-          <div className={'star-pop' + (pop.full ? ' full' : '')} key={pop.key} role="status">
-            <span className="pop-star" aria-hidden>{pop.full ? '👑' : '⭐'}</span>
-            {pop.full ? <b>「{pop.char}」的星星集滿了！</b> : <b>「{pop.char}」拿到一顆星星！</b>}
+          {pop.big && <div className="star-rain" aria-hidden><Confetti /></div>}
+          <div className={'star-pop' + (pop.big ? ' full' : '')} key={pop.key} role="status">
+            <span className="pop-star" aria-hidden>{pop.icon}</span>
+            <b>{pop.text}</b>
           </div>
         </>
       )}

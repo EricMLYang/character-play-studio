@@ -91,10 +91,9 @@
 .bank-star { font-size: 30px; line-height: 1; animation: nudge 4.5s ease-in-out infinite; }
 .bank-n { font-size: 27px; font-weight: 800; line-height: 1; letter-spacing: -.02em; }
 .bank-label { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.68); }
-.home-places + .bank { margin-left: 10px; }
-.bank + .today { margin-left: 10px; }
+.quests .bank { flex-shrink: 0; }
 
-.home-invite { display: flex; align-items: center; gap: 16px; padding: 10px 28px 20px; }
+.home-invite { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 28px 16px; }
 .home-invite h2 { margin: 0; font-size: 25px; }
 .home-invite p { margin: 4px 0 0; font-size: 15px; color: #645449; }
 /* 首頁那隻角色：看他的紀錄挑一件現在可以做的事（nudge.ts），按一下直接過去 */
@@ -115,16 +114,17 @@
 
 
 /* ---------- 首頁的去處：小鎮、魔法鍋、字火車（games.tsx 的 GAMES） ---------- */
-.home-places { display: flex; gap: 12px; margin-left: auto; }
+/* 六個去處要排得進一行（最長的是「跳石頭過河」五個字），擠不下就整排換行 */
+.home-places { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
 .home-places + .today { margin-left: 8px; }
-.place { display: flex; align-items: center; gap: 10px; min-height: 68px; padding: 8px 20px 8px 10px; border-radius: 24px;
+.place { display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 7px 15px 7px 8px; border-radius: 22px;
   text-align: left; box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
 .place:hover { transform: translateY(-3px) rotate(-1deg); }
 .place:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
-.place b { display: block; font-size: 20px; }
-.place small { display: block; font-size: 13px; font-weight: 700; color: rgba(46,42,38,.72); }
-.place-icon { display: grid; place-items: center; width: 50px; height: 50px; font-size: 32px; border-radius: 18px; background: rgba(255,255,255,.7);
+.place b { display: block; font-size: 18px; white-space: nowrap; }
+.place small { display: block; font-size: 12px; font-weight: 700; color: rgba(46,42,38,.72); white-space: nowrap; }
+.place-icon { display: grid; place-items: center; width: 44px; height: 44px; font-size: 28px; border-radius: 16px; background: rgba(255,255,255,.7);
   animation: nudge 4s ease-in-out infinite; }
 .place-town { background: #BDEBC4; }
 .place-lab { background: #D9D2FF; }
@@ -156,29 +156,32 @@
   .card-emoji { font-size: 38px; width: 58px; height: 58px; border-radius: 20px; }
   .card-zhuyin { font-size: 22px; }
   .card-badge { top: 8px; right: 6px; font-size: 10px; }
-  .home-invite { padding: 6px 14px 14px; gap: 10px; }
+  .home-invite { padding: 4px 14px 8px; gap: 8px; }
   .home-invite h2 { font-size: 20px; }
   .home-invite p { font-size: 13px; }
-  .buddy { flex: 1 1 100%; padding: 4px 14px 4px 4px; gap: 8px; border-radius: 22px; }
-  .buddy-img { width: 54px; height: 54px; }
+  .buddy { flex: 1 1 100%; padding: 3px 12px 3px 3px; gap: 8px; border-radius: 20px; }
+  .buddy-img { width: 48px; height: 48px; }
   .buddy-say b { font-size: 15px; }
   .buddy-say small { font-size: 12px; padding: 2px 10px; }
   .home-mascot { font-size: 32px; }
   .today-stars { font-size: 20px; }
   .today-label { font-size: 12px; }
-  .bank { padding: 3px 12px 3px 6px; }
-  .bank-star { font-size: 24px; }
-  .bank-n { font-size: 22px; }
+  /* 這一條要塞下星星存摺加三件事：存摺只留數字，三件事只留圖示跟進度 */
+  .bank { padding: 2px 9px 2px 4px; gap: 2px; }
+  .bank-star { font-size: 20px; }
+  .bank-n { font-size: 18px; }
   .bank-label { display: none; }
-  .home-places + .bank { margin-left: auto; }
   .card-stars { left: 8px; bottom: 8px; font-size: 12px; }
+  /* 家長只留圖示：名字寫出來會自己擠掉一整行，那一行比字卡不值錢 */
+  .parent-label { display: none; }
+  .home-parent { padding: 9px 12px; }
   .home-invite { flex-wrap: wrap; }
   .home-places { order: 5; flex: 1 1 100%; margin-left: 0; gap: 6px; display: grid; grid-template-columns: repeat(3, 1fr); }
   /* 六個去處擠在 390px：排兩行三個（一行六個只有 47px 寬，六歲的手指按不準），圖示疊在名字上面，副標拿掉 */
-  .place { min-width: 0; min-height: 60px; flex-direction: column; gap: 2px; padding: 6px 4px; text-align: center; border-radius: 20px; }
+  .place { min-width: 0; min-height: 50px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
   .place small { display: none; }
-  .place b { font-size: min(16px, 4.2vw); white-space: nowrap; }
-  .place-icon { width: 42px; height: 42px; font-size: 26px; }
+  .place b { font-size: min(15px, 4vw); white-space: nowrap; }
+  .place-icon { width: 32px; height: 32px; font-size: 21px; border-radius: 12px; }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
@@ -189,4 +192,41 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card, .card-emoji { transition: none; }
+}
+
+/* ---------- 今天的三件事（today.ts）：看得完、有進度、做完打勾 ---------- */
+.quests { display: flex; align-items: center; gap: 10px; padding: 0 28px 12px; flex-wrap: wrap; }
+.quests-title { flex-shrink: 0; font-size: 15px; font-weight: 800; color: rgba(46,42,38,.72); }
+.quests.all .quests-title { color: var(--ink); }
+.quest { display: flex; align-items: center; gap: 9px; padding: 7px 14px 7px 9px; border-radius: 999px; background: #fff; text-align: left;
+  box-shadow: 0 4px 0 rgba(0,0,0,.07); transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.quest:hover { transform: translateY(-2px); }
+.quest:active { transform: translateY(3px); box-shadow: none; }
+.quest.done { background: linear-gradient(135deg, #FFF3CF, #FFE49A); }
+.quest-icon { display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+  background: var(--paper); font-size: 19px; line-height: 1; }
+.quest.done .quest-icon { background: #fff; }
+.quest-text { display: flex; flex-direction: column; gap: 4px; min-width: 104px; }
+.quest-text b { font-size: 14px; line-height: 1.2; }
+.quest-short { display: none; }
+.quest-bar { display: block; height: 6px; border-radius: 999px; background: rgba(46,42,38,.1); overflow: hidden; }
+.quest-bar i { display: block; height: 100%; border-radius: 999px; background: var(--c0); transition: width .45s cubic-bezier(.2,1.5,.4,1); }
+.quest.done .quest-bar i { background: var(--c3); }
+.quest-n { flex-shrink: 0; font-size: 13px; font-weight: 800; color: rgba(46,42,38,.6); }
+
+@media (max-width: 700px) {
+  .quests { gap: 6px; padding: 0 14px 8px; }
+  /* 三件事要排得進一行：標題收起來，只留圖示、名字與進度 */
+  .quests-title { display: none; }
+  .quest { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 8px 4px 4px; }
+  .quest-icon { width: 26px; height: 26px; font-size: 15px; }
+  .quest-text { min-width: 0; flex: 0 1 auto; gap: 2px; }
+  /* 名字排不下就換短的（看字、認字、拼詞），不要讓它變成「看 3 …」 */
+  .quest-long { display: none; }
+  .quest-short { display: block; font-size: 12px; white-space: nowrap; }
+  /* 進度條在這個寬度只剩二十幾 px，看不出長短；數字講得更清楚 */
+  .quest-bar { display: none; }
+  .quest-n { font-size: 11px; }
+  /* 「今天看了 N 個字」跟「看 3 個字」講同一件事，手機上留一個就好，空間要留給字卡 */
+  .home-invite:has(+ .quests) .today { display: none; }
 }
