@@ -118,7 +118,7 @@ button:disabled { cursor: default; }
 .chest-prize h2 { margin: 2px 0 0; font-size: clamp(22px, 4.6vw, 30px); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
 .chest-prize h2 b { color: #FFD24A; }
 .chest-prize p { margin: 0; font-size: 16px; font-weight: 700; color: rgba(255,255,255,.88); }
-.chest-prize .nav-btn { margin-top: 8px; min-width: 190px; }
+.chest-prize .nav-btn { flex: none; margin-top: 8px; min-width: 190px; }
 .chest-hero { width: clamp(150px, 34vh, 260px); height: auto; object-fit: contain; filter: drop-shadow(0 10px 18px rgba(0,0,0,.4));
   animation: boing .9s cubic-bezier(.2,1.6,.4,1) both; }
 /* 背後那圈光 */

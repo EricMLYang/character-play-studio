@@ -8,6 +8,7 @@ import { hueMap, type WordGroup } from './words'
 import type { Nudge } from './nudge'
 import type { Quest } from './today'
 import { nextPartner, STARS_PER } from './partners'
+import Mine from './Mine'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -18,7 +19,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, stars, starCaps, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
+  items, groups, total, watched, progress, stars, starCaps, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -46,6 +47,8 @@ export default function Home({
   onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
+  /** 他的進度，給「我的東西」用 */
+  progress: Progress
   /** 今天的三件事（today.ts） */
   quests: Quest[]
   questsDone: boolean
@@ -53,6 +56,8 @@ export default function Home({
   nudge: Nudge
   onNudge: (go: string | null) => void
 }) {
+  const [mine, setMine] = useState(false)
+
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   const card = (c: CharEntry, hue: number, i: number) => {
     const count = watched[c.char]?.count || 0
@@ -94,6 +99,11 @@ export default function Home({
 
   return (
     <div className="home">
+      {mine && (
+        <Mine progress={progress} stars={starTotal} fullCount={fullCount}
+          onClose={() => { tap(); setMine(false) }}
+          onGo={(where) => { setMine(false); if (where === 'full') onFilter('full'); else onScreen(where) }} />
+      )}
       <header className="home-bar">
         <h1 className="home-title">字字樂園</h1>
         <input
@@ -142,7 +152,7 @@ export default function Home({
       {/* 今天的三件事：看得完、有進度、做完打勾。沒有失敗也沒有倒數（today.ts） */}
       {(quests.length > 1 || starTotal > 0) && (
         <div className={'quests' + (questsDone ? ' all' : '')} aria-label="今天的三件事">
-          <StarBank total={starTotal} />
+          <StarBank total={starTotal} onOpen={() => { tap(); setMine(true) }} />
           {quests.length > 1 && <span className="quests-title">{questsDone ? '🎉 今天的三件事都做完了！' : '今天的三件事'}</span>}
           {quests.length > 1 && quests.map((q) => {
             const done = q.done >= q.need
@@ -194,18 +204,19 @@ export default function Home({
  * 他一共收集到幾顆星。數字對六歲還太抽象，所以主角是那顆大星星，數字只是跟在旁邊。
  * 星星怎麼算在 shared/domain.mjs 的 STAR_DEEDS：一個字五顆，看過、自己寫、認出來、拼成詞、魔法鍋變出來。
  */
-function StarBank({ total }: { total: number }) {
+function StarBank({ total, onOpen }: { total: number; onOpen: () => void }) {
   if (!total) return null
   const next = nextPartner(total)
   return (
-    <div className="bank" aria-label={`你收集了 ${total} 顆星星${next ? `，再 ${next.need} 顆就有新夥伴` : ''}`}>
+    <button className="bank" onClick={onOpen}
+      aria-label={`你收集了 ${total} 顆星星${next ? `，再 ${next.need} 顆就有新夥伴` : ''}，點開看我的東西`}>
       <span className="bank-star" aria-hidden>⭐</span>
       <span className="bank-n">{total}</span>
       {/* 下一個寶箱還差幾顆：星星要有地方可以花，不然只是一個一直變大的數字 */}
       <span className="bank-label">{next ? <>再 {next.need} 顆<br />開寶箱 🎁</> : <>顆星星<br />夥伴收齊了！</>}</span>
       {/* 手機上字會收起來，剩這條看得出離下一個寶箱多近 */}
       {next && <span className="bank-bar" aria-hidden><i style={{ width: `${((STARS_PER - next.need) / STARS_PER) * 100}%` }} /></span>}
-    </div>
+    </button>
   )
 }
 

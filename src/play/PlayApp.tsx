@@ -209,6 +209,7 @@ export default function PlayApp() {
             groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
             total={all.length}
             watched={progress.watched}
+            progress={progress}
             stars={stars}
             starCaps={caps}
             starTotal={starTotal}

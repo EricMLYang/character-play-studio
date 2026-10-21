@@ -244,3 +244,47 @@
   /* 「今天看了 N 個字」跟「看 3 個字」講同一件事，手機上留一個就好，空間要留給字卡 */
   .home-invite:has(+ .quests) .today { display: none; }
 }
+
+/* ---------- 「我的東西」：點星星存摺打開（Mine.tsx） ---------- */
+.mine { position: fixed; inset: 0; z-index: 45; display: grid; place-items: center; padding: 16px; }
+.mine-back { position: absolute; inset: 0; background: rgba(28,24,20,.5); animation: fade .2s both; }
+.mine-sheet { position: relative; width: min(420px, 100%); max-height: calc(100% - 20px); overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 18px 18px;
+  border-radius: 30px; background: var(--paper); box-shadow: 0 18px 44px rgba(0,0,0,.28);
+  animation: pop .26s cubic-bezier(.2,1.6,.4,1) both; }
+.mine-sheet h2 { margin: 0; font-size: 22px; }
+.mine-stars { display: flex; align-items: baseline; gap: 6px; }
+.mine-star { font-size: 40px; line-height: 1; align-self: center; animation: nudge 4s ease-in-out infinite; }
+.mine-stars b { font-size: 44px; line-height: 1; }
+.mine-stars span:last-child { font-size: 15px; font-weight: 700; color: rgba(46,42,38,.7); }
+.mine-next { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%; }
+.mine-next small { font-size: 13px; font-weight: 800; color: rgba(46,42,38,.72); }
+.mine-bar { display: block; width: min(240px, 80%); height: 8px; border-radius: 999px; background: rgba(46,42,38,.12); overflow: hidden; }
+.mine-bar i { display: block; height: 100%; border-radius: 999px; background: var(--c2); }
+/* 收集到的夥伴 */
+.mine-crew { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 2px 0 4px; }
+.mine-one { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: #fff;
+  box-shadow: 0 2px 0 rgba(0,0,0,.07); }
+.mine-one img { width: 36px; height: 36px; object-fit: contain; }
+.mine-one:active { transform: translateY(2px); box-shadow: none; }
+.mine-one.locked { font-size: 20px; font-weight: 800; color: rgba(46,42,38,.3); background: rgba(255,255,255,.5);
+  box-shadow: inset 0 0 0 2px rgba(46,42,38,.08); }
+/* 每一種收藏一行，按下去就去那個地方 */
+.mine-rows { list-style: none; margin: 2px 0 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 7px; }
+.mine-rows button { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 14px; border-radius: 18px;
+  background: #fff; text-align: left; box-shadow: 0 3px 0 rgba(0,0,0,.07); }
+.mine-rows button:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
+.mine-rows button:disabled { opacity: .5; }
+.mine-row-icon { font-size: 22px; line-height: 1; }
+.mine-row-text { flex: 1; font-size: 15px; font-weight: 700; }
+.mine-rows b { font-size: 21px; }
+.mine-row-unit { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.6); }
+/* .nav-btn 的 flex:1 在 viewer.css，接在 home.css 後面；要用更明確的選擇器才蓋得過 */
+.mine-sheet .nav-btn { flex: none; margin-top: 6px; min-width: 150px; }
+
+@media (max-width: 700px) {
+  .mine-sheet { gap: 8px; padding: 16px 14px 14px; border-radius: 26px; }
+  .mine-stars b { font-size: 38px; }
+  .mine-one { width: 38px; height: 38px; }
+  .mine-one img { width: 31px; height: 31px; }
+}
