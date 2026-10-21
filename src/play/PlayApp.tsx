@@ -12,6 +12,7 @@ import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
 import { Ride } from './Train'
+import { crossNextWith } from './River'
 import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
@@ -282,7 +283,7 @@ export default function PlayApp() {
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
       {chest && <Chest partner={chest} onClose={() => setChest(null)}
-        onGo={() => { setChest(null); enter('river') }} />}
+        onGo={() => { crossNextWith(chest.id); setChest(null); enter('river') }} />}
       {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
       {pop && !chest && !crown && (
         <>

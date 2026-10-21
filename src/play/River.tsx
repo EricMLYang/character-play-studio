@@ -34,6 +34,14 @@ const HOP_MS = 520
 /** 過幾次河了：換一次主角。一開機先隨機挑一位，不然每次打開都是同一隻 */
 let trips = Math.floor(Math.random() * 100)
 
+/**
+ * 下一趟指定誰來陪他過河。
+ * 寶箱剛開到新夥伴、按「🌊 去找牠！」進來的時候要真的是牠——輪到別人的話那句話就是空話。
+ * 用完在掛載後才清掉（StrictMode 會重跑兩次 useState 的初始值，在初始值裡清會讓第二次拿不到）。
+ */
+let nextHero: string | null = null
+export const crossNextWith = (id: string) => { nextHero = id }
+
 export default function River({ library, progress, stars, onRecall, onPick, onBack }: {
   library: CharEntry[]
   progress: Progress
@@ -48,7 +56,8 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
   const newCrossing = () => pickCrossing(library, progress)
   const [steps, setSteps] = useState<Step[]>(newCrossing)
   const crew = partnersAt(stars)
-  const [hero, setHero] = useState(() => crosserFor(trips, crew))
+  const [hero, setHero] = useState(() => crew.find((p) => p.id === nextHero) ?? crosserFor(trips, crew))
+  useEffect(() => { nextHero = null }, [])
   const [at, setAt] = useState(0)
   const [phase, setPhase] = useState<Phase>('ready')
   /** 這一步已經提示過了（算沒自己認出來） */
