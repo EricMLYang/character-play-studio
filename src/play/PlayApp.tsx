@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
-import { taiwanDay } from '../../shared/domain.mjs'
+import { taiwanDay, starIndex } from '../../shared/domain.mjs'
 import { browseCharacters } from '../../shared/selection.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
+import { magic } from '../lib/sfx'
+import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
 import { Ride } from './Train'
 import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
+import { starCaps } from './stars'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -91,6 +94,35 @@ export default function PlayApp() {
       (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
   }, [all, query, filter, progress])
 
+  // 每個字幾顆星：整份紀錄只掃一遍，字卡與總數共用（shared/domain.mjs 的 STAR_DEEDS）
+  const stars = useMemo(() => starIndex(progress), [progress])
+  const starTotal = useMemo(() => [...stars.values()].reduce((sum, n) => sum + n, 0), [stars])
+  // 每個字最多幾顆：字庫變了才要重算（拆字表與語詞都跟著字庫走）
+  const caps = useMemo(() => starCaps(all), [all])
+
+  // 星星可能在任何一個遊戲裡拿到（看完影片、描完字、餵怪獸認出來、拼好詞、魔法鍋變出來），
+  // 所以「拿到了！」這一下放在最外框，一個地方管全部，遊戲本身不用各做一次。
+  const [pop, setPop] = useState<{ key: number; char: string; full: boolean } | null>(null)
+  const before = useRef<Map<string, number> | null>(null)
+  useEffect(() => {
+    // 字庫還沒載到的時候 progress 是空的，整份進度一進來會看起來像「剛剛拿到兩百顆星」
+    if (!lib) return
+    const was = before.current
+    before.current = stars
+    // 第一次拿到真的進度：這些星星是以前拿的，不是現在拿到的，不慶祝
+    if (!was) return
+    const got = [...stars].find(([char, n]) => n > (was.get(char) || 0))
+    if (!got) return
+    const full = got[1] >= (caps.get(got[0]) ?? 5)
+    if (full) magic()
+    setPop({ key: Date.now(), char: got[0], full })
+  }, [stars, caps, lib])
+  useEffect(() => {
+    if (!pop) return
+    const t = setTimeout(() => setPop(null), pop.full ? 3200 : 2200)
+    return () => clearTimeout(t)
+  }, [pop])
+
   // 今天看過幾個「不同的字」：重播同一個字不會多一顆星，鼓勵他往下一個字走
   const todayCount = useMemo(() => {
     const today = taiwanDay()
@@ -139,6 +171,9 @@ export default function PlayApp() {
             groups={!query.trim() && filter !== 'unwatched' ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
             total={all.length}
             watched={progress.watched}
+            stars={stars}
+            starCaps={caps}
+            starTotal={starTotal}
             todayCount={todayCount}
             query={query}
             onQuery={setQuery}
@@ -162,6 +197,7 @@ export default function PlayApp() {
           library={all}
           hues={hues}
           puzzled={puzzled}
+          progress={progress}
           prev={index > 0 ? items[index - 1] : undefined}
           next={index >= 0 && index < items.length - 1 ? items[index + 1] : undefined}
           onGo={(c) => open(c.char)}
@@ -171,6 +207,7 @@ export default function PlayApp() {
           onComplete={(e, id) => record({ char: e.char, id })}
           onTraced={(e, strokes) => record({ kind: 'trace', char: e.char, strokes })}
           onTown={() => go({ screen: 'town' }, { replace: true })}
+          onGame={(id) => go({ screen: id }, { replace: true })}
         />
       )}
       {ride && (
@@ -178,6 +215,16 @@ export default function PlayApp() {
           onWatched={(c) => record({ char: c.char })}
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
+      )}
+      {pop && (
+        <>
+          {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
+          {pop.full && <div className="star-rain" aria-hidden><Confetti /></div>}
+          <div className={'star-pop' + (pop.full ? ' full' : '')} key={pop.key} role="status">
+            <span className="pop-star" aria-hidden>{pop.full ? '👑' : '⭐'}</span>
+            {pop.full ? <b>「{pop.char}」的星星集滿了！</b> : <b>「{pop.char}」拿到一顆星星！</b>}
+          </div>
+        </>
       )}
       {syncError && <button className="sync-note" onClick={sync}>玩的紀錄先存在這台裝置，點這裡再存一次</button>}
     </div>

@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import type { CharEntry } from '../types'
+import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, sayRepeat, stopSpeech } from '../lib/audio'
-import { cheer, swipe } from '../lib/sfx'
+import { cheer, swipe, tap } from '../lib/sfx'
+import { charStars } from '../../shared/domain.mjs'
+import { deedsFor } from './stars'
 import { sceneFor, SCENE_PIECES } from './scenes'
 import { partsOf, hidesIn } from './parts'
 import Strokes from './Strokes'
@@ -16,7 +18,7 @@ import { Confetti, hueOf, hueVar } from './ui'
  * 流程狀態在 viewerFlow.ts；這裡只管畫面、計時器與音效。
  */
 export default function Viewer({
-  entry, count, traces, library, hues, puzzled, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown,
+  entry, count, traces, library, hues, puzzled, progress, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown, onGame,
 }: {
   entry: CharEntry
   count: number
@@ -28,6 +30,8 @@ export default function Viewer({
   hues: Map<string, number>
   /** 他在詞語拼圖拼過的詞：語詞旁邊標一片拼圖 */
   puzzled?: Set<string>
+  /** 這個字的五顆星從進度算出來（shared/domain.mjs 的 charStars） */
+  progress: Progress
   prev?: CharEntry
   next?: CharEntry
   onGo: (e: CharEntry) => void
@@ -37,6 +41,8 @@ export default function Viewer({
   onComplete: (e: CharEntry, id: string) => void
   onTraced: (e: CharEntry, strokes: number[][]) => void
   onTown: () => void
+  /** 缺的那顆星要去的遊戲（games.tsx 的 id） */
+  onGame: (id: string) => void
 }) {
   const [broken, setBroken] = useState<Broken>({})      // 檔案壞了 → 往下一種素材退
   const [imageReady, setImageReady] = useState(false)   // 尺寸未知前先不顯示，避免先閃出小框
@@ -153,7 +159,8 @@ export default function Viewer({
           <span className="viewer-meaning">{entry.meaning}</span>
           <span className="viewer-say" aria-hidden>🔊</span>
         </button>
-        <span className={'viewer-count' + (done ? ' bump' : '')} key={count}>{count ? `看過 ${count} 次` : '第一次看'}</span>
+        <StarBadge entry={entry} count={count} bump={done || traced} progress={progress} known={known}
+          onGame={onGame} onWrite={trace ? undefined : toggleTrace} />
       </header>
 
       {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
@@ -245,6 +252,65 @@ export default function Viewer({
           {next ? <span className="nav-char">{next.char}</span> : '下一個'} →
         </button>
       </footer>
+    </div>
+  )
+}
+
+/**
+ * 這個字的星星（shared/domain.mjs 的 STAR_DEEDS）：拿到的亮、還沒拿到的灰。
+ * 點開來會說還差哪一顆、要去哪裡拿，按一下直接過去——魔法鍋、餵大怪獸、詞語拼圖
+ * 他不會自己想到要去，但「『火』還差這一顆」他看得懂。
+ *
+ * 做不到的事不列出來：沒有畫得出來的語詞就拿不到拼圖那顆，拆不出部件的字魔法鍋也變不出來，
+ * 列了只會變成永遠拿不到的空格。
+ */
+function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
+  entry: CharEntry
+  count: number
+  bump: boolean
+  progress: Progress
+  /** 孩子端看得到的字：決定魔法鍋變不變得出這個字 */
+  known: Set<string>
+  onGame: (id: string) => void
+  /** 直接切到描字（已經在描字就不給，按了也沒事發生） */
+  onWrite?: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  const got = charStars(progress, entry.char)
+  const deeds = deedsFor(entry, known)
+  const n = deeds.filter((d) => got[d.id]).length
+  const full = n === deeds.length
+  return (
+    <div className="viewer-stars">
+      <button className={'star-strip' + (full ? ' full' : '')} aria-expanded={open}
+        aria-label={`星星：${deeds.length} 顆裡面拿到 ${n} 顆，點開來看還差什麼`}
+        onClick={() => { tap(); setOpen((o) => !o) }}>
+        <span className="strip-stars" key={n} aria-hidden>
+          {deeds.map((d) => <span key={d.id} className={got[d.id] ? '' : 'off'}>⭐</span>)}
+          {full && <span className="strip-crown">👑</span>}
+        </span>
+        <span className={'strip-count' + (bump ? ' bump' : '')} key={`${count}-${n}`}>{count ? `看過 ${count} 次` : '第一次看'}</span>
+      </button>
+      {open && (
+        <>
+          <button className="sheet-back" aria-label="關起來" onClick={() => setOpen(false)} />
+          <div className="star-sheet" role="dialog" aria-label={`「${entry.char}」的星星`}>
+            <h3>{full ? `「${entry.char}」的星星集滿了！👑` : `「${entry.char}」還可以拿到星星`}</h3>
+            <ul>
+              {deeds.map((d) => (
+                <li key={d.id} className={got[d.id] ? 'got' : ''}>
+                  <span className="deed-icon" aria-hidden>{d.icon}</span>
+                  <span className="deed-text"><b>{d.label}</b><small>{got[d.id] ? '拿到了！' : d.todo(entry.char)}</small></span>
+                  {got[d.id] ? <span className="deed-star" aria-hidden>⭐</span>
+                    : d.where ? <button className="deed-go" onClick={() => { tap(); onGame(d.where!) }}>去 →</button>
+                    : d.id === 'write' && onWrite ? <button className="deed-go" onClick={() => { tap(); setOpen(false); onWrite() }}>來寫 →</button>
+                    : <span className="deed-star off" aria-hidden>⭐</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   )
 }

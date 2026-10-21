@@ -109,6 +109,53 @@ export function solvePuzzle(progress, word, char, ok, at = new Date().toISOStrin
   return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
 }
 
+/**
+ * 一個字可以收集的五顆星，剛好是五個不同的地方：看過它、自己把它寫出來、餵大怪獸時自己認出來、
+ * 在詞裡把它補上、在魔法鍋裡把它變出來。集滿五顆＝這個字他整個樂園都玩過一遍了。
+ *
+ * 星星完全從已經在記的紀錄算出來，不另外存一份：舊的進度檔一打開就有星星，
+ * 也不會有「紀錄有、星星沒有」這種對不起來的狀況。
+ * where 是缺這顆星時要去哪個遊戲（games.tsx 的 id），watch 這顆在字卡裡就拿得到，所以是 null。
+ */
+export const STAR_DEEDS = [
+  { id: 'watch', icon: '👀', label: '看過這個字', where: null, todo: (char) => `看一次「${char}」就拿到了` },
+  { id: 'write', icon: '✏️', label: '自己寫出來', where: null, todo: (char) => `按「✏️ 換你寫」，自己把「${char}」描完` },
+  { id: 'recall', icon: '🍽️', label: '自己認出來', where: 'feed', todo: (char) => `去餵大怪獸，聽到「${char}」自己把它找出來` },
+  { id: 'puzzle', icon: '🧩', label: '拼好一個詞', where: 'puzzle', todo: (char) => `去詞語拼圖，把「${char}」補進一個詞裡` },
+  { id: 'brew', icon: '🧪', label: '魔法鍋變出來', where: 'lab', todo: (char) => `去魔法鍋，把「${char}」變出來` },
+]
+export const MAX_STARS = STAR_DEEDS.length
+
+/** 一個字拿到哪幾顆星：{ watch: true, write: false, ... }。 */
+export function charStars(progress, char) {
+  return {
+    watch: (progress.watched?.[char]?.count || 0) > 0,
+    write: Boolean(progress.town?.[char]),
+    // 靠提示才吃到的不算：這顆星要的是「他自己認出來」
+    recall: (progress.recall?.[char]?.right || 0) > 0,
+    puzzle: Object.values(progress.puzzles || {}).some((p) => p.char === char),
+    brew: Boolean(progress.lab?.[char]),
+  }
+}
+
+/**
+ * 每個字幾顆星，整份紀錄只掃一遍。首頁有兩百多張字卡，一張一張去翻紀錄會把每次更新都變慢。
+ * 回傳的 Map 只有「至少一顆星」的字；沒出現過的字就是 0 顆。
+ */
+export function starIndex(progress) {
+  const stars = new Map()
+  const mark = (char) => stars.set(char, (stars.get(char) || 0) + 1)
+  for (const [char, watched] of Object.entries(progress.watched || {})) if (watched?.count > 0) mark(char)
+  for (const char of Object.keys(progress.town || {})) mark(char)
+  for (const [char, box] of Object.entries(progress.recall || {})) if (box?.right > 0) mark(char)
+  for (const char of new Set(Object.values(progress.puzzles || {}).map((p) => p.char))) mark(char)
+  for (const char of Object.keys(progress.lab || {})) mark(char)
+  return stars
+}
+
+/** 總共幾顆星。字庫裡已經刪掉的字也算進去——那些星星他確實拿過。 */
+export const totalStars = (progress) => [...starIndex(progress).values()].reduce((sum, n) => sum + n, 0)
+
 /** 筆跡只收合理的形狀：最多 40 筆，每筆最多 64 個點，座標在字框附近。 */
 export function validStrokes(strokes) {
   return Array.isArray(strokes) && strokes.length > 0 && strokes.length <= 40 && strokes.every((s) =>

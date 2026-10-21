@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
+
 import { tap } from '../lib/sfx'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
@@ -12,13 +13,19 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide,
+  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
   groups: WordGroup[] | null
   total: number
   watched: Progress['watched']
+  /** 每個字收集到幾顆星（shared/domain.mjs 的 starIndex），字卡左下角那一排 */
+  stars: Map<string, number>
+  /** 每個字最多幾顆（stars.ts 的 starCaps）：拿不到的那顆不算，不然永遠差一顆 */
+  starCaps: Map<string, number>
+  /** 整個樂園總共幾顆星 */
+  starTotal: number
   todayCount: number
   query: string
   onQuery: (q: string) => void
@@ -37,13 +44,15 @@ export default function Home({
   const card = (c: CharEntry, hue: number, i: number) => {
     const count = watched[c.char]?.count || 0
     const video = hasMovie(c)
+    const got = stars.get(c.char) || 0
+    const full = got > 0 && got >= (starCaps.get(c.char) ?? 5)
     return (
       <button
         key={c.char}
         data-char={c.char}
-        className={'card' + (video ? ' card-video' : '')}
+        className={'card' + (video ? ' card-video' : '') + (full ? ' card-full' : '')}
         style={{ ['--hue' as any]: `var(--c${hue})`, ['--i' as any]: i }}
-        aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}`}
+        aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}${got ? `，${got} 顆星星` : ''}`}
         onClick={() => { tap(); onPick(c.char) }}
       >
         <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
@@ -51,6 +60,12 @@ export default function Home({
         <span className="card-zhuyin">{c.zhuyin}</span>
         {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
         {count > 0 && <span className="card-count">看過 {count} 次</span>}
+        {got > 0 && (
+          <span className="card-stars" aria-hidden="true">
+            {Array.from({ length: got }, (_, n) => <span key={n} style={{ ['--i' as any]: n }}>⭐</span>)}
+            {full && <span className="card-crown">👑</span>}
+          </span>
+        )}
       </button>
     )
   }
@@ -102,6 +117,7 @@ export default function Home({
             </button>
           ))}
         </div>
+        <StarBank total={starTotal} />
         <TodayStars count={todayCount} />
       </div>
 
@@ -129,6 +145,21 @@ export default function Home({
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
         </div>
       )}
+    </div>
+  )
+}
+
+/**
+ * 他一共收集到幾顆星。數字對六歲還太抽象，所以主角是那顆大星星，數字只是跟在旁邊。
+ * 星星怎麼算在 shared/domain.mjs 的 STAR_DEEDS：一個字五顆，看過、自己寫、認出來、拼成詞、魔法鍋變出來。
+ */
+function StarBank({ total }: { total: number }) {
+  if (!total) return null
+  return (
+    <div className="bank" aria-label={`你收集了 ${total} 顆星星`}>
+      <span className="bank-star" aria-hidden>⭐</span>
+      <span className="bank-n">{total}</span>
+      <span className="bank-label">顆星星</span>
     </div>
   )
 }

@@ -31,6 +31,19 @@ button:disabled { cursor: default; }
 @keyframes drift { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(4vw,5vh) scale(1.12) } }
 
 
+/* 拿到星星的那一下（PlayApp）。蓋在所有畫面上面，但不擋點擊：他正在玩的那一下不能被打斷 */
+.star-pop { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 40; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; padding: 10px 22px 10px 14px; border-radius: 999px; pointer-events: none;
+  background: #fff; box-shadow: 0 8px 0 rgba(0,0,0,.1), 0 16px 34px rgba(0,0,0,.18);
+  animation: starPop .4s cubic-bezier(.2,1.7,.4,1) both; }
+.star-pop b { font-size: 17px; }
+.star-pop .pop-star { font-size: 30px; line-height: 1; animation: boing .7s cubic-bezier(.2,1.6,.4,1) .12s both; }
+.star-pop.full { background: linear-gradient(135deg, #FFEFBB, #FFD24A); }
+.star-pop.full b { font-size: 20px; }
+.star-pop.full .pop-star { font-size: 38px; }
+.star-rain { position: fixed; inset: 0; z-index: 39; pointer-events: none; }
+@keyframes starPop { from { opacity: 0; transform: translate(-50%, 40px) scale(.7) } to { opacity: 1; transform: translate(-50%, 0) scale(1) } }
+
 .sync-note { position: fixed; bottom: 8px; right: 12px; z-index: 30; font-size: 12px; background: #fff; padding: 8px 12px; border-radius: 12px; }
 .screen { position: relative; z-index: 1; height: 100%; }
 

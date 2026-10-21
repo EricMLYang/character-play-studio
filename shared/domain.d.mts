@@ -15,3 +15,9 @@ export const RECALL_DAYS: number[]
 export function recall(progress: Progress, char: string, ok: boolean, at?: string): Progress
 export function validPuzzle(event: unknown): boolean
 export function solvePuzzle(progress: Progress, word: string, char: string, ok: boolean, at?: string): Progress
+export type StarDeed = { id: 'watch' | 'write' | 'recall' | 'puzzle' | 'brew'; icon: string; label: string; where: string | null; todo: (char: string) => string }
+export const STAR_DEEDS: StarDeed[]
+export const MAX_STARS: number
+export function charStars(progress: Progress, char: string): Record<StarDeed['id'], boolean>
+export function starIndex(progress: Progress): Map<string, number>
+export function totalStars(progress: Progress): number

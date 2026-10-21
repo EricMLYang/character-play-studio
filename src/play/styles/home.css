@@ -58,7 +58,7 @@
 .card::before { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.42), transparent 60%); }
 .card > span { position: relative; }
-.card > .card-badge, .card > .card-count { position: absolute; }
+.card > .card-badge, .card > .card-count, .card > .card-stars { position: absolute; }
 .card:hover, .card:focus-visible { transform: translateY(-6px) scale(1.03); box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18); }
 .card:focus-visible { outline: 4px solid var(--ink); outline-offset: 3px; }
 .card:active { transform: translateY(2px) scale(.98); }
@@ -74,6 +74,25 @@
 .card-badge { position: absolute; top: 10px; right: 8px; padding: 4px 6px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; }
 .card-count { position: absolute; bottom: 10px; right: 12px; padding: 3px 10px; border-radius: 999px;
   background: rgba(255,255,255,.92); color: var(--ink); font-size: 12px; font-weight: 700; }
+
+/* 字卡左下角的星星：這個字他做過幾件事（shared/domain.mjs 的 STAR_DEEDS）。
+   只畫拿到的那幾顆，不留空格——138 張卡每張都掛四個灰格子，看起來像一整片沒做完 */
+.card-stars { left: 10px; bottom: 9px; display: flex; align-items: center; gap: 1px; font-size: 13px; line-height: 1;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.6)); }
+.card-stars span { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(var(--i) * .07s); }
+.card-crown { margin-left: 2px; font-size: 15px; }
+/* 五顆都拿到：金邊加一層光，一整排字卡裡一眼看得到哪幾個是他全破的 */
+.card-full { box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12), inset 0 0 0 4px #FFC93C; }
+.card-full:hover, .card-full:focus-visible { box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18), inset 0 0 0 4px #FFC93C; }
+
+/* 星星存摺：他一共集了幾顆。數字對六歲還太抽象，所以主角是那顆大星星 */
+.bank { display: flex; align-items: center; gap: 4px; padding: 5px 16px 5px 8px; border-radius: 999px;
+  background: linear-gradient(135deg, #FFEFBB, #FFD24A); box-shadow: 0 5px 0 rgba(0,0,0,.09), 0 10px 20px rgba(0,0,0,.07); }
+.bank-star { font-size: 30px; line-height: 1; animation: nudge 4.5s ease-in-out infinite; }
+.bank-n { font-size: 27px; font-weight: 800; line-height: 1; letter-spacing: -.02em; }
+.bank-label { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.68); }
+.home-places + .bank { margin-left: 10px; }
+.bank + .today { margin-left: 10px; }
 
 .home-invite { display: flex; align-items: center; gap: 16px; padding: 10px 28px 20px; }
 .home-invite h2 { margin: 0; font-size: 25px; }
@@ -133,6 +152,12 @@
   .home-mascot { font-size: 32px; }
   .today-stars { font-size: 20px; }
   .today-label { font-size: 12px; }
+  .bank { padding: 3px 12px 3px 6px; }
+  .bank-star { font-size: 24px; }
+  .bank-n { font-size: 22px; }
+  .bank-label { display: none; }
+  .home-places + .bank { margin-left: auto; }
+  .card-stars { left: 8px; bottom: 8px; font-size: 12px; }
   .home-invite { flex-wrap: wrap; }
   .home-places { order: 5; flex: 1 1 100%; margin-left: 0; gap: 6px; }
   /* 五個去處擠在 390px：圖示疊在名字上面，副標拿掉；名字四個字要排得進一行（(362 − 4×6) ÷ 5 − 8 ≈ 59px） */

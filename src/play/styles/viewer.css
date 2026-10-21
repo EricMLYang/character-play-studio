@@ -22,6 +22,39 @@
 .viewer-count.bump { animation: pop .45s cubic-bezier(.2,1.8,.4,1) both; background: var(--c2); color: var(--ink); }
 .viewer :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
+/* ---------- 這個字的星星（右上角）：拿到幾顆、還差什麼、按一下就過去 ---------- */
+.viewer-stars { position: relative; margin-left: auto; }
+.star-strip { display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 46px; padding: 5px 14px; border-radius: 20px;
+  background: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.06); }
+.star-strip:active { transform: translateY(2px); box-shadow: none; }
+.star-strip.full { background: linear-gradient(135deg, #FFEFBB, #FFD24A); }
+.strip-stars { display: flex; align-items: center; gap: 1px; font-size: 18px; line-height: 1; }
+.strip-stars > span { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(var(--i, 0) * .06s); }
+/* 還沒拿到的那幾顆：灰掉但位置留著，他看得出「還差兩顆」 */
+.strip-stars .off { filter: grayscale(1); opacity: .28; }
+.strip-crown { margin-left: 2px; font-size: 16px; }
+.strip-count { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.9); }
+.strip-count.bump { animation: pop .45s cubic-bezier(.2,1.8,.4,1) both; }
+
+/* 點開來的小單子。蓋在畫面上，不佔版面——影片的空間一格都不能讓 */
+.sheet-back { position: fixed; inset: 0; z-index: 9; }
+.star-sheet { position: absolute; top: calc(100% + 8px); right: 0; z-index: 10; width: min(352px, 86vw); padding: 14px;
+  border-radius: 24px; background: #fff; box-shadow: 0 14px 34px rgba(0,0,0,.22); text-align: left;
+  animation: pop .2s cubic-bezier(.2,1.6,.4,1) both; }
+.star-sheet h3 { margin: 0 0 10px; font-size: 17px; }
+.star-sheet ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.star-sheet li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 16px; background: var(--paper); }
+.star-sheet li.got { background: #FFF3CF; }
+.deed-icon { font-size: 23px; line-height: 1; }
+.deed-text { flex: 1; min-width: 0; }
+.deed-text b { display: block; font-size: 15px; }
+.deed-text small { display: block; font-size: 12.5px; line-height: 1.45; color: rgba(46,42,38,.7); }
+.deed-star { font-size: 20px; line-height: 1; }
+.deed-star.off { filter: grayscale(1); opacity: .28; }
+.deed-go { flex-shrink: 0; min-height: 40px; padding: 8px 14px; border-radius: 999px; background: var(--c0); color: #fff;
+  font-size: 14px; font-weight: 800; box-shadow: 0 3px 0 rgba(0,0,0,.14); }
+.deed-go:active { transform: translateY(2px); box-shadow: none; }
+
 /* 框要大要舒服：素材撐到剩餘空間的最大尺寸，保留邊距與圓角，不裁切 */
 .viewer-frame { position: relative; flex: 1; min-height: 0; min-width: 0; }
 
