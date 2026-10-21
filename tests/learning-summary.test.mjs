@@ -53,3 +53,22 @@ test('an empty progress gives zeros and no first-try rate', () => {
   const s = summarize({ watched: {} }, characters, now)
   assert.deepEqual([s.watched, s.known, s.words, s.traced, s.firstTry], [0, 0, 0, 0, null])
 })
+
+test('小結也說得出他在孩子端追的那條線：星星與夥伴', async () => {
+  const { summarize } = await import('../src/studio/summary.ts')
+  const { STARS_PER } = await import('../src/play/partners.ts')
+  const at = '2026-10-22T02:00:00Z'
+  const empty = summarize({ watched: {} }, [])
+  assert.equal(empty.stars, 0)
+  assert.equal(empty.partners, 1, '一開始就有楊捷睿一位')
+  assert.equal(empty.toNextPartner, STARS_PER)
+
+  // 看過三個字、其中一個還描過：四顆星
+  const progress = {
+    watched: Object.fromEntries([...'火水山'].map((c) => [c, { count: 1, last: at }])),
+    town: { 火: { traces: 1, first: at, last: at, strokes: [[1, 2]] } },
+  }
+  const s = summarize(progress, [])
+  assert.equal(s.stars, 4)
+  assert.equal(s.toNextPartner, STARS_PER - 4)
+})

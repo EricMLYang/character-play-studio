@@ -16,6 +16,8 @@ export default function LearningSummary({ progress, characters, onPick }: {
     { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸）` : '今天沒有要複習的' },
     { label: '收集的詞', value: s.words, note: s.wordsToday ? `今天新拼了 ${s.wordsToday} 個（詞語拼圖）` : '詞語拼圖' },
     { label: '小鎮居民', value: s.traced, note: '描過的字' },
+    // 孩子端他自己在追的那條線：看過、寫過、認出來、拼成詞、魔法鍋變出來各一顆星
+    { label: '⭐ 星星', value: s.stars, note: s.toNextPartner === null ? `夥伴收齊了（${s.partners} 位）` : `再 ${s.toNextPartner} 顆開寶箱（已有 ${s.partners} 位夥伴）` },
   ]
   return (
     <div className="st-learn">

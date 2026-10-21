@@ -21,7 +21,7 @@ import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
 
-export type Filter = 'all' | 'video' | 'unwatched'
+export type Filter = 'all' | 'video' | 'unwatched' | 'full'
 const EMPTY: Progress = { watched: {} }
 
 /**
@@ -91,18 +91,28 @@ export default function PlayApp() {
       .map(([text]) => ({ key: text, label: '🚂 我接的', mine: true, items: [...text].map((ch) => byChar.get(ch)!) }))
       .filter((g) => g.items.every(Boolean))
   }, [groups, progress.words])
-  const items = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return all.filter((c) =>
-      (filter === 'all' || (filter === 'video' ? hasMovie(c) : !progress.watched[c.char])) &&
-      (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
-  }, [all, query, filter, progress])
-
   // 每個字幾顆星：整份紀錄只掃一遍，字卡與總數共用（shared/domain.mjs 的 STAR_DEEDS）
   const stars = useMemo(() => starIndex(progress), [progress])
   const starTotal = useMemo(() => [...stars.values()].reduce((sum, n) => sum + n, 0), [stars])
   // 每個字最多幾顆：字庫變了才要重算（拆字表與語詞都跟著字庫走）
   const caps = useMemo(() => starCaps(all), [all])
+
+  /** 星星集滿的字（caps 是每個字做得到幾顆，stars.ts） */
+  const isFull = useCallback((char: string) => {
+    const got = stars.get(char) || 0
+    return got > 0 && got >= (caps.get(char) ?? 5)
+  }, [stars, caps])
+  const fullCount = useMemo(() => all.filter((c) => isFull(c.char)).length, [all, isFull])
+  const items = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    const keep = (c: typeof all[number]) =>
+      filter === 'all' ? true
+      : filter === 'video' ? hasMovie(c)
+      : filter === 'full' ? isFull(c.char)
+      : !progress.watched[c.char]
+    return all.filter((c) => keep(c) &&
+      (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
+  }, [all, query, filter, progress, isFull])
 
   // 星星可能在任何一個遊戲裡拿到（看完影片、描完字、餵怪獸認出來、拼好詞、魔法鍋變出來），
   // 所以「拿到了！」這一下放在最外框，一個地方管全部，遊戲本身不用各做一次。
@@ -192,12 +202,13 @@ export default function PlayApp() {
         {game ? game.render(ctx) : (
           <Home
             items={items}
-            groups={!query.trim() && filter !== 'unwatched' ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
+            groups={!query.trim() && filter === 'all' || filter === 'video' ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
             total={all.length}
             watched={progress.watched}
             stars={stars}
             starCaps={caps}
             starTotal={starTotal}
+            fullCount={fullCount}
             todayCount={todayCount}
             query={query}
             onQuery={setQuery}

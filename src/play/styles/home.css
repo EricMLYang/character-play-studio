@@ -80,7 +80,9 @@
 .card-stars { left: 10px; bottom: 9px; display: flex; align-items: center; gap: 1px; font-size: 13px; line-height: 1;
   filter: drop-shadow(0 1px 0 rgba(255,255,255,.6)); }
 .card-stars span { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(var(--i) * .07s); }
-.card-crown { margin-left: 2px; font-size: 15px; }
+/* 皇冠比星星高，要多留一點位置給它的下緣，不然會被卡片的圓角切掉 */
+.card-stars.crowned { left: 12px; bottom: 11px; }
+.card-crown { font-size: 20px; line-height: 1; animation: pop .45s cubic-bezier(.2,1.7,.4,1) both; }
 /* 五顆都拿到：金邊加一層光，一整排字卡裡一眼看得到哪幾個是他全破的 */
 .card-full { box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12), inset 0 0 0 4px #FFC93C; }
 .card-full:hover, .card-full:focus-visible { box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18), inset 0 0 0 4px #FFC93C; }

@@ -13,10 +13,12 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
   { id: 'video', label: '🎬 有影片' },
   { id: 'unwatched', label: '✨ 還沒看過' },
+  // 集滿星星的字：一個都還沒有的時候不出現，不然是一個永遠按了只會空的按鈕
+  { id: 'full', label: '👑 集滿星星' },
 ]
 
 export default function Home({
-  items, groups, total, watched, stars, starCaps, starTotal, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
+  items, groups, total, watched, stars, starCaps, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -29,6 +31,8 @@ export default function Home({
   starCaps: Map<string, number>
   /** 整個樂園總共幾顆星 */
   starTotal: number
+  /** 已經集滿星星的字有幾個（0 就不顯示那個篩選） */
+  fullCount: number
   todayCount: number
   query: string
   onQuery: (q: string) => void
@@ -69,10 +73,11 @@ export default function Home({
         <span className="card-zhuyin">{c.zhuyin}</span>
         {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
         {count > 0 && <span className="card-count">看過 {count} 次</span>}
+        {/* 集滿了就只戴皇冠：五顆星加皇冠會跟「看過 N 次」擠在一起 */}
         {got > 0 && (
-          <span className="card-stars" aria-hidden="true">
-            {Array.from({ length: got }, (_, n) => <span key={n} style={{ ['--i' as any]: n }}>⭐</span>)}
-            {full && <span className="card-crown">👑</span>}
+          <span className={'card-stars' + (full ? ' crowned' : '')} aria-hidden="true">
+            {full ? <span className="card-crown">👑</span>
+              : Array.from({ length: got }, (_, n) => <span key={n} style={{ ['--i' as any]: n }}>⭐</span>)}
           </span>
         )}
       </button>
@@ -101,7 +106,7 @@ export default function Home({
           aria-label="找字"
         />
         <div className="home-filters" aria-label="篩選">
-          {FILTERS.map((f) => (
+          {FILTERS.filter((f) => f.id !== 'full' || fullCount > 0).map((f) => (
             <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
           ))}
         </div>
@@ -221,6 +226,7 @@ function Empty({ total, query, filter, onReset }: { total: number; query: string
     ? `找不到「${query.trim()}」這個字。`
     : filter === 'video' ? '還沒有上架影片的字，先看其他字卡也可以。'
     : filter === 'unwatched' ? '每個字都看過了，好厲害！'
+    : filter === 'full' ? '還沒有集滿星星的字。點一張字卡，右上角的星星會告訴你還差什麼。'
     : '這裡還沒有字。'
   return (
     <p className="home-empty">

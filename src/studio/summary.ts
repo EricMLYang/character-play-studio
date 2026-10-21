@@ -1,6 +1,7 @@
 import type { CharEntry, Progress } from '../types'
-import { taiwanDay } from '../../shared/domain.mjs'
+import { taiwanDay, totalStars } from '../../shared/domain.mjs'
 import { NO_PICTURE } from '../play/puzzles'
+import { nextPartner, partnerCount } from '../play/partners'
 
 /**
  * 家長看的學習小結：孩子端各個遊戲記下的東西，整理成大人一眼看得懂的幾個數字與清單。
@@ -24,6 +25,10 @@ export type Summary = {
   talk: { word: string; emoji?: string }[]
   /** 小鎮：描過幾個字 */
   traced: number
+  /** 他在孩子端追的那條線：一共幾顆星星、換到幾位夥伴、下一位還差幾顆 */
+  stars: number
+  partners: number
+  toNextPartner: number | null
 }
 
 export function summarize(progress: Progress, characters: CharEntry[], now = new Date()): Summary {
@@ -33,6 +38,7 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
   const puzzles = Object.entries(progress.puzzles || {})
   const pictures = new Map(characters.flatMap((c) => (c.words || []).map((w) => [w.text, w.emoji] as const)))
   const attempts = puzzles.reduce((n, [, p]) => n + p.count, 0)
+  const stars = totalStars(progress)
   return {
     watched: watched.length,
     watchedToday: watched.filter(([, w]) => taiwanDay(w.last) === today).length,
@@ -51,5 +57,8 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
       .sort((a, b) => Date.parse(b[1].first) - Date.parse(a[1].first))
       .slice(0, 3).map(([word]) => ({ word, emoji: pictures.get(word) })),
     traced: Object.keys(progress.town || {}).length,
+    stars: stars,
+    partners: partnerCount(stars),
+    toNextPartner: nextPartner(stars)?.need ?? null,
   }
 }
