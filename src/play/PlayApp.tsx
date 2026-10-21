@@ -104,6 +104,7 @@ export default function PlayApp() {
     return got > 0 && got >= (caps.get(char) ?? 5)
   }, [stars, caps])
   const fullCount = useMemo(() => all.filter((c) => isFull(c.char)).length, [all, isFull])
+  // 搜尋，或「還沒看過／集滿星星」這兩個篩選時字卡平鋪；其他時候照詞組排（下面 groups 那個 prop）
   const items = useMemo(() => {
     const q = query.trim().toLowerCase()
     const keep = (c: typeof all[number]) =>
@@ -205,7 +206,7 @@ export default function PlayApp() {
         {game ? game.render(ctx) : (
           <Home
             items={items}
-            groups={!query.trim() && filter === 'all' || filter === 'video' ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
+            groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
             total={all.length}
             watched={progress.watched}
             stars={stars}
