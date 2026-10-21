@@ -163,3 +163,22 @@
   .puz-done .puz-sticker-word { font-size: 28px; }
   .puz-book-btn { padding: 4px 10px; font-size: 17px; }
 }
+
+/*
+ * 手機橫躺（看完影片轉回來就是這個方向）：題目圖、詞、字卡三層疊起來會超過畫面高度，
+ * 字卡被擠到看不見的地方——那是他唯一要點的東西。整組縮一號，提示那行收起來（本來就會唸出來）。
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .puz-pieces { gap: 6px; padding-bottom: 2px; }
+  .puz-piece { width: 28px; height: 28px; font-size: 16px; border-radius: 9px; }
+  .puz-board { gap: 4px; }
+  .puz-pic { font-size: min(17vh, 30vw, 150px); }
+  .puz-pic-slot { width: min(17vh, 30vw); height: min(17vh, 30vw); border-radius: 22px; }
+  .puz-word { gap: 8px; padding: 6px 10px; border-radius: 20px; }
+  .puz-tile, .puz-slot { width: min(70px, 12vh); height: min(70px, 12vh); font-size: min(52px, 9vh); border-radius: 18px; }
+  .puz-cards { gap: 14px; }
+  .puz-card { padding: 6px 14px; }
+  .puz-card-char { font-size: min(62px, 11vh); }
+  .puz-host { width: 46px; }
+  .puz .game-hint { display: none; }
+}

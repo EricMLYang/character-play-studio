@@ -91,3 +91,20 @@
   .spy-bubble { font-size: 14px; padding: 6px 12px; }
   .spy-done-char { font-size: 26px; }
 }
+
+/*
+ * 手機橫躺：紙與字卡的 clamp 最小值（190px、86px）在三百多 px 高的畫面上還是太大，
+ * 要猜的那幾張字卡會被擠到看不見——那是他唯一要點的東西。整組縮一號，
+ * 提示那行收起來（本來就會唸出來）。
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .spy-track { padding-bottom: 2px; }
+  .spy-dot { width: 24px; height: 24px; font-size: 14px; }
+  .spy-main { gap: 6px; padding-bottom: 4px; }
+  .spy-boss { width: 48px; }
+  .spy-bubble { font-size: 13px; padding: 4px 10px; }
+  .spy-paper { width: clamp(130px, 30vh, 170px); border-radius: 20px; }
+  .spy-card { width: clamp(60px, 16vh, 86px); font-size: clamp(36px, 10vh, 56px); border-radius: 18px; }
+  .spy-desk { height: 14px; bottom: -10px; }
+  .spy .game-hint { display: none; }
+}
