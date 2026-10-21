@@ -166,9 +166,6 @@
   .trail-bank, .trail-goal { font-size: 24px; }
   .river-bubble { max-width: 58vw; font-size: 15px; padding: 6px 12px; }
   .river-stones { --gap: 10px; }
-  /* 窄畫面沒有空間把主角擺到石頭排外面的岸上，會被切掉半隻：改成站在河邊緣 */
-  .river-hero.ashore { left: 15%; }
-  .river-hero.landed { left: 85%; }
   .river-hero-img { width: clamp(76px, 15vh, 104px); }
   .river-done-char { font-size: 26px; }
 }
@@ -176,4 +173,13 @@
 @media (prefers-reduced-motion: reduce) {
   .river-hero { transition: none; }
   .river-water { display: none; }
+}
+
+/*
+ * 石頭那一排最寬 880px，主角站在它外面還要再 140px（偏移 84 ＋ 半個身體 57）。
+ * 畫面不到 1200px 時兩側不夠，主角會被切在螢幕外——改成站在河的邊緣。
+ */
+@media (max-width: 1200px) {
+  .river-hero.ashore { left: 15%; }
+  .river-hero.landed { left: 85%; }
 }
