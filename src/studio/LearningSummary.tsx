@@ -2,7 +2,8 @@ import type { CharEntry, Progress } from '../types'
 import { summarize } from './summary'
 
 /**
- * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸）、詞彙（詞語拼圖）、小鎮。
+ * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸／跳石頭過河／小偵探，三個記同一種紀錄）、
+ * 詞彙（詞語拼圖）、小鎮、星星與夥伴。
  * 最後給家長一兩句可以在生活裡問孩子的話——字要跟生活連起來才記得住。
  */
 export default function LearningSummary({ progress, characters, onPick }: {
@@ -13,7 +14,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
   const s = summarize(progress, characters)
   const tiles = [
     { label: '看過的字', value: s.watched, note: s.watchedToday ? `今天看了 ${s.watchedToday} 個` : '今天還沒看' },
-    { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸）` : '今天沒有要複習的' },
+    { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸／過河／小偵探）` : '今天沒有要複習的' },
     { label: '收集的詞', value: s.words, note: s.wordsToday ? `今天新拼了 ${s.wordsToday} 個（詞語拼圖）` : '詞語拼圖' },
     { label: '小鎮居民', value: s.traced, note: '描過的字' },
     // 孩子端他自己在追的那條線：看過、寫過、認出來、拼成詞、魔法鍋變出來各一顆星
@@ -54,7 +55,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
                 </li>
               ))}
             </ul>
-          ) : <p className="st-dim">餵大怪獸還沒有找錯過的字。</p>}
+          ) : <p className="st-dim">認字的遊戲裡還沒有找錯過的字。</p>}
         </section>
 
         <section className="st-card">
