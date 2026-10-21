@@ -20,7 +20,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, progress, stars, starCaps, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
+  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -31,6 +31,8 @@ export default function Home({
   stars: Map<string, number>
   /** 每個字最多幾顆（stars.ts 的 starCaps）：拿不到的那顆不算，不然永遠差一顆 */
   starCaps: Map<string, number>
+  /** 每個字都有影片或動畫：這樣「🎬 有影片」篩出來跟全部一樣，那一格就收起來 */
+  allHaveMovies: boolean
   /** 整個樂園總共幾顆星 */
   starTotal: number
   /** 已經集滿星星的字有幾個（0 就不顯示那個篩選） */
@@ -67,6 +69,18 @@ export default function Home({
   useEffect(() => () => voice.current?.(), [])
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
+  /**
+   * 這個篩選現在有沒有用：篩出來跟「全部字卡」一樣就等於沒作用，不要白佔一格
+   * （手機上那一排本來就擠）。兩個會變的：集滿星星的字還是 0 個、以及每個字都有影片或動畫
+   * （現在 249 個字都有，「有影片」就沒意義了；之後加了還沒有素材的字它會自己回來）。
+   * 正在用的那個一定留著，不然按下去它就消失了。
+   */
+  const useful = (f: { id: Filter }) =>
+    f.id === filter ? true
+    : f.id === 'full' ? fullCount > 0
+    : f.id === 'video' ? !allHaveMovies
+    : true
+
   const card = (c: CharEntry, hue: number, i: number) => {
     const count = watched[c.char]?.count || 0
     const video = hasMovie(c)
@@ -128,7 +142,7 @@ export default function Home({
           aria-label="找字"
         />
         <div className="home-filters" aria-label="篩選">
-          {FILTERS.filter((f) => f.id !== 'full' || fullCount > 0).map((f) => (
+          {FILTERS.filter(useful).map((f) => (
             <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
           ))}
         </div>

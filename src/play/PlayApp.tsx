@@ -228,6 +228,7 @@ export default function PlayApp() {
             progress={progress}
             stars={stars}
             starCaps={caps}
+            allHaveMovies={all.length > 0 && all.every(hasMovie)}
             starTotal={starTotal}
             fullCount={fullCount}
             todayCount={todayCount}
