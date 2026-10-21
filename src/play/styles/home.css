@@ -176,11 +176,12 @@
   .parent-label { display: none; }
   .home-parent { padding: 9px 12px; }
   .home-invite { flex-wrap: wrap; }
-  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; gap: 6px; display: grid; grid-template-columns: repeat(3, 1fr); }
-  /* 六個去處擠在 390px：排兩行三個（一行六個只有 47px 寬，六歲的手指按不準），圖示疊在名字上面，副標拿掉 */
+  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; gap: 6px; display: grid; grid-template-columns: repeat(4, 1fr); }
+  /* 七個去處擠在 390px：排兩行四個（一行七個只剩 40px 寬，六歲的手指按不準），圖示疊在名字上面，副標拿掉 */
   .place { min-width: 0; min-height: 50px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
   .place small { display: none; }
-  .place b { font-size: min(15px, 4vw); white-space: nowrap; }
+  /* 最長的名字是「跳石頭過河」五個字，要排得進 (362 − 3×6) ÷ 4 − 8 ≈ 78px */
+  .place b { font-size: min(14px, 3.7vw); white-space: nowrap; }
   .place-icon { width: 32px; height: 32px; font-size: 21px; border-radius: 12px; }
 }
 

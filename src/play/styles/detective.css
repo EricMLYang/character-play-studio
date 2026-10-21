@@ -1,0 +1,72 @@
+/* ---------- 小偵探：一筆一筆畫出來，猜猜我是誰 ---------- */
+.place-spy { background: #FFE9C7; }
+.place-spy .place-icon { animation-delay: -2.5s; }
+
+.spy { position: relative; height: 100%; display: flex; flex-direction: column;
+  background: linear-gradient(#FFF6E9, #FFEBD2 65%, #FFE1BC); }
+.spy :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.spy-main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(8px, 2vh, 20px); padding: 0 16px 8px; }
+
+/* 出題的小豬偵探 */
+.spy-stage { display: flex; align-items: center; gap: 10px; }
+.spy-boss { width: clamp(64px, 11vh, 96px); height: auto; object-fit: contain; animation: bob 2.2s ease-in-out infinite; }
+.phase-right .spy-boss { animation: boing .8s cubic-bezier(.2,1.6,.4,1) both; }
+.phase-wrong .spy-boss { animation: wobble .45s ease-in-out 2; }
+.spy-bubble { padding: 8px 16px; border-radius: 20px; background: #fff; font-size: clamp(15px, 2.2vh, 19px); font-weight: 800;
+  box-shadow: 0 4px 0 rgba(0,0,0,.08); animation: pop .3s cubic-bezier(.2,1.7,.4,1) both; }
+.spy-bubble b { font-family: var(--kai); font-size: 1.3em; }
+
+/* 畫字的紙：一筆一個 path，剛畫出來那一筆先彈一下 */
+.spy-paper { position: relative; display: grid; place-items: center;
+  width: clamp(190px, 34vh, 300px); aspect-ratio: 1; border-radius: 28px; background: #fff;
+  box-shadow: 0 8px 0 rgba(0,0,0,.08), 0 16px 32px rgba(0,0,0,.1); }
+/* 田字格：中間一個十字，外面一圈框，跟描字那邊一樣的參考線 */
+.spy-paper::before { content: ''; position: absolute; inset: 9%; pointer-events: none;
+  border: 2px solid rgba(46,42,38,.08); border-radius: 10px;
+  background: linear-gradient(rgba(46,42,38,.09), rgba(46,42,38,.09)) center / 2px 100% no-repeat,
+              linear-gradient(rgba(46,42,38,.09), rgba(46,42,38,.09)) center / 100% 2px no-repeat; }
+.spy-ink { width: 86%; height: 86%; }
+.spy-ink path { fill: var(--ink); }
+.spy-ink path.fresh { animation: inkIn .32s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes inkIn { from { opacity: 0; transform: scale(.82) } to { opacity: 1; transform: none } }
+.spy-wait { position: absolute; font-size: 40px; animation: breathe 1.4s ease-in-out infinite; }
+/* 還有幾筆沒畫 */
+.spy-dots { position: absolute; bottom: 10px; display: flex; gap: 4px; }
+.spy-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(46,42,38,.16); }
+.spy-dots span.on { background: var(--c0); }
+.spy-word { position: absolute; bottom: -16px; padding: 5px 14px; border-radius: 999px; background: #FFF3CF;
+  font-size: 16px; font-weight: 800; box-shadow: 0 0 0 3px var(--c2), 0 4px 0 rgba(0,0,0,.08);
+  animation: popUp .4s cubic-bezier(.2,1.6,.4,1) both; }
+
+/* 猜哪一個 */
+.spy-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2.5vw, 20px); }
+.spy-card { display: grid; place-items: center; width: clamp(86px, 15vh, 124px); aspect-ratio: 1; border-radius: 26px;
+  background: #fff; font-family: var(--kai); font-size: clamp(48px, 9vh, 76px); font-weight: 700; color: var(--ink); line-height: 1;
+  box-shadow: 0 7px 0 rgba(0,0,0,.13), 0 14px 24px rgba(0,0,0,.1); transition: transform .16s cubic-bezier(.2,1.7,.4,1), opacity .3s; }
+.spy-card:hover:not(:disabled) { transform: translateY(-5px); }
+.spy-card:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.13); }
+/* 猜錯的那張淡出去，但留在原地：他看得出來自己排除了什麼 */
+.spy-card.out { opacity: .32; transform: scale(.92) rotate(-3deg); box-shadow: none; }
+.spy-card.win { background: linear-gradient(#FFEFBB, #FFD24A); animation: boing .7s cubic-bezier(.2,1.6,.4,1) both; }
+
+.spy-done { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 16px; position: relative; }
+.spy-done-title { margin: 0; font-size: 19px; font-weight: 800; }
+.spy-done-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.spy-done-char { display: flex; align-items: center; gap: 6px; padding: 8px 16px 8px 12px; border-radius: 999px; background: #fff;
+  font-family: var(--kai); font-size: 30px; font-weight: 700; box-shadow: 0 4px 0 rgba(0,0,0,.1); }
+.spy-done-char span { font-family: var(--ui); font-size: 24px; }
+.spy-review { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 700;
+  color: rgba(46,42,38,.72); }
+.spy-review-char { padding: 5px 14px; border-radius: 999px; background: #FFF0D6; font-family: var(--kai); font-size: 24px; font-weight: 700;
+  box-shadow: 0 3px 0 rgba(0,0,0,.08); }
+.spy-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;
+  text-align: center; font-size: 19px; line-height: 1.7; }
+.spy-empty .spy-boss { width: min(30vh, 170px); }
+.spy .game-hint { padding: 0 16px 10px; text-align: center; }
+
+@media (max-width: 700px) {
+  .spy-boss { width: 56px; }
+  .spy-bubble { font-size: 14px; padding: 6px 12px; }
+  .spy-done-char { font-size: 26px; }
+}

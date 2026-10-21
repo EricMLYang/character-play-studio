@@ -8,10 +8,11 @@ import Train from './Train'
 import Feed from './Feed'
 import Puzzle from './Puzzle'
 import River from './River'
+import Detective from './Detective'
 import { knownCount } from './dishes'
 
 /**
- * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、詞語拼圖、跳石頭過河。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
+ * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -94,6 +95,14 @@ export const GAMES: Game[] = [
     subtitle: () => '聽到字就跳過去',
     render: (ctx) => (
       <River library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
+        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
+    ),
+  },
+  {
+    id: 'spy', icon: '🔍', title: '小偵探',
+    subtitle: () => '一筆一筆猜出來',
+    render: (ctx) => (
+      <Detective library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
         onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },
