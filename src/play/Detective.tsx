@@ -23,6 +23,10 @@ const STROKE_MS = 950
 const WHOLE_MS = 8200
 /** 換題後多久才開始收答案 */
 const READY_MS = 500
+/** 畫完之後再等多久才公布答案，以及一題至少要給他多久——
+ *  「一」只有一筆，650ms 就畫完了，照畫完才等的話他連看都還沒看到就被公布 */
+const AFTER_MS = 900
+const LEAST_MS = 5000
 const strokePace = (total: number) => Math.max(420, Math.min(STROKE_MS, WHOLE_MS / Math.max(total, 1)))
 /** 這句話大概要唸多久 */
 const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000
@@ -39,6 +43,8 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
   const [list, setList] = useState<GuessRound[]>(newRounds)
   const [at, setAt] = useState(0)
   const [data, setData] = useState<CharData | null>(null)
+  /** 這一題是什麼時候開始的（筆畫少的字要多等一下才公布答案） */
+  const began = useRef(Date.now())
   /** 已經畫出來幾筆 */
   const [shown, setShown] = useState(0)
   const [phase, setPhase] = useState<Phase>('draw')
@@ -60,6 +66,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     setShown(0)
     setMissed([])
     setSpeed(null)
+    began.current = Date.now()
     setPhase('wait')
     later(() => setPhase('draw'), READY_MS)
     say(FIXED_LINES.guessWho, 0.8)
@@ -74,7 +81,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
   useEffect(() => {
     if (!data || phase !== 'draw') return
     if (shown >= data.strokes.length) {
-      later(() => reveal(), 900)
+      later(() => reveal(), Math.max(AFTER_MS, LEAST_MS - (Date.now() - began.current)))
       return
     }
     const t = window.setTimeout(() => { setShown((n) => n + 1); blip() }, shown === 0 ? 650 : strokePace(data.strokes.length))
@@ -151,7 +158,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
   }
 
   const result = rounds(done)
-  const pose = phase === 'right' ? 'happy' : phase === 'wrong' ? 'surprised' : phase === 'done' ? 'happy' : 'think'
+  const pose = phase === 'right' || phase === 'done' ? 'happy' : phase === 'wrong' ? 'surprised' : phase === 'reveal' ? 'point' : 'think'
   const word = phase === 'right' ? exampleWord(byChar.get(round?.char ?? '')!) : undefined
 
   // round 沒了：最後一個字剛好沒有筆順資料被跳掉，直接當作猜完
