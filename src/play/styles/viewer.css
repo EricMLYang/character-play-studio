@@ -25,6 +25,10 @@
   background: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.06); }
 .star-strip:active { transform: translateY(2px); box-shadow: none; }
 .star-strip.full { background: linear-gradient(135deg, #FFEFBB, #FFD24A); }
+/* 只差一顆：右上角這排星星很小，不會自己被看見——讓它呼吸，點開來就有「去 →」 */
+.star-strip.nearly { background: linear-gradient(135deg, #FFF6DC, #FFE9A8); box-shadow: 0 3px 0 rgba(0,0,0,.08), 0 0 0 3px #FFD24A;
+  animation: breathe 1.6s ease-in-out infinite; }
+.star-strip.nearly .strip-count { color: #9a6a00; font-weight: 800; }
 .strip-stars { display: flex; align-items: center; gap: 1px; font-size: 18px; line-height: 1; }
 .strip-stars > span { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(var(--i, 0) * .06s); }
 /* 還沒拿到的那幾顆：灰掉但位置留著，他看得出「還差兩顆」 */

@@ -292,16 +292,21 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
   const deeds = deedsFor(entry, known)
   const n = deeds.filter((d) => got[d.id]).length
   const full = n === deeds.length
+  // 只差一顆：那排星星會呼吸，點開來就看得到缺的是哪一顆、按一下直接去拿。
+  // 這是整個「集滿一個字」唯一的入口，不提醒的話它只是右上角一排很小的星星
+  const nearly = !full && n > 0 && n + 1 === deeds.length
   return (
     <div className="viewer-stars">
-      <button className={'star-strip' + (full ? ' full' : '')} aria-expanded={open}
-        aria-label={`星星：${deeds.length} 顆裡面拿到 ${n} 顆，點開來看還差什麼`}
+      <button className={'star-strip' + (full ? ' full' : '') + (nearly ? ' nearly' : '')} aria-expanded={open}
+        aria-label={`星星：${deeds.length} 顆裡面拿到 ${n} 顆${nearly ? '，只差一顆就集滿了' : ''}，點開來看還差什麼`}
         onClick={() => { tap(); setOpen((o) => !o) }}>
         <span className="strip-stars" key={n} aria-hidden>
           {deeds.map((d) => <span key={d.id} className={got[d.id] ? '' : 'off'}>⭐</span>)}
           {full && <span className="strip-crown">👑</span>}
         </span>
-        <span className={'strip-count' + (bump ? ' bump' : '')} key={`${count}-${n}`}>{count ? `看過 ${count} 次` : '第一次看'}</span>
+        <span className={'strip-count' + (bump ? ' bump' : '')} key={`${count}-${n}`}>
+          {nearly ? '只差一顆！' : count ? `看過 ${count} 次` : '第一次看'}
+        </span>
       </button>
       {open && (
         <>
