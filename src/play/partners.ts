@@ -60,6 +60,17 @@ export const partnerCount = (stars: number) =>
 /** 已經來的夥伴，照來的順序。 */
 export const partnersAt = (stars: number) => PARTNERS.slice(0, partnerCount(stars))
 
+/** 這條路上的一站：走到這裡會遇到誰、要幾顆星星、他到了沒。 */
+export type Stop = { partner: Partner; at: number; got: boolean }
+
+/**
+ * 整條路的每一站，照順序（第一站是出發點，不用星星）。
+ * 「我的東西」把它畫成一條路：走過的那幾段是金色的，上面站著他收集到的夥伴。
+ * 星星本來只是一個一直變大的數字，畫成路之後他才看得到自己走了多遠、下一個寶箱在哪裡。
+ */
+export const trailStops = (stars: number): Stop[] =>
+  PARTNERS.map((partner, i) => ({ partner, at: starsFor(i), got: i < partnerCount(stars) }))
+
 /** 下一位是誰、還差幾顆星星；都收齊了回 null。 */
 export function nextPartner(stars: number) {
   const n = partnerCount(stars)

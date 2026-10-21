@@ -17,7 +17,7 @@ registerHooks({
 
 const { setParts } = await import('../src/play/parts.ts')
 const { pickCrossing, crosserFor, trip, STEPS, WARMUP } = await import('../src/play/crossing.ts')
-const { PARTNERS, partnersAt, partnerCount, nextPartner, starsFor, STARS_PER } = await import('../src/play/partners.ts')
+const { PARTNERS, partnersAt, partnerCount, nextPartner, starsFor, trailStops, STARS_PER } = await import('../src/play/partners.ts')
 
 const entry = (char) => ({ char, zhuyin: '', meaning: '', emoji: '', concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
 const library = [...'火水山木日月人口大小中天上下手'].map(entry)
@@ -114,6 +114,20 @@ test('下一位還差幾顆星星；收齊了就沒有下一位', () => {
   assert.equal(nextPartner(STARS_PER - 3).need, 3)
   assert.equal(nextPartner(STARS_PER).need, STARS_PER, '剛開完一個，下一個是滿滿一段')
   assert.equal(nextPartner(starsFor(PARTNERS.length - 1)), null)
+})
+
+test('「我的東西」那條路：每一站一位夥伴，走到哪就金到哪', () => {
+  const stops = trailStops(STARS_PER * 3 + 5)
+  assert.equal(stops.length, PARTNERS.length, '整條路一次畫完，還沒到的站也要看得到')
+  assert.deepEqual(stops.map((s) => s.at).slice(0, 4), [0, STARS_PER, STARS_PER * 2, STARS_PER * 3])
+  assert.equal(stops[0].got, true, '出發點不用星星')
+  assert.equal(stops[3].got, true, '剛好走過第三站')
+  assert.equal(stops[4].got, false, '第四站還沒到')
+  assert.equal(stops.filter((s) => s.got).length, partnerCount(STARS_PER * 3 + 5), '金色的段數就是收集到的夥伴數')
+  // 「你在這裡」插在下一站下面，所以下一站一定找得到（收齊之後才沒有）
+  assert.equal(stops.find((s) => s.at === nextPartner(STARS_PER * 3 + 5).at).got, false)
+  assert.equal(trailStops(0).filter((s) => s.got).length, 1, '一顆星星都沒有也站在起點上')
+  assert.equal(trailStops(STARS_PER * 999).every((s) => s.got), true, '收齊就整條路都是金的')
 })
 
 test('每一位夥伴都有畫面會用到的那幾張圖', () => {

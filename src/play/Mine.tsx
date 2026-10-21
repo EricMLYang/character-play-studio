@@ -1,6 +1,7 @@
+import { Fragment, useEffect, useRef } from 'react'
 import type { Progress } from '../types'
 import { tap } from '../lib/sfx'
-import { PARTNERS, STARS_PER, nextPartner, partnersAt } from './partners'
+import { PARTNERS, STARS_PER, nextPartner, trailStops } from './partners'
 
 /**
  * 「我的東西」：點首頁的星星存摺打開。
@@ -21,8 +22,6 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
   onGo: (where: string) => void
   onClose: () => void
 }) {
-  const crew = partnersAt(stars)
-  const next = nextPartner(stars)
   const rows = [
     { id: 'town', icon: '🏡', label: '小鎮住了', n: Object.keys(progress.town || {}).length, unit: '個字' },
     { id: 'puzzle', icon: '📖', label: '詞語圖鑑收了', n: Object.keys(progress.puzzles || {}).length, unit: '個詞' },
@@ -41,21 +40,8 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
           <b>{stars}</b>
           <span>顆星星</span>
         </div>
-        {next ? (
-          <div className="mine-next">
-            <span className="mine-bar" aria-hidden><i style={{ width: `${((STARS_PER - next.need) / STARS_PER) * 100}%` }} /></span>
-            <small>再 {next.need} 顆就開寶箱 🎁</small>
-          </div>
-        ) : <div className="mine-next"><small>夥伴全部收齊了！🎉</small></div>}
 
-        <div className="mine-crew" aria-label={`夥伴 ${crew.length} 位，一共 ${PARTNERS.length} 位`}>
-          {crew.map((p) => (
-            <button key={p.id} className="mine-one" onClick={() => { tap(); onGo('river') }} aria-label={`跟「${p.name}」去跳石頭過河`}>
-              <img src={`/hero/${p.id}/idle.png`} alt="" />
-            </button>
-          ))}
-          {next && <span className="mine-one locked" aria-hidden>?</span>}
-        </div>
+        <Trail stars={stars} onGo={onGo} />
 
         <ul className="mine-rows">
           {rows.map((r) => (
@@ -73,6 +59,64 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
 
         <button className="nav-btn primary mine-close" onClick={onClose}>好</button>
       </div>
+    </div>
+  )
+}
+
+/**
+ * 我走到哪了：一條由下往上的路，每 STARS_PER 顆星星一站，站上站著那一站開出來的夥伴。
+ * 走過的路段是金色的，還沒到的是灰的；「你在這裡」那一格插在下一站的下面，
+ * 一打開就捲到那裡——他第一眼看到的是「我站在這裡，下一個寶箱就在上面」。
+ *
+ * 夥伴頭像點下去就去跳石頭過河：那幾位真的會在河邊等他，這條路不是只有圖。
+ */
+function Trail({ stars, onGo }: { stars: number; onGo: (where: string) => void }) {
+  const stops = trailStops(stars)
+  const next = nextPartner(stars)
+  const road = useRef<HTMLDivElement>(null)
+  const here = useRef<HTMLLIElement>(null)
+  // 捲到「你在這裡」。scrollIntoView 會連整頁一起捲，所以自己算
+  useEffect(() => {
+    const box = road.current, mark = here.current
+    if (!box || !mark) return
+    // 捲到「下一個寶箱」停在最上面：他看到的是自己、上面要走到的地方，還有下面收集到的夥伴
+    const goal = mark.previousElementSibling as HTMLElement | null
+    box.scrollTop = (goal?.offsetTop ?? mark.offsetTop) - 6
+  }, [])
+
+  return (
+    <div className="trail-box" ref={road}>
+      <ol className="trail" aria-label={`我的路：${PARTNERS.length} 位夥伴，收集到 ${stops.filter((s) => s.got).length} 位`}>
+        {[...stops].reverse().map((s) => (
+          <Fragment key={s.partner.id}>
+            <li className={'trail-stop' + (s.got ? ' got' : '')}>
+              <span className="trail-road" aria-hidden />
+              {s.got ? (
+                <button className="trail-node" onClick={() => { tap(); onGo('river') }}
+                  aria-label={`跟「${s.partner.name}」去跳石頭過河`}>
+                  <img src={`/hero/${s.partner.id}/idle.png`} alt="" />
+                </button>
+              ) : <span className="trail-node locked" aria-hidden>🎁</span>}
+              <span className="trail-what">
+                <b>{s.got ? s.partner.name : '？'}</b>
+                <small>{s.at === 0 ? '出發！' : `⭐ ${s.at} 顆`}</small>
+              </span>
+            </li>
+            {next && next.at === s.at && (
+              <li className="trail-here" ref={here}>
+                <span className="trail-road" aria-hidden />
+                <span className="trail-pin" aria-hidden>⭐</span>
+                <span className="trail-what">
+                  <b>你在這裡：{stars} 顆</b>
+                  <span className="trail-bar" aria-hidden><i style={{ width: `${((STARS_PER - next.need) / STARS_PER) * 100}%` }} /></span>
+                  <small>再 {next.need} 顆就開寶箱 🎁</small>
+                </span>
+              </li>
+            )}
+          </Fragment>
+        ))}
+      </ol>
+      {!next && <p className="trail-all">夥伴全部收齊了！🎉</p>}
     </div>
   )
 }
