@@ -155,6 +155,9 @@
  */
 @media (min-width: 701px) and (max-width: 1400px) {
   .home-places { flex: 1 1 100%; margin-left: 0; }
+  /* 家長只留圖示，上面那一列才排得進一行（名字寫出來會自己擠掉一整行） */
+  .parent-label { display: none; }
+  .home-parent { padding: 9px 12px; }
   .place { padding: 6px 12px 6px 7px; min-height: 56px; }
   .place small { display: none; }
   .place b { font-size: 17px; }
