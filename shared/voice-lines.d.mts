@@ -9,5 +9,6 @@ export const LINES: {
   puzzleAll: (char: string) => string
   riverJump: (char: string) => string
 }
-export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverStart' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
+export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverStart' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast'
+  | 'nudgeFirst' | 'nudgeToday' | 'nudgeLab' | 'nudgeTrain' | 'nudgePuzzle' | 'nudgeMore' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

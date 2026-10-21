@@ -3,6 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 
 import { tap } from '../lib/sfx'
+import { preloadVoice, say } from '../lib/audio'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 import type { Nudge } from './nudge'
@@ -57,6 +58,8 @@ export default function Home({
   onNudge: (go: string | null) => void
 }) {
   const [mine, setMine] = useState(false)
+  // 角色那句話先抓下來，點喇叭就出聲（帶數字的句子沒有音檔，會退回瀏覽器朗讀）
+  useEffect(() => { preloadVoice([nudge.text]) }, [nudge.text])
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   const card = (c: CharEntry, hue: number, i: number) => {
@@ -128,13 +131,17 @@ export default function Home({
 
       <div className="home-invite">
         {/* 今天可以做什麼：角色看他的紀錄挑一件事說，按一下直接過去（規則在 nudge.ts） */}
-        <button className="buddy" onClick={() => { tap(); onNudge(nudge.go) }} aria-label={`${nudge.text} ${nudge.cta}`}>
-          <img className="buddy-img" src={`/hero/${nudge.hero}/${nudge.pose}.png`} alt="" />
-          <span className="buddy-say">
-            <b>{nudge.text}</b>
-            <small>{nudge.cta}</small>
-          </span>
-        </button>
+        <div className="buddy">
+          <button className="buddy-go" onClick={() => { tap(); onNudge(nudge.go) }} aria-label={`${nudge.text} ${nudge.cta}`}>
+            <img className="buddy-img" src={`/hero/${nudge.hero}/${nudge.pose}.png`} alt="" />
+            <span className="buddy-text">
+              <b>{nudge.text}</b>
+              <small>{nudge.cta}</small>
+            </span>
+          </button>
+          {/* 他還不會讀字：這句話要唸得出來才有用 */}
+          <button className="buddy-listen" onClick={() => say(nudge.text, 0.85)} aria-label="再聽一次">🔊</button>
+        </div>
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
           {places.map((p) => (

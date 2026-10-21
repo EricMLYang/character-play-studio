@@ -1,5 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { taiwanDay } from '../../shared/domain.mjs'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { nextPartner } from './partners'
 
 /**
@@ -45,9 +46,9 @@ const WHO: Record<string, { hero: string; pose: string }> = {
  * 分不出他去過沒，所以改由「該複習了」跟最後那條預設去推。
  */
 const UNTRIED: { id: string; played: (p: Progress) => boolean; text: string; cta: string }[] = [
-  { id: 'lab', played: (p) => Object.keys(p.lab || {}).length > 0, text: '魔法鍋可以把一個字變成另一個字，你還沒玩過！', cta: '去魔法鍋 →' },
-  { id: 'train', played: (p) => Object.keys(p.words || {}).length > 0, text: '字火車可以自己接一個詞，你還沒接過！', cta: '去接火車 →' },
-  { id: 'puzzle', played: (p) => Object.keys(p.puzzles || {}).length > 0, text: '詞語拼圖要把字補進詞裡，你還沒拼過！', cta: '去拼詞語 →' },
+  { id: 'lab', played: (p) => Object.keys(p.lab || {}).length > 0, text: FIXED_LINES.nudgeLab, cta: '去魔法鍋 →' },
+  { id: 'train', played: (p) => Object.keys(p.words || {}).length > 0, text: FIXED_LINES.nudgeTrain, cta: '去接火車 →' },
+  { id: 'puzzle', played: (p) => Object.keys(p.puzzles || {}).length > 0, text: FIXED_LINES.nudgePuzzle, cta: '去拼詞語 →' },
 ]
 
 export function pickNudge(
@@ -62,11 +63,11 @@ export function pickNudge(
   const seen = Object.keys(watched).length
 
   // 一個字都還沒看過：先把第一張字卡點開，其他都還談不上
-  if (!seen) return { ...WHO.card, text: '點一張字卡，我們一起看看它！', cta: '挑一個字 →', go: null }
+  if (!seen) return { ...WHO.card, text: FIXED_LINES.nudgeFirst, cta: '挑一個字 →', go: null }
 
   // 今天還沒開始：先看一個字。看字是這裡所有玩法的入口（遊戲只考他看過的字）
   const todayCount = Object.values(watched).filter((w) => taiwanDay(w.last) === today).length
-  if (!todayCount) return { ...WHO.card, text: '今天還沒看字喔！挑一張字卡看看吧', cta: '挑一個字 →', go: null }
+  if (!todayCount) return { ...WHO.card, text: FIXED_LINES.nudgeToday, cta: '挑一個字 →', go: null }
 
   // 字太少的時候不推遊戲：遊戲只考他看過的字，去了也只有兩張卡可以選
   const enough = seen >= 4
@@ -101,6 +102,6 @@ export function pickNudge(
   }
 
   // 沒有特別該做的事：講他已經拿到的，再順手推一個地方
-  if (!enough) return { ...WHO.card, text: '再多看幾個字，遊戲裡就有更多字可以玩！', cta: '挑一個字 →', go: null }
+  if (!enough) return { ...WHO.card, text: FIXED_LINES.nudgeMore, cta: '挑一個字 →', go: null }
   return { ...WHO.star, text: `你已經收集了 ${total} 顆星星！再去拿幾顆？`, cta: '去過河 →', go: 'river' }
 }

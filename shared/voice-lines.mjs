@@ -45,6 +45,16 @@ export const FIXED_LINES = {
   riverStart: '我要過河！',
   riverArrive: '過河了！',
   riverRecap: '我跳對了這些字！',
+  /**
+   * 首頁那隻角色講的話（src/play/nudge.ts）。他還不會讀字，這幾句要唸得出來才有用。
+   * 帶數字的那幾句（「有 5 個字可以再認一次」）每次都不一樣，沒辦法先做，會退回瀏覽器朗讀。
+   */
+  nudgeFirst: '點一張字卡，我們一起看看它！',
+  nudgeToday: '今天還沒看字喔！挑一張字卡看看吧',
+  nudgeLab: '魔法鍋可以把一個字變成另一個字，你還沒玩過！',
+  nudgeTrain: '字火車可以自己接一個詞，你還沒接過！',
+  nudgePuzzle: '詞語拼圖要把字補進詞裡，你還沒拼過！',
+  nudgeMore: '再多看幾個字，遊戲裡就有更多字可以玩！',
   /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點 */
   guessWho: '猜猜我是誰？',
   guessFast: '哇！好厲害！',
