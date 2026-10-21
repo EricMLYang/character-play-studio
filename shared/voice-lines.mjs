@@ -16,6 +16,8 @@ export const LINES = {
   puzzleAsk: (char, word) => `${word}的${char}`,
   /** 詞語拼圖：這個字的詞全部收集到了 */
   puzzleAll: (char) => `${char}的詞全部找到了！`,
+  /** 跳石頭過河：這一步要跳到哪一顆石頭 */
+  riverJump: (char) => `跳到${char}！`,
 }
 
 /** 跟字無關、每次都一樣的句子 */
@@ -39,6 +41,10 @@ export const FIXED_LINES = {
   feedWarm: '肚子熱熱的…',
   feedMagic: '變！',
   feedRainbow: '我變成彩虹怪獸了！',
+  /** 跳石頭過河：出發、上岸、把跳對的字唸一遍。對岸有什麼用圖示表示，不唸出來（他還不會讀） */
+  riverStart: '我要過河！',
+  riverArrive: '過河了！',
+  riverRecap: '我跳對了這些字！',
   /** 詞語拼圖 */
   puzzleHello: '來拼詞語囉！',
   puzzleRecap: '你拼好了這些詞！',
@@ -49,7 +55,8 @@ export const FIXED_LINES = {
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */
 export function linesForEntry(entry) {
-  const out = [entry.char, LINES.townHello(entry.char), LINES.feedAsk(entry.char), LINES.feedNotThis(entry.char)]
+  const out = [entry.char, LINES.townHello(entry.char), LINES.feedAsk(entry.char), LINES.feedNotThis(entry.char),
+    LINES.riverJump(entry.char)]
   for (const w of entry.words ?? []) if (w?.text) out.push(w.text, LINES.townWord(entry.char, w.text), LINES.puzzleAsk(entry.char, w.text))
   if (entry.words?.length) out.push(LINES.puzzleAll(entry.char))
   if (entry.concept?.hook) out.push(entry.concept.hook)

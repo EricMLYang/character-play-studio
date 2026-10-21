@@ -66,7 +66,7 @@ test('event ids older than the retention window are pruned', () => {
 
 test('spoken lines come from one place for the town and for the voice files', () => {
   const entry = { char: '火', words: [{ text: '火車' }], concept: { hook: '小火苗跳舞。' } }
-  assert.deepEqual(linesForEntry(entry), ['火', LINES.townHello('火'), LINES.feedAsk('火'), LINES.feedNotThis('火'), '火車', LINES.townWord('火', '火車'), LINES.puzzleAsk('火', '火車'), LINES.puzzleAll('火'), '小火苗跳舞。'])
+  assert.deepEqual(linesForEntry(entry), ['火', LINES.townHello('火'), LINES.feedAsk('火'), LINES.feedNotThis('火'), LINES.riverJump('火'), '火車', LINES.townWord('火', '火車'), LINES.puzzleAsk('火', '火車'), LINES.puzzleAll('火'), '小火苗跳舞。'])
 })
 
 test('routes round-trip through the address bar', () => {
