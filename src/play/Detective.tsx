@@ -244,7 +244,12 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
           {word && <span className="spy-word" role="status">{word.emoji} {word.text}</span>}
         </div>
 
-        <div className="spy-cards" aria-label="猜猜看是哪個字">
+        {/* 卡片擺在偵探的桌上：桌面往兩邊延伸出畫面，卡片才不像浮在空中 */}
+        <div className="spy-table">
+          <span className="spy-desk" aria-hidden />
+          <span className="spy-prop left" aria-hidden>🔎</span>
+          <span className="spy-prop right" aria-hidden>📒</span>
+          <div className="spy-cards" aria-label="猜猜看是哪個字">
           {round.options.map((c) => {
             const out = missed.includes(c)
             const win = (phase === 'right' || phase === 'reveal') && c === round.char
@@ -256,6 +261,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
               </button>
             )
           })}
+          </div>
         </div>
       </div>
 

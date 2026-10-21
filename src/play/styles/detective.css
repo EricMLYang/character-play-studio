@@ -12,8 +12,16 @@
 .spy-dot.done { background: #fff; box-shadow: inset 0 0 0 3px #FFD24A; animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
 .spy-dot.here { background: #fff; box-shadow: inset 0 0 0 3px var(--c0); animation: breathe 1.3s ease-in-out infinite; }
 
-.spy-main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+.spy-main { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: clamp(8px, 2vh, 20px); padding: 0 16px 8px; }
+
+/* 偵探的桌子：桌面往兩邊延伸到畫面外，桌上擺著放大鏡跟筆記本 */
+.spy-table { position: relative; }
+.spy-desk { position: absolute; left: -50vw; right: -50vw; bottom: -14px; height: 20px; border-radius: 5px;
+  background: linear-gradient(#D7A878, #B4834F); box-shadow: 0 7px 0 rgba(0,0,0,.1); }
+.spy-prop { position: absolute; bottom: -6px; font-size: clamp(24px, 4vh, 36px); line-height: 1; }
+.spy-prop.left { right: calc(100% + clamp(10px, 3vw, 44px)); }
+.spy-prop.right { left: calc(100% + clamp(10px, 3vw, 44px)); }
 
 /* 出題的小豬偵探 */
 .spy-stage { display: flex; align-items: center; gap: 10px; }
@@ -47,7 +55,7 @@
   animation: popUp .4s cubic-bezier(.2,1.6,.4,1) both; }
 
 /* 猜哪一個 */
-.spy-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2.5vw, 20px); }
+.spy-cards { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2.5vw, 20px); }
 .spy-card { display: grid; place-items: center; width: clamp(86px, 15vh, 124px); aspect-ratio: 1; border-radius: 26px;
   background: #fff; font-family: var(--kai); font-size: clamp(48px, 9vh, 76px); font-weight: 700; color: var(--ink); line-height: 1;
   box-shadow: 0 7px 0 rgba(0,0,0,.13), 0 14px 24px rgba(0,0,0,.1); transition: transform .16s cubic-bezier(.2,1.7,.4,1), opacity .3s; }
@@ -77,6 +85,7 @@
 @media (max-width: 700px) {
   .spy-boss { width: 56px; }
   .spy-dot { width: 27px; height: 27px; font-size: 15px; }
+  .spy-prop { display: none; }
   .spy-bubble { font-size: 14px; padding: 6px 12px; }
   .spy-done-char { font-size: 26px; }
 }
