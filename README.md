@@ -362,9 +362,13 @@ server/progress.mjs      progress.json 的讀寫、格式升級、存一筆紀�
 ### 加一個新遊戲
 
 1. 畫面元件 `src/play/<Game>.tsx`，上方列用 `ui.tsx` 的 `SubBar`，字的顏色用 `hueOf`；樣式放 `src/play/styles/<game>.css`，在 `play.css` 最後接上。
+   規則拆成純函式放另一個檔，**檔名不要只有大小寫不同**（`River.tsx` 配 `river.ts` 在 macOS 上會被 TypeScript 當成同一個檔，
+   所以跳石頭過河用 `crossing.ts`、小偵探用 `guessing.ts`）。
 2. 要記進度：規則寫成純函式放 `shared/domain.mjs`；`shared/play-events.mjs` 加一種紀錄（伺服器自動多一條 `POST /api/<種類>`）；`src/types.ts` 的 `Progress` 加欄位、`shared/play-events.d.mts` 的 `PlayEvent` 加一型。
 3. 有固定台詞：`shared/voice-lines.mjs` 加句型並放進 `linesForEntry`，音檔會自動預先做好。
-4. `src/play/games.tsx` 的 `GAMES` 加一筆，首頁就多一顆入口按鈕，網址是 `#/<id>`。
+4. `src/play/games.tsx` 的 `GAMES` 加一筆，首頁就多一顆入口按鈕，網址是 `#/<id>`；
+   剛做好的加 `fresh: true`，首頁入口會亮一顆 🆕（他進去過一次就不亮，記在這台裝置）。
+   考的能力跟既有遊戲一樣就**共用那一種紀錄**（跳石頭過河與小偵探都記 `recall`，跟餵大怪獸同一份記住程度）。
 5. 規則的測試放 `tests/`（參考 `magic-pot.test.mjs`、`word-puzzle.test.mjs`）。
 6. **試玩用 `npm run play`**，不要直接開 `npm run dev` 玩：它把儲存根目錄換成暫存資料夾（字庫、影片、筆順、音檔都還是真的那一份，只有寫入進暫存），
    Ctrl+C 之後整個刪掉。直接玩的話每看完一支影片、每答對一題都會寫進 `data/progress.json`——那是孩子真的學習紀錄。

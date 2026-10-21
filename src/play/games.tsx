@@ -17,9 +17,12 @@ import { knownCount } from './dishes'
  *
  * 加一個新遊戲：
  * 1. 寫畫面元件（src/play/<Game>.tsx），樣式放 src/play/styles/<game>.css 並在 play.css 接上
- * 2. 要記進度的話：規則寫在 shared/domain.mjs，在 shared/play-events.mjs 加一種紀錄，Progress 型別加欄位
- * 3. 有固定台詞的話：shared/voice-lines.mjs 加句型，音檔就會預先做好
- * 4. 在下面 GAMES 加一筆
+ * 2. 規則拆成純函式放另一個檔，檔名**不要只有大小寫不同**（River.tsx 配 river.ts 在 macOS 上會
+ *    被 TypeScript 當成同一個檔；跳石頭過河用 crossing.ts、小偵探用 guessing.ts）
+ * 3. 要記進度的話：規則寫在 shared/domain.mjs，在 shared/play-events.mjs 加一種紀錄，Progress 型別加欄位。
+ *    考的能力跟既有遊戲一樣就共用那一種紀錄（跳石頭過河與小偵探都記 recall，跟餵大怪獸同一份記住程度）
+ * 4. 有固定台詞的話：shared/voice-lines.mjs 加句型，音檔就會預先做好。他還不會讀字，畫面上的話要唸得出來
+ * 5. 在下面 GAMES 加一筆；剛做好的加 fresh: true，首頁入口會亮一顆 🆕（他進去過一次就不亮）
  */
 export type GameContext = {
   /** 孩子端看得到的字，照首頁的順序 */

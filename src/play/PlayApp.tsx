@@ -174,9 +174,9 @@ export default function PlayApp() {
   const open = useCallback((char: string) => go({ screen, char }, { replace: Boolean(active) }), [go, screen, active])
   const close = () => back(here)
   const startRide = useCallback((text: string) => go({ screen, ride: text }), [go, screen])
-  const toScreen = (id: string) => { markSeen(id); setSeen((s) => (s.includes(id) ? s : [...s, id])); go({ screen: id }) }
   /** 哪些新遊戲他已經進去過（首頁的 🆕 要不要亮）。放 state 才會在他進去之後馬上熄掉 */
   const [seen, setSeen] = useState<string[]>(() => GAMES.filter((g) => g.fresh && hasSeen(g.id)).map((g) => g.id))
+  const toScreen = (id: string) => { markSeen(id); setSeen((s) => (s.includes(id) ? s : [...s, id])); go({ screen: id }) }
 
   // 選擇困難時的出口：優先給還沒看過的字，都看過了就在目前清單裡隨機
   const surprise = useCallback(() => {
