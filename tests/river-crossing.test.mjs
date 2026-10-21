@@ -1,5 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { registerHooks } from 'node:module'
 
 // 前端模組用不帶副檔名的相對路徑（給 Vite 用），Node 找不到時補上 .ts 再試
@@ -111,4 +114,15 @@ test('下一位還差幾顆星星；收齊了就沒有下一位', () => {
   assert.equal(nextPartner(STARS_PER - 3).need, 3)
   assert.equal(nextPartner(STARS_PER).need, STARS_PER, '剛開完一個，下一個是滿滿一段')
   assert.equal(nextPartner(starsFor(PARTNERS.length - 1)), null)
+})
+
+test('每一位夥伴都有畫面會用到的那幾張圖', () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+  // idle：小鎮那一排、我的東西、河邊站著；happy：寶箱跳出來、上岸；surprised／dizzy：踩錯時
+  for (const one of PARTNERS) {
+    for (const pose of ['idle', 'happy', 'surprised', 'dizzy']) {
+      const file = path.join(root, 'public/hero', one.id, `${pose}.png`)
+      assert.ok(fs.existsSync(file), `public/hero/${one.id}/${pose}.png 不在（夥伴加了圖沒加）`)
+    }
+  }
 })
