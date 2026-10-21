@@ -125,6 +125,7 @@ function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }
           </span>
         )}
       </div>
+      <span className="crew-tip">點一位，牠就陪你去過河 🌊</span>
     </div>
   )
 }

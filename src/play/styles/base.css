@@ -43,6 +43,14 @@ button:disabled { cursor: default; }
 .star-pop.full .pop-star { font-size: 38px; }
 .star-rain { position: fixed; inset: 0; z-index: 39; pointer-events: none; }
 @keyframes starPop { from { opacity: 0; transform: translate(-50%, 40px) scale(.7) } to { opacity: 1; transform: translate(-50%, 0) scale(1) } }
+/* 手機上游戲的卡片就在下面：藥丸壓成一行，不要變成兩行蓋掉提示 */
+@media (max-width: 700px) {
+  .star-pop { bottom: calc(8px + env(safe-area-inset-bottom)); padding: 6px 15px 6px 9px; gap: 7px; max-width: calc(100vw - 20px); }
+  .star-pop b { font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .star-pop .pop-star { font-size: 24px; }
+  .star-pop.full b { font-size: 16px; }
+  .star-pop.full .pop-star { font-size: 30px; }
+}
 
 .sync-note { position: fixed; bottom: 8px; right: 12px; z-index: 30; font-size: 12px; background: #fff; padding: 8px 12px; border-radius: 12px; }
 .screen { position: relative; z-index: 1; height: 100%; }
