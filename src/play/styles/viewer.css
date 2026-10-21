@@ -17,9 +17,6 @@
 .viewer-meaning { font-size: 16px; color: rgba(46,42,38,.7); }
 .viewer-say { display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; font-size: 19px;
   border-radius: 50%; background: color-mix(in oklab, var(--hue) 40%, #fff); }
-.viewer-count { margin-left: auto; padding: 8px 16px; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 700; color: rgba(46,42,38,.9);
-  box-shadow: 0 3px 0 rgba(0,0,0,.06); }
-.viewer-count.bump { animation: pop .45s cubic-bezier(.2,1.8,.4,1) both; background: var(--c2); color: var(--ink); }
 .viewer :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* ---------- 這個字的星星（右上角）：拿到幾顆、還差什麼、按一下就過去 ---------- */
@@ -265,7 +262,6 @@
   .viewer-emoji { width: 42px; height: 42px; font-size: 26px; border-radius: 14px; }
   .viewer-say { width: 28px; height: 28px; font-size: 16px; }
   .viewer-meaning { display: none; }
-  .viewer-count { padding: 7px 12px; font-size: 13px; }
   .viewer-media { max-width: calc(100% - 20px); }
   .viewer-nav { gap: 8px; padding: 10px 12px calc(16px + env(safe-area-inset-bottom)); }
   .nav-btn { font-size: 15px; padding: 14px 8px; gap: 6px; }
