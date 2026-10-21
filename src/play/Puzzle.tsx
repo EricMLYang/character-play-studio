@@ -27,6 +27,11 @@ type Solved = { word: string; ok: boolean; fresh: boolean; crown?: boolean }
 /** 一輪裡每一題都第一下就找對（至少三題才算） */
 const perfect = (all: Solved[]) => all.length >= 3 && all.every((s) => s.ok)
 
+/** 浣熊現在是什麼表情（跟 Feed 的 POSE 同一個做法） */
+const HOST_POSE: Record<string, string> = {
+  hello: 'salute', ask: 'idle', oops: 'surprised', snap: 'surprised', alive: 'happy', recap: 'happy', done: 'happy',
+}
+
 export default function Puzzle({ library, hues, progress, onSolve, onPick, onBack }: {
   library: CharEntry[]
   /** 每個字的顏色，跟首頁一樣 */
@@ -295,6 +300,8 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
         </div>
       ) : item && (
         <div className={`puz-main phase-${phase}`}>
+          {/* 出題的浣熊。其他六個玩法都有一隻角色在旁邊，只有這裡沒有 */}
+          <img className="puz-host" src={`/hero/raccoon/${HOST_POSE[phase] || 'idle'}.png`} alt="" aria-hidden />
           <section className="puz-board" aria-live="polite">
             {item.kind === 'picture' && !filled
               ? <div className="puz-pic-slot" aria-hidden><span>?</span></div>

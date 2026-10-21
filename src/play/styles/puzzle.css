@@ -28,6 +28,14 @@
 
 /* 圖跟詞：圖一開始是灰灰的影子，拼好才變成彩色跳起來 */
 .puz-board { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+/* 出題的浣熊：站在題目旁邊，不佔題目的位置 */
+.puz-main { position: relative; }
+.puz-host { position: absolute; left: clamp(8px, 9vw, 190px); top: 38%; z-index: 1;
+  width: clamp(78px, 16vh, 140px); height: auto; object-fit: contain; pointer-events: none;
+  animation: bob 2.6s ease-in-out infinite; }
+.phase-alive .puz-host, .phase-done .puz-host { animation: boing .8s cubic-bezier(.2,1.6,.4,1) both; }
+.phase-oops .puz-host { animation: wobble .45s ease-in-out 2; }
+
 .puz-pic { font-size: min(27vh, 38vw, 230px); line-height: 1.05; filter: brightness(0) opacity(.14); transition: filter .5s;
   user-select: none; animation: dropIn .5s both; }
 .puz-pic.alive { filter: none; animation: boing .8s cubic-bezier(.2,1.6,.4,1) 2; }
@@ -135,6 +143,8 @@
   .puz-main { padding: 0 14px 8px; }
   /* 直的手機上下有空間：圖放大一點 */
   .puz-pic { font-size: min(24vh, 52vw, 230px); }
+  /* 手機上題目已經佔滿寬度：浣熊縮小、貼在左下角 */
+  .puz-host { width: 58px; left: 6px; top: auto; bottom: 8px; }
   .puz-pic-slot { width: min(24vh, 52vw); height: min(24vh, 52vw); }
   .puz-tile, .puz-slot { width: min(96px, 24vw, 14vh); height: min(96px, 24vw, 14vh); font-size: min(72px, 18vw, 10vh); }
   .puz-cards { gap: 12px; }
