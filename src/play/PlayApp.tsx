@@ -20,6 +20,7 @@ import { hasSeen, markSeen } from './seen'
 import { allDone, todayQuests } from './today'
 import { PARTNERS, partnerCount, type Partner } from './partners'
 import Chest from './Chest'
+import Crown from './Crown'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -123,6 +124,8 @@ export default function PlayApp() {
   const [pop, setPop] = useState<{ key: number; icon: string; text: string; big: boolean } | null>(null)
   /** 星星集滿一段，開出一位新夥伴（partners.ts） */
   const [chest, setChest] = useState<Partner | null>(null)
+  /** 一個字的星星集滿了：加冕（Crown.tsx）。跟寶箱同時發生就排在寶箱後面 */
+  const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
   // 今天的三件事（today.ts）：三件都做完要慶祝一次
   const quests = useMemo(() => todayQuests(progress), [progress])
   const questsDone = allDone(quests)
@@ -134,24 +137,24 @@ export default function PlayApp() {
     before.current = { stars, total: starTotal, quests: questsDone }
     // 第一次拿到真的進度：這些星星是以前拿的，不是現在拿到的，不慶祝
     if (!was) return
-    // 開寶箱比單顆星星大，同一下兩件事都發生時先演寶箱
+    // 剛剛哪個字多拿了一顆星，那一顆有沒有把它集滿
+    const got = [...stars].find(([char, n]) => n > (was.stars.get(char) || 0))
+    const full = got && got[1] >= (caps.get(got[0]) ?? 5)
+    // 集滿一個字跟開寶箱一樣大，各有各的畫面；同一下兩件事都發生就先演寶箱，關掉再演加冕
+    if (full) setCrown({ char: got[0], stars: got[1] })
     if (partnerCount(starTotal) > partnerCount(was.total)) {
       setChest(PARTNERS[partnerCount(starTotal) - 1])
       return
     }
+    if (full) return
     if (questsDone && !was.quests) {
       magic()
       say(FIXED_LINES.questsDone, 0.85)
       setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.questsDone, big: true })
       return
     }
-    const got = [...stars].find(([char, n]) => n > (was.stars.get(char) || 0))
     if (!got) return
-    const full = got[1] >= (caps.get(got[0]) ?? 5)
-    if (full) magic()
-    setPop(full
-      ? { key: Date.now(), icon: '👑', text: `「${got[0]}」的星星集滿了！`, big: true }
-      : { key: Date.now(), icon: '⭐', text: `「${got[0]}」拿到一顆星星！`, big: false })
+    setPop({ key: Date.now(), icon: '⭐', text: `「${got[0]}」拿到一顆星星！`, big: false })
   }, [stars, starTotal, caps, lib, questsDone])
   useEffect(() => {
     if (!pop) return
@@ -278,7 +281,8 @@ export default function PlayApp() {
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
       {chest && <Chest partner={chest} onClose={() => setChest(null)} />}
-      {pop && !chest && (
+      {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
+      {pop && !chest && !crown && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
           {pop.big && <div className="star-rain" aria-hidden><Confetti /></div>}
