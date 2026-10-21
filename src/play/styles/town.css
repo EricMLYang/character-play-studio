@@ -1,7 +1,26 @@
 /* ---------- 我的小鎮 ---------- */
 .town { position: relative; height: 100%; display: flex; flex-direction: column;
   background: linear-gradient(#CDEBFF 0, #E9F7FF 30%, #C9EDB5 30%, #A8DE93 100%); }
-.town-land { position: relative; flex: 1; min-height: 0; overflow-y: auto; }
+.town-land { position: relative; z-index: 1; flex: 1; min-height: 0; overflow-y: auto; }
+
+/* 草地上的東西。在 .town-land 後面，不跟著捲動：像一張底圖 */
+.town-ground { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+/* 一條穿過草地的小路 */
+.town-path { position: absolute; left: -10%; right: -10%; top: 58%; height: 90px; transform: rotate(-3deg);
+  border-radius: 999px; background: linear-gradient(#F0E2C8, #E2CFAC); opacity: .75; }
+/* 池塘 */
+.town-pond { position: absolute; left: 4%; top: 76%; width: 230px; height: 96px; border-radius: 50%;
+  background: radial-gradient(60% 70% at 40% 35%, #BFE9FF, #86CFF2 70%, #6FC0E8);
+  box-shadow: inset 0 6px 0 rgba(255,255,255,.45); opacity: .85; }
+/* 幾叢草：三顆圓疊成一叢 */
+.town-bush { position: absolute; width: 86px; height: 46px; border-radius: 999px; background: #8FD47D; opacity: .8; }
+.town-bush::before, .town-bush::after { content: ''; position: absolute; bottom: 10px; border-radius: 50%; background: inherit; }
+.town-bush::before { left: 8%; width: 46%; height: 150%; }
+.town-bush::after { right: 10%; width: 36%; height: 115%; }
+.town-bush.b1 { right: 5%; top: 80%; }
+.town-bush.b2 { left: 40%; top: 90%; scale: .8; }
+.town-bush.b3 { right: 28%; top: 86%; scale: 1.15; }
+.town-bush.b4 { left: 24%; top: 36%; scale: .7; }
 .town-sky { position: absolute; inset: 0 0 auto; height: 30%; pointer-events: none; }
 .town-sun { position: absolute; right: 6%; top: -6px; font-size: 64px; animation: wobble 6s ease-in-out infinite; }
 .town-cloud { position: absolute; font-size: 54px; opacity: .9; animation: drift 30s ease-in-out infinite; }
@@ -79,6 +98,9 @@
 .crew-tip { flex-shrink: 0; font-size: 13px; font-weight: 700; color: rgba(46,42,38,.6); }
 
 @media (max-width: 700px) {
+  .town-pond { width: 150px; height: 66px; left: 4%; }
+  .town-path { height: 60px; }
+  .town-bush { width: 62px; height: 34px; }
   .crew { padding: 0 14px 6px; gap: 8px; }
   .crew-title { display: none; }
   .crew-one, .crew-next { width: 60px; }

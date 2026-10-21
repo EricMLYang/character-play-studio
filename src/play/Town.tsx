@@ -50,6 +50,13 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
 
       <Crew stars={stars} onGame={onGame} />
 
+      {/* 草地上的東西：小路、池塘、幾叢草。純 CSS，不用 emoji——居民身上已經有小圖示了，再加會打架 */}
+      <div className="town-ground" aria-hidden>
+        <span className="town-path" />
+        <span className="town-pond" />
+        <span className="town-bush b1" /><span className="town-bush b2" /><span className="town-bush b3" /><span className="town-bush b4" />
+      </div>
+
       <div className="town-land">
         <div className="town-sky" aria-hidden><span className="town-sun">☀️</span><span className="town-cloud c1">☁️</span><span className="town-cloud c2">☁️</span></div>
         {people.length ? (
