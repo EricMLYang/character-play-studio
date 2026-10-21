@@ -97,6 +97,10 @@ function Trail({ stars, onGo }: { stars: number; onGo: (where: string) => void }
                   aria-label={`跟「${s.partner.name}」去跳石頭過河`}>
                   <img src={`/hero/${s.partner.id}/idle.png`} alt="" />
                 </button>
+              ) : next && next.at === s.at ? (
+                // 下一站的那一位只給影子：看得出是一隻有形狀的東西在等他，但還不知道是誰。
+                // 再往上的幾站維持 🎁，不然整條路一眼看完就沒得期待了
+                <span className="trail-node next" aria-hidden><img src={`/hero/${s.partner.id}/idle.png`} alt="" /></span>
               ) : <span className="trail-node locked" aria-hidden>🎁</span>}
               <span className="trail-what">
                 <b>{s.got ? s.partner.name : '？'}</b>

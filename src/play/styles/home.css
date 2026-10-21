@@ -342,6 +342,9 @@
 .trail-node:active { transform: translateY(2px); box-shadow: 0 0 0 4px #FFC63F; }
 .trail-node.locked { font-size: 24px; background: rgba(255,255,255,.75);
   box-shadow: 0 3px 0 rgba(0,0,0,.06), 0 0 0 4px #E4DCCF; filter: grayscale(.5); opacity: .8; }
+/* 下一站的那一位只給影子：看得出有一隻東西在等他，但還不知道是誰 */
+.trail-node.next { background: rgba(255,255,255,.75); box-shadow: 0 3px 0 rgba(0,0,0,.06), 0 0 0 4px #E4DCCF; }
+.trail-node.next img { filter: brightness(0); opacity: .36; }
 /* 他現在站的地方：一顆會呼吸的星星 */
 .trail-pin { position: relative; z-index: 1; display: grid; place-items: center; width: 52px; height: 52px; flex-shrink: 0;
   border-radius: 50%; font-size: 26px; background: var(--ink); box-shadow: 0 3px 0 rgba(0,0,0,.18);
