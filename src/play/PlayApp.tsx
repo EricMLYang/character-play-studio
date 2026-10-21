@@ -14,6 +14,7 @@ import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
 import { pickNudge } from './nudge'
+import { hasSeen, markSeen } from './seen'
 import { allDone, todayQuests } from './today'
 import { PARTNERS, partnerCount, type Partner } from './partners'
 import Chest from './Chest'
@@ -169,7 +170,9 @@ export default function PlayApp() {
   const open = useCallback((char: string) => go({ screen, char }, { replace: Boolean(active) }), [go, screen, active])
   const close = () => back(here)
   const startRide = useCallback((text: string) => go({ screen, ride: text }), [go, screen])
-  const toScreen = (id: string) => go({ screen: id })
+  const toScreen = (id: string) => { markSeen(id); setSeen((s) => (s.includes(id) ? s : [...s, id])); go({ screen: id }) }
+  /** 哪些新遊戲他已經進去過（首頁的 🆕 要不要亮）。放 state 才會在他進去之後馬上熄掉 */
+  const [seen, setSeen] = useState<string[]>(() => GAMES.filter((g) => g.fresh && hasSeen(g.id)).map((g) => g.id))
 
   // 選擇困難時的出口：優先給還沒看過的字，都看過了就在目前清單裡隨機
   const surprise = useCallback(() => {
@@ -217,7 +220,7 @@ export default function PlayApp() {
             onPick={open}
             onSurprise={surprise}
             onReset={() => { setQuery(''); setFilter('all') }}
-            places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress) }))}
+            places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress), fresh: Boolean(g.fresh) && !seen.includes(g.id) }))}
             onScreen={toScreen}
             onRide={startRide}
             quests={quests}

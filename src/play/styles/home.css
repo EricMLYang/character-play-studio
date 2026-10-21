@@ -123,7 +123,7 @@
 /* 六個去處要排得進一行（最長的是「跳石頭過河」五個字），擠不下就整排換行 */
 .home-places { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
 .home-places + .today { margin-left: 8px; }
-.place { display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 7px 15px 7px 8px; border-radius: 22px;
+.place { position: relative; display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 7px 15px 7px 8px; border-radius: 22px;
   text-align: left; box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
 .place:hover { transform: translateY(-3px) rotate(-1deg); }
@@ -132,6 +132,11 @@
 .place small { display: block; font-size: 12px; font-weight: 700; color: rgba(46,42,38,.72); white-space: nowrap; }
 .place-icon { display: grid; place-items: center; width: 44px; height: 44px; font-size: 28px; border-radius: 16px; background: rgba(255,255,255,.7);
   animation: nudge 4s ease-in-out infinite; }
+/* 還沒進去過的新玩法：亮一顆 🆕（進去一次就不亮了，記在這台裝置，seen.ts） */
+.place-new { position: absolute; top: -8px; right: -6px; font-size: 20px; line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.25)); animation: nudge 2.4s ease-in-out infinite; }
+.place.fresh { animation: breathe 2s ease-in-out infinite; }
+
 .place-town { background: #BDEBC4; }
 .place-lab { background: #D9D2FF; }
 .place-lab .place-icon { animation-delay: -2s; }
@@ -190,6 +195,7 @@
   /* 最長的名字是「跳石頭過河」五個字，要排得進 (362 − 3×6) ÷ 4 − 8 ≈ 78px */
   .place b { font-size: min(14px, 3.7vw); white-space: nowrap; }
   .place-icon { width: 32px; height: 32px; font-size: 21px; border-radius: 12px; }
+  .place-new { top: -6px; right: -4px; font-size: 16px; }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {

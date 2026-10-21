@@ -42,7 +42,7 @@ export default function Home({
   onSurprise: () => void
   onReset: () => void
   /** 看完字卡之後可以去的地方（games.tsx 的 GAMES） */
-  places: { id: string; icon: string; title: string; subtitle: string }[]
+  places: { id: string; icon: string; title: string; subtitle: string; fresh: boolean }[]
   onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
@@ -128,9 +128,11 @@ export default function Home({
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
           {places.map((p) => (
-            <button key={p.id} className={`place place-${p.id}`} onClick={() => { tap(); onScreen(p.id) }}>
+            <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} onClick={() => { tap(); onScreen(p.id) }}
+              aria-label={p.fresh ? `${p.title}（新的）：${p.subtitle}` : undefined}>
               <span className="place-icon" aria-hidden>{p.icon}</span>
               <span><b>{p.title}</b><small>{p.subtitle}</small></span>
+              {p.fresh && <span className="place-new" aria-hidden>🆕</span>}
             </button>
           ))}
         </div>

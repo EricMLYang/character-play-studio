@@ -51,6 +51,8 @@ export type Game = {
   id: string
   icon: string
   title: string
+  /** 剛做好的玩法：他還沒進去過的話，首頁入口會亮一顆 🆕（進去過就不亮了，記在這台裝置） */
+  fresh?: boolean
   /** 入口按鈕上的小字 */
   subtitle: (progress: Progress) => string
   render: (ctx: GameContext) => ReactNode
@@ -91,7 +93,7 @@ export const GAMES: Game[] = [
     ),
   },
   {
-    id: 'river', icon: '🌊', title: '跳石頭過河',
+    id: 'river', icon: '🌊', title: '跳石頭過河', fresh: true,
     subtitle: () => '聽到字就跳過去',
     render: (ctx) => (
       <River library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
@@ -99,7 +101,7 @@ export const GAMES: Game[] = [
     ),
   },
   {
-    id: 'spy', icon: '🔍', title: '小偵探',
+    id: 'spy', icon: '🔍', title: '小偵探', fresh: true,
     subtitle: () => '一筆一筆猜出來',
     render: (ctx) => (
       <Detective library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
