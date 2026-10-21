@@ -1,4 +1,4 @@
-// 由 scripts/alike.mjs 產生，不要手改。字庫加字之後跑 npm run alike。
+// 由 scripts/alike.mjs 產生，不要手改。字庫加字之後跑 npm run alike（tests/alike.test.mjs 會檢查有沒有過期）。
 /**
  * 長得像的字：前幾筆的筆順中線幾乎重疊，也就是共用同一個偏旁（蜂／蝶、河／湯、跑／跳）。
  * data/parts.json 只記得到「部件本身也在字庫裡」的關係，像「虫」「氵」這種不在字庫的偏旁它看不到，

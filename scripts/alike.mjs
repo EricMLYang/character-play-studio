@@ -49,7 +49,7 @@ export function alikePairs(medians) {
   return pairs.sort()
 }
 
-function load() {
+export function loadMedians() {
   const db = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/characters.json'), 'utf8'))
   const medians = new Map()
   // 連孩子端還看不到的字也算：開放給孩子的時候就不用重跑
@@ -62,11 +62,13 @@ function load() {
   return medians
 }
 
-const medians = load()
-const pairs = alikePairs(medians)
-const lines = []
-for (let i = 0; i < pairs.length; i += 12) lines.push('  ' + pairs.slice(i, i + 12).map((p) => `'${p}'`).join(', '))
-const file = `// 由 scripts/alike.mjs 產生，不要手改。字庫加字之後跑 npm run alike。
+/** 把算出來的對數寫成 src/play/alike.ts。只有直接跑這支才會寫檔（測試會 import 上面那兩個函式）。 */
+function write() {
+  const medians = loadMedians()
+  const pairs = alikePairs(medians)
+  const lines = []
+  for (let i = 0; i < pairs.length; i += 12) lines.push('  ' + pairs.slice(i, i + 12).map((p) => `'${p}'`).join(', '))
+  const file = `// 由 scripts/alike.mjs 產生，不要手改。字庫加字之後跑 npm run alike（tests/alike.test.mjs 會檢查有沒有過期）。
 /**
  * 長得像的字：前幾筆的筆順中線幾乎重疊，也就是共用同一個偏旁（蜂／蝶、河／湯、跑／跳）。
  * data/parts.json 只記得到「部件本身也在字庫裡」的關係，像「虫」「氵」這種不在字庫的偏旁它看不到，
@@ -77,5 +79,8 @@ export const ALIKE = new Set([
 ${lines.join(',\n')},
 ])
 `
-fs.writeFileSync(path.join(ROOT, 'src/play/alike.ts'), file)
-console.log(`${medians.size} 個字有筆順資料，算出 ${pairs.length} 對長得像的字 → src/play/alike.ts`)
+  fs.writeFileSync(path.join(ROOT, 'src/play/alike.ts'), file)
+  console.log(`${medians.size} 個字有筆順資料，算出 ${pairs.length} 對長得像的字 → src/play/alike.ts`)
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) write()
