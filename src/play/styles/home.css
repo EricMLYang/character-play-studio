@@ -105,7 +105,8 @@
 /* 首頁那隻角色：看他的紀錄挑一件現在可以做的事（nudge.ts），按一下直接過去 */
 .buddy { display: flex; align-items: center; gap: 4px; padding: 6px 12px 6px 6px; border-radius: 28px; text-align: left;
   background: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.09), 0 14px 26px rgba(0,0,0,.08);
-  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1);
+  animation: placeIn .38s cubic-bezier(.2,1.6,.4,1) backwards; }
 .buddy:hover { transform: translateY(-3px); }
 .buddy:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,.09); }
 .buddy-go { display: flex; align-items: center; gap: 12px; text-align: left; }
@@ -130,7 +131,10 @@
 .home-places + .today { margin-left: 8px; }
 .place { position: relative; display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 7px 15px 7px 8px; border-radius: 22px;
   text-align: left; box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
-  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1);
+  /* 一個一個彈進來：首頁是「組裝起來」的，不是一次整個貼上去 */
+  animation: placeIn .34s cubic-bezier(.2,1.6,.4,1) backwards; animation-delay: calc(100ms + var(--i, 0) * 45ms); }
+@keyframes placeIn { from { opacity: 0; transform: translateY(10px) scale(.92) } }
 .place:hover { transform: translateY(-3px) rotate(-1deg); }
 .place:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
 .place b { display: block; font-size: 18px; white-space: nowrap; }
@@ -231,7 +235,8 @@
 }
 
 /* ---------- 今天的三件事（today.ts）：看得完、有進度、做完打勾 ---------- */
-.quests { display: flex; align-items: center; gap: 10px; padding: 0 28px 12px; flex-wrap: wrap; }
+.quests { display: flex; align-items: center; gap: 10px; padding: 0 28px 12px; flex-wrap: wrap;
+  animation: placeIn .34s cubic-bezier(.2,1.6,.4,1) .42s backwards; }
 .quests-title { flex-shrink: 0; font-size: 15px; font-weight: 800; color: rgba(46,42,38,.72); }
 .quests.all .quests-title { color: var(--ink); }
 .quest { display: flex; align-items: center; gap: 9px; padding: 7px 14px 7px 9px; border-radius: 999px; background: #fff; text-align: left;

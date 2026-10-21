@@ -144,8 +144,8 @@ export default function Home({
         </div>
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
-          {places.map((p) => (
-            <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} onClick={() => { tap(); onScreen(p.id) }}
+          {places.map((p, i) => (
+            <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} style={{ ['--i' as any]: i }} onClick={() => { tap(); onScreen(p.id) }}
               aria-label={p.fresh ? `${p.title}（新的）：${p.subtitle}` : undefined}>
               <span className="place-icon" aria-hidden>{p.icon}</span>
               <span><b>{p.title}</b><small>{p.subtitle}</small></span>
