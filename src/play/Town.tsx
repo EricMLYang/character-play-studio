@@ -5,6 +5,7 @@ import { tap } from '../lib/sfx'
 import { LINES } from '../../shared/voice-lines.mjs'
 import { Handwriting } from './Glyphs'
 import { SubBar, hueOf, hueVar } from './ui'
+import { nextPartner, partnersAt } from './partners'
 
 /** 寫幾次長多大：一次是小不點，五次以上戴皇冠。 */
 const levelOf = (traces: number) => Math.min(traces, 5)
@@ -16,12 +17,15 @@ const seed = (char: string) => [...char].reduce((h, c) => (h * 31 + c.codePointA
  * 我的小鎮：他描完的字會搬進來，用他自己的筆跡當身體。
  * 點居民會跳一下、唸出自己和一個語詞；再寫一次就長大。
  */
-export default function Town({ residents, library, hues, onPick, onBack }: {
+export default function Town({ residents, library, hues, stars, onPick, onBack, onGame }: {
   residents: Record<string, Resident>
   library: CharEntry[]
   hues: Map<string, number>
+  /** 總共幾顆星星：決定他收集到哪幾位夥伴（partners.ts） */
+  stars: number
   onPick: (char: string) => void
   onBack: () => void
+  onGame: (id: string) => void
 }) {
   const [talking, setTalking] = useState<string | null>(null)
   const [hop, setHop] = useState(0)
@@ -43,6 +47,8 @@ export default function Town({ residents, library, hues, onPick, onBack }: {
   return (
     <div className="town">
       <SubBar title="🏡 我的小鎮" stat={people.length ? `住了 ${people.length} 個字` : '還是一片空地'} onBack={onBack} />
+
+      <Crew stars={stars} onGame={onGame} />
 
       <div className="town-land">
         <div className="town-sky" aria-hidden><span className="town-sun">☀️</span><span className="town-cloud c1">☁️</span><span className="town-cloud c2">☁️</span></div>
@@ -90,6 +96,35 @@ export default function Town({ residents, library, hues, onPick, onBack }: {
         )}
       </div>
       {people.length > 0 && <p className="town-tip">再寫一次，它就會長大。寫五次會戴上皇冠 👑</p>}
+    </div>
+  )
+}
+
+/**
+ * 住在小鎮裡的夥伴：星星集滿一段就會來一位（partners.ts）。
+ * 他們不是只放在這裡好看——點一下就去跳石頭過河，那幾位就是在河邊等他的主角。
+ */
+function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }) {
+  const crew = partnersAt(stars)
+  const next = nextPartner(stars)
+  return (
+    <div className="crew">
+      <span className="crew-title">🎁 你的夥伴</span>
+      <div className="crew-row">
+        {crew.map((p, i) => (
+          <button key={p.id} className="crew-one" style={{ ['--i' as any]: i }} onClick={() => { tap(); onGame('river') }}
+            aria-label={`跟「${p.name}」去跳石頭過河`}>
+            <img src={`/hero/${p.id}/idle.png`} alt="" />
+            <small>{p.name}</small>
+          </button>
+        ))}
+        {next && (
+          <span className="crew-next" aria-label={`再 ${next.need} 顆星星就有下一位夥伴`}>
+            <span className="crew-q" aria-hidden>?</span>
+            <small>再 {next.need} 顆 ⭐</small>
+          </span>
+        )}
+      </div>
     </div>
   )
 }

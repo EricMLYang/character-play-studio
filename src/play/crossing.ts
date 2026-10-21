@@ -1,5 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { pickDishes, pickDecoy } from './dishes'
+import type { Partner } from './partners'
 import { taiwanDay } from '../../shared/domain.mjs'
 
 /**
@@ -24,20 +25,11 @@ export type Step = {
   stones: string[]
 }
 
-/** 過河的主角跟牠在對岸等的東西。一次一位，輪著來，不會每次都是同一隻。 */
-export const CROSSERS = [
-  { id: 'mouse', name: '小老鼠', goal: '🧀', want: '起司' },
-  { id: 'pirate', name: '海盜', goal: '💰', want: '寶藏' },
-  { id: 'dino', name: '恐龍', goal: '🍖', want: '大骨頭' },
-  { id: 'monster', name: '大怪獸', goal: '🍰', want: '蛋糕' },
-  { id: 'raccoon', name: '浣熊', goal: '🍉', want: '西瓜' },
-  { id: 'robot', name: '機器人', goal: '🔋', want: '電池' },
-  { id: 'pig', name: '小豬', goal: '🍎', want: '蘋果' },
-  { id: 'astronaut', name: '太空人', goal: '🚀', want: '火箭' },
-]
-
-/** 這次換誰過河：照他過河的次數輪，玩愈多看到愈多角色。 */
-export const crosserFor = (trips: number) => CROSSERS[trips % CROSSERS.length]
+/**
+ * 這次換誰過河：在他已經收集到的夥伴裡輪（partners.ts），玩愈多看到愈多角色。
+ * 開到新夥伴之後，那一位真的會出現在河邊，寶箱才不是只拿到一張圖。
+ */
+export const crosserFor = (trips: number, crew: Partner[]) => crew[trips % crew.length]
 
 /**
  * 這一次要跳哪五個字、每一步擺哪幾顆石頭。

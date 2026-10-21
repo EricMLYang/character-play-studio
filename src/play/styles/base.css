@@ -95,3 +95,27 @@ button:disabled { cursor: default; }
 @keyframes confetti { 0% { opacity: 1; transform: translateY(0) rotate(0) } 100% { opacity: 0; transform: translateY(85vh) rotate(680deg) } }
 
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+/* ---------- 星星集滿一段，開出一位新夥伴（Chest.tsx） ---------- */
+.chest { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; }
+/* 彩帶要從整個畫面頂端灑下來，所以是 .chest 的小孩，不是獎品框裡的 */
+.chest > .confetti { position: absolute; inset: 0; }
+.chest-back { position: absolute; inset: 0; background: rgba(28,24,20,.58); animation: fade .25s both; }
+.chest-box, .chest-prize { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.chest-box p { margin: 0; font-size: 19px; font-weight: 800; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.4); }
+/* 先抖三下：那一秒的等待就是最好玩的地方 */
+.chest-lid { font-size: clamp(110px, 26vh, 190px); line-height: 1; animation: chestShake .28s ease-in-out 4; }
+@keyframes chestShake { 0%, 100% { transform: rotate(-7deg) scale(1) } 50% { transform: rotate(7deg) scale(1.07) } }
+.chest-prize { animation: pop .42s cubic-bezier(.2,1.7,.4,1) both; }
+.chest-prize h2 { margin: 2px 0 0; font-size: clamp(22px, 4.6vw, 30px); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
+.chest-prize h2 b { color: #FFD24A; }
+.chest-prize p { margin: 0; font-size: 16px; font-weight: 700; color: rgba(255,255,255,.88); }
+.chest-prize .nav-btn { margin-top: 8px; min-width: 190px; }
+.chest-hero { width: clamp(150px, 34vh, 260px); height: auto; object-fit: contain; filter: drop-shadow(0 10px 18px rgba(0,0,0,.4));
+  animation: boing .9s cubic-bezier(.2,1.6,.4,1) both; }
+/* 背後那圈光 */
+.chest-rays { position: absolute; top: 34%; left: 50%; width: clamp(240px, 56vh, 420px); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  /* repeating：不然整圈只會畫出一片光 */
+  background: repeating-conic-gradient(from 0deg, rgba(255,214,74,.5) 0 7deg, transparent 7deg 22deg);
+  animation: spin 9s linear infinite; }
+@keyframes spin { to { rotate: 360deg } }

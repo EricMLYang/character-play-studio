@@ -6,6 +6,7 @@ import { tap } from '../lib/sfx'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 import type { Nudge } from './nudge'
+import { nextPartner } from './partners'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -162,11 +163,13 @@ export default function Home({
  */
 function StarBank({ total }: { total: number }) {
   if (!total) return null
+  const next = nextPartner(total)
   return (
-    <div className="bank" aria-label={`你收集了 ${total} 顆星星`}>
+    <div className="bank" aria-label={`你收集了 ${total} 顆星星${next ? `，再 ${next.need} 顆就有新夥伴` : ''}`}>
       <span className="bank-star" aria-hidden>⭐</span>
       <span className="bank-n">{total}</span>
-      <span className="bank-label">顆星星</span>
+      {/* 下一個寶箱還差幾顆：星星要有地方可以花，不然只是一個一直變大的數字 */}
+      <span className="bank-label">{next ? <>再 {next.need} 顆<br />開寶箱 🎁</> : <>顆星星<br />夥伴收齊了！</>}</span>
     </div>
   )
 }

@@ -14,6 +14,8 @@ import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
 import { pickNudge } from './nudge'
+import { PARTNERS, partnerCount, type Partner } from './partners'
+import Chest from './Chest'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -104,20 +106,27 @@ export default function PlayApp() {
   // 星星可能在任何一個遊戲裡拿到（看完影片、描完字、餵怪獸認出來、拼好詞、魔法鍋變出來），
   // 所以「拿到了！」這一下放在最外框，一個地方管全部，遊戲本身不用各做一次。
   const [pop, setPop] = useState<{ key: number; char: string; full: boolean } | null>(null)
-  const before = useRef<Map<string, number> | null>(null)
+  /** 星星集滿一段，開出一位新夥伴（partners.ts） */
+  const [chest, setChest] = useState<Partner | null>(null)
+  const before = useRef<{ stars: Map<string, number>; total: number } | null>(null)
   useEffect(() => {
     // 字庫還沒載到的時候 progress 是空的，整份進度一進來會看起來像「剛剛拿到兩百顆星」
     if (!lib) return
     const was = before.current
-    before.current = stars
+    before.current = { stars, total: starTotal }
     // 第一次拿到真的進度：這些星星是以前拿的，不是現在拿到的，不慶祝
     if (!was) return
-    const got = [...stars].find(([char, n]) => n > (was.get(char) || 0))
+    // 開寶箱比單顆星星大，同一下兩件事都發生時先演寶箱
+    if (partnerCount(starTotal) > partnerCount(was.total)) {
+      setChest(PARTNERS[partnerCount(starTotal) - 1])
+      return
+    }
+    const got = [...stars].find(([char, n]) => n > (was.stars.get(char) || 0))
     if (!got) return
     const full = got[1] >= (caps.get(got[0]) ?? 5)
     if (full) magic()
     setPop({ key: Date.now(), char: got[0], full })
-  }, [stars, caps, lib])
+  }, [stars, starTotal, caps, lib])
   useEffect(() => {
     if (!pop) return
     const t = setTimeout(() => setPop(null), pop.full ? 3200 : 2200)
@@ -161,8 +170,8 @@ export default function PlayApp() {
   const entry = all.find((c) => c.char === active)
   const index = items.findIndex((c) => c.char === active)
   const ctx: GameContext = {
-    library: all, groups, hues, savedWords: mine.map((g) => g.key), progress, record, open, ride: startRide,
-    back: () => back({ screen: 'home' }),
+    library: all, groups, hues, stars: starTotal, savedWords: mine.map((g) => g.key), progress, record, open, ride: startRide,
+    back: () => back({ screen: 'home' }), go: toScreen,
   }
 
   return (
@@ -226,7 +235,8 @@ export default function PlayApp() {
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
-      {pop && (
+      {chest && <Chest partner={chest} onClose={() => setChest(null)} />}
+      {pop && !chest && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
           {pop.full && <div className="star-rain" aria-hidden><Confetti /></div>}

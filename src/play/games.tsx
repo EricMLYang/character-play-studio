@@ -27,6 +27,8 @@ export type GameContext = {
   groups: WordGroup[]
   /** 每個字的顏色（hueMap），跟 ui.tsx 的 hueOf 一起用，同一個字到哪裡都同色 */
   hues: Map<string, number>
+  /** 總共收集到幾顆星星（shared/domain.mjs 的 starIndex 加總），決定有哪幾位夥伴 */
+  stars: number
   /** 他在字火車接過的詞，新的在前 */
   savedWords: string[]
   progress: Progress
@@ -38,6 +40,8 @@ export type GameContext = {
   ride: (text: string) => void
   /** 回首頁 */
   back: () => void
+  /** 去另一個遊戲（小鎮的夥伴那一排會用） */
+  go: (id: string) => void
 }
 type Distribute<T> = T extends { id: string; at: string } ? Omit<T, 'id' | 'at'> & { id?: string; at?: string } : never
 export type NewEvent = Distribute<PlayEvent>
@@ -55,7 +59,10 @@ export const GAMES: Game[] = [
   {
     id: 'town', icon: '🏡', title: '我的小鎮',
     subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `住了 ${n} 個字` : '寫一個字搬進來' },
-    render: (ctx) => <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} onPick={ctx.open} onBack={ctx.back} />,
+    render: (ctx) => (
+      <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
+        onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} />
+    ),
   },
   {
     id: 'lab', icon: '🧪', title: '魔法鍋',
@@ -86,7 +93,7 @@ export const GAMES: Game[] = [
     id: 'river', icon: '🌊', title: '跳石頭過河',
     subtitle: () => '聽到字就跳過去',
     render: (ctx) => (
-      <River library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+      <River library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
         onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },

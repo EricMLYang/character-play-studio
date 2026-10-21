@@ -57,3 +57,29 @@
   .resident-cell { min-height: 210px; }
   .resident-body { width: calc(78px + var(--lv) * 12px); height: calc(78px + var(--lv) * 12px); }
 }
+
+/* ---------- 住在小鎮裡的夥伴：星星集滿一段就來一位（partners.ts） ---------- */
+.crew { display: flex; align-items: center; gap: 12px; padding: 0 28px 8px; }
+.crew-title { flex-shrink: 0; font-size: 16px; font-weight: 800; color: rgba(46,42,38,.8); }
+.crew-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: thin; }
+.crew-one { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; width: 72px; padding: 4px 2px 3px;
+  border-radius: 18px; background: rgba(255,255,255,.72); box-shadow: 0 3px 0 rgba(0,0,0,.08);
+  animation: pop .4s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(min(var(--i) * 50ms, 700ms)); }
+.crew-one img { width: 46px; height: 46px; object-fit: contain; }
+.crew-one small { font-size: 11px; font-weight: 700; color: rgba(46,42,38,.8); white-space: nowrap; }
+.crew-one:hover { transform: translateY(-3px); }
+.crew-one:active { transform: translateY(3px); box-shadow: none; }
+/* 下一位：還差幾顆星星 */
+.crew-next { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  width: 72px; padding: 4px 2px 3px; border-radius: 18px; background: rgba(255,255,255,.4);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.75); }
+.crew-q { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.6);
+  font-size: 24px; font-weight: 800; color: rgba(46,42,38,.45); }
+.crew-next small { font-size: 11px; font-weight: 700; color: rgba(46,42,38,.7); white-space: nowrap; }
+
+@media (max-width: 700px) {
+  .crew { padding: 0 14px 6px; gap: 8px; }
+  .crew-title { display: none; }
+  .crew-one, .crew-next { width: 60px; }
+  .crew-one img, .crew-q { width: 38px; height: 38px; }
+}

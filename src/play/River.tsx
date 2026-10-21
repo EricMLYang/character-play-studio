@@ -3,7 +3,8 @@ import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, splash, tap, whoosh } from '../lib/sfx'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
-import { CROSSERS, crosserFor, pickCrossing, trip, type Step } from './crossing'
+import { crosserFor, pickCrossing, trip, type Step } from './crossing'
+import { partnersAt } from './partners'
 import { Confetti, SubBar } from './ui'
 
 /**
@@ -30,12 +31,14 @@ const HINT_AFTER = 4000
 /** 跳一次要多久（跟 river.css 的 .river-hero transition 對齊） */
 const HOP_MS = 520
 
-/** 過幾次河了：換一次主角。一開機先隨機挑一位，不然每次打開都是小老鼠 */
-let trips = Math.floor(Math.random() * CROSSERS.length)
+/** 過幾次河了：換一次主角。一開機先隨機挑一位，不然每次打開都是同一隻 */
+let trips = Math.floor(Math.random() * 100)
 
-export default function River({ library, progress, onRecall, onPick, onBack }: {
+export default function River({ library, progress, stars, onRecall, onPick, onBack }: {
   library: CharEntry[]
   progress: Progress
+  /** 總共幾顆星星：決定有哪幾位夥伴可以陪他過河（partners.ts） */
+  stars: number
   /** 這個字第一次就跳對了沒有（每個字每趟只記一次） */
   onRecall: (char: string, ok: boolean) => void
   onPick: (char: string) => void
@@ -44,7 +47,8 @@ export default function River({ library, progress, onRecall, onPick, onBack }: {
   const byChar = useMemo(() => new Map(library.map((c) => [c.char, c])), [library])
   const newCrossing = () => pickCrossing(library, progress)
   const [steps, setSteps] = useState<Step[]>(newCrossing)
-  const [hero, setHero] = useState(() => crosserFor(trips))
+  const crew = partnersAt(stars)
+  const [hero, setHero] = useState(() => crosserFor(trips, crew))
   const [at, setAt] = useState(0)
   const [phase, setPhase] = useState<Phase>('ready')
   /** 這一步已經提示過了（算沒自己認出來） */
@@ -167,7 +171,7 @@ export default function River({ library, progress, onRecall, onPick, onBack }: {
     tap()
     clear()
     trips += 1
-    setHero(crosserFor(trips))
+    setHero(crosserFor(trips, partnersAt(stars)))
     setSteps(newCrossing())
   }
 

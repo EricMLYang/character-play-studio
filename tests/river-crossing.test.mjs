@@ -13,7 +13,8 @@ registerHooks({
 })
 
 const { setParts } = await import('../src/play/parts.ts')
-const { pickCrossing, crosserFor, trip, CROSSERS, STEPS, WARMUP } = await import('../src/play/crossing.ts')
+const { pickCrossing, crosserFor, trip, STEPS, WARMUP } = await import('../src/play/crossing.ts')
+const { PARTNERS, partnersAt, partnerCount, nextPartner, starsFor, STARS_PER } = await import('../src/play/partners.ts')
 
 const entry = (char) => ({ char, zhuyin: '', meaning: '', emoji: '', concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
 const library = [...'火水山木日月人口大小中天上下手'].map(entry)
@@ -75,17 +76,39 @@ test('字不夠的時候步數跟著少，不會硬湊重複的字', () => {
   assert.ok(steps[0].stones.length >= 2, '干擾的字可以從還沒看過的字裡借')
 })
 
-test('主角輪著來，玩愈多看到愈多角色', () => {
-  assert.equal(crosserFor(0).id, CROSSERS[0].id)
-  assert.equal(crosserFor(1).id, CROSSERS[1].id)
-  assert.equal(crosserFor(CROSSERS.length).id, CROSSERS[0].id, '輪完一圈從頭再來')
-  for (const one of CROSSERS) {
-    assert.ok(one.name && one.goal && one.want, `${one.id} 的名字、對岸的東西都要寫`)
-  }
+test('主角在他收集到的夥伴裡輪著來', () => {
+  const crew = partnersAt(0)
+  assert.equal(crosserFor(0, crew).id, crew[0].id)
+  assert.equal(crosserFor(crew.length, crew).id, crew[0].id, '輪完一圈從頭再來')
+  const more = partnersAt(STARS_PER * 3)
+  assert.equal(crosserFor(1, more).id, more[1].id, '開到新夥伴之後，他真的會出現在河邊')
 })
 
 test('結算分成自己跳對的、跟掉下去要再看看的', () => {
   const result = trip([{ char: '火', ok: true }, { char: '水', ok: false }, { char: '水', ok: true }, { char: '山', ok: false }])
   assert.deepEqual(result.good, ['火', '水'])
   assert.deepEqual(result.again, ['山'], '後來自己跳對的字不算要再看看')
+})
+
+test('夥伴照星星一位一位來，第一位不用星星', () => {
+  assert.equal(partnerCount(0), 1, '一開始就有一位（楊捷睿自己）')
+  assert.equal(partnersAt(0)[0].id, 'yang')
+  assert.equal(partnerCount(STARS_PER - 1), 1)
+  assert.equal(partnerCount(STARS_PER), 2)
+  assert.equal(partnerCount(STARS_PER * 5), 6)
+  assert.equal(partnerCount(STARS_PER * 999), PARTNERS.length, '收齊就不再多了')
+  assert.equal(partnersAt(STARS_PER * 3).length, 4)
+})
+
+test('每一位夥伴都有名字、對岸的東西，而且不重複', () => {
+  assert.equal(new Set(PARTNERS.map((p) => p.id)).size, PARTNERS.length)
+  assert.equal(new Set(PARTNERS.map((p) => p.goal)).size, PARTNERS.length, '對岸的東西不重複，不然看起來像同一關')
+  for (const one of PARTNERS) assert.ok(one.id && one.name && one.goal && one.want, JSON.stringify(one))
+})
+
+test('下一位還差幾顆星星；收齊了就沒有下一位', () => {
+  assert.deepEqual(nextPartner(0), { partner: PARTNERS[1], need: STARS_PER, at: STARS_PER })
+  assert.equal(nextPartner(STARS_PER - 3).need, 3)
+  assert.equal(nextPartner(STARS_PER).need, STARS_PER, '剛開完一個，下一個是滿滿一段')
+  assert.equal(nextPartner(starsFor(PARTNERS.length - 1)), null)
 })
