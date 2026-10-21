@@ -33,6 +33,8 @@ const LEAST_MS = 5000
 const strokePace = (total: number) => Math.max(420, Math.min(STROKE_MS, WHOLE_MS / Math.max(total, 1)))
 /** 這句話大概要唸多久 */
 const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000
+/** 句子之間的空拍 */
+const BEAT = 360
 
 export default function Detective({ library, progress, onRecall, onPick, onBack }: {
   library: CharEntry[]
@@ -73,7 +75,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     setPhase('wait')
     later(() => setPhase('draw'), READY_MS)
     say(FIXED_LINES.guessWho, 0.8)
-    preloadVoice([FIXED_LINES.guessWho, FIXED_LINES.guessFast, round.char,
+    preloadVoice([FIXED_LINES.guessWho, FIXED_LINES.guessFast, FIXED_LINES.spyRecap, FIXED_LINES.spyPerfect, round.char,
       ...round.options.map((c) => LINES.feedNotThis(c)), exampleWord(byChar.get(round.char)!)?.text])
     loadChar(round.char).then((d) => { if (alive) setData(d) }).catch(() => {
       if (alive) setList((l) => l.filter((r) => r.char !== round.char))
@@ -92,6 +94,30 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     timers.current.push(t)
     return () => clearTimeout(t)
   }, [data, shown, phase])
+
+  /**
+   * 猜完了：把他自己猜到的字唸一遍（跟過河上岸一樣）。
+   * 結算畫面上那幾個字他讀不到，不唸出來的話這一輪就是無聲結束。
+   * 放在 effect 裡而不是 next() 裡：next() 當下 done 還是舊的，最後一題會漏掉。
+   */
+  useEffect(() => {
+    if (phase !== 'done') return
+    const { good } = rounds(done)
+    let t = 400
+    if (good.length === done.length && done.length >= 2) {
+      later(() => say(FIXED_LINES.spyPerfect, 0.8), t)
+      t += lasts(FIXED_LINES.spyPerfect) + BEAT
+    }
+    if (good.length) {
+      later(() => say(FIXED_LINES.spyRecap, 0.8), t)
+      t += lasts(FIXED_LINES.spyRecap) + BEAT
+      for (const c of good) {
+        later(() => say(c, 0.8), t)
+        t += Math.max(lasts(c), 500) + BEAT
+      }
+    }
+    return () => { clear(); stopSpeech() }
+  }, [phase])
 
   const record = (ok: boolean) => {
     onRecall(round.char, ok)
@@ -179,7 +205,7 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
         <div className="spy-done">
           <img className="spy-boss" src="/hero/pig/happy.png" alt="" />
           {result.good.length > 0 ? <>
-            <p className="spy-done-title">你自己猜到的字：</p>
+            <p className="spy-done-title">{result.good.length === done.length ? '全部都自己猜到了！' : '你自己猜到的字：'}</p>
             <div className="spy-done-row">
               {result.good.map((c) => (
                 <button key={c} className="spy-done-char" onClick={() => onPick(c)} aria-label={`去看「${c}」`}>
