@@ -1,5 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { registerHooks } from 'node:module'
 import { STAR_DEEDS, MAX_STARS, charStars, starIndex, totalStars } from '../shared/domain.mjs'
 import { completeWatch, addTrace, recall, solvePuzzle, discover } from '../shared/domain.mjs'
@@ -111,6 +114,18 @@ test('看過、自己寫、自己認出來這三顆每個字都拿得到', () =>
   const ids = deedsFor(plain, new Set(['火'])).map((d) => d.id)
   assert.deepEqual(ids, ['watch', 'write', 'recall'])
   assert.equal(maxStars(plain, new Set(['火'])), 3)
+})
+
+test('每一顆星說的「去哪裡拿」都真的有那個遊戲', () => {
+  // games.tsx 是 JSX，Node 的測試 runner 匯入不了，所以讀原始碼把 id 抓出來比對。
+  // 這條擋的是「遊戲改了 id，但星星那排的『去 →』還指著舊的」——按下去會掉到一個空畫面。
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+  const src = fs.readFileSync(path.join(root, 'src/play/games.tsx'), 'utf8')
+  const ids = [...src.matchAll(/^\s*id: '([a-z]+)',/gm)].map((m) => m[1])
+  assert.ok(ids.length >= 7, `games.tsx 抓不到遊戲 id：${ids.join(',')}`)
+  for (const deed of STAR_DEEDS) {
+    if (deed.where) assert.ok(ids.includes(deed.where), `「${deed.label}」要去「${deed.where}」，但 games.tsx 裡沒有這個遊戲`)
+  }
 })
 
 test('整個字庫的上限表一次算好', () => {

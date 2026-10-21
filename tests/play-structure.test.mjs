@@ -70,11 +70,17 @@ test('spoken lines come from one place for the town and for the voice files', ()
 })
 
 test('routes round-trip through the address bar', () => {
-  for (const route of [{ screen: 'home' }, { screen: 'lab' }, { screen: 'lab', char: '口' }, { screen: 'home', ride: '山木' }, { screen: 'town', char: '日' }]) {
+  for (const route of [{ screen: 'home' }, { screen: 'lab' }, { screen: 'lab', char: '口' }, { screen: 'home', ride: '山木' }, { screen: 'town', char: '日' },
+    // 「為了哪個字來的」：字卡上按「去 →」、首頁角色說「只差一顆星星」都走這條
+    { screen: 'lab', want: '楊' }, { screen: 'feed', want: '雨' }, { screen: 'puzzle', char: '日', want: '日' }]) {
     assert.deepEqual(parseRoute(formatRoute(route)), route)
   }
   assert.equal(formatRoute({ screen: 'home' }), '#/')
+  assert.equal(formatRoute({ screen: 'lab', want: '楊' }), '#/lab?w=%E6%A5%8A')
   assert.deepEqual(parseRoute(''), { screen: 'home' }, 'no hash is the home page')
+  // 沒帶的欄位不要變成空字串：PlayApp 的 key 是用 want 組的，'' 跟 undefined 要是同一件事
+  assert.deepEqual(parseRoute('#/lab?w='), { screen: 'lab' })
+  assert.deepEqual(parseRoute('#/lab'), { screen: 'lab' })
 })
 
 test('the viewer flow keeps the writing panel when the demo finishes, and replay starts clean', () => {

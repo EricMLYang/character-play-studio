@@ -1,5 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { registerHooks } from 'node:module'
 
 // 前端模組用不帶副檔名的相對路徑（給 Vite 用），Node 找不到時補上 .ts 再試
@@ -114,6 +117,30 @@ test('每一句都唸得出來：拆成做好的固定句子，加上那個字�
         assert.ok(fixed.has(line) || chars.has(line),
           `「${line}」既不是固定句子也不是字，做不出音檔會退回瀏覽器朗讀：${JSON.stringify(n)}`)
       }
+    }
+  }
+})
+
+test('角色要帶他去的地方真的存在，角色圖也要有', () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+  const ids = [...fs.readFileSync(path.join(root, 'src/play/games.tsx'), 'utf8').matchAll(/^\s*id: '([a-z]+)',/gm)].map((m) => m[1])
+  assert.ok(ids.length >= 7, ids.join(','))
+  const cases = [
+    { watched: {} },
+    { watched: watched('火水山木', earlier), ...played },
+    { watched: watched('火水山木', todayAt) },
+    { watched: watched('火水山木', todayAt), lab: { 日: earlier } },
+    { watched: watched('火水山木', todayAt), ...played },
+    { watched: watched('火水山木', todayAt), ...played, town: { 火: { traces: 1, first: earlier, last: earlier, strokes: [] } } },
+    { watched: watched('火水山木', todayAt), ...played,
+      recall: Object.fromEntries([...'火水山木'].map((c) => [c, { box: 1, due: '2026-10-21', last: earlier, right: 1, wrong: 0 }])) },
+  ]
+  for (const progress of cases) {
+    for (const stars of [noStars, new Map([['火', 2]]), new Map([['火', 19]])]) {
+      const n = pickNudge(library, progress, stars, new Map([['火', 3]]), today)
+      if (n.go?.kind === 'game') assert.ok(ids.includes(n.go.id), `要帶他去「${n.go.id}」，但 games.tsx 裡沒有這個遊戲`)
+      if (n.go?.kind === 'char') assert.ok(library.some((c) => c.char === n.go.char), `要開「${n.go.char}」，但字庫裡沒有`)
+      assert.ok(fs.existsSync(path.join(root, 'public/hero', n.hero, `${n.pose}.png`)), `public/hero/${n.hero}/${n.pose}.png 不在`)
     }
   }
 })
