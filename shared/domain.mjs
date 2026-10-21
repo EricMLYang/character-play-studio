@@ -1,10 +1,16 @@
-/** All daily records use Taiwan time, including timestamps saved as UTC. */
+/**
+ * All daily records use Taiwan time, including timestamps saved as UTC.
+ * 格式器建一次就好：首頁每拿到一顆星星就會對每一筆紀錄算一次台灣日期
+ * （「今天的三件事」、首頁那隻角色），每次都 new 一個要花十幾毫秒。
+ */
+let dayFormat = null
 export function taiwanDay(value = new Date()) {
   const date = new Date(value)
   if (!Number.isFinite(date.getTime())) return ''
-  return new Intl.DateTimeFormat('en-CA', {
+  dayFormat ||= new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(date)
+  })
+  return dayFormat.format(date)
 }
 
 /**
