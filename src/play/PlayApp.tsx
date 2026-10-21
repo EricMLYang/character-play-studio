@@ -243,8 +243,8 @@ export default function PlayApp() {
             nudge={nudge}
             onNudge={(go) => {
               if (!go) surprise()
-              else if (go.startsWith('char:')) open(go.slice(5))
-              else toScreen(go)
+              else if (go.kind === 'char') open(go.char)
+              else enter(go.id, go.want)
             }}
           />
         )}

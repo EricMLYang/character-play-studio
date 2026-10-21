@@ -1,5 +1,6 @@
 import type { Progress } from '../types'
 import { taiwanDay } from '../../shared/domain.mjs'
+import type { NudgeGo } from './nudge'
 
 /**
  * 今天的三件事。
@@ -21,23 +22,23 @@ export type Quest = {
   done: number
   /** 要做到幾個 */
   need: number
-  /** 按下去要去哪：遊戲 id，或 null＝自己挑字卡 */
-  go: string | null
+  /** 按下去要去哪（跟首頁那隻角色共用一種，nudge.ts 的 NudgeGo）；null＝自己挑字卡 */
+  go: NudgeGo
 }
 
 /** 每天從這裡挑，第一件固定是看字（其他玩法都只考他看過的字） */
-const POOL: { id: string; icon: string; label: string; short: string; need: number; go: string | null; count: (p: Progress, today: string) => number }[] = [
+const POOL: { id: string; icon: string; label: string; short: string; need: number; go: NudgeGo; count: (p: Progress, today: string) => number }[] = [
   {
     id: 'watch', icon: '🌈', label: '看 3 個字', short: '看字', need: 3, go: null,
     count: (p, today) => Object.values(p.watched || {}).filter((w) => taiwanDay(w.last) === today).length,
   },
   {
-    id: 'recall', icon: '🍽️', label: '自己認出 3 個字', short: '認字', need: 3, go: 'feed',
+    id: 'recall', icon: '🍽️', label: '自己認出 3 個字', short: '認字', need: 3, go: { kind: 'game', id: 'feed' },
     // 答對會把下次要考的日子排到今天以後；答錯是今天再考一次，所以 due 還是今天
     count: (p, today) => Object.values(p.recall || {}).filter((r) => taiwanDay(r.last) === today && r.due > today).length,
   },
   {
-    id: 'puzzle', icon: '🧩', label: '拼好 2 個詞', short: '拼詞', need: 2, go: 'puzzle',
+    id: 'puzzle', icon: '🧩', label: '拼好 2 個詞', short: '拼詞', need: 2, go: { kind: 'game', id: 'puzzle' },
     count: (p, today) => Object.values(p.puzzles || {}).filter((q) => taiwanDay(q.last) === today).length,
   },
   {
@@ -45,7 +46,7 @@ const POOL: { id: string; icon: string; label: string; short: string; need: numb
     count: (p, today) => Object.values(p.town || {}).filter((r) => taiwanDay(r.last) === today).length,
   },
   {
-    id: 'brew', icon: '🧪', label: '魔法鍋變出 2 個字', short: '變字', need: 2, go: 'lab',
+    id: 'brew', icon: '🧪', label: '魔法鍋變出 2 個字', short: '變字', need: 2, go: { kind: 'game', id: 'lab' },
     count: (p, today) => Object.values(p.lab || {}).filter((at) => taiwanDay(at) === today).length,
   },
 ]

@@ -13,6 +13,9 @@ registerHooks({
 })
 
 const { pickNudge } = await import('../src/play/nudge.ts')
+const { FIXED_LINES } = await import('../shared/voice-lines.mjs')
+const { setParts } = await import('../src/play/parts.ts')
+setParts({})
 
 const entry = (char) => ({ char, zhuyin: '', meaning: '', emoji: '', concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
 const library = [...'火水山木日月人口'].map(entry)
@@ -40,13 +43,13 @@ test('今天還沒看字：先看一個字，不先推遊戲', () => {
 
 test('沒去過的地方會被推出來，去過就換下一個', () => {
   const base = { watched: watched('火水山木', todayAt) }
-  assert.equal(pickNudge(library, base, noStars, noCaps, today).go, 'lab', '魔法鍋是 0 次，先推它')
+  assert.deepEqual(pickNudge(library, base, noStars, noCaps, today).go, { kind: 'game', id: 'lab' }, '魔法鍋是 0 次，先推它')
 
   const afterLab = { ...base, lab: { 日: earlier } }
-  assert.equal(pickNudge(library, afterLab, noStars, noCaps, today).go, 'train')
+  assert.deepEqual(pickNudge(library, afterLab, noStars, noCaps, today).go, { kind: 'game', id: 'train' })
 
   const afterTrain = { ...afterLab, words: { 火車: earlier } }
-  assert.equal(pickNudge(library, afterTrain, noStars, noCaps, today).go, 'puzzle')
+  assert.deepEqual(pickNudge(library, afterTrain, noStars, noCaps, today).go, { kind: 'game', id: 'puzzle' })
 })
 
 test('字太少的時候不推遊戲：去了也玩不起來', () => {
@@ -58,20 +61,30 @@ test('有一堆字到期該複習：帶他去認字的遊戲', () => {
   const recall = Object.fromEntries([...'火水山木'].map((c) => [c, { box: 1, due: '2026-10-21', last: earlier, right: 1, wrong: 0 }]))
   const progress = { watched: watched('火水山木', todayAt), ...played, recall }
   const n = pickNudge(library, progress, noStars, noCaps, today)
-  assert.ok(['feed', 'river'].includes(n.go), '餵大怪獸或過河都在考同一件事')
+  assert.equal(n.go.kind, 'game')
+  assert.ok(['feed', 'river'].includes(n.go.id), '餵大怪獸或過河都在考同一件事')
   assert.match(n.text, /4/, '講有幾個字，不講「複習」')
 })
 
-test('差一顆星就滿的字：講那個字，按下去直接開它', () => {
-  const progress = { watched: watched('火水山木', todayAt), ...played }
-  const stars = new Map([['火', 4]])
-  const caps = new Map([['火', 5]])
+test('差一顆星就滿的字：缺的那顆在哪個遊戲，就直接帶他去那裡考那個字', () => {
+  // 這個字庫的字沒有語詞、也沒有拆字表，所以「看過、自己寫、自己認出來」三顆做得到
+  const progress = { watched: watched('火水山木', todayAt), ...played, town: { 火: { traces: 1, first: earlier, last: earlier, strokes: [] } } }
+  const stars = new Map([['火', 2]])
+  const caps = new Map([['火', 3]])
   const n = pickNudge(library, progress, stars, caps, today)
-  assert.equal(n.go, 'char:火')
+  // 看過 ✓、自己寫 ✓，缺的是「自己認出來」→ 餵大怪獸，而且第一道菜就是「火」
+  assert.deepEqual(n.go, { kind: 'game', id: 'feed', want: '火' })
   assert.match(n.text, /火/)
+  assert.deepEqual(n.say, [FIXED_LINES.nudgeNearly, '火', FIXED_LINES.nudgeDoRecall])
 
-  const full = pickNudge(library, progress, new Map([['火', 5]]), caps, today)
-  assert.notEqual(full.go, 'char:火', '已經滿星的字不要再推')
+  // 缺的那顆沒有專屬的地方（自己寫是在字卡上）：還是開字卡
+  const notWritten = { watched: watched('火水山木', todayAt), ...played, recall: { 火: { box: 1, due: '2026-10-30', last: earlier, right: 1, wrong: 0 } } }
+  const w = pickNudge(library, notWritten, stars, caps, today)
+  assert.deepEqual(w.go, { kind: 'char', char: '火' })
+  assert.deepEqual(w.say, [FIXED_LINES.nudgeNearly, '火', FIXED_LINES.nudgeDoWrite])
+
+  const full = pickNudge(library, progress, new Map([['火', 3]]), caps, today)
+  assert.notDeepEqual(full.go, { kind: 'game', id: 'feed', want: '火' }, '已經滿星的字不要再推')
 })
 
 test('沒有特別該做的事：講他收集到幾顆星星', () => {
@@ -79,6 +92,30 @@ test('沒有特別該做的事：講他收集到幾顆星星', () => {
   const n = pickNudge(library, progress, new Map([['火', 2], ['水', 3]]), new Map([['火', 5], ['水', 5]]), today)
   assert.match(n.text, /5 顆星星/)
   assert.ok(n.go)
+})
+
+test('每一句都唸得出來：拆成做好的固定句子，加上那個字本身', () => {
+  const fixed = new Set(Object.values(FIXED_LINES))
+  const chars = new Set(library.map((c) => c.char))
+  const cases = [
+    { watched: {} },
+    { watched: watched('火水山木', earlier), ...played },
+    { watched: watched('火水山木', todayAt) },
+    { watched: watched('火水山木', todayAt), ...played },
+    { watched: watched('火水山木', todayAt), ...played, town: { 火: { traces: 1, first: earlier, last: earlier, strokes: [] } } },
+    { watched: watched('火水山木', todayAt), ...played,
+      recall: Object.fromEntries([...'火水山木'].map((c) => [c, { box: 1, due: '2026-10-21', last: earlier, right: 1, wrong: 0 }])) },
+  ]
+  for (const progress of cases) {
+    for (const stars of [noStars, new Map([['火', 2]]), new Map([['火', 19]])]) {
+      const n = pickNudge(library, progress, stars, new Map([['火', 3]]), today)
+      assert.ok(n.say.length > 0, JSON.stringify(n))
+      for (const line of n.say) {
+        assert.ok(fixed.has(line) || chars.has(line),
+          `「${line}」既不是固定句子也不是字，做不出音檔會退回瀏覽器朗讀：${JSON.stringify(n)}`)
+      }
+    }
+  }
 })
 
 test('每一句都有角色、有按鈕的字', () => {

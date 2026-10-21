@@ -3,10 +3,10 @@ import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 
 import { tap } from '../lib/sfx'
-import { preloadVoice, say } from '../lib/audio'
+import { preloadVoice, say, sayAll } from '../lib/audio'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
-import type { Nudge } from './nudge'
+import type { Nudge, NudgeGo } from './nudge'
 import type { Quest } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
@@ -55,7 +55,7 @@ export default function Home({
   questsDone: boolean
   /** 首頁那隻角色現在要跟他說的話（nudge.ts） */
   nudge: Nudge
-  onNudge: (go: string | null) => void
+  onNudge: (go: NudgeGo) => void
 }) {
   const [mine, setMine] = useState(false)
   /** 骰子正在轉（轉完才開那個字） */
@@ -145,7 +145,7 @@ export default function Home({
             </span>
           </button>
           {/* 他還不會讀字：這句話要唸得出來才有用 */}
-          <button className="buddy-listen" onClick={() => say(nudge.text, 0.85)} aria-label="再聽一次">🔊</button>
+          <button className="buddy-listen" onClick={() => sayAll(nudge.say, 0.85)} aria-label="再聽一次">🔊</button>
         </div>
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">

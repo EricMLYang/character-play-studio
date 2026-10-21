@@ -101,6 +101,21 @@ export function sayRepeat(text: string, times = 3, gap = 1100, volume = 1) {
   return () => { clearInterval(id); stopSpeech() }
 }
 
+/**
+ * 一句接一句唸完，回傳取消函式。
+ * 帶數字或帶字的句子做不出音檔，拆成幾句固定句子＋那個字就都有音檔可以用（首頁那隻角色就是這樣講話的）。
+ */
+export function sayAll(texts: string[], rate = 0.75, gap = 300) {
+  const timers: number[] = []
+  let at = 0
+  for (const text of texts) {
+    timers.push(window.setTimeout(() => say(text, rate), at))
+    // 沒有音檔的句子用字數估，下一句才不會蓋掉上一句
+    at += ((voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000) + gap
+  }
+  return () => { timers.forEach(clearTimeout); stopSpeech() }
+}
+
 export function stopSpeech() {
   current?.stop()
   current = null
