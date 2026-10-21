@@ -30,10 +30,20 @@ export type Step = {
 }
 
 /**
- * 這次換誰過河：在他已經收集到的夥伴裡輪（partners.ts），玩愈多看到愈多角色。
- * 開到新夥伴之後，那一位真的會出現在河邊，寶箱才不是只拿到一張圖。
+ * 指定下一趟由誰來過河。畫面上好幾個地方都寫著「牠會在跳石頭過河等你」「點一位，
+ * 牠就陪你去過河」——寶箱剛開到的那一位、小鎮那一排夥伴、「我的東西」那條路上的頭像。
+ * 照次數輪的話按下去很可能是別人，那幾句就變成空話。用一次就清掉（River 掛載後清）。
  */
-export const crosserFor = (trips: number, crew: Partner[]) => crew[trips % crew.length]
+let asked: string | null = null
+export const crossNextWith = (id: string) => { asked = id }
+export const forgetCrossRequest = () => { asked = null }
+
+/**
+ * 這次換誰過河：有人指定就是那一位，不然在他已經收集到的夥伴裡輪（partners.ts），
+ * 玩愈多看到愈多角色。開到新夥伴之後，那一位真的會出現在河邊，寶箱才不是只拿到一張圖。
+ */
+export const crosserFor = (trips: number, crew: Partner[]) =>
+  crew.find((p) => p.id === asked) ?? crew[trips % crew.length]
 
 /**
  * 這一次要跳哪五個字、每一步擺哪幾顆石頭。

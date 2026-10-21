@@ -16,7 +16,7 @@ registerHooks({
 })
 
 const { setParts } = await import('../src/play/parts.ts')
-const { pickCrossing, crosserFor, trip, STEPS, WARMUP } = await import('../src/play/crossing.ts')
+const { pickCrossing, crosserFor, crossNextWith, forgetCrossRequest, trip, STEPS, WARMUP } = await import('../src/play/crossing.ts')
 const { PARTNERS, partnersAt, partnerCount, nextPartner, starsFor, trailStops, STARS_PER } = await import('../src/play/partners.ts')
 
 const entry = (char) => ({ char, zhuyin: '', meaning: '', emoji: '', concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
@@ -101,6 +101,23 @@ test('夥伴照星星一位一位來，第一位不用星星', () => {
   assert.equal(partnerCount(STARS_PER * 5), 6)
   assert.equal(partnerCount(STARS_PER * 999), PARTNERS.length, '收齊就不再多了')
   assert.equal(partnersAt(STARS_PER * 3).length, 4)
+})
+
+test('指定誰來過河：畫面上說「牠會在河邊等你」，就要真的是牠', () => {
+  const crew = partnersAt(STARS_PER * 5)   // 六位
+  // 平常照次數輪
+  assert.equal(crosserFor(0, crew).id, crew[0].id)
+  assert.equal(crosserFor(7, crew).id, crew[7 % crew.length].id)
+  // 指定之後，不管輪到誰都是指定的那一位
+  crossNextWith(crew[4].id)
+  for (const trips of [0, 1, 2, 99]) assert.equal(crosserFor(trips, crew).id, crew[4].id)
+  // 用完就清掉（River 掛載之後會清）
+  forgetCrossRequest()
+  assert.equal(crosserFor(0, crew).id, crew[0].id)
+  // 指定了一個還沒收集到的夥伴：當作沒指定，不要讓河邊空掉
+  crossNextWith('brick')
+  assert.equal(crosserFor(1, crew).id, crew[1].id)
+  forgetCrossRequest()
 })
 
 test('每一位夥伴都有名字、對岸的東西，而且不重複', () => {

@@ -6,6 +6,7 @@ import { LINES } from '../../shared/voice-lines.mjs'
 import { Handwriting } from './Glyphs'
 import { SubBar, hueOf, hueVar } from './ui'
 import { nextPartner, partnersAt } from './partners'
+import { crossNextWith } from './crossing'
 
 /** 寫幾次長多大：一次是小不點，五次以上戴皇冠。 */
 const levelOf = (traces: number) => Math.min(traces, 5)
@@ -119,7 +120,8 @@ function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }
       <span className="crew-title">🎁 你的夥伴</span>
       <div className="crew-row">
         {crew.map((p, i) => (
-          <button key={p.id} className="crew-one" style={{ ['--i' as any]: i }} onClick={() => { tap(); onGame('river') }}
+          <button key={p.id} className="crew-one" style={{ ['--i' as any]: i }}
+            onClick={() => { tap(); crossNextWith(p.id); onGame('river') }}
             aria-label={`跟「${p.name}」去跳石頭過河`}>
             <img src={`/hero/${p.id}/idle.png`} alt="" />
             <small>{p.name}</small>
