@@ -5,6 +5,13 @@
 .spy { position: relative; height: 100%; display: flex; flex-direction: column;
   background: linear-gradient(#FFF6E9, #FFEBD2 65%, #FFE1BC); }
 .spy :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+/* 這一輪走到哪 */
+.spy-track { display: flex; justify-content: center; gap: 9px; padding: 2px 16px 6px; }
+.spy-dot { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; line-height: 1;
+  background: rgba(255,255,255,.6); box-shadow: inset 0 0 0 3px rgba(255,255,255,.9); }
+.spy-dot.done { background: #fff; box-shadow: inset 0 0 0 3px #FFD24A; animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+.spy-dot.here { background: #fff; box-shadow: inset 0 0 0 3px var(--c0); animation: breathe 1.3s ease-in-out infinite; }
+
 .spy-main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: clamp(8px, 2vh, 20px); padding: 0 16px 8px; }
 
@@ -69,6 +76,7 @@
 
 @media (max-width: 700px) {
   .spy-boss { width: 56px; }
+  .spy-dot { width: 27px; height: 27px; font-size: 15px; }
   .spy-bubble { font-size: 14px; padding: 6px 12px; }
   .spy-done-char { font-size: 26px; }
 }

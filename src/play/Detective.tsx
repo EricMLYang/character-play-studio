@@ -206,6 +206,15 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     <div className="spy">
       <SubBar title="🔍 小偵探" stat={`第 ${at + 1} / ${list.length} 個`} onBack={onBack} />
 
+      {/* 這一輪走到哪：自己猜到的留一顆星，等到畫完才知道的留一個放大鏡（跟過河那條路線同一個意思） */}
+      <div className="spy-track" aria-label={`猜到第 ${done.length} 個，一共 ${list.length} 個`}>
+        {list.map((_, i) => (
+          <span key={i} className={'spy-dot' + (i < done.length ? ' done' : '') + (i === at ? ' here' : '')} aria-hidden>
+            {i < done.length ? (done[i].ok ? '⭐' : '🔍') : ''}
+          </span>
+        ))}
+      </div>
+
       <div className={`spy-main phase-${phase}`}>
         <div className="spy-stage">
           <img className="spy-boss" src={`/hero/pig/${pose}.png`} alt="" />
