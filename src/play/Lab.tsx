@@ -77,6 +77,10 @@ export default function Lab({ library, hues, found, onDiscover, onPick, onBack }
 
       <div className="lab-main">
         <section className="lab-pot-area" aria-label="魔法鍋">
+          {/* 魔法實驗室：工作檯上的瓶瓶罐罐、空氣裡飄的亮點。純 CSS，沒有圖檔 */}
+          <div className="lab-room" aria-hidden>
+            {Array.from({ length: 7 }, (_, i) => <span key={i} className="lab-spark" style={{ ['--i' as any]: i }} />)}
+          </div>
           <div className="lab-slots">
             {[0, 1].map((i) => {
               const char = picked[i]
@@ -91,6 +95,9 @@ export default function Lab({ library, hues, found, onDiscover, onPick, onBack }
           </div>
 
           <div className={'pot' + (stirring ? ' stirring' : '') + (picked.length ? ' filled' : '')} aria-hidden>
+            {/* 跟鍋子一起擺在工作檯上的瓶瓶罐罐（位置跟著鍋子走，才對得準檯面） */}
+            <span className="pot-jars left">🧪<i>⚗️</i></span>
+            <span className="pot-jars right">🫙<i>🔮</i></span>
             <div className="pot-bubbles">{Array.from({ length: 7 }, (_, i) => <span key={i} style={{ ['--i' as any]: i }} />)}</div>
             <div className="pot-rim" />
             <div className="pot-body"><span className="pot-spoon">🥄</span></div>

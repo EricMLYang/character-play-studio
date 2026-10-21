@@ -1,7 +1,16 @@
 /* ---------- 魔法鍋 ---------- */
 .lab { height: 100%; display: flex; flex-direction: column; background: linear-gradient(#F4EEFF, #FFF6E9 60%); }
 .lab-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(340px, 1fr) minmax(0, 1.1fr); gap: 20px; padding: 0 28px 10px; }
-.lab-pot-area { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 0; }
+.lab-pot-area { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 0; }
+/* 架子、亮點是背景，鍋子跟按鈕壓在上面 */
+.lab-pot-area > :not(.lab-room) { position: relative; z-index: 1; }
+
+/* ---------- 魔法實驗室的背景 ---------- */
+.lab-room { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* 空氣裡飄的魔法亮點 */
+.lab-spark { position: absolute; bottom: 34%; left: calc(8% + var(--i) * 13%); width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(#fff, rgba(155,140,255,.85) 60%, transparent 70%);
+  animation: rise calc(5s + var(--i) * .7s) ease-in infinite; animation-delay: calc(var(--i) * -1.1s); }
 .lab-slots { display: flex; gap: 14px; }
 .lab-slot { position: relative; display: grid; place-items: center; width: 104px; height: 104px; border-radius: 28px;
   border: 4px dashed rgba(46,42,38,.22); font-family: var(--kai); font-size: 48px; color: rgba(46,42,38,.3); }
@@ -9,6 +18,17 @@
   font-size: 52px; font-weight: 700; line-height: 1; box-shadow: 0 6px 0 rgba(0,0,0,.14); animation: dropIn .45s both; }
 .lab-slot-emoji { font-size: 26px; }
 .pot { position: relative; width: 230px; height: 190px; margin-top: 10px; }
+/* 鍋子底下的工作檯：一路延伸到畫面外，鍋子才像擺在桌上，不是浮在空中 */
+.pot { margin-bottom: 30px; }
+.pot::before { content: ''; position: absolute; left: -320px; right: -320px; bottom: -22px; height: 18px; border-radius: 5px;
+  background: linear-gradient(#DCBC92, #A9875C); box-shadow: 0 7px 0 rgba(0,0,0,.1); }
+/* 跟鍋子一起擺在檯面上的瓶罐 */
+.pot-jars { position: absolute; bottom: -18px; display: flex; align-items: flex-end; gap: 8px; font-size: 40px; line-height: 1; }
+.pot-jars i { font-style: normal; font-size: 30px; }
+.pot-jars.left { right: calc(100% + 26px); }
+.pot-jars.right { left: calc(100% + 26px); }
+.pot-jars > * { animation: bob 3.4s ease-in-out infinite; }
+.pot-jars i { animation-delay: -1.7s; }
 .pot-rim { position: absolute; left: 0; right: 0; top: 30px; height: 34px; border-radius: 50%; background: #4A3F5C; z-index: 2;
   box-shadow: inset 0 -10px 0 #7A5BD6; transition: box-shadow .3s; }
 .pot.filled .pot-rim { box-shadow: inset 0 -12px 0 #9B8CFF, 0 0 24px rgba(155,140,255,.7); }
@@ -48,5 +68,6 @@
   .lab-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(120px, 1fr); padding: 0 14px 8px; gap: 10px; }
   .lab-slot { width: 80px; height: 80px; font-size: 40px; }
   .pot { transform: scale(.75); margin: -20px 0 -30px; }
+  .lab-shelf { top: 2%; font-size: 20px; border-bottom-width: 7px; }
   .lab-result { position: fixed; inset: 10px; }
 }
