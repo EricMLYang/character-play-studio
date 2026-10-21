@@ -29,9 +29,21 @@ export default function Lab({ library, hues, found, want, onDiscover, onPick, on
 }) {
   // 他指名要變的字：鍋子裡先放好它的部件，第一次攪就給他那個字（攪完就不算了）
   const wanted = useRef(want)
+  /**
+   * 鍋子裡一開始放什麼。
+   * 下面那幾個 useMemo 還沒跑到，這裡只能用 library 自己算（用 known／shelf 會踩到 TDZ）。
+   */
   const [picked, setPicked] = useState<string[]>(() => {
-    const part = want ? partsOf(want).find((p) => library.some((c) => c.char === p.char)) : undefined
-    return part ? [part.char] : []
+    const chars = new Set(library.map((c) => c.char))
+    const part = want ? partsOf(want).find((p) => chars.has(p.char)) : undefined
+    if (part) return [part.char]
+    // 一個字都還沒變出來過：先幫他放一個變得出東西的字。
+    // 空鍋子配兩百多個字的貨架，六歲不知道要從哪裡開始——放好一個，按一下就有東西發生。
+    if (!Object.keys(found).length) {
+      const start = library.find((c) => hidesIn(c.char).some((w) => chars.has(w)))
+      if (start) return [start.char]
+    }
+    return []
   })
   const [stirring, setStirring] = useState(false)
   const [result, setResult] = useState<{ brew: Brew; picked: string[]; fresh: boolean } | null>(null)
