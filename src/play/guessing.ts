@@ -1,5 +1,5 @@
 import type { CharEntry, Progress } from '../types'
-import { pickDishes, pickDecoy, recallLevel } from './dishes'
+import { pickDishes, pickDecoy, recallLevel, type RecallLevel } from './dishes'
 import { taiwanDay } from '../../shared/domain.mjs'
 
 /**
@@ -20,7 +20,7 @@ export const ROUNDS = 5
  * 認得順就第二題開始三張，常找錯就整輪都只放兩張。
  */
 export const WARMUP = 2
-export const warmupFor = (level: 'easy' | 'normal' | 'hard') => (level === 'easy' ? ROUNDS : level === 'hard' ? 1 : WARMUP)
+export const warmupFor = (level: RecallLevel) => (level === 'easy' ? ROUNDS : level === 'hard' ? 1 : WARMUP)
 
 export type GuessRound = {
   /** 要猜的字 */

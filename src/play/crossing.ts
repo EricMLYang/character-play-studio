@@ -1,5 +1,5 @@
 import type { CharEntry, Progress } from '../types'
-import { pickDishes, pickDecoy, recallLevel } from './dishes'
+import { pickDishes, pickDecoy, recallLevel, type RecallLevel } from './dishes'
 import type { Partner } from './partners'
 import { taiwanDay } from '../../shared/domain.mjs'
 
@@ -20,7 +20,7 @@ export const STEPS = 5
  * 認得順就第二步開始三顆，常找錯就整趟都只放兩顆——難度要跟著他，不是跟著步數。
  */
 export const WARMUP = 2
-export const warmupFor = (level: 'easy' | 'normal' | 'hard') => (level === 'easy' ? STEPS : level === 'hard' ? 1 : WARMUP)
+export const warmupFor = (level: RecallLevel) => (level === 'easy' ? STEPS : level === 'hard' ? 1 : WARMUP)
 
 export type Step = {
   /** 這一步要跳到的字 */

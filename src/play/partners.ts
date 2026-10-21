@@ -45,7 +45,7 @@ export const PARTNERS: Partner[] = [
  * 河上的天色。照夥伴輪，同一位每次都是同一種天色（「機器人的河是晚上的」），
  * 換一位夥伴整條河就換一個樣子——同一個玩法玩第三次還有新鮮感，靠的是這個。
  */
-export const SKIES = ['day', 'sunset', 'snow', 'night'] as const
+const SKIES = ['day', 'sunset', 'snow', 'night'] as const
 export type Sky = typeof SKIES[number]
 export const skyFor = (partner: Partner): Sky =>
   SKIES[Math.max(PARTNERS.findIndex((p) => p.id === partner.id), 0) % SKIES.length]
