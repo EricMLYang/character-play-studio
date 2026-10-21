@@ -128,6 +128,8 @@
 .river-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;
   text-align: center; font-size: 19px; line-height: 1.7; }
 .river-empty .river-hero-img { width: min(34vh, 190px); }
+/* .nav-btn 預設 flex:1，在這個置中的直排裡會被拉成一條長條 */
+.river-empty .nav-btn { flex: none; }
 .river-preload { display: none; }
 .river .game-hint { padding: 0 16px 10px; text-align: center; }
 

@@ -63,6 +63,8 @@
 .spy-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px;
   text-align: center; font-size: 19px; line-height: 1.7; }
 .spy-empty .spy-boss { width: min(30vh, 170px); }
+/* .nav-btn 預設 flex:1，在這個置中的直排裡會被拉成一條長條 */
+.spy-empty .nav-btn { flex: none; }
 .spy .game-hint { padding: 0 16px 10px; text-align: center; }
 
 @media (max-width: 700px) {
