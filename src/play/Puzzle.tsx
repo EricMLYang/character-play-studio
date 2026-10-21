@@ -5,7 +5,7 @@ import { boing, cheer, drum, snap, stash, tap } from '../lib/sfx'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { requeue } from './dishes'
 import { collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
-import { Confetti, SubBar, hueOf, hueVar } from './ui'
+import { Confetti, SubBar, emojiArt, hueOf, hueVar } from './ui'
 
 /**
  * 詞語拼圖：上面一張圖（還是灰灰的影子）跟一個缺了一個字的詞，例如「生 □」配 🎂。
@@ -298,7 +298,9 @@ export default function Puzzle({ library, hues, progress, onSolve, onPick, onBac
           <section className="puz-board" aria-live="polite">
             {item.kind === 'picture' && !filled
               ? <div className="puz-pic-slot" aria-hidden><span>?</span></div>
-              : <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '') + (item.kind === 'picture' ? ' landed' : '')} aria-hidden>{item.emoji}</div>}
+              : <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '') + (item.kind === 'picture' ? ' landed' : '')} aria-hidden>
+                  {emojiArt(item.emoji) ? <img src={emojiArt(item.emoji)!} alt="" /> : item.emoji}
+                </div>}
             {phase === 'alive' && current?.crown && <span className="puz-crown" role="status">👑「{item.char}」的詞全部找到了！</span>}
             {phase === 'alive' && current?.fresh && !current.crown && <span className="puz-new big" role="status">新的詞！</span>}
             <button className="puz-word" onClick={() => { if (phase === 'ask') { tap(); clear(); ask(item, 1) } }} disabled={phase !== 'ask'}

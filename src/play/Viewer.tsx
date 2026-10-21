@@ -11,7 +11,7 @@ import { ClipMedia } from '../anim/AnimMedia'
 import { pickSource, mediaUrl, type Broken } from './source'
 import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
-import { Confetti, hueOf, hueVar } from './ui'
+import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
  * 看一個字：播素材（影片 → 動畫 → 圖片 → 字卡動畫，見 source.ts），看完接自己描字，描完搬進小鎮。
@@ -139,6 +139,8 @@ export default function Viewer({
   const parts = useMemo(() => partsOf(entry.char).filter((p) => known.has(p.char)), [entry.char, known])
   const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
   const words = entry.words || []
+  /** 有 3D 圖就用 3D 圖：沒有影片的字，這張圖就是他看到的主角 */
+  const art = emojiArt(entry.emoji)
   // 唸字／唸語詞按鈕跟 media.volume 無關：media.volume 是家長審核過的「影片／圖片播放音量」，
   // 按鈕是隨時可點的系統朗讀，兩者混在一起會讓影片調小聲時語詞也跟著變小聲。
   const speechVolume = 0.7
@@ -216,7 +218,7 @@ export default function Viewer({
         ) : (
           <div className={`stage stage-${phase}`}>
             <Scene entry={entry} />
-            <div className="stage-emoji">{entry.emoji}</div>
+            <div className="stage-emoji">{art ? <img src={art} alt="" /> : entry.emoji}</div>
             <div className="stage-char">{entry.char}</div>
             {phase === 'write' && !noStrokes
               ? <Strokes char={entry.char} highlight={parts[0]?.strokes} onWritten={finish} onTraced={traceDone} onUnavailable={() => dispatch({ type: 'noStrokes' })} />

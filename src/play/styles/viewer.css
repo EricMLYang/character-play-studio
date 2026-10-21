@@ -125,6 +125,8 @@
 .stage { position: absolute; inset: 0; display: grid; place-items: center; }
 .stage-emoji, .stage-char { grid-area: 1 / 1; }
 .stage-emoji { font-size: min(40vh, 34vw); }
+/* 有 3D 圖的 emoji 用圖（ui.tsx 的 emojiArt）：1em 當寬高，原本用 font-size 控制大小的寫法都不用改 */
+.stage-emoji img { display: block; width: 1em; height: 1em; object-fit: contain; }
 /* 純色 hue 在同色淺底上只有 1.5:1；壓深之後保留顏色又看得清楚 */
 .stage-char { font-family: var(--kai); font-size: min(64vh, 56vw); font-weight: 700;
   color: color-mix(in oklab, var(--hue) 38%, var(--ink));

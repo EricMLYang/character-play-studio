@@ -6,7 +6,7 @@ import { hidesIn } from './parts'
 import { brew, recipes, type Brew } from './brew'
 import { CharArt } from './Glyphs'
 import { sceneFor } from './scenes'
-import { SubBar, hueOf, hueVar } from './ui'
+import { SubBar, emojiArt, hueOf, hueVar } from './ui'
 
 /**
  * 魔法鍋：丟一兩個字進去攪一攪，看會變出什麼。
@@ -122,7 +122,7 @@ export default function Lab({ library, hues, found, onDiscover, onPick, onBack }
                 <p className="lab-line"><b className="blue">{r.part}</b> 躲在 <b>{r.char}</b> 裡面！</p>
               </>}
               {r.kind === 'react' && <>
-                <span className="lab-react-emoji" aria-hidden>{r.emoji}</span>
+                <span className="lab-react-emoji" aria-hidden>{emojiArt(r.emoji) ? <img src={emojiArt(r.emoji)!} alt="" /> : r.emoji}</span>
                 <p className="lab-line">{result.picked.join(' ＋ ')}：{r.line}</p>
               </>}
               {r.kind === 'alone' && <>

@@ -31,6 +31,8 @@
 .puz-pic { font-size: min(27vh, 38vw, 230px); line-height: 1.05; filter: brightness(0) opacity(.14); transition: filter .5s;
   user-select: none; animation: dropIn .5s both; }
 .puz-pic.alive { filter: none; animation: boing .8s cubic-bezier(.2,1.6,.4,1) 2; }
+/* 有 3D 圖的 emoji 用圖（ui.tsx 的 emojiArt）：1em 當寬高，灰影子的 filter 照樣套得上 */
+.puz-pic img { display: block; width: 1em; height: 1em; object-fit: contain; }
 /* 看詞找圖：圖還沒放上去，是一格虛線框 */
 .puz-pic-slot { display: grid; place-items: center; width: min(27vh, 38vw, 230px); height: min(27vh, 38vw, 230px); border-radius: 36px;
   background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 5px #9CC3DD; outline: 4px dashed #fff; outline-offset: -16px; animation: dropIn .5s both; }

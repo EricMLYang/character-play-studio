@@ -2,8 +2,8 @@
 .lab { height: 100%; display: flex; flex-direction: column; background: linear-gradient(#F4EEFF, #FFF6E9 60%); }
 .lab-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(340px, 1fr) minmax(0, 1.1fr); gap: 20px; padding: 0 28px 10px; }
 .lab-pot-area { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 0; }
-/* 架子、亮點是背景，鍋子跟按鈕壓在上面 */
-.lab-pot-area > :not(.lab-room) { position: relative; z-index: 1; }
+/* 亮點是背景，鍋子跟按鈕壓在上面。.lab-result 是蓋滿整區的浮層（自己有 z-index），不能被改成 relative */
+.lab-pot-area > :not(.lab-room):not(.lab-result) { position: relative; z-index: 1; }
 
 /* ---------- 魔法實驗室的背景 ---------- */
 .lab-room { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
@@ -56,6 +56,8 @@
 .lab-line b { font-family: var(--kai); font-size: 1.5em; }
 .lab-line .blue { color: #0F7FA8; }
 .lab-react-emoji { font-size: 120px; line-height: 1.1; animation: dropIn .6s both; }
+/* 有 3D 圖的 emoji 用圖（ui.tsx 的 emojiArt）：1em 當寬高，原本用 font-size 控制大小的寫法不用改 */
+.lab-react-emoji img { display: block; width: 1em; height: 1em; object-fit: contain; }
 .book-slot { position: relative; flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px;
   border: 3px dashed rgba(46,42,38,.18); font-family: var(--kai); font-size: 34px; font-weight: 700; }
 .book-slot.got { border: 0; background: #fff; box-shadow: 0 4px 0 rgba(0,0,0,.1); animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
