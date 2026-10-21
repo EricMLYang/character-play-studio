@@ -1,13 +1,53 @@
 /* ---------- 字火車 ---------- */
 .train { height: 100%; display: flex; flex-direction: column; background: linear-gradient(#E3F4FF, #FFF6E9 60%); }
 .train-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(340px, 1fr) minmax(0, 1.1fr); gap: 20px; padding: 0 28px 10px; }
-.train-yard { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 0; }
-/* 車廂底下一條鐵軌，空車廂是虛線：看得出「還可以接」 */
-.train-cars { display: flex; align-items: flex-end; gap: 8px; padding-bottom: 12px;
-  background: repeating-linear-gradient(90deg, #8a6a4e 0 6px, transparent 6px 22px) bottom / 100% 8px no-repeat,
-              linear-gradient(#6d625a, #6d625a) bottom 8px left / 100% 4px no-repeat; }
-/* 車頭朝左帶頭：第一個字就是火車頭後面那節 */
-.train-engine { font-size: 64px; line-height: 1; }
+.train-yard { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 0; }
+
+/*
+ * 車站：山、樹、鐵軌全部對齊同一條地平線（.train-track 的下緣），火車才像停在軌道上。
+ * 鐵軌往兩邊延伸到畫面外，看起來是從遠方開過來的。
+ */
+.train-track { position: relative; width: 100%; padding: 132px 0 26px; }
+.train-scene { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.train-scene .hill { position: absolute; bottom: 26px; border-radius: 50% 50% 0 0; background: #BFE3B4; }
+.train-scene .h1 { left: -8%; width: 44%; height: 58px; background: #CFEBC5; }
+.train-scene .h2 { right: -6%; width: 36%; height: 44px; }
+/* 天上幾朵雲，上半部才不會空一大片 */
+.train-scene .cloud { position: absolute; width: 74px; height: 24px; border-radius: 999px; background: rgba(255,255,255,.9);
+  box-shadow: 0 8px 0 -3px rgba(255,255,255,.55); }
+.train-scene .cloud::before { content: ''; position: absolute; left: 14%; top: -62%; width: 54%; height: 150%; border-radius: 50%; background: inherit; }
+.train-scene .c1 { left: 9%; top: 18px; animation: cloudDrift 24s ease-in-out infinite; }
+.train-scene .c2 { right: 14%; top: 36px; scale: .76; animation: cloudDrift 32s ease-in-out infinite reverse; }
+.train-scene .c3 { left: 44%; top: 70px; scale: .6; opacity: .8; animation: cloudDrift 40s ease-in-out infinite; }
+@keyframes cloudDrift { 0%, 100% { translate: -14px 0 } 50% { translate: 14px 0 } }
+.train-scene .tree { position: absolute; bottom: 26px; font-size: 28px; line-height: 1; opacity: .9; }
+.train-scene .t1 { left: 4%; }
+.train-scene .t2 { left: 22%; font-size: 22px; }
+.train-scene .t3 { right: 8%; font-size: 32px; }
+.train-track::after { content: ''; position: absolute; left: -50vw; right: -50vw; bottom: 14px; height: 13px; z-index: 0;
+  background: repeating-linear-gradient(90deg, #96755a 0 7px, transparent 7px 24px) bottom / 100% 9px no-repeat,
+              linear-gradient(#7d7067, #7d7067) bottom 9px left / 100% 4px no-repeat; }
+/* 山、樹、鐵軌是背景，按鈕與提示要壓在上面 */
+.train-yard { overflow: hidden; }
+.train-yard > :not(.train-track) { position: relative; z-index: 1; }
+/* 空車廂是虛線：看得出「還可以接」。鐵軌畫在 .train-track 上，車廂壓在上面 */
+.train-cars { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: center; gap: 8px; }
+/* 接上一節車廂時整列火車抖一下 */
+.train-cars.loaded { animation: lurch .32s ease-out; }
+@keyframes lurch { 0% { translate: 0 } 30% { translate: -5px 0 } 60% { translate: 3px 0 } 100% { translate: 0 } }
+/* 車頭朝左帶頭：第一個字就是火車頭後面那節。輕輕上下晃＋噴煙，看起來有在運轉 */
+.train-engine { position: relative; font-size: 64px; line-height: 1; animation: chug .5s ease-in-out infinite alternate; }
+@keyframes chug { from { transform: translateY(0) rotate(-1deg) } to { transform: translateY(-3px) rotate(1deg) } }
+.train-smoke { position: absolute; left: 14%; top: -6px; width: 0; height: 0; }
+.train-smoke i { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,.9);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.55); animation: puff 2.2s ease-out infinite; }
+.train-smoke i:nth-child(2) { animation-delay: .73s; }
+.train-smoke i:nth-child(3) { animation-delay: 1.46s; }
+@keyframes puff {
+  0% { opacity: 0; transform: translate(0, 0) scale(.4) }
+  15% { opacity: .95 }
+  100% { opacity: 0; transform: translate(26px, -72px) scale(1.9) }
+}
 .train-car { position: relative; display: grid; place-items: center; width: 92px; height: 104px; border-radius: 22px 22px 14px 14px;
   border: 4px dashed rgba(46,42,38,.18); font-family: var(--kai); font-size: 40px; color: rgba(46,42,38,.3); }
 .train-car.next { border-color: rgba(46,42,38,.4); animation: breathe 1.6s ease-in-out infinite; }
@@ -16,7 +56,8 @@
 .train-car-emoji { font-family: var(--ui); font-size: 24px; }
 .train-say { padding: 8px 18px; border-radius: 999px; background: #fff; font-family: var(--kai); font-size: 30px; font-weight: 700;
   box-shadow: 0 4px 0 rgba(0,0,0,.08); }
-.train-go { flex: none; width: 240px; font-size: 22px; }
+.train-go { position: relative; flex: none; width: 260px; font-size: 24px; }
+.train-go:not(:disabled) { animation: breathe 1.6s ease-in-out infinite; }
 .train-go:disabled { opacity: .45; }
 .train-saved { display: inline-flex; flex-shrink: 0; align-items: center; border-radius: 999px; background: #fff; box-shadow: 0 4px 0 rgba(0,0,0,.1); }
 .train-saved-go { min-height: 48px; padding: 0 8px 0 16px; font-family: var(--kai); font-size: 26px; font-weight: 700; white-space: nowrap; }
@@ -45,6 +86,10 @@
   .train-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(120px, 1fr); padding: 0 14px 8px; gap: 10px; }
   .train-yard { gap: 8px; }
   .train-engine { font-size: 40px; }
+  .train-scene .tree { font-size: 22px; }
+  .train-scene .t3 { font-size: 26px; }
+  .train-track { padding-top: 76px; }
+  .train-scene .c3 { display: none; }
   .train-car { width: 64px; height: 74px; font-size: 30px; border-radius: 16px 16px 10px 10px; }
   .train-car.full { font-size: 36px; }
   .train-car-emoji { font-size: 18px; }

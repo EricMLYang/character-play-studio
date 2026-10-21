@@ -124,6 +124,12 @@ export function stash() {
   tone(0, 600, 1200, 0.18, 'sine', 0.06)
   tone(0.12, 1568, 2093, 0.25, 'triangle', 0.06)
 }
+/** 火車汽笛：嗚——，兩個音疊在一起才有汽笛的厚度。 */
+export function toot() {
+  tone(0, 520, 440, 0.45, 'sawtooth', 0.05)
+  tone(0, 700, 592, 0.45, 'triangle', 0.045)
+  tone(0.3, 392, 330, 0.3, 'sawtooth', 0.04)
+}
 /** 丟進鍋子：噗通。 */
 export const plop = () => tone(0, 320, 140, 0.18, 'sine', 0.14)
 /** 攪一攪：一串往上冒的泡泡。 */

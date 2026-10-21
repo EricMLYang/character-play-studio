@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { say, stopSpeech } from '../lib/audio'
-import { cheer, plop, stash, tap, whoosh } from '../lib/sfx'
+import { cheer, plop, stash, tap, toot, whoosh } from '../lib/sfx'
 import { ClipMedia } from '../anim/AnimMedia'
 import { hueMap, nextChars, realWords, type WordGroup } from './words'
 import { pickSource } from './source'
@@ -48,6 +48,7 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
     plop()
     const next = [...latest.current, char]
     latest.current = next
+    toot()
     say(next.join(''), 0.8)
     // 接出真的詞：亮晶晶一聲
     if (real.has(next.join(''))) stash()
@@ -76,8 +77,18 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
 
       <div className="train-main">
         <section className="train-yard" aria-label="火車">
-          <div className="train-cars">
-            <span className="train-engine" aria-hidden>🚂</span>
+          {/* 遠方的山、樹跟一路延伸出去的鐵軌：空地變成一個車站，接車廂才像在做一件事 */}
+          <div className="train-track">
+            <div className="train-scene" aria-hidden>
+              <span className="cloud c1" /><span className="cloud c2" /><span className="cloud c3" />
+              <span className="hill h1" /><span className="hill h2" />
+              <span className="tree t1">🌳</span><span className="tree t2">🌲</span><span className="tree t3">🌳</span>
+            </div>
+            <div className={'train-cars' + (cars.length ? ' loaded' : '')} key={cars.length}>
+            <span className="train-engine" aria-hidden>
+              🚂
+              <span className="train-smoke"><i /><i /><i /></span>
+            </span>
             {Array.from({ length: CARS }, (_, i) => {
               const char = cars[i]
               const entry = char ? shelf.get(char)?.entry : undefined
@@ -89,6 +100,7 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
                 </button>
               ) : <span key={i} className={'train-car' + (i === cars.length ? ' next' : '')} aria-hidden>{i === cars.length ? '＋' : ''}</span>
             })}
+            </div>
           </div>
           {cars.length > 0 && (
             <button className="train-say" onClick={() => say(cars.join(''), 0.8)} aria-label={`唸「${cars.join('')}」`}>🔊 {cars.join('')}</button>
