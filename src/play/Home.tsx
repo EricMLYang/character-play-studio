@@ -7,7 +7,7 @@ import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 import type { Nudge } from './nudge'
 import type { Quest } from './today'
-import { nextPartner } from './partners'
+import { nextPartner, STARS_PER } from './partners'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -201,6 +201,8 @@ function StarBank({ total }: { total: number }) {
       <span className="bank-n">{total}</span>
       {/* 下一個寶箱還差幾顆：星星要有地方可以花，不然只是一個一直變大的數字 */}
       <span className="bank-label">{next ? <>再 {next.need} 顆<br />開寶箱 🎁</> : <>顆星星<br />夥伴收齊了！</>}</span>
+      {/* 手機上字會收起來，剩這條看得出離下一個寶箱多近 */}
+      {next && <span className="bank-bar" aria-hidden><i style={{ width: `${((STARS_PER - next.need) / STARS_PER) * 100}%` }} /></span>}
     </div>
   )
 }
