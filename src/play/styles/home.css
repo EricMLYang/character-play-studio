@@ -164,6 +164,7 @@
   .place-icon { width: 38px; height: 38px; font-size: 24px; border-radius: 14px; }
 }
 
+
 @media (max-width: 700px) {
   .home-bar { gap: 10px; padding: 12px 14px 8px; }
   .home-title { font-size: 24px; margin-right: 0; }
@@ -302,4 +303,21 @@
   .mine-stars b { font-size: 38px; }
   .mine-one { width: 38px; height: 38px; }
   .mine-one img { width: 31px; height: 31px; }
+}
+
+/*
+ * 筆電與平板上的「今天的三件事」。這幾條要擺在檔案最後：那一條的基本樣式是後來接在檔尾的，
+ * 寫在上面那些 @media 裡會被它蓋回去。
+ */
+@media (min-width: 701px) and (max-width: 1400px) {
+  /* 標題拿掉、名字那欄窄一點，星星存摺加三件事才排得進一行 */
+  .quests-title { display: none; }
+  .quest-text { min-width: 76px; }
+}
+/* 直的平板（約 900px 以下）：三件事的全名排不下，換短的（看字、認字、拼詞） */
+@media (min-width: 701px) and (max-width: 900px) {
+  .quest-long { display: none; }
+  .quest-short { display: block; font-size: 13px; white-space: nowrap; }
+  /* 768px 上差最後 2px 就折行 */
+  .quest-text { min-width: 64px; }
 }
