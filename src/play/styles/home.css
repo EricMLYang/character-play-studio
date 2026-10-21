@@ -242,6 +242,18 @@
   /* 橫躺的手機只剩一點高度：留下去處的入口，標語與統計收起來 */
   .home-invite { display: flex; padding: 2px 14px 8px; }
   .home-invite > :not(.home-places) { display: none; }
+  /*
+   * 橫躺只有三百多 px 高：去處用跟手機一樣的小塊（圖示疊在名字上面），七個排得進一行；
+   * 字卡也縮一號，不然一張 260px 的字卡在這個高度只看得到上面一截。
+   */
+  .home-places { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 6px; flex: 1 1 100%; margin-left: 0; }
+  .place { min-width: 0; min-height: 48px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
+  .place small { display: none; }
+  .place b { font-size: 13px; white-space: nowrap; }
+  .place-icon { width: 28px; height: 28px; font-size: 19px; border-radius: 10px; }
+  .quests { padding-bottom: 4px; }
+  .word-cards > .card { width: 118px; height: 186px; }
+  .card-char { font-size: 54px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
