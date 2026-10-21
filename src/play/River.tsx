@@ -52,6 +52,12 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
   // 指定的那一位只算這一趟。清在掛載後，不是 useState 的初始值裡——
   // StrictMode 會把初始值算兩次，在那裡清會讓第二次拿不到
   useEffect(() => forgetCrossRequest, [])
+  /**
+   * 這一趟是為了什麼：「小老鼠想要起司！」。對岸那個東西本來就畫在那裡，
+   * 但他讀不到那幾個字——十八位夥伴各有一句，同一個玩法換一位就換一個理由。
+   * 句子的字面在 shared/voice-lines.mjs 的 PARTNER_WANTS（音檔先做好），測試會擋住兩邊對不上。
+   */
+  const wish = `${hero.name}想要${hero.want}！`
   const [at, setAt] = useState(0)
   const [phase, setPhase] = useState<Phase>('ready')
   /** 這一步已經提示過了（算沒自己認出來） */
@@ -132,7 +138,7 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
   // 一趟開始：主角在岸上說要過河，再開始第一步
   useEffect(() => {
     if (steps.length < 2) return
-    preloadVoice([FIXED_LINES.riverStart, FIXED_LINES.riverArrive, FIXED_LINES.riverRecap, FIXED_LINES.riverPerfect,
+    preloadVoice([wish, FIXED_LINES.riverArrive, FIXED_LINES.riverRecap, FIXED_LINES.riverPerfect,
       ...steps.flatMap((s) => [LINES.riverJump(s.char), s.char, LINES.feedNotThis(s.char)])])
     recorded.current = new Set()
     setAt(0)
@@ -141,8 +147,8 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
     setSunk([])
     setMissed(false)
     setPhase('ready')
-    say(FIXED_LINES.riverStart, 0.8)
-    later(() => start(steps, 0), lasts(FIXED_LINES.riverStart) + 300)
+    say(wish, 0.8)
+    later(() => start(steps, 0), lasts(wish) + 300)
     return () => { clear(); stopSpeech() }
   }, [steps])
 

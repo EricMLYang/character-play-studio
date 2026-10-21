@@ -120,6 +120,12 @@ test('指定誰來過河：畫面上說「牠會在河邊等你」，就要真�
   forgetCrossRequest()
 })
 
+test('每一位夥伴的「想要什麼」都先做好音檔了', async () => {
+  const { PARTNER_WANTS } = await import('../shared/voice-lines.mjs')
+  // 畫面上組的是 `${name}想要${want}！`；對不上的話那句會退回瀏覽器朗讀，每台裝置聲音都不一樣
+  assert.deepEqual(PARTNERS.map((p) => `${p.name}想要${p.want}！`), PARTNER_WANTS)
+})
+
 test('每一位夥伴都有名字、對岸的東西，而且不重複', () => {
   assert.equal(new Set(PARTNERS.map((p) => p.id)).size, PARTNERS.length)
   assert.equal(new Set(PARTNERS.map((p) => p.goal)).size, PARTNERS.length, '對岸的東西不重複，不然看起來像同一關')

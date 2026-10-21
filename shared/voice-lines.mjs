@@ -42,7 +42,6 @@ export const FIXED_LINES = {
   feedMagic: '變！',
   feedRainbow: '我變成彩虹怪獸了！',
   /** 跳石頭過河：出發、上岸、把跳對的字唸一遍。對岸有什麼用圖示表示，不唸出來（他還不會讀） */
-  riverStart: '我要過河！',
   riverArrive: '過河了！',
   riverRecap: '我跳對了這些字！',
   /**
@@ -95,6 +94,20 @@ export const FIXED_LINES = {
   puzzlePicture: '哪一張圖是這個詞？',
   puzzlePerfect: '全部自己拼出來了！好厲害！',
 }
+
+/**
+ * 跳石頭過河一開始那句「誰想要什麼」：十八位夥伴各一句，說清楚這一趟是為了什麼
+ * （對岸那個東西本來就畫在那裡，但他讀不到「小老鼠想要起司」這幾個字）。
+ *
+ * 這張表是 src/play/partners.ts 的 name 與 want 組出來的字面；
+ * 放在這裡是因為音檔要先做好（server/voice.mjs 只看得到 shared/）。
+ * 兩邊對不上的話 tests/river-crossing.test.mjs 會擋下來。
+ */
+export const PARTNER_WANTS = [
+  '楊捷睿想要賽車！', '小老鼠想要起司！', '大怪獸想要蛋糕！', '機器人想要電池！', '海盜想要寶藏！', '恐龍想要大骨頭！',
+  '浣熊想要西瓜！', '小豬想要蘋果！', '太空人想要火箭！', '披風英雄想要星星！', '忍者想要飯糰！', '警長想要獎盃！',
+  '鯊魚想要小魚！', '勇士想要盾牌！', '消防員想要消防車！', '外星人想要飛碟！', '小汽車想要加油！', '積木人想要積木！',
+]
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */
 export function linesForEntry(entry) {

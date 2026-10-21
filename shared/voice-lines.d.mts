@@ -9,10 +9,11 @@ export const LINES: {
   puzzleAll: (char: string) => string
   riverJump: (char: string) => string
 }
-export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverStart' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast' | 'spyRecap' | 'spyPerfect'
+export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast' | 'spyRecap' | 'spyPerfect'
   | 'nudgeFirst' | 'nudgeToday' | 'nudgeLab' | 'nudgeTrain' | 'nudgePuzzle' | 'nudgeMore'
   | 'nudgeFeedDue' | 'nudgeRiverDue' | 'nudgeChest' | 'nudgeStars' | 'nudgeNearly'
   | 'nudgeDoWatch' | 'nudgeDoWrite' | 'nudgeDoRecall' | 'nudgeDoPuzzle' | 'nudgeDoBrew'
   | 'labHello' | 'trainHello' | 'chestOpen' | 'crownFull' | 'questsDone'
   | 'movedIn' | 'movedGrow' | 'movedCrown' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
+export const PARTNER_WANTS: string[]
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]
