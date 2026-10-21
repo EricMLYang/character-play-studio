@@ -137,3 +137,17 @@ test('every finale shows up once before any repeats, and never twice in a row', 
   const fixed = new Set(Object.values(FIXED_LINES))
   for (const id of FINALE_IDS) for (const line of [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]) assert.ok(fixed.has(line), line)
 })
+
+test('長得像的字也包含共用偏旁的（蜂／蝶、河／湯）：拆字表看不到，靠筆順比對那張表', async () => {
+  const { ALIKE } = await import('../src/play/alike.ts')
+  // 這張表是 npm run alike 從筆順資料算出來的，這裡確認它真的被 looksAlike 用到
+  assert.ok(ALIKE.size > 50, '表裡應該有一批字')
+  assert.equal(looksAlike('蜂', '蝶'), true, '左邊都是虫，但「虫」不在字庫，拆字表看不到')
+  assert.equal(looksAlike('蝶', '蜂'), true, '順序反過來一樣')
+  assert.equal(looksAlike('河', '湯'), true)
+  assert.equal(looksAlike('火', '水'), false, '長得不像的字不受影響')
+
+  // 挑干擾的字時真的會避開
+  const decoy = pickDecoy('蜂', ['蝶', '火'], ['蝶', '火'], () => 0)
+  assert.equal(decoy, '火')
+})

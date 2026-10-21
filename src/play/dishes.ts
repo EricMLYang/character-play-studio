@@ -1,5 +1,6 @@
 import type { Progress } from '../types'
 import { partsOf } from './parts'
+import { ALIKE } from './alike'
 
 /**
  * 餵大怪獸：怪獸唸一個字，孩子從兩張「只有字、沒有圖」的卡片裡找出來餵牠。
@@ -28,10 +29,16 @@ export function pickDishes(pool: string[], progress: Progress, today: string, ra
   return easiest === undefined ? [] : [easiest, ...shuffle(picked.filter((c) => c !== easiest), random)]
 }
 
-/** 兩個字長得像不像：其中一個藏在另一個裡面，或有共同的部件（口 跟 日、目 跟 田）。 */
+/**
+ * 兩個字長得像不像。兩種來源：
+ * 1. 拆字表（data/parts.json）：其中一個藏在另一個裡面，或有共同的部件（口 跟 日、目 跟 田）
+ * 2. 筆順比對（alike.ts，npm run alike 產生）：前幾筆幾乎一樣，也就是共用一個偏旁（蜂 跟 蝶、河 跟 湯）
+ *    拆字表只記得到「部件本身也在字庫裡」的關係，「虫」「氵」不在字庫，就只能靠這張表
+ */
 export function looksAlike(a: string, b: string) {
   const pa = partsOf(a).map((p) => p.char), pb = partsOf(b).map((p) => p.char)
-  return pa.includes(b) || pb.includes(a) || pa.some((c) => pb.includes(c))
+  return pa.includes(b) || pb.includes(a) || pa.some((c) => pb.includes(c)) ||
+    ALIKE.has(a < b ? a + b : b + a)
 }
 
 /** 另一張卡：長得不像目標字的字，優先挑他也看過的（認得的話，用刪去法也算會）。 */
