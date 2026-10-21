@@ -5,11 +5,11 @@ import { nextPartner } from './partners'
 /**
  * 首頁上那隻角色現在要跟他說什麼。
  *
- * 六歲打開 app 不會自己想「今天該做什麼」：字卡攤開兩百多張，六個遊戲一排按鈕，
+ * 六歲打開 app 不會自己想「今天該做什麼」：字卡攤開兩百多張，七個遊戲一排按鈕，
  * 他就點最熟的那個。所以讓一隻角色站在首頁，看他的紀錄挑一件現在最值得做的事說出來，
  * 按一下直接過去。（他的紀錄裡魔法鍋跟字火車是 0 次——不是不好玩，是從來沒被帶進去過。）
  *
- * 規則有先後：今天還沒開始 → 沒玩過的地方 → 該複習了 → 快滿星的字 → 不然就講他的星星。
+ * 規則有先後：今天還沒開始 → 沒玩過的地方 → 該複習了 → 快開到寶箱 → 快滿星的字 → 不然就講他的星星。
  * 每一條都只用已經在記的紀錄算，沒有新的進度欄位。
  */
 export type Nudge = {
@@ -51,6 +51,7 @@ const UNTRIED: { id: string; played: (p: Progress) => boolean; text: string; cta
 ]
 
 export function pickNudge(
+  /** 孩子端看得到的字（只用來確認推薦的字還在字庫裡） */
   library: CharEntry[],
   progress: Progress,
   stars: Map<string, number>,
@@ -72,7 +73,6 @@ export function pickNudge(
   if (enough) {
     for (const place of UNTRIED) {
       if (place.played(progress)) continue
-      if (place.id === 'train' && library.filter((c) => watched[c.char]).length < 2) continue
       return { ...WHO[place.id], text: place.text, cta: place.cta, go: place.id }
     }
   }
