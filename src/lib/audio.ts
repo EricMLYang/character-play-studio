@@ -83,8 +83,23 @@ function speak(text: string, rate: number, volume: number) {
   speechSynthesis.speak(u)
 }
 
-/** 唸一句。rate 只影響後援的系統朗讀（音檔的速度是做好的）。 */
-export function say(text: string, rate = 0.75, volume = 1) {
+/**
+ * 慶祝畫面（寶箱、加冕）蓋住整個畫面的時候，背後那個遊戲還活著、計時器照跑，
+ * 它排好的下一句會蓋掉慶祝的那句（say 一開頭就 stopSpeech）。
+ * 蓋上去的畫面先 holdSpeech()，背後的 say 就變成不出聲；自己要講話時用 over=true 繞過。
+ * 回傳解除函式，關掉的時候呼叫。
+ */
+let held = 0
+export function holdSpeech() {
+  held += 1
+  stopSpeech()
+  let done = false
+  return () => { if (!done) { done = true; held = Math.max(0, held - 1) } }
+}
+
+/** 唸一句。rate 只影響後援的系統朗讀（音檔的速度是做好的）。over：蓋在最上面的那一層才用。 */
+export function say(text: string, rate = 0.75, volume = 1, over = false) {
+  if (held && !over) return
   stopSpeech()
   if (items[text]) playFile(text, volume)
   else speak(text, rate, volume)
@@ -105,11 +120,11 @@ export function sayRepeat(text: string, times = 3, gap = 1100, volume = 1) {
  * 一句接一句唸完，回傳取消函式。
  * 帶數字或帶字的句子做不出音檔，拆成幾句固定句子＋那個字就都有音檔可以用（首頁那隻角色就是這樣講話的）。
  */
-export function sayAll(texts: string[], rate = 0.75, gap = 300) {
+export function sayAll(texts: string[], rate = 0.75, gap = 300, over = false) {
   const timers: number[] = []
   let at = 0
   for (const text of texts) {
-    timers.push(window.setTimeout(() => say(text, rate), at))
+    timers.push(window.setTimeout(() => say(text, rate, 1, over), at))
     // 沒有音檔的句子用字數估，下一句才不會蓋掉上一句
     at += ((voiceDuration(text) ?? 0.3 * [...text].length + 0.5) * 1000) + gap
   }

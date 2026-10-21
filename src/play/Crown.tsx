@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { boom, cheer, magic, stash } from '../lib/sfx'
-import { preloadVoice, sayAll, stopSpeech } from '../lib/audio'
+import { holdSpeech, preloadVoice, sayAll } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { Confetti } from './ui'
 
@@ -29,8 +29,8 @@ export default function Crown({ char, stars, onClose }: {
   const voice = useRef<(() => void) | null>(null)
 
   useEffect(() => {
-    // 加冕可能在遊戲進行到一半跳出來，先把正在唸的那句停掉
-    stopSpeech()
+    // 加冕可能在遊戲進行到一半跳出來：背後那個遊戲還活著、計時器照跑，先把它的聲音壓下來
+    const release = holdSpeech()
     preloadVoice([char, FIXED_LINES.crownFull])
     magic()
     const timers = Array.from({ length: stars }, (_, i) =>
@@ -39,9 +39,9 @@ export default function Crown({ char, stars, onClose }: {
       setOn(true)
       boom()
       cheer()
-      voice.current = sayAll([char, FIXED_LINES.crownFull], 0.85)
+      voice.current = sayAll([char, FIXED_LINES.crownFull], 0.85, 300, true)
     }, stars * STAR_MS + BEFORE_HAT))
-    return () => { timers.forEach(clearTimeout); voice.current?.() }
+    return () => { timers.forEach(clearTimeout); voice.current?.(); release() }
   }, [char, stars])
 
   return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Partner } from './partners'
 import { boom, cheer, magic } from '../lib/sfx'
-import { preloadVoice, say, stopSpeech } from '../lib/audio'
+import { holdSpeech, preloadVoice, say } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { Confetti } from './ui'
 
@@ -17,13 +17,13 @@ export default function Chest({ partner, onClose }: { partner: Partner; onClose:
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    // 寶箱可能在遊戲進行到一半時跳出來（剛好集滿）：先把遊戲正在唸的那句停掉，
-    // 不然箱子在抖，背後還在唸「跳到火！」
-    stopSpeech()
+    // 寶箱可能在遊戲進行到一半時跳出來（剛好集滿）：那個遊戲還活著、計時器照跑，
+    // 不壓下來的話箱子在抖、背後還在唸「跳到火！」，而且它會蓋掉「哇！新朋友來了！」
+    const release = holdSpeech()
     preloadVoice([FIXED_LINES.chestOpen])
     magic()
-    const t1 = setTimeout(() => { setOpen(true); boom(); cheer(); say(FIXED_LINES.chestOpen, 0.85) }, SHAKE_MS)
-    return () => clearTimeout(t1)
+    const t1 = setTimeout(() => { setOpen(true); boom(); cheer(); say(FIXED_LINES.chestOpen, 0.85, 1, true) }, SHAKE_MS)
+    return () => { clearTimeout(t1); release() }
   }, [partner.id])
 
   return (
