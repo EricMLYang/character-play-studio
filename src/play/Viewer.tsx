@@ -156,7 +156,7 @@ export default function Viewer({
   const speechVolume = 0.7
 
   return (
-    <div ref={root} tabIndex={-1} className="viewer" role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
+    <div ref={root} tabIndex={-1} className={'viewer' + (trace || (bare && phase === 'write') ? ' tracing' : '')} role="dialog" aria-modal="true" aria-label={`看「${entry.char}」`}
       style={{ ['--hue' as any]: hueVar(hueOf(entry, hues)) }}>
       <header className="viewer-bar">
         <div className="viewer-exits">

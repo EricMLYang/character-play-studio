@@ -274,6 +274,11 @@
   .nav-btn.write { flex: 1 1 100%; order: -1; max-width: none; }
   /* 三張放大的詞卡在 390px 排不進一行；橫向滑動比疊成四行好，畫面要留給影片 */
   .band { flex-direction: column; align-items: stretch; gap: 8px; padding: 0 14px 9px; }
+  /*
+   * 描字的時候把語詞那一條收起來：手機上它是直排的，三張詞卡加「躲在」佔掉快三百 px，
+   * 描字格子跟「重新描」就被推到底下那排按鈕上面。他正在描字，那一條等一下按「回去看」就回來了。
+   */
+  .viewer.tracing .band { display: none; }
   /* max-width 一定要寫：column flex 的 stretch 會照內容把這一列撐成 670px，
      不夾住它就不會變成捲動容器，而是整條溢出畫面外 */
   .band-words { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scroll-snap-type: x proximity;
@@ -301,10 +306,19 @@
   .viewer-nav { padding-top: 6px; padding-bottom: 8px; }
   .nav-btn.write { flex: 1 1 0; order: 0; max-width: 240px; }
   .band { display: none; }
-  .strokes { gap: 6px; }
-  .stroke-canvas { width: min(30vh, 34vw); height: min(30vh, 34vw); }
-  .stroke-dots { max-width: min(30vh, 34vw); }
-  .stroke-tip { font-size: 15px; }
+  /*
+   * 橫躺：直排的話格子只剩一百多 px，六歲用手指描不動。
+   * 橫的時候寬度有的是，改成左右排（格子吃掉整個高度，點點、提示、重描擺在右邊）。
+   */
+  /* 三個 row 要寫明：沒有明確的 row 的話，格子的 grid-row: 1 / -1 會縮成只佔一行，
+     右邊那一欄就被推到格子下面，整個蓋到底下那排按鈕 */
+  .strokes { display: grid; grid-template-columns: auto minmax(0, 190px); grid-template-rows: auto auto auto;
+    align-items: center; justify-items: center; column-gap: 18px; row-gap: 6px; }
+  .stroke-canvas { grid-column: 1; grid-row: 1 / span 3; width: min(60vh, 34vw); height: min(60vh, 34vw); }
+  /* 點點會跟右上角的小故事泡泡疊在一起，而且提示那行已經寫了「還有 4 筆」 */
+  .stroke-dots { display: none; }
+  .stroke-tip { grid-column: 2; grid-row: 1 / span 2; font-size: 15px; }
+  .stroke-again { grid-column: 2; grid-row: 3; }
   .hook { font-size: 13px; padding: 6px 12px; }
 }
 
