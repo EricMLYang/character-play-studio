@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Partner } from './partners'
 import { boom, cheer, magic } from '../lib/sfx'
+import { stopSpeech } from '../lib/audio'
 import { Confetti } from './ui'
 
 /**
@@ -15,6 +16,9 @@ export default function Chest({ partner, onClose }: { partner: Partner; onClose:
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
+    // 寶箱可能在遊戲進行到一半時跳出來（剛好集滿）：先把遊戲正在唸的那句停掉，
+    // 不然箱子在抖，背後還在唸「跳到火！」
+    stopSpeech()
     magic()
     const t1 = setTimeout(() => { setOpen(true); boom(); cheer() }, SHAKE_MS)
     return () => clearTimeout(t1)

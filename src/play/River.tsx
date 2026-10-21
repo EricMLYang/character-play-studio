@@ -14,7 +14,7 @@ import { Confetti, SubBar } from './ui'
  * 其他遊戲都是「答對一題、再答一題」，這裡多了一件事：看得到自己走到哪、還有多遠。
  * 五顆石頭跳完就上岸拿到東西，那是整趟的獎勵，不是每一題的獎勵。
  *
- * 考的能力跟餵大怪獸一樣（聽音認字），規則也共用（river.ts → dishes.ts），
+ * 考的能力跟餵大怪獸一樣（聽音認字），規則也共用（crossing.ts → dishes.ts），
  * 所以同一個字的記住程度只有一套，在哪個遊戲認出來都算數。
  */
 type Phase = 'ready' | 'ask' | 'oops' | 'hop' | 'arrive' | 'done'
