@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { boom, cheer, magic, stash } from '../lib/sfx'
 import { preloadVoice, sayAll, stopSpeech } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
@@ -25,6 +25,8 @@ export default function Crown({ char, stars, onClose }: {
 }) {
   const [lit, setLit] = useState(0)
   const [on, setOn] = useState(false)
+  /** 正在唸的那串句子：按「太棒了！」關掉的時候要跟著停，不然會蓋在下一個畫面上 */
+  const voice = useRef<(() => void) | null>(null)
 
   useEffect(() => {
     // 加冕可能在遊戲進行到一半跳出來，先把正在唸的那句停掉
@@ -37,9 +39,9 @@ export default function Crown({ char, stars, onClose }: {
       setOn(true)
       boom()
       cheer()
-      sayAll([char, FIXED_LINES.crownFull], 0.85)
+      voice.current = sayAll([char, FIXED_LINES.crownFull], 0.85)
     }, stars * STAR_MS + BEFORE_HAT))
-    return () => timers.forEach(clearTimeout)
+    return () => { timers.forEach(clearTimeout); voice.current?.() }
   }, [char, stars])
 
   return (

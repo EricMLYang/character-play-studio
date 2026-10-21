@@ -61,7 +61,10 @@ export default function Home({
   /** 骰子正在轉（轉完才開那個字） */
   const [rolling, setRolling] = useState(false)
   // 角色那句話先抓下來，點喇叭就出聲（帶數字的句子沒有音檔，會退回瀏覽器朗讀）
-  useEffect(() => { preloadVoice([nudge.text]) }, [nudge.text])
+  useEffect(() => { preloadVoice(nudge.say) }, [nudge.say])
+  /** 那隻角色正在唸的那串句子。離開首頁要停掉，不然他已經進遊戲了還在背後講話 */
+  const voice = useRef<(() => void) | null>(null)
+  useEffect(() => () => voice.current?.(), [])
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   const card = (c: CharEntry, hue: number, i: number) => {
@@ -145,7 +148,7 @@ export default function Home({
             </span>
           </button>
           {/* 他還不會讀字：這句話要唸得出來才有用 */}
-          <button className="buddy-listen" onClick={() => sayAll(nudge.say, 0.85)} aria-label="再聽一次">🔊</button>
+          <button className="buddy-listen" onClick={() => { voice.current?.(); voice.current = sayAll(nudge.say, 0.85) }} aria-label="再聽一次">🔊</button>
         </div>
         {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
         <div className="home-places">
