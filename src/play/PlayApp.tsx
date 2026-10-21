@@ -6,6 +6,8 @@ import { browseCharacters } from '../../shared/selection.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
 import { magic } from '../lib/sfx'
+import { say } from '../lib/audio'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
@@ -139,7 +141,8 @@ export default function PlayApp() {
     }
     if (questsDone && !was.quests) {
       magic()
-      setPop({ key: Date.now(), icon: '🎉', text: '今天三件事都做完了！', big: true })
+      say(FIXED_LINES.questsDone, 0.85)
+      setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.questsDone, big: true })
       return
     }
     const got = [...stars].find(([char, n]) => n > (was.stars.get(char) || 0))

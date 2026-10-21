@@ -55,6 +55,9 @@ export const FIXED_LINES = {
   nudgeTrain: '字火車可以自己接一個詞，你還沒接過！',
   nudgePuzzle: '詞語拼圖要把字補進詞裡，你還沒拼過！',
   nudgeMore: '再多看幾個字，遊戲裡就有更多字可以玩！',
+  /** 開寶箱、三件事做完：兩個最大的時刻，他讀不到字，要唸出來 */
+  chestOpen: '哇！新朋友來了！',
+  questsDone: '今天的三件事都做完了！',
   /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點 */
   guessWho: '猜猜我是誰？',
   guessFast: '哇！好厲害！',
