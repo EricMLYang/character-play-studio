@@ -11,6 +11,7 @@
     "parts": "node scripts/parts.mjs",
     "alike": "node scripts/alike.mjs",
     "dev:test": "node scripts/test-server.mjs",
+    "play": "node scripts/play.mjs",
     "preview": "vite preview",
     "prompt": "node scripts/prompt.mjs",
     "anim": "node scripts/anim-candidates.mjs",

@@ -366,7 +366,9 @@ server/progress.mjs      progress.json 的讀寫、格式升級、存一筆紀�
 3. 有固定台詞：`shared/voice-lines.mjs` 加句型並放進 `linesForEntry`，音檔會自動預先做好。
 4. `src/play/games.tsx` 的 `GAMES` 加一筆，首頁就多一顆入口按鈕，網址是 `#/<id>`。
 5. 規則的測試放 `tests/`（參考 `magic-pot.test.mjs`、`word-puzzle.test.mjs`）。
-6. 在瀏覽器試玩前先備份 `data/progress.json`：孩子端的紀錄送不出去時會留在瀏覽器暫存，之後任何一次開頁都會補送進真實紀錄。
+6. **試玩用 `npm run play`**，不要直接開 `npm run dev` 玩：它把儲存根目錄換成暫存資料夾（字庫、影片、筆順、音檔都還是真的那一份，只有寫入進暫存），
+   Ctrl+C 之後整個刪掉。直接玩的話每看完一支影片、每答對一題都會寫進 `data/progress.json`——那是孩子真的學習紀錄。
+   擋 fetch 沒有用：孩子端送不出去的紀錄會留在瀏覽器暫存，下次任何一次開頁都會補送。
 
 ## 驗證
 
@@ -377,6 +379,8 @@ npm run strokes   # 手動重抽筆順（平常 Studio 增刪、開放字時會�
 npm run parts     # 手動重算字的家族（改了 SKIP 排除表之後；第一次需要連網）
 npm run alike     # 重算「長得像的字」（字庫加字之後）
 npm run dev:test  # http://127.0.0.1:5181/studio，獨立測試字庫，Ctrl+C 後清理
+npm run play      # http://127.0.0.1:5199/ 試玩孩子端，但不會寫進孩子的紀錄
+npm run play -- --empty   # 同上，但一筆紀錄都沒有（看第一次打開的樣子）
 ```
 
 本機操作請用 `npm run dev`；`build` 只檢查與產生前端檔案，`preview` 未提供檔案操作 API。
