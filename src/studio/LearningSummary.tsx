@@ -1,5 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { summarize } from './summary'
+import { allDone, todayQuests } from '../play/today'
 
 /**
  * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸／跳石頭過河／小偵探，三個記同一種紀錄）、
@@ -12,6 +13,8 @@ export default function LearningSummary({ progress, characters, onPick }: {
   onPick: (char: string) => void
 }) {
   const s = summarize(progress, characters)
+  // 孩子端首頁的「今天的三件事」：家長看得到他還差什麼，才接得上話
+  const quests = todayQuests(progress)
   const tiles = [
     { label: '看過的字', value: s.watched, note: s.watchedToday ? `今天看了 ${s.watchedToday} 個` : '今天還沒看' },
     { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸／過河／小偵探）` : '今天沒有要複習的' },
@@ -24,6 +27,18 @@ export default function LearningSummary({ progress, characters, onPick }: {
     <div className="st-learn">
       <h2 className="st-learn-title">孩子的學習小結</h2>
       <p className="st-dim">從孩子端的遊戲紀錄整理。要編輯字卡，從左邊選一個字。</p>
+
+      {quests.length > 1 && (
+        <p className="st-quests">
+          <b>今天的三件事：</b>
+          {quests.map((q) => (
+            <span key={q.id} className={q.done >= q.need ? 'done' : ''}>
+              {q.done >= q.need ? '✅' : q.icon} {q.label}（{q.done}/{q.need}）
+            </span>
+          ))}
+          {allDone(quests) && <span className="done">🎉 都做完了</span>}
+        </p>
+      )}
 
       <div className="st-tiles">
         {tiles.map((t) => (

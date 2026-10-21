@@ -176,6 +176,11 @@
 /* 孩子的學習小結（沒選字時的主區） */
 .st-learn { max-width: 920px; }
 .st-learn-title { margin: 0 0 4px; font-size: 22px; }
+/* 孩子端首頁那三件事，讓家長接得上話（「你還差一個！」） */
+.st-quests { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 14px 0 0; font-size: 13px; color: var(--dim); }
+.st-quests b { color: inherit; }
+.st-quests span.done { color: #1a7f37; font-weight: 600; }
+
 .st-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0; }
 .st-tile { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
 .st-tile-label { font-size: 13px; color: var(--dim); }
