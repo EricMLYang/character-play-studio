@@ -94,7 +94,8 @@ export function wordsFor(entry: CharEntry) {
  * - 一輪裡每個字只出一次，不會整輪都在找同一個字；同一個詞也只出一次（火山同時是火和山的詞）
  * 第一題放最有把握的字暖身（不放複習的詞），而且只放兩張卡（做得很好的時候照樣三張）。
  */
-export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, pictures = PICTURE_ROUNDS): PuzzleItem[] {
+/** want：他為了哪個字來的（字卡上點「🧩 拼好一個詞 → 去」），第一題就出那個字的詞 */
+export function pickPuzzles(library: CharEntry[], progress: Progress, random = Math.random, n = PIECES, pictures = PICTURE_ROUNDS, want?: string): PuzzleItem[] {
   const level = puzzleLevel(progress)
   const cards = level === 'easy' ? 2 : 3
   const tricky = level === 'hard'
@@ -118,7 +119,8 @@ export function pickPuzzles(library: CharEntry[], progress: Progress, random = M
   // 其他的：有新詞的字先；同樣有新詞的，看越多次的越前面，但打散一點，不要每次都同一批
   const ranked = shuffle(choices.filter((c) => !c.review), random).sort((a, b) => Number(b.fresh) - Number(a.fresh) || seen(b.entry) - seen(a.entry))
   const top = ranked.slice(0, n * 2)
-  const warm = top[0] ?? reviews[0]
+  // 他指名要拼的字排第一題（那個字沒有畫得出來的詞就照原本的）
+  const warm = (want ? choices.find((c) => c.entry.char === want) : undefined) ?? top[0] ?? reviews[0]
   // 複習的先排進去，再補其他的；畫面用詞當題目的編號，同一個詞不能出兩次
   const used = new Set(warm ? [warm.word.text] : [])
   const rest: typeof choices = []

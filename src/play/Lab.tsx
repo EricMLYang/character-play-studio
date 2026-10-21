@@ -3,7 +3,7 @@ import type { CharEntry } from '../types'
 import { preloadVoice, say, stopSpeech } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { bubble, plop, poof, tap } from '../lib/sfx'
-import { hidesIn } from './parts'
+import { hidesIn, partsOf } from './parts'
 import { brew, recipes, type Brew } from './brew'
 import { CharArt } from './Glyphs'
 import { sceneFor } from './scenes'
@@ -13,15 +13,26 @@ import { SubBar, emojiArt, hueOf, hueVar } from './ui'
  * 魔法鍋：丟一兩個字進去攪一攪，看會變出什麼。
  * 一個字會變成「藏著它的字」，重複丟同一個字會一直發現新的；兩個字有配方或好笑的反應。
  */
-export default function Lab({ library, hues, found, onDiscover, onPick, onBack }: {
+export default function Lab({ library, hues, found, want, onDiscover, onPick, onBack }: {
   library: CharEntry[]
   hues: Map<string, number>
   found: Record<string, string>
+  /**
+   * 他為了哪個字來的（字卡上的「🧪 魔法鍋變出來 → 去」）：
+   * 鍋子裡先放好那個字的部件，攪一攪就會變出他要的那個字。
+   * 不這樣做的話他會面對兩百多個字的貨架，根本不知道要丟哪一個。
+   */
+  want?: string
   onDiscover: (char: string) => void
   onPick: (char: string) => void
   onBack: () => void
 }) {
-  const [picked, setPicked] = useState<string[]>([])
+  // 他指名要變的字：鍋子裡先放好它的部件，第一次攪就給他那個字（攪完就不算了）
+  const wanted = useRef(want)
+  const [picked, setPicked] = useState<string[]>(() => {
+    const part = want ? partsOf(want).find((p) => library.some((c) => c.char === p.char)) : undefined
+    return part ? [part.char] : []
+  })
   const [stirring, setStirring] = useState(false)
   const [result, setResult] = useState<{ brew: Brew; picked: string[]; fresh: boolean } | null>(null)
   const timer = useRef<number | undefined>(undefined)
@@ -58,7 +69,8 @@ export default function Lab({ library, hues, found, onDiscover, onPick, onBack }
 
   const stir = () => {
     if (!picked.length || stirring) return
-    const made = brew(picked, known, found, (c) => sceneFor(byChar.get(c)))
+    const made = brew(picked, known, found, (c) => sceneFor(byChar.get(c)), Math.random, wanted.current)
+    wanted.current = undefined
     const fresh = made.kind === 'make' && !found[made.char]
     setStirring(true)
     bubble()

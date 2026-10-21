@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { taiwanDay, starIndex } from '../../shared/domain.mjs'
@@ -176,7 +176,13 @@ export default function PlayApp() {
   const startRide = useCallback((text: string) => go({ screen, ride: text }), [go, screen])
   /** 哪些新遊戲他已經進去過（首頁的 🆕 要不要亮）。放 state 才會在他進去之後馬上熄掉 */
   const [seen, setSeen] = useState<string[]>(() => GAMES.filter((g) => g.fresh && hasSeen(g.id)).map((g) => g.id))
-  const toScreen = (id: string) => { markSeen(id); setSeen((s) => (s.includes(id) ? s : [...s, id])); go({ screen: id }) }
+  /** 進一個遊戲：記下他來過（🆕 熄掉），want 是「為了哪個字來的」（字卡上的「去 →」） */
+  const enter = (id: string, want?: string, replace = false) => {
+    markSeen(id)
+    setSeen((s) => (s.includes(id) ? s : [...s, id]))
+    go({ screen: id, ...(want ? { want } : {}) }, { replace })
+  }
+  const toScreen = (id: string) => enter(id)
 
   // 選擇困難時的出口：優先給還沒看過的字，都看過了就在目前清單裡隨機
   const surprise = useCallback(() => {
@@ -199,14 +205,18 @@ export default function PlayApp() {
   const index = items.findIndex((c) => c.char === active)
   const ctx: GameContext = {
     library: all, groups, hues, stars: starTotal, savedWords: mine.map((g) => g.key), progress, record, open, ride: startRide,
-    back: () => back({ screen: 'home' }), go: toScreen,
+    back: () => back({ screen: 'home' }), go: toScreen, want: route.want,
   }
 
   return (
     <div className="play">
       <Blobs />
       <div className="screen" ref={home}>
-        {game ? game.render(ctx) : (
+        {/*
+          key 帶上 want：他已經站在這個遊戲裡、從字卡點「去 →」進來的時候，
+          畫面沒有換、遊戲不會重新掛載，第一題就不會換成他要的那個字。
+        */}
+        {game ? <Fragment key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</Fragment> : (
           <Home
             items={items}
             groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
@@ -258,7 +268,7 @@ export default function PlayApp() {
           onComplete={(e, id) => record({ char: e.char, id })}
           onTraced={(e, strokes) => record({ kind: 'trace', char: e.char, strokes })}
           onTown={() => go({ screen: 'town' }, { replace: true })}
-          onGame={(id) => go({ screen: id }, { replace: true })}
+          onGame={(id, want) => enter(id, want, true)}
         />
       )}
       {ride && (

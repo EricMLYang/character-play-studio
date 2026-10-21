@@ -41,8 +41,8 @@ export default function Viewer({
   onComplete: (e: CharEntry, id: string) => void
   onTraced: (e: CharEntry, strokes: number[][]) => void
   onTown: () => void
-  /** 缺的那顆星要去的遊戲（games.tsx 的 id） */
-  onGame: (id: string) => void
+  /** 缺的那顆星要去的遊戲（games.tsx 的 id），第二個參數是「為了哪個字去的」 */
+  onGame: (id: string, want?: string) => void
 }) {
   const [broken, setBroken] = useState<Broken>({})      // 檔案壞了 → 往下一種素材退
   const [imageReady, setImageReady] = useState(false)   // 尺寸未知前先不顯示，避免先閃出小框
@@ -273,7 +273,7 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
   progress: Progress
   /** 孩子端看得到的字：決定魔法鍋變不變得出這個字 */
   known: Set<string>
-  onGame: (id: string) => void
+  onGame: (id: string, want?: string) => void
   /** 直接切到描字（已經在描字就不給，按了也沒事發生） */
   onWrite?: () => void
 }) {
@@ -304,7 +304,7 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
                   <span className="deed-icon" aria-hidden>{d.icon}</span>
                   <span className="deed-text"><b>{d.label}</b><small>{got[d.id] ? '拿到了！' : d.todo(entry.char)}</small></span>
                   {got[d.id] ? <span className="deed-star" aria-hidden>⭐</span>
-                    : d.where ? <button className="deed-go" onClick={() => { tap(); onGame(d.where!) }}>去 →</button>
+                    : d.where ? <button className="deed-go" onClick={() => { tap(); onGame(d.where!, entry.char) }}>去 →</button>
                     : d.id === 'write' && onWrite ? <button className="deed-go" onClick={() => { tap(); setOpen(false); onWrite() }}>來寫 →</button>
                     : <span className="deed-star off" aria-hidden>⭐</span>}
                 </li>

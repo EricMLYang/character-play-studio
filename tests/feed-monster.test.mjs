@@ -70,6 +70,19 @@ test('a round starts with what he knows best and mixes in at most two due review
   assert.ok(!dishes.includes('木'), 'not due and the round is already full')
   assert.deepEqual(pickDishes(['山'], progress, '2026-10-17'), ['山'])
   assert.deepEqual(pickDishes([], progress, '2026-10-17'), [])
+
+  // 字卡上點「自己認出來 → 去」：他要的是那個字的星星，第一道菜就出那個字
+  const wanted = pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5, '木')
+  assert.equal(wanted[0], '木', 'the character he came for goes first')
+  assert.equal(wanted.length, 5)
+  assert.equal(new Set(wanted).size, 5, 'still no repeats')
+  // 本來就排得到的字指名也不會變成兩次
+  const twice = pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5, '山')
+  assert.equal(twice[0], '山')
+  assert.equal(new Set(twice).size, twice.length)
+  // 沒看過的字大怪獸不吃：照原本的順序，不要硬塞
+  assert.deepEqual(pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5, '龍'),
+    pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5))
 })
 
 test('the other card never looks like the one he is looking for', () => {

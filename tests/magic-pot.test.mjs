@@ -27,6 +27,18 @@ const sceneOf = (char) => SCENE[char] || 'sparkle'
 const known = (chars) => new Set(chars)
 setParts(PARTS)
 
+test('coming in from a character card brews exactly the character he came for', () => {
+  const library = known('口日吃器犬')
+  // 口 躲在 日、吃、器 裡：平常給哪一個看骰子，指名了就給他指名的那個
+  for (const r of [0, 0.5, 0.99]) {
+    assert.equal(brew(['口'], library, {}, sceneOf, () => r, '器').char, '器')
+  }
+  // 已經變出來過的也給（他是為了那顆星星來的，還沒拿到才會點進來）
+  assert.equal(brew(['口'], library, { 器: 'x' }, sceneOf, () => 0, '器').char, '器')
+  // 指名的字這個部件變不出來：照原本的規則
+  assert.ok(['日', '吃', '器'].includes(brew(['口'], library, {}, sceneOf, () => 0, '明').char))
+})
+
 test('one character in the pot becomes a word it hides in, preferring ones not yet discovered', () => {
   const library = known('口日吃器犬')
   const first = brew(['口'], library, {}, sceneOf, () => 0)

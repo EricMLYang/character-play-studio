@@ -7,9 +7,16 @@ import { useCallback, useEffect, useState } from 'react'
  *   #/            首頁
  *   #/lab         魔法鍋
  *   #/lab?c=口    魔法鍋上面開著「口」
+ *   #/lab?w=睛    魔法鍋，而且他是為了「睛」那顆星星來的（字卡上的「去 →」）
  *   #/?ride=山木  首頁上面在坐「山木」字火車
  */
-export type Route = { screen: string; char?: string; ride?: string }
+export type Route = {
+  screen: string
+  char?: string
+  ride?: string
+  /** 他為了哪個字來的：那個遊戲的第一題就出這個字（games.tsx 的 GameContext.want） */
+  want?: string
+}
 
 export function parseRoute(hash: string): Route {
   const [path, query = ''] = hash.replace(/^#\/?/, '').split('?')
@@ -18,6 +25,7 @@ export function parseRoute(hash: string): Route {
     screen: decodeURIComponent(path) || 'home',
     ...(params.get('c') ? { char: params.get('c')! } : {}),
     ...(params.get('ride') ? { ride: params.get('ride')! } : {}),
+    ...(params.get('w') ? { want: params.get('w')! } : {}),
   }
 }
 
@@ -25,6 +33,7 @@ export function formatRoute(route: Route): string {
   const params = new URLSearchParams()
   if (route.char) params.set('c', route.char)
   if (route.ride) params.set('ride', route.ride)
+  if (route.want) params.set('w', route.want)
   const query = params.toString()
   return `#/${route.screen === 'home' ? '' : encodeURIComponent(route.screen)}${query ? `?${query}` : ''}`
 }

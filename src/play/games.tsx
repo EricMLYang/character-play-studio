@@ -23,6 +23,8 @@ import { knownCount } from './dishes'
  *    考的能力跟既有遊戲一樣就共用那一種紀錄（跳石頭過河與小偵探都記 recall，跟餵大怪獸同一份記住程度）
  * 4. 有固定台詞的話：shared/voice-lines.mjs 加句型，音檔就會預先做好。他還不會讀字，畫面上的話要唸得出來
  * 5. 在下面 GAMES 加一筆；剛做好的加 fresh: true，首頁入口會亮一顆 🆕（他進去過一次就不亮）
+ * 6. 如果這個遊戲是某一顆星星的來源（shared/domain.mjs 的 STAR_DEEDS.where）：接 ctx.want，
+ *    讓進來的第一題就出那個字
  */
 export type GameContext = {
   /** 孩子端看得到的字，照首頁的順序 */
@@ -46,6 +48,12 @@ export type GameContext = {
   back: () => void
   /** 去另一個遊戲（小鎮的夥伴那一排會用） */
   go: (id: string) => void
+  /**
+   * 他為了哪個字來的：字卡上點「還差這顆星星 → 去」進來時是那個字（#/<id>?w=<字>）。
+   * 有接的遊戲要讓**進來的第一題**出這個字——他要的是那一顆星星，進來卻考別的字就等於白跑一趟。
+   * 「再玩一次」就不算了（那時他已經在玩這個遊戲，不是為了那個字來的）。
+   */
+  want?: string
 }
 type Distribute<T> = T extends { id: string; at: string } ? Omit<T, 'id' | 'at'> & { id?: string; at?: string } : never
 export type NewEvent = Distribute<PlayEvent>
@@ -74,7 +82,7 @@ export const GAMES: Game[] = [
     id: 'lab', icon: '🧪', title: '魔法鍋',
     subtitle: () => '字會變成別的字',
     render: (ctx) => (
-      <Lab library={ctx.library} hues={ctx.hues} found={ctx.progress.lab || {}} onPick={ctx.open} onBack={ctx.back}
+      <Lab library={ctx.library} hues={ctx.hues} found={ctx.progress.lab || {}} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onDiscover={(char) => { if (!ctx.progress.lab?.[char]) ctx.record({ kind: 'discover', char }) }} />
     ),
   },
@@ -91,7 +99,7 @@ export const GAMES: Game[] = [
     id: 'feed', icon: '🍽️', title: '餵大怪獸',
     subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
     render: (ctx) => (
-      <Feed library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+      <Feed library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },
@@ -115,7 +123,7 @@ export const GAMES: Game[] = [
     id: 'puzzle', icon: '🧩', title: '詞語拼圖',
     subtitle: (p) => { const n = Object.keys(p.puzzles || {}).length; return n ? `收集了 ${n} 個詞` : '把詞拼起來' },
     render: (ctx) => (
-      <Puzzle library={ctx.library} hues={ctx.hues} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+      <Puzzle library={ctx.library} hues={ctx.hues} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onSolve={(word, char, ok) => ctx.record({ kind: 'puzzle', char, word, ok })} />
     ),
   },

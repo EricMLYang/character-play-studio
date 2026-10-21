@@ -4,7 +4,7 @@ import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
-import { BURST, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
+import { BURST, DISHES, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
@@ -36,9 +36,11 @@ type Served = { char: string; ok: boolean }
 let finaleBag: FinaleId[] = []
 let lastFinale: FinaleId | null = null
 
-export default function Feed({ library, progress, onRecall, onPick, onBack }: {
+export default function Feed({ library, progress, want, onRecall, onPick, onBack }: {
   library: CharEntry[]
   progress: Progress
+  /** 他為了哪個字來的（字卡上的「去 →」）：第一道菜就出這個字 */
+  want?: string
   /** 這個字第一次就找對了沒有（每個字每輪只記一次） */
   onRecall: (char: string, ok: boolean) => void
   onPick: (char: string) => void
@@ -49,7 +51,8 @@ export default function Feed({ library, progress, onRecall, onPick, onBack }: {
   const pool = useMemo(() => library.filter((c) => progress.watched[c.char]).map((c) => c.char), [library, progress.watched])
   const everyone = useMemo(() => library.map((c) => c.char), [library])
   const newDishes = () => pickDishes(pool, progress, taiwanDay())
-  const [dishes, setDishes] = useState(newDishes)
+  // 進來的第一輪才認 want：按「再餵一次」的時候他已經在玩了，不是為了那個字來的
+  const [dishes, setDishes] = useState(() => pickDishes(pool, progress, taiwanDay(), Math.random, DISHES, want))
   // 這一輪實際上的菜：點錯的字會再插進來一次
   const [queue, setQueue] = useState(dishes)
   const [at, setAt] = useState(0)

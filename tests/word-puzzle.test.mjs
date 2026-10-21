@@ -88,6 +88,25 @@ test('when every word is solved, the one solved longest ago comes back', () => {
   assert.equal(pickPuzzles(library, progress, seq([0.5]))[0].word, '日出')
 })
 
+test('coming in from a character card puts that character in the first puzzle', () => {
+  const library = [
+    entry('日', [['生日', '🎂']]),
+    entry('月', [['月亮', '🌙']]),
+    entry('火', [['火山', '🌋']]),
+  ]
+  const progress = { watched: { 日: { count: 9, last: at }, 月: { count: 3, last: at }, 火: { count: 1, last: at } } }
+  setParts({})
+  // 看最多次的是「日」，所以平常第一題是「日」
+  assert.equal(pickPuzzles(library, progress, seq([0.5]))[0].char, '日')
+  // 他是為了「火」那顆星星來的：第一題就出「火」
+  const round = pickPuzzles(library, progress, seq([0.5]), 5, 2, '火')
+  assert.equal(round[0].char, '火')
+  assert.equal(round[0].kind, 'char', '第一題永遠是補字題，不出看詞找圖')
+  assert.equal(new Set(round.map((r) => r.word)).size, round.length, '同一個詞不會出兩次')
+  // 那個字沒有畫得出來的詞（沒看過）：照原本的出題
+  assert.equal(pickPuzzles(library, progress, seq([0.5]), 5, 2, '龍')[0].char, '日')
+})
+
 test('the other cards never look like the answer and are not in the word', () => {
   setParts({ 日: [{ char: '口', strokes: [0, 1, 3] }], 目: [{ char: '口', strokes: [0, 1, 4] }] })
   const decoys = pickDecoys('日', '生日', ['目', '生', '口', '火', '水'], ['目', '生', '口', '火', '水', '山'], 2, seq([0.2, 0.8]))

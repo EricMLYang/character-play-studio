@@ -15,8 +15,11 @@ export const DISHES = 5
  * - 再來是還沒考過、他看最多次的字（最可能認得，一開始就答對才好玩）
  * - 還不夠就從其他看過的字隨便補
  * 第一題放最有把握的字暖身。
+ *
+ * want 是「他為了哪個字來的」：字卡上點「🍽️ 自己認出來 → 去」進來時，第一題就考那個字
+ * （他想要的是那一顆星星，進來卻考別的字，那顆星星就等於拿不到）。
  */
-export function pickDishes(pool: string[], progress: Progress, today: string, random = Math.random, n = DISHES): string[] {
+export function pickDishes(pool: string[], progress: Progress, today: string, random = Math.random, n = DISHES, want?: string): string[] {
   const rec = progress.recall || {}
   const seen = (c: string) => progress.watched[c]?.count || 0
   const due = pool.filter((c) => rec[c] && rec[c].due <= today).sort((a, b) => rec[a].box - rec[b].box)
@@ -26,7 +29,10 @@ export function pickDishes(pool: string[], progress: Progress, today: string, ra
   // 到期要複習的字可能已經忘了，不算有把握
   const confidence = (c: string) => (rec[c] && rec[c].due > today ? rec[c].box * 10 : 0) + seen(c)
   const easiest = picked.reduce((best, c) => (confidence(c) > confidence(best) ? c : best), picked[0])
-  return easiest === undefined ? [] : [easiest, ...shuffle(picked.filter((c) => c !== easiest), random)]
+  if (easiest === undefined) return []
+  const order = [easiest, ...shuffle(picked.filter((c) => c !== easiest), random)]
+  // 他指名要考的字排第一（沒看過的字大怪獸不吃，照原本的順序）
+  return want && pool.includes(want) ? [want, ...order.filter((c) => c !== want)].slice(0, n) : order
 }
 
 /**

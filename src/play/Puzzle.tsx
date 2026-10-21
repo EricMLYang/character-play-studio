@@ -4,7 +4,7 @@ import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, drum, snap, stash, tap } from '../lib/sfx'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { requeue } from './dishes'
-import { collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
+import { PICTURE_ROUNDS, PIECES, collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
 import { Confetti, SubBar, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -32,18 +32,21 @@ const HOST_POSE: Record<string, string> = {
   hello: 'salute', ask: 'idle', oops: 'surprised', snap: 'surprised', alive: 'happy', recap: 'happy', done: 'happy',
 }
 
-export default function Puzzle({ library, hues, progress, onSolve, onPick, onBack }: {
+export default function Puzzle({ library, hues, progress, want, onSolve, onPick, onBack }: {
   library: CharEntry[]
   /** 每個字的顏色，跟首頁一樣 */
   hues: Map<string, number>
   progress: Progress
+  /** 他為了哪個字來的（字卡上的「去 →」）：第一題就出這個字的詞 */
+  want?: string
   /** 拼好一個詞（ok：第一下就找對）；每個詞每輪只記一次 */
   onSolve: (word: string, char: string, ok: boolean) => void
   onPick: (char: string) => void
   onBack: () => void
 }) {
   const newRound = () => pickPuzzles(library, progress)
-  const [round, setRound] = useState(newRound)
+  // 進來的第一輪才認 want：按「再拼一次」的時候他已經在玩了，不是為了那個字來的
+  const [round, setRound] = useState(() => pickPuzzles(library, progress, Math.random, PIECES, PICTURE_ROUNDS, want))
   const items = useMemo(() => new Map(round.map((r) => [r.word, r])), [round])
   // 這一輪實際的題目：找錯的詞會再插進來一次
   const [queue, setQueue] = useState(() => round.map((r) => r.word))

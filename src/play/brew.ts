@@ -23,15 +23,19 @@ export const recipes = (known: Set<string>) =>
   [...known].filter((c) => partsOf(c).some((p) => known.has(p.char)))
     .map((char) => ({ char, from: partsOf(char).filter((p) => known.has(p.char)).map((p) => p.char) }))
 
+/**
+ * want：他為了哪個字來的（字卡上點「🧪 魔法鍋變出來 → 去」）。丟一個字進來、剛好變得出那個字，
+ * 就給他那個字——他要的是那一顆星星，隨機給別的字等於白跑一趟。
+ */
 export function brew(picked: string[], known: Set<string>, found: Record<string, string>,
-  sceneOf: (char: string) => Scene, random = Math.random): Brew {
+  sceneOf: (char: string) => Scene, random = Math.random, want?: string): Brew {
   const [a, b] = picked
   if (b === undefined) {
     const wholes = hidesIn(a).filter((c) => known.has(c))
     if (!wholes.length) return { kind: 'alone', char: a }
     const fresh = wholes.filter((c) => !found[c])
     const pool = fresh.length ? fresh : wholes
-    const char = pool[Math.floor(random() * pool.length)]
+    const char = want && wholes.includes(want) ? want : pool[Math.floor(random() * pool.length)]
     return { kind: 'make', char, from: [a], strokes: strokesOf(char, [a]) }
   }
   const exact = [...known].find((c) => {
