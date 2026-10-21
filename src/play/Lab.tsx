@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
-import { say } from '../lib/audio'
+import { preloadVoice, say, stopSpeech } from '../lib/audio'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { bubble, plop, poof, tap } from '../lib/sfx'
 import { hidesIn } from './parts'
 import { brew, recipes, type Brew } from './brew'
@@ -25,6 +26,12 @@ export default function Lab({ library, hues, found, onDiscover, onPick, onBack }
   const [result, setResult] = useState<{ brew: Brew; picked: string[]; fresh: boolean } | null>(null)
   const timer = useRef<number | undefined>(undefined)
   useEffect(() => () => clearTimeout(timer.current), [])
+  // 一進來先說這裡要做什麼（他讀不到畫面上那行字）
+  useEffect(() => {
+    preloadVoice([FIXED_LINES.labHello])
+    const t = window.setTimeout(() => say(FIXED_LINES.labHello, 0.8), 400)
+    return () => { clearTimeout(t); stopSpeech() }
+  }, [])
 
   const byChar = useMemo(() => new Map(library.map((c) => [c.char, c])), [library])
   const known = useMemo(() => new Set(byChar.keys()), [byChar])

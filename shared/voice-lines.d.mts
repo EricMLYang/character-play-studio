@@ -11,5 +11,5 @@ export const LINES: {
 }
 export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverStart' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast'
   | 'nudgeFirst' | 'nudgeToday' | 'nudgeLab' | 'nudgeTrain' | 'nudgePuzzle' | 'nudgeMore'
-  | 'chestOpen' | 'questsDone' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
+  | 'labHello' | 'trainHello' | 'chestOpen' | 'questsDone' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

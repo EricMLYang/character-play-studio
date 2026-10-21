@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
-import { say, stopSpeech } from '../lib/audio'
+import { preloadVoice, say, stopSpeech } from '../lib/audio'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { cheer, plop, stash, tap, toot, whoosh } from '../lib/sfx'
 import { ClipMedia } from '../anim/AnimMedia'
 import { hueMap, nextChars, realWords, type WordGroup } from './words'
@@ -26,6 +27,12 @@ export default function Train({ groups, saved, onRide, onRemove, onBack }: {
   onBack: () => void
 }) {
   const [cars, setCars] = useState<string[]>([])
+  // 一進來先說這裡要做什麼（他讀不到畫面上那行字）
+  useEffect(() => {
+    preloadVoice([FIXED_LINES.trainHello])
+    const t = window.setTimeout(() => say(FIXED_LINES.trainHello, 0.8), 400)
+    return () => { clearTimeout(t); stopSpeech() }
+  }, [])
   const hues = useMemo(() => hueMap(groups), [groups])
   const shelf = useMemo(() => {
     const seen = new Map<string, { entry: CharEntry; hue: number }>()
