@@ -1,7 +1,9 @@
 import type { CharEntry, Progress } from '../types'
-import { taiwanDay, totalStars } from '../../shared/domain.mjs'
+import { charStars, starIndex, taiwanDay, totalStars } from '../../shared/domain.mjs'
 import { NO_PICTURE } from '../play/puzzles'
 import { nextPartner, partnerCount } from '../play/partners'
+import { deedsFor } from '../play/stars'
+import { browseCharacters } from '../../shared/selection.mjs'
 
 /**
  * 家長看的學習小結：孩子端各個遊戲記下的東西，整理成大人一眼看得懂的幾個數字與清單。
@@ -29,6 +31,14 @@ export type Summary = {
   stars: number
   partners: number
   toNextPartner: number | null
+  /** 星星集滿、戴皇冠的字 */
+  full: string[]
+  /**
+   * 只差一顆就集滿的字，跟缺的是哪一顆。
+   * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
+   * 可以挑一個跟他說「我們去把『田』補完吧」。
+   */
+  nearly: { char: string; deed: string; where: string | null }[]
 }
 
 export function summarize(progress: Progress, characters: CharEntry[], now = new Date()): Summary {
@@ -39,6 +49,14 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
   const pictures = new Map(characters.flatMap((c) => (c.words || []).map((w) => [w.text, w.emoji] as const)))
   const attempts = puzzles.reduce((n, [, p]) => n + p.count, 0)
   const stars = totalStars(progress)
+  // 每個字拿到幾顆、做得到幾顆（孩子端看得到的字才算；拿不到的那顆不列入，不然永遠差一顆）
+  const index = starIndex(progress)
+  const visible = browseCharacters(characters)
+  const counted = visible.map((entry) => {
+    const got = index.get(entry.char) || 0
+    const deeds = deedsFor(entry, new Set(visible.map((c) => c.char)))
+    return { entry, got, deeds }
+  })
   return {
     watched: watched.length,
     watchedToday: watched.filter(([, w]) => taiwanDay(w.last) === today).length,
@@ -60,5 +78,11 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
     stars: stars,
     partners: partnerCount(stars),
     toNextPartner: nextPartner(stars)?.need ?? null,
+    full: counted.filter((c) => c.got > 0 && c.got >= c.deeds.length).map((c) => c.entry.char),
+    nearly: counted.filter((c) => c.got > 0 && c.got + 1 === c.deeds.length).slice(0, 8).map((c) => {
+      const has = charStars(progress, c.entry.char)
+      const missing = c.deeds.find((d) => !has[d.id])!
+      return { char: c.entry.char, deed: missing.label, where: missing.where }
+    }),
   }
 }

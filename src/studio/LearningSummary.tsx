@@ -22,6 +22,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
     { label: '小鎮居民', value: s.traced, note: '描過的字' },
     // 孩子端他自己在追的那條線：看過、寫過、認出來、拼成詞、魔法鍋變出來各一顆星
     { label: '⭐ 星星', value: s.stars, note: s.toNextPartner === null ? `夥伴收齊了（${s.partners} 位）` : `再 ${s.toNextPartner} 顆開寶箱（已有 ${s.partners} 位夥伴）` },
+    { label: '👑 集滿星星', value: s.full.length, note: s.full.length ? s.full.slice(0, 8).join('、') : '五件事都做過的字' },
   ]
   return (
     <div className="st-learn">
@@ -49,6 +50,24 @@ export default function LearningSummary({ progress, characters, onPick }: {
           </div>
         ))}
       </div>
+
+      {s.nearly.length > 0 && (
+        <section className="st-card st-nearly">
+          <h4>⭐ 只差一顆就集滿</h4>
+          <p className="st-dim">
+            孩子端那隻角色也會挑一個講，這裡一次看得到全部。點字可以編輯它；
+            孩子自己在字卡右上角那排星星點「去 →」，就會直接到那個遊戲，而且第一題就出這個字。
+          </p>
+          <ul className="st-nearly-list">
+            {s.nearly.map((n) => (
+              <li key={n.char}>
+                <button className="st-nearly-char" onClick={() => onPick(n.char)}>{n.char}</button>
+                <span>還差「{n.deed}」</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {s.talk.length > 0 && (
         <section className="st-card st-talk">

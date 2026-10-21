@@ -6,6 +6,7 @@ import MediaReview from './MediaReview'
 import { hasClip } from '../anim/clips'
 import { ClipMedia } from '../anim/AnimMedia'
 import LearningSummary from './LearningSummary'
+import { setParts } from '../play/parts'
 import CharacterEditor from './CharacterEditor'
 import '../play/play.css'
 import './studio.css'
@@ -53,7 +54,8 @@ export default function StudioApp() {
   const generation = useRef<AbortController | null>(null)
   useEffect(() => () => generation.current?.abort(), [])
 
-  const reload = () => getLibrary().then(setLib)
+  // setParts：學習小結要算「每個字做得到幾顆星」，拆字表沒設好的話魔法鍋那顆永遠算不到（孩子端在 PlayApp 設）
+  const reload = () => getLibrary().then((l) => { setParts(l.parts); setLib(l) })
   useEffect(() => { reload().catch((e) => setError(e.message)) }, [])
   useEffect(() => { getDailyBatch().then(setBatch).catch(() => {}) }, [])
 

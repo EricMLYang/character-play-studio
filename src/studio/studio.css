@@ -186,6 +186,13 @@
 .st-tile-label { font-size: 13px; color: var(--dim); }
 .st-tile-value { font-size: 34px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .st-tile-note { font-size: 12px; color: var(--dim); }
+/* 只差一顆就集滿的字：家長最用得上的一條，挑一個跟孩子說「我們去把『田』補完」 */
+.st-nearly h4 { margin: 0 0 6px; }
+.st-nearly-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.st-nearly-list li { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--dim); }
+.st-nearly-char { font-family: var(--kai, serif); font-size: 26px; font-weight: 700; line-height: 1; padding: 4px 10px;
+  border: 1px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; }
+.st-nearly-char:hover { border-color: #FFC93C; background: #FFFBEF; }
 .st-talk p { margin: 6px 0; font-size: 16px; }
 .st-talk h4, .st-learn-cols h4 { margin: 0 0 8px; }
 .st-learn-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }

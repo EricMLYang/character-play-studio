@@ -72,3 +72,29 @@ test('小結也說得出他在孩子端追的那條線：星星與夥伴', async
   assert.equal(s.stars, 4)
   assert.equal(s.toNextPartner, STARS_PER - 4)
 })
+
+test('小結挑得出「只差一顆就集滿」的字，還說得出缺的是哪一顆', async () => {
+  const { summarize } = await import('../src/studio/summary.ts')
+  const { setParts } = await import('../src/play/parts.ts')
+  setParts({})   // 沒有拆字表：魔法鍋那顆誰都拿不到，所以做得到的只有看過、自己寫、自己認出來、拼好一個詞
+  const at = '2026-10-22T02:00:00Z'
+  const entry = (char, words) => ({ char, zhuyin: '', meaning: '', emoji: '', words, concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
+  const lib = [entry('火', [{ text: '火山', emoji: '🌋' }]), entry('水', [{ text: '喝水', emoji: '🥤' }])]
+  const progress = {
+    // 火：看過、描過、自己認出來 → 四顆裡的三顆，只差「拼好一個詞」
+    watched: { 火: { count: 2, last: at }, 水: { count: 1, last: at } },
+    town: { 火: { traces: 1, first: at, last: at, strokes: [[1, 2]] } },
+    recall: { 火: { box: 1, due: '2026-10-30', last: at, right: 1, wrong: 0 } },
+  }
+  const s = summarize(progress, lib, new Date(at))
+  assert.deepEqual(s.nearly.map((n) => n.char), ['火'], '水 只有一顆，不算快集滿')
+  assert.equal(s.nearly[0].deed, '拼好一個詞')
+  assert.equal(s.nearly[0].where, 'puzzle', '家長看得到要去哪個遊戲')
+  assert.deepEqual(s.full, [], '還沒有字集滿')
+
+  // 把最後一顆補上：變成集滿，就不該再出現在「只差一顆」
+  const done = { ...progress, puzzles: { 火山: { char: '火', first: at, last: at, count: 1, right: 1 } } }
+  const after = summarize(done, lib, new Date(at))
+  assert.deepEqual(after.full, ['火'])
+  assert.deepEqual(after.nearly.map((n) => n.char), [], '集滿了就不是「只差一顆」')
+})
