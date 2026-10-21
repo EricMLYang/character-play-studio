@@ -198,6 +198,8 @@
   .word { flex-shrink: 0; scroll-snap-align: center; font-size: 36px; min-height: 62px; gap: 8px; padding: 6px 8px 6px 26px; border-radius: 28px; }
   .word-cards { gap: 6px; }
   .word-cards > .card { width: 140px; height: 218px; }
+  /* 詞組比螢幕寬、要橫捲：標題靠右的 ▶ 會被推到看不見的地方，改成貼在詞的旁邊 */
+  .word-ride { justify-content: flex-start; gap: 8px; width: auto; min-width: 0; align-self: flex-start; }
   .card { border-radius: 22px; padding-top: 14px; gap: 6px; }
   .card-char { font-size: 60px; }
   .card-emoji { font-size: 38px; width: 58px; height: 58px; border-radius: 20px; }

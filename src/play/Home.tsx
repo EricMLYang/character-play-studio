@@ -198,10 +198,14 @@ export default function Home({
             .map((g, gi) => (
               <div key={(g.mine ? 'mine:' : '') + g.key} className={'word' + (g.label ? ' word-theme' : '') + (g.mine ? ' word-mine' : '')}
                 role="group" aria-label={g.mine ? `我接的「${g.key}」` : g.label || g.key}>
-                {/* 他接的詞、釘在最前面的名字：點標籤一節一節連著播 */}
-                {g.mine || g.pin ? (
-                  <button className="word-label word-ride" onClick={() => { tap(); onRide(g.key) }} aria-label={g.pin ? `連著看「${g.label}」` : `坐字火車「${g.key}」`}>
-                    {g.label}<span className="word-ride-go" aria-hidden>▶</span>
+                {/*
+                  詞組的標題就是「連著看」的按鈕：一節一節播完每個字，最後把整個詞唸一遍。
+                  主題組（🔢 數一數、🌟 新來的字）不給播——那不是一個詞，而且十幾個字連著播太長。
+                */}
+                {g.mine || g.pin || (!g.label && g.items.length >= 2 && g.items.length <= 4) ? (
+                  <button className="word-label word-ride" onClick={() => { tap(); onRide(g.key) }}
+                    aria-label={g.label ? `連著看「${g.label}」` : `連著看「${g.key}」`}>
+                    {g.label ?? g.key}<span className="word-ride-go" aria-hidden>▶</span>
                   </button>
                 ) : g.label && <span className="word-label">{g.label}</span>}
                 <div className="word-cards">{g.items.map((c) => card(c, hueIn(g, gi, c), items.indexOf(c)))}</div>
