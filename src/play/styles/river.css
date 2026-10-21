@@ -2,8 +2,24 @@
 .place-river { background: #CDEBFF; }
 .place-river .place-icon { animation-delay: -1.5s; }
 
+/*
+ * 天色（partners.ts 的 skyFor）：一位夥伴一種天色，換一位整條河就換個樣子。
+ * 顏色全部走變數，白天／黃昏／下雪／晚上只換變數，版面一行都不用動。
+ */
 .river { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column;
-  background: linear-gradient(#E8F6FF 0%, #CFEDFF 42%, #9FD9F6 100%); }
+  --sky1: #E8F6FF; --sky2: #CFEDFF; --sky3: #9FD9F6;
+  --water: 126, 201, 240; --foam: 255, 255, 255;
+  --bank1: #A9E3B4; --bank2: #74CB8C; --bank3: #4FB873;
+  background: linear-gradient(var(--sky1) 0%, var(--sky2) 42%, var(--sky3) 100%); }
+/* 黃昏 */
+.river.sky-sunset { --sky1: #FFF0DC; --sky2: #FFD9B8; --sky3: #FFB487; --water: 255, 168, 126; --bank1: #E9D9A6; --bank2: #CDB478; --bank3: #A89353; }
+/* 下雪 */
+.river.sky-snow { --sky1: #F6FBFF; --sky2: #E6F3FD; --sky3: #C9E5F6; --water: 168, 208, 234; --bank1: #F3FAFF; --bank2: #DCEDF9; --bank3: #BFD9EB; }
+/* 晚上 */
+.river.sky-night { --sky1: #17264A; --sky2: #22385F; --sky3: #35558A; --water: 52, 84, 142; --foam: 170, 205, 255;
+  --bank1: #3E6250; --bank2: #2D4C3C; --bank3: #20392C; }
+/* 只有直接站在天空上的字要翻白：按鈕、對話框、結算面板本來就是白底，翻白會整個看不見 */
+.sky-night .sub-title, .sky-night .game-hint { color: #EAF2FF; }
 .river :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* 還有多遠：岸 → 五顆石頭 → 對岸的東西。跳對的留一顆星，靠提示的留一塊石頭 */
@@ -27,17 +43,28 @@
 .river-cloud:nth-child(2) { left: 46%; top: 8%; scale: .78; animation: cloudBy 46s linear infinite -14s; }
 .river-cloud:nth-child(3) { left: 74%; top: 42%; scale: 1.1; animation: cloudBy 58s linear infinite -30s; }
 @keyframes cloudBy { from { translate: -22vw 0 } to { translate: 108vw 0 } }
+/* 晚上雲變淡，白天與黃昏沒有雪花也沒有星星 */
+.sky-night .river-cloud { background: rgba(255,255,255,.14); box-shadow: 0 10px 0 -4px rgba(255,255,255,.08); }
+.river-flake { display: none; position: absolute; top: -8%; left: calc(4% + var(--i) * 11%); width: 9px; height: 9px; border-radius: 50%;
+  background: #fff; opacity: .9; }
+/* 下雪：慢慢飄下來 */
+.sky-snow .river-flake { display: block; animation: snowFall calc(7s + var(--i) * .9s) linear infinite; animation-delay: calc(var(--i) * -1.3s); }
+@keyframes snowFall { from { transform: translate(0, 0) } to { transform: translate(26px, 46vh) } }
+/* 晚上：同一批點子當星星，停在天上眨 */
+.sky-night .river-flake { display: block; top: calc(6% + (var(--i) * 37 % 23) * 1%); width: 6px; height: 6px;
+  background: #FFF6C8; animation: twinkleStar calc(2.4s + var(--i) * .4s) ease-in-out infinite; }
+@keyframes twinkleStar { 0%, 100% { opacity: .25; transform: scale(.7) } 50% { opacity: 1; transform: scale(1.15) } }
 
 .river-stage { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end;
   padding: 0 clamp(14px, 4vw, 48px) clamp(34px, 9vh, 92px); }
 
 /* 河水：三層慢慢漂的波浪，純 CSS。上緣用漸層淡出，才不會有一條直直的分界線 */
 .river-water { position: absolute; left: 0; right: 0; bottom: 0; height: 76%; overflow: hidden; pointer-events: none;
-  background: linear-gradient(rgba(126,201,240,0), rgba(126,201,240,.45) 14%, rgba(84,178,230,.72)); height: 84%; }
-.river-water span { position: absolute; left: -25%; width: 150%; height: 54px; border-radius: 50%; background: rgba(255,255,255,.4); }
-.river-water span:nth-child(1) { top: 1%; animation: wave 7s ease-in-out infinite; }
-.river-water span:nth-child(2) { top: 24%; background: rgba(255,255,255,.26); animation: wave 9s ease-in-out infinite reverse; }
-.river-water span:nth-child(3) { top: 56%; background: rgba(255,255,255,.18); animation: wave 11s ease-in-out infinite; }
+  background: linear-gradient(rgba(var(--water), 0), rgba(var(--water), .5) 14%, rgba(var(--water), .85)); height: 84%; }
+.river-water span { position: absolute; left: -25%; width: 150%; height: 54px; border-radius: 50%; }
+.river-water span:nth-child(1) { top: 1%; background: rgba(var(--foam), .4); animation: wave 7s ease-in-out infinite; }
+.river-water span:nth-child(2) { top: 24%; background: rgba(var(--foam), .26); animation: wave 9s ease-in-out infinite reverse; }
+.river-water span:nth-child(3) { top: 56%; background: rgba(var(--foam), .18); animation: wave 11s ease-in-out infinite; }
 @keyframes wave { 0%, 100% { translate: -4% 0 } 50% { translate: 4% 0 } }
 
 /*
@@ -52,7 +79,7 @@
 /* 兩岸：出發的地方與對岸等著的東西，露在石頭排的外面。高度跟石頭齊，主角站上去腳才踩得到 */
 .river-bank { position: absolute; top: 0; bottom: -14px; width: clamp(54px, 9vw, 86px);
   display: grid; place-items: start center; padding-top: 10px; font-size: clamp(30px, 5vh, 46px); line-height: 1;
-  background: linear-gradient(#A9E3B4, #74CB8C 60%, #4FB873);
+  background: linear-gradient(var(--bank1), var(--bank2) 60%, var(--bank3));
   box-shadow: 0 8px 0 rgba(0,0,0,.14), 0 14px 24px rgba(0,0,0,.12); }
 /* 兩岸一路延伸到畫面外：中間那條才看得出來是一條河，不是兩根綠柱子 */
 .river-bank.left { right: calc(100% + var(--gap)); width: 50vw; padding-right: 0; border-radius: 0 30px 16px 0;

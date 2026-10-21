@@ -4,7 +4,7 @@ import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, splash, tap, whoosh } from '../lib/sfx'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { crosserFor, pickCrossing, trip, type Step } from './crossing'
-import { partnersAt } from './partners'
+import { partnersAt, skyFor } from './partners'
 import { Confetti, SubBar } from './ui'
 
 /**
@@ -177,7 +177,7 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
 
   if (steps.length < 2) {
     return (
-      <div className="river">
+      <div className={`river sky-${skyFor(hero)}`}>
         <SubBar title="🌊 跳石頭過河" onBack={onBack} />
         <div className="river-empty">
           <img className="river-hero-img" src={`/hero/${hero.id}/idle.png`} alt="" />
@@ -193,7 +193,7 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
   const done = phase === 'done'
 
   return (
-    <div className="river">
+    <div className={`river sky-${skyFor(hero)}`}>
       <SubBar title="🌊 跳石頭過河" stat={done ? '過河了！' : `第 ${at + 1} / ${steps.length} 顆`} onBack={onBack} />
 
       {/* 還有多遠：一眼看得出走到哪、對岸有什麼在等 */}
@@ -208,7 +208,11 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
       </div>
 
       <div className={`river-stage phase-${phase}`}>
-        <div className="river-sky" aria-hidden><span className="river-cloud" /><span className="river-cloud" /><span className="river-cloud" /></div>
+        <div className="river-sky" aria-hidden>
+          <span className="river-cloud" /><span className="river-cloud" /><span className="river-cloud" />
+          {/* 下雪的河才有雪花，晚上的河才有星星（天色看 partners.ts 的 skyFor） */}
+          {Array.from({ length: 9 }, (_, i) => <span key={i} className="river-flake" style={{ ['--i' as any]: i }} />)}
+        </div>
         <div className="river-water" aria-hidden><span /><span /><span /></div>
 
         {/* 主角是石頭那一排的小孩：--lane 就是第幾欄，位置照格線算，石頭多寬都對得準 */}
