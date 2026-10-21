@@ -13,7 +13,12 @@ import { Confetti } from './ui'
  */
 const SHAKE_MS = 1300
 
-export default function Chest({ partner, onClose }: { partner: Partner; onClose: () => void }) {
+export default function Chest({ partner, onGo, onClose }: {
+  partner: Partner
+  /** 馬上去河邊找牠（新夥伴真的會在那裡等他，不是只拿到一張圖） */
+  onGo: () => void
+  onClose: () => void
+}) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -37,7 +42,11 @@ export default function Chest({ partner, onClose }: { partner: Partner; onClose:
           <img className="chest-hero" src={`/hero/${partner.id}/happy.png`} alt={partner.name} />
           <h2><b>{partner.name}</b>來陪你玩了！</h2>
           <p>牠會在「🌊 跳石頭過河」等你</p>
-          <button className="nav-btn primary" onClick={onClose}>太好了！</button>
+          <div className="chest-actions">
+            {/* 說了牠在河邊等，就要能馬上去——不然這句話只是一行字 */}
+            <button className="nav-btn primary" onClick={onGo}>🌊 去找牠！</button>
+            <button className="nav-btn" onClick={onClose}>等一下再去</button>
+          </div>
         </div>
       ) : (
         <div className="chest-box">

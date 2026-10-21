@@ -281,7 +281,8 @@ export default function PlayApp() {
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
-      {chest && <Chest partner={chest} onClose={() => setChest(null)} />}
+      {chest && <Chest partner={chest} onClose={() => setChest(null)}
+        onGo={() => { setChest(null); enter('river') }} />}
       {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
       {pop && !chest && !crown && (
         <>
