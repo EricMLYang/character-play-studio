@@ -69,6 +69,8 @@
   .lab-stir { font-size: 15px; }
   .lab-main { grid-template-columns: 1fr; grid-template-rows: auto minmax(120px, 1fr); padding: 0 14px 8px; gap: 10px; }
   .lab-slot { width: 80px; height: 80px; font-size: 40px; }
-  .pot { transform: scale(.75); margin: -20px 0 -30px; }
+  /* 縮小是用 transform，版面高度不會跟著縮，所以用負的上邊界補回來。
+     下面不能也用負的：工作檯（.pot::before）在鍋子的框外面 22px，拉上來會被「攪一攪」蓋住 */
+  .pot { transform: scale(.72); margin: -24px 0 6px; }
   .lab-result { position: fixed; inset: 10px; }
 }
