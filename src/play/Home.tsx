@@ -71,14 +71,17 @@ export default function Home({
     const count = watched[c.char]?.count || 0
     const video = hasMovie(c)
     const got = stars.get(c.char) || 0
-    const full = got > 0 && got >= (starCaps.get(c.char) ?? 5)
+    const cap = starCaps.get(c.char) ?? 5
+    const full = got > 0 && got >= cap
+    // 只差一顆就集滿：字卡上留一顆亮的空星，從一整片字卡裡看得出「這幾張快好了」
+    const nearly = !full && got > 0 && got + 1 === cap
     return (
       <button
         key={c.char}
         data-char={c.char}
-        className={'card' + (video ? ' card-video' : '') + (full ? ' card-full' : '')}
+        className={'card' + (video ? ' card-video' : '') + (full ? ' card-full' : '') + (nearly ? ' card-nearly' : '')}
         style={{ ['--hue' as any]: `var(--c${hue})`, ['--i' as any]: i }}
-        aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}${got ? `，${got} 顆星星` : ''}`}
+        aria-label={`看「${c.char}」${video ? '，有影片' : ''}${count ? `，看過 ${count} 次` : ''}${got ? `，${got} 顆星星${nearly ? '，只差一顆就集滿' : ''}` : ''}`}
         onClick={() => { tap(); onPick(c.char) }}
       >
         <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
@@ -91,6 +94,7 @@ export default function Home({
           <span className={'card-stars' + (full ? ' crowned' : '')} aria-hidden="true">
             {full ? <span className="card-crown">👑</span>
               : Array.from({ length: got }, (_, n) => <span key={n} style={{ ['--i' as any]: n }}>⭐</span>)}
+            {nearly && <span className="card-star-left" style={{ ['--i' as any]: got }}>⭐</span>}
           </span>
         )}
       </button>

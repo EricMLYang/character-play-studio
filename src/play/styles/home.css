@@ -89,6 +89,12 @@
 .card-stars.crowned { left: 12px; bottom: 11px; }
 .card-crown { font-size: 20px; line-height: 1; animation: pop .45s cubic-bezier(.2,1.7,.4,1) both; }
 /* 五顆都拿到：金邊加一層光，一整排字卡裡一眼看得到哪幾個是他全破的 */
+/* 只差一顆就集滿：一圈淡金邊，加上一顆還沒拿到、會閃的空星。
+   他那兩百多張字卡裡通常只有幾張是這樣，一眼就看得出「這幾張快好了」 */
+/* 白框而不是金框：金色在本來就是黃色的字卡上看不見，而且金框是「集滿了」那一圈的樣子 */
+.card-nearly { box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12), inset 0 0 0 3px rgba(255,255,255,.72); }
+.card-star-left { filter: grayscale(1); opacity: .35; animation: blinkStar 1.6s ease-in-out infinite; }
+@keyframes blinkStar { 0%, 100% { filter: grayscale(1); opacity: .3 } 50% { filter: none; opacity: 1 } }
 .card-full { box-shadow: 0 8px 0 rgba(0,0,0,.13), 0 16px 36px rgba(0,0,0,.12), inset 0 0 0 4px #FFC93C; }
 .card-full:hover, .card-full:focus-visible { box-shadow: 0 14px 0 rgba(0,0,0,.13), 0 26px 50px rgba(0,0,0,.18), inset 0 0 0 4px #FFC93C; }
 
