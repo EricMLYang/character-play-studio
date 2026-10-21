@@ -14,6 +14,11 @@
   box-shadow: 0 3px 0 rgba(0,0,0,.05); }
 .chip.on { background: var(--ink); color: #fff; }
 .chip.surprise { background: var(--c2); }
+/* 骰子轉一下再開：那一下的期待就是它好玩的地方 */
+.chip.surprise .dice { display: inline-block; }
+.chip.surprise.rolling { background: var(--c0); color: #fff; }
+.chip.surprise.rolling .dice { animation: roll .42s cubic-bezier(.3,.1,.4,1); }
+@keyframes roll { 0% { transform: rotate(0) scale(1) } 50% { transform: rotate(320deg) scale(1.35) } 100% { transform: rotate(720deg) scale(1) } }
 .chip.surprise:disabled { opacity: .45; }
 .home-stat { margin-left: auto; font-size: 14px; color: rgba(46,42,38,.72); }
 .today { margin-left: auto; display: flex; flex-direction: column; align-items: center; gap: 2px; }

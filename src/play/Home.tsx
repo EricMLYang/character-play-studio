@@ -58,6 +58,8 @@ export default function Home({
   onNudge: (go: string | null) => void
 }) {
   const [mine, setMine] = useState(false)
+  /** 骰子正在轉（轉完才開那個字） */
+  const [rolling, setRolling] = useState(false)
   // 角色那句話先抓下來，點喇叭就出聲（帶數字的句子沒有音檔，會退回瀏覽器朗讀）
   useEffect(() => { preloadVoice([nudge.text]) }, [nudge.text])
 
@@ -123,8 +125,11 @@ export default function Home({
             <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
           ))}
         </div>
-        {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口 */}
-        <button className="chip surprise" onClick={() => { tap(); onSurprise() }} disabled={!items.length}>🎲 隨便給我一個</button>
+        {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
+        <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
+          onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
+          <span className="dice" aria-hidden>🎲</span> 隨便給我一個
+        </button>
         <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
         <ParentGate />
       </header>
