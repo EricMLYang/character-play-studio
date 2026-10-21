@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
-import { preloadVoice, say, sayRepeat, stopSpeech } from '../lib/audio'
+import { preloadVoice, say, sayAll, sayRepeat, stopSpeech } from '../lib/audio'
 import { cheer, swipe, tap } from '../lib/sfx'
 import { charStars } from '../../shared/domain.mjs'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { deedsFor } from './stars'
 import { sceneFor, SCENE_PIECES } from './scenes'
 import { partsOf, hidesIn } from './parts'
@@ -53,13 +54,19 @@ export default function Viewer({
   const root = useRef<HTMLDivElement>(null)
   const toTrace = useRef<number | undefined>(undefined)
   const completed = useRef(false)
+  /** 描完那句話唸到一半就換字或關掉的話要停掉 */
+  const voice = useRef<(() => void) | null>(null)
   const eventId = useRef(crypto.randomUUID())
   const completeRef = useRef(onComplete)
   completeRef.current = onComplete
 
+  /** 他自己把字描完的那一刻。畫面上寫著「『楊』搬進你的小鎮了！」，但他讀不到——唸出來 */
   const traceDone = (strokes: number[][]) => {
     dispatch({ type: 'traced', before: traces })
     onTraced(entry, strokes)
+    voice.current?.()
+    voice.current = sayAll([entry.char,
+      traces === 0 ? FIXED_LINES.movedIn : traces + 1 === 5 ? FIXED_LINES.movedCrown : FIXED_LINES.movedGrow], 0.85)
   }
 
   const finish = () => {
@@ -86,8 +93,11 @@ export default function Viewer({
   // 把焦點從搜尋框拿過來，方向鍵才會是上一個／下一個
   useEffect(() => { root.current?.focus() }, [])
   // 這個字會唸到的句子先抓好
-  useEffect(() => { preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook]) }, [entry])
-  useEffect(() => () => clearTimeout(toTrace.current), [])
+  useEffect(() => {
+    preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook,
+      FIXED_LINES.movedIn, FIXED_LINES.movedGrow, FIXED_LINES.movedCrown])
+  }, [entry])
+  useEffect(() => () => { clearTimeout(toTrace.current); voice.current?.() }, [])
 
   // 圖片：載入好才開始算停留（慢圖片不能還沒看到就記一次），並照家長審核過的音量唸這個字
   const image = source.kind === 'image' ? source.media : undefined
