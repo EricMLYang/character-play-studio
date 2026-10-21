@@ -45,8 +45,11 @@ export const FIXED_LINES = {
   riverStart: '我要過河！',
   riverArrive: '過河了！',
   riverRecap: '我跳對了這些字！',
-  /** 小偵探：一筆一筆畫出來，猜猜我是誰 */
+  /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點 */
   guessWho: '猜猜我是誰？',
+  guessFast: '哇！好厲害！',
+  /** 跳石頭過河：五顆都自己跳對 */
+  riverPerfect: '一次都沒掉下去！',
   /** 詞語拼圖 */
   puzzleHello: '來拼詞語囉！',
   puzzleRecap: '你拼好了這些詞！',

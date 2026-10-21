@@ -108,8 +108,13 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
       cheer()
       say(FIXED_LINES.riverArrive, 0.8)
     }, HOP_MS)
-    const { good } = trip(all)
+    const { good, again: review } = trip(all)
     let t = HOP_MS + lasts(FIXED_LINES.riverArrive) + BEAT
+    // 五顆都自己跳對：先講這件事，這是一趟裡最值得講的
+    if (good.length === all.length && !review.length && all.length >= 2) {
+      later(() => say(FIXED_LINES.riverPerfect, 0.8), t)
+      t += lasts(FIXED_LINES.riverPerfect) + BEAT
+    }
     if (good.length) {
       later(() => say(FIXED_LINES.riverRecap, 0.8), t)
       t += lasts(FIXED_LINES.riverRecap) + BEAT
@@ -124,7 +129,7 @@ export default function River({ library, progress, stars, onRecall, onPick, onBa
   // 一趟開始：主角在岸上說要過河，再開始第一步
   useEffect(() => {
     if (steps.length < 2) return
-    preloadVoice([FIXED_LINES.riverStart, FIXED_LINES.riverArrive, FIXED_LINES.riverRecap,
+    preloadVoice([FIXED_LINES.riverStart, FIXED_LINES.riverArrive, FIXED_LINES.riverRecap, FIXED_LINES.riverPerfect,
       ...steps.flatMap((s) => [LINES.riverJump(s.char), s.char, LINES.feedNotThis(s.char)])])
     recorded.current = new Set()
     setAt(0)

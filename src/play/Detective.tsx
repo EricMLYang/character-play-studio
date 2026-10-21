@@ -70,7 +70,8 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     setPhase('wait')
     later(() => setPhase('draw'), READY_MS)
     say(FIXED_LINES.guessWho, 0.8)
-    preloadVoice([round.char, ...round.options.map((c) => LINES.feedNotThis(c)), exampleWord(byChar.get(round.char)!)?.text])
+    preloadVoice([FIXED_LINES.guessWho, FIXED_LINES.guessFast, round.char,
+      ...round.options.map((c) => LINES.feedNotThis(c)), exampleWord(byChar.get(round.char)!)?.text])
     loadChar(round.char).then((d) => { if (alive) setData(d) }).catch(() => {
       if (alive) setList((l) => l.filter((r) => r.char !== round.char))
     })
@@ -124,14 +125,19 @@ export default function Detective({ library, progress, onRecall, onPick, onBack 
     }
     // 猜到了：剩下的筆畫一次補完，再唸字跟一個詞
     const used = Math.max(shown, 1)
+    const fast = howFast(used, total)
     record(missed.length === 0)
-    setSpeed(howFast(used, total))
+    setSpeed(fast)
     setShown(total)
     setPhase('right')
-    if (used <= 2) magic(); else cheer()
+    if (fast.id === 'flash') magic(); else cheer()
     const word = exampleWord(byChar.get(round.char)!)
-    say(round.char, 0.8)
-    let t = lasts(round.char) + 360
+    // 沒幾筆就猜到：先誇他一句再唸字
+    let t = 0
+    if (fast.id === 'flash') { later(() => say(FIXED_LINES.guessFast, 0.8), 0); t = lasts(FIXED_LINES.guessFast) + 300 }
+    const lead = t
+    later(() => say(round.char, 0.8), lead)
+    t = lead + lasts(round.char) + 360
     if (word) { later(() => say(word.text, 0.8), t); t += lasts(word.text) + 360 }
     later(next, t + 900)
   }
