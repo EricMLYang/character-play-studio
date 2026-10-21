@@ -66,6 +66,22 @@ export function recap(served: { char: string; ok: boolean }[]) {
   return { good, again }
 }
 
+/**
+ * 他現在認字認得怎麼樣：跳石頭過河與小偵探用它決定一排放幾張卡（詞語拼圖有自己的 puzzleLevel）。
+ * 看的是「餵過的字裡，自己找到的比例」——答錯會讓 wrong 增加，所以這個比例會跟著他動。
+ * 考過的字不到 8 個先當 normal，不然前幾次的運氣會決定難度。
+ *
+ * 餵大怪獸不看這個：那裡刻意永遠二選一，是三個認字遊戲裡最簡單的那一層。
+ */
+export type RecallLevel = 'easy' | 'normal' | 'hard'
+export function recallLevel(progress: Progress): RecallLevel {
+  const all = Object.values(progress.recall || {})
+  const tries = all.reduce((n, r) => n + r.right + r.wrong, 0)
+  if (tries < 8) return 'normal'
+  const rate = all.reduce((n, r) => n + r.right, 0) / tries
+  return rate < 0.5 ? 'easy' : rate >= 0.8 ? 'hard' : 'normal'
+}
+
 /** 自己找到幾個字會把肚子撐爆 */
 export const BURST = 3
 

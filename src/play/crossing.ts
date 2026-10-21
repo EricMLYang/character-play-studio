@@ -1,5 +1,5 @@
 import type { CharEntry, Progress } from '../types'
-import { pickDishes, pickDecoy } from './dishes'
+import { pickDishes, pickDecoy, recallLevel } from './dishes'
 import type { Partner } from './partners'
 import { taiwanDay } from '../../shared/domain.mjs'
 
@@ -15,8 +15,12 @@ import { taiwanDay } from '../../shared/domain.mjs'
 
 /** 一次過河跳幾顆石頭 */
 export const STEPS = 5
-/** 前面幾步只放兩顆石頭暖身，後面才三顆 */
+/**
+ * 前面幾步只放兩顆石頭暖身，後面才三顆。幾步算暖身跟著他走（dishes.ts 的 recallLevel）：
+ * 認得順就第二步開始三顆，常找錯就整趟都只放兩顆——難度要跟著他，不是跟著步數。
+ */
 export const WARMUP = 2
+export const warmupFor = (level: 'easy' | 'normal' | 'hard') => (level === 'easy' ? STEPS : level === 'hard' ? 1 : WARMUP)
 
 export type Step = {
   /** 這一步要跳到的字 */
@@ -39,9 +43,10 @@ export const crosserFor = (trips: number, crew: Partner[]) => crew[trips % crew.
 export function pickCrossing(library: CharEntry[], progress: Progress, random = Math.random, today = taiwanDay()): Step[] {
   const pool = library.filter((c) => progress.watched[c.char]).map((c) => c.char)
   const everyone = library.map((c) => c.char)
+  const warmup = warmupFor(recallLevel(progress))
   return pickDishes(pool, progress, today, random, STEPS).map((char, i) => ({
     char,
-    stones: shuffle([char, ...decoys(char, pool, everyone, i < WARMUP ? 1 : 2, random)], random),
+    stones: shuffle([char, ...decoys(char, pool, everyone, i < warmup ? 1 : 2, random)], random),
   }))
 }
 

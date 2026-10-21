@@ -151,3 +151,18 @@ test('長得像的字也包含共用偏旁的（蜂／蝶、河／湯）：拆�
   const decoy = pickDecoy('蜂', ['蝶', '火'], ['蝶', '火'], () => 0)
   assert.equal(decoy, '火')
 })
+
+test('認字的程度跟著他走：常找錯就只放兩張，認得順就早一點放三張', async () => {
+  const { recallLevel } = await import('../src/play/dishes.ts')
+  const { warmupFor, STEPS } = await import('../src/play/crossing.ts')
+  const mk = (right, wrong) => ({ watched: {}, recall: { 火: { box: 1, due: '2026-10-22', last: at, right, wrong } } })
+  assert.equal(recallLevel({ watched: {} }), 'normal', '沒紀錄先當 normal')
+  assert.equal(recallLevel(mk(3, 2)), 'normal', '考不到八次先當 normal，不讓前幾次的運氣決定難度')
+  assert.equal(recallLevel(mk(2, 8)), 'easy')
+  assert.equal(recallLevel(mk(9, 1)), 'hard')
+  assert.equal(recallLevel(mk(6, 6)), 'normal')
+
+  assert.equal(warmupFor('easy'), STEPS, '整趟都只放兩顆')
+  assert.equal(warmupFor('normal'), 2)
+  assert.equal(warmupFor('hard'), 1, '第二步就三顆')
+})

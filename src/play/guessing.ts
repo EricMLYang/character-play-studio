@@ -1,5 +1,5 @@
 import type { CharEntry, Progress } from '../types'
-import { pickDishes, pickDecoy } from './dishes'
+import { pickDishes, pickDecoy, recallLevel } from './dishes'
 import { taiwanDay } from '../../shared/domain.mjs'
 
 /**
@@ -15,8 +15,12 @@ import { taiwanDay } from '../../shared/domain.mjs'
 
 /** 一輪猜幾個字 */
 export const ROUNDS = 5
-/** 前面幾題只放兩張卡暖身 */
+/**
+ * 前面幾題只放兩張卡暖身。幾題算暖身跟著他走（dishes.ts 的 recallLevel）：
+ * 認得順就第二題開始三張，常找錯就整輪都只放兩張。
+ */
 export const WARMUP = 2
+export const warmupFor = (level: 'easy' | 'normal' | 'hard') => (level === 'easy' ? ROUNDS : level === 'hard' ? 1 : WARMUP)
 
 export type GuessRound = {
   /** 要猜的字 */
@@ -28,9 +32,10 @@ export type GuessRound = {
 export function pickRounds(library: CharEntry[], progress: Progress, random = Math.random, today = taiwanDay()): GuessRound[] {
   const pool = library.filter((c) => progress.watched[c.char]).map((c) => c.char)
   const everyone = library.map((c) => c.char)
+  const warmup = warmupFor(recallLevel(progress))
   return pickDishes(pool, progress, today, random, ROUNDS).map((char, i) => ({
     char,
-    options: shuffle([char, ...decoys(char, pool, everyone, i < WARMUP ? 1 : 2, random)], random),
+    options: shuffle([char, ...decoys(char, pool, everyone, i < warmup ? 1 : 2, random)], random),
   }))
 }
 
