@@ -219,7 +219,8 @@
   .parent-label { display: none; }
   .home-parent { padding: 9px 12px; }
   .home-invite { flex-wrap: wrap; }
-  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; gap: 6px; display: grid; grid-template-columns: repeat(4, 1fr); }
+  /* 列與列之間要留得比 6px 多：🆕 從格子頂端探出 6px，擠在一起會像貼到上一排的角 */
+  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; column-gap: 6px; row-gap: 14px; display: grid; grid-template-columns: repeat(4, 1fr); }
   /* 七個去處擠在 390px：排兩行四個（一行七個只剩 40px 寬，六歲的手指按不準），圖示疊在名字上面，副標拿掉 */
   .place { min-width: 0; min-height: 50px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
   .place small { display: none; }
@@ -264,7 +265,7 @@
   .quests { gap: 6px; padding: 0 14px 8px; }
   /* 三件事要排得進一行：標題收起來，只留圖示、名字與進度 */
   .quests-title { display: none; }
-  .quest { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 8px 4px 4px; }
+  .quest { flex: 1 1 0; min-width: 0; gap: 7px; padding: 4px 8px 4px 4px; }
   .quest-icon { width: 26px; height: 26px; font-size: 15px; }
   .quest-text { min-width: 0; flex: 0 1 auto; gap: 2px; }
   /* 名字排不下就換短的（看字、認字、拼詞），不要讓它變成「看 3 …」 */

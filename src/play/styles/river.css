@@ -74,7 +74,8 @@
 .river-stones { position: relative; z-index: 1; width: min(880px, 100%); margin: 0 auto;
   --gap: clamp(12px, 2.5vw, 28px);
   --col: calc((100% - (var(--lanes) - 1) * var(--gap)) / var(--lanes));
-  display: grid; grid-template-columns: repeat(var(--lanes), 1fr); gap: var(--gap); }
+  /* minmax(0, 1fr)：1fr 的最小寬度預設是 auto，石頭上的字會把格子撐開，上岸那排五顆就擠出螢幕 */
+  display: grid; grid-template-columns: repeat(var(--lanes), minmax(0, 1fr)); gap: var(--gap); }
 
 /* 兩岸：出發的地方與對岸等著的東西，露在石頭排的外面。高度跟石頭齊，主角站上去腳才踩得到 */
 .river-bank { position: absolute; top: 0; bottom: -14px; width: clamp(54px, 9vw, 86px);
@@ -168,6 +169,22 @@
   .river-stones { --gap: 10px; }
   .river-hero-img { width: clamp(76px, 15vh, 104px); }
   .river-done-char { font-size: 26px; }
+  /*
+   * 手機上石頭幾乎佔滿寬度，兩岸被擠到只剩五六個 px——主角看起來站在水面上。
+   * 讓岸往上長出一截、往河裡探一點（探進去那段被石頭蓋住，露出來的是一道綠色平台），
+   * 主角就踩得到東西，對岸的東西也站得上去。
+   */
+  .river-bank { --ledge: 46px; top: calc(-1 * var(--ledge)); padding-top: 6px; }
+  .river-bank.left { right: calc(100% - 14%); }
+  .river-bank.right { left: calc(100% - 14%); }
+  .river-hero.ashore, .river-hero.landed { bottom: calc(100% + 46px); transition: left .52s cubic-bezier(.3,1.3,.5,1), bottom .3s; }
+  .river-hero.ashore { left: 10%; }
+  .river-hero.landed { left: 82%; }
+  /* 上岸的那句話在最右邊，排不下就換行，不要被切掉 */
+  .river-bubble { white-space: normal; text-align: center; }
+  /* 上岸之後那排是五顆，手機上一顆只剩六十幾 px，字要跟著縮 */
+  .stone.walked { height: clamp(66px, 11vh, 104px); }
+  .stone.walked .stone-char { font-size: clamp(26px, 5.5vh, 46px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -178,8 +195,9 @@
 /*
  * 石頭那一排最寬 880px，主角站在它外面還要再 140px（偏移 84 ＋ 半個身體 57）。
  * 畫面不到 1200px 時兩側不夠，主角會被切在螢幕外——改成站在河的邊緣。
+ * 700px 以下不走這條：那裡的岸會往上長出一道平台，主角站在平台上（上面那段 @media）。
  */
-@media (max-width: 1200px) {
+@media (min-width: 701px) and (max-width: 1200px) {
   .river-hero.ashore { left: 15%; }
   .river-hero.landed { left: 85%; }
 }
