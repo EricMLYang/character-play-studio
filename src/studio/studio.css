@@ -202,3 +202,6 @@
 .st-learn-list li { display: flex; align-items: center; gap: 10px; }
 .st-learn-char { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: #f0ece5; font-size: 20px; }
 .st-learn-char:hover { background: #e6e1d8; }
+
+.st-chip-rows p { margin: 6px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.st-chip-rows b { font-size: 13px; margin-right: 4px; }

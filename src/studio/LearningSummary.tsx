@@ -77,6 +77,17 @@ export default function LearningSummary({ progress, characters, onPick }: {
         </section>
       )}
 
+      {(s.notWritten.length > 0 || s.onlyOnce.length > 0) && (
+        <section className="st-card st-practice-more">
+          <h4>✏️ 看很多、寫很少</h4>
+          <p className="st-dim">研究上最有效的是自己寫出來、自己想起來；這幾個字他看過，但還沒遮起來憑記憶寫過，或只看過一次。帶他挑一個，打開字卡描完按「遮起來，自己寫寫看」。</p>
+          <div className="st-chip-rows">
+            {s.notWritten.length > 0 && <p><b>還沒憑記憶寫過（看最多次的在前）：</b>{s.notWritten.map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>}
+            {s.onlyOnce.length > 0 && <p><b>只看過一次（最久沒再看的在前）：</b>{s.onlyOnce.map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>}
+          </div>
+        </section>
+      )}
+
       <div className="st-learn-cols">
         <section className="st-card">
           <h4>常找錯的字</h4>

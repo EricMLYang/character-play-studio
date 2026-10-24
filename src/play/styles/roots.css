@@ -102,7 +102,8 @@
 .roots-kind { margin-bottom: 26px; }
 .roots-kind-title { margin: 0 0 6px; font-size: 17px; font-weight: 800; color: rgba(46,42,38,.7); }
 /* 詞家族：家人是詞，不畫筆順 */
-.roots-member-word { font-family: var(--kai); font-size: clamp(26px, 5vh, 40px); line-height: 1.2; min-height: clamp(70px, 15vh, 136px); display: grid; place-items: center; }
+.roots-member-word { font-family: var(--kai); font-size: clamp(26px, 5vh, 40px); line-height: 1.2; min-height: clamp(70px, 15vh, 136px); display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.roots-member.word { width: auto; min-width: clamp(100px, 19vh, 176px); padding-left: 14px; padding-right: 14px; }
 .roots-member-word .hit, .roots-card-char .hit { color: #0F7FA8; }
 .roots-card.word { width: auto; min-width: clamp(120px, 24vh, 210px); padding: 0 16px; }
 .roots-card.word .roots-card-char { font-size: clamp(36px, 9vh, 72px); }

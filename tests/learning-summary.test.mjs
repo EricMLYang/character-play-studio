@@ -100,3 +100,17 @@ test('小結挑得出「只差一顆就集滿」的字，還說得出缺的是�
   assert.deepEqual(after.full, ['火'])
   assert.deepEqual(after.nearly.map((n) => n.char), [], '集滿了就不是「只差一顆」')
 })
+
+test('小結列出看過但還沒憑記憶寫過、以及只看過一次的字', async () => {
+  const { summarize } = await import('../src/studio/summary.ts')
+  const at = '2026-10-22T02:00:00Z'
+  const entry = (char) => ({ char, zhuyin: '', meaning: '', emoji: '', words: [], concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
+  const lib = ['火', '水', '山'].map(entry)
+  const progress = {
+    watched: { 火: { count: 5, last: at }, 水: { count: 1, last: '2026-10-10T02:00:00Z' }, 山: { count: 1, last: at } },
+    town: { 火: { traces: 2, blind: 1, first: at, last: at, strokes: [[1, 2]] }, 山: { traces: 1, first: at, last: at, strokes: [[1, 2]] } },
+  }
+  const s = summarize(progress, lib, new Date(at))
+  assert.deepEqual(s.notWritten, ['水', '山'], '火 憑記憶寫過了；山 只描過不算')
+  assert.deepEqual(s.onlyOnce, ['水', '山'], '最久沒再看的在前')
+})

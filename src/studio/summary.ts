@@ -34,6 +34,12 @@ export type Summary = {
   /** 星星集滿、戴皇冠的字 */
   full: string[]
   /**
+   * 研究上最有效的兩件事他做得最少：寫（憑記憶寫）跟自己認出來。
+   * 這兩排是「看過、但還沒憑記憶寫過」與「只看過一次」的字，家長挑一兩個帶他做。
+   */
+  notWritten: string[]
+  onlyOnce: string[]
+  /**
    * 只差一顆就集滿的字，跟缺的是哪一顆。
    * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
    * 可以挑一個跟他說「我們去把『田』補完吧」。
@@ -75,6 +81,10 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
       .sort((a, b) => Date.parse(b[1].first) - Date.parse(a[1].first))
       .slice(0, 3).map(([word]) => ({ word, emoji: pictures.get(word) })),
     traced: Object.keys(progress.town || {}).length,
+    notWritten: visible.filter((c) => progress.watched?.[c.char] && !(progress.town?.[c.char]?.blind))
+      .sort((a, b) => (progress.watched[b.char].count) - (progress.watched[a.char].count)).slice(0, 10).map((c) => c.char),
+    onlyOnce: visible.filter((c) => progress.watched?.[c.char]?.count === 1)
+      .sort((a, b) => Date.parse(progress.watched[a.char].last) - Date.parse(progress.watched[b.char].last)).slice(0, 10).map((c) => c.char),
     stars: stars,
     partners: partnerCount(stars),
     toNextPartner: nextPartner(stars)?.need ?? null,
