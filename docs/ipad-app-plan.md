@@ -107,7 +107,7 @@ Mac（開發＋製作，照舊）                         iPad（單機）
 
 ### 2-3 紀錄的存放、備份與回 Mac
 - 存放：先寫一個儲存介面，第一階段用 localStorage 跑通，到第三階段換成 Capacitor 的原生存檔（Preferences 或 Filesystem）。WKWebView 的 localStorage 在空間不足時可能被系統清掉，紀錄不能只放那裡
-- **初始紀錄**：打包時從 Mac 的 `data/progress.json` 帶一份進去當起點（⚠ 要先處理 #130，決定用哪一份紀錄，不然髒資料會一起搬過去）
+- **初始紀錄**：打包時從 Mac 的 `data/progress.json` 帶一份進去，**只在 iPad 上還沒有任何紀錄時（第一次安裝）用來當起點**；之後更新版本都以 iPad 本機的紀錄為準，不會被打包帶進去的那份蓋掉（TestFlight 自動更新時也不會倒退）（⚠ 要先處理 #130，決定用哪一份紀錄，不然髒資料會一起搬過去）
 - **匯出**：家長用的隱藏操作（沿用長按）把紀錄存成 JSON，透過 iOS 分享選單存到 pCloud 或「檔案」
 - **匯入回 Mac**（⚠ 要你決定要不要做）：Studio 加「匯入 iPad 紀錄」，把事件合併進 `data/progress.json`。因為事件有編號，重複匯入不會重複算
 - **App 重裝**：同一個 App 識別碼覆蓋安裝時，紀錄會留著。**刪掉 App 紀錄就沒了**，所以匯出備份是必要的，不是選配
@@ -219,8 +219,8 @@ Mac（開發＋製作，照舊）                         iPad（單機）
 ## 5. 之後的日常流程
 
 1. 照舊在 Mac 的 Studio 做字、上架影片
-2. 想更新 iPad：先在 iPad 匯出紀錄 → Mac 匯入 → `npm run app:build` → 重裝（Xcode 或 TestFlight）
-3. 新版會把 Mac 上的最新紀錄當起點，所以**先匯入再打包**，iPad 上的紀錄才不會倒退。這個順序要寫進打包腳本裡檢查（例如打包時比對最後一次匯入的時間）
+2. 想更新 iPad：`npm run app:build` → 重裝（Xcode 或 TestFlight）。iPad 上的紀錄是正本，更新版本不會動到它（2-3）
+3. Mac 想看最新進度時：iPad 匯出紀錄 → Mac 匯入。這跟更新版本是兩件事，不必綁在一起
 
 ---
 
