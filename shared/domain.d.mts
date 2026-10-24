@@ -26,6 +26,6 @@ export const WRITE_STAR_CUTOVER: number
 export function starIndex(progress: Progress): Map<string, number>
 export function totalStars(progress: Progress): number
 export function validRadical(event: unknown): boolean
-export function findFamily(progress: Progress, family: string, char: string, at?: string): Progress
+export function findFamily(progress: Progress, family: string, char: string, at?: string, word?: string): Progress
 export function validBook(event: unknown): boolean
 export function readBook(progress: Progress, text: string, char: string, ok: boolean, at?: string, mine?: boolean): Progress

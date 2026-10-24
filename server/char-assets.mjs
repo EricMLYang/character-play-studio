@@ -1,6 +1,7 @@
 // 每個字在孩子端用到的衍生資料：筆順（public/strokes/）與字的家族（data/parts.json）。
 // 字庫一有增刪或開放給孩子，路由就會呼叫 refreshCharacterAssets()，不必再手動跑腳本。
 import { radicalGlyphs } from '../shared/radicals.mjs'
+import { soundGlyphs } from '../shared/phonetics.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, DATA, STROKES, loadCharacters } from './core.mjs'
@@ -26,7 +27,7 @@ export const SKIP = {
 export function syncStrokes(libraryChars) {
   if (!fs.existsSync(STROKE_SOURCE)) throw new Error('找不到 hanzi-writer-data，請先執行 npm install')
   // 部首家族的門牌（氵、扌…）也要一筆一筆寫出來，跟字庫的字一起抽
-  const chars = [...new Set([...libraryChars, ...radicalGlyphs()])]
+  const chars = [...new Set([...libraryChars, ...radicalGlyphs(), ...soundGlyphs()])]
   fs.mkdirSync(STROKES, { recursive: true })
   // 移除的字要一起清掉，不然會慢慢囤積用不到的筆順檔
   const keep = new Set(chars.map((c) => `${c}.json`))

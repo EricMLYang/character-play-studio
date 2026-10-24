@@ -16,7 +16,8 @@ registerHooks({
 
 const { RADICALS, familyOf, radicalLines, radicalGlyphs } = await import('../shared/radicals.mjs')
 const { recordEvent } = await import('../shared/play-events.mjs')
-const { familiesIn, familyFor, foundIn, storyMembers, pickFinds, nameFamilies, FIND_ROUNDS } = await import('../src/play/families.ts')
+const { familiesIn, familyFor, foundIn, homesFor, sizeOf, storyMembers, pickFinds, nameFamilies, FIND_ROUNDS } = await import('../src/play/families.ts')
+const { SOUNDS, soundLines } = await import('../shared/phonetics.mjs')
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const strokeData = (char) => {
@@ -77,7 +78,7 @@ test('the radical event only accepts a real member of that family', () => {
 })
 
 test('families only appear when at least two members are in the child library', () => {
-  const families = familiesIn(['河', '海', '打'].map(entry))
+  const families = familiesIn(['河', '海', '打'].map(entry)).filter((f) => f.kind === 'radical')
   assert.deepEqual(families.map((f) => f.id), ['water'])
   assert.deepEqual(families[0].list.map((c) => c.char), ['河', '海'])
   assert.equal(familyFor('打', families), undefined, '提手旁只有一個字，先不出現')
@@ -106,4 +107,47 @@ test('his name lives in three families', () => {
   const families = familiesIn(['楊', '林', '捷', '打', '睿', '眼'].map(entry))
   assert.deepEqual(nameFamilies('楊捷睿', families).map((h) => h.family.id), ['tree', 'hand', 'eye'])
   assert.deepEqual(nameFamilies('楊捷睿', familiesIn(['楊', '林'].map(entry))), [], '有字找不到家就整條不顯示')
+})
+
+test('聲音家：門牌不一定在字庫裡，一個家人就開門；干擾字不念起來像', () => {
+  for (const s of SOUNDS) assert.ok(s.forms.length === 1 && Object.keys(s.members).length >= 1 && s.intro && s.change && s.common, s.id)
+  const lines = new Set(soundLines())
+  for (const s of SOUNDS) for (const line of [s.forms[0], s.intro, ...Object.values(s.members)]) assert.ok(lines.has(line), line)
+  const lib = ['跑', '抱', '媽', '河', '哥', '粉', '紅', '空'].map(entry)
+  const families = familiesIn(lib)
+  const bao = families.find((f) => f.id === 'sound-bao')
+  assert.deepEqual(bao.list.map((c) => c.char), ['跑', '抱'])
+  assert.ok(families.some((f) => f.id === 'sound-ma'), '馬 不在字庫也開門：門牌是示範')
+  const progress = { watched: Object.fromEntries(lib.map((c) => [c.char, { count: 1, last: at }])) }
+  for (const r of pickFinds(bao, families, progress, first)) {
+    assert.equal(r.options.length, 3)
+    for (const o of r.options) if (o !== r.char) assert.ok(!Object.hasOwn(bao.members, o), `${o} 念起來像包，不能當干擾`)
+  }
+  assert.deepEqual(homesFor('河', families).map((f) => f.id).sort(), ['sound-ke'], '河 住可的聲音家（三點水那一家在這個字庫沒開）')
+})
+
+test('詞家族：同一個字的詞住一起，家人是詞，找到的詞記在那個字底下', () => {
+  const lib = [
+    { ...entry('火'), words: [{ text: '火車', emoji: '🚂' }, { text: '火山', emoji: '🌋' }, { text: '煙火', emoji: '🎆' }] },
+    { ...entry('水'), words: [{ text: '喝水', emoji: '🥤' }, { text: '水果', emoji: '🍎' }, { text: '水杯', emoji: '🥛' }] },
+    { ...entry('山'), words: [{ text: '爬山', emoji: '🧗' }] },
+  ]
+  const families = familiesIn(lib)
+  const fire = families.find((f) => f.id === 'word-火')
+  assert.ok(fire && fire.kind === 'word')
+  assert.equal(sizeOf(fire), 3)
+  assert.ok(!families.some((f) => f.id === 'word-山'), '不到三個詞先不成家')
+  assert.equal(fire.members['火車'], '火車的火', '家人那句用詞語拼圖本來就有的音檔')
+  const progress = { watched: { 火: { count: 1, last: at }, 水: { count: 1, last: at } } }
+  const rounds = pickFinds(fire, families, progress, first)
+  assert.equal(rounds.length, 3)
+  for (const r of rounds) {
+    assert.ok(r.char.includes('火'))
+    for (const o of r.options) if (o !== r.char) assert.ok(!o.includes('火'), `${o} 也有火，不能當干擾`)
+  }
+  const known = (c) => '火水山'.includes(c)
+  const got = recordEvent({ watched: {} }, 'radical', { char: '火', family: 'word-火', word: '火車', ok: true, id: 'evt-00000301', at }, known, '2026-10-20')
+  assert.equal(got.progress.radicals['word-火']['火車'], at)
+  assert.equal(foundIn(fire, got.progress), 1)
+  assert.ok(recordEvent({ watched: {} }, 'radical', { char: '火', family: 'word-火', word: '喝水', ok: true, id: 'evt-00000302', at }, known).error, '詞裡要有這個字')
 })

@@ -1,4 +1,5 @@
 import { radicalById } from './radicals.mjs'
+import { soundById } from './phonetics.mjs'
 /**
  * All daily records use Taiwan time, including timestamps saved as UTC.
  * 格式器建一次就好：首頁每拿到一顆星星就會對每一筆紀錄算一次台灣日期
@@ -146,17 +147,25 @@ export function readBook(progress, text, char, ok, at = new Date().toISOString()
   return { ...progress, books: { ...progress.books, [text]: entry } }
 }
 
-/** 部首家族的「找家人」：family 這一家的 char 是他自己找出來的（radicals.mjs 的成員才算） */
+/**
+ * 字的家族的「找家人」：family 是哪一家（radicals.mjs 的部首家、phonetics.mjs 的聲音家，
+ * 或 word-<字> 的詞家族），char 是他自己找出來的那個字。詞家族找的是詞（word），那個詞要含這個字。
+ */
 export const validRadical = (event) => {
-  const family = radicalById(event?.family)
-  return Boolean(family && typeof event.char === 'string' && Object.hasOwn(family.members, event.char) && typeof event.ok === 'boolean')
+  if (typeof event?.char !== 'string' || typeof event.ok !== 'boolean') return false
+  if (typeof event.family === 'string' && event.family.startsWith('word-')) {
+    return event.family === `word-${event.char}` && typeof event.word === 'string' && [...event.word].length >= 2 && [...event.word].length <= 4 && [...event.word].includes(event.char)
+  }
+  const family = radicalById(event.family) || soundById(event.family)
+  return Boolean(family && Object.hasOwn(family.members, event.char))
 }
 
 /** 記下他在哪一家找到了哪個字；第一次找到的時間留著（離線補送的舊紀錄比較早就換成它） */
-export function findFamily(progress, family, char, at = new Date().toISOString()) {
+export function findFamily(progress, family, char, at = new Date().toISOString(), word) {
+  const key = word || char
   const found = progress.radicals?.[family] || {}
-  if (found[char] && Date.parse(found[char]) <= Date.parse(at)) return progress
-  return { ...progress, radicals: { ...progress.radicals, [family]: { ...found, [char]: at } } }
+  if (found[key] && Date.parse(found[key]) <= Date.parse(at)) return progress
+  return { ...progress, radicals: { ...progress.radicals, [family]: { ...found, [key]: at } } }
 }
 
 /**
@@ -184,7 +193,7 @@ export const WRITE_STAR_CUTOVER = Date.parse('2026-10-25T00:00:00+08:00')
 const wroteIt = (resident) => Boolean(resident) && ((resident.blind || 0) > 0 || Date.parse(resident.first) < WRITE_STAR_CUTOVER)
 /** 魔法鍋刪掉之前變出來過的字，直接算成「找到牠的家」 */
 const foundHome = (progress, char) => Boolean(progress.lab?.[char]) ||
-  Object.values(progress.radicals || {}).some((family) => Boolean(family?.[char]))
+  Object.entries(progress.radicals || {}).some(([id, family]) => Boolean(family?.[char]) || (id === `word-${char}` && Object.keys(family || {}).length > 0))
 
 /** 一個字拿到哪幾顆星：{ watch: true, write: false, ... }。 */
 export function charStars(progress, char) {
@@ -213,7 +222,8 @@ export function starIndex(progress) {
   for (const [char, resident] of Object.entries(progress.town || {})) if (wroteIt(resident)) mark(char)
   for (const [char, box] of Object.entries(progress.recall || {})) if (box?.right > 0) mark(char)
   for (const char of new Set([...Object.values(progress.puzzles || {}).map((p) => p.char), ...Object.values(progress.books || {}).map((b) => b.char)])) mark(char)
-  const homes = new Set([...Object.keys(progress.lab || {}), ...Object.values(progress.radicals || {}).flatMap((f) => Object.keys(f || {}))])
+  const homes = new Set([...Object.keys(progress.lab || {}), ...Object.entries(progress.radicals || {}).flatMap(([id, f]) =>
+    id.startsWith('word-') ? (Object.keys(f || {}).length ? [id.slice(5)] : []) : Object.keys(f || {}))])
   for (const char of homes) mark(char)
   return stars
 }

@@ -105,11 +105,11 @@ export const GAMES: Game[] = [
     ),
   },
   {
-    id: 'roots', icon: '🏠', title: '部首家族', fresh: true,
+    id: 'roots', icon: '🏠', title: '字的家族', fresh: true,
     subtitle: (p) => { const n = Object.values(p.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0); return n ? `找到 ${n} 個家人` : '部首會變身' },
     render: (ctx) => (
       <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} onPick={ctx.open} onBack={ctx.back}
-        onFind={(family, char, ok) => ctx.record({ kind: 'radical', char, family, ok })} />
+        onFind={(family, char, ok, word) => ctx.record({ kind: 'radical', char, family, ok, ...(word ? { word } : {}) })} />
     ),
   },
 ]

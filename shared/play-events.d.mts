@@ -12,7 +12,7 @@ export type PlayEvent =
   /** 詞語拼圖：char 是補上的字，word 是整個詞，ok 是第一下就找對 */
   | { kind: 'puzzle'; char: string; id: string; at: string; word: string; ok: boolean }
   /** 部首家族：family 是 shared/radicals.mjs 的 id，char 是找到的那個家人，ok 是第一下就找對 */
-  | { kind: 'radical'; char: string; id: string; at: string; family: string; ok: boolean }
+  | { kind: 'radical'; char: string; id: string; at: string; family: string; ok: boolean; word?: string }
   /** 指讀小書：text 是整句，char 是他指出來的字，ok 是第一下就指對；mine＝最後一頁他自己接的 */
   | { kind: 'book'; char: string; id: string; at: string; text: string; ok: boolean; mine?: boolean }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>

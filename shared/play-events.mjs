@@ -24,7 +24,8 @@ export const PLAY_EVENTS = {
   // 詞語拼圖：char 是他補上的字（要在字庫裡），word 是整個詞（其他字不一定在字庫裡）
   puzzle: { error: '拼圖紀錄不正確', valid: validPuzzle, apply: (p, e) => solvePuzzle(p, e.word, e.char, e.ok, e.at) },
   // 部首家族：在 family 這一家找到 char（ok 是第一下就找對）
-  radical: { error: '部首紀錄不正確', valid: validRadical, apply: (p, e) => findFamily(p, e.family, e.char, e.at) },
+  // 字的家族：family 是部首家、聲音家或 word-<字> 的詞家族；詞家族多帶 word（找到的那個詞）
+  radical: { error: '家族紀錄不正確', valid: validRadical, apply: (p, e) => findFamily(p, e.family, e.char, e.at, e.word) },
   // 指讀小書：text 是整句，char 是他指出來的字；mine 是最後一頁自己接的
   book: { error: '小書紀錄不正確', valid: validBook, apply: (p, e) => readBook(p, e.text, e.char, e.ok, e.at, e.mine === true) },
 }

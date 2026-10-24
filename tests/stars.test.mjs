@@ -72,6 +72,10 @@ test('魔法鍋刪掉之前變出來過的字，直接算成「找到牠的家�
   assert.equal(starIndex(p).get('日'), 1)
   const both = findFamily(p, 'sun', '日', at)
   assert.equal(starIndex(both).get('日'), 1, '魔法鍋跟部首家族都做過還是同一顆')
+  // 詞家族找到一個詞，也算「找到牠的家」，記在那個字底下
+  const word = findFamily({ watched: {} }, 'word-火', '火', at, '火車')
+  assert.equal(charStars(word, '火').family, true)
+  assert.equal(starIndex(word).get('火'), 1)
 })
 
 test('小鎮居民靠憑記憶寫長大：搬進來是 1 級，第 5 級戴皇冠', () => {

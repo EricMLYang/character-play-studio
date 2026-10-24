@@ -102,7 +102,12 @@ export const RADICAL_LINES = {
   home: (r) => `${r.name}的家`,
 }
 export const RADICAL_FIXED = {
-  hello: '每個部首都有一個家，點一個家進去看看！',
+  hello: '每個字都有自己的家，點一個家進去看看！',
+  /** 詞的家族：這個字的詞都住一起（火車、火山、煙火） */
+  wordAsk: '哪一個詞裡面有',
+  wordIntro: '這個字有好多詞！',
+  wordChange: '它跑進不同的詞裡，意思都連得上！',
+  wordCommon: '這些詞裡面都有它！',
   play: '來找找看，誰是這一家的？',
   allFound: '家人都找到了！',
   nameHome: '你的名字，住在三個部首家族裡！',

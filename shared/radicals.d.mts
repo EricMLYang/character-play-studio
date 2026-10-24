@@ -14,6 +14,6 @@ export const RADICALS: Radical[]
 export function radicalById(id: unknown): Radical | undefined
 export function familyOf(char: string): Radical | undefined
 export const RADICAL_LINES: { ask: (r: Radical) => string; home: (r: Radical) => string }
-export const RADICAL_FIXED: { hello: string; play: string; allFound: string; nameHome: string }
+export const RADICAL_FIXED: { hello: string; play: string; allFound: string; nameHome: string; wordAsk: string; wordIntro: string; wordChange: string; wordCommon: string }
 export function radicalLines(): string[]
 export function radicalGlyphs(): string[]

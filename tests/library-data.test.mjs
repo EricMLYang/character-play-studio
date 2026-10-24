@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { validateCharacterFields, formatWords } from '../server/character-metadata.mjs'
 import { SKIP } from '../server/char-assets.mjs'
 import { radicalGlyphs } from '../shared/radicals.mjs'
+import { soundGlyphs } from '../shared/phonetics.mjs'
 
 // 檢查 git 裡的真實字庫，不是測試用的假資料：手動改 JSON 或同步出錯時，在這裡先被抓到。
 // 影片不進 git，所以這裡不碰 media/。
@@ -38,8 +39,8 @@ test('prompt files belong to cards, and each active prompt points at a saved ver
 
 test('stroke files match the library (plus the radical shapes) exactly, so the child can trace every card offline', () => {
   const files = fs.readdirSync(path.join(ROOT, 'public/strokes')).filter((n) => n.endsWith('.json')).map((n) => n.slice(0, -5))
-  // 部首家族的門牌（氵、扌…）也要畫得出來：shared/radicals.mjs
-  assert.deepEqual(files.sort(), [...new Set([...chars, ...radicalGlyphs()])].sort())
+  // 部首家族、聲音家族的門牌（氵、扌、包、工…）也要畫得出來：shared/radicals.mjs、shared/phonetics.mjs
+  assert.deepEqual(files.sort(), [...new Set([...chars, ...radicalGlyphs(), ...soundGlyphs()])].sort())
 })
 
 test('the family table only links library characters, and each part lights up exactly its own strokes', () => {
