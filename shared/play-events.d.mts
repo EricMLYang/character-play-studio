@@ -10,6 +10,8 @@ export type PlayEvent =
   | { kind: 'recall'; char: string; id: string; at: string; ok: boolean }
   /** 詞語拼圖：char 是補上的字，word 是整個詞，ok 是第一下就找對 */
   | { kind: 'puzzle'; char: string; id: string; at: string; word: string; ok: boolean }
+  /** 部首家族：family 是 shared/radicals.mjs 的 id，char 是找到的那個家人，ok 是第一下就找對 */
+  | { kind: 'radical'; char: string; id: string; at: string; family: string; ok: boolean }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>
 
 export const PLAY_EVENTS: Record<PlayEventKind, {

@@ -21,3 +21,5 @@ export const MAX_STARS: number
 export function charStars(progress: Progress, char: string): Record<StarDeed['id'], boolean>
 export function starIndex(progress: Progress): Map<string, number>
 export function totalStars(progress: Progress): number
+export function validRadical(event: unknown): boolean
+export function findFamily(progress: Progress, family: string, char: string, at?: string): Progress

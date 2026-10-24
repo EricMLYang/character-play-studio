@@ -12,6 +12,7 @@ import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 import { ROOT, VOICE, loadCharacters } from './core.mjs'
 import { linesForEntry, FIXED_LINES, PARTNER_WANTS } from '../shared/voice-lines.mjs'
+import { radicalLines } from '../shared/radicals.mjs'
 
 export const VOICE_NAME = process.env.CPS_VOICE && process.env.CPS_VOICE !== 'off' ? process.env.CPS_VOICE : 'Meijia'
 const enabled = () => process.platform === 'darwin' && process.env.CPS_VOICE !== 'off'
@@ -88,7 +89,7 @@ export function syncVoice({ texts, onProgress } = {}) {
   const run = async () => {
     fs.mkdirSync(VOICE, { recursive: true })
     const full = !texts
-    const wanted = full ? voiceTexts(loadCharacters(), [...clipSayTexts(), ...Object.values(FIXED_LINES), ...PARTNER_WANTS]) : [...new Set(texts.filter(Boolean))]
+    const wanted = full ? voiceTexts(loadCharacters(), [...clipSayTexts(), ...Object.values(FIXED_LINES), ...PARTNER_WANTS, ...radicalLines()]) : [...new Set(texts.filter(Boolean))]
     const index = loadVoiceIndex()
     if (index.voice !== VOICE_NAME) index.items = {}
     const items = full ? {} : { ...index.items }

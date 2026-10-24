@@ -64,6 +64,8 @@ export type Progress = {
   recall?: Record<string, Recall>
   /** 詞語拼圖：拼好過的詞 → 補的是哪個字、第一次與最後一次拼好的時間、拼了幾次、幾次第一下就對 */
   puzzles?: Record<string, Puzzle>
+  /** 部首家族：哪一家（shared/radicals.mjs 的 id）→ 他自己找到的家人 → 第一次找到的時間 */
+  radicals?: Record<string, Record<string, string>>
   /** 已經算過的事件編號（防離線重送重複算）；伺服器自己管，畫面只用來過濾還沒送出的紀錄 */
   completedEvents?: Record<string, { char: string; day: string }>
 }

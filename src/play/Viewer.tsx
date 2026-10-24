@@ -12,6 +12,7 @@ import { ClipMedia } from '../anim/AnimMedia'
 import { pickSource, mediaUrl, type Broken } from './source'
 import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
+import { familiesIn, familyFor } from './families'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -148,6 +149,8 @@ export default function Viewer({
   // 只推薦他在孩子端看得到的字，點下去才不會撲空
   const parts = useMemo(() => partsOf(entry.char).filter((p) => known.has(p.char)), [entry.char, known])
   const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
+  // 這個字住在哪個部首家族：點了去看那一家的變身故事（families.ts）
+  const home = useMemo(() => familyFor(entry.char, familiesIn(library)), [entry.char, library])
   const words = entry.words || []
   /** 有 3D 圖就用 3D 圖：沒有影片的字，這張圖就是他看到的主角 */
   const art = emojiArt(entry.emoji)
@@ -175,7 +178,7 @@ export default function Viewer({
           onGame={onGame} onWrite={trace ? undefined : toggleTrace} />
       </header>
 
-      {(words.length > 0 || parts.length > 0 || hides.length > 0) && (
+      {(words.length > 0 || parts.length > 0 || hides.length > 0 || home) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
             <button key={word.text} className="say-word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
@@ -195,6 +198,13 @@ export default function Viewer({
                 <button key={p.char} className={'part' + (i === 0 ? ' part-on' : '')} onClick={() => onJump(p.char)}
                   aria-label={`去看「${p.char}」`}>{p.char}</button>
               ))}
+            </span>
+          )}
+          {home && (
+            <span className="band-group">
+              <span className="band-label">住在</span>
+              <button className="part root-home" onClick={() => onGame('roots', entry.char)}
+                aria-label={`去看${home.name}的家`}>{home.emoji} {home.name}的家</button>
             </span>
           )}
           {hides.length > 0 && (

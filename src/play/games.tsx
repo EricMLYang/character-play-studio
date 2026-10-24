@@ -9,10 +9,11 @@ import Feed from './Feed'
 import Puzzle from './Puzzle'
 import River from './River'
 import Detective from './Detective'
+import Roots from './Roots'
 import { knownCount } from './dishes'
 
 /**
- * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
+ * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、部首家族。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -125,6 +126,14 @@ export const GAMES: Game[] = [
     render: (ctx) => (
       <Puzzle library={ctx.library} hues={ctx.hues} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onSolve={(word, char, ok) => ctx.record({ kind: 'puzzle', char, word, ok })} />
+    ),
+  },
+  {
+    id: 'roots', icon: '🏠', title: '部首家族', fresh: true,
+    subtitle: (p) => { const n = Object.values(p.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0); return n ? `找到 ${n} 個家人` : '部首會變身' },
+    render: (ctx) => (
+      <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} onPick={ctx.open} onBack={ctx.back}
+        onFind={(family, char, ok) => ctx.record({ kind: 'radical', char, family, ok })} />
     ),
   },
 ]

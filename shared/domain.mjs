@@ -1,3 +1,4 @@
+import { radicalById } from './radicals.mjs'
 /**
  * All daily records use Taiwan time, including timestamps saved as UTC.
  * 格式器建一次就好：首頁每拿到一顆星星就會對每一筆紀錄算一次台灣日期
@@ -113,6 +114,19 @@ export function solvePuzzle(progress, word, char, ok, at = new Date().toISOStrin
     lastOk: newer ? ok : previous.lastOk ?? true,
   }
   return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
+}
+
+/** 部首家族的「找家人」：family 這一家的 char 是他自己找出來的（radicals.mjs 的成員才算） */
+export const validRadical = (event) => {
+  const family = radicalById(event?.family)
+  return Boolean(family && typeof event.char === 'string' && Object.hasOwn(family.members, event.char) && typeof event.ok === 'boolean')
+}
+
+/** 記下他在哪一家找到了哪個字；第一次找到的時間留著（離線補送的舊紀錄比較早就換成它） */
+export function findFamily(progress, family, char, at = new Date().toISOString()) {
+  const found = progress.radicals?.[family] || {}
+  if (found[char] && Date.parse(found[char]) <= Date.parse(at)) return progress
+  return { ...progress, radicals: { ...progress.radicals, [family]: { ...found, [char]: at } } }
 }
 
 /**
