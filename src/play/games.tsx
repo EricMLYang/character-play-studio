@@ -9,10 +9,11 @@ import Puzzle from './Puzzle'
 import River from './River'
 import Detective from './Detective'
 import Roots from './Roots'
+import Book from './Book'
 import { knownCount } from './dishes'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：小鎮、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：小鎮、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -38,6 +39,8 @@ export type GameContext = {
   /** 他在字火車接過的詞，新的在前 */
   savedWords: string[]
   progress: Progress
+  /** 今天的路上的字（today.ts）：指讀小書優先用這些字 */
+  focus: string[]
   /** 記一筆紀錄；沒給編號與時間就自動補上 */
   record: (event: NewEvent) => void
   /** 開一個字（觀看層蓋在遊戲上面，關掉回到這裡） */
@@ -79,15 +82,6 @@ export const GAMES: Game[] = [
     ),
   },
   {
-    id: 'train', icon: '🚂', title: '字火車',
-    subtitle: () => '自己接一個詞',
-    render: (ctx) => (
-      <Train groups={ctx.groups} saved={ctx.savedWords} onBack={ctx.back}
-        onRide={(text) => { ctx.record({ kind: 'word', char: text }); ctx.ride(text) }}
-        onRemove={(text) => ctx.record({ kind: 'word', char: text, remove: true })} />
-    ),
-  },
-  {
     id: 'feed', icon: '🍽️', title: '餵大怪獸',
     subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
     render: (ctx) => (
@@ -117,6 +111,14 @@ export const GAMES: Game[] = [
     render: (ctx) => (
       <Puzzle library={ctx.library} hues={ctx.hues} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onSolve={(word, char, ok) => ctx.record({ kind: 'puzzle', char, word, ok })} />
+    ),
+  },
+  {
+    id: 'book', icon: '📖', title: '指讀小書', fresh: true,
+    subtitle: (p) => { const n = Object.keys(p.books || {}).length; return n ? `讀過 ${n} 句` : '自己讀一本小書' },
+    render: (ctx) => (
+      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} onPick={ctx.open} onBack={ctx.back}
+        onRead={(text, char, ok, mine) => ctx.record({ kind: 'book', char, text, ok, ...(mine ? { mine: true } : {}) })} />
     ),
   },
   {

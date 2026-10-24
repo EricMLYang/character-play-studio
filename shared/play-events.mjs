@@ -1,4 +1,4 @@
-import { taiwanDay, completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily } from './domain.mjs'
+import { taiwanDay, completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily, validBook, readBook } from './domain.mjs'
 
 /**
  * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞、餵怪獸、詞語拼圖。
@@ -25,6 +25,8 @@ export const PLAY_EVENTS = {
   puzzle: { error: '拼圖紀錄不正確', valid: validPuzzle, apply: (p, e) => solvePuzzle(p, e.word, e.char, e.ok, e.at) },
   // 部首家族：在 family 這一家找到 char（ok 是第一下就找對）
   radical: { error: '部首紀錄不正確', valid: validRadical, apply: (p, e) => findFamily(p, e.family, e.char, e.at) },
+  // 指讀小書：text 是整句，char 是他指出來的字；mine 是最後一頁自己接的
+  book: { error: '小書紀錄不正確', valid: validBook, apply: (p, e) => readBook(p, e.text, e.char, e.ok, e.at, e.mine === true) },
 }
 
 /** 升級前排進佇列的觀看紀錄沒有 kind，照樣當觀看。 */

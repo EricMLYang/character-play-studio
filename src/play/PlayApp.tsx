@@ -204,7 +204,7 @@ export default function PlayApp() {
   const entry = all.find((c) => c.char === active)
   const index = items.findIndex((c) => c.char === active)
   const ctx: GameContext = {
-    library: all, groups, hues, stars: starTotal, savedWords: mine.map((g) => g.key), progress, record, open, ride: startRide,
+    library: all, groups, hues, stars: starTotal, savedWords: mine.map((g) => g.key), progress, focus: path.flatMap((s) => s.chars), record, open, ride: startRide,
     back: () => back({ screen: 'home' }), go: toScreen, want: route.want,
   }
 

@@ -1,0 +1,60 @@
+/* ---------- 指讀小書：一句一句唸、唸到哪段哪段亮，唸完指出那個字 ---------- */
+.place-book { background: #FFE3EC; }
+.place-book .place-icon { animation-delay: -1.7s; }
+
+.book { position: relative; height: 100%; display: flex; flex-direction: column;
+  background: linear-gradient(#FFF6E9, #FFF0F4 70%, #FFE6EE); }
+.book :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.book-empty { margin: auto; padding: 0 24px; font-size: 20px; font-weight: 700; text-align: center; }
+
+/* 封面 */
+.book-cover { align-self: center; margin: auto; display: flex; flex-direction: column; align-items: center; gap: 14px;
+  width: min(520px, 86vw); padding: clamp(28px, 6vh, 56px) 24px; border-radius: 12px 34px 34px 12px;
+  background: linear-gradient(135deg, #FFD9E4, #FFC2D3); box-shadow: -10px 0 0 #E89AB2, 0 10px 0 rgba(0,0,0,.08), 0 20px 40px rgba(0,0,0,.12);
+  animation: pop .45s cubic-bezier(.2,1.6,.4,1) both; }
+.book-cover-emoji { font-size: clamp(44px, 9vh, 72px); line-height: 1; }
+.book-cover-title { font-family: var(--kai); font-size: clamp(36px, 7vh, 60px); line-height: 1.2; }
+.book-cover-open { padding: 12px 26px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 20px; font-weight: 800; }
+
+/* 一頁 */
+.book-page { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2.4vh, 22px);
+  padding: 0 16px calc(14px + env(safe-area-inset-bottom)); overflow-y: auto; }
+.book-picture { display: grid; place-items: center; width: clamp(120px, 26vh, 220px); height: clamp(120px, 26vh, 220px); border-radius: 32px;
+  background: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.06); font-size: clamp(72px, 16vh, 140px); line-height: 1; animation: pop .4s cubic-bezier(.2,1.6,.4,1) both; }
+.book-picture img { width: 78%; height: 78%; object-fit: contain; }
+.book-sentence { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 2px; margin: 0; }
+.book-seg { display: inline-flex; gap: 2px; padding: 6px 4px; border-radius: 18px; transition: background .2s; }
+.book-seg.lit { background: #FFF0A8; box-shadow: inset 0 0 0 3px #FFD24A; }
+.book-seg.slot .book-char { color: #0F7FA8; }
+.book-seg.empty { min-width: 2.4em; color: rgba(46,42,38,.3); border-bottom: 4px dashed rgba(46,42,38,.25); border-radius: 0; }
+.book-mine .book-seg { font-family: var(--kai); font-size: clamp(40px, 8vh, 72px); line-height: 1.15; }
+.book-char { font-family: var(--kai); font-size: clamp(40px, 8vh, 72px); line-height: 1.15; padding: 0 2px; border-radius: 12px; color: var(--ink); }
+.book-char:disabled { cursor: default; }
+.phase-ask .book-char:not(.punct):not(:disabled) { box-shadow: inset 0 -6px 0 rgba(255,138,76,.35); }
+.book-char.punct { color: rgba(46,42,38,.55); }
+.book-char.wrong { opacity: .35; animation: wobble .3s ease-in-out 2; }
+.book-char.hit { background: #FFD24A; animation: breathe .8s ease-in-out 2; }
+.book-prompt { margin: 0; font-size: clamp(17px, 2.6vh, 22px); font-weight: 800; text-align: center; }
+.book-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.book-btn { padding: 12px 20px; border-radius: 999px; background: #fff; font-size: 17px; font-weight: 800; box-shadow: 0 4px 0 rgba(0,0,0,.08); }
+.book-btn:active { transform: translateY(2px); box-shadow: none; }
+.book-btn.go { background: var(--c4); color: #fff; }
+.book-btn.ghost { background: transparent; box-shadow: none; font-size: 15px; text-decoration: underline; }
+/* 給爸媽的一行：小小的、灰的，他不會去讀 */
+.book-parent { max-width: 560px; font-size: 13px; line-height: 1.5; text-align: center; color: rgba(46,42,38,.55); }
+
+/* 最後一頁：自己接一句 */
+.book-shelf { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 760px; }
+.book-word { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 96px; padding: 10px 14px; border-radius: 20px;
+  background: #fff; box-shadow: 0 4px 0 rgba(0,0,0,.08); animation: cardIn .35s both; }
+.book-word span { font-size: 30px; line-height: 1; }
+.book-word b { font-family: var(--kai); font-size: 26px; }
+.book-word.on { box-shadow: 0 0 0 4px var(--c4), 0 4px 0 rgba(0,0,0,.08); }
+.book-word:disabled:not(.on) { opacity: .5; }
+
+/* 讀完 */
+.book-done { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
+.book-done > b { font-size: clamp(24px, 4vh, 34px); animation: pop .5s cubic-bezier(.2,1.7,.4,1) both; }
+.book-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.book-list li { font-family: var(--kai); font-size: clamp(24px, 4vh, 34px); padding: 6px 16px; border-radius: 16px; background: #fff; animation: cardIn .35s both; }
+.book-list li.ok { box-shadow: inset 0 0 0 3px #FFD24A; }

@@ -125,6 +125,27 @@ export function solvePuzzle(progress, word, char, ok, at = new Date().toISOStrin
   return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
 }
 
+/** 指讀小書：text 是整句（含標點），char 是他要指出來的那個字（要在句子裡），ok 是第一下就指對 */
+export const validBook = (event) => typeof event.text === 'string' && [...event.text].length >= 3 && [...event.text].length <= 16 &&
+  typeof event.char === 'string' && [...event.text].includes(event.char) && typeof event.ok === 'boolean' &&
+  (event.mine === undefined || typeof event.mine === 'boolean')
+
+/** 記下他讀過的一句：讀了幾次、幾次第一下就指對；mine＝最後一頁他自己接的 */
+export function readBook(progress, text, char, ok, at = new Date().toISOString(), mine = false) {
+  const previous = progress.books?.[text]
+  const time = Date.parse(at)
+  const newer = !previous || Date.parse(previous.last) <= time
+  const entry = {
+    char,
+    first: previous && Date.parse(previous.first) < time ? previous.first : at,
+    last: newer ? at : previous.last,
+    count: (previous?.count || 0) + 1,
+    right: (previous?.right || 0) + (ok ? 1 : 0),
+    ...(mine || previous?.mine ? { mine: true } : {}),
+  }
+  return { ...progress, books: { ...progress.books, [text]: entry } }
+}
+
 /** 部首家族的「找家人」：family 這一家的 char 是他自己找出來的（radicals.mjs 的成員才算） */
 export const validRadical = (event) => {
   const family = radicalById(event?.family)
@@ -172,7 +193,8 @@ export function charStars(progress, char) {
     write: wroteIt(progress.town?.[char]),
     // 靠提示才吃到的不算：這顆星要的是「他自己認出來」
     recall: (progress.recall?.[char]?.right || 0) > 0,
-    puzzle: Object.values(progress.puzzles || {}).some((p) => p.char === char),
+    // 在詞裡讀到：詞語拼圖補上過，或在小書裡指出來過
+    puzzle: Object.values(progress.puzzles || {}).some((p) => p.char === char) || Object.values(progress.books || {}).some((b) => b.char === char),
     family: foundHome(progress, char),
   }
 }
@@ -190,7 +212,7 @@ export function starIndex(progress) {
   for (const [char, watched] of Object.entries(progress.watched || {})) if (watched?.count > 0) mark(char)
   for (const [char, resident] of Object.entries(progress.town || {})) if (wroteIt(resident)) mark(char)
   for (const [char, box] of Object.entries(progress.recall || {})) if (box?.right > 0) mark(char)
-  for (const char of new Set(Object.values(progress.puzzles || {}).map((p) => p.char))) mark(char)
+  for (const char of new Set([...Object.values(progress.puzzles || {}).map((p) => p.char), ...Object.values(progress.books || {}).map((b) => b.char)])) mark(char)
   const homes = new Set([...Object.keys(progress.lab || {}), ...Object.values(progress.radicals || {}).flatMap((f) => Object.keys(f || {}))])
   for (const char of homes) mark(char)
   return stars

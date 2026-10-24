@@ -89,7 +89,7 @@ export const FIXED_LINES = {
   pathRecall: '先把前幾天的字想起來！',
   pathNew: '來認識今天的新朋友！',
   pathFamily: '看看今天的字住在哪一家！',
-  pathRead: '把今天的字放進詞裡讀讀看！',
+  pathRead: '用今天的字，讀一本小書！',
   pathHome: '回家囉！去小鎮看看！',
   pathAllDone: '今天的路走完了！好厲害！',
   /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點；最後把他猜到的字唸一遍 */

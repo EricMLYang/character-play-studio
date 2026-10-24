@@ -88,11 +88,12 @@ test('牠的家：先挑今天的字住的那一家，今天找到一個家人�
   assert.equal(todayPath(library, found, today).find((s) => s.id === 'family').done, 1, '哪一家都算')
 })
 
-test('讀一讀：今天的字裡有畫得出來的詞的那個當第一題', () => {
-  const progress = { watched: watched('河海山口', before), recall: { 火: { box: 1, due: '2026-10-22', last: before, right: 1, wrong: 0 } } }
-  const read = todayPath([...library], { ...progress, watched: { ...progress.watched, 火: { count: 1, last: before } } }, today).find((s) => s.id === 'read')
-  assert.deepEqual(read.go, { kind: 'game', id: 'puzzle', want: '火' })
-  assert.equal(read.need, 2)
+test('讀一讀：翻開小書，一句算一句，一天三句', () => {
+  const progress = { watched: watched('河海山口', before), books: { '河馬好大！': { char: '河', first: now, last: now, count: 1, right: 1 } } }
+  const read = todayPath(library, progress, today).find((s) => s.id === 'read')
+  assert.deepEqual(read.go, { kind: 'game', id: 'book' })
+  assert.equal(read.need, 3)
+  assert.equal(read.done, 1)
 })
 
 test('回家那一站要前面都做完才算，全部做完整條路就走完了', () => {
@@ -101,7 +102,8 @@ test('回家那一站要前面都做完才算，全部做完整條路就走完�
     recall: { 河: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 }, 海: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 },
       火: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 } },
     radicals: { water: { 河: now } },
-    puzzles: { 火車: { char: '火', first: now, last: now, count: 1, right: 1 }, 火山: { char: '火', first: now, last: now, count: 1, right: 1 } },
+    books: { '火車好大！': { char: '火', first: now, last: now, count: 1, right: 1 }, '你有火山。': { char: '火', first: now, last: now, count: 1, right: 1 },
+      '河馬好可愛！': { char: '河', first: now, last: now, count: 1, right: 1 } },
   }
   const stops = todayPath(library, progress, today)
   assert.ok(stops.slice(0, -1).every((s) => s.done >= s.need), '前四站都做完')

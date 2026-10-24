@@ -3,7 +3,6 @@ import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { familyOf } from '../../shared/radicals.mjs'
 import { familiesIn, familyFor, foundIn } from './families'
-import { wordsFor } from './puzzles'
 
 /**
  * 今天的路：打開就是這五站，走完就結束（10～15 分鐘）。
@@ -15,7 +14,7 @@ import { wordsFor } from './puzzles'
  *   ① 想起來  複習到期的字（間隔提取）      → 餵大怪獸
  *   ② 新朋友  今天的新字：看 → 描 → 憑記憶寫 → 字卡
  *   ③ 牠的家  今天的字住哪一家               → 部首家族
- *   ④ 讀一讀  把今天的字放進詞裡             → 詞語拼圖（之後換成指讀小書）
+ *   ④ 讀一讀  用今天的字組成的小書，指著字讀   → 指讀小書
  *   ⑤ 回家    搬進小鎮、開寶箱               → 小鎮
  *
  * 全部從已經在記的紀錄算出來（哪一筆是今天做的看台灣日期），沒有新的進度欄位：
@@ -50,7 +49,7 @@ export type Stop = {
 /** 一天幾個新字、複習幾個、拼幾個詞 */
 export const NEW_PER_DAY = 2
 export const RECALL_PER_DAY = 3
-export const READ_PER_DAY = 2
+export const READ_PER_DAY = 3
 /** 看過的字不到這個數就先不開遊戲那幾站 */
 const ENOUGH = 4
 
@@ -107,14 +106,13 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
       go: { kind: 'game', id: 'roots', want } })
   }
 
-  // ④ 讀一讀：把今天的字放進詞裡（詞語拼圖）
+  // ④ 讀一讀：今天的字組成的小書，一句算一句（最後一頁自己接的也算）
   const readNeed = enough ? READ_PER_DAY : 0
-  const readToday = Object.values(progress.puzzles || {}).filter((q) => taiwanDay(q.last) === today).length
-  const readWant = todayChars.map((c) => library.find((e) => e.char === c)).find((e) => e && wordsFor(e).length > 0)?.char
+  const readToday = Object.values(progress.books || {}).filter((b) => taiwanDay(b.last) === today).length
   if (readNeed) {
-    stops.push({ id: 'read', icon: '📖', title: '讀一讀', hint: '今天的字，放進詞裡讀讀看', hero: 'raccoon', cta: '去拼詞 →',
-      say: FIXED_LINES.pathRead, chars: readWant ? [readWant] : [], done: Math.min(readToday, readNeed), need: readNeed,
-      go: { kind: 'game', id: 'puzzle', ...(readWant ? { want: readWant } : {}) } })
+    stops.push({ id: 'read', icon: '📖', title: '讀一讀', hint: '用今天的字讀一本小書，指出那個字', hero: 'raccoon', cta: '翻開小書 →',
+      say: FIXED_LINES.pathRead, chars: [], done: Math.min(readToday, readNeed), need: readNeed,
+      go: { kind: 'game', id: 'book' } })
   }
 
   // ⑤ 回家：前面都做完了才算到家

@@ -27,7 +27,7 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
     { id: 'town', icon: '🏡', label: '小鎮住了', n: Object.keys(progress.town || {}).length, unit: '個字' },
     { id: 'puzzle', icon: '📖', label: '詞語圖鑑收了', n: Object.keys(progress.puzzles || {}).length, unit: '個詞' },
     { id: 'roots', icon: '🏠', label: '部首家族找到', n: Object.values(progress.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0), unit: '個家人' },
-    { id: 'train', icon: '🚂', label: '自己接過的詞', n: Object.keys(progress.words || {}).length, unit: '個' },
+    { id: 'book', icon: '📖', label: '小書讀過', n: Object.keys(progress.books || {}).length, unit: '句' },
     { id: 'full', icon: '👑', label: '星星集滿的字', n: fullCount, unit: '個' },
   ]
   return (
