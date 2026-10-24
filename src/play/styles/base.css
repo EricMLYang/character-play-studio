@@ -17,6 +17,12 @@
 html, body, #root { height: 100%; margin: 0; }
 body { background: var(--paper); color: var(--ink); font-family: var(--ui); overflow: hidden; }
 button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+/* 孩子端的觸控（iPad 上最明顯）：連點不會放大、長按不跳「拷貝」選單、字不會被選成藍色、整頁不回彈。
+   只管 .play：Studio 也載這個檔，家長要能選取複製文字。搜尋框照樣能打字、選字。
+   描字格、拖曳的地方各自另設 touch-action: none，比這裡的 manipulation 更嚴，不會被蓋掉 */
+html, body { overscroll-behavior: none; }
+.play { touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.play input, .play textarea { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 button:disabled { cursor: default; }
 .boot { display: grid; place-items: center; height: 100%; font-size: 24px; opacity: .5; }
 

@@ -173,7 +173,7 @@ Mac（開發＋製作，照舊）                         iPad（單機）
 
 ### 2-9 斷網保護（寫進 App 版）
 - App 版的 HTML 加內容安全政策（CSP）：只允許讀 App 自己的檔案，`connect-src 'self'`，禁止外部腳本、外部連線、表單送出、內嵌外部頁面
-- 加一個測試：掃 `dist-app/` 的 JS，不能出現 `http://`、`https://` 的對外網址（白名單：無）
+- 打包時掃 `dist-app/` 的 JS，不能出現 `http://`、`https://` 的對外網址。白名單只有套件裡寫死、不會真的去連的字串（SVG 命名空間、React 錯誤說明、hanzi-writer 預設的筆順來源；我們一律自己給筆順，CSP 也會擋），見 `server/app-bundle.mjs`
 
 ### 2-10 驗收
 1. `npm test` 全過（現在 162 個）＋新測試（快照內容、單機後端、紀錄匯出匯入）
@@ -181,6 +181,46 @@ Mac（開發＋製作，照舊）                         iPad（單機）
 3. 重新整理後紀錄還在、星星數對得上；匯出的 JSON 匯入 Mac 後，紀錄跟 iPad 上一致
 4. 用 390px／iPad 尺寸的 iframe 看版面（這台機器的 `resize_window` 不能用）
 5. 試玩一律用隔離的資料目錄，不要碰到小孩的 `data/progress.json`
+
+### 2-11 第一階段完成狀態（2026-10-24）
+
+**已完成**，都在 Mac 上，網頁版行為不變：
+
+| 項目 | 做在哪裡 |
+|---|---|
+| 收紀錄的規則前後端共用 | `shared/play-events.mjs` 的 `recordEvent`（Mac 伺服器 `server/progress.mjs` 也改用它） |
+| 單機版資料層 | `src/lib/standalone.ts`：讀 `library.json`、紀錄存裝置、事件紀錄帶 seq；`src/lib/api.ts` 的 `getLibrary`／`recordPlay` 依版本切換 |
+| 裝置儲存（第三階段換原生存檔只改這裡） | `src/lib/deviceStore.ts` |
+| 匯出／還原紀錄（長按 👪） | `src/play/DeviceParent.tsx`、`src/lib/deviceFiles.ts`（第三階段存檔換成分享選單只改這裡） |
+| 匯出檔格式與 Mac 合併規則 | `shared/progress-export.mjs` |
+| Studio「匯入 iPad 紀錄」 | `POST /api/progress/import`，每台裝置收到第幾筆記在 `data/device-imports.json`（不進 git） |
+| 孩子端專用打包、CSP、版本號 | `vite.config.ts` 的 `--mode app`（Studio、AnimLab 完全不打包） |
+| 打包腳本 | `npm run app:build` → `dist-app/`（不進 git）：字 249 個、素材 79 個、共約 306 MB |
+| 觸控調校 | `src/play/styles/base.css`：只管 `.play`，Studio 照樣能選字複製 |
+| 測試 | `tests/standalone.test.mjs`（9 個），全部 171 個測試通過 |
+
+**驗收結果**：
+- 用純靜態伺服器（沒有任何 API）開 `dist-app/`：首頁、看影片、7 個遊戲都正常打開，主控台沒有錯誤，CSP 沒有擋到該有的東西
+- 看完一支影片：紀錄存在裝置上（看過次數 +1、事件第 1 筆），整個過程只連到自己；試著連外部網址會被擋
+- 匯出 → 用隔離的試玩伺服器（`npm run play`）匯入：新收 1 筆；同一份再匯入，0 筆新收、1 筆之前就收過。小孩的 `data/progress.json` 沒被碰到
+- 網頁版首頁與 Studio 照常
+
+**沒驗到、留到 iPad 上（第三階段）**：描字實際用手指畫、聲音第一次點擊解鎖、iPad 尺寸版面、匯出的分享選單
+
+**新發現：iPad 上沒有楷書字型**（⚠ 要決定）
+- 字卡的大字用 `--kai`（`src/play/styles/base.css`），在 Mac 上命中「Kaiti TC」。iPadOS 預設沒有這套字，會退成一般的黑體（蘋方）
+- 識字用楷書比較好，因為筆畫形狀跟課本一致。可以把楷書字型打包進 App，候選是教育部標準楷書：授權允許散布，但要標示來源、不能修改，整套約十幾 MB
+- 描字的筆順是 hanzi-writer 自己畫的，不受影響
+
+### 2-12 之後開發新功能時的規則（讓單機版一直接得住）
+
+這些規則有測試把關，違反時 `npm test` 會失敗：
+- **孩子端不要直接呼叫 `/api/`**：一律透過 `src/lib/api.ts` 的 `getLibrary`、`recordPlay`（`tests/standalone.test.mjs`）
+- **新遊戲要記東西**：照舊在 `shared/play-events.mjs` 加一種紀錄，Mac 和單機版會自動一起支援，不用另外改
+- **孩子端要的新資料**：放在字卡上（`data/characters.json`），快照會自動帶進去；只有 Studio 用的欄位，要加進 `server/app-bundle.mjs` 的 `STUDIO_ONLY_FIELDS`
+- **新的靜態檔**（新的圖片資料夾、音效）：放在 `public/` 底下會自動打包；放在別的地方要在 `scripts/app-build.mjs` 加複製
+- **不要引入外部網址**（CDN、字型服務、分析工具）：`npm run app:build` 會擋下來
+- 偶爾跑一次 `npm run app:build` 確認還打包得起來
 
 ---
 

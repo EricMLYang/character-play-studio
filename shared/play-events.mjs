@@ -1,4 +1,4 @@
-import { completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle } from './domain.mjs'
+import { taiwanDay, completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle } from './domain.mjs'
 
 /**
  * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞、餵怪獸、詞語拼圖。
@@ -47,4 +47,28 @@ export function acceptEvent(kind, event, isKnown, now = Date.now()) {
 export function applyEvent(progress, event) {
   const rule = PLAY_EVENTS[eventKind(event)]
   return rule ? rule.apply(progress, event) : progress
+}
+
+/** completedEvents 留多久：孩子端的佇列不會離線那麼久，再久的編號不會再被送來。 */
+export const KEEP_EVENT_DAYS = 60
+
+/** 收到日期早於 today 往前 KEEP_EVENT_DAYS 天的事件編號丟掉。 */
+export function pruneCompleted(completed = {}, today = taiwanDay()) {
+  const cutoff = Date.parse(today) - KEEP_EVENT_DAYS * 864e5
+  return Object.fromEntries(Object.entries(completed).filter(([, v]) => Date.parse(v.day) >= cutoff))
+}
+
+/**
+ * 把一筆紀錄存進進度：Mac 上的伺服器跟 iPad 單機版都走這裡。
+ * 回 { progress, added }；內容不收回 { error }（呼叫端當 422 處理）。
+ * 同一個編號已經算過就原樣回傳（added: false），編號被別的字用過算不收。
+ */
+export function recordEvent(progress, kind, event, isKnown, today = taiwanDay(), now = Date.now()) {
+  const rule = PLAY_EVENTS[kind]
+  if (!acceptEvent(kind, event, isKnown, now)) return { error: rule?.error || '紀錄不正確' }
+  const seen = progress.completedEvents?.[event.id]
+  if (seen) return seen.char === event.char ? { progress, added: false } : { error: '紀錄編號已使用' }
+  const next = rule.apply(progress, event)
+  next.completedEvents = { ...pruneCompleted(progress.completedEvents, today), [event.id]: { char: event.char, day: today } }
+  return { progress: next, added: true }
 }

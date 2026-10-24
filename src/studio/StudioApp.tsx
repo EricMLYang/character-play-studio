@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry, DailyBatch, Library, Prompt } from '../types'
-import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch } from '../lib/api'
+import { restoreCharacter, getLibrary, getPrompt, importFile, sendFeedback, recordSubmission, markSubmissionFailed, generatePrompt, selectPrompt, setVisibility, getDailyBatch, startDailyBatch, cancelDailyBatch, importDeviceProgress } from '../lib/api'
+import { pickTextFile } from '../lib/deviceFiles'
 import { feedbackTags } from '../../shared/domain.mjs'
 import MediaReview from './MediaReview'
 import { hasClip } from '../anim/clips'
@@ -56,6 +57,16 @@ export default function StudioApp() {
 
   // setParts：學習小結要算「每個字做得到幾顆星」，拆字表沒設好的話魔法鍋那顆永遠算不到（孩子端在 PlayApp 設）
   const reload = () => getLibrary().then((l) => { setParts(l.parts); setLib(l) })
+  /** iPad 單機版匯出的紀錄檔（存在 pCloud 或「檔案」）：只補 Mac 還沒收過的那幾筆 */
+  const importFromDevice = async () => {
+    const raw = await pickTextFile()
+    if (raw === null) return
+    try {
+      const r = await importDeviceProgress(JSON.parse(raw))
+      flash(`iPad 紀錄：新收 ${r.added} 筆` + (r.already ? `，${r.already} 筆之前就收過` : '') + (r.skipped ? `，${r.skipped} 筆的字已不在字庫、略過` : ''), 5000)
+      await reload()
+    } catch (e) { setError(e instanceof SyntaxError ? '這個檔打不開，不是紀錄檔' : (e as Error).message) }
+  }
   useEffect(() => { reload().catch((e) => setError(e.message)) }, [])
   useEffect(() => { getDailyBatch().then(setBatch).catch(() => {}) }, [])
 
@@ -175,6 +186,7 @@ export default function StudioApp() {
         <button className="st-mobile-nav" onClick={() => setListOpen((v) => !v)}>
           {listOpen ? (sel ? `編輯「${sel}」` : '選一個字') : '☰ 換一個字'}
         </button>
+        <button className="st-btn ghost st-import" onClick={importFromDevice}>匯入 iPad 紀錄</button>
         <a className="st-play" href="/">▶ 開播放器</a>
       </header>
 

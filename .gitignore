@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-app/
 .DS_Store
 *.log
 
@@ -9,6 +10,7 @@ media/*
 
 # 執行期產生的個人紀錄
 data/progress.json
+data/device-imports.json
 
 # build 產物
 *.tsbuildinfo

@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { taiwanDay } from '../shared/domain.mjs'
-import { PLAY_EVENTS, acceptEvent } from '../shared/play-events.mjs'
+import { recordEvent, pruneCompleted, KEEP_EVENT_DAYS } from '../shared/play-events.mjs'
+import { checkExport, mergeExport } from '../shared/progress-export.mjs'
 import { DATA, readJSON, writeJSON, characterSet } from './core.mjs'
 import { fail } from './http.mjs'
 
@@ -14,7 +15,7 @@ import { fail } from './http.mjs'
  * - 拿掉舊版遊戲化（貼紙、每日字表）留下、早就沒人讀的 days／stickers。
  */
 export const PROGRESS_VERSION = 2
-export const KEEP_EVENT_DAYS = 60
+export { pruneCompleted, KEEP_EVENT_DAYS }
 
 const FILE = () => path.join(DATA, 'progress.json')
 
@@ -29,12 +30,6 @@ export function migrateProgress(raw, today = taiwanDay()) {
   return { ...progress, version: PROGRESS_VERSION, watched: progress.watched || {}, completedEvents: completed }
 }
 
-/** 收到日期早於 today 往前 KEEP_EVENT_DAYS 天的事件編號丟掉。 */
-export function pruneCompleted(completed = {}, today = taiwanDay()) {
-  const cutoff = Date.parse(today) - KEEP_EVENT_DAYS * 864e5
-  return Object.fromEntries(Object.entries(completed).filter(([, v]) => Date.parse(v.day) >= cutoff))
-}
-
 export const loadProgress = () => migrateProgress(readJSON(FILE(), { version: PROGRESS_VERSION, watched: {} }))
 export const saveProgress = (progress) => writeJSON(FILE(), progress)
 
@@ -43,19 +38,30 @@ export const saveProgress = (progress) => writeJSON(FILE(), progress)
  * 孩子端看到 422 就丟掉這筆，不然它會永遠卡在佇列最前面，後面的紀錄全送不出去。
  */
 export function recordPlayEvent(kind, body) {
-  const rule = PLAY_EVENTS[kind]
   // 只要知道字在不在：讀主字庫檔就好，不必把每個字的 prompt 版本都讀進來
   const known = characterSet()
-  if (!acceptEvent(kind, body, (c) => known.has(c))) fail(422, rule?.error || '紀錄不正確')
-  const current = loadProgress()
-  const seen = current.completedEvents?.[body.id]
-  if (seen) {
-    if (seen.char !== body.char) fail(422, '紀錄編號已使用')
-    return current
+  const result = recordEvent(loadProgress(), kind, body, (c) => known.has(c))
+  if (result.error) fail(422, result.error)
+  if (result.added) saveProgress(result.progress)
+  return result.progress
+}
+
+/**
+ * 匯入 iPad 單機版匯出的紀錄檔：只補那台裝置上還沒收過的事件（data/device-imports.json 記每台收到第幾筆），
+ * 規則跟平常收紀錄同一套。同一份檔匯入兩次不會重複算。
+ */
+const IMPORTS = () => path.join(DATA, 'device-imports.json')
+
+export function importDeviceExport(data) {
+  const error = checkExport(data)
+  if (error) fail(422, error)
+  const imports = readJSON(IMPORTS(), {})
+  const lastSeq = imports[data.deviceId]?.seq || 0
+  const known = characterSet()
+  const result = mergeExport(loadProgress(), data, lastSeq, (c) => known.has(c))
+  if (result.added) saveProgress(result.progress)
+  if (result.lastSeq > lastSeq) {
+    writeJSON(IMPORTS(), { ...imports, [data.deviceId]: { seq: result.lastSeq, at: new Date().toISOString(), exportedAt: data.exportedAt } })
   }
-  const today = taiwanDay()
-  const next = rule.apply(current, body)
-  next.completedEvents = { ...pruneCompleted(current.completedEvents, today), [body.id]: { char: body.char, day: today } }
-  saveProgress(next)
-  return next
+  return { added: result.added, skipped: result.skipped, already: data.events.filter((e) => e.seq <= lastSeq).length }
 }

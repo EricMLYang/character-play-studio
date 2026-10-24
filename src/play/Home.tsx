@@ -10,6 +10,8 @@ import type { Nudge, NudgeGo } from './nudge'
 import type { Quest } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
+import DeviceParent from './DeviceParent'
+import { STANDALONE } from '../lib/target'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -289,9 +291,13 @@ function Empty({ total, query, filter, onReset }: { total: number; query: string
   )
 }
 
-/** Studio 是家長的地方：要長按才進得去，孩子誤觸不會開到生成與回饋表單。 */
+/**
+ * Studio 是家長的地方：要長按才進得去，孩子誤觸不會開到生成與回饋表單。
+ * iPad 單機版沒有 Studio，長按打開匯出／還原紀錄的面板（DeviceParent）。
+ */
 function ParentGate() {
   const [holding, setHolding] = useState(false)
+  const [panel, setPanel] = useState(false)
   const [hint, setHint] = useState(false)
   const timer = useRef<number | undefined>(undefined)
   const hintTimer = useRef<number | undefined>(undefined)
@@ -299,7 +305,10 @@ function ParentGate() {
   const start = () => {
     if (timer.current) return
     setHolding(true)
-    timer.current = window.setTimeout(() => { timer.current = undefined; location.href = '/studio' }, 900)
+    timer.current = window.setTimeout(() => {
+      timer.current = undefined
+      if (STANDALONE) { setHolding(false); setPanel(true) } else location.href = '/studio'
+    }, 900)
   }
   const cancel = () => {
     setHolding(false)
@@ -327,6 +336,7 @@ function ParentGate() {
         onContextMenu={(e) => e.preventDefault()}
       >👪<span className="parent-label"> 家長（長按）</span></button>
       {hint && <div className="home-parent-hint" role="status">長按一秒才會進入家長專區</div>}
+      {STANDALONE && panel && <DeviceParent onClose={() => setPanel(false)} />}
     </>
   )
 }

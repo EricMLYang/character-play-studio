@@ -6,6 +6,8 @@
 
 .st-top { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: #fff; }
 .st-stats { font-size: 13px; color: var(--dim); }
+.st-import { margin-left: auto; }
+.st-import + .st-play { margin-left: 0; }
 .st-play { margin-left: auto; padding: 8px 18px; border-radius: 999px; background: #FF8A4C; color: #fff;
   text-decoration: none; font-weight: 700; font-size: 14px; }
 /* 手機才出現的「選字 ↔ 編輯」切換 */

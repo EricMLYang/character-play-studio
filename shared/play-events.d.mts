@@ -22,3 +22,7 @@ export function eventKind(event: PlayEvent): PlayEventKind
 export function validEventId(id: unknown): id is string
 export function acceptEvent(kind: string, event: Record<string, unknown>, isKnown: (char: string) => boolean, now?: number): boolean
 export function applyEvent(progress: Progress, event: PlayEvent): Progress
+export const KEEP_EVENT_DAYS: number
+export function pruneCompleted(completed?: Progress['completedEvents'], today?: string): NonNullable<Progress['completedEvents']>
+export function recordEvent(progress: Progress, kind: string, event: Record<string, unknown>, isKnown: (char: string) => boolean, today?: string, now?: number):
+  { progress: Progress; added: boolean; error?: undefined } | { error: string; progress?: undefined; added?: undefined }

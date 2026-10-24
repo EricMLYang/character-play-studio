@@ -13,6 +13,7 @@
     "dev:test": "node scripts/test-server.mjs",
     "play": "node scripts/play.mjs",
     "preview": "vite preview",
+    "app:build": "node scripts/app-build.mjs",
     "prompt": "node scripts/prompt.mjs",
     "anim": "node scripts/anim-candidates.mjs",
     "anim:check": "node scripts/anim-check.mjs",
