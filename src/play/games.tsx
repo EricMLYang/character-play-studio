@@ -3,7 +3,6 @@ import type { CharEntry, Progress } from '../types'
 import type { PlayEvent } from '../../shared/play-events.mjs'
 import type { WordGroup } from './words'
 import Town from './Town'
-import Lab from './Lab'
 import Train from './Train'
 import Feed from './Feed'
 import Puzzle from './Puzzle'
@@ -13,7 +12,7 @@ import Roots from './Roots'
 import { knownCount } from './dishes'
 
 /**
- * 首頁上「看完字卡之後可以去的地方」：小鎮、魔法鍋、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、部首家族。一個遊戲一筆：首頁的入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：小鎮、字火車、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -77,14 +76,6 @@ export const GAMES: Game[] = [
     render: (ctx) => (
       <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
         onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} />
-    ),
-  },
-  {
-    id: 'lab', icon: '🧪', title: '魔法鍋',
-    subtitle: () => '字會變成別的字',
-    render: (ctx) => (
-      <Lab library={ctx.library} hues={ctx.hues} found={ctx.progress.lab || {}} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
-        onDiscover={(char) => { if (!ctx.progress.lab?.[char]) ctx.record({ kind: 'discover', char }) }} />
     ),
   },
   {

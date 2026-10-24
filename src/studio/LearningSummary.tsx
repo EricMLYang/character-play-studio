@@ -1,6 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { summarize } from './summary'
-import { allDone, todayQuests } from '../play/today'
+import { pathDone, todayPath } from '../play/today'
 
 /**
  * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸／跳石頭過河／小偵探，三個記同一種紀錄）、
@@ -13,14 +13,14 @@ export default function LearningSummary({ progress, characters, onPick }: {
   onPick: (char: string) => void
 }) {
   const s = summarize(progress, characters)
-  // 孩子端首頁的「今天的三件事」：家長看得到他還差什麼，才接得上話
-  const quests = todayQuests(progress)
+  // 孩子端首頁的「今天的路」：家長看得到他走到哪一站，才接得上話
+  const stops = todayPath(characters.filter((c) => !c.hidden), progress)
   const tiles = [
     { label: '看過的字', value: s.watched, note: s.watchedToday ? `今天看了 ${s.watchedToday} 個` : '今天還沒看' },
     { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸／過河／小偵探）` : '今天沒有要複習的' },
     { label: '收集的詞', value: s.words, note: s.wordsToday ? `今天新拼了 ${s.wordsToday} 個（詞語拼圖）` : '詞語拼圖' },
     { label: '小鎮居民', value: s.traced, note: '描過的字' },
-    // 孩子端他自己在追的那條線：看過、寫過、認出來、拼成詞、魔法鍋變出來各一顆星
+    // 孩子端他自己在追的那條線：看過、憑記憶寫、認出來、在詞裡讀到、找到牠的家各一顆星
     { label: '⭐ 星星', value: s.stars, note: s.toNextPartner === null ? `夥伴收齊了（${s.partners} 位）` : `再 ${s.toNextPartner} 顆開寶箱（已有 ${s.partners} 位夥伴）` },
     { label: '👑 集滿星星', value: s.full.length, note: s.full.length ? s.full.slice(0, 8).join('、') : '五件事都做過的字' },
   ]
@@ -29,15 +29,15 @@ export default function LearningSummary({ progress, characters, onPick }: {
       <h2 className="st-learn-title">孩子的學習小結</h2>
       <p className="st-dim">從孩子端的遊戲紀錄整理。要編輯字卡，從左邊選一個字。</p>
 
-      {quests.length > 1 && (
+      {stops.length > 1 && (
         <p className="st-quests">
-          <b>今天的三件事：</b>
-          {quests.map((q) => (
+          <b>今天的路：</b>
+          {stops.map((q) => (
             <span key={q.id} className={q.done >= q.need ? 'done' : ''}>
-              {q.done >= q.need ? '✅' : q.icon} {q.label}（{q.done}/{q.need}）
+              {q.done >= q.need ? '✅' : q.icon} {q.title}{q.chars.length ? `（${q.chars.join('、')}）` : ''} {q.need > 1 ? `${q.done}/${q.need}` : ''}
             </span>
           ))}
-          {allDone(quests) && <span className="done">🎉 都做完了</span>}
+          {pathDone(stops) && <span className="done">🎉 走完了</span>}
         </p>
       )}
 

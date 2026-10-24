@@ -85,7 +85,13 @@ export const FIXED_LINES = {
   chestOpen: '哇！新朋友來了！',
   /** 一個字的星星集滿了（先唸那個字，再唸這句） */
   crownFull: '的星星集滿了！好厲害！',
-  questsDone: '今天的三件事都做完了！',
+  /** 今天的路（src/play/today.ts）：每一站的那句話，以及走完 */
+  pathRecall: '先把前幾天的字想起來！',
+  pathNew: '來認識今天的新朋友！',
+  pathFamily: '看看今天的字住在哪一家！',
+  pathRead: '把今天的字放進詞裡讀讀看！',
+  pathHome: '回家囉！去小鎮看看！',
+  pathAllDone: '今天的路走完了！好厲害！',
   /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點；最後把他猜到的字唸一遍 */
   guessWho: '猜猜我是誰？',
   guessFast: '哇！好厲害！',

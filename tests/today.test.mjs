@@ -12,67 +12,104 @@ registerHooks({
   },
 })
 
-const { todayQuests, allDone } = await import('../src/play/today.ts')
+const { todayPath, currentStop, pathDone, NEW_PER_DAY } = await import('../src/play/today.ts')
 
 const today = '2026-10-22'
 // 台灣時間 2026-10-22 早上，存成 UTC
 const now = '2026-10-22T01:00:00Z'
 const before = '2026-10-19T01:00:00Z'
-const watched = (chars, at) => Object.fromEntries([...chars].map((c) => [c, { count: 1, last: at }]))
+const entry = (char, i, words = []) => ({ char, zhuyin: '', meaning: '', emoji: '', priority: i, media: [], words })
+// 河、海、湖、洗 住三點水；火、山、口、木 各自那一家只有自己；早、晚 住日字旁
+const library = ['河', '海', '湖', '洗', '火', '山', '口', '木', '早', '晚'].map((c, i) => entry(c, i, c === '火' ? [{ text: '火車', emoji: '🚂' }] : []))
+const watched = (chars, at, count = 1) => Object.fromEntries([...chars].map((c) => [c, { count, last: at }]))
+const ids = (stops) => stops.map((s) => s.id)
 
-test('字還太少的時候只給一件事：先去看字', () => {
-  const quests = todayQuests({ watched: watched('火水', now) }, today)
-  assert.equal(quests.length, 1)
-  assert.equal(quests[0].id, 'watch')
+test('字還太少的時候只有新朋友跟回家：其他玩法都要先有看過的字', () => {
+  const stops = todayPath(library, { watched: watched('火山', before) }, today)
+  assert.deepEqual(ids(stops), ['new', 'home'])
+  assert.equal(stops[0].need, NEW_PER_DAY)
+  assert.equal(currentStop(stops).id, 'new')
+  assert.equal(pathDone(stops), false)
 })
 
-test('三件事：看字固定，另外兩件每天輪，同一天不會變', () => {
-  const progress = { watched: watched('火水山木日', before) }
-  const a = todayQuests(progress, today)
-  assert.equal(a.length, 3)
-  assert.equal(a[0].id, 'watch')
-  assert.equal(new Set(a.map((q) => q.id)).size, 3, '同一天不會出現兩件一樣的')
-  assert.deepEqual(todayQuests(progress, today).map((q) => q.id), a.map((q) => q.id), '同一天重算要一樣')
-
-  const b = todayQuests(progress, '2026-10-23')
-  assert.notDeepEqual(b.map((q) => q.id), a.map((q) => q.id), '換一天就換題目')
-  assert.equal(b[0].id, 'watch', '看字每天都在')
-})
-
-test('只算今天做的，昨天的不算', () => {
-  const progress = { watched: { ...watched('火水山', now), ...watched('木日月', before) } }
-  const watch = todayQuests(progress, today)[0]
-  assert.equal(watch.done, 3)
-  assert.equal(todayQuests({ watched: watched('木日月', before) }, today)[0].done, 0)
-})
-
-test('做超過的不會超過目標，三件都做完 allDone 才是真', () => {
-  const progress = { watched: watched('火水山木日月', now) }
-  const quests = todayQuests(progress, today)
-  assert.equal(quests[0].done, quests[0].need, '看了六個字，目標三個就是三個')
-  assert.equal(allDone(quests), false, '另外兩件還沒做')
-  assert.equal(allDone([{ id: 'a', icon: '', label: '', done: 2, need: 2, go: null }]), true)
-  assert.equal(allDone([]), false)
-})
-
-test('餵大怪獸那一件只算「自己認出來」的：答錯今天再考，不算', () => {
-  const base = { watched: watched('火水山木日', before) }
-  const right = { ...base, recall: { 火: { box: 2, due: '2026-10-24', last: now, right: 2, wrong: 0 } } }
-  const wrong = { ...base, recall: { 水: { box: 0, due: today, last: now, right: 0, wrong: 1 } } }
-  const find = (p) => todayQuests(p, today).find((q) => q.id === 'recall')
-  // 這兩天剛好輪到 recall 才測得到；沒輪到就跳過（輪替本身另外有測）
-  if (find(right)) {
-    assert.equal(find(right).done, 1)
-    assert.equal(find(wrong).done, 0, '答錯不算自己認出來')
+test('看過四個字之後五站都在，順序固定', () => {
+  const stops = todayPath(library, { watched: watched('火山口木', before) }, today)
+  assert.deepEqual(ids(stops), ['recall', 'new', 'family', 'read', 'home'])
+  for (const s of stops) {
+    assert.ok(s.say && s.hint && s.cta && s.hero, s.id)
+    assert.ok(s.need >= 1, s.id)
   }
 })
 
-test('每一件都有圖示、說得出要做幾個', () => {
-  const progress = { watched: watched('火水山木日', now) }
-  for (const day of ['2026-10-20', '2026-10-21', '2026-10-22', '2026-10-23', '2026-10-24']) {
-    for (const q of todayQuests(progress, day)) {
-      assert.ok(q.icon && q.label.length > 2, JSON.stringify(q))
-      assert.ok(q.need >= 1 && q.done >= 0 && q.done <= q.need, JSON.stringify(q))
-    }
+test('新朋友優先挑能讓某一家湊起來的字：看過河，就先推海、湖', () => {
+  const stops = todayPath(library, { watched: watched('河火山口', before) }, today)
+  const fresh = stops.find((s) => s.id === 'new')
+  assert.deepEqual(fresh.chars, ['海', '湖'], '河的家人排在前面，不是照字庫順序')
+  assert.deepEqual(fresh.go, { kind: 'char', char: '海' })
+  assert.equal(fresh.done, 0)
+})
+
+test('今天第一次看的字算新朋友做到了，同一天重算不會換掉', () => {
+  const progress = { watched: { ...watched('河火山口', before), 海: { count: 1, last: now } } }
+  const stops = todayPath(library, progress, today)
+  const fresh = stops.find((s) => s.id === 'new')
+  assert.deepEqual(fresh.chars, ['海', '湖'])
+  assert.equal(fresh.done, 1)
+  assert.deepEqual(fresh.go, { kind: 'char', char: '湖' }, '按鈕直接帶去還沒看的那個')
+  // 看第二次還是今天的新字；看了很多次就不是了
+  const again = todayPath(library, { watched: { ...progress.watched, 海: { count: 2, last: now } } }, today)
+  assert.equal(again.find((s) => s.id === 'new').done, 1)
+})
+
+test('想起來：到期的字列出來，今天自己認出來幾個就算幾個', () => {
+  const progress = {
+    watched: watched('河海火山口', before),
+    recall: {
+      河: { box: 1, due: '2026-10-22', last: before, right: 1, wrong: 0 },
+      海: { box: 1, due: '2026-10-20', last: before, right: 1, wrong: 0 },
+      火: { box: 2, due: '2026-10-30', last: now, right: 2, wrong: 0 },
+    },
   }
+  const recall = todayPath(library, progress, today).find((s) => s.id === 'recall')
+  assert.deepEqual(recall.chars, ['河', '海'], '到期的才列，火 還沒到')
+  assert.equal(recall.done, 1, '火 是今天認對的')
+  assert.equal(recall.need, 3)
+  assert.deepEqual(recall.go, { kind: 'game', id: 'feed' })
+})
+
+test('牠的家：先挑今天的字住的那一家，今天找到一個家人就算', () => {
+  const progress = { watched: watched('河海火山', before), recall: { 河: { box: 1, due: '2026-10-22', last: before, right: 1, wrong: 0 } } }
+  const family = todayPath(library, progress, today).find((s) => s.id === 'family')
+  assert.deepEqual(family.chars, ['河'], '河 到期、住三點水')
+  assert.match(family.label, /三點水/)
+  assert.deepEqual(family.go, { kind: 'game', id: 'roots', want: '河' })
+  assert.equal(family.done, 0)
+  const found = { ...progress, radicals: { water: { 湖: now } } }
+  assert.equal(todayPath(library, found, today).find((s) => s.id === 'family').done, 1, '哪一家都算')
+})
+
+test('讀一讀：今天的字裡有畫得出來的詞的那個當第一題', () => {
+  const progress = { watched: watched('河海山口', before), recall: { 火: { box: 1, due: '2026-10-22', last: before, right: 1, wrong: 0 } } }
+  const read = todayPath([...library], { ...progress, watched: { ...progress.watched, 火: { count: 1, last: before } } }, today).find((s) => s.id === 'read')
+  assert.deepEqual(read.go, { kind: 'game', id: 'puzzle', want: '火' })
+  assert.equal(read.need, 2)
+})
+
+test('回家那一站要前面都做完才算，全部做完整條路就走完了', () => {
+  const progress = {
+    watched: { ...watched('河海火山口木', before), 早: { count: 1, last: now }, 晚: { count: 1, last: now } },
+    recall: { 河: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 }, 海: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 },
+      火: { box: 1, due: '2026-10-30', last: now, right: 1, wrong: 0 } },
+    radicals: { water: { 河: now } },
+    puzzles: { 火車: { char: '火', first: now, last: now, count: 1, right: 1 }, 火山: { char: '火', first: now, last: now, count: 1, right: 1 } },
+  }
+  const stops = todayPath(library, progress, today)
+  assert.ok(stops.slice(0, -1).every((s) => s.done >= s.need), '前四站都做完')
+  assert.equal(stops.at(-1).done, 1)
+  assert.equal(pathDone(stops), true)
+  assert.equal(currentStop(stops), null)
+  // 少做一件，回家就還沒到
+  const notYet = todayPath(library, { ...progress, radicals: {} }, today)
+  assert.equal(notYet.at(-1).done, 0)
+  assert.equal(currentStop(notYet).id, 'family')
 })

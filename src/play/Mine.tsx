@@ -7,7 +7,7 @@ import { crossNextWith } from './crossing'
 /**
  * 「我的東西」：點首頁的星星存摺打開。
  *
- * 他收集的東西散在六個地方（小鎮的居民、詞語圖鑑、魔法圖鑑、夥伴、星星），
+ * 他收集的東西散在六個地方（小鎮的居民、詞語圖鑑、部首家族的家人、夥伴、星星），
  * 每一個都要進去那個遊戲才看得到。六歲最想要的是「這些全部都是我的」攤開在一起，
  * 所以這裡只做兩件事：把數字攤開，還有按一下就去那個地方。
  *
@@ -26,7 +26,7 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
   const rows = [
     { id: 'town', icon: '🏡', label: '小鎮住了', n: Object.keys(progress.town || {}).length, unit: '個字' },
     { id: 'puzzle', icon: '📖', label: '詞語圖鑑收了', n: Object.keys(progress.puzzles || {}).length, unit: '個詞' },
-    { id: 'lab', icon: '🧪', label: '魔法鍋變出', n: Object.keys(progress.lab || {}).length, unit: '個字' },
+    { id: 'roots', icon: '🏠', label: '部首家族找到', n: Object.values(progress.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0), unit: '個家人' },
     { id: 'train', icon: '🚂', label: '自己接過的詞', n: Object.keys(progress.words || {}).length, unit: '個' },
     { id: 'full', icon: '👑', label: '星星集滿的字', n: fullCount, unit: '個' },
   ]

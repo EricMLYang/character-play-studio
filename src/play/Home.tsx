@@ -4,10 +4,10 @@ import { hasMovie } from '../anim/clips'
 
 import { tap } from '../lib/sfx'
 import { preloadVoice, say, sayAll } from '../lib/audio'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
-import type { Nudge, NudgeGo } from './nudge'
-import type { Quest } from './today'
+import { currentStop, type Stop, type StopGo } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
 import DeviceParent from './DeviceParent'
@@ -22,7 +22,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, quests, questsDone, nudge, onNudge,
+  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo,
 }: {
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
@@ -47,28 +47,26 @@ export default function Home({
   onPick: (char: string) => void
   onSurprise: () => void
   onReset: () => void
-  /** 看完字卡之後可以去的地方（games.tsx 的 GAMES） */
+  /** 「自己逛逛」裡可以去的地方（games.tsx 的 GAMES） */
   places: { id: string; icon: string; title: string; subtitle: string; fresh: boolean }[]
   onScreen: (id: string) => void
   /** 坐一次他自己接的字火車；名字那組也用它把三集連著播 */
   onRide: (text: string) => void
   /** 他的進度，給「我的東西」用 */
   progress: Progress
-  /** 今天的三件事（today.ts） */
-  quests: Quest[]
-  questsDone: boolean
-  /** 首頁那隻角色現在要跟他說的話（nudge.ts） */
-  nudge: Nudge
-  onNudge: (go: NudgeGo) => void
+  /** 今天的路（today.ts）：打開就在這裡，五站走完就結束 */
+  path: Stop[]
+  walked: boolean
+  onGo: (go: StopGo) => void
 }) {
   const [mine, setMine] = useState(false)
   /** 骰子正在轉（轉完才開那個字） */
   const [rolling, setRolling] = useState(false)
-  // 角色那句話先抓下來，點喇叭就出聲（帶數字的句子沒有音檔，會退回瀏覽器朗讀）
-  useEffect(() => { preloadVoice(nudge.say) }, [nudge.say])
-  /** 那隻角色正在唸的那串句子。離開首頁要停掉，不然他已經進遊戲了還在背後講話 */
-  const voice = useRef<(() => void) | null>(null)
-  useEffect(() => () => voice.current?.(), [])
+  /**
+   * 自己逛逛：字卡牆、搜尋、遊戲入口都還在，收在路的後面。
+   * 他想重看「叫」的影片隨時可以，只是打開來不再是兩百多張字卡攤開讓他挑
+   */
+  const [explore, setExplore] = useState(false)
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   /**
@@ -134,80 +132,59 @@ export default function Home({
       )}
       <header className="home-bar">
         <h1 className="home-title">字字樂園</h1>
-        <input
-          className="search"
-          type="search"
-          value={query}
-          onChange={(e) => onQuery(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter' && items[0]) onPick(items[0].char) }}
-          placeholder="找字：輸入國字、注音或英文"
-          aria-label="找字"
-        />
-        <div className="home-filters" aria-label="篩選">
-          {FILTERS.filter(useful).map((f) => (
-            <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
-          ))}
-        </div>
-        {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
-        <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
-          onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
-          <span className="dice" aria-hidden>🎲</span> 隨便給我一個
+        {explore && (
+          <>
+            <input
+              className="search"
+              type="search"
+              value={query}
+              onChange={(e) => onQuery(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && items[0]) onPick(items[0].char) }}
+              placeholder="找字：輸入國字、注音或英文"
+              aria-label="找字"
+            />
+            <div className="home-filters" aria-label="篩選">
+              {FILTERS.filter(useful).map((f) => (
+                <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
+              ))}
+            </div>
+            {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
+            <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
+              onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
+              <span className="dice" aria-hidden>🎲</span> 隨便給我一個
+            </button>
+            <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
+          </>
+        )}
+        <button className="chip explore-toggle" aria-pressed={explore} onClick={() => { tap(); setExplore((v) => !v); if (explore) onReset() }}>
+          {explore ? '🛤️ 回今天的路' : '🎲 自己逛逛'}
         </button>
-        <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
         <ParentGate />
       </header>
 
-      <div className="home-invite">
-        {/* 今天可以做什麼：角色看他的紀錄挑一件事說，按一下直接過去（規則在 nudge.ts） */}
-        <div className="buddy">
-          <button className="buddy-go" onClick={() => { tap(); onNudge(nudge.go) }} aria-label={`${nudge.text} ${nudge.cta}`}>
-            <img className="buddy-img" src={`/hero/${nudge.hero}/${nudge.pose}.png`} alt="" />
-            <span className="buddy-text">
-              <b>{nudge.text}</b>
-              <small>{nudge.cta}</small>
-            </span>
-          </button>
-          {/* 他還不會讀字：這句話要唸得出來才有用 */}
-          <button className="buddy-listen" onClick={() => { voice.current?.(); voice.current = sayAll(nudge.say, 0.85) }} aria-label="再聽一次">🔊</button>
-        </div>
-        {/* 看完字卡之後還有地方可以去：小鎮、魔法鍋、字火車……清單在 games.tsx */}
-        <div className="home-places">
-          {places.map((p, i) => (
-            <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} style={{ ['--i' as any]: i }} onClick={() => { tap(); onScreen(p.id) }}
-              aria-label={p.fresh ? `${p.title}（新的）：${p.subtitle}` : undefined}>
-              <span className="place-icon" aria-hidden>{p.icon}</span>
-              <span><b>{p.title}</b><small>{p.subtitle}</small></span>
-              {p.fresh && <span className="place-new" aria-hidden>🆕</span>}
-            </button>
-          ))}
-        </div>
-        <TodayStars count={todayCount} />
-      </div>
+      {!explore && (
+        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount}
+          onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); setExplore(true) }} />
+      )}
 
-      {/* 今天的三件事：看得完、有進度、做完打勾。沒有失敗也沒有倒數（today.ts） */}
-      {(quests.length > 1 || starTotal > 0) && (
-        <div className={'quests' + (questsDone ? ' all' : '')} aria-label="今天的三件事">
-          <StarBank total={starTotal} onOpen={() => { tap(); setMine(true) }} />
-          {quests.length > 1 && <span className="quests-title">{questsDone ? '🎉 今天的三件事都做完了！' : '今天的三件事'}</span>}
-          {quests.length > 1 && quests.map((q) => {
-            const done = q.done >= q.need
-            return (
-              <button key={q.id} className={'quest' + (done ? ' done' : '')} onClick={() => { tap(); onNudge(q.go) }}
-                aria-label={`${q.label}，已經做到 ${q.done} 個${done ? '，完成了' : ''}`}>
-                <span className="quest-icon" aria-hidden>{done ? '✅' : q.icon}</span>
-                <span className="quest-text">
-                  <b className="quest-long">{q.label}</b>
-                  <b className="quest-short" aria-hidden>{q.short}</b>
-                  <span className="quest-bar" aria-hidden><i style={{ width: `${(q.done / q.need) * 100}%` }} /></span>
-                </span>
-                <span className="quest-n" aria-hidden>{q.done}/{q.need}</span>
+      {explore && (
+        <div className="home-invite">
+          {/* 看完字卡之後還有地方可以去：小鎮、字火車……清單在 games.tsx */}
+          <div className="home-places">
+            {places.map((p, i) => (
+              <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} style={{ ['--i' as any]: i }} onClick={() => { tap(); onScreen(p.id) }}
+                aria-label={p.fresh ? `${p.title}（新的）：${p.subtitle}` : undefined}>
+                <span className="place-icon" aria-hidden>{p.icon}</span>
+                <span><b>{p.title}</b><small>{p.subtitle}</small></span>
+                {p.fresh && <span className="place-new" aria-hidden>🆕</span>}
               </button>
-            )
-          })}
+            ))}
+          </div>
+          <StarBank total={starTotal} onOpen={() => { tap(); setMine(true) }} />
         </div>
       )}
 
-      {groups ? (
+      {explore && (groups ? (
         <div className="grid grouped" aria-label="字卡瀏覽">
           {[...groups, ...(filter === 'all' ? [{ key: 'more', label: '📚 更多字卡', items: items.filter((c) => !hasMovie(c)) }] : [])]
             .filter((g) => g.items.length)
@@ -234,8 +211,80 @@ export default function Home({
           {items.map((c, i) => card(c, c.priority % 8, i))}
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
         </div>
-      )}
+      ))}
     </div>
+  )
+}
+
+/**
+ * 今天的路：上面一排五站（做完的打勾、現在這一站亮著），下面是站在這一站的角色，
+ * 說這一站要做什麼、這一站的字，按一下直接過去。他讀不到字，那句話會唸出來。
+ */
+function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplore }: {
+  stops: Stop[]
+  walked: boolean
+  starTotal: number
+  todayCount: number
+  onGo: (go: StopGo) => void
+  onMine: () => void
+  onExplore: () => void
+}) {
+  const now = currentStop(stops)
+  /** 角色正在唸的那句。離開首頁要停掉，不然他已經進遊戲了還在背後講話 */
+  const voice = useRef<(() => void) | null>(null)
+  const line = walked ? FIXED_LINES.pathAllDone : now?.say
+  useEffect(() => {
+    preloadVoice(stops.map((s) => s.say).concat(FIXED_LINES.pathAllDone))
+    if (!line) return
+    const t = window.setTimeout(() => { voice.current?.(); voice.current = sayAll([line], 0.85) }, 500)
+    return () => { clearTimeout(t); voice.current?.() }
+  }, [line])
+  return (
+    <section className="path" aria-label="今天的路">
+      <div className="path-top">
+        <StarBank total={starTotal} onOpen={onMine} />
+        <TodayStars count={todayCount} />
+      </div>
+      <ol className="path-road">
+        {stops.map((s) => {
+          const done = s.done >= s.need
+          return (
+            <li key={s.id}>
+              <button className={'stop' + (done ? ' done' : '') + (s === now ? ' now' : '')} onClick={() => { tap(); onGo(s.go) }}
+                aria-label={`${s.title}${s.need > 1 ? `，做到 ${s.done} / ${s.need}` : ''}${done ? '，做完了' : s === now ? '，現在這一站' : ''}`}>
+                <span className="stop-dot" aria-hidden>{done ? '✅' : s.icon}</span>
+                <b>{s.title}</b>
+                {s.need > 1 && <small>{s.done} / {s.need}</small>}
+              </button>
+            </li>
+          )
+        })}
+      </ol>
+      <div className="path-now">
+        <img className="path-hero" src={`/hero/${walked || !now ? 'yang' : now.hero}/${walked ? 'happy' : 'idle'}.png`} alt="" />
+        {walked || !now ? (
+          <div className="path-text">
+            <b>🎉 今天的路走完了！</b>
+            <p>想再玩的話，自己逛逛也可以。</p>
+          </div>
+        ) : (
+          <div className="path-text">
+            <b>{now.icon} {now.title}</b>
+            <p>{now.hint}</p>
+            {(now.chars.length > 0 || now.label) && (
+              <div className="path-chars">
+                {now.chars.map((c) => <span key={c} className="path-char">{c}</span>)}
+                {now.label && <span className="path-label">{now.label}</span>}
+              </div>
+            )}
+          </div>
+        )}
+        {walked || !now
+          ? <button className="path-go ghost" onClick={onExplore}>🎲 自己逛逛</button>
+          : <button className="path-go" onClick={() => { tap(); onGo(now.go) }}>{now.cta}</button>}
+        {line && <button className="path-listen" onClick={() => { voice.current?.(); voice.current = sayAll([line], 0.85) }} aria-label="再聽一次">🔊</button>}
+      </div>
+    </section>
   )
 }
 

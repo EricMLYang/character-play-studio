@@ -158,8 +158,6 @@
 .place.fresh { animation: breathe 2s ease-in-out infinite; }
 
 .place-town { background: #BDEBC4; }
-.place-lab { background: #D9D2FF; }
-.place-lab .place-icon { animation-delay: -2s; }
 .place-train { background: #FFD9B8; }
 .place-train .place-icon { animation-delay: -1s; }
 
@@ -401,4 +399,55 @@
   .quest-short { display: block; font-size: 13px; white-space: nowrap; }
   /* 768px 上差最後 2px 就折行 */
   .quest-text { min-width: 64px; }
+}
+
+/* ---------- 今天的路（today.ts）：打開就在這裡，五站走完就結束。這是主畫面，要撐滿 ---------- */
+.path { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: clamp(14px, 3vh, 28px);
+  padding: 4px 28px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; }
+.path-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.path-road { display: flex; align-items: stretch; justify-content: center; gap: clamp(8px, 1.5vw, 18px); margin: 0; padding: 6px 0; list-style: none; overflow-x: auto; }
+.path-road li { flex: 1 1 0; max-width: 200px; display: flex; }
+.stop { position: relative; flex: 1; min-width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 8px 12px;
+  border-radius: 26px; background: rgba(255,255,255,.7); text-align: center; transition: transform .2s; }
+.path-road li:not(:last-child) .stop::after { content: ''; position: absolute; right: calc(-1 * clamp(8px, 1.5vw, 18px)); top: 44px;
+  width: clamp(8px, 1.5vw, 18px); height: 6px; background: rgba(46,42,38,.18); }
+.stop-dot { display: grid; place-items: center; width: clamp(56px, 9vh, 76px); height: clamp(56px, 9vh, 76px); border-radius: 50%; background: #fff;
+  font-size: clamp(28px, 4.6vh, 40px); line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.08); }
+.stop b { font-size: clamp(15px, 2.4vh, 19px); }
+.stop small { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.6); }
+.stop.done { background: linear-gradient(135deg, #FFF3CF, #FFE49A); }
+.stop.done .stop-dot { background: #fff; }
+.stop.now { background: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.08), 0 0 0 4px var(--c0); transform: translateY(-4px); }
+.stop.now .stop-dot { animation: breathe 1.4s ease-in-out infinite; }
+.stop:active { transform: translateY(2px); }
+/* 現在這一站：角色站在這裡講話，按鈕直接過去 */
+.path-now { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); flex-wrap: wrap; align-self: center; width: min(100%, 900px);
+  padding: clamp(14px, 2.5vh, 24px) clamp(18px, 3vw, 32px); border-radius: 32px; background: #fff;
+  box-shadow: 0 6px 0 rgba(0,0,0,.07), 0 12px 28px rgba(0,0,0,.08); animation: cardIn .35s both; }
+.path-hero { width: clamp(96px, 18vh, 150px); height: clamp(96px, 18vh, 150px); object-fit: contain; flex-shrink: 0; animation: bob 2.4s ease-in-out infinite; }
+.path-text { flex: 1 1 220px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.path-text b { font-size: clamp(24px, 4vh, 34px); line-height: 1.2; }
+.path-text p { margin: 0; font-size: clamp(16px, 2.4vh, 20px); color: #645449; }
+.path-chars { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.path-char { display: inline-grid; place-items: center; min-width: clamp(52px, 8vh, 68px); height: clamp(52px, 8vh, 68px); padding: 0 10px; border-radius: 18px; background: var(--paper);
+  font-family: var(--kai); font-size: clamp(34px, 5.5vh, 46px); line-height: 1; box-shadow: inset 0 0 0 2px rgba(46,42,38,.08); }
+.path-label { font-size: clamp(14px, 2vh, 17px); font-weight: 800; color: rgba(46,42,38,.72); }
+.path-go { padding: clamp(14px, 2.2vh, 18px) clamp(26px, 3vw, 36px); border-radius: 999px; background: var(--c0); color: #fff;
+  font-size: clamp(20px, 3vh, 26px); font-weight: 800; box-shadow: 0 5px 0 rgba(0,0,0,.14); }
+.path-go:active { transform: translateY(3px); box-shadow: none; }
+.path-go.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 3px rgba(46,42,38,.12); }
+.path-listen { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: var(--paper); font-size: 22px; }
+.path-listen:active { transform: translateY(2px); }
+.explore-toggle { margin-left: auto; }
+.exploring .explore-toggle { margin-left: 0; }
+@media (max-width: 720px) {
+  .path { padding: 4px 14px calc(16px + env(safe-area-inset-bottom)); gap: 12px; justify-content: flex-start; }
+  .path-road { justify-content: flex-start; }
+  .stop { min-width: 72px; padding: 10px 4px 8px; }
+  .stop-dot { width: 46px; height: 46px; font-size: 24px; }
+  .stop b { font-size: 13px; }
+  .stop small { display: none; }
+  .path-hero { width: 80px; height: 80px; }
+  .path-text b { font-size: 21px; }
+  .path-go { padding: 12px 20px; font-size: 18px; }
 }

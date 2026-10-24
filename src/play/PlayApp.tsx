@@ -16,9 +16,8 @@ import { crossNextWith } from './crossing'
 import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
-import { pickNudge } from './nudge'
 import { hasSeen, markSeen } from './seen'
-import { allDone, todayQuests } from './today'
+import { pathDone, todayPath } from './today'
 import { PARTNERS, partnerCount, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
@@ -127,15 +126,15 @@ export default function PlayApp() {
   const [chest, setChest] = useState<Partner | null>(null)
   /** 一個字的星星集滿了：加冕（Crown.tsx）。跟寶箱同時發生就排在寶箱後面 */
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
-  // 今天的三件事（today.ts）：三件都做完要慶祝一次
-  const quests = useMemo(() => todayQuests(progress), [progress])
-  const questsDone = allDone(quests)
-  const before = useRef<{ stars: Map<string, number>; total: number; quests: boolean } | null>(null)
+  // 今天的路（today.ts）：走完要慶祝一次
+  const path = useMemo(() => todayPath(all, progress), [all, progress])
+  const walked = pathDone(path)
+  const before = useRef<{ stars: Map<string, number>; total: number; walked: boolean } | null>(null)
   useEffect(() => {
     // 字庫還沒載到的時候 progress 是空的，整份進度一進來會看起來像「剛剛拿到兩百顆星」
     if (!lib) return
     const was = before.current
-    before.current = { stars, total: starTotal, quests: questsDone }
+    before.current = { stars, total: starTotal, walked }
     // 第一次拿到真的進度：這些星星是以前拿的，不是現在拿到的，不慶祝
     if (!was) return
     // 剛剛哪個字多拿了一顆星，那一顆有沒有把它集滿
@@ -148,15 +147,15 @@ export default function PlayApp() {
       return
     }
     if (full) return
-    if (questsDone && !was.quests) {
+    if (walked && !was.walked) {
       magic()
-      say(FIXED_LINES.questsDone, 0.85)
-      setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.questsDone, big: true })
+      say(FIXED_LINES.pathAllDone, 0.85)
+      setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.pathAllDone, big: true })
       return
     }
     if (!got) return
     setPop({ key: Date.now(), icon: '⭐', text: `「${got[0]}」拿到一顆星星！`, big: false })
-  }, [stars, starTotal, caps, lib, questsDone])
+  }, [stars, starTotal, caps, lib, walked])
   useEffect(() => {
     if (!pop) return
     const t = setTimeout(() => setPop(null), pop.big ? 3200 : 2200)
@@ -168,9 +167,6 @@ export default function PlayApp() {
     const today = taiwanDay()
     return Object.values(progress.watched).filter((w) => taiwanDay(w.last) === today).length
   }, [progress])
-
-  // 首頁那隻角色要說的話。進度一變就重挑，所以做完一件事它會換下一句
-  const nudge = useMemo(() => pickNudge(all, progress, stars, caps), [all, progress, stars, caps])
 
   // ---------- 去哪裡 ----------
   const here: Route = { screen }
@@ -243,10 +239,9 @@ export default function PlayApp() {
             places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress), fresh: Boolean(g.fresh) && !seen.includes(g.id) }))}
             onScreen={toScreen}
             onRide={startRide}
-            quests={quests}
-            questsDone={questsDone}
-            nudge={nudge}
-            onNudge={(go) => {
+            path={path}
+            walked={walked}
+            onGo={(go) => {
               if (!go) surprise()
               else if (go.kind === 'char') open(go.char)
               else enter(go.id, go.want)
