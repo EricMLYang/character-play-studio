@@ -42,7 +42,8 @@ export type CharEntry = {
 }
 
 /** 小鎮居民：他描完的字。strokes 是他自己的筆跡，hanzi-writer 內部座標。 */
-export type Resident = { traces: number; first: string; last: string; strokes: number[][] }
+/** traces 是描過幾次（含憑記憶寫），blind 是其中憑記憶寫的幾次；小鎮長大看 blind（shared/domain.mjs 的 residentLevel） */
+export type Resident = { traces: number; blind?: number; first: string; last: string; strokes: number[][] }
 
 /**
  * 孩子的進度（data/progress.json）。新遊戲要記東西就在這裡加一個欄位，

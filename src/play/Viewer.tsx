@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import type { CharEntry, Progress } from '../types'
+import type { CharEntry, Progress, Resident } from '../types'
 import { preloadVoice, say, sayAll, sayRepeat, stopSpeech } from '../lib/audio'
 import { cheer, swipe, tap } from '../lib/sfx'
-import { charStars } from '../../shared/domain.mjs'
+import { charStars, tracedOnly, residentLevel, CROWN_LEVEL } from '../../shared/domain.mjs'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { deedsFor } from './stars'
 import { sceneFor, SCENE_PIECES } from './scenes'
@@ -20,12 +20,12 @@ import { Confetti, emojiArt, hueOf, hueVar } from './ui'
  * 流程狀態在 viewerFlow.ts；這裡只管畫面、計時器與音效。
  */
 export default function Viewer({
-  entry, count, traces, library, hues, puzzled, progress, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown, onGame,
+  entry, count, resident, library, hues, puzzled, progress, prev, next, onGo, onJump, onClose, onBrowseVideos, onComplete, onTraced, onTown, onGame,
 }: {
   entry: CharEntry
   count: number
-  /** 在小鎮裡已經寫過幾次，決定描完要說「搬進來了」還是「長大了」。 */
-  traces: number
+  /** 他在小鎮裡的這個字（沒搬進來就是 undefined），決定描完要說「搬進來了」還是「長大了」。 */
+  resident?: Resident
   /** 孩子端看得到的字，用來決定部件字卡能不能點過去。 */
   library: CharEntry[]
   /** 每個字的顏色（hueMap），跟首頁同色 */
@@ -41,7 +41,7 @@ export default function Viewer({
   onClose: () => void
   onBrowseVideos: () => void
   onComplete: (e: CharEntry, id: string) => void
-  onTraced: (e: CharEntry, strokes: number[][]) => void
+  onTraced: (e: CharEntry, strokes: number[][], blind: boolean) => void
   onTown: () => void
   /** 缺的那顆星要去的遊戲（games.tsx 的 id），第二個參數是「為了哪個字去的」 */
   onGame: (id: string, want?: string) => void
@@ -61,14 +61,38 @@ export default function Viewer({
   const completeRef = useRef(onComplete)
   completeRef.current = onComplete
 
-  /** 他自己把字描完的那一刻。畫面上寫著「『楊』搬進你的小鎮了！」，但他讀不到——唸出來 */
-  const traceDone = (strokes: number[][]) => {
-    dispatch({ type: 'traced', before: traces })
-    onTraced(entry, strokes)
+  /**
+   * 他自己把字描完的那一刻。畫面上寫著「『楊』搬進你的小鎮了！」，但他讀不到——唸出來。
+   * 第一次描完搬進小鎮；之後要遮起來憑記憶寫才會長大（第 5 級戴皇冠）；照著再描一次就只邀他遮起來寫。
+   */
+  const traceDone = (strokes: number[][], blind: boolean) => {
+    const level = residentLevel(resident)
+    const moved = !resident ? 'in' : blind ? (level + 1 >= CROWN_LEVEL ? 'crown' : 'grow') : null
+    dispatch({ type: 'traced', moved })
+    onTraced(entry, strokes, blind)
     voice.current?.()
-    voice.current = sayAll([entry.char,
-      traces === 0 ? FIXED_LINES.movedIn : traces + 1 === 5 ? FIXED_LINES.movedCrown : FIXED_LINES.movedGrow], 0.85)
+    const line = moved === 'in' ? FIXED_LINES.movedIn : moved === 'crown' ? FIXED_LINES.movedCrown
+      : moved === 'grow' ? FIXED_LINES.movedGrow : null
+    voice.current = sayAll([entry.char, ...(blind ? [FIXED_LINES.wroteBlind] : []), ...(line ? [line] : []),
+      ...(!blind && moved !== 'in' ? [FIXED_LINES.blindInvite] : [])], 0.85)
   }
+
+  /**
+   * 看過的字再打開：先蓋著問「你還記得這是什麼字嗎？」，他想好了點一下才播。
+   * 每次重看都變成一次回想（研究上自己想起來比一直重看記得牢）。第一次看、「再看一次」不蓋。
+   */
+  const [covered, setCovered] = useState(count > 0)
+  const uncover = () => {
+    tap()
+    stopSpeech()
+    setCovered(false)
+    say(entry.char, 0.75, 0.9)
+  }
+  useEffect(() => {
+    if (!covered) return
+    const t = setTimeout(() => say(FIXED_LINES.recallAsk, 0.8), 350)
+    return () => clearTimeout(t)
+  }, [covered])
 
   const finish = () => {
     if (completed.current) return
@@ -95,36 +119,36 @@ export default function Viewer({
   useEffect(() => { root.current?.focus() }, [])
   // 這個字會唸到的句子先抓好
   useEffect(() => {
-    preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook,
-      FIXED_LINES.movedIn, FIXED_LINES.movedGrow, FIXED_LINES.movedCrown])
+    preloadVoice([entry.char, ...(entry.words ?? []).map((w) => w.text), entry.concept?.hook, FIXED_LINES.recallAsk,
+      FIXED_LINES.movedIn, FIXED_LINES.movedGrow, FIXED_LINES.movedCrown, FIXED_LINES.blindInvite, FIXED_LINES.wroteBlind])
   }, [entry])
   useEffect(() => () => { clearTimeout(toTrace.current); voice.current?.() }, [])
 
   // 圖片：載入好才開始算停留（慢圖片不能還沒看到就記一次），並照家長審核過的音量唸這個字
   const image = source.kind === 'image' ? source.media : undefined
   useEffect(() => {
-    if (!image || !imageReady || trace) return
+    if (!image || !imageReady || trace || covered) return
     const stop = image.audioMode === 'original' ? () => {} : sayRepeat(entry.char, 2, 1500, image.volume ?? 0.7)
     const t = setTimeout(endMedia, 3000)
     return () => { clearTimeout(t); stop() }
-  }, [entry.char, image, imageReady, trace, round])
+  }, [entry.char, image, imageReady, trace, round, covered])
 
   // 沒有素材：emoji 登場 → 變成國字 → 定格看笑點 → 一筆一畫寫出來，最後換孩子描
   useEffect(() => {
-    if (!bare) return
+    if (!bare || covered) return
     const t1 = setTimeout(() => dispatch({ type: 'phase', phase: 'morph' }), 1200)
     const t2 = setTimeout(() => dispatch({ type: 'phase', phase: 'hold' }), 2300)
     const t3 = setTimeout(() => dispatch({ type: 'phase', phase: 'write' }), 3800)
     const stop = sayRepeat(entry.char, 3, 1500, 0.7)
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); stop() }
-  }, [entry.char, bare, round])
+  }, [entry.char, bare, round, covered])
 
   // 沒有筆順資料就回到舊行為：定格幾秒一樣記一次，不會因為缺資料就永遠不算看過
   useEffect(() => {
-    if (!bare || !noStrokes) return
+    if (!bare || !noStrokes || covered) return
     const t = setTimeout(finish, 3000)
     return () => clearTimeout(t)
-  }, [bare, noStrokes, round])
+  }, [bare, noStrokes, round, covered])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -141,6 +165,7 @@ export default function Viewer({
     eventId.current = crypto.randomUUID()
     clearTimeout(toTrace.current)
     stopSpeech()
+    setCovered(false)
     dispatch({ type: 'replay' })
   }
 
@@ -169,16 +194,16 @@ export default function Viewer({
         <button className="viewer-title" aria-label={`再聽一次「${entry.char}」`}
           onClick={() => say(entry.char, 0.7, speechVolume)}>
           <span className="viewer-emoji">{entry.emoji}</span>
-          <b className="viewer-char">{entry.char}</b>
-          <span className="viewer-zhuyin">{entry.zhuyin}</span>
-          <span className="viewer-meaning">{entry.meaning}</span>
+          <b className="viewer-char">{covered ? '？' : entry.char}</b>
+          <span className="viewer-zhuyin">{covered ? '' : entry.zhuyin}</span>
+          <span className="viewer-meaning">{covered ? '想一想' : entry.meaning}</span>
           <span className="viewer-say" aria-hidden>🔊</span>
         </button>
         <StarBadge entry={entry} count={count} bump={done || traced} progress={progress} known={known}
           onGame={onGame} onWrite={trace ? undefined : toggleTrace} />
       </header>
 
-      {(words.length > 0 || parts.length > 0 || hides.length > 0 || home) && (
+      {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || home) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
             <button key={word.text} className="say-word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
@@ -222,7 +247,14 @@ export default function Viewer({
       )}
 
       <div className="viewer-frame">
-        {trace ? (
+        {covered ? (
+          <button className="recall-cover" onClick={uncover} aria-label="你還記得這是什麼字嗎？想好了點一下看答案">
+            <span className="recall-art" aria-hidden>{art ? <img src={art} alt="" /> : entry.emoji}</span>
+            <span className="recall-mark" aria-hidden>？</span>
+            <span className="recall-ask">你還記得這是什麼字嗎？</span>
+            <span className="recall-go">想好了！看答案 →</span>
+          </button>
+        ) : trace ? (
           <div className="stage stage-write">
             <Scene entry={entry} />
             <Strokes char={entry.char} highlight={parts[0]?.strokes} onTraced={traceDone} onUnavailable={() => dispatch({ type: 'trace', on: false })} />
@@ -254,7 +286,7 @@ export default function Viewer({
         {moved !== null && (
           <button className="moved-in" onClick={onTown}>
             <span aria-hidden>🏡</span>
-            {moved === 0 ? `「${entry.char}」搬進你的小鎮了！` : moved + 1 === 5 ? `「${entry.char}」戴上皇冠了！👑` : `「${entry.char}」在小鎮長大了！`}
+            {moved === 'in' ? `「${entry.char}」搬進你的小鎮了！` : moved === 'crown' ? `「${entry.char}」戴上皇冠了！👑` : `「${entry.char}」在小鎮長大了！`}
             <b>去看看 →</b>
           </button>
         )}
@@ -299,6 +331,8 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
 }) {
   const [open, setOpen] = useState(false)
   const got = charStars(progress, entry.char)
+  // 描過但還沒遮起來寫：寫字那顆先亮一半，他看得出「差一步」
+  const half = tracedOnly(progress, entry.char)
   const deeds = deedsFor(entry, known)
   const n = deeds.filter((d) => got[d.id]).length
   const full = n === deeds.length
@@ -311,7 +345,7 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
         aria-label={`星星：${deeds.length} 顆裡面拿到 ${n} 顆${nearly ? '，只差一顆就集滿了' : ''}，點開來看還差什麼`}
         onClick={() => { tap(); setOpen((o) => !o) }}>
         <span className="strip-stars" key={n} aria-hidden>
-          {deeds.map((d) => <span key={d.id} className={got[d.id] ? '' : 'off'}>⭐</span>)}
+          {deeds.map((d) => <span key={d.id} className={got[d.id] ? '' : d.id === 'write' && half ? 'half' : 'off'}>⭐</span>)}
           {full && <span className="strip-crown">👑</span>}
         </span>
         <span className={'strip-count' + (bump ? ' bump' : '')} key={`${count}-${n}`}>
@@ -327,7 +361,7 @@ function StarBadge({ entry, count, bump, progress, known, onGame, onWrite }: {
               {deeds.map((d) => (
                 <li key={d.id} className={got[d.id] ? 'got' : ''}>
                   <span className="deed-icon" aria-hidden>{d.icon}</span>
-                  <span className="deed-text"><b>{d.label}</b><small>{got[d.id] ? '拿到了！' : d.todo(entry.char)}</small></span>
+                  <span className="deed-text"><b>{d.label}</b><small>{got[d.id] ? '拿到了！' : d.id === 'write' && half ? '描過了！再遮起來自己寫一次就拿到' : d.todo(entry.char)}</small></span>
                   {got[d.id] ? <span className="deed-star" aria-hidden>⭐</span>
                     : d.where ? <button className="deed-go" onClick={() => { tap(); onGame(d.where!, entry.char) }}>去 →</button>
                     : d.id === 'write' && onWrite ? <button className="deed-go" onClick={() => { tap(); setOpen(false); onWrite() }}>來寫 →</button>

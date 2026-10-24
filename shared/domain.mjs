@@ -37,19 +37,28 @@ export function completeWatch(progress, char, at = new Date().toISOString()) {
  * 描完一個字，它就搬進孩子的小鎮。筆跡存最新的一次（字是他寫的，不是字型），
  * 次數決定居民長多大。strokes 是 hanzi-writer 內部座標（0–1024，y 朝上）。
  */
-export function addTrace(progress, char, strokes, at = new Date().toISOString()) {
+/**
+ * 他描完一個字。blind＝遮起來、沒有外框，憑記憶寫出來的（研究上寫字的好處來自分析字的結構，
+ * 描線條只有一半；所以 traces 算每一次，blind 另外算，小鎮長大與寫字那顆星看的是 blind）。
+ */
+export function addTrace(progress, char, strokes, at = new Date().toISOString(), blind = false) {
   const previous = progress.town?.[char]
   const newer = !previous || Date.parse(at) >= Date.parse(previous.last)
   return {
     ...progress,
     town: { ...progress.town, [char]: {
       traces: (previous?.traces || 0) + 1,
+      blind: (previous?.blind || 0) + (blind ? 1 : 0),
       first: previous?.first && Date.parse(previous.first) < Date.parse(at) ? previous.first : at,
       last: newer ? at : previous.last,
       strokes: newer ? strokes : previous.strokes,
     } },
   }
 }
+
+/** 小鎮居民長到第幾級（1～5）：搬進來是 1，每憑記憶寫一次長一級，第 5 級戴皇冠 */
+export const residentLevel = (resident) => Math.min(1 + (resident?.blind || 0), 5)
+export const CROWN_LEVEL = 5
 
 /** 魔法鍋第一次變出這個字的時間。之後再變出來不改，圖鑑記的是「發現」。 */
 export function discover(progress, char, at = new Date().toISOString()) {
@@ -139,24 +148,37 @@ export function findFamily(progress, family, char, at = new Date().toISOString()
  */
 export const STAR_DEEDS = [
   { id: 'watch', icon: '👀', label: '看過這個字', where: null, todo: (char) => `看一次「${char}」就拿到了` },
-  { id: 'write', icon: '✏️', label: '自己寫出來', where: null, todo: (char) => `按「✏️ 換你寫」，自己把「${char}」描完` },
+  { id: 'write', icon: '✏️', label: '憑記憶寫出來', where: null, todo: (char) => `描完「${char}」之後，按「遮起來，自己寫寫看」` },
   { id: 'recall', icon: '🍽️', label: '自己認出來', where: 'feed', todo: (char) => `去餵大怪獸，聽到「${char}」自己把它找出來` },
-  { id: 'puzzle', icon: '🧩', label: '拼好一個詞', where: 'puzzle', todo: (char) => `去詞語拼圖，把「${char}」補進一個詞裡` },
-  { id: 'brew', icon: '🧪', label: '魔法鍋變出來', where: 'lab', todo: (char) => `去魔法鍋，把「${char}」變出來` },
+  { id: 'puzzle', icon: '📖', label: '在詞裡讀到', where: 'puzzle', todo: (char) => `去詞語拼圖，把「${char}」補進一個詞裡` },
+  { id: 'family', icon: '🏠', label: '找到牠的家', where: 'roots', todo: (char) => `去部首家族，找到「${char}」住哪一家` },
 ]
 export const MAX_STARS = STAR_DEEDS.length
+
+/**
+ * 2026-10-25 之前「描完」就有寫字那顆星，之後要憑記憶寫（blind）。
+ * 在那之前搬進小鎮的字照舊算拿到，他已經拿到的星星不會變少。
+ */
+export const WRITE_STAR_CUTOVER = Date.parse('2026-10-25T00:00:00+08:00')
+const wroteIt = (resident) => Boolean(resident) && ((resident.blind || 0) > 0 || Date.parse(resident.first) < WRITE_STAR_CUTOVER)
+/** 魔法鍋刪掉之前變出來過的字，直接算成「找到牠的家」 */
+const foundHome = (progress, char) => Boolean(progress.lab?.[char]) ||
+  Object.values(progress.radicals || {}).some((family) => Boolean(family?.[char]))
 
 /** 一個字拿到哪幾顆星：{ watch: true, write: false, ... }。 */
 export function charStars(progress, char) {
   return {
     watch: (progress.watched?.[char]?.count || 0) > 0,
-    write: Boolean(progress.town?.[char]),
+    write: wroteIt(progress.town?.[char]),
     // 靠提示才吃到的不算：這顆星要的是「他自己認出來」
     recall: (progress.recall?.[char]?.right || 0) > 0,
     puzzle: Object.values(progress.puzzles || {}).some((p) => p.char === char),
-    brew: Boolean(progress.lab?.[char]),
+    family: foundHome(progress, char),
   }
 }
+
+/** 描過、但還沒憑記憶寫過：寫字那顆星先亮一半 */
+export const tracedOnly = (progress, char) => Boolean(progress.town?.[char]) && !wroteIt(progress.town[char])
 
 /**
  * 每個字幾顆星，整份紀錄只掃一遍。首頁有兩百多張字卡，一張一張去翻紀錄會把每次更新都變慢。
@@ -166,10 +188,11 @@ export function starIndex(progress) {
   const stars = new Map()
   const mark = (char) => stars.set(char, (stars.get(char) || 0) + 1)
   for (const [char, watched] of Object.entries(progress.watched || {})) if (watched?.count > 0) mark(char)
-  for (const char of Object.keys(progress.town || {})) mark(char)
+  for (const [char, resident] of Object.entries(progress.town || {})) if (wroteIt(resident)) mark(char)
   for (const [char, box] of Object.entries(progress.recall || {})) if (box?.right > 0) mark(char)
   for (const char of new Set(Object.values(progress.puzzles || {}).map((p) => p.char))) mark(char)
-  for (const char of Object.keys(progress.lab || {})) mark(char)
+  const homes = new Set([...Object.keys(progress.lab || {}), ...Object.values(progress.radicals || {}).flatMap((f) => Object.keys(f || {}))])
+  for (const char of homes) mark(char)
   return stars
 }
 

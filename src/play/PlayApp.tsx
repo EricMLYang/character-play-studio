@@ -259,7 +259,7 @@ export default function PlayApp() {
           key={entry.char}
           entry={entry}
           count={progress.watched[entry.char]?.count || 0}
-          traces={progress.town?.[entry.char]?.traces || 0}
+          resident={progress.town?.[entry.char]}
           library={all}
           hues={hues}
           puzzled={puzzled}
@@ -271,7 +271,7 @@ export default function PlayApp() {
           onClose={close}
           onBrowseVideos={() => { setQuery(''); setFilter('video'); go({ screen: 'home' }, { replace: true }) }}
           onComplete={(e, id) => record({ char: e.char, id })}
-          onTraced={(e, strokes) => record({ kind: 'trace', char: e.char, strokes })}
+          onTraced={(e, strokes, blind) => record({ kind: 'trace', char: e.char, strokes, ...(blind ? { blind: true } : {}) })}
           onTown={() => go({ screen: 'town' }, { replace: true })}
           onGame={(id, want) => enter(id, want, true)}
         />

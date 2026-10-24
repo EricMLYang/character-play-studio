@@ -2,7 +2,8 @@ import type { Progress } from '../src/types'
 
 export type PlayEvent =
   | { kind?: 'watch'; char: string; id: string; at: string }
-  | { kind: 'trace'; char: string; id: string; at: string; strokes: number[][] }
+  /** blind＝遮起來憑記憶寫的 */
+  | { kind: 'trace'; char: string; id: string; at: string; strokes: number[][]; blind?: boolean }
   | { kind: 'discover'; char: string; id: string; at: string }
   /** char 是整個詞 */
   | { kind: 'word'; char: string; id: string; at: string; remove?: boolean }

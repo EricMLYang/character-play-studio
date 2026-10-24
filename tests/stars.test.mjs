@@ -4,8 +4,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { registerHooks } from 'node:module'
-import { STAR_DEEDS, MAX_STARS, charStars, starIndex, totalStars } from '../shared/domain.mjs'
-import { completeWatch, addTrace, recall, solvePuzzle, discover } from '../shared/domain.mjs'
+import { STAR_DEEDS, MAX_STARS, charStars, starIndex, totalStars, tracedOnly, residentLevel } from '../shared/domain.mjs'
+import { completeWatch, addTrace, recall, solvePuzzle, discover, findFamily } from '../shared/domain.mjs'
 
 // 前端模組用不帶副檔名的相對路徑（給 Vite 用），Node 找不到時補上 .ts 再試
 registerHooks({
@@ -19,12 +19,14 @@ registerHooks({
 const { setParts } = await import('../src/play/parts.ts')
 const { deedsFor, maxStars, starCaps } = await import('../src/play/stars.ts')
 
-const at = '2026-10-21T10:00:00Z'
+// 2026-10-25 之後：描完只算一半，要憑記憶寫（blind）才有寫字那顆星
+const at = '2026-10-26T10:00:00Z'
+const before = '2026-10-21T10:00:00Z'
 const strokes = [[100, 200, 300, 400]]
 
 test('每顆星都有自己的地方，缺的時候講得出要去哪', () => {
   assert.equal(MAX_STARS, 5)
-  assert.deepEqual(STAR_DEEDS.map((d) => d.id), ['watch', 'write', 'recall', 'puzzle', 'brew'])
+  assert.deepEqual(STAR_DEEDS.map((d) => d.id), ['watch', 'write', 'recall', 'puzzle', 'family'])
   for (const deed of STAR_DEEDS) {
     assert.equal(typeof deed.icon, 'string', deed.id)
     assert.equal(typeof deed.label, 'string', deed.id)
@@ -35,21 +37,52 @@ test('每顆星都有自己的地方，缺的時候講得出要去哪', () => {
 
 test('五顆星分別來自五個地方，一個字全部做過就滿星', () => {
   let progress = { watched: {} }
-  assert.deepEqual(charStars(progress, '火'), { watch: false, write: false, recall: false, puzzle: false, brew: false })
+  assert.deepEqual(charStars(progress, '火'), { watch: false, write: false, recall: false, puzzle: false, family: false })
 
   progress = completeWatch(progress, '火', at)
   assert.equal(charStars(progress, '火').watch, true)
   progress = addTrace(progress, '火', strokes, at)
-  assert.equal(charStars(progress, '火').write, true)
+  assert.equal(charStars(progress, '火').write, false, '照著描只算一半')
+  assert.equal(tracedOnly(progress, '火'), true)
+  assert.equal(starIndex(progress).get('火'), 1, '半顆不算進總數')
+  progress = addTrace(progress, '火', strokes, at, true)
+  assert.equal(charStars(progress, '火').write, true, '遮起來憑記憶寫出來才拿到')
+  assert.equal(tracedOnly(progress, '火'), false)
   progress = recall(progress, '火', true, at)
   assert.equal(charStars(progress, '火').recall, true)
   progress = solvePuzzle(progress, '火車', '火', true, at)
   assert.equal(charStars(progress, '火').puzzle, true)
-  progress = discover(progress, '火', at)
-  assert.equal(charStars(progress, '火').brew, true)
+  progress = findFamily(progress, 'fire', '火', at)
+  assert.equal(charStars(progress, '火').family, true)
 
   assert.equal(starIndex(progress).get('火'), MAX_STARS)
   assert.equal(totalStars(progress), MAX_STARS)
+})
+
+test('2026-10-25 之前描完的字照舊有寫字那顆星，他拿到的不會變少', () => {
+  const old = addTrace({ watched: {} }, '火', strokes, before)
+  assert.equal(charStars(old, '火').write, true)
+  assert.equal(tracedOnly(old, '火'), false)
+  assert.equal(starIndex(old).get('火'), 1)
+})
+
+test('魔法鍋刪掉之前變出來過的字，直接算成「找到牠的家」', () => {
+  const p = discover({ watched: {} }, '日', before)
+  assert.equal(charStars(p, '日').family, true)
+  assert.equal(starIndex(p).get('日'), 1)
+  const both = findFamily(p, 'sun', '日', at)
+  assert.equal(starIndex(both).get('日'), 1, '魔法鍋跟部首家族都做過還是同一顆')
+})
+
+test('小鎮居民靠憑記憶寫長大：搬進來是 1 級，第 5 級戴皇冠', () => {
+  let p = addTrace({ watched: {} }, '火', strokes, at)
+  assert.equal(residentLevel(p.town['火']), 1)
+  for (let i = 0; i < 3; i++) p = addTrace(p, '火', strokes, at)
+  assert.equal(residentLevel(p.town['火']), 1, '照著描再多次也不長大')
+  for (let i = 0; i < 6; i++) p = addTrace(p, '火', strokes, at, true)
+  assert.equal(p.town['火'].blind, 6)
+  assert.equal(residentLevel(p.town['火']), 5, '最高 5 級')
+  assert.equal(residentLevel(undefined), 1)
 })
 
 test('餵大怪獸要自己認出來才有星星，靠提示吃到的不算', () => {
@@ -92,13 +125,12 @@ const entry = (char, words) => ({ char, zhuyin: '', meaning: '', emoji: '', word
 // 日 裡面有 口（口 在字庫裡）；跑 裡面有 足（足 不在這次的字庫裡）
 setParts({ 日: [{ char: '口', strokes: [0, 1, 2] }], 跑: [{ char: '足', strokes: [0, 1, 2, 3, 4, 5, 6] }] })
 
-test('魔法鍋變不出來的字，就不算它那一顆星', () => {
-  const lib = [entry('日', [{ text: '生日', emoji: '🎂' }]), entry('口', []), entry('火', [{ text: '火車', emoji: '🚂' }])]
+test('那一家在孩子端湊不到兩個字的，就不算「找到牠的家」那一顆星', () => {
+  const lib = [entry('河', [{ text: '河馬', emoji: '🦛' }]), entry('海', []), entry('火', [{ text: '火車', emoji: '🚂' }]), entry('可', [])]
   const known = new Set(lib.map((c) => c.char))
-  assert.ok(deedsFor(lib[0], known).some((d) => d.id === 'brew'), '日 裡面有字庫裡的「口」，變得出來')
-  assert.ok(!deedsFor(lib[2], known).some((d) => d.id === 'brew'), '火 拆不出字庫裡的字，永遠變不出來')
-  // 足 不在字庫裡：跑 也變不出來
-  assert.ok(!deedsFor(entry('跑', []), known).some((d) => d.id === 'brew'), '部件本身不在字庫裡就不算')
+  assert.ok(deedsFor(lib[0], known).some((d) => d.id === 'family'), '河、海 兩個都在：三點水的家開門')
+  assert.ok(!deedsFor(lib[2], known).some((d) => d.id === 'family'), '火字旁只有火自己（燈、灰不在這次的字庫），家還沒開')
+  assert.ok(!deedsFor(lib[3], known).some((d) => d.id === 'family'), '可 不住任何一家（意思跟口連不上，radicals.mjs 不收）')
 })
 
 test('沒有畫得出來的詞，就不算拼圖那一顆星', () => {
@@ -129,10 +161,12 @@ test('每一顆星說的「去哪裡拿」都真的有那個遊戲', () => {
 })
 
 test('整個字庫的上限表一次算好', () => {
-  const lib = [entry('日', [{ text: '生日', emoji: '🎂' }]), entry('口', []), entry('火', [{ text: '火車', emoji: '🚂' }])]
+  // 早、晚 住日字旁的家（兩個家人都在就開門；日 本身是這一家的門牌，不算家人）；火 那一家只有自己；口 沒有詞、家也沒開
+  const lib = [entry('早', [{ text: '早上', emoji: '🌅' }]), entry('晚', []), entry('口', []), entry('火', [{ text: '火車', emoji: '🚂' }])]
   const caps = starCaps(lib)
-  assert.equal(caps.get('日'), 5, '看過、寫、認、拼、變')
-  assert.equal(caps.get('火'), 4, '變不出來')
-  assert.equal(caps.get('口'), 3, '變不出來、也沒有詞')
+  assert.equal(caps.get('早'), 5, '看過、寫、認、讀到、找到家')
+  assert.equal(caps.get('晚'), 4, '沒有詞')
+  assert.equal(caps.get('火'), 4, '家還沒開')
+  assert.equal(caps.get('口'), 3, '家沒開、也沒有詞')
   assert.equal(caps.size, lib.length)
 })

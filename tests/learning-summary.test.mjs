@@ -76,7 +76,9 @@ test('小結也說得出他在孩子端追的那條線：星星與夥伴', async
 test('小結挑得出「只差一顆就集滿」的字，還說得出缺的是哪一顆', async () => {
   const { summarize } = await import('../src/studio/summary.ts')
   const { setParts } = await import('../src/play/parts.ts')
-  setParts({})   // 沒有拆字表：魔法鍋那顆誰都拿不到，所以做得到的只有看過、自己寫、自己認出來、拼好一個詞
+  setParts({})
+  // 火、水 各自那一家在這個字庫裡都只有自己：「找到牠的家」那顆拿不到，做得到的只有看過、自己寫、自己認出來、在詞裡讀到。
+  // 日期在 2026-10-25 之前：描過就算寫字那顆
   const at = '2026-10-22T02:00:00Z'
   const entry = (char, words) => ({ char, zhuyin: '', meaning: '', emoji: '', words, concept: {}, status: 'live', priority: 0, media: [], feedback: [] })
   const lib = [entry('火', [{ text: '火山', emoji: '🌋' }]), entry('水', [{ text: '喝水', emoji: '🥤' }])]
@@ -88,7 +90,7 @@ test('小結挑得出「只差一顆就集滿」的字，還說得出缺的是�
   }
   const s = summarize(progress, lib, new Date(at))
   assert.deepEqual(s.nearly.map((n) => n.char), ['火'], '水 只有一顆，不算快集滿')
-  assert.equal(s.nearly[0].deed, '拼好一個詞')
+  assert.equal(s.nearly[0].deed, '在詞裡讀到')
   assert.equal(s.nearly[0].where, 'puzzle', '家長看得到要去哪個遊戲')
   assert.deepEqual(s.full, [], '還沒有字集滿')
 

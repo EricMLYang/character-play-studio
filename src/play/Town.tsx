@@ -3,20 +3,21 @@ import type { CharEntry, Resident } from '../types'
 import { say } from '../lib/audio'
 import { tap } from '../lib/sfx'
 import { LINES } from '../../shared/voice-lines.mjs'
+import { residentLevel } from '../../shared/domain.mjs'
 import { Handwriting } from './Glyphs'
 import { SubBar, hueOf, hueVar } from './ui'
 import { nextPartner, partnersAt } from './partners'
 import { crossNextWith } from './crossing'
 
-/** 寫幾次長多大：一次是小不點，五次以上戴皇冠。 */
-const levelOf = (traces: number) => Math.min(traces, 5)
+/** 長多大看憑記憶寫了幾次（shared/domain.mjs 的 residentLevel）：搬進來是小不點，第五級戴皇冠。 */
+
 
 /** 同一個字每次打開都站在差不多的地方、用同樣的節奏走，小鎮才像一個地方而不是亂數。 */
 const seed = (char: string) => [...char].reduce((h, c) => (h * 31 + c.codePointAt(0)!) >>> 0, 7)
 
 /**
  * 我的小鎮：他描完的字會搬進來，用他自己的筆跡當身體。
- * 點居民會跳一下、唸出自己和一個語詞；再寫一次就長大。
+ * 點居民會跳一下、唸出自己和一個語詞；遮起來憑記憶寫一次就長大。
  */
 export default function Town({ residents, library, hues, stars, onPick, onBack, onGame }: {
   residents: Record<string, Resident>
@@ -64,7 +65,7 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
           <div className="town-grid">
             {people.map(({ entry, resident }, i) => {
               const s = seed(entry.char)
-              const level = levelOf(resident.traces)
+              const level = residentLevel(resident)
               const speaking = talking === entry.char
               return (
                 <div key={entry.char} className="resident-cell" style={{
@@ -78,7 +79,7 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
                     </div>
                   )}
                   <button key={speaking ? hop : 0} className={'resident' + (speaking ? ' jump' : '')}
-                    aria-label={`「${entry.char}」，你寫了 ${resident.traces} 次`} onClick={() => talk(entry)}>
+                    aria-label={`「${entry.char}」，你寫了 ${resident.traces} 次，其中 ${resident.blind || 0} 次是憑記憶寫的`} onClick={() => talk(entry)}>
                     {level >= 5 && <span className="resident-crown" aria-hidden>👑</span>}
                     <span className="resident-body">
                       <span className="resident-eyes" aria-hidden><i /><i /></span>
@@ -88,7 +89,7 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
                     <span className="resident-feet" aria-hidden><i /><i /></span>
                   </button>
                   <span className="resident-tag">
-                    {entry.char === newest && Date.now() - Date.parse(resident.first) < 36e5 * 24 ? '✨ 新來的' : `✏️ × ${resident.traces}`}
+                    {entry.char === newest && Date.now() - Date.parse(resident.first) < 36e5 * 24 ? '✨ 新來的' : resident.blind ? `🙈 × ${resident.blind}` : `✏️ × ${resident.traces}`}
                   </span>
                 </div>
               )
@@ -103,7 +104,7 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
           </div>
         )}
       </div>
-      {people.length > 0 && <p className="town-tip">再寫一次，它就會長大。寫五次會戴上皇冠 👑</p>}
+      {people.length > 0 && <p className="town-tip">遮起來、憑記憶再寫一次，它就會長大。長到第五級戴上皇冠 👑</p>}
     </div>
   )
 }

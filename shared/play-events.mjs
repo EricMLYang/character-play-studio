@@ -12,8 +12,9 @@ import { taiwanDay, completeWatch, addTrace, discover, validStrokes, saveWord, v
  */
 export const PLAY_EVENTS = {
   watch: { error: '觀看紀錄不正確', apply: (p, e) => completeWatch(p, e.char, e.at) },
-  trace: { error: '描字紀錄不正確', valid: (e) => validStrokes(e.strokes),
-    apply: (p, e) => addTrace(p, e.char, e.strokes, e.at) },
+  // blind＝遮起來憑記憶寫的（沒有這個欄位就是照著描）
+  trace: { error: '描字紀錄不正確', valid: (e) => validStrokes(e.strokes) && (e.blind === undefined || typeof e.blind === 'boolean'),
+    apply: (p, e) => addTrace(p, e.char, e.strokes, e.at, e.blind === true) },
   discover: { error: '發現紀錄不正確', apply: (p, e) => discover(p, e.char, e.at) },
   // char 是整個詞，每個字都要在字庫裡
   word: { error: '組詞紀錄不正確', valid: (e) => validWord(e.char), chars: (e) => [...e.char],

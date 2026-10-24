@@ -6,6 +6,7 @@
  * 字卡動畫（沒有任何素材的字）的階段：emoji 登場 → 變成國字 → 定格 → 一筆一畫寫出來。
  */
 export type Phase = 'object' | 'morph' | 'hold' | 'write' | 'finished'
+export type Moved = 'in' | 'grow' | 'crown'
 
 export type Flow = {
   /** 第幾輪；「再看一次」+1，素材與計時器跟著重來 */
@@ -17,8 +18,8 @@ export type Flow = {
   trace: boolean
   /** 這一輪描完了 */
   traced: boolean
-  /** 描完那一刻在小鎮已經寫過幾次；之後次數會 +1，但訊息要照描之前的狀態說 */
-  moved: number | null
+  /** 描完那一刻要說什麼：搬進小鎮、長大一號、戴皇冠；null＝這次沒有要講的（照著再描一次） */
+  moved: Moved | null
   /** 這個字沒有筆順資料，退回純字卡動畫 */
   noStrokes: boolean
 }
@@ -27,7 +28,7 @@ export type FlowAction =
   | { type: 'phase'; phase: Phase }
   | { type: 'finish' }
   | { type: 'trace'; on?: boolean }
-  | { type: 'traced'; before: number }
+  | { type: 'traced'; moved: Moved | null }
   | { type: 'noStrokes' }
   | { type: 'replay' }
 
@@ -39,7 +40,7 @@ export function flow(state: Flow, action: FlowAction): Flow {
     // 'write' 要留著：描字面板就掛在這個階段，換成 finished 會在示範播完的瞬間把它收掉
     case 'finish': return { ...state, done: true, phase: state.phase === 'write' ? 'write' : 'finished' }
     case 'trace': return { ...state, trace: action.on ?? !state.trace }
-    case 'traced': return { ...state, traced: true, moved: action.before }
+    case 'traced': return { ...state, traced: true, moved: action.moved }
     case 'noStrokes': return { ...state, noStrokes: true }
     case 'replay': return { ...initialFlow, round: state.round + 1 }
   }

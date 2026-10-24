@@ -36,15 +36,20 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
 /**
  * 筆順動畫 + 手指描字。資料在 public/strokes/，不必等影片產線，也不用連外網。
  * 沒有筆順資料的字會回報 onUnavailable，讓呼叫端退回原本的字卡動畫。
+ *
+ * 兩種模式：照著描（先示範、有外框）→ 描完邀他「遮起來，自己寫寫看」：沒有示範、沒有外框，
+ * 憑記憶寫，錯兩次才閃一下提示。研究上寫字幫助認字是因為在分析字的結構，描線條只做到一半。
  */
-export default function Strokes({ char, highlight, onWritten, onTraced, onUnavailable }: {
+export default function Strokes({ char, highlight, startBlind = false, onWritten, onTraced, onUnavailable }: {
   char: string
   /** 這個字裡面那個他已經學過的字佔掉的筆畫，會用另一個顏色寫出來。 */
   highlight?: number[]
+  /** 一進來就是遮起來寫（今天的路上複習時用） */
+  startBlind?: boolean
   /** 筆順示範播完：這時就算「看完」，不要讓觀看紀錄卡在孩子描不描得出來。 */
   onWritten?: () => void
-  /** 描完整個字，帶著他自己寫的每一筆（搬進小鎮用）。 */
-  onTraced?: (strokes: number[][]) => void
+  /** 描完整個字，帶著他自己寫的每一筆（搬進小鎮用）；blind＝是遮起來憑記憶寫的 */
+  onTraced?: (strokes: number[][], blind: boolean) => void
   onUnavailable?: () => void
 }) {
   const box = useRef<HTMLDivElement>(null)
@@ -52,6 +57,8 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
   const [total, setTotal] = useState(0)
   const [drawn, setDrawn] = useState(0)
   const [round, setRound] = useState(0)
+  const [blind, setBlind] = useState(startBlind)
+  const again = (nextBlind: boolean) => { setBlind(nextBlind); setRound((r) => r + 1) }
   const written = useRef(onWritten)
   const traced = useRef(onTraced)
   const unavailable = useRef(onUnavailable)
@@ -76,7 +83,7 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
       setTotal(data.strokes.length)
       writer = HanziWriter.create(host, char, {
         width: size(), height: size(), padding: Math.round(size() * 0.05),
-        showCharacter: false, showOutline: true,
+        showCharacter: false, showOutline: !blind,
         strokeColor: '#2E2A26', outlineColor: 'rgba(46,42,38,.16)',
         drawingColor: '#FF6B6B', highlightColor: '#FFC53D',
         // hanzi-writer 只會把 radStrokes 那幾筆畫成 radicalColor，所以直接餵它我們要標的筆
@@ -92,16 +99,13 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
       })
       observer.observe(host)
 
-      setStage('writing')
-      writer.animateCharacter({
-        onComplete: () => {
-          if (!alive) return
-          written.current?.()
-          setStage('tracing')
-          const hand: number[][] = []
-          // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
-          // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
-          writer?.quiz({
+      const hand: number[][] = []
+      const startQuiz = () => {
+        if (!alive) return
+        setStage('tracing')
+        // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
+        // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
+        writer?.quiz({
             onCorrectStroke: (s) => {
               if (!alive) return
               try {
@@ -115,11 +119,16 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
               try { cheer() } catch { /* 同上 */ }
               setStage('done')
               // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
-              try { traced.current?.(Array.from(hand, (s) => s || [])) } catch { /* 存不了筆跡也要能慶祝 */ }
+              try { traced.current?.(Array.from(hand, (s) => s || []), blind) } catch { /* 存不了筆跡也要能慶祝 */ }
             },
           })
-        },
-      })
+      }
+      // 遮起來寫：沒有示範，直接換他寫（示範播完才算「看完」，這裡不算）
+      if (blind) startQuiz()
+      else {
+        setStage('writing')
+        writer.animateCharacter({ onComplete: () => { if (!alive) return; written.current?.(); startQuiz() } })
+      }
     }).catch(() => {
       if (!alive) return
       setStage('unavailable')
@@ -132,12 +141,12 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
       try { writer?.cancelQuiz() } catch { /* 還沒建好就卸載，忽略 */ }
       host.replaceChildren()
     }
-  }, [char, round, marked])
+  }, [char, round, marked, blind])
 
   if (stage === 'unavailable') return null
 
   return (
-    <div className={`strokes strokes-${stage}`}>
+    <div className={`strokes strokes-${stage}${blind ? ' strokes-blind' : ''}`}>
       <div className="stroke-canvas" ref={box} />
       {total > 0 && (
         <div className="stroke-dots" aria-hidden>
@@ -147,13 +156,21 @@ export default function Strokes({ char, highlight, onWritten, onTraced, onUnavai
       <p className="stroke-tip" role="status">
         {stage === 'loading' ? '準備筆順…'
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
-          : stage === 'tracing' ? `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`
-          : '🎉 你自己把這個字寫出來了！'}
+          : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
+          : blind ? '🌟 沒有偷看就寫出來了！' : '🎉 你自己把這個字寫出來了！'}
       </p>
       {stage !== 'loading' && (
-        <button className="stroke-again" onClick={() => setRound((r) => r + 1)}>
-          {stage === 'done' ? '✏️ 再寫一次' : '↺ 重新描'}
-        </button>
+        <div className="stroke-actions">
+          {stage === 'done' && !blind && (
+            <button className="stroke-again blind" onClick={() => again(true)}>🙈 遮起來，自己寫寫看</button>
+          )}
+          <button className="stroke-again" onClick={() => again(blind)}>
+            {stage === 'done' ? (blind ? '🙈 再寫一次' : '✏️ 再描一次') : '↺ 重來'}
+          </button>
+          {stage === 'done' && blind && (
+            <button className="stroke-again" onClick={() => again(false)}>✏️ 看著描</button>
+          )}
+        </div>
       )}
     </div>
   )

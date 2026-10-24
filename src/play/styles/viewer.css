@@ -33,6 +33,7 @@
 .strip-stars > span { animation: pop .42s cubic-bezier(.2,1.7,.4,1) backwards; animation-delay: calc(var(--i, 0) * .06s); }
 /* 還沒拿到的那幾顆：灰掉但位置留著，他看得出「還差兩顆」 */
 .strip-stars .off { filter: grayscale(1); opacity: .28; }
+.strip-stars .half { filter: grayscale(.6); opacity: .6; }
 .strip-crown { margin-left: 2px; font-size: 16px; }
 .strip-count { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.9); }
 .strip-count.bump { animation: pop .45s cubic-bezier(.2,1.8,.4,1) both; }
@@ -202,6 +203,21 @@
 .stroke-again { padding: 10px 22px; border-radius: 999px; background: #fff; font-weight: 700; font-size: 15px;
   box-shadow: 0 4px 0 rgba(0,0,0,.08); }
 .stroke-again:active { transform: translateY(2px); box-shadow: none; }
+.stroke-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.stroke-again.blind { background: var(--c5); color: #fff; animation: breathe 1.4s ease-in-out 3; }
+.strokes-blind .stroke-tip { color: #5A4BCF; }
+
+/* 看過的字再打開：先蓋著想一想。整塊都是按鈕，點哪裡都翻開 */
+.recall-cover { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  width: min(100%, 72vh); aspect-ratio: 4 / 3; margin: auto; border-radius: 28px;
+  background: linear-gradient(160deg, #fff, #FFF1D6); box-shadow: 0 6px 0 rgba(0,0,0,.06), inset 0 0 0 5px var(--hue);
+  animation: pop .45s cubic-bezier(.2,1.6,.4,1) both; }
+.recall-art { font-size: clamp(56px, 14vh, 120px); line-height: 1; }
+.recall-art img { width: 1em; height: 1em; object-fit: contain; vertical-align: middle; }
+.recall-mark { font-family: var(--kai); font-size: clamp(90px, 24vh, 200px); line-height: 1; color: var(--hue); animation: nudge 3s ease-in-out infinite; }
+.recall-ask { font-size: clamp(18px, 3vh, 26px); font-weight: 800; }
+.recall-go { padding: 12px 24px; border-radius: 999px; background: var(--hue); color: #fff; font-size: 18px; font-weight: 800;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12); }
 
 /* ---------- 字的小笑點：本來只有家長端看得到 ---------- */
 .hook { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); z-index: 4;

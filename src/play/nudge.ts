@@ -43,7 +43,7 @@ export type Nudge = {
 
 /** 去某個遊戲的按鈕字樣 */
 const GO_TO: Record<string, string> = {
-  feed: '去餵牠 →', river: '去過河 →', lab: '去魔法鍋 →', train: '去接火車 →', puzzle: '去拼詞語 →', town: '去小鎮 →',
+  feed: '去餵牠 →', river: '去過河 →', lab: '去魔法鍋 →', train: '去接火車 →', puzzle: '去拼詞語 →', town: '去小鎮 →', roots: '去部首家族 →',
 }
 
 /** 缺的那顆星要怎麼拿（唸出來的那句；shared/domain.mjs 的 STAR_DEEDS 一個 id 一句） */
@@ -52,7 +52,7 @@ const DEED_SAY: Record<string, string> = {
   write: FIXED_LINES.nudgeDoWrite,
   recall: FIXED_LINES.nudgeDoRecall,
   puzzle: FIXED_LINES.nudgeDoPuzzle,
-  brew: FIXED_LINES.nudgeDoBrew,
+  family: FIXED_LINES.nudgeDoFamily,
 }
 
 /** 每個地方派誰出來講話 */
@@ -63,6 +63,7 @@ const WHO: Record<string, { hero: string; pose: string }> = {
   lab: { hero: 'alien', pose: 'idle' },
   train: { hero: 'robot', pose: 'idle' },
   puzzle: { hero: 'raccoon', pose: 'idle' },
+  roots: { hero: 'dino', pose: 'idle' },
   town: { hero: 'sheriff', pose: 'idle' },
   star: { hero: 'cape', pose: 'happy' },
   chest: { hero: 'pirate', pose: 'happy' },

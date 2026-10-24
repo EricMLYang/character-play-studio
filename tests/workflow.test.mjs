@@ -278,7 +278,11 @@ test('tracing moves a character into town with the newest handwriting and grows 
   p = addTrace(p, '火', newer, '2026-09-21T10:00:00Z')
   // 離線補送的舊事件：次數要算，但不能蓋掉比較新的筆跡
   p = addTrace(p, '火', [[0, 0, 1, 1]], '2026-09-19T10:00:00Z')
-  assert.deepEqual(p.town['火'], { traces: 3, first: '2026-09-19T10:00:00Z', last: '2026-09-21T10:00:00Z', strokes: newer })
+  assert.deepEqual(p.town['火'], { traces: 3, blind: 0, first: '2026-09-19T10:00:00Z', last: '2026-09-21T10:00:00Z', strokes: newer })
+  // 遮起來憑記憶寫的另外算
+  p = addTrace(p, '火', newer, '2026-09-22T10:00:00Z', true)
+  assert.equal(p.town['火'].traces, 4)
+  assert.equal(p.town['火'].blind, 1)
   assert.equal(validStrokes(newer), true)
   for (const bad of [[], [[1, 2, 3]], [[1.5, 2]], [['1', '2']], [[0, 99999]], 'x']) assert.equal(validStrokes(bad), false)
 })
