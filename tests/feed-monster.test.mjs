@@ -167,7 +167,7 @@ test('長得像的字也包含共用偏旁的（蜂／蝶、河／湯）：拆�
 
 test('認字的程度跟著他走：常找錯就只放兩張，認得順就早一點放三張', async () => {
   const { recallLevel } = await import('../src/play/dishes.ts')
-  const { warmupFor, STEPS } = await import('../src/play/crossing.ts')
+  const { warmupFor, DISHES } = await import('../src/play/dishes.ts')
   const mk = (right, wrong) => ({ watched: {}, recall: { 火: { box: 1, due: '2026-10-22', last: at, right, wrong } } })
   assert.equal(recallLevel({ watched: {} }), 'normal', '沒紀錄先當 normal')
   assert.equal(recallLevel(mk(3, 2)), 'normal', '考不到八次先當 normal，不讓前幾次的運氣決定難度')
@@ -175,7 +175,24 @@ test('認字的程度跟著他走：常找錯就只放兩張，認得順就早�
   assert.equal(recallLevel(mk(9, 1)), 'hard')
   assert.equal(recallLevel(mk(6, 6)), 'normal')
 
-  assert.equal(warmupFor('easy'), STEPS, '整趟都只放兩顆')
+  assert.equal(warmupFor('easy'), DISHES, '整輪都只放兩張')
   assert.equal(warmupFor('normal'), 2)
-  assert.equal(warmupFor('hard'), 1, '第二步就三顆')
+  assert.equal(warmupFor('hard'), 1, '第二道就三張')
+})
+
+test('盤子上幾張卡跟著他走，而且一定有答案、不重複；第三道是神秘料理', async () => {
+  const { plateFor, mysteryIndex, MYSTERY_AT } = await import('../src/play/dishes.ts')
+  setParts({})
+  const known = [...'火水山木日月人口']
+  for (let i = 0; i < 5; i++) {
+    const easy = plateFor('火', i, known, known, 'easy', seq([0.3, 0.6, 0.9]))
+    assert.equal(easy.length, 2, '常找錯：整輪兩張')
+    assert.ok(easy.includes('火'))
+    const hard = plateFor('火', i, known, known, 'hard', seq([0.3, 0.6, 0.9]))
+    assert.equal(hard.length, i < 1 ? 2 : 3, '認得順：第二道起三張')
+    assert.equal(new Set(hard).size, hard.length, '不重複')
+  }
+  assert.equal(plateFor('火', 4, ['火', '水'], ['火', '水'], 'hard').length, 2, '挑不到第二張就少放一張')
+  assert.equal(mysteryIndex(5), MYSTERY_AT)
+  assert.equal(mysteryIndex(2), -1, '不到三道就沒有神秘料理')
 })

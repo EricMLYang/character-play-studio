@@ -73,11 +73,11 @@ export function recap(served: { char: string; ok: boolean }[]) {
 }
 
 /**
- * 他現在認字認得怎麼樣：跳石頭過河與小偵探用它決定一排放幾張卡（詞語拼圖有自己的 puzzleLevel）。
+ * 他現在認字認得怎麼樣（詞語拼圖有自己的 puzzleLevel）。
  * 看的是「餵過的字裡，自己找到的比例」——答錯會讓 wrong 增加，所以這個比例會跟著他動。
  * 考過的字不到 8 個先當 normal，不然前幾次的運氣會決定難度。
  *
- * 餵大怪獸不看這個：那裡刻意永遠二選一，是三個認字遊戲裡最簡單的那一層。
+ * 餵大怪獸用它決定盤子上放幾張卡：常找錯就整輪都兩張，認得順就第二道開始三張。
  */
 export type RecallLevel = 'easy' | 'normal' | 'hard'
 export function recallLevel(progress: Progress): RecallLevel {
@@ -111,3 +111,35 @@ function shuffle<T>(list: T[], random: () => number) {
   }
   return out
 }
+
+/**
+ * 前面幾道只放兩張卡暖身，後面才三張。幾道算暖身跟著他走（recallLevel）：
+ * 認得順就第二道開始三張，常找錯就整輪都只放兩張——難度要跟著他，不是跟著道數。
+ */
+export const WARMUP = 2
+export const warmupFor = (level: RecallLevel, n = DISHES) => (level === 'easy' ? n : level === 'hard' ? 1 : WARMUP)
+
+/** 幾張不是答案的卡。挑不到就少放一張，寧可兩張也不要重複的字。 */
+export function decoys(target: string, known: string[], everyone: string[], count: number, random = Math.random) {
+  const out: string[] = []
+  let pool = known
+  for (let i = 0; i < count; i++) {
+    const pick = pickDecoy(target, pool, everyone.filter((c) => !out.includes(c)), random)
+    if (!pick || out.includes(pick)) break
+    out.push(pick)
+    pool = pool.filter((c) => c !== pick)
+  }
+  return out
+}
+
+/** 第 i 道菜盤子上的卡（含答案、已洗好） */
+export function plateFor(target: string, i: number, known: string[], everyone: string[], level: RecallLevel, random = Math.random) {
+  return shuffle([target, ...decoys(target, known, everyone, i < warmupFor(level) ? 1 : 2, random)], random)
+}
+
+/**
+ * 神秘料理（原本的小偵探）：這一輪有一道怪獸不說字，盤子上一筆一筆把字畫出來，他看字形認。
+ * 放在第三道：第一道是暖身，最後一道留給結尾的節奏。不到三道就沒有。
+ */
+export const MYSTERY_AT = 2
+export const mysteryIndex = (n: number) => (n > MYSTERY_AT ? MYSTERY_AT : -1)

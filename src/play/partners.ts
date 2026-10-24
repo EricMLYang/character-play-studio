@@ -77,3 +77,22 @@ export function nextPartner(stars: number) {
   if (n >= PARTNERS.length) return null
   return { partner: PARTNERS[n], need: starsFor(n) - stars, at: starsFor(n) }
 }
+
+/**
+ * 指定下一輪由誰來端菜。畫面上好幾個地方都寫著「牠會來餵大怪獸幫你端菜」「點一位，牠就來」——
+ * 寶箱剛開到的那一位、小鎮那一排夥伴、「我的東西」那條路上的頭像。
+ * 照次數輪的話按下去很可能是別人，那幾句就變成空話。用一次就清掉（Feed 掛載後清）。
+ */
+let asked: string | null = null
+export const serveNextWith = (id: string) => { asked = id }
+export const forgetServeRequest = () => { asked = null }
+
+/**
+ * 這一輪誰來端菜：有人指定就是那一位，不然在他已經收集到的夥伴裡輪，玩愈多看到愈多角色。
+ * 開到新夥伴之後，那一位真的會出現，寶箱才不是只拿到一張圖。
+ */
+export const waiterFor = (rounds: number, crew: Partner[]) =>
+  crew.find((p) => p.id === asked) ?? crew[rounds % crew.length]
+
+/** 每一位夥伴端菜時說的話（shared/voice-lines.mjs 的 PARTNER_SERVES 要跟這個一字不差，音檔才對得上） */
+export const serveLine = (partner: Partner) => `${partner.name}端菜來了！`

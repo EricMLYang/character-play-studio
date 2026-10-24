@@ -4,7 +4,9 @@ import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
-import { BURST, DISHES, fillBelly, pickDecoy, pickDishes, recap, requeue } from './dishes'
+import { BURST, DISHES, fillBelly, mysteryIndex, pickDishes, plateFor, recallLevel, recap, requeue } from './dishes'
+import { forgetServeRequest, partnersAt, serveLine, skyFor, waiterFor } from './partners'
+import InkReveal from './InkReveal'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
@@ -16,6 +18,11 @@ import { exampleWord } from './puzzles'
  * 這個字隔兩道菜會再上一次，讓他自己再找一次。
  * 自己找到的字會把肚子越撐越大，塞滿 BURST 個就發生一件大事（爆炸、睡著、打嗝飛上天、變彩虹，見 finales.ts），再回來繼續吃。
  * 最後怪獸只把他自己找對的字一個一個唸出來，靠提示才吃到的放在旁邊「再去看看」。
+ *
+ * 2026-10-24 把跳石頭過河與小偵探併進來（三個考的都是同一件事、記同一份紀錄）：
+ * - 盤子上幾張卡跟著他走（dishes.ts 的 recallLevel：常找錯整輪兩張，認得順第二道起三張）
+ * - 第三道是**神秘料理**（原本的小偵探）：怪獸不說字，盤子上一筆一筆把字畫出來，他看字形認
+ * - 每一輪由一位**夥伴來端菜**（原本在河邊等他的那幾位），一位夥伴一種天色
  */
 type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'swell' | 'climax' | 'back' | 'recap' | 'full'
 
@@ -36,9 +43,11 @@ type Served = { char: string; ok: boolean }
 let finaleBag: FinaleId[] = []
 let lastFinale: FinaleId | null = null
 
-export default function Feed({ library, progress, want, onRecall, onPick, onBack }: {
+export default function Feed({ library, progress, stars, want, onRecall, onPick, onBack }: {
   library: CharEntry[]
   progress: Progress
+  /** 總共幾顆星星：決定他收集到哪幾位夥伴，輪流來端菜（partners.ts） */
+  stars: number
   /** 他為了哪個字來的（字卡上的「去 →」）：第一道菜就出這個字 */
   want?: string
   /** 這個字第一次就找對了沒有（每個字每輪只記一次） */
@@ -55,6 +64,14 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
   const [dishes, setDishes] = useState(() => pickDishes(pool, progress, taiwanDay(), Math.random, DISHES, want))
   // 這一輪實際上的菜：點錯的字會再插進來一次
   const [queue, setQueue] = useState(dishes)
+  /** 第幾輪：夥伴照這個輪流來端菜 */
+  const [rounds, setRounds] = useState(0)
+  const [waiter, setWaiter] = useState(() => waiterFor(0, partnersAt(stars)))
+  /** 盤子上放幾張卡跟著他走；這一輪的第幾道是神秘料理（怪獸不說字，一筆一筆畫出來） */
+  const level = useMemo(() => recallLevel(progress), [dishes])
+  const mystery = mysteryIndex(dishes.length)
+  /** 神秘料理的字沒有筆順資料：退回一般的點菜 */
+  const [inkFailed, setInkFailed] = useState(false)
   const [at, setAt] = useState(0)
   const [options, setOptions] = useState<string[]>([])
   const [phase, setPhase] = useState<Phase>('hello')
@@ -113,14 +130,18 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
     tap()
   }
 
+  /** 這一道是不是神秘料理（點錯再上一次的那道照一般點菜） */
+  const isMystery = (i: number, list: string[]) => i === mystery && list.indexOf(list[i]) === i && !inkFailed
+
   const serve = (list: string[], i: number) => {
     const char = list[i]
-    const decoy = pickDecoy(char, pool, everyone)
     setAt(i)
-    setOptions(Math.random() < 0.5 ? [char, decoy] : [decoy, char])
+    setOptions(plateFor(char, i, pool, everyone, level))
     setMissed(false)
     setWrong(null)
     setPhase('ask')
+    // 神秘料理：不說字，盤子上一筆一筆畫（InkReveal 畫完才排提示）
+    if (isMystery(i, list)) { later(() => say(FIXED_LINES.guessWho, 0.8), 350); return }
     ask(char, REMINDERS, 350)
   }
 
@@ -145,7 +166,8 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
   useEffect(() => {
     // 不到兩道菜時畫面是「先去看幾個字」，不要在背後喊肚子餓、點菜
     if (dishes.length < 2) return
-    preloadVoice([FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, ...FINALE_IDS.flatMap((id) => [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]), ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
+    preloadVoice([serveLine(waiter), FIXED_LINES.feedHungry, FIXED_LINES.feedFull, FIXED_LINES.feedRecap, FIXED_LINES.guessWho, ...FINALE_IDS.flatMap((id) => [FINALES[id].swell, FINALES[id].climax, FINALES[id].back]), ...dishes.flatMap((c) => [LINES.feedAsk(c), c, wordOf(c)])])
+    forgetServeRequest()
     recorded.current = new Set()
     setQueue(dishes)
     setAt(0)
@@ -154,8 +176,11 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
     setBurst([])
     setReading(-1)
     setPhase('hello')
-    say(FIXED_LINES.feedHungry, 0.8)
-    later(() => serve(dishes, 0), lasts(FIXED_LINES.feedHungry) + 300)
+    // 夥伴先報到，怪獸再喊餓
+    say(serveLine(waiter), 0.8)
+    const lead = lasts(serveLine(waiter)) + BEAT
+    later(() => say(FIXED_LINES.feedHungry, 0.8), lead)
+    later(() => serve(dishes, 0), lead + lasts(FIXED_LINES.feedHungry) + 300)
     return () => { clear(); stopSpeech() }
   }, [dishes])
 
@@ -203,12 +228,16 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
     say(LINES.feedNotThis(char), 0.8)
     const pause = lasts(LINES.feedNotThis(char)) + BEAT
     later(() => setPhase('ask'), pause)
-    ask(target, REMINDERS, pause)
+    // 神秘料理：畫還在繼續，不用再唸一次題目
+    if (!isMystery(at, queue)) ask(target, REMINDERS, pause)
   }
 
   const again = () => {
     tap()
     clear()
+    setInkFailed(false)
+    setRounds((r) => r + 1)
+    setWaiter(waiterFor(rounds + 1, partnersAt(stars)))
     setDishes(newDishes())
   }
 
@@ -231,8 +260,9 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
   /** 這道是剛剛點錯、再上一次的字 */
   const encore = queue.indexOf(target) < at
 
+  const mysteryNow = target !== undefined && isMystery(at, queue)
   return (
-    <div className="feed">
+    <div className={`feed sky-${skyFor(waiter)}`}>
       <SubBar title="🍽️ 餵大怪獸" stat={`餵了 ${served.length} / ${queue.length} 道`} onBack={onBack} />
       <div className="feed-plates" aria-label={`已經餵了 ${served.length} 道`}>
         {queue.map((c, i) => (
@@ -246,9 +276,14 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
         <section className="feed-stage" aria-live="polite" style={{ ['--belly' as any]: belly / BURST }}>
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
-            {phase === 'ask' && (
+            {phase === 'ask' && !mysteryNow && (
               <button className="feed-ask" onClick={() => { tap(); clear(); ask(target, 1) }} aria-label="再聽一次要吃什麼">
                 我要吃…<span aria-hidden>🔊</span>
+              </button>
+            )}
+            {phase === 'ask' && mysteryNow && (
+              <button className="feed-ask" onClick={() => { tap(); say(FIXED_LINES.guessWho, 0.8) }} aria-label="再聽一次">
+                猜猜我要吃誰？<span aria-hidden>🔊</span>
               </button>
             )}
             {phase === 'oops' && wrong && <>這是「<b>{wrong}</b>」耶！</>}
@@ -260,6 +295,8 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
             {phase === 'full' && '我吃飽了！謝謝你！'}
           </div>
           <img className="feed-monster" src={`/hero/monster/${pose}.png`} alt="大怪獸" />
+          {/* 端菜的夥伴：他收集到的那幾位輪流來，一位一種天色 */}
+          <img className="feed-waiter" src={`/hero/${waiter.id}/${phase === 'got' || phase === 'yum' ? 'happy' : 'idle'}.png`} alt={waiter.name} title={serveLine(waiter)} />
           {phase === 'climax' && <FinaleFx id={finale} eaten={burst} />}
           <div className={'feed-belly' + (belly === BURST - 1 ? ' nearly' : '')} aria-label={`肚子裡有 ${belly} 個字，${BURST} 個就會爆炸`} role="img">
             {Array.from({ length: BURST }, (_, i) => <span key={i} className={i < belly ? 'full' : ''} />)}
@@ -300,7 +337,12 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
               {phase === 'full' && good.length > 0 && <Confetti />}
             </div>
           ) : ['yum', 'swell', 'climax', 'back'].includes(phase) ? null : (
-            <div className="feed-pick">
+            <div className={'feed-pick' + (mysteryNow ? ' mystery' : '')}>
+              {mysteryNow && (phase === 'ask' || phase === 'oops') && (
+                <InkReveal char={target} running={phase === 'ask'}
+                  onDrawn={() => later(() => showHint(target), HINT_AFTER)}
+                  onUnavailable={() => { setInkFailed(true); ask(target, REMINDERS, 200) }} />
+              )}
               <div className="feed-cards">
                 {options.map((c) => {
                   const flipped = c === wrong
@@ -325,6 +367,7 @@ export default function Feed({ library, progress, want, onRecall, onPick, onBack
         </section>
       </div>
       {phase === 'ask' && !missed && at === 0 && <p className="game-hint feed-tip">聽聽看牠要吃哪個字，點那一張餵牠！</p>}
+      {phase === 'ask' && !missed && mysteryNow && <p className="game-hint feed-tip">神秘料理！看牠一筆一筆畫出哪個字，猜到就點那一張！</p>}
       {phase === 'ask' && encore && !missed && <p className="game-hint feed-tip">剛剛那個字又來了，這次自己找找看！</p>}
       {phase === 'ask' && missed && !wrong && <p className="game-hint feed-tip">找找看發亮的那一張！</p>}
     </div>

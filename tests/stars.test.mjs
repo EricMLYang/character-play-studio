@@ -154,7 +154,7 @@ test('每一顆星說的「去哪裡拿」都真的有那個遊戲', () => {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
   const src = fs.readFileSync(path.join(root, 'src/play/games.tsx'), 'utf8')
   const ids = [...src.matchAll(/^\s*id: '([a-z]+)',/gm)].map((m) => m[1])
-  assert.ok(ids.length >= 7, `games.tsx 抓不到遊戲 id：${ids.join(',')}`)
+  assert.ok(ids.length >= 5, `games.tsx 抓不到遊戲 id：${ids.join(',')}`)
   for (const deed of STAR_DEEDS) {
     if (deed.where) assert.ok(ids.includes(deed.where), `「${deed.label}」要去「${deed.where}」，但 games.tsx 裡沒有這個遊戲`)
   }

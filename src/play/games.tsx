@@ -6,14 +6,12 @@ import Town from './Town'
 import Train from './Train'
 import Feed from './Feed'
 import Puzzle from './Puzzle'
-import River from './River'
-import Detective from './Detective'
 import Roots from './Roots'
 import Book from './Book'
 import { knownCount } from './dishes'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：小鎮、餵大怪獸、跳石頭過河、小偵探、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：小鎮、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -84,24 +82,9 @@ export const GAMES: Game[] = [
   {
     id: 'feed', icon: '🍽️', title: '餵大怪獸',
     subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
+    // 跳石頭過河與小偵探 2026-10-24 併進來了：夥伴來端菜、第三道是一筆一筆畫的神秘料理
     render: (ctx) => (
-      <Feed library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
-        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
-    ),
-  },
-  {
-    id: 'river', icon: '🌊', title: '跳石頭過河', fresh: true,
-    subtitle: () => '聽到字就跳過去',
-    render: (ctx) => (
-      <River library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
-        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
-    ),
-  },
-  {
-    id: 'spy', icon: '🔍', title: '小偵探', fresh: true,
-    subtitle: () => '一筆一筆猜出來',
-    render: (ctx) => (
-      <Detective library={ctx.library} progress={ctx.progress} onPick={ctx.open} onBack={ctx.back}
+      <Feed library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
         onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },

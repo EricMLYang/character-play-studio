@@ -6,8 +6,7 @@ import { LINES } from '../../shared/voice-lines.mjs'
 import { residentLevel } from '../../shared/domain.mjs'
 import { Handwriting } from './Glyphs'
 import { SubBar, hueOf, hueVar } from './ui'
-import { nextPartner, partnersAt } from './partners'
-import { crossNextWith } from './crossing'
+import { nextPartner, partnersAt, serveNextWith } from './partners'
 
 /** 長多大看憑記憶寫了幾次（shared/domain.mjs 的 residentLevel）：搬進來是小不點，第五級戴皇冠。 */
 
@@ -111,7 +110,7 @@ export default function Town({ residents, library, hues, stars, onPick, onBack, 
 
 /**
  * 住在小鎮裡的夥伴：星星集滿一段就會來一位（partners.ts）。
- * 他們不是只放在這裡好看——點一下就去跳石頭過河，那幾位就是在河邊等他的主角。
+ * 他們不是只放在這裡好看——點一下就去餵大怪獸，那一位就來端菜。
  */
 function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }) {
   const crew = partnersAt(stars)
@@ -122,8 +121,8 @@ function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }
       <div className="crew-row">
         {crew.map((p, i) => (
           <button key={p.id} className="crew-one" style={{ ['--i' as any]: i }}
-            onClick={() => { tap(); crossNextWith(p.id); onGame('river') }}
-            aria-label={`跟「${p.name}」去跳石頭過河`}>
+            onClick={() => { tap(); serveNextWith(p.id); onGame('feed') }}
+            aria-label={`讓「${p.name}」來餵大怪獸端菜`}>
             <img src={`/hero/${p.id}/idle.png`} alt="" />
             <small>{p.name}</small>
           </button>
@@ -135,7 +134,7 @@ function Crew({ stars, onGame }: { stars: number; onGame: (id: string) => void }
           </span>
         )}
       </div>
-      <span className="crew-tip">點一位，牠就陪你去過河 🌊</span>
+      <span className="crew-tip">點一位，牠就來幫你端菜 🍽️</span>
     </div>
   )
 }

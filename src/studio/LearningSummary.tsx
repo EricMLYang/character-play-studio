@@ -3,7 +3,7 @@ import { summarize } from './summary'
 import { pathDone, todayPath } from '../play/today'
 
 /**
- * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸／跳石頭過河／小偵探，三個記同一種紀錄）、
+ * 沒選字時 Studio 主區顯示的「孩子的學習小結」：看字、認字（餵大怪獸）、
  * 詞彙（詞語拼圖）、小鎮、星星與夥伴。
  * 最後給家長一兩句可以在生活裡問孩子的話——字要跟生活連起來才記得住。
  */
@@ -17,7 +17,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
   const stops = todayPath(characters.filter((c) => !c.hidden), progress)
   const tiles = [
     { label: '看過的字', value: s.watched, note: s.watchedToday ? `今天看了 ${s.watchedToday} 個` : '今天還沒看' },
-    { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸／過河／小偵探）` : '今天沒有要複習的' },
+    { label: '認得的字', value: s.known, note: s.dueToday ? `今天該複習 ${s.dueToday} 個（餵大怪獸）` : '今天沒有要複習的' },
     { label: '收集的詞', value: s.words, note: s.wordsToday ? `今天新拼了 ${s.wordsToday} 個（詞語拼圖）` : '詞語拼圖' },
     { label: '小鎮居民', value: s.traced, note: '描過的字' },
     // 孩子端他自己在追的那條線：看過、憑記憶寫、認出來、在詞裡讀到、找到牠的家各一顆星

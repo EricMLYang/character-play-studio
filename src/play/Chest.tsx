@@ -9,13 +9,13 @@ import { Confetti } from './ui'
  * 集滿一段星星就開一個寶箱，裡面跳出一位新夥伴（partners.ts）。
  * 箱子先抖三下再爆開——那一秒的等待就是整件事最好玩的地方。
  *
- * 新夥伴不是只拿到一張圖：他馬上會出現在「跳石頭過河」陪他過河。
+ * 新夥伴不是只拿到一張圖：他馬上會來餵大怪獸幫他端菜。
  */
 const SHAKE_MS = 1300
 
 export default function Chest({ partner, onGo, onClose }: {
   partner: Partner
-  /** 馬上去河邊找牠（新夥伴真的會在那裡等他，不是只拿到一張圖） */
+  /** 馬上去找牠（新夥伴真的會來端菜，不是只拿到一張圖） */
   onGo: () => void
   onClose: () => void
 }) {
@@ -41,10 +41,10 @@ export default function Chest({ partner, onGo, onClose }: {
           <div className="chest-rays" aria-hidden />
           <img className="chest-hero" src={`/hero/${partner.id}/happy.png`} alt={partner.name} />
           <h2><b>{partner.name}</b>來陪你玩了！</h2>
-          <p>牠會在「🌊 跳石頭過河」等你</p>
+          <p>牠會來「🍽️ 餵大怪獸」幫你端菜</p>
           <div className="chest-actions">
             {/* 說了牠在河邊等，就要能馬上去——不然這句話只是一行字 */}
-            <button className="nav-btn primary" onClick={onGo}>🌊 去找牠！</button>
+            <button className="nav-btn primary" onClick={onGo}>🍽️ 去找牠！</button>
             <button className="nav-btn" onClick={onClose}>等一下再去</button>
           </div>
         </div>

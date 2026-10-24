@@ -7,13 +7,12 @@ export const LINES: {
   feedNotThis: (char: string) => string
   puzzleAsk: (char: string, word: string) => string
   puzzleAll: (char: string) => string
-  riverJump: (char: string) => string
-}
-export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'riverArrive' | 'riverRecap' | 'riverPerfect' | 'guessWho' | 'guessFast' | 'spyRecap' | 'spyPerfect'
+  }
+export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feedSwell' | 'feedBoom' | 'feedAgain' | 'feedSleepy' | 'feedSnore' | 'feedWake' | 'feedBloat' | 'feedBurp' | 'feedFly' | 'feedWarm' | 'feedMagic' | 'feedRainbow' | 'guessWho' | 'guessFast'
   | 'nudgeFirst' | 'nudgeToday' | 'nudgeLab' | 'nudgeTrain' | 'nudgePuzzle' | 'nudgeMore'
-  | 'nudgeFeedDue' | 'nudgeRiverDue' | 'nudgeChest' | 'nudgeStars' | 'nudgeNearly'
+  | 'nudgeFeedDue' | 'nudgeChest' | 'nudgeStars' | 'nudgeNearly'
   | 'nudgeDoWatch' | 'nudgeDoWrite' | 'nudgeDoRecall' | 'nudgeDoPuzzle' | 'nudgeDoBrew' | 'nudgeDoFamily' | 'recallAsk' | 'blindInvite' | 'wroteBlind'
   | 'labHello' | 'trainHello' | 'chestOpen' | 'crownFull' | 'pathRecall' | 'pathNew' | 'pathFamily' | 'pathRead' | 'pathHome' | 'pathAllDone'
   | 'movedIn' | 'movedGrow' | 'movedCrown' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
-export const PARTNER_WANTS: string[]
+export const PARTNER_SERVES: string[]
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

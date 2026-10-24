@@ -16,8 +16,6 @@ export const LINES = {
   puzzleAsk: (char, word) => `${word}的${char}`,
   /** 詞語拼圖：這個字的詞全部收集到了 */
   puzzleAll: (char) => `${char}的詞全部找到了！`,
-  /** 跳石頭過河：這一步要跳到哪一顆石頭 */
-  riverJump: (char) => `跳到${char}！`,
 }
 
 /** 跟字無關、每次都一樣的句子 */
@@ -41,9 +39,6 @@ export const FIXED_LINES = {
   feedWarm: '肚子熱熱的…',
   feedMagic: '變！',
   feedRainbow: '我變成彩虹怪獸了！',
-  /** 跳石頭過河：出發、上岸、把跳對的字唸一遍。對岸有什麼用圖示表示，不唸出來（他還不會讀） */
-  riverArrive: '過河了！',
-  riverRecap: '我跳對了這些字！',
   /**
    * 首頁那隻角色講的話（src/play/nudge.ts）。他還不會讀字，這幾句要唸得出來才有用。
    *
@@ -58,7 +53,6 @@ export const FIXED_LINES = {
   nudgePuzzle: '詞語拼圖要把字補進詞裡，你還沒拼過！',
   nudgeMore: '再多看幾個字，遊戲裡就有更多字可以玩！',
   nudgeFeedDue: '我肚子餓了，有好幾個字想吃！',
-  nudgeRiverDue: '有好幾個字可以再認一次，陪我過河好不好？',
   nudgeChest: '快要有新夥伴了！再去拿幾顆星星！',
   nudgeStars: '你收集了好多星星！再去拿幾顆？',
   /** 差一顆就滿星的字：先說這句，再唸那個字，最後說要去哪裡拿（下面 nudgeDo*） */
@@ -92,13 +86,9 @@ export const FIXED_LINES = {
   pathRead: '用今天的字，讀一本小書！',
   pathHome: '回家囉！去小鎮看看！',
   pathAllDone: '今天的路走完了！好厲害！',
-  /** 小偵探：一筆一筆畫出來，猜猜我是誰；沒幾筆就猜到要誇張一點；最後把他猜到的字唸一遍 */
-  guessWho: '猜猜我是誰？',
+  /** 餵大怪獸的神秘料理（原本的小偵探）：怪獸不說字，盤子上一筆一筆畫出來，猜猜是誰 */
+  guessWho: '猜猜我要吃誰？',
   guessFast: '哇！好厲害！',
-  spyRecap: '你自己猜到了這些字！',
-  spyPerfect: '全部都自己猜到了！好厲害！',
-  /** 跳石頭過河：五顆都自己跳對 */
-  riverPerfect: '一次都沒掉下去！',
   /** 詞語拼圖 */
   puzzleHello: '來拼詞語囉！',
   puzzleRecap: '你拼好了這些詞！',
@@ -108,23 +98,19 @@ export const FIXED_LINES = {
 }
 
 /**
- * 跳石頭過河一開始那句「誰想要什麼」：十八位夥伴各一句，說清楚這一趟是為了什麼
- * （對岸那個東西本來就畫在那裡，但他讀不到「小老鼠想要起司」這幾個字）。
- *
- * 這張表是 src/play/partners.ts 的 name 與 want 組出來的字面；
- * 放在這裡是因為音檔要先做好（server/voice.mjs 只看得到 shared/）。
- * 兩邊對不上的話 tests/river-crossing.test.mjs 會擋下來。
+ * 餵大怪獸每一輪由一位夥伴來端菜，一進來先說這句：十八位各一句。
+ * 字面是 src/play/partners.ts 的 serveLine 組出來的；放在這裡是因為音檔要先做好
+ * （server/voice.mjs 只看得到 shared/）。兩邊對不上的話 tests/partners.test.mjs 會擋下來。
  */
-export const PARTNER_WANTS = [
-  '楊捷睿想要賽車！', '小老鼠想要起司！', '大怪獸想要蛋糕！', '機器人想要電池！', '海盜想要寶藏！', '恐龍想要大骨頭！',
-  '浣熊想要西瓜！', '小豬想要蘋果！', '太空人想要火箭！', '披風英雄想要星星！', '忍者想要飯糰！', '警長想要獎盃！',
-  '鯊魚想要小魚！', '勇士想要盾牌！', '消防員想要消防車！', '外星人想要飛碟！', '小汽車想要加油！', '積木人想要積木！',
+export const PARTNER_SERVES = [
+  '楊捷睿端菜來了！', '小老鼠端菜來了！', '大怪獸端菜來了！', '機器人端菜來了！', '海盜端菜來了！', '恐龍端菜來了！',
+  '浣熊端菜來了！', '小豬端菜來了！', '太空人端菜來了！', '披風英雄端菜來了！', '忍者端菜來了！', '警長端菜來了！',
+  '鯊魚端菜來了！', '勇士端菜來了！', '消防員端菜來了！', '外星人端菜來了！', '小汽車端菜來了！', '積木人端菜來了！',
 ]
 
 /** 一個字在孩子端會唸到的所有句子：字、語詞、小故事、小鎮自我介紹。 */
 export function linesForEntry(entry) {
-  const out = [entry.char, LINES.townHello(entry.char), LINES.feedAsk(entry.char), LINES.feedNotThis(entry.char),
-    LINES.riverJump(entry.char)]
+  const out = [entry.char, LINES.townHello(entry.char), LINES.feedAsk(entry.char), LINES.feedNotThis(entry.char)]
   for (const w of entry.words ?? []) if (w?.text) out.push(w.text, LINES.townWord(entry.char, w.text), LINES.puzzleAsk(entry.char, w.text))
   if (entry.words?.length) out.push(LINES.puzzleAll(entry.char))
   if (entry.concept?.hook) out.push(entry.concept.hook)

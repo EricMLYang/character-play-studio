@@ -2,7 +2,17 @@
 .place-feed { background: #FFE0EC; }
 .place-feed .place-icon { animation-delay: -3s; }
 
-.feed { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column; background: linear-gradient(#FFEFF5, #FFF6E9 60%); }
+.feed { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column; background: linear-gradient(var(--sky1, #FFEFF5), var(--sky2, #FFF6E9) 60%); }
+/* 一位夥伴一種天色（partners.ts 的 skyFor）：同一個玩法玩第三次還有新鮮感，靠的是這個 */
+.feed.sky-sunset { --sky1: #FFE4D0; --sky2: #FFF1DC; }
+.feed.sky-snow { --sky1: #EAF4FD; --sky2: #FFFFFF; }
+.feed.sky-night { --sky1: #2A3A63; --sky2: #46608F; }
+.feed.sky-night .sub-title, .feed.sky-night .game-hint, .feed.sky-night .feed-bubble { color: #EAF2FF; }
+.feed.sky-night .feed-bubble { background: rgba(255,255,255,.14); }
+/* 端菜的夥伴站在怪獸旁邊 */
+.feed-waiter { position: absolute; left: 4%; bottom: 8%; width: min(14vh, 11vw, 110px); height: auto; object-fit: contain; pointer-events: none;
+  animation: bob 2.2s ease-in-out infinite; animation-delay: -.7s; filter: drop-shadow(0 6px 8px rgba(0,0,0,.15)); }
+.phase-hello .feed-waiter { animation: boing .8s cubic-bezier(.2,1.6,.4,1) 2; }
 .feed :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* 上面一排盤子：吃掉一道，盤子上就出現那個字的圖 */
@@ -89,7 +99,27 @@
   animation: breathe 1.4s ease-in-out infinite; }
 
 .feed-table { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; }
-.feed-cards { display: flex; gap: 28px; }
+.feed-pick { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.feed-cards { display: flex; gap: clamp(12px, 2vw, 28px); }
+/* 三張的時候卡片小一點，橫的手機也放得下 */
+.feed-cards:has(.feed-card:nth-child(3)) .feed-card { width: min(26vh, 19vw, 190px); height: min(32vh, 23vw, 230px); }
+.feed-cards:has(.feed-card:nth-child(3)) .feed-card-char { font-size: min(17vh, 13vw, 128px); }
+/* 神秘料理：盤子上一筆一筆畫出字（原本小偵探的紙）；卡片縮小讓位 */
+.ink-paper { position: relative; display: grid; place-items: center; width: clamp(150px, 30vh, 260px); aspect-ratio: 1; border-radius: 28px; background: #fff;
+  box-shadow: 0 8px 0 rgba(0,0,0,.08), 0 16px 32px rgba(0,0,0,.1); animation: dropIn .5s both; }
+.ink-paper::before { content: ''; position: absolute; inset: 9%; pointer-events: none; border: 2px solid rgba(46,42,38,.08); border-radius: 10px;
+  background: linear-gradient(rgba(46,42,38,.09), rgba(46,42,38,.09)) center / 2px 100% no-repeat,
+              linear-gradient(rgba(46,42,38,.09), rgba(46,42,38,.09)) center / 100% 2px no-repeat; }
+.ink { width: 86%; height: 86%; }
+.ink path { fill: var(--ink); }
+.ink path.fresh { animation: inkIn .32s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes inkIn { from { opacity: 0; transform: scale(.82) } to { opacity: 1; transform: none } }
+.ink-wait { position: absolute; font-size: 40px; animation: breathe 1.4s ease-in-out infinite; }
+.ink-dots { position: absolute; bottom: 10px; display: flex; gap: 4px; }
+.ink-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(46,42,38,.15); }
+.ink-dots span.on { background: var(--c0); }
+.feed-pick.mystery .feed-card { width: min(20vh, 16vw, 150px); height: min(24vh, 19vw, 180px); }
+.feed-pick.mystery .feed-card-char { font-size: min(13vh, 10vw, 96px); }
 /* 只有字：白底、沒有圖、沒有顏色，要靠讀字 */
 .feed-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
   width: min(30vh, 22vw, 220px); height: min(36vh, 26vw, 260px); border-radius: 32px; background: #fff;

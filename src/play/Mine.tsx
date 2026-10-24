@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useRef } from 'react'
 import type { Progress } from '../types'
 import { tap } from '../lib/sfx'
-import { PARTNERS, STARS_PER, nextPartner, trailStops } from './partners'
-import { crossNextWith } from './crossing'
+import { PARTNERS, STARS_PER, nextPartner, serveNextWith, trailStops } from './partners'
 
 /**
  * 「我的東西」：點首頁的星星存摺打開。
@@ -93,8 +92,8 @@ function Trail({ stars, onGo }: { stars: number; onGo: (where: string) => void }
             <li className={'trail-stop' + (s.got ? ' got' : '')}>
               <span className="trail-road" aria-hidden />
               {s.got ? (
-                <button className="trail-node" onClick={() => { tap(); crossNextWith(s.partner.id); onGo('river') }}
-                  aria-label={`跟「${s.partner.name}」去跳石頭過河`}>
+                <button className="trail-node" onClick={() => { tap(); serveNextWith(s.partner.id); onGo('feed') }}
+                  aria-label={`讓「${s.partner.name}」來餵大怪獸端菜`}>
                   <img src={`/hero/${s.partner.id}/idle.png`} alt="" />
                 </button>
               ) : next && next.at === s.at ? (

@@ -12,13 +12,12 @@ import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
 import { Ride } from './Train'
-import { crossNextWith } from './crossing'
 import { setParts } from './parts'
 import { groupMovies, hueMap, type WordGroup } from './words'
 import { starCaps } from './stars'
 import { hasSeen, markSeen } from './seen'
 import { pathDone, todayPath } from './today'
-import { PARTNERS, partnerCount, type Partner } from './partners'
+import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
@@ -278,7 +277,7 @@ export default function PlayApp() {
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
       {chest && <Chest partner={chest} onClose={() => setChest(null)}
-        onGo={() => { crossNextWith(chest.id); setChest(null); enter('river') }} />}
+        onGo={() => { serveNextWith(chest.id); setChest(null); enter('feed') }} />}
       {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
       {pop && !chest && !crown && (
         <>
