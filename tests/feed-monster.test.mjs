@@ -15,7 +15,7 @@ registerHooks({
 const { recall, RECALL_DAYS } = await import('../shared/domain.mjs')
 const { acceptEvent, applyEvent } = await import('../shared/play-events.mjs')
 const { setParts } = await import('../src/play/parts.ts')
-const { pickDishes, pickDecoy, looksAlike, knownCount, requeue, recap, fillBelly, BURST } = await import('../src/play/dishes.ts')
+const { pickDishes, dueDishes, pickDecoy, looksAlike, knownCount, requeue, recap, fillBelly, BURST } = await import('../src/play/dishes.ts')
 
 // 2026-10-17 10:00 台灣時間
 const at = '2026-10-17T02:00:00Z'
@@ -83,6 +83,28 @@ test('a round starts with what he knows best and mixes in at most two due review
   // 沒看過的字大怪獸不吃：照原本的順序，不要硬塞
   assert.deepEqual(pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5, '龍'),
     pickDishes(pool, progress, '2026-10-17', seq([0.1, 0.7, 0.3, 0.9]), 5))
+})
+
+test('the due characters the home page lists are the ones the monster actually serves', () => {
+  // 首頁「想起來」那一站列的字要跟進去吃到的一樣（2026-10-26 首頁說「叫、蝦、睿」，進去卻吃別的字）
+  const progress = {
+    watched: { 叫: { count: 12 }, 蝦: { count: 7 }, 河: { count: 2 }, 牛: { count: 3 }, 牙: { count: 1 }, 山: { count: 9 } },
+    recall: {
+      叫: { box: 2, due: '2026-10-20', right: 2, wrong: 0 },
+      蝦: { box: 2, due: '2026-10-21', right: 2, wrong: 0 },
+      河: { box: 0, due: '2026-10-26', right: 0, wrong: 1 },
+      牛: { box: 1, due: '2026-10-25', right: 1, wrong: 0 },
+      牙: { box: 1, due: '2026-10-24', right: 1, wrong: 0 },
+    },
+  }
+  const pool = Object.keys(progress.watched)
+  const due = dueDishes(pool, progress, '2026-10-26')
+  assert.equal(due[0], '河', 'least remembered first, not whatever came first in the record')
+  assert.ok(!due.includes('山'), 'never tested is not due')
+  for (let i = 0; i < 20; i++) {
+    const dishes = pickDishes(pool, progress, '2026-10-26')
+    for (const c of due) assert.ok(dishes.includes(c), `${c} is listed on the home page so it must be served`)
+  }
 })
 
 test('the other card never looks like the one he is looking for', () => {

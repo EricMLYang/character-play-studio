@@ -204,7 +204,13 @@ export default function PlayApp() {
   const index = items.findIndex((c) => c.char === active)
   const ctx: GameContext = {
     library: all, groups, hues, stars: starTotal, savedWords: mine.map((g) => g.key), progress, focus: path.flatMap((s) => s.chars), record, open, ride: startRide,
-    back: () => back({ screen: 'home' }), go: toScreen, want: route.want,
+    back: () => back({ screen: 'home' }), go: toScreen, want: route.want, path,
+    // 從遊戲走到下一站：換掉這個遊戲（返回鍵回首頁，不是回剛剛玩完的遊戲）；開字就開在首頁上面
+    walk: (next) => {
+      if (!next) back({ screen: 'home' })
+      else if (next.kind === 'char') go({ screen: 'home', char: next.char }, { replace: true })
+      else enter(next.id, next.want, true)
+    },
   }
 
   return (

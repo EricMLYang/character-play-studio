@@ -9,6 +9,7 @@ import Puzzle from './Puzzle'
 import Roots from './Roots'
 import Book from './Book'
 import { knownCount } from './dishes'
+import type { Stop, StopGo } from './today'
 
 /**
  * 首頁「自己逛逛」裡可以去的地方：小鎮、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
@@ -47,6 +48,10 @@ export type GameContext = {
   ride: (text: string) => void
   /** 回首頁 */
   back: () => void
+  /** 今天的路（today.ts）：遊戲結束時看這一站做完沒、下一站是哪 */
+  path: Stop[]
+  /** 走到今天的路上的某一站（換掉目前這個遊戲，返回鍵回首頁） */
+  walk: (go: StopGo) => void
   /** 去另一個遊戲（小鎮的夥伴那一排會用） */
   go: (id: string) => void
   /**
@@ -85,7 +90,7 @@ export const GAMES: Game[] = [
     // 跳石頭過河與小偵探 2026-10-24 併進來了：夥伴來端菜、第三道是一筆一筆畫的神秘料理
     render: (ctx) => (
       <Feed library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
-        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
+        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} path={ctx.path} onWalk={ctx.walk} />
     ),
   },
   {

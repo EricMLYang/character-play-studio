@@ -161,6 +161,13 @@
 /* 靠提示才吃到的字：不唸、不排名，只是放在旁邊讓他點去再看一次 */
 .feed-review { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 700; color: #8a7a6c; }
 .feed-review-char { width: 48px; height: 48px; border-radius: 16px; background: #F4EEE7; font-family: var(--kai); font-size: 28px; font-weight: 700; color: var(--ink); }
+/* 唸完才出現的「再去看看」、按鈕、這一站的進度：位置先留著（不擠動上面那排），吃飽了才淡進來 */
+.feed-later { visibility: hidden; opacity: 0; transform: translateY(8px); transition: opacity .35s, transform .35s cubic-bezier(.2,1.6,.4,1); }
+.feed-later.shown { visibility: visible; opacity: 1; transform: none; }
+/* 想起來這一站還差幾個：一個點一個字 */
+.feed-stop { display: flex; align-items: center; gap: 8px; font-size: 20px; }
+.feed-stop span:not([aria-hidden]) { width: 14px; height: 14px; border-radius: 50%; background: #E8DED3; }
+.feed-stop span.on { background: var(--c2); box-shadow: 0 0 0 3px rgba(255,197,61,.3); }
 .feed-tip { text-align: center; padding: 0 16px calc(12px + env(safe-area-inset-bottom)); }
 
 .feed-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px; text-align: center;

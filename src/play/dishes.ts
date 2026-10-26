@@ -21,11 +21,9 @@ export const DISHES = 5
  */
 export function pickDishes(pool: string[], progress: Progress, today: string, random = Math.random, n = DISHES, want?: string): string[] {
   const rec = progress.recall || {}
-  const seen = (c: string) => progress.watched[c]?.count || 0
-  const due = pool.filter((c) => rec[c] && rec[c].due <= today).sort((a, b) => rec[a].box - rec[b].box)
-  const fresh = pool.filter((c) => !rec[c]).sort((a, b) => seen(b) - seen(a))
   const rest = shuffle(pool.filter((c) => rec[c] && rec[c].due > today), random)
-  const picked = [...new Set([...due.slice(0, 2), ...fresh.slice(0, n), ...due.slice(2), ...rest])].slice(0, n)
+  const picked = [...new Set([...planned(pool, progress, today, n), ...rest])].slice(0, n)
+  const seen = (c: string) => progress.watched[c]?.count || 0
   // 到期要複習的字可能已經忘了，不算有把握
   const confidence = (c: string) => (rec[c] && rec[c].due > today ? rec[c].box * 10 : 0) + seen(c)
   const easiest = picked.reduce((best, c) => (confidence(c) > confidence(best) ? c : best), picked[0])
@@ -33,6 +31,24 @@ export function pickDishes(pool: string[], progress: Progress, today: string, ra
   const order = [easiest, ...shuffle(picked.filter((c) => c !== easiest), random)]
   // 他指名要考的字排第一（沒看過的字大怪獸不吃，照原本的順序）
   return want && pool.includes(want) ? [want, ...order.filter((c) => c !== want)].slice(0, n) : order
+}
+
+/** 排好的菜（還沒補隨便的字）：到期的先上兩個、還沒考過的、再來其他到期的。到期的照記住程度低的先 */
+function planned(pool: string[], progress: Progress, today: string, n: number) {
+  const rec = progress.recall || {}
+  const seen = (c: string) => progress.watched[c]?.count || 0
+  const due = pool.filter((c) => rec[c] && rec[c].due <= today).sort((a, b) => rec[a].box - rec[b].box)
+  const fresh = pool.filter((c) => !rec[c]).sort((a, b) => seen(b) - seen(a))
+  return [...new Set([...due.slice(0, 2), ...fresh.slice(0, n), ...due.slice(2)])].slice(0, n)
+}
+
+/**
+ * 下一輪會上的那幾個到期的字：首頁「想起來」那一站列的字要跟大怪獸真的出的菜一樣，
+ * 不然首頁說「叫、蝦、睿」，進去吃的卻是別的字。
+ */
+export function dueDishes(pool: string[], progress: Progress, today: string, n = DISHES) {
+  const rec = progress.recall || {}
+  return planned(pool, progress, today, n).filter((c) => rec[c] && rec[c].due <= today)
 }
 
 /**

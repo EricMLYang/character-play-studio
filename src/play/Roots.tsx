@@ -53,7 +53,7 @@ export default function Roots({ library, progress, want, onFind, onPick, onBack 
   return (
     <div className="roots">
       <SubBar title="🏠 字的家族" stat={`找到 ${total} 個家人`}
-        onBack={screen.kind === 'hall' ? onBack : toHall} backLabel={screen.kind === 'hall' ? '← 回字卡' : '← 回字的家族'} />
+        onBack={screen.kind === 'hall' ? onBack : toHall} backLabel={screen.kind === 'hall' ? '← 回首頁' : '← 回字的家族'} />
       {screen.kind === 'hall' && <Hall families={families} progress={progress} hue={hue} onOpen={(family) => setScreen({ kind: 'story', family })} />}
       {screen.kind === 'story' && (
         <Story key={screen.family.id} family={screen.family} lead={wantChar} progress={progress} hue={hue(screen.family)}

@@ -27,8 +27,8 @@ export const hueVar = (n: number) => `var(--c${n})`
 export const hueOf = (entry: Pick<CharEntry, 'char' | 'priority'>, hues: Map<string, number>) =>
   hues.get(entry.char) ?? entry.priority % 8
 
-/** 遊戲畫面上方那一列：回字卡、標題、右邊一個小統計。 */
-export function SubBar({ title, stat, onBack, backLabel = '← 回字卡' }: {
+/** 遊戲畫面上方那一列：回首頁、標題、右邊一個小統計。 */
+export function SubBar({ title, stat, onBack, backLabel = '← 回首頁' }: {
   title: ReactNode
   stat?: ReactNode
   onBack: () => void

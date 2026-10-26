@@ -3,6 +3,7 @@ import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { familyOf } from '../../shared/radicals.mjs'
 import { familiesIn, familyFor, foundIn } from './families'
+import { dueDishes } from './dishes'
 
 /**
  * 今天的路：打開就是這五站，走完就結束（10～15 分鐘）。
@@ -65,8 +66,8 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
   const families = familiesIn(library)
   const stops: Stop[] = []
 
-  // ① 想起來：到期的字（餵大怪獸自己會挑；沒有到期的它也會出新的）
-  const due = Object.entries(progress.recall || {}).filter(([c, r]) => known.has(c) && r.due <= today).map(([c]) => c)
+  // ① 想起來：到期的字，照大怪獸真的會出的那幾道列（dishes.ts 的 dueDishes；沒有到期的它也會出新的）
+  const due = dueDishes(Object.keys(watched).filter((c) => known.has(c)), progress, today)
   const recalledToday = Object.values(progress.recall || {}).filter((r) => taiwanDay(r.last) === today && r.due > today).length
   const recallNeed = enough ? RECALL_PER_DAY : 0
   if (recallNeed) {

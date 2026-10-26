@@ -10,6 +10,7 @@ import InkReveal from './InkReveal'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
+import type { Stop, StopGo } from './today'
 
 /**
  * 餵大怪獸：怪獸說「我要吃火！」，孩子從兩張只有字的卡片裡找出來餵牠。
@@ -23,6 +24,9 @@ import { exampleWord } from './puzzles'
  * - 盤子上幾張卡跟著他走（dishes.ts 的 recallLevel：常找錯整輪兩張，認得順第二道起三張）
  * - 第三道是**神秘料理**（原本的小偵探）：怪獸不說字，盤子上一筆一筆把字畫出來，他看字形認
  * - 每一輪由一位**夥伴來端菜**（原本在河邊等他的那幾位），一位夥伴一種天色
+ *
+ * 2026-10-26 結尾順一點：結算唸字時點一下畫面就跳到最後；按鈕的位置一開始就留好，不會唸完才把版面擠上去；
+ * 今天的路「想起來」這一站做完了，主按鈕就是「下一站」並唸出下一站要做什麼，還沒做完就是「再餵一次」。
  */
 type Phase = 'hello' | 'ask' | 'oops' | 'got' | 'chomp' | 'yum' | 'swell' | 'climax' | 'back' | 'recap' | 'full'
 
@@ -43,7 +47,7 @@ type Served = { char: string; ok: boolean }
 let finaleBag: FinaleId[] = []
 let lastFinale: FinaleId | null = null
 
-export default function Feed({ library, progress, stars, want, onRecall, onPick, onBack }: {
+export default function Feed({ library, progress, stars, want, onRecall, onPick, onBack, path, onWalk }: {
   library: CharEntry[]
   progress: Progress
   /** 總共幾顆星星：決定他收集到哪幾位夥伴，輪流來端菜（partners.ts） */
@@ -54,6 +58,9 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   onRecall: (char: string, ok: boolean) => void
   onPick: (char: string) => void
   onBack: () => void
+  /** 今天的路（today.ts）：吃完看「想起來」這一站做完沒、下一站是哪 */
+  path: Stop[]
+  onWalk: (go: StopGo) => void
 }) {
   const byChar = useMemo(() => new Map(library.map((c) => [c.char, c])), [library])
   // 只考他看過的字
@@ -97,6 +104,13 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   /** 找對時唸的詞：每一輪替每道菜換一個（具體的詞優先），多聽到幾個詞 */
   const dishWords = useMemo(() => new Map(dishes.map((c) => [c, byChar.get(c) ? exampleWord(byChar.get(c)!) : undefined])), [dishes, byChar])
   const wordOf = (c: string) => dishWords.get(c)?.text ?? c
+  // 今天的路上「想起來」這一站，跟它後面第一個還沒做完的站（從「自己逛逛」進來、字還太少時沒有這一站）
+  const stop = path.find((s) => s.id === 'recall')
+  const nextStop = stop ? path.slice(path.indexOf(stop) + 1).find((s) => s.done < s.need) : undefined
+  const stopDone = Boolean(stop && stop.done >= stop.need)
+  // 吃飽那一下是排好的計時器觸發的，要看「現在」這一站做完沒（紀錄是一道一道記進去的）
+  const walk = useRef({ stopDone, nextStop })
+  walk.current = { stopDone, nextStop }
   const record = (char: string, ok: boolean) => {
     if (recorded.current.has(char)) return
     recorded.current.add(char)
@@ -145,11 +159,36 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
     ask(char, REMINDERS, 350)
   }
 
+  /** 吃飽了：打個嗝說謝謝；今天的路這一站做完了，接著唸下一站要做什麼 */
+  const full = () => {
+    setReading(-1)
+    setPhase('full')
+    hic()
+    say(FIXED_LINES.feedFull, 0.8)
+    const { stopDone, nextStop } = walk.current
+    if (stopDone && nextStop) later(() => say(nextStop.say, 0.85), lasts(FIXED_LINES.feedFull) + BEAT)
+  }
+
+  /** 結算唸字唸到一半他點了畫面：不用等，直接吃飽、出按鈕 */
+  const skipRecap = () => {
+    if (phase !== 'recap') return
+    clear()
+    stopSpeech()
+    full()
+  }
+
+  /** 結算畫面上點一個字去看：先把還沒唸完的停掉，不然字卡打開了怪獸還在背後唸 */
+  const openChar = (c: string) => {
+    clear()
+    stopSpeech()
+    if (phase === 'recap') { setReading(-1); setPhase('full') }
+    onPick(c)
+  }
+
   /** 吃完了：「我吃到了這些字！」，再把他自己找對的字一個一個唸出來，最後打個嗝說吃飽了 */
   const finish = (all: Served[]) => {
     const { good } = recap(all)
     cheer()
-    const full = () => { setReading(-1); setPhase('full'); hic(); say(FIXED_LINES.feedFull, 0.8) }
     if (!good.length) { setPhase('full'); later(full, 500); return }
     setPhase('recap')
     let t = 500
@@ -185,7 +224,9 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   }, [dishes])
 
   const pick = (char: string) => {
-    if (phase !== 'ask' || char === wrong) return
+    // 點錯之後怪獸還在說「這是○耶！」：他馬上改點對的那張也要收，不能按了沒反應
+    const fixing = phase === 'oops' && char === target
+    if ((phase !== 'ask' && !fixing) || char === wrong) return
     clear()   // 還沒唸完的題目與提醒都停掉
     if (char === target) {
       record(target, !missed)
@@ -272,7 +313,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
         ))}
       </div>
 
-      <div className={`feed-main phase-${phase} finale-${finale}` + (belly === BURST - 1 ? ' nearly' : '')}>
+      <div className={`feed-main phase-${phase} finale-${finale}` + (belly === BURST - 1 ? ' nearly' : '')} onClick={skipRecap}>
         <section className="feed-stage" aria-live="polite" style={{ ['--belly' as any]: belly / BURST }}>
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
@@ -314,24 +355,35 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
                 <p className="feed-done-title">你自己找到的字：</p>
                 <div className="feed-done-row">
                   {good.map((c, i) => (
-                    <button key={c} className={'feed-done-char' + (i === reading ? ' reading' : '')} onClick={() => onPick(c)} aria-label={`去看「${c}」`}>
+                    <button key={c} className={'feed-done-char' + (i === reading ? ' reading' : '')} onClick={(e) => { e.stopPropagation(); openChar(c) }} aria-label={`去看「${c}」`}>
                       <span aria-hidden>{byChar.get(c)?.emoji}</span>{c}
                     </button>
                   ))}
                 </div>
               </> : <p className="feed-done-title">下次再來找找看！</p>}
-              {review.length > 0 && phase === 'full' && (
-                <div className="feed-review">
+              {/* 下面這些唸完才出現，但位置一開始就留好：不會唸完才把上面那排擠上去 */}
+              {review.length > 0 && (
+                <div className={'feed-review feed-later' + (phase === 'full' ? ' shown' : '')}>
                   <span>再去看看 👀</span>
                   {review.map((c) => (
-                    <button key={c} className="feed-review-char" onClick={() => onPick(c)} aria-label={`去看「${c}」`}>{c}</button>
+                    <button key={c} className="feed-review-char" onClick={() => openChar(c)} aria-label={`去看「${c}」`}>{c}</button>
                   ))}
                 </div>
               )}
-              {phase === 'full' && (
-                <div className="game-actions">
+              <div className={'game-actions feed-later' + (phase === 'full' ? ' shown' : '')}>
+                {stopDone && nextStop ? <>
+                  <button className="nav-btn primary" onClick={() => { tap(); clear(); stopSpeech(); onWalk(nextStop.go) }}>下一站：{nextStop.icon} {nextStop.title} →</button>
+                  <button className="nav-btn" onClick={again}>🍽️ 再餵一次</button>
+                </> : <>
                   <button className="nav-btn primary" onClick={again}>🍽️ 再餵一次</button>
-                  <button className="nav-btn" onClick={onBack}>回字卡</button>
+                  <button className="nav-btn" onClick={onBack}>回首頁</button>
+                </>}
+              </div>
+              {/* 想起來這一站還差幾個：一個點一個字，他讀不到「還差 1 個」也看得懂 */}
+              {stop && !stopDone && (
+                <div className={'feed-stop feed-later' + (phase === 'full' ? ' shown' : '')} aria-label={`想起來：${stop.done} / ${stop.need}`}>
+                  <span aria-hidden>{stop.icon}</span>
+                  {Array.from({ length: stop.need }, (_, i) => <span key={i} className={i < stop.done ? 'on' : ''} />)}
                 </div>
               )}
               {phase === 'full' && good.length > 0 && <Confetti />}
@@ -352,7 +404,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
                   return (
                     <button key={`${at}-${c}`}
                       className={'feed-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (mine ? ' got' : '') + (mine && phase === 'chomp' ? ' eaten' : '') + (gone ? ' gone' : '')}
-                      disabled={phase !== 'ask' || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `餵「${c}」`}>
+                      disabled={(phase !== 'ask' && !(phase === 'oops' && c === target)) || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `餵「${c}」`}>
                       {(flipped || mine) && <span className="feed-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}
                       <span className="feed-card-char">{c}</span>
                     </button>
