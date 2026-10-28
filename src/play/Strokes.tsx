@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import HanziWriter from 'hanzi-writer'
-import { cheer, stroke as strokeSfx } from '../lib/sfx'
+import { blast, blossom, cheer, chime, flame, frost, pops, slash, stomp, twinkle, zap } from '../lib/sfx'
+import StrokeFx, { type Burst, type Hit } from './StrokeFx'
+import { nextTheme, STROKE_THEMES, themeFor, type Point, type Trail } from './strokeThemes'
 
 type Stage = 'loading' | 'writing' | 'tracing' | 'done' | 'unavailable'
 export type CharData = { strokes: string[]; medians: number[][][] }
@@ -17,6 +19,17 @@ export function loadChar(char: string) {
   }
   return pending
 }
+
+/** 每一種特效寫對一筆的聲音（pitch 跟著第幾筆往上爬） */
+const SOUNDS: Record<Trail, (index: number, total: number) => void> = {
+  blade: slash, fire: flame, bolt: zap, rainbow: chime, sparkle: twinkle, bubble: pops, bloom: blossom, steps: stomp, frost, rocket: blast,
+}
+/** 寫過幾次字（一次換一種特效）、他自己用特效鈕選過哪一種（選過就一直用，直到關掉 App） */
+let writes = 0
+let chosen: Trail | null = null
+/** 一筆演多久就拿掉 */
+const FX_MS = 1500
+const STROKE_ICON = Object.fromEntries(STROKE_THEMES.map((t) => [t.id, t.icon])) as Record<Trail, string>
 
 /** 他畫的一筆：隔太近的點丟掉、最多留 64 點，存得下又保留手抖的樣子。 */
 function keepStroke(points: { x: number; y: number }[]): number[] {
@@ -39,6 +52,9 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  *
  * 兩種模式：照著描（先示範、有外框）→ 描完邀他「遮起來，自己寫寫看」：沒有示範、沒有外框，
  * 憑記憶寫，錯兩次才閃一下提示。研究上寫字幫助認字是因為在分析字的結構，描線條只做到一半。
+ *
+ * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
+ * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
 export default function Strokes({ char, highlight, startBlind = false, onWritten, onTraced, onUnavailable }: {
   char: string
@@ -67,6 +83,50 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
   unavailable.current = onUnavailable
   // 陣列每次 render 都是新的，用內容當 key 才不會一直重建 writer
   const marked = highlight?.length ? highlight.join(',') : ''
+  const wrap = useRef<HTMLDivElement>(null)
+  const [theme, setTheme] = useState<Trail>(() => themeFor(writes, chosen).id)
+  const themeNow = useRef(theme)
+  themeNow.current = theme
+  const [hits, setHits] = useState<Hit[]>([])
+  const [burst, setBurst] = useState<Burst | null>(null)
+  const fxTimers = useRef<number[]>([])
+  const fxId = useRef(0)
+  useEffect(() => () => fxTimers.current.forEach(clearTimeout), [])
+
+  /** 演一筆特效：points 是相對整個描字區的位置（px） */
+  const play = (points: Point[], index: number, total: number) => {
+    const id = ++fxId.current
+    const t = themeNow.current
+    try { SOUNDS[t](index, total) } catch { /* 少一聲沒關係 */ }
+    setHits((h) => [...h.slice(-5), { id, theme: t, points }])
+    fxTimers.current.push(window.setTimeout(() => setHits((h) => h.filter((x) => x.id !== id)), FX_MS))
+    // 忍者刀：砍下去整格抖一下
+    if (t === 'blade' && wrap.current) {
+      const el = wrap.current
+      el.classList.remove('fx-shake')
+      void el.offsetWidth
+      el.classList.add('fx-shake')
+      fxTimers.current.push(window.setTimeout(() => el.classList.remove('fx-shake'), 320))
+    }
+  }
+
+  /** 字的中心與大小（相對描字區），寫完炸開、換特效時試演都用它 */
+  const canvasBox = () => {
+    const host = box.current, w = wrap.current
+    if (!host || !w) return null
+    const r = host.getBoundingClientRect(), o = w.getBoundingClientRect()
+    return { x: r.left - o.left, y: r.top - o.top, size: r.width }
+  }
+
+  /** 特效鈕：換下一種，並在格子中間橫著試演一筆給他看 */
+  const switchTheme = () => {
+    const t = nextTheme(themeNow.current)
+    chosen = t.id
+    themeNow.current = t.id
+    setTheme(t.id)
+    const c = canvasBox()
+    if (c) play([{ x: c.x + c.size * 0.2, y: c.y + c.size * 0.5 }, { x: c.x + c.size * 0.8, y: c.y + c.size * 0.5 }], 0, 1)
+  }
 
   useEffect(() => {
     const host = box.current
@@ -100,8 +160,21 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
       observer.observe(host)
 
       const hand: number[][] = []
+      /** hanzi-writer 的點（字的座標，1024 格、y 朝上）換成描字區裡的 px：直接用它畫字那一層的矩陣 */
+      const toLocal = (points: { x: number; y: number }[]): Point[] => {
+        const g = host.querySelector('svg g[transform]') as SVGGElement | null
+        const m = g?.getScreenCTM()
+        const w = wrap.current?.getBoundingClientRect()
+        if (!m || !w) return []
+        return points.map((p) => ({ x: m.a * p.x + m.c * p.y + m.e - w.left, y: m.b * p.x + m.d * p.y + m.f - w.top }))
+      }
       const startQuiz = () => {
         if (!alive) return
+        // 這次寫字用哪一種特效（他選過就用他選的）
+        const t = themeFor(writes++, chosen).id
+        themeNow.current = t
+        setTheme(t)
+        setBurst(null)
         setStage('tracing')
         // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
         // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
@@ -111,12 +184,18 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
               try {
                 hand[s.strokeNum] = keepStroke(s.drawnPath.points)
                 setDrawn(data.strokes.length - s.strokesRemaining)
-                strokeSfx(data.strokes.length - s.strokesRemaining, data.strokes.length)
+                // 特效順著他手指畫的線走；點一下就過的（錯四次當寫對）用那一筆的標準路線
+                const own = s.drawnPath.points.length > 1 ? s.drawnPath.points : data.medians[s.strokeNum].map(([x, y]) => ({ x, y }))
+                play(toLocal(own), data.strokes.length - s.strokesRemaining, data.strokes.length)
               } catch { /* 少一聲音效沒關係，不能卡住描字 */ }
             },
             onComplete: () => {
               if (!alive) return
               try { cheer() } catch { /* 同上 */ }
+              try {
+                const c = canvasBox()
+                if (c) setBurst({ id: ++fxId.current, theme: themeNow.current, at: { x: c.x + c.size / 2, y: c.y + c.size / 2 }, size: c.size })
+              } catch { /* 沒有炸開也要能慶祝 */ }
               setStage('done')
               // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
               try { traced.current?.(Array.from(hand, (s) => s || []), blind) } catch { /* 存不了筆跡也要能慶祝 */ }
@@ -146,8 +225,9 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
   if (stage === 'unavailable') return null
 
   return (
-    <div className={`strokes strokes-${stage}${blind ? ' strokes-blind' : ''}`}>
+    <div className={`strokes strokes-${stage}${blind ? ' strokes-blind' : ''}`} ref={wrap}>
       <div className="stroke-canvas" ref={box} />
+      <StrokeFx hits={hits} burst={burst} />
       {total > 0 && (
         <div className="stroke-dots" aria-hidden>
           {Array.from({ length: total }, (_, i) => <span key={i} className={i < drawn ? 'on' : ''} />)}
@@ -169,6 +249,11 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
           </button>
           {stage === 'done' && blind && (
             <button className="stroke-again" onClick={() => again(false)}>✏️ 看著描</button>
+          )}
+          {(stage === 'tracing' || stage === 'done') && (
+            <button key={theme} className="stroke-again fx-pick changed" onClick={switchTheme} aria-label="換一種寫字特效">
+              {STROKE_ICON[theme]}
+            </button>
           )}
         </div>
       )}

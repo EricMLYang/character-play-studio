@@ -1,0 +1,96 @@
+/*
+ * 自己寫字的特效（StrokeFx.tsx、strokeThemes.ts）：每寫對一筆，順著他畫的線演一下。
+ * 整層蓋在描字區上面、不擋手指；一筆大約 1.2 秒演完，Strokes 會把它拿掉。
+ */
+.strokes { position: relative; }
+.stroke-fx { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: visible; }
+.fx-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+/* ---------- 線：pathLength=1，從 1 畫到 0 就是順著筆順方向畫過去，再淡掉 ---------- */
+.fx-trail path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: fxDraw .22s ease-out forwards, fxFade .5s ease-in .55s forwards; }
+@keyframes fxDraw { to { stroke-dashoffset: 0; } }
+@keyframes fxFade { to { opacity: 0; } }
+
+/* 忍者刀：又細又亮的一道刀光，畫得特別快，砍完整格抖一下 */
+.fx-trail-blade { filter: drop-shadow(0 0 6px #9FE8FF) drop-shadow(0 0 14px #4CC3FF); }
+.fx-trail-blade path { stroke: #fff; stroke-width: 14; animation-duration: .12s, .4s; }
+.fx-trail-blade path.core { stroke: #2E2A26; stroke-width: 2.5; }
+.strokes.fx-shake .stroke-canvas { animation: fxShake .28s ease-out; }
+@keyframes fxShake { 20% { transform: translate(-5px, 2px) rotate(-1deg); } 45% { transform: translate(4px, -2px) rotate(1deg); } 70% { transform: translate(-2px, 1px); } }
+
+/* 噴火：粗粗的橘紅色，中間是黃的 */
+.fx-trail-fire { filter: drop-shadow(0 0 10px #FF9F43); }
+.fx-trail-fire path { stroke: #FF6B3D; stroke-width: 28; opacity: .85; }
+.fx-trail-fire path.core { stroke: #FFE066; stroke-width: 10; }
+
+/* 閃電：之字形、閃兩下 */
+.fx-trail-bolt { filter: drop-shadow(0 0 8px #FFE066) drop-shadow(0 0 18px #FFC53D); }
+.fx-trail-bolt path { stroke: #FFC53D; stroke-width: 12;
+  animation: fxDraw .1s linear forwards, fxFlicker .5s steps(2) .1s, fxFade .4s ease-in .6s forwards; }
+.fx-trail-bolt path.core { stroke: #fff; stroke-width: 4; }
+@keyframes fxFlicker { 50% { opacity: .2; } }
+
+/* 彩虹：一條一條疊起來，最外面最寬 */
+.fx-trail-rainbow path { opacity: .9; animation-duration: .35s, .6s; animation-delay: 0s, .7s; }
+
+/* 結冰：淺藍、外面一圈白霧 */
+.fx-trail-frost { filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px #4CC3FF); }
+.fx-trail-frost path { stroke: #9FE8FF; stroke-width: 20; }
+.fx-trail-frost path.core { stroke: #fff; stroke-width: 6; }
+
+/* ---------- 一顆一顆冒出來的：照筆順一個接一個（--i） ---------- */
+.fx-bit, .fx-burst { position: absolute; left: 0; top: 0; font-size: 26px; line-height: 1; opacity: 0;
+  translate: -50% -50%; animation-fill-mode: both; animation-delay: calc(var(--i) * 45ms); }
+
+.fx-bit-blade { color: #4CC3FF; font-size: 22px; text-shadow: 0 0 8px #9FE8FF; animation: fxSpark .5s ease-out both calc(var(--i) * 25ms); }
+@keyframes fxSpark { 0% { opacity: 0; scale: .3; } 30% { opacity: 1; scale: 1.3; } 100% { opacity: 0; scale: .6; transform: translateY(-24px) rotate(90deg); } }
+
+.fx-bit-fire { font-size: 30px; animation: fxRise .8s ease-out both calc(var(--i) * 45ms); }
+@keyframes fxRise { 0% { opacity: 0; scale: .4; } 25% { opacity: 1; scale: 1.15; } 100% { opacity: 0; scale: .7; transform: translateY(-46px); } }
+
+.fx-bit-bolt { font-size: 34px; animation: fxPop .6s cubic-bezier(.2,1.7,.4,1) both calc(var(--i) * 80ms); }
+.fx-bit-rainbow { font-size: 34px; animation: fxPop .9s ease-out both .2s; }
+@keyframes fxPop { 0% { opacity: 0; scale: .2; } 35% { opacity: 1; scale: 1.25; } 70% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: .9; } }
+
+.fx-bit-sparkle { font-size: 24px; animation: fxTwinkle .9s ease-out both calc(var(--i) * 55ms); }
+@keyframes fxTwinkle { 0% { opacity: 0; scale: 0; rotate: -60deg; } 30% { opacity: 1; scale: 1.4; rotate: 0deg; } 60% { scale: .9; } 100% { opacity: 0; scale: .3; rotate: 40deg; } }
+
+.fx-bit-bubble { width: calc(22px + var(--s) * 3px); height: calc(22px + var(--s) * 3px); border-radius: 50%; font-size: 0;
+  border: 2.5px solid rgba(76,195,255,.85); box-shadow: inset -4px -5px 0 rgba(138,107,255,.18), 0 0 8px rgba(76,195,255,.35);
+  background: radial-gradient(circle at 32% 30%, #fff 0 18%, rgba(255,255,255,.35) 19% 40%, rgba(159,232,255,.25) 41%);
+  animation: fxBubble 1.1s ease-out both calc(var(--i) * 60ms); }
+@keyframes fxBubble { 0% { opacity: 0; scale: .3; } 20% { opacity: .95; scale: 1; } 85% { opacity: .9; scale: 1.1; transform: translate(calc((var(--s) - 3) * 4px), -60px); }
+  100% { opacity: 0; scale: 1.6; transform: translate(calc((var(--s) - 3) * 4px), -66px); } }
+
+.fx-bit-bloom { font-size: 28px; animation: fxBloom 1.2s cubic-bezier(.2,1.6,.4,1) both calc(var(--i) * 70ms); }
+@keyframes fxBloom { 0% { opacity: 0; scale: 0; rotate: -90deg; } 30% { opacity: 1; scale: 1.2; rotate: 0deg; } 75% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: .8; transform: translateY(10px); } }
+
+/* 腳印跟著線的方向轉（--a），一步一步踩下去 */
+.fx-bit-steps { font-size: 32px; filter: drop-shadow(0 2px 0 rgba(0,0,0,.12)); rotate: calc(var(--a) + 90deg); animation: fxStep 1.1s ease-out both calc(var(--i) * 110ms); }
+@keyframes fxStep { 0% { opacity: 0; scale: 1.8; } 15% { opacity: 1; scale: 1; } 80% { opacity: .9; } 100% { opacity: 0; } }
+
+.fx-bit-frost { font-size: 24px; animation: fxSpin 1s ease-out both calc(var(--i) * 60ms); }
+@keyframes fxSpin { 0% { opacity: 0; scale: .2; rotate: 0deg; } 30% { opacity: 1; scale: 1.2; } 100% { opacity: 0; scale: .7; rotate: 180deg; transform: translateY(14px); } }
+
+/* 火箭：🚀 順著那一筆飛過去（offset-path），後面留一路 💨 */
+.fx-rocket { position: absolute; left: 0; top: 0; offset-rotate: auto; offset-distance: 0%; font-size: 46px; line-height: 1;
+  animation: fxFly .5s ease-in both, fxFade .2s ease-in .5s forwards; }
+.fx-rocket span { display: block; translate: -50% -50%; rotate: 45deg; }
+@keyframes fxFly { to { offset-distance: 100%; } }
+.fx-bit-rocket { font-size: 30px; animation: fxPuff .9s ease-out both calc(var(--i) * 100ms); }
+@keyframes fxPuff { 0% { opacity: 0; scale: .3; } 25% { opacity: .9; scale: 1; } 100% { opacity: 0; scale: 1.8; } }
+
+/* ---------- 整個字寫完：中間炸開一圈 ---------- */
+.fx-burst { font-size: 34px; animation: fxBurst 1.3s cubic-bezier(.15,.8,.3,1) both calc(var(--i) * 20ms); }
+@keyframes fxBurst { 0% { opacity: 0; scale: .2; transform: rotate(var(--a)) translateY(0) rotate(calc(-1 * var(--a))); }
+  20% { opacity: 1; scale: 1.2; }
+  100% { opacity: 0; scale: .9; transform: rotate(var(--a)) translateY(calc(-1 * var(--d))) rotate(calc(-1 * var(--a))); } }
+
+/* 特效鈕：只有一個圖，點一下換下一種 */
+.stroke-again.fx-pick { padding: 6px 14px; font-size: 24px; line-height: 1; }
+.fx-pick.changed { animation: pop .4s cubic-bezier(.2,1.7,.4,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .stroke-fx { display: none; }
+}

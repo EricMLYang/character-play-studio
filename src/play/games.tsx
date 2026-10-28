@@ -12,7 +12,7 @@ import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：小鎮、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -82,6 +82,16 @@ export const GAMES: Game[] = [
     render: (ctx) => (
       <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
         onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} />
+    ),
+  },
+  {
+    // 2026-10-24 併進小書後拿掉入口，10/28 他說還是喜歡，放回「自己逛逛」（不在今天的路上）
+    id: 'train', icon: '🚂', title: '字火車',
+    subtitle: () => '自己接一個詞',
+    render: (ctx) => (
+      <Train groups={ctx.groups} saved={ctx.savedWords} onBack={ctx.back}
+        onRide={(text) => { ctx.record({ kind: 'word', char: text }); ctx.ride(text) }}
+        onRemove={(text) => ctx.record({ kind: 'word', char: text, remove: true })} />
     ),
   },
   {

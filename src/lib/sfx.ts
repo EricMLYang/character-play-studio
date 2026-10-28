@@ -142,6 +142,59 @@ export function poof() {
   tone(0.12, 880, 1760, 0.3, 'sine', 0.09)
 }
 
+// ---------- 自己寫字的特效（strokeThemes.ts）：每寫對一筆一聲，pitch 跟著第幾筆往上爬 ----------
+const lift = (index: number, total: number) => 1 + (index / Math.max(total, 1)) * 0.6
+/** 忍者刀：唰——一陣風切過去，尾巴一聲亮的「鏘」 */
+export function slash(index: number, total: number) {
+  noise(0, 0.16, 0.09)
+  tone(0, 2400 * lift(index, total), 700, 0.14, 'sawtooth', 0.025)
+  tone(0.1, 2600 * lift(index, total), 2600 * lift(index, total), 0.12, 'triangle', 0.05)
+}
+/** 噴火：呼——低低的風聲 */
+export function flame(index: number, total: number) {
+  noise(0, 0.4, 0.1)
+  tone(0, 180 * lift(index, total), 90, 0.35, 'sawtooth', 0.03)
+}
+/** 閃電：滋滋往下掉的電流聲 */
+export function zap(index: number, total: number) {
+  tone(0, 1800 * lift(index, total), 120, 0.18, 'square', 0.04)
+  noise(0.02, 0.12, 0.06)
+}
+/** 彩虹：三個音一起往上滑 */
+export function chime(index: number, total: number) {
+  const f = 660 * lift(index, total)
+  ;[1, 1.25, 1.5].forEach((m, i) => tone(i * 0.05, f * m, f * m * 1.5, 0.3, 'sine', 0.05))
+}
+/** 星星：叮叮叮亮晶晶 */
+export function twinkle(index: number, total: number) {
+  const f = 1320 * lift(index, total)
+  ;[0, 0.07, 0.14].forEach((t, i) => tone(t, f + i * 220, f + i * 220, 0.12, 'triangle', 0.05))
+}
+/** 泡泡：啵啵兩聲 */
+export function pops(index: number, total: number) {
+  ;[0, 0.1].forEach((t, i) => tone(t, 400 * lift(index, total) + i * 160, 900 + i * 200, 0.07, 'sine', 0.09))
+}
+/** 開花：軟軟往上的一聲 */
+export function blossom(index: number, total: number) {
+  tone(0, 520 * lift(index, total), 1040 * lift(index, total), 0.28, 'sine', 0.07)
+  tone(0.08, 1560 * lift(index, total), 1560 * lift(index, total), 0.2, 'triangle', 0.03)
+}
+/** 恐龍腳印：咚、咚 */
+export function stomp(index: number, total: number) {
+  ;[0, 0.16].forEach((t) => tone(t, 150 * lift(index, total), 55, 0.16, 'sine', 0.2))
+}
+/** 結冰：喀啦喀啦的冰晶 */
+export function frost(index: number, total: number) {
+  const f = 2200 * lift(index, total)
+  ;[0, 0.05, 0.1].forEach((t, i) => tone(t, f - i * 300, f - i * 300, 0.09, 'triangle', 0.04))
+  noise(0, 0.1, 0.03)
+}
+/** 火箭：咻——飛過去 */
+export function blast(index: number, total: number) {
+  noise(0, 0.3, 0.06)
+  tone(0, 300 * lift(index, total), 1500 * lift(index, total), 0.3, 'sine', 0.06)
+}
+
 // ---------- 動畫短片用（src/anim）----------
 /** 蛋殼裂開：兩聲短促的喀。 */
 export function crack() {
