@@ -115,7 +115,7 @@ export const GAMES: Game[] = [
     id: 'book', icon: '📖', title: '指讀小書', fresh: true,
     subtitle: (p) => { const n = Object.keys(p.books || {}).length; return n ? `讀過 ${n} 句` : '自己讀一本小書' },
     render: (ctx) => (
-      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} onPick={ctx.open} onBack={ctx.back}
+      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
         onRead={(text, char, ok, mine) => ctx.record({ kind: 'book', char, text, ok, ...(mine ? { mine: true } : {}) })} />
     ),
   },
