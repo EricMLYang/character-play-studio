@@ -61,3 +61,11 @@
 - **另修一個我自己造成的 bug**：stage.css 的 `cloudDrift`／`twinkle` 跟 train.css、feed.css 同名，被後面的檔蓋掉（雲一直擠在左邊不飄）。改名 stageCloud／stageTwinkle，stage.test 加一條：我新寫的三個 CSS 檔的 keyframes 不能跟別檔撞名。既有的 fall/hop/puff/rise/shake/spin 撞名不是今晚造成的，沒動（記成待辦）。
 - 看過：13 個居民全睡著（複製來的紀錄 10/28 之後沒玩，全部到期——**小孩真實的小鎮明天打開也會是這樣**）、叫醒「火」。
 - **早上要人看**：13 個同時睡著會不會太多、他會不會覺得是壞事；被子的樣子。
+
+## 3-7 字彙擴充 ✅ 5217c54（腳本＋表）、cf644ba（字庫，單獨一個 commit）
+- **跟規劃不同**：語詞上限是 4 個（server/character-metadata.mjs 的 parseWords、Studio 編輯器都這樣擋），不是 5～6。沒有動上限（要不要放寬是爸爸的決定），改成「最常看、目前 3 個詞的 56 個字各補 1 個到 4 個」。
+- Claude 手寫（不用 AI CLI 額度），逐一對過讀音（多音字：長 ㄔㄤˊ 長褲、上 ㄕㄤˋ 上廁所、中 ㄓㄨㄥ 中秋、家 ㄐㄧㄚ 搬家…）。挑具體、畫得出來、好玩的：火箭、氣球、熊抱、土司、楊桃、遠足、吸塵器、直升機、光頭、高鐵、慢動作、寄居蟹、上廁所、電梯、爆米花、龍捲風、鯊魚、忍者刀…
+- 跳過（沒有好的具體詞）：捷、睿、有、今、你、他、在、森。
+- `scripts/words-extra.mjs`：用 Studio 同一套 parseWords 驗證，只補不刪、圖示重複就跳過。表在 `words-extra.json`，**爸爸過目後不合適的直接改表、`git checkout data/characters.json` 再跑一次**。
+- 新詞的音檔（詞本身、「○○的○」）用 `npm run voice` 背景補做。
+- **併回 main 要注意**：main 工作樹上 `data/characters.json` 有伺服器寫的 10/27、10/28 今日建議清單沒 commit，併之前先 commit 或 stash 那份。
