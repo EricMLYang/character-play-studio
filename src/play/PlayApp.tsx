@@ -295,7 +295,8 @@ export default function PlayApp() {
       {chest && <Chest partner={chest} onClose={() => setChest(null)}
         onGo={() => { serveNextWith(chest.id); setChest(null); enter('feed') }} />}
       {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
-      {day && !chest && !crown && <DayCard progress={progress} onClose={() => setDay(false)} />}
+      {/* 戰報等他關掉字卡再出來：走完的那一下常常是在字卡上（看完第二個新字），蓋上去會打斷描字 */}
+      {day && !chest && !crown && !entry && !ride && <DayCard progress={progress} onClose={() => setDay(false)} />}
       {pop && !chest && !crown && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
