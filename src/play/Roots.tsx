@@ -10,6 +10,7 @@ import { loadChar } from './Strokes'
 import { familiesIn, familyFor, foundIn, homesFor, nameFamilies, pickFinds, sizeOf, storyMembers, type Family, type FindRound } from './families'
 import { PARTNERS } from './partners'
 import { useDrag } from './useDrag'
+import MeaningFx from './MeaningFx'
 import { Confetti, SubBar, hueVar } from './ui'
 
 /**
@@ -243,7 +244,12 @@ function Story({ family, lead, progress, hue, onFind, onHall, onPick }: {
         {origin && <div className={'roots-origin' + (changed ? ' gone' : '')}><Glyph char={origin} color="#2E2A26" /></div>}
         {origin && <span className={'roots-arrow' + (changed ? ' on' : '')} aria-hidden>➜</span>}
         <div className={'roots-shape' + (changed || !origin ? ' on' : '')}>
-          {(changed || !origin) && <Glyph char={shapeOf(family)} color={shapeColor} />}
+          {/* 部首一出現就開始演自己的意思：三點水滴水、火字旁冒火（radicalFx.ts） */}
+          {(changed || !origin) && (
+            <MeaningFx family={family.id} on={family.kind === 'radical'} loop>
+              <Glyph char={shapeOf(family)} color={shapeColor} />
+            </MeaningFx>
+          )}
           <span className="roots-shape-name">{family.name}</span>
         </div>
       </div>
@@ -357,7 +363,7 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
           <button key={`${index}-${c}`} disabled={missed.includes(c)} {...drag(c)}
             className={'roots-card' + (missed.includes(c) ? ' wrong' : '') + (right && c === round.char ? ' right' : '') + ([...c].length > 1 ? ' word' : '')}
             onClick={() => pick(c)} aria-label={c}>
-            {right && c === round.char && family.kind === 'radical' ? <Glyph char={c} glow />
+            {right && c === round.char && family.kind === 'radical' ? <MeaningFx family={family.id}><Glyph char={c} glow /></MeaningFx>
               : <span className="roots-card-char">{[...c].map((ch, i) => <span key={i} className={right && ch === head && family.kind !== 'radical' ? 'hit' : ''}>{ch}</span>)}</span>}
           </button>
         ))}

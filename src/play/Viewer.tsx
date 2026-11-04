@@ -13,6 +13,7 @@ import { pickSource, mediaUrl, type Broken } from './source'
 import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
 import { familiesIn, homesFor } from './families'
+import MeaningFx from './MeaningFx'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -230,7 +231,10 @@ export default function Viewer({
               <span className="band-label">住在</span>
               {homes.map((home) => (
                 <button key={home.id} className="part root-home" onClick={() => onGame('roots', `${home.id}:${entry.char}`)}
-                  aria-label={`去看${home.name}的家`}>{home.emoji} {home.name}的家</button>
+                  aria-label={`去看${home.name}的家`}>
+                  {/* 部首的家那顆小圖會演一下自己的意思（水滴下來、火冒上去），聲音家與詞家族不演 */}
+                  <span className="root-home-fx"><MeaningFx family={home.id} small>{home.emoji}</MeaningFx></span> {home.name}的家
+                </button>
               ))}
             </span>
           )}
