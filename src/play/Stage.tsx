@@ -112,11 +112,15 @@ export function useStagePointer() {
     const root = document.documentElement
     let frame = 0
     let last = { x: 0, y: 0 }
+    let shown = { px: 0, py: 0 }
     const apply = () => {
       frame = 0
       const { px, py } = parallax(last.x, last.y, window.innerWidth, window.innerHeight)
-      root.style.setProperty('--px', px.toFixed(3))
-      root.style.setProperty('--py', py.toFixed(3))
+      // 改 <html> 上的變數會讓整頁重算樣式：差不到一點點就不改（拖卡片時手指一直在動，iPad 上省很多）
+      if (Math.abs(px - shown.px) < 0.02 && Math.abs(py - shown.py) < 0.02) return
+      shown = { px, py }
+      root.style.setProperty('--px', px.toFixed(2))
+      root.style.setProperty('--py', py.toFixed(2))
     }
     const move = (e: PointerEvent) => {
       last = { x: e.clientX, y: e.clientY }

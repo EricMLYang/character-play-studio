@@ -15,14 +15,17 @@ type Step = 'draw' | 'morph'
 export default function OriginPlay({ char, onClose }: { char: string; onClose: () => void }) {
   const lines = ORIGINS[char] ?? []
   const timing = strokeTiming(lines.length)
-  const drawn = (timing.at(-1)?.delay ?? 0) + (timing.at(-1)?.dur ?? 0)
+  const last = timing[timing.length - 1]
+  const drawn = (last?.delay ?? 0) + (last?.dur ?? 0)
   const [round, setRound] = useState(0)
   const [step, setStep] = useState<Step>('draw')
   // 背後的字卡還活著（影片、筆順示範會自己往下走、會講話）：開著的時候壓住它的聲音、影片先暫停
   useEffect(() => {
     const release = holdSpeech()
-    document.querySelectorAll('video').forEach((v) => v.pause())
-    return release
+    // 只暫停正在播的，關掉時把它們接著播（不然他回到字卡，影片停在一半不動）
+    const playing = [...document.querySelectorAll('video')].filter((v) => !v.paused)
+    playing.forEach((v) => v.pause())
+    return () => { release(); playing.forEach((v) => { v.play().catch(() => {}) }) }
   }, [])
   useEffect(() => {
     setStep('draw')
