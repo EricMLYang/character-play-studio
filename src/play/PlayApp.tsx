@@ -5,7 +5,7 @@ import { taiwanDay, starIndex } from '../../shared/domain.mjs'
 import { browseCharacters } from '../../shared/selection.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
-import { magic } from '../lib/sfx'
+import { arrive, magic } from '../lib/sfx'
 import { say } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { Confetti } from './ui'
@@ -21,6 +21,7 @@ import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
 import Stage, { useStagePointer } from './Stage'
+import { sceneFor } from './stageScenes'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -46,6 +47,12 @@ export default function PlayApp() {
   const ride = route.ride ?? null
   const home = useRef<HTMLDivElement>(null)
   useStagePointer()
+  // 走進一個地方響那個地方的小旋律（第一次打開不響：還沒有人碰過畫面，瀏覽器也不讓出聲）
+  const arrived = useRef(false)
+  useEffect(() => {
+    if (arrived.current) arrive(sceneFor(screen).id)
+    arrived.current = true
+  }, [screen])
   const lastActive = useRef<string | null>(null)
 
   // 觀看層開著時，背後的字庫要完全退出（不能被 Tab 進去、讀屏也不該唸）；關閉後回到剛才那張字卡

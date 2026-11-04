@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { emojiCode, isNightSky, parallax, sceneFor, skyAt, type Sky } from './stageScenes'
 import { EMOJI_3D } from '../anim/emoji3d'
+import { critter } from '../lib/sfx'
+import { isSpeaking } from '../lib/audio'
 
 /**
  * 舞台（stageScenes.ts 有為什麼）：天空 → 太陽或月亮 → 雲 → 遠山與遠處的道具 → 近處的草地與道具 → 偶爾飛過去的東西。
@@ -22,7 +24,11 @@ export default function Stage({ screen, sky }: { screen: string; sky?: Sky }) {
       t = setTimeout(() => {
         if (!alive) return
         const emoji = scene.flyers[Math.floor(Math.random() * scene.flyers.length)]
-        if (emoji) setFlyer({ key: Date.now(), emoji, top: 10 + Math.random() * 30, rtl: Math.random() < 0.5 })
+        if (emoji) {
+          setFlyer({ key: Date.now(), emoji, top: 10 + Math.random() * 30, rtl: Math.random() < 0.5 })
+          // 飛過去叫一聲；正在唸字就不叫（唸字是主角）
+          if (!isSpeaking()) critter(emoji)
+        }
         next()
       }, first ? 2500 : 9000 + Math.random() * 7000)
     }

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import HanziWriter from 'hanzi-writer'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { blip, boing, cheer, magic, tap, whoosh } from '../lib/sfx'
+import { blip, boing, cheer, ladder, magic, tap, whoosh } from '../lib/sfx'
 import { LINES } from '../../shared/voice-lines.mjs'
 import { RADICAL_FIXED, RADICAL_LINES } from '../../shared/radicals.mjs'
 import { SOUND_LINES } from '../../shared/phonetics.mjs'
@@ -310,6 +310,8 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
   const house = useRef<HTMLButtonElement>(null)
   const pickRef = useRef<(c: string) => void>(() => {})
   const drag = useDrag({ target: () => house.current, onDrop: (c) => pickRef.current(c) })
+  /** 連對幾題（答對的音一路往上爬） */
+  const streak = useRef(0)
 
   // 每一家至少兩個家人（families.ts 的 MIN_MEMBERS），不會沒有題目
   if (!round) return null
@@ -319,6 +321,7 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
     stopSpeech()
     if (char !== round.char) {
       boing()
+      streak.current = 0
       setMissed((m) => [...m, char])
       // 字：「這是水耶！」；詞：直接唸那個詞
       say(family.kind === 'word' ? char : LINES.feedNotThis(char), RATE)
@@ -326,6 +329,7 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
     }
     setRight(true)
     whoosh()
+    if (missed.length === 0) { streak.current += 1; ladder(streak.current) }
     onFind(family.id, family.kind === 'word' ? head : char, missed.length === 0, family.kind === 'word' ? char : undefined)
     say(char, RATE)
     later(() => say(family.members[char], RATE), Math.max(lasts(char), 600) + 200)

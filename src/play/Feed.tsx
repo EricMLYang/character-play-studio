@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
+import { boing, cheer, drum, gulp, hic, ladder, tap } from '../lib/sfx'
+import { streakOf } from './streak'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { BURST, DISHES, fillBelly, mysteryIndex, pickDishes, plateFor, recallLevel, recap, requeue } from './dishes'
@@ -252,6 +253,8 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
       const word = wordOf(target)
       const all = [...served, { char: target, ok: !missed }]
       setPhase('got')
+      // 第一下就找對：連對越多音越高；靠提示才找到的不響（照樣吃得到）
+      if (!missed) ladder(streakOf(all))
       say(word, 0.8)
       const shown = Math.max(1300, lasts(word) + 300)
       // 怪獸把圖吃掉，盤子上出現那個圖

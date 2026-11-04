@@ -251,3 +251,47 @@ export function achoo() {
   tone(0.4, 1400, 200, 0.16, 'square', 0.08)
   tone(0.42, 900, 150, 0.2, 'sawtooth', 0.05)
 }
+
+// ---------- 聲音設計包（2026-11-05）：每個地方有自己的聲音、連對會越爬越高 ----------
+// 研究上沒有證據說音效幫助認字，這些是讓「做對了」更有感覺；音量都比唸字小很多（peak ≤ 0.07），
+// 會跟唸字同時響的那幾個（ladder）刻意又短又輕，不能蓋到字音。
+
+/** 五聲音階（C 大調去掉 4、7 級）：怎麼接都好聽，小孩連對十題也不會出現難聽的音 */
+const PENTA = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51, 1567.98, 1760, 2093]
+
+/**
+ * 連對第 step 題（從 1 算）的三個音。連對越多起點越高，最多爬到第 8 級；
+ * 錯一次 step 就回到 1（呼叫端算連對，dragDrop 之外的純函式，tests/sound-kit.test.mjs）。
+ */
+export function ladderNotes(step: number) {
+  const start = Math.max(0, Math.min(PENTA.length - 3, Math.floor(step) - 1))
+  return PENTA.slice(start, start + 3)
+}
+/** 答對的那一下：三個音一路往上，0.18 秒內結束 */
+export function ladder(step: number) {
+  ladderNotes(step).forEach((f, i) => tone(i * 0.06, f, f, 0.16, 'triangle', 0.06 - i * 0.012))
+}
+
+/** 每個地方的到站小旋律（stageScenes.ts 的景 id） */
+export const ARRIVALS: Record<string, number[]> = {
+  home: [523.25, 659.25, 783.99],
+  feed: [392, 523.25, 659.25, 783.99],
+  roots: [659.25, 783.99, 880],
+  book: [523.25, 587.33, 659.25, 783.99],
+  puzzle: [440, 523.25, 659.25],
+  town: [783.99, 659.25, 523.25, 783.99],
+  train: [392, 392, 523.25],
+  meadow: [523.25, 783.99],
+}
+/** 走進一個地方：一陣輕輕的風聲，接那個地方自己的小旋律 */
+export function arrive(scene: string) {
+  noise(0, 0.22, 0.03)
+  ;(ARRIVALS[scene] ?? ARRIVALS.meadow).forEach((f, i) => tone(0.12 + i * 0.09, f, f, 0.2, 'sine', 0.045))
+}
+
+/** 景裡飛過去的小動物（Stage 的 flyer）：小鳥啾啾、蜜蜂嗡、蝴蝶一聲很輕的叮 */
+export function critter(emoji: string) {
+  if (emoji === '🐦') { tone(0, 2600, 3400, 0.07, 'sine', 0.025); tone(0.12, 2800, 3600, 0.06, 'sine', 0.02); return }
+  if (emoji === '🐝') { tone(0, 220, 240, 0.5, 'sawtooth', 0.012); return }
+  tone(0, 1760, 2093, 0.18, 'sine', 0.015)
+}

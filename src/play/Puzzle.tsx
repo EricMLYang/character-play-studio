@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, snap, stash, tap } from '../lib/sfx'
+import { boing, cheer, drum, ladder, snap, stash, tap } from '../lib/sfx'
+import { streakOf } from './streak'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { requeue } from './dishes'
 import { PICTURE_ROUNDS, PIECES, collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
@@ -176,6 +177,7 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
       const all = [...solved, { word: item.word, ok, fresh, crown }]
       // 喀！卡片進到格子裡 → 圖變成彩色跳起來，再唸一次整個詞
       snap()
+      if (ok) setTimeout(() => ladder(streakOf(all)), 140)
       setPhase('snap')
       later(() => { setSolved(all); setPhase('alive'); say(item.word, 0.8); if (fresh) stash() }, 450)
       let shown = 450 + Math.max(1700, lasts(item.word) + 900)
