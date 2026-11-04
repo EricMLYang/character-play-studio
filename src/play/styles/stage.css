@@ -22,7 +22,7 @@
 .depth-4 { --d: 28; }
 
 .stage-art { display: block; width: 100%; height: 100%; object-fit: contain; font-size: var(--size, 10vh); line-height: 1; text-align: center; }
-.stage-sun { position: absolute; right: 7%; top: 7%; width: clamp(56px, 12vh, 120px); height: clamp(56px, 12vh, 120px);
+.stage-sun { position: absolute; right: 7%; top: max(7%, 70px); width: clamp(56px, 12vh, 120px); height: clamp(56px, 12vh, 120px);
   animation: sunBob 7s ease-in-out infinite; }
 @keyframes sunBob { 50% { transform: translateY(8px) rotate(6deg); } }
 
