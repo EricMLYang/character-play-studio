@@ -4,6 +4,7 @@ import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { familyOf } from '../../shared/radicals.mjs'
 import { familiesIn, familyFor, foundIn } from './families'
 import { dueDishes } from './dishes'
+import { sleepersIn } from './naps'
 
 /**
  * 今天的路：打開就是這五站，走完就結束（10～15 分鐘）。
@@ -118,8 +119,11 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
 
   // ⑤ 回家：前面都做完了才算到家
   const rest = stops.every((s) => s.done >= s.need)
-  stops.push({ id: 'home', icon: '🏡', title: '回家', hint: '回小鎮看看今天搬進來的字', hero: 'sheriff', cta: '去小鎮 →',
-    say: FIXED_LINES.pathHome, chars: [], done: rest ? 1 : 0, need: 1, go: { kind: 'game', id: 'town' } })
+  // 小鎮裡有字睡著了（今天該複習的字，naps.ts）：回家那一站改說去叫醒他們。不列出是哪幾個字——到了小鎮要自己想起來
+  const sleepers = sleepersIn(progress, today)
+  stops.push({ id: 'home', icon: '🏡', title: '回家', hero: 'sheriff', cta: '去小鎮 →',
+    hint: sleepers.length ? `小鎮裡有 ${sleepers.length} 個字睡著了，去叫醒他們！` : '回小鎮看看今天搬進來的字',
+    say: sleepers.length ? FIXED_LINES.pathWake : FIXED_LINES.pathHome, chars: [], done: rest ? 1 : 0, need: 1, go: { kind: 'game', id: 'town' } })
   return stops
 }
 

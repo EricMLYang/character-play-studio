@@ -28,14 +28,14 @@
 
 /* 雲：一個圓角長條加兩顆圓，從畫面外慢慢飄過去 */
 .cloud { position: absolute; left: 0; width: 150px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.88);
-  animation: cloudDrift linear infinite; }
+  animation: stageCloud linear infinite; }
 .cloud::before, .cloud::after { content: ''; position: absolute; border-radius: 50%; background: inherit; }
 .cloud::before { left: 22px; top: -26px; width: 62px; height: 62px; }
 .cloud::after { left: 70px; top: -16px; width: 48px; height: 48px; }
 .c1 { top: 12%; animation-duration: 95s; animation-delay: -30s; }
 .c2 { top: 24%; scale: .7; opacity: .8; animation-duration: 130s; animation-delay: -80s; }
 .c3 { top: 6%; scale: .55; opacity: .7; animation-duration: 160s; animation-delay: -20s; }
-@keyframes cloudDrift { from { transform: translateX(-200px); } to { transform: translateX(calc(100vw + 60px)); } }
+@keyframes stageCloud { from { transform: translateX(-200px); } to { transform: translateX(calc(100vw + 60px)); } }
 
 .stage-hill { position: absolute; left: -4%; width: 108%; display: block; }
 .stage-hill.far { bottom: 0; height: 34%; }
@@ -61,8 +61,8 @@
 
 /* 晚上的星星、下雪 */
 .stage-stars i { position: absolute; border-radius: 50%; background: #FFF8D6; box-shadow: 0 0 6px 2px rgba(255,248,214,.7);
-  animation: twinkle 3.2s ease-in-out infinite; }
-@keyframes twinkle { 50% { opacity: .25; transform: scale(.6); } }
+  animation: stageTwinkle 3.2s ease-in-out infinite; }
+@keyframes stageTwinkle { 50% { opacity: .25; transform: scale(.6); } }
 .stage-snow i { position: absolute; top: -12px; width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 4px rgba(120,160,200,.5);
   animation: snowFall linear infinite; }
 @keyframes snowFall { to { transform: translate(30px, 105vh); } }

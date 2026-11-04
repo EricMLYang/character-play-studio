@@ -79,3 +79,19 @@ test('反應換姿勢：有那張就用，沒有就退回 idle，不會指到不
     for (const r of Object.keys(REACT_MS)) assert.ok(poses.includes(poseFor(hero, r)), `${hero} 的 ${r}`)
   }
 })
+
+test('舞台、角色、部首特效的 @keyframes 名字不能跟別的檔撞名（後面的檔會悄悄蓋掉前面的）', () => {
+  const dir = path.join(ROOT, 'src/play/styles')
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.css'))
+  const names = new Map()
+  for (const f of files) {
+    for (const m of fs.readFileSync(path.join(dir, f), 'utf8').matchAll(/@keyframes\s+([\w-]+)/g)) {
+      names.set(m[1], [...(names.get(m[1]) || []), f])
+    }
+  }
+  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css']) {
+    for (const [name, where] of names) {
+      if (where.includes(own)) assert.equal(where.length, 1, `@keyframes ${name} 同時在 ${where.join('、')}`)
+    }
+  }
+})

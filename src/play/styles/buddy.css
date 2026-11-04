@@ -51,10 +51,10 @@ button.rig { cursor: pointer; }
   border-radius: 50%; background: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.08); font: 800 22px/1 var(--ui); color: var(--c5);
   animation: popUp .3s cubic-bezier(.2,1.7,.4,1) both; }
 .rig-zzz { position: absolute; right: 0; top: 0; font: 800 20px/1 var(--ui); color: #6B6AD8; }
-.rig-zzz i { position: absolute; font-style: normal; opacity: 0; animation: zzz 2.4s ease-out infinite; }
+.rig-zzz i { position: absolute; font-style: normal; opacity: 0; animation: rigZzz 2.4s ease-out infinite; }
 .rig-zzz i:nth-child(2) { animation-delay: .8s; font-size: 26px; }
 .rig-zzz i:nth-child(3) { animation-delay: 1.6s; font-size: 32px; }
-@keyframes zzz { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(26px, -60px); opacity: 0; } }
+@keyframes rigZzz { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(26px, -60px); opacity: 0; } }
 .rig-sparks i { position: absolute; left: 50%; top: 30%; font-style: normal; font-size: 22px; color: #FFC53D; line-height: 1;
   text-shadow: 0 0 8px rgba(255,197,61,.8); animation: spark .8s ease-out both; }
 .rig-sparks i:nth-child(1) { --sx: -70px; --sy: -40px; }

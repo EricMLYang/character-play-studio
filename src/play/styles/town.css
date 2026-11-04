@@ -107,3 +107,39 @@
   .crew-one img, .crew-q { width: 38px; height: 38px; }
   .crew-tip { display: none; }
 }
+
+/* ---------- 打盹（naps.ts）：明天要考的字想睡、今天該考的字蓋著被子睡著 ---------- */
+/* 想睡：眼睛半閉、走得很慢、偶爾打一個呵欠 */
+.nap-sleepy .resident-eyes i { height: 14px; margin-top: 12px; animation: none; }
+.nap-sleepy .resident { animation: yawn 4s ease-in-out infinite; }
+@keyframes yawn { 0%, 70%, 100% { transform: none; } 80% { transform: scale(1.04, .96) rotate(-3deg); } 90% { transform: scale(.98, 1.04) rotate(2deg); } }
+/* 睡著：眼睛閉成一條線、不走路、被子蓋住字 */
+.nap-asleep .resident:not(.jump) { animation: none; }
+/* 閉眼：一條往下彎的線（眼睛本身有眨眼動畫，用高度改，不用 transform 才不會被動畫蓋掉） */
+.nap-asleep .resident-eyes i { height: 6px; margin-top: 16px; border-radius: 0 0 12px 12px; background: var(--ink); box-shadow: none; animation: none; }
+.nap-asleep .resident-eyes i::after { display: none; }
+.resident-blanket { position: absolute; left: -6%; right: -6%; bottom: -4%; top: 22%; z-index: 2; border-radius: 40% 40% 22px 22px;
+  background: repeating-linear-gradient(45deg, #9DB7F5 0 14px, #B9CCFA 14px 28px); box-shadow: inset 0 -6px 0 rgba(0,0,0,.08), 0 4px 0 rgba(0,0,0,.08);
+  animation: blanketBreathe 3s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes blanketBreathe { 50% { transform: scaleY(1.05); } }
+.resident-blanket i { position: absolute; right: -4px; top: -26px; font: 800 18px/1 var(--ui); font-style: normal; color: #5B6BD8; opacity: 0;
+  animation: rigZzz 2.6s ease-out infinite; }
+.resident-blanket i:nth-child(2) { animation-delay: .9s; font-size: 22px; }
+.resident-blanket i:nth-child(3) { animation-delay: 1.8s; font-size: 28px; }
+.nap-asleep .resident-tag { background: #5B6BD8; color: #fff; }
+
+/* 叫醒他：蓋在小鎮上面的一張卡 */
+.wake { position: fixed; inset: 0; z-index: 45; display: grid; place-items: center; padding: 16px; background: rgba(40,40,80,.35); animation: fadeIn .2s both; }
+@keyframes fadeIn { from { opacity: 0; } }
+.wake-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 26px 28px 30px; border-radius: 32px;
+  background: #fff; box-shadow: 0 10px 0 rgba(0,0,0,.08), 0 24px 60px rgba(0,0,0,.25); animation: popUp .35s cubic-bezier(.2,1.6,.4,1) both; }
+.wake-x { position: absolute; top: 10px; right: 12px; width: 40px; height: 40px; border-radius: 50%; background: #F3EEE8; font-size: 18px; }
+.wake-sleeper { position: relative; font-size: 72px; line-height: 1; animation: blanketBreathe 3s ease-in-out infinite; }
+.wake-card.up .wake-sleeper { animation: boing .7s cubic-bezier(.2,1.6,.4,1) 2; }
+.wake-zzz { position: absolute; right: -30px; top: -10px; font-size: 34px; }
+.wake-ask { padding: 10px 20px; border-radius: 999px; background: #EEF1FF; font-size: 20px; font-weight: 800; }
+.wake-cards { display: flex; gap: 18px; }
+.wake-pick { width: clamp(100px, 22vh, 150px); aspect-ratio: 1; border-radius: 26px; background: #FFF9F0; font-family: var(--kai); font-size: clamp(64px, 14vh, 100px);
+  font-weight: 700; box-shadow: 0 6px 0 rgba(0,0,0,.08); }
+.wake-pick.wrong { opacity: .45; animation: wobble .45s ease-in-out 2; }
+.wake-pick.right { background: #FFF2B8; box-shadow: 0 0 0 6px var(--c2), 0 0 30px rgba(255,197,61,.7); }

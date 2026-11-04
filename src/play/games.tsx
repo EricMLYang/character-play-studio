@@ -80,8 +80,8 @@ export const GAMES: Game[] = [
     id: 'town', icon: '🏡', title: '我的小鎮',
     subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `住了 ${n} 個字` : '寫一個字搬進來' },
     render: (ctx) => (
-      <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
-        onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} />
+      <Town residents={ctx.progress.town || {}} progress={ctx.progress} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
+        onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },
   {
