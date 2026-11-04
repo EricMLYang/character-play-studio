@@ -69,3 +69,11 @@
 - `scripts/words-extra.mjs`：用 Studio 同一套 parseWords 驗證，只補不刪、圖示重複就跳過。表在 `words-extra.json`，**爸爸過目後不合適的直接改表、`git checkout data/characters.json` 再跑一次**。
 - 新詞的音檔（詞本身、「○○的○」）用 `npm run voice` 背景補做。
 - **併回 main 要注意**：main 工作樹上 `data/characters.json` 有伺服器寫的 10/27、10/28 今日建議清單沒 commit，併之前先 commit 或 stash 那份。
+
+## 3-8 小書升級 ✅ f0531ba
+- **跟規劃不同**：沒有加「小老鼠要＿」這種新句型——句型的固定字必須都在孩子端字庫裡（books.ts 的 usablePatterns），夥伴名字的字（鼠、盜…）大多不在，硬加會讓他讀到不認得的字。改成讓既有 7 個句型「演出來」。
+- `bookActs.ts`（每個句型一種演法＋唸到哪一段開始演）、Book.tsx 的 BookScene（左邊夥伴 Buddy、右邊那個東西）、book.css 的 .act-*、`tests/book-acts.test.mjs`。
+- 演法：好大→變超大＋夥伴嚇一跳；好小→縮一點點＋夥伴歪頭；好可愛／你愛→搖頭晃腦冒愛心；好好玩→轉一圈；你有→飛到夥伴手上；他要→在那邊晃、夥伴伸手。指對了再演一次＋夥伴跳。
+- 演員是他收集到的夥伴，一頁換一位。
+- 看過：「你愛上車」（愛心）、「燕窩好大！」（變超大）。
+- 看到的內容問題（不是今晚造成的）：「你愛上車」「燕窩好大」這種句子有點怪——是句型×語詞的組合問題，README 說看到怪句子就把詞加進 BOOK_SKIP，留給爸爸判斷。
