@@ -67,6 +67,11 @@
   animation: snowFall linear infinite; }
 @keyframes snowFall { to { transform: translate(30px, 105vh); } }
 
+/* 所有按鈕按下去都會被「壓扁」一點：摸得到的回饋。:where 讓特異度只有 :active 那一層，
+   各遊戲自己寫的 :active／transform（同分但排在後面的檔）一律蓋過這條 */
+:where(.play button:not(:disabled)) { transition: transform .12s cubic-bezier(.2,.9,.3,1.4); }
+:where(.play button:not(:disabled)):active { transform: scale(.94); }
+
 /* 畫面之間的轉場：新的畫面從下面輕輕浮上來 */
 .scene-enter { height: 100%; animation: sceneIn .32s cubic-bezier(.2,.9,.3,1) both; }
 @keyframes sceneIn { from { opacity: 0; transform: translateY(18px) scale(.985); } }

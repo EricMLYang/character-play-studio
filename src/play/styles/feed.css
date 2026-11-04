@@ -32,6 +32,9 @@
 .phase-chomp .feed-monster { animation: chomp .35s ease-in-out 2; }
 .phase-oops .feed-monster { animation: wobble .5s ease-in-out 2; }
 .phase-yum .feed-monster, .phase-full .feed-monster { animation: boing .7s cubic-bezier(.2,1.6,.4,1) infinite; }
+/* 字卡拿到怪獸面前：牠往前湊、張大嘴等著（useDrag 的 onHover）；目標不用畫虛線框 */
+.feed-monster.drop-ready { outline: none; }
+.phase-ask .feed-monster.craving, .phase-oops .feed-monster.craving { scale: calc(1.08 + var(--belly, 0) * .3); animation: jiggle .3s ease-in-out infinite; }
 .feed-preload { display: none; }
 /* 快撐爆了：點菜的時候也一直發抖 */
 .phase-ask.nearly .feed-monster, .phase-oops.nearly .feed-monster { animation: jiggle .45s ease-in-out infinite; }

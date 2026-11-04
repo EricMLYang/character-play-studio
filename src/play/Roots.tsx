@@ -9,6 +9,7 @@ import { SOUND_LINES } from '../../shared/phonetics.mjs'
 import { loadChar } from './Strokes'
 import { familiesIn, familyFor, foundIn, homesFor, nameFamilies, pickFinds, sizeOf, storyMembers, type Family, type FindRound } from './families'
 import { PARTNERS } from './partners'
+import { useDrag } from './useDrag'
 import { Confetti, SubBar, hueVar } from './ui'
 
 /**
@@ -305,6 +306,11 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
     return () => { timers.current.forEach(clearTimeout); stopSpeech() }
   }, [])
 
+  // 字卡可以拖進房子裡（點一下照樣算）
+  const house = useRef<HTMLButtonElement>(null)
+  const pickRef = useRef<(c: string) => void>(() => {})
+  const drag = useDrag({ target: () => house.current, onDrop: (c) => pickRef.current(c) })
+
   // 每一家至少兩個家人（families.ts 的 MIN_MEMBERS），不會沒有題目
   if (!round) return null
 
@@ -333,9 +339,10 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
     }, Math.max(lasts(char), 600) + 200 + lasts(family.members[char]) + 600)
   }
 
+  pickRef.current = pick
   return (
     <div className="roots-find" style={{ ['--hue' as any]: hueVar(hue) }}>
-      <button className="roots-find-house" onClick={askNow} aria-label={ask}>
+      <button ref={house} className="roots-find-house" onClick={askNow} aria-label={ask}>
         <span className="roots-roof" aria-hidden />
         <div className="roots-find-shape"><Glyph char={shapeOf(family)} color={family.kind === 'radical' ? '#0F7FA8' : '#2E2A26'} /></div>
         <span className="roots-house-name">{family.name}的家 🔊</span>
@@ -343,7 +350,7 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
       </button>
       <div className="roots-find-cards">
         {round.options.map((c) => (
-          <button key={`${index}-${c}`} disabled={missed.includes(c)}
+          <button key={`${index}-${c}`} disabled={missed.includes(c)} {...drag(c)}
             className={'roots-card' + (missed.includes(c) ? ' wrong' : '') + (right && c === round.char ? ' right' : '') + ([...c].length > 1 ? ' word' : '')}
             onClick={() => pick(c)} aria-label={c}>
             {right && c === round.char && family.kind === 'radical' ? <Glyph char={c} glow />

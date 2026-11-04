@@ -119,6 +119,10 @@ export function snap() {
   tone(0.06, 784, 784, 0.14, 'triangle', 0.1)
   tone(0.15, 1175, 1175, 0.22, 'triangle', 0.09)
 }
+/** 拿起一張卡（useDrag）：輕輕往上的「咻」 */
+export const pickUp = () => tone(0, 420, 760, 0.09, 'sine', 0.07)
+/** 放回去、沒放進目標：往下滑的軟音，不像「錯」——只是放回去而已 */
+export const letGo = () => tone(0, 520, 300, 0.14, 'sine', 0.06)
 /** 收進圖鑑：翻書頁的沙沙，接一個亮晶晶。 */
 export function stash() {
   tone(0, 600, 1200, 0.18, 'sine', 0.06)

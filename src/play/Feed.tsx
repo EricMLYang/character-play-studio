@@ -9,6 +9,7 @@ import { forgetServeRequest, partnersAt, serveLine, skyFor, waiterFor } from './
 import InkReveal from './InkReveal'
 import Stage from './Stage'
 import Buddy, { useReaction } from './Buddy'
+import { useDrag } from './useDrag'
 import type { Sky as StageSky } from './stageScenes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
@@ -92,6 +93,11 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const [wrong, setWrong] = useState<string | null>(null)
   // 端菜的夥伴陪著他：找對了跳起來，點錯了歪頭（不是生氣）
   const [waiterReaction, waiterReact] = useReaction()
+  // 也可以把字卡拖進怪獸嘴巴（點一下照樣算）；拿到牠面前，牠會張大嘴等著
+  const monster = useRef<HTMLImageElement>(null)
+  const [craving, setCraving] = useState(false)
+  const drag = useDrag({ target: () => monster.current, onDrop: (c) => { setCraving(false); pickRef.current(c) }, onHover: setCraving })
+  const pickRef = useRef<(c: string) => void>(() => {})
   useEffect(() => {
     if (phase === 'got') waiterReact('cheer')
     else if (phase === 'oops') waiterReact('oops')
@@ -297,6 +303,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   if (dishes.length < 2) {
     return (
       <div className="feed">
+        <Stage screen="feed" />
         <SubBar title="🍽️ 餵大怪獸" onBack={onBack} />
         <div className="feed-empty">
           <img className="feed-monster" src="/hero/monster/idle.png" alt="" />
@@ -314,6 +321,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const encore = queue.indexOf(target) < at
 
   const mysteryNow = target !== undefined && isMystery(at, queue)
+  pickRef.current = pick
   return (
     <div className={`feed sky-${skyFor(waiter)}`}>
       {/* 天色跟著端菜的夥伴（partners.ts 的 skyFor）；舞台的傍晚叫 dusk */}
@@ -349,7 +357,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
             {phase === 'recap' && (reading >= 0 ? <>「<b>{good[reading]}</b>」！</> : '我吃到了這些字！')}
             {phase === 'full' && '我吃飽了！謝謝你！'}
           </div>
-          <img className="feed-monster" src={`/hero/monster/${pose}.png`} alt="大怪獸" />
+          <img ref={monster} className={'feed-monster' + (craving ? ' craving' : '')} src={`/hero/monster/${pose}.png`} alt="大怪獸" />
           {/* 端菜的夥伴：他收集到的那幾位輪流來，一位一種天色 */}
           <Buddy className="feed-waiter" hero={waiter.id} pose={phase === 'yum' ? 'happy' : 'idle'} reaction={waiterReaction} greet alt={waiter.name} title={serveLine(waiter)} />
           {phase === 'climax' && <FinaleFx id={finale} eaten={burst} />}
@@ -416,7 +424,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
                   const mine = c === target && (phase === 'got' || phase === 'chomp')
                   const gone = c !== target && (phase === 'got' || phase === 'chomp')
                   return (
-                    <button key={`${at}-${c}`}
+                    <button key={`${at}-${c}`} {...drag(c)}
                       className={'feed-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (mine ? ' got' : '') + (mine && phase === 'chomp' ? ' eaten' : '') + (gone ? ' gone' : '')}
                       disabled={(phase !== 'ask' && !(phase === 'oops' && c === target)) || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `餵「${c}」`}>
                       {(flipped || mine) && <span className="feed-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}
