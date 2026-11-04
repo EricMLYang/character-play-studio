@@ -88,6 +88,8 @@ export const FIXED_LINES = {
   pathAllDone: '今天的路走完了！好厲害！',
   /** 今日戰報（src/play/DayCard.tsx）：後面一個一個接今天的字 */
   dayCard: '今天你認識了這些字！',
+  /** 字卡上「以前長這樣」（src/play/origins.ts）：前面先唸那個字 */
+  originSay: '以前長這樣！',
   /** 回家那一站：小鎮裡有字睡著了（src/play/naps.ts） */
   pathWake: '小鎮裡有字睡著了，去叫醒他們！',
   /** 小鎮：點睡著的居民，要找出他的名字叫醒他（後面接那個字） */

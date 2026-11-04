@@ -14,6 +14,8 @@ import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
 import { familiesIn, homesFor } from './families'
 import MeaningFx from './MeaningFx'
+import OriginPlay from './OriginPlay'
+import { hasOrigin } from './origins'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -177,6 +179,8 @@ export default function Viewer({
   const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
   // 這個字住在哪幾家（部首家、聲音家、它自己的詞家族）：點了去看那一家的故事（families.ts）
   const homes = useMemo(() => homesFor(entry.char, familiesIn(library)), [entry.char, library])
+  /** 象形字「以前長這樣」開著沒（origins.ts） */
+  const [origin, setOrigin] = useState(false)
   const words = entry.words || []
   /** 有 3D 圖就用 3D 圖：沒有影片的字，這張圖就是他看到的主角 */
   const art = emojiArt(entry.emoji)
@@ -204,7 +208,8 @@ export default function Viewer({
           onGame={onGame} onWrite={trace ? undefined : toggleTrace} />
       </header>
 
-      {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0) && (
+      {origin && <OriginPlay char={entry.char} onClose={() => setOrigin(false)} />}
+      {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0 || hasOrigin(entry.char)) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
             <button key={word.text} className="say-word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
@@ -217,6 +222,11 @@ export default function Viewer({
             </button>
           ))}</div>
           <div className="band-links">
+          {hasOrigin(entry.char) && (
+            <span className="band-group">
+              <button className="part origin-btn" onClick={() => setOrigin(true)} aria-label={`「${entry.char}」以前長這樣`}>🖼️ 以前長這樣</button>
+            </span>
+          )}
           {parts.length > 0 && (
             <span className="band-group">
               <span className="band-label">裡面有</span>
