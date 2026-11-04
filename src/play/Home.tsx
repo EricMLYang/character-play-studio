@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 
@@ -248,21 +248,7 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
         <StarBank total={starTotal} onOpen={onMine} />
         <TodayStars count={todayCount} />
       </div>
-      <ol className="path-road">
-        {stops.map((s) => {
-          const done = s.done >= s.need
-          return (
-            <li key={s.id}>
-              <button className={'stop' + (done ? ' done' : '') + (s === now ? ' now' : '')} onClick={() => { tap(); onGo(s.go) }}
-                aria-label={`${s.title}${s.need > 1 ? `，做到 ${s.done} / ${s.need}` : ''}${done ? '，做完了' : s === now ? '，現在這一站' : ''}`}>
-                <span className="stop-dot" aria-hidden>{done ? '✅' : s.icon}</span>
-                <b>{s.title}</b>
-                {s.need > 1 && <small>{s.done} / {s.need}</small>}
-              </button>
-            </li>
-          )
-        })}
-      </ol>
+      <Trail stops={stops} now={now} walked={walked} onGo={onGo} />
       <div className="path-now">
         {/* 站在這一站的角色：換站的時候揮手出場，點他會再講一次、跳一下 */}
         <Buddy key={walked ? 'done' : now?.id} className="path-hero" hero={walked || !now ? 'yang' : now.hero} pose={walked ? 'happy' : 'idle'}
@@ -392,5 +378,63 @@ function ParentGate() {
       {hint && <div className="home-parent-hint" role="status">長按一秒才會進入家長專區</div>}
       {STANDALONE && panel && <DeviceParent onClose={() => setPanel(false)} />}
     </>
+  )
+}
+
+/**
+ * 今天的路畫成一條真的小路：五站是路上的五個點，一高一低彎過去；走過的那段路是金色的，
+ * 楊捷睿站在現在這一站上面跳。路是量了每一站的位置之後用 SVG 畫的，畫面寬窄怎麼變都接得起來。
+ */
+function Trail({ stops, now, walked, onGo }: { stops: Stop[]; now: Stop | null; walked: boolean; onGo: (go: StopGo) => void }) {
+  const box = useRef<HTMLOListElement>(null)
+  const [road, setRoad] = useState<{ d: string; gold: string; w: number; h: number } | null>(null)
+  useLayoutEffect(() => {
+    const el = box.current
+    if (!el) return
+    const draw = () => {
+      const base = el.getBoundingClientRect()
+      const pts = [...el.querySelectorAll<HTMLElement>('.stop-dot')].map((dot) => {
+        const r = dot.getBoundingClientRect()
+        return [r.left - base.left + el.scrollLeft + r.width / 2, r.top - base.top + r.height / 2] as const
+      })
+      if (pts.length < 2) { setRoad(null); return }
+      const curve = (list: (readonly [number, number])[]) => list.reduce((d, [x, y], i) => {
+        if (!i) return `M${x} ${y}`
+        const [px, py] = list[i - 1]
+        const mx = (px + x) / 2
+        return `${d} C${mx} ${py}, ${mx} ${y}, ${x} ${y}`
+      }, '')
+      const reached = walked ? pts.length : Math.max(1, stops.findIndex((s) => s === now) + 1)
+      setRoad({ d: curve(pts), gold: curve(pts.slice(0, reached)), w: el.scrollWidth, h: el.clientHeight })
+    }
+    draw()
+    const ro = new ResizeObserver(draw)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [stops, now, walked])
+  return (
+    <ol className="path-road" ref={box}>
+      {road && (
+        <svg className="trail" width={road.w} height={road.h} aria-hidden>
+          <path d={road.d} className="trail-ground" />
+          <path d={road.d} className="trail-dash" />
+          {road.gold.includes('C') && <path d={road.gold} className="trail-gold" pathLength={1} />}
+        </svg>
+      )}
+      {stops.map((s, i) => {
+        const done = s.done >= s.need
+        return (
+          <li key={s.id} className={i % 2 ? 'low' : 'high'}>
+            <button className={'stop' + (done ? ' done' : '') + (s === now ? ' now' : '')} onClick={() => { tap(); onGo(s.go) }}
+              aria-label={`${s.title}${s.need > 1 ? `，做到 ${s.done} / ${s.need}` : ''}${done ? '，做完了' : s === now ? '，現在這一站' : ''}`}>
+              {s === now && <img className="stop-me" src="/hero/yang/idle.png" alt="" draggable={false} />}
+              <span className="stop-dot" aria-hidden>{done ? '✅' : s.icon}</span>
+              <b>{s.title}</b>
+              {s.need > 1 && <small>{s.done} / {s.need}</small>}
+            </button>
+          </li>
+        )
+      })}
+    </ol>
   )
 }

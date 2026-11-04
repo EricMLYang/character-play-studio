@@ -407,20 +407,43 @@
 .path { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: clamp(14px, 3vh, 28px);
   padding: 4px 28px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; }
 .path-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.path-road { display: flex; align-items: stretch; justify-content: center; gap: clamp(8px, 1.5vw, 18px); margin: 0; padding: 6px 0; list-style: none; overflow-x: auto; }
-.path-road li { flex: 1 1 0; max-width: 200px; display: flex; }
-.stop { position: relative; flex: 1; min-width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 8px 12px;
-  border-radius: 26px; background: rgba(255,255,255,.7); text-align: center; transition: transform .2s; }
-.path-road li:not(:last-child) .stop::after { content: ''; position: absolute; right: calc(-1 * clamp(8px, 1.5vw, 18px)); top: 44px;
-  width: clamp(8px, 1.5vw, 18px); height: 6px; background: rgba(46,42,38,.18); }
+.path-road { position: relative; flex-shrink: 0; display: flex; align-items: stretch; justify-content: center; gap: clamp(8px, 1.5vw, 18px); margin: 0;
+  padding: 30px 0 28px; list-style: none; overflow-x: auto; }
+.path-road li { position: relative; z-index: 1; flex: 1 1 0; max-width: 200px; display: flex; transition: translate .3s; }
+/* 五站一高一低，路彎過去 */
+.path-road li.low { translate: 0 22px; }
+/* 路本身（Home.tsx 的 Trail 量好每一站的位置畫的）：沙色的路、白色虛線、走過的那段是金色 */
+.trail { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; overflow: visible; }
+.trail path { fill: none; stroke-linecap: round; }
+.trail-ground { stroke: #F1D9A8; stroke-width: 30; }
+.trail-dash { stroke: #fff; stroke-width: 4; stroke-dasharray: 10 14; opacity: .85; }
+.trail-gold { stroke: #FFC53D; stroke-width: 12; stroke-dasharray: 1; stroke-dashoffset: 1; animation: trailGo 1.2s .3s cubic-bezier(.4,0,.2,1) forwards; }
+@keyframes trailGo { to { stroke-dashoffset: 0; } }
+/* 一站：路上的一個圓點＋底下一塊小牌子，沒有大白框 */
+.stop { position: relative; flex: 1; min-width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 6px 8px;
+  border-radius: 22px; background: transparent; text-align: center; transition: transform .2s; }
+.stop b { padding: 3px 12px; border-radius: 999px; background: rgba(255,255,255,.85); box-shadow: 0 2px 0 rgba(0,0,0,.06); font-size: clamp(15px, 2.4vh, 19px); }
 .stop-dot { display: grid; place-items: center; width: clamp(56px, 9vh, 76px); height: clamp(56px, 9vh, 76px); border-radius: 50%; background: #fff;
-  font-size: clamp(28px, 4.6vh, 40px); line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.08); }
-.stop b { font-size: clamp(15px, 2.4vh, 19px); }
-.stop small { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.6); }
-.stop.done { background: linear-gradient(135deg, #FFF3CF, #FFE49A); }
-.stop.done .stop-dot { background: #fff; }
-.stop.now { background: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.08), 0 0 0 4px var(--c0); transform: translateY(-4px); }
-.stop.now .stop-dot { animation: breathe 1.4s ease-in-out infinite; }
+  font-size: clamp(28px, 4.6vh, 40px); line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.1), 0 0 0 5px rgba(255,255,255,.6); }
+.stop small { font-size: 13px; font-weight: 700; color: rgba(46,42,38,.65); }
+.stop.done .stop-dot { background: linear-gradient(135deg, #FFF3CF, #FFD95C); box-shadow: 0 4px 0 rgba(0,0,0,.1), 0 0 0 5px #FFC53D; }
+.stop.now .stop-dot { box-shadow: 0 4px 0 rgba(0,0,0,.1), 0 0 0 6px var(--c0); animation: breathe 1.4s ease-in-out infinite; }
+.stop.now b { background: var(--c0); color: #fff; }
+/* 楊捷睿站在現在這一站上面跳 */
+.stop-me { position: absolute; top: -34px; left: 50%; z-index: 2; width: clamp(40px, 6.5vh, 54px); translate: -50% 0; pointer-events: none;
+  animation: stopHop 1.1s ease-in-out infinite; filter: drop-shadow(0 4px 2px rgba(0,0,0,.15)); }
+/* 橫的手機：路矮一點、圓點小一點（整個今天的路可以上下捲） */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* 放不下要捲：置中的話上面那截（星星存摺）會被裁掉捲不上去 */
+  .path { justify-content: flex-start; gap: 8px; }
+  .path-road { padding: 26px 0 16px; }
+  .path-road li.low { translate: 0 10px; }
+  .stop-dot { width: 44px; height: 44px; font-size: 22px; }
+  .stop b { font-size: 13px; }
+  .stop small { display: none; }
+  .stop-me { top: -26px; width: 34px; }
+}
+@keyframes stopHop { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-12px) scale(.96, 1.04); } 55% { transform: translateY(0) scale(1.06, .94); } }
 .stop:active { transform: translateY(2px); }
 /* 現在這一站：角色站在這裡講話，按鈕直接過去 */
 .path-now { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); flex-wrap: wrap; align-self: center; width: min(100%, 900px);
@@ -445,7 +468,8 @@
 @media (max-width: 720px) {
   .path { padding: 4px 14px calc(16px + env(safe-area-inset-bottom)); gap: 12px; justify-content: flex-start; }
   .path-road { justify-content: flex-start; }
-  .stop { min-width: 72px; padding: 10px 4px 8px; }
+  .stop { min-width: 72px; padding: 4px 2px 6px; }
+  .path-road li.low { translate: 0 14px; }
   .stop-dot { width: 46px; height: 46px; font-size: 24px; }
   .stop b { font-size: 13px; }
   .stop small { display: none; }
