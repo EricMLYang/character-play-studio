@@ -4,6 +4,7 @@ import { boom, cheer, magic } from '../lib/sfx'
 import { holdSpeech, preloadVoice, say } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { Confetti } from './ui'
+import Buddy from './Buddy'
 
 /**
  * 集滿一段星星就開一個寶箱，裡面跳出一位新夥伴（partners.ts）。
@@ -39,7 +40,8 @@ export default function Chest({ partner, onGo, onClose }: {
       {open ? (
         <div className="chest-prize">
           <div className="chest-rays" aria-hidden />
-          <img className="chest-hero" src={`/hero/${partner.id}/happy.png`} alt={partner.name} />
+          {/* 新夥伴揮手出場，之後一直在呼吸、看著他的手指（Buddy.tsx） */}
+          <Buddy className="chest-hero" hero={partner.id} pose="happy" greet alt={partner.name} />
           <h2><b>{partner.name}</b>來陪你玩了！</h2>
           <p>牠會來「🍽️ 餵大怪獸」幫你端菜</p>
           <div className="chest-actions">

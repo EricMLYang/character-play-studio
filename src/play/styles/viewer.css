@@ -335,7 +335,10 @@
   .stroke-dots { display: none; }
   .stroke-tip { grid-column: 2; grid-row: 1 / span 2; font-size: 15px; }
   .stroke-again { grid-column: 2; grid-row: 3; }
-  .hook { font-size: 13px; padding: 6px 12px; }
+  /* 小故事泡泡在這個高度會壓到右邊那欄的「你自己把這個字寫出來了」（#197）：
+     他讀不到那行字、點了會唸出來，所以收成左上角一顆「💡🔊」小按鈕就夠了 */
+  .hook { left: 10px; transform: none; font-size: 0; gap: 2px; padding: 6px 10px; }
+  .hook > span { font-size: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
