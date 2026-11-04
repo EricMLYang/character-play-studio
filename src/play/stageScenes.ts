@@ -68,10 +68,10 @@ export const SCENES: Record<SceneId, Scene> = {
     id: 'feed', hills: ['#FFD3B0', '#F6B98E'], flyers: ['🐝', '🦋'],
     props: [
       // 左邊站著怪獸跟端菜的夥伴（feed.css），道具全放右邊
-      { emoji: '🌽', x: 81, size: 10, layer: 'far', sway: true },
       { emoji: '🍄', x: 88, size: 8, layer: 'near' },
       { emoji: '🌻', x: 95, size: 14, layer: 'near', sway: true },
-      { emoji: '🌳', x: 80, size: 13, layer: 'far', sway: true },
+      // 字卡在畫面右半邊，樹放最邊邊，不要卡在字卡底下
+      { emoji: '🌳', x: 97, size: 13, layer: 'far', sway: true },
     ],
   },
   roots: {
