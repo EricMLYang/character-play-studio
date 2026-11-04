@@ -7,6 +7,9 @@ import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { BURST, DISHES, fillBelly, mysteryIndex, pickDishes, plateFor, recallLevel, recap, requeue } from './dishes'
 import { forgetServeRequest, partnersAt, serveLine, skyFor, waiterFor } from './partners'
 import InkReveal from './InkReveal'
+import Stage from './Stage'
+import Buddy, { useReaction } from './Buddy'
+import type { Sky as StageSky } from './stageScenes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
@@ -47,6 +50,9 @@ type Served = { char: string; ok: boolean }
 let finaleBag: FinaleId[] = []
 let lastFinale: FinaleId | null = null
 
+/** 夥伴的天色 → 舞台的天色（舞台的傍晚叫 dusk） */
+const STAGE_SKY: Record<ReturnType<typeof skyFor>, StageSky> = { day: 'day', sunset: 'dusk', snow: 'snow', night: 'night' }
+
 export default function Feed({ library, progress, stars, want, onRecall, onPick, onBack, path, onWalk }: {
   library: CharEntry[]
   progress: Progress
@@ -84,6 +90,12 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const [phase, setPhase] = useState<Phase>('hello')
   const [missed, setMissed] = useState(false)
   const [wrong, setWrong] = useState<string | null>(null)
+  // 端菜的夥伴陪著他：找對了跳起來，點錯了歪頭（不是生氣）
+  const [waiterReaction, waiterReact] = useReaction()
+  useEffect(() => {
+    if (phase === 'got') waiterReact('cheer')
+    else if (phase === 'oops') waiterReact('oops')
+  }, [phase, waiterReact])
   const [served, setServed] = useState<Served[]>([])
   /** 肚子裡塞了幾個自己找到的字（塞滿 BURST 個就爆炸） */
   const [belly, setBelly] = useState(0)
@@ -304,6 +316,8 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const mysteryNow = target !== undefined && isMystery(at, queue)
   return (
     <div className={`feed sky-${skyFor(waiter)}`}>
+      {/* 天色跟著端菜的夥伴（partners.ts 的 skyFor）；舞台的傍晚叫 dusk */}
+      <Stage screen="feed" sky={STAGE_SKY[skyFor(waiter)]} />
       <SubBar title="🍽️ 餵大怪獸" stat={`餵了 ${served.length} / ${queue.length} 道`} onBack={onBack} />
       <div className="feed-plates" aria-label={`已經餵了 ${served.length} 道`}>
         {queue.map((c, i) => (
@@ -337,7 +351,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
           </div>
           <img className="feed-monster" src={`/hero/monster/${pose}.png`} alt="大怪獸" />
           {/* 端菜的夥伴：他收集到的那幾位輪流來，一位一種天色 */}
-          <img className="feed-waiter" src={`/hero/${waiter.id}/${phase === 'got' || phase === 'yum' ? 'happy' : 'idle'}.png`} alt={waiter.name} title={serveLine(waiter)} />
+          <Buddy className="feed-waiter" hero={waiter.id} pose={phase === 'yum' ? 'happy' : 'idle'} reaction={waiterReaction} greet alt={waiter.name} title={serveLine(waiter)} />
           {phase === 'climax' && <FinaleFx id={finale} eaten={burst} />}
           <div className={'feed-belly' + (belly === BURST - 1 ? ' nearly' : '')} aria-label={`肚子裡有 ${belly} 個字，${BURST} 個就會爆炸`} role="img">
             {Array.from({ length: BURST }, (_, i) => <span key={i} className={i < belly ? 'full' : ''} />)}

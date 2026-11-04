@@ -1,0 +1,69 @@
+/* ---------- 會動的角色（Buddy.tsx、poses.ts） ---------- */
+/*
+ * 呼叫端用 className 決定位置與寬度（例如 .path-hero），這裡只管「活著」：
+ * 呼吸、看手指、地上的影子、反應。高度跟著圖走。
+ */
+.rig { position: relative; display: inline-block; isolation: isolate; padding: 0; border: 0; background: none; line-height: 0; }
+button.rig { cursor: pointer; }
+.rig img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
+.rig-body, .rig-breathe, .rig-look { display: block; transform-origin: 50% 100%; }
+
+/* 影子：跳起來時變小變淡 */
+.rig-shadow { position: absolute; left: 18%; right: 18%; bottom: -4%; height: 9%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(rgba(46,42,38,.28), rgba(46,42,38,0) 70%); }
+
+/* 一直在呼吸：從腳底往上伸一點點 */
+.rig-breathe { animation: buddyBreathe 3.4s ease-in-out infinite; }
+@keyframes buddyBreathe { 50% { transform: scale(1.015, 1.04); } }
+
+/* 看手指：(手指 − 自己) × 8 度，最多 8 度 */
+.rig-look { transform: rotate(clamp(-8deg, calc((var(--px, 0) - var(--bx, 0)) * 8deg), 8deg))
+  translateX(clamp(-6px, calc((var(--px, 0) - var(--bx, 0)) * 6px), 6px));
+  transition: transform .5s cubic-bezier(.2,.9,.3,1.2); }
+
+/* ---- 反應 ---- */
+.react-cheer .rig-body { animation: buddyJump .9s cubic-bezier(.2,.8,.3,1) both; }
+@keyframes buddyJump {
+  0% { transform: scale(1.1, .86); }
+  25% { transform: translateY(-30%) scale(.94, 1.08); }
+  55% { transform: translateY(0) scale(1.14, .84); }
+  72% { transform: scale(.96, 1.05); }
+  100% { transform: none; }
+}
+.react-cheer .rig-shadow { animation: buddyShadow .9s both; }
+@keyframes buddyShadow { 25% { transform: scale(.6); opacity: .4; } 55% { transform: scale(1.1); } }
+
+.react-oops .rig-body { animation: buddyOops .8s ease-in-out both; }
+@keyframes buddyOops { 15% { transform: rotate(-9deg); } 35% { transform: rotate(7deg); } 55% { transform: rotate(-5deg); } 75% { transform: rotate(2deg); } }
+
+.react-think .rig-body { animation: buddyThink 1.6s ease-in-out both; }
+@keyframes buddyThink { 20%, 80% { transform: rotate(-6deg) translateX(-3%); } 50% { transform: rotate(-8deg) translateX(-4%); } }
+
+.react-wave .rig-body { animation: buddyWave 1.1s ease-in-out both; }
+@keyframes buddyWave { 0% { transform: translateY(14%) scale(.9); opacity: 0; } 30% { transform: translateY(-6%); opacity: 1; }
+  45% { transform: rotate(6deg); } 60% { transform: rotate(-6deg); } 75% { transform: rotate(4deg); } }
+
+.react-sleep .rig-body { transform: translateY(3%) rotate(-4deg); transition: transform 1s; }
+.react-sleep .rig-breathe { animation-duration: 5s; }
+
+/* 想一下的問號、睡著的 zzz、答對的星光 */
+.rig-bubble { position: absolute; right: 2%; top: -6%; display: grid; place-items: center; width: 34%; aspect-ratio: 1; max-width: 44px;
+  border-radius: 50%; background: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.08); font: 800 22px/1 var(--ui); color: var(--c5);
+  animation: popUp .3s cubic-bezier(.2,1.7,.4,1) both; }
+.rig-zzz { position: absolute; right: 0; top: 0; font: 800 20px/1 var(--ui); color: #6B6AD8; }
+.rig-zzz i { position: absolute; font-style: normal; opacity: 0; animation: zzz 2.4s ease-out infinite; }
+.rig-zzz i:nth-child(2) { animation-delay: .8s; font-size: 26px; }
+.rig-zzz i:nth-child(3) { animation-delay: 1.6s; font-size: 32px; }
+@keyframes zzz { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(26px, -60px); opacity: 0; } }
+.rig-sparks i { position: absolute; left: 50%; top: 30%; font-style: normal; font-size: 22px; color: #FFC53D; line-height: 1;
+  text-shadow: 0 0 8px rgba(255,197,61,.8); animation: spark .8s ease-out both; }
+.rig-sparks i:nth-child(1) { --sx: -70px; --sy: -40px; }
+.rig-sparks i:nth-child(2) { --sx: 60px; --sy: -55px; animation-delay: .05s; }
+.rig-sparks i:nth-child(3) { --sx: -50px; --sy: 20px; animation-delay: .1s; }
+.rig-sparks i:nth-child(4) { --sx: 65px; --sy: 10px; animation-delay: .12s; }
+@keyframes spark { from { transform: translate(-50%, 0) scale(.3); opacity: 1; } to { transform: translate(calc(-50% + var(--sx)), var(--sy)) scale(1.2); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rig-breathe, .rig-body, .rig-shadow { animation: none !important; }
+  .rig-look { transform: none; transition: none; }
+}

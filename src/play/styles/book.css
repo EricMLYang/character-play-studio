@@ -3,7 +3,7 @@
 .place-book .place-icon { animation-delay: -1.7s; }
 
 .book { position: relative; height: 100%; display: flex; flex-direction: column;
-  background: linear-gradient(#FFF6E9, #FFF0F4 70%, #FFE6EE); }
+  /* 背景是共用的舞台（stage.css），這裡透明 */ }
 .book :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .book-empty { margin: auto; padding: 0 24px; font-size: 20px; font-weight: 700; text-align: center; }
 

@@ -2,7 +2,7 @@
 .place-puzzle { background: #CDEBFF; }
 .place-puzzle .place-icon { animation-delay: -1.5s; }
 
-.puz { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(#EAF6FF, #F4FBEF 65%); }
+.puz { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; /* 背景是共用的舞台（stage.css） */ }
 .puz :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* 右上角：圖鑑，數字是收集了幾個詞 */

@@ -1,0 +1,79 @@
+/* ---------- 舞台（Stage.tsx、stageScenes.ts）：每個畫面底下那片活著的景 ---------- */
+/*
+ * 只動 transform／opacity（iPad Safari 才順）；不用 filter: blur（很吃 GPU）。
+ * --px／--py 是手指位置（-1..1，useStagePointer 寫在 <html>），每一層乘自己的深度 --d。
+ */
+.stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.stage-sky { position: absolute; inset: 0; background: linear-gradient(var(--sky-top), var(--sky-mid) 55%, var(--sky-low));
+  transition: background 2s; }
+.stage.sky-day   { --sky-top: #9ED8FF; --sky-mid: #D4EEFF; --sky-low: #FFF6E9; }
+.stage.sky-dawn  { --sky-top: #FFD3C2; --sky-mid: #FFE9D6; --sky-low: #FFF6E9; }
+.stage.sky-dusk  { --sky-top: #FFB38A; --sky-mid: #FFD9B8; --sky-low: #FFF0E0; }
+/* 晚上刻意不黑：紫粉色的黃昏，上方列的深色字照樣讀得清楚 */
+.stage.sky-night { --sky-top: #A9A2EA; --sky-mid: #D4C9F5; --sky-low: #FCEAF2; }
+.stage.sky-snow  { --sky-top: #D8E9F7; --sky-mid: #EEF6FD; --sky-low: #FFFFFF; }
+
+.stage-layer { position: absolute; inset: 0;
+  transform: translate3d(calc(var(--px, 0) * var(--d) * -1px), calc(var(--py, 0) * var(--d) * -0.5px), 0);
+  transition: transform .6s cubic-bezier(.2,.8,.3,1); }
+.depth-1 { --d: 4; }
+.depth-2 { --d: 9; }
+.depth-3 { --d: 16; }
+.depth-4 { --d: 28; }
+
+.stage-art { display: block; width: 100%; height: 100%; object-fit: contain; font-size: var(--size, 10vh); line-height: 1; text-align: center; }
+.stage-sun { position: absolute; right: 7%; top: 7%; width: clamp(56px, 12vh, 120px); height: clamp(56px, 12vh, 120px);
+  animation: sunBob 7s ease-in-out infinite; }
+@keyframes sunBob { 50% { transform: translateY(8px) rotate(6deg); } }
+
+/* 雲：一個圓角長條加兩顆圓，從畫面外慢慢飄過去 */
+.cloud { position: absolute; left: 0; width: 150px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.88);
+  animation: cloudDrift linear infinite; }
+.cloud::before, .cloud::after { content: ''; position: absolute; border-radius: 50%; background: inherit; }
+.cloud::before { left: 22px; top: -26px; width: 62px; height: 62px; }
+.cloud::after { left: 70px; top: -16px; width: 48px; height: 48px; }
+.c1 { top: 12%; animation-duration: 95s; animation-delay: -30s; }
+.c2 { top: 24%; scale: .7; opacity: .8; animation-duration: 130s; animation-delay: -80s; }
+.c3 { top: 6%; scale: .55; opacity: .7; animation-duration: 160s; animation-delay: -20s; }
+@keyframes cloudDrift { from { transform: translateX(-200px); } to { transform: translateX(calc(100vw + 60px)); } }
+
+.stage-hill { position: absolute; left: -4%; width: 108%; display: block; }
+.stage-hill.far { bottom: 0; height: 34%; }
+.stage-hill.near { bottom: -2%; height: 20%; }
+
+/* 道具：腳踩在山上；遠的那層小一點、淡一點 */
+.stage-prop { position: absolute; width: clamp(28px, min(var(--size), 24vw), 220px); height: clamp(28px, min(var(--size), 24vw), 220px);
+  translate: -50% 0; transform-origin: 50% 100%; }
+.depth-3 .stage-prop { bottom: 17%; opacity: .85; }
+.depth-4 .stage-prop { bottom: 4%; }
+.stage-prop.sway { animation: sway 5s ease-in-out infinite; }
+@keyframes sway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
+
+/* 偶爾飛過去：一路上下起伏 */
+.stage-flyer { position: absolute; left: 0; width: clamp(30px, 6vh, 54px); height: clamp(30px, 6vh, 54px);
+  animation: fly 11s linear both; }
+.stage-flyer .stage-art { animation: flutter .9s ease-in-out infinite; }
+.stage-flyer.rtl { animation-name: flyBack; }
+.stage-flyer.rtl .stage-art { scale: -1 1; }
+@keyframes fly { from { transform: translateX(-70px); } to { transform: translateX(calc(100vw + 70px)); } }
+@keyframes flyBack { from { transform: translateX(calc(100vw + 70px)); } to { transform: translateX(-70px); } }
+@keyframes flutter { 50% { transform: translateY(-14px) rotate(-8deg); } }
+
+/* 晚上的星星、下雪 */
+.stage-stars i { position: absolute; border-radius: 50%; background: #FFF8D6; box-shadow: 0 0 6px 2px rgba(255,248,214,.7);
+  animation: twinkle 3.2s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: .25; transform: scale(.6); } }
+.stage-snow i { position: absolute; top: -12px; width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 4px rgba(120,160,200,.5);
+  animation: snowFall linear infinite; }
+@keyframes snowFall { to { transform: translate(30px, 105vh); } }
+
+/* 畫面之間的轉場：新的畫面從下面輕輕浮上來 */
+.scene-enter { height: 100%; animation: sceneIn .32s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes sceneIn { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-layer { transform: none; transition: none; }
+  .cloud, .stage-flyer, .stage-snow, .stage-prop.sway, .stage-sun, .stage-stars i { animation: none; }
+  .stage-flyer, .stage-snow { display: none; }
+  .scene-enter { animation: none; }
+}

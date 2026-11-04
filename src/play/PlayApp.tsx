@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { taiwanDay, starIndex } from '../../shared/domain.mjs'
@@ -20,6 +20,7 @@ import { pathDone, todayPath } from './today'
 import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
+import Stage, { useStagePointer } from './Stage'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -44,6 +45,7 @@ export default function PlayApp() {
   const active = route.char ?? null
   const ride = route.ride ?? null
   const home = useRef<HTMLDivElement>(null)
+  useStagePointer()
   const lastActive = useRef<string | null>(null)
 
   // 觀看層開著時，背後的字庫要完全退出（不能被 Tab 進去、讀屏也不該唸）；關閉後回到剛才那張字卡
@@ -215,13 +217,14 @@ export default function PlayApp() {
 
   return (
     <div className="play">
-      <Blobs />
+      {/* 底下那片景（stageScenes.ts）；餵大怪獸的天色跟著端菜的夥伴，它自己放一片 */}
+      {screen !== 'feed' && <Stage screen={screen} />}
       <div className="screen" ref={home}>
         {/*
           key 帶上 want：他已經站在這個遊戲裡、從字卡點「去 →」進來的時候，
           畫面沒有換、遊戲不會重新掛載，第一題就不會換成他要的那個字。
         */}
-        {game ? <Fragment key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</Fragment> : (
+        {game ? <div className="scene-enter" key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</div> : (
           <Home
             items={items}
             groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
@@ -300,10 +303,3 @@ export default function PlayApp() {
   )
 }
 
-function Blobs() {
-  return (
-    <div className="blobs" aria-hidden>
-      <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
-    </div>
-  )
-}

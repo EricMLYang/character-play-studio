@@ -3,7 +3,7 @@
 .place-roots .place-icon { animation-delay: -1.2s; }
 
 .roots { position: relative; height: 100%; display: flex; flex-direction: column;
-  background: linear-gradient(#FFF6E9, #EAF7EE 70%, #DDF1E3); }
+  /* 背景是共用的舞台（stage.css），這裡透明 */ }
 .roots :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .roots-glyph { position: relative; width: 100%; height: 100%; display: grid; place-items: center; }
 .roots-glyph > span { font-family: var(--kai); font-size: 70%; }

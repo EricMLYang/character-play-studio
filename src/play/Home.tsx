@@ -10,6 +10,7 @@ import { hueMap, type WordGroup } from './words'
 import { currentStop, type Stop, type StopGo } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
+import Buddy, { useReaction } from './Buddy'
 import DeviceParent from './DeviceParent'
 import { STANDALONE } from '../lib/target'
 
@@ -233,6 +234,8 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
   /** 角色正在唸的那句。離開首頁要停掉，不然他已經進遊戲了還在背後講話 */
   const voice = useRef<(() => void) | null>(null)
   const line = walked ? FIXED_LINES.pathAllDone : now?.say
+  const [reaction, react] = useReaction()
+  const replay = () => { voice.current?.(); voice.current = sayAll([line!], 0.85) }
   useEffect(() => {
     preloadVoice(stops.map((s) => s.say).concat(FIXED_LINES.pathAllDone))
     if (!line) return
@@ -261,7 +264,9 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
         })}
       </ol>
       <div className="path-now">
-        <img className="path-hero" src={`/hero/${walked || !now ? 'yang' : now.hero}/${walked ? 'happy' : 'idle'}.png`} alt="" />
+        {/* 站在這一站的角色：換站的時候揮手出場，點他會再講一次、跳一下 */}
+        <Buddy key={walked ? 'done' : now?.id} className="path-hero" hero={walked || !now ? 'yang' : now.hero} pose={walked ? 'happy' : 'idle'}
+          greet reaction={reaction} alt="再聽一次" onClick={line ? () => { tap(); react('cheer'); replay() } : undefined} />
         {walked || !now ? (
           <div className="path-text">
             <b>🎉 今天的路走完了！</b>
@@ -282,7 +287,7 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
         {walked || !now
           ? <button className="path-go ghost" onClick={onExplore}>🎲 自己逛逛</button>
           : <button className="path-go" onClick={() => { tap(); onGo(now.go) }}>{now.cta}</button>}
-        {line && <button className="path-listen" onClick={() => { voice.current?.(); voice.current = sayAll([line], 0.85) }} aria-label="再聽一次">🔊</button>}
+        {line && <button className="path-listen" onClick={replay} aria-label="再聽一次">🔊</button>}
       </div>
     </section>
   )

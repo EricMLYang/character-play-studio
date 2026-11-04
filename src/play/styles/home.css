@@ -4,6 +4,8 @@
 .home-bar { display: flex; align-items: center; gap: 14px; padding: 18px 28px 12px; flex-wrap: wrap; }
 .home-title { margin: 0 8px 0 0; font-family: var(--kai); font-size: 30px; font-weight: 700; letter-spacing: .06em;
   background: linear-gradient(120deg, var(--c0), var(--c4) 50%, var(--c5)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* 底下是會變色的天空（stage.css），彩色字加一圈白邊才讀得出來，像貼紙 */
+.home-title { filter: drop-shadow(0 0 1px #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 0 8px rgba(255,255,255,.8)); }
 .search { flex: 1 1 260px; max-width: 460px; min-width: 0; height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid transparent;
   background: #fff; font: inherit; font-size: 17px; color: var(--ink); outline: none;
   box-shadow: 0 4px 0 rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.06); }
@@ -424,7 +426,7 @@
 .path-now { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); flex-wrap: wrap; align-self: center; width: min(100%, 900px);
   padding: clamp(14px, 2.5vh, 24px) clamp(18px, 3vw, 32px); border-radius: 32px; background: #fff;
   box-shadow: 0 6px 0 rgba(0,0,0,.07), 0 12px 28px rgba(0,0,0,.08); animation: cardIn .35s both; }
-.path-hero { width: clamp(96px, 18vh, 150px); height: clamp(96px, 18vh, 150px); object-fit: contain; flex-shrink: 0; animation: bob 2.4s ease-in-out infinite; }
+.path-hero { width: clamp(96px, 18vh, 150px); flex-shrink: 0; } /* 會呼吸、會看手指的角色（buddy.css） */
 .path-text { flex: 1 1 220px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .path-text b { font-size: clamp(24px, 4vh, 34px); line-height: 1.2; }
 .path-text p { margin: 0; font-size: clamp(16px, 2.4vh, 20px); color: #645449; }
@@ -447,7 +449,7 @@
   .stop-dot { width: 46px; height: 46px; font-size: 24px; }
   .stop b { font-size: 13px; }
   .stop small { display: none; }
-  .path-hero { width: 80px; height: 80px; }
+  .path-hero { width: 80px; }
   .path-text b { font-size: 21px; }
   .path-go { padding: 12px 20px; font-size: 18px; }
 }

@@ -1,11 +1,14 @@
 /*
  * 孩子端的樣式，一個區域一個檔。順序有意義（後面的可以蓋前面的），新遊戲的檔接在最後面。
- * - base：色盤、字型、背景、共用上方列、共用動畫
+ * - base：色盤、字型、共用上方列、共用動畫
+ * - stage、buddy：每個畫面底下的景、會動的角色（所有遊戲共用）
  * - home：首頁字庫與遊戲入口
  * - viewer：看一個字（素材、語詞、描字、彩帶、動畫短片）
  * - games：遊戲共用的貨架、提示、底下那一排
  */
 @import './styles/base.css';
+@import './styles/stage.css';
+@import './styles/buddy.css';
 @import './styles/home.css';
 @import './styles/viewer.css';
 @import './styles/strokefx.css';
