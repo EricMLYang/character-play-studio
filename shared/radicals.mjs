@@ -111,6 +111,13 @@ export const RADICAL_FIXED = {
   play: '來找找看，誰是這一家的？',
   allFound: '家人都找到了！',
   nameHome: '你的名字，住在三個部首家族裡！',
+  /** 蓋字工坊（src/play/Workshop.tsx）：「三點水」「加上」「可」「變成」「河」是一句一句接起來唸的 */
+  buildHello: '我們來蓋字！把兩塊合起來！',
+  buildAsk: '哪一塊放上去，會變成',
+  buildPlus: '加上',
+  buildMake: '變成',
+  buildNot: '放不上去耶，再試試看！',
+  buildDone: '你自己蓋出了這些字！',
 }
 
 /** 要先做成音檔的所有句子 */

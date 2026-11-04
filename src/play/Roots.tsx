@@ -11,6 +11,7 @@ import { familiesIn, familyFor, foundIn, homesFor, nameFamilies, pickFinds, size
 import { PARTNERS } from './partners'
 import { useDrag } from './useDrag'
 import MeaningFx from './MeaningFx'
+import Workshop from './Workshop'
 import { Confetti, SubBar, hueVar } from './ui'
 
 /**
@@ -23,6 +24,7 @@ import { Confetti, SubBar, hueVar } from './ui'
  * 內容（每一家的故事、每個家人為什麼住這裡）在 shared/radicals.mjs，規則在 families.ts。
  */
 type Screen = { kind: 'hall' } | { kind: 'story'; family: Family } | { kind: 'find'; family: Family } | { kind: 'done'; family: Family }
+  | { kind: 'build'; family: Family; round: number }
 type Stage = 'origin' | 'change' | 'members' | 'common' | 'end'
 
 /** 這句話大概要唸多久 */
@@ -67,7 +69,13 @@ export default function Roots({ library, progress, want, onFind, onPick, onBack 
       )}
       {screen.kind === 'done' && (
         <Done family={screen.family} progress={progress} hue={hue(screen.family)}
-          onAgain={() => setScreen({ kind: 'find', family: screen.family })} onHall={toHall} />
+          onAgain={() => setScreen({ kind: 'find', family: screen.family })} onHall={toHall}
+          onBuild={() => setScreen({ kind: 'build', family: screen.family, round: 0 })} />
+      )}
+      {/* 第三幕：蓋字（只有部首家；聲音家、詞家族拆不出「管意思的那一塊」） */}
+      {screen.kind === 'build' && (
+        <Workshop key={`${screen.family.id}-${screen.round}`} family={screen.family} families={families} progress={progress} hue={hue(screen.family)}
+          onFind={onFind} onHall={toHall} onAgain={() => setScreen({ kind: 'build', family: screen.family, round: screen.round + 1 })} />
       )}
     </div>
   )
@@ -374,12 +382,13 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
 }
 
 /** 家族大合照：這一家他找到的家人全部站出來 */
-function Done({ family, progress, hue, onAgain, onHall }: {
+function Done({ family, progress, hue, onAgain, onHall, onBuild }: {
   family: Family
   progress: Progress
   hue: number
   onAgain: () => void
   onHall: () => void
+  onBuild: () => void
 }) {
   const got = progress.radicals?.[family.id] || {}
   const found = family.kind === 'word'
@@ -404,7 +413,8 @@ function Done({ family, progress, hue, onAgain, onHall }: {
       </div>
       <p className="roots-common">{family.common}</p>
       <div className="roots-actions">
-        <button className="roots-btn go" onClick={() => { tap(); onAgain() }}>🔍 再找一次</button>
+        {family.kind === 'radical' && <button className="roots-btn go" onClick={() => { tap(); onBuild() }}>🔨 來蓋字</button>}
+        <button className={'roots-btn' + (family.kind === 'radical' ? '' : ' go')} onClick={() => { tap(); onAgain() }}>🔍 再找一次</button>
         <button className="roots-btn" onClick={() => { tap(); onHall() }}>🏠 換一家</button>
       </div>
     </div>
