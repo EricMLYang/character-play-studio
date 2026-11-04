@@ -9,6 +9,7 @@ import { Confetti, SubBar, emojiArt } from './ui'
 import Buddy, { useReaction } from './Buddy'
 import { actSegment, stagingFor, type Act } from './bookActs'
 import { partnersAt } from './partners'
+import { stopAfter, type Stop, type StopGo } from './today'
 
 /**
  * 指讀小書：3～5 句用他看過的字組成的小故事，一句一句唸、唸到哪一段哪一段亮，
@@ -23,7 +24,10 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length +
 const BEAT = 320
 const RATE = 0.8
 
-export default function Book({ library, progress, focus, stars, onRead, onPick, onBack }: {
+export default function Book({ library, progress, focus, stars, path, onWalk, onRead, onPick, onBack }: {
+  /** 今天的路：讀完這一站就給「下一站」按鈕（跟餵大怪獸一樣） */
+  path: Stop[]
+  onWalk: (go: StopGo) => void
   library: CharEntry[]
   /** 總共幾顆星星：他收集到的夥伴輪流來當演員（partners.ts） */
   stars: number
@@ -151,8 +155,13 @@ export default function Book({ library, progress, focus, stars, onRead, onPick, 
     if (phase !== 'done') return
     const all = results.length > 0 && results.every((r) => r.ok)
     say(BOOK_FIXED.bookDone, RATE)
-    if (all) later(() => say(BOOK_FIXED.bookPerfect, RATE), lasts(BOOK_FIXED.bookDone) + BEAT)
+    let t = lasts(BOOK_FIXED.bookDone) + BEAT
+    if (all) { later(() => say(BOOK_FIXED.bookPerfect, RATE), t); t += lasts(BOOK_FIXED.bookPerfect) + BEAT }
+    // 讀一讀這一站做完了：接著唸下一站要做什麼（按鈕在下面）
+    const { stopDone, nextStop } = stopAfter(path, 'read')
+    if (stopDone && nextStop) later(() => say(nextStop.say, RATE), t)
   }, [phase])
+  const { stopDone, nextStop } = stopAfter(path, 'read')
 
   if (!pages.length) {
     return (
@@ -241,7 +250,9 @@ export default function Book({ library, progress, focus, stars, onRead, onPick, 
             {results.map((r) => <li key={r.text} className={r.ok ? 'ok' : ''}>{r.ok ? '⭐' : '📖'} {r.text}</li>)}
           </ul>
           <div className="book-actions">
-            <button className="book-btn go" onClick={onBack}>回今天的路 →</button>
+            {stopDone && nextStop
+              ? <button className="book-btn go" onClick={() => { tap(); clear(); stopSpeech(); onWalk(nextStop.go) }}>下一站：{nextStop.icon} {nextStop.title} →</button>
+              : <button className="book-btn go" onClick={onBack}>回今天的路 →</button>}
           </div>
         </div>
       )}

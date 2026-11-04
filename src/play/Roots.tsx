@@ -10,6 +10,7 @@ import { loadChar } from './Strokes'
 import { familiesIn, familyFor, foundIn, homesFor, nameFamilies, pickFinds, sizeOf, storyMembers, type Family, type FindRound } from './families'
 import { PARTNERS } from './partners'
 import { useDrag } from './useDrag'
+import { stopAfter, type Stop, type StopGo } from './today'
 import MeaningFx from './MeaningFx'
 import Workshop from './Workshop'
 import { Confetti, SubBar, hueVar } from './ui'
@@ -35,7 +36,10 @@ const RATE = 0.8
 /** 詞家族的故事最多介紹幾個詞 */
 const STORY_MEMBERS_WORDS = 4
 
-export default function Roots({ library, progress, want, onFind, onPick, onBack }: {
+export default function Roots({ library, progress, want, path, onWalk, onFind, onPick, onBack }: {
+  /** 今天的路：牠的家這一站做完就給「下一站」按鈕 */
+  path: Stop[]
+  onWalk: (go: StopGo) => void
   library: CharEntry[]
   progress: Progress
   want?: string
@@ -53,6 +57,9 @@ export default function Roots({ library, progress, want, onFind, onPick, onBack 
   const hue = (family: Family) => families.indexOf(family) % 8
   const total = families.reduce((n, f) => n + foundIn(f, progress), 0)
   const toHall = () => { stopSpeech(); setScreen({ kind: 'hall' }) }
+  const { stopDone, nextStop } = stopAfter(path, 'family')
+  /** 做完牠的家這一站：大合照、蓋字做完的畫面都多一顆「下一站」 */
+  const next = stopDone && nextStop ? { label: `下一站：${nextStop.icon} ${nextStop.title} →`, say: nextStop.say, go: () => { stopSpeech(); onWalk(nextStop.go) } } : undefined
 
   return (
     <div className="roots">
@@ -70,12 +77,12 @@ export default function Roots({ library, progress, want, onFind, onPick, onBack 
       {screen.kind === 'done' && (
         <Done family={screen.family} progress={progress} hue={hue(screen.family)}
           onAgain={() => setScreen({ kind: 'find', family: screen.family })} onHall={toHall}
-          onBuild={() => setScreen({ kind: 'build', family: screen.family, round: 0 })} />
+          onBuild={() => setScreen({ kind: 'build', family: screen.family, round: 0 })} next={next} />
       )}
       {/* 第三幕：蓋字（只有部首家；聲音家、詞家族拆不出「管意思的那一塊」） */}
       {screen.kind === 'build' && (
         <Workshop key={`${screen.family.id}-${screen.round}`} family={screen.family} families={families} progress={progress} hue={hue(screen.family)}
-          onFind={onFind} onHall={toHall} onAgain={() => setScreen({ kind: 'build', family: screen.family, round: screen.round + 1 })} />
+          onFind={onFind} onHall={toHall} next={next} onAgain={() => setScreen({ kind: 'build', family: screen.family, round: screen.round + 1 })} />
       )}
     </div>
   )
@@ -382,13 +389,17 @@ function Find({ family, families, progress, hue, onFind, onDone }: {
 }
 
 /** 家族大合照：這一家他找到的家人全部站出來 */
-function Done({ family, progress, hue, onAgain, onHall, onBuild }: {
+/** 做完今天的路上這一站之後的「下一站」（Roots 算好傳下來） */
+export type NextStop = { label: string; say: string; go: () => void }
+
+function Done({ family, progress, hue, onAgain, onHall, onBuild, next }: {
   family: Family
   progress: Progress
   hue: number
   onAgain: () => void
   onHall: () => void
   onBuild: () => void
+  next?: NextStop
 }) {
   const got = progress.radicals?.[family.id] || {}
   const found = family.kind === 'word'
@@ -397,7 +408,8 @@ function Done({ family, progress, hue, onAgain, onHall, onBuild }: {
   useEffect(() => {
     say(RADICAL_FIXED.allFound, RATE)
     const t = window.setTimeout(() => say(family.common, RATE), lasts(RADICAL_FIXED.allFound) + BEAT)
-    return () => { clearTimeout(t); stopSpeech() }
+    const t2 = next ? window.setTimeout(() => say(next.say, RATE), lasts(RADICAL_FIXED.allFound) + lasts(family.common) + BEAT * 2) : 0
+    return () => { clearTimeout(t); clearTimeout(t2); stopSpeech() }
   }, [])
   return (
     <div className="roots-done" style={{ ['--hue' as any]: hueVar(hue) }}>
@@ -413,7 +425,8 @@ function Done({ family, progress, hue, onAgain, onHall, onBuild }: {
       </div>
       <p className="roots-common">{family.common}</p>
       <div className="roots-actions">
-        {family.kind === 'radical' && <button className="roots-btn go" onClick={() => { tap(); onBuild() }}>🔨 來蓋字</button>}
+        {next && <button className="roots-btn go" onClick={() => { tap(); next.go() }}>{next.label}</button>}
+        {family.kind === 'radical' && <button className={'roots-btn' + (next ? '' : ' go')} onClick={() => { tap(); onBuild() }}>🔨 來蓋字</button>}
         <button className={'roots-btn' + (family.kind === 'radical' ? '' : ' go')} onClick={() => { tap(); onAgain() }}>🔍 再找一次</button>
         <button className="roots-btn" onClick={() => { tap(); onHall() }}>🏠 換一家</button>
       </div>

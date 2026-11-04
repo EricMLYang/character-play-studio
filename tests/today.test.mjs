@@ -115,3 +115,13 @@ test('回家那一站要前面都做完才算，全部做完整條路就走完�
   assert.equal(notYet.at(-1).done, 0)
   assert.equal(currentStop(notYet).id, 'family')
 })
+
+test('stopAfter：這一站做完了沒、下一站是第一個還沒做完的；沒有這一站就什麼都沒有', async () => {
+  const { stopAfter } = await import('../src/play/today.ts')
+  const s = (id, done, need = 1) => ({ id, done, need, icon: '', title: id, hint: '', hero: '', cta: '', say: id, chars: [], go: null })
+  const path = [s('recall', 3, 3), s('new', 0, 2), s('family', 1), s('read', 0, 3), s('home', 0)]
+  assert.deepEqual([stopAfter(path, 'recall').stopDone, stopAfter(path, 'recall').nextStop.id], [true, 'new'])
+  assert.equal(stopAfter(path, 'family').nextStop.id, 'read')
+  assert.equal(stopAfter(path, 'read').stopDone, false)
+  assert.equal(stopAfter([s('new', 0), s('home', 0)], 'read').stop, undefined)
+})

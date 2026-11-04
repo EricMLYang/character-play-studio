@@ -127,6 +127,16 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
   return stops
 }
 
+/**
+ * 遊戲裡看「今天的路」：這個遊戲是哪一站、做完了沒、做完之後下一站是哪（第一個還沒做完的）。
+ * 從「自己逛逛」進來、或字還太少時沒有這一站，stop 就是 undefined。做完那一站就給「下一站」按鈕。
+ */
+export function stopAfter(path: Stop[], id: Stop['id']) {
+  const stop = path.find((s) => s.id === id)
+  const nextStop = stop ? path.slice(path.indexOf(stop) + 1).find((s) => s.done < s.need) : undefined
+  return { stop, nextStop, stopDone: Boolean(stop && stop.done >= stop.need) }
+}
+
 /** 現在走到哪一站（第一個沒做完的）；全部做完回 null */
 export const currentStop = (stops: Stop[]) => stops.find((s) => s.done < s.need) ?? null
 

@@ -10,6 +10,7 @@ import type { Family } from './families'
 import { useDrag } from './useDrag'
 import MeaningFx from './MeaningFx'
 import { Confetti, hueVar } from './ui'
+import type { NextStop } from './Roots'
 
 /**
  * 蓋字工坊（building.ts 有為什麼）：格子裡放著字的一半，下面三塊部首積木，哪一塊放上去會變成那個字？
@@ -42,7 +43,8 @@ async function loadSplits(families: Family[]): Promise<Loaded> {
   return { strokes, splits }
 }
 
-export default function Workshop({ family, families, progress, hue, onFind, onAgain, onHall }: {
+export default function Workshop({ family, families, progress, hue, onFind, onAgain, onHall, next }: {
+  next?: NextStop
   family: Family
   families: Family[]
   progress: Progress
@@ -134,7 +136,13 @@ export default function Workshop({ family, families, progress, hue, onFind, onAg
       setBuilt((b) => [...b, build.char])
       setMerged(false)
       setTried([])
-      if (index + 1 >= builds.length) { cheer(); say(RADICAL_FIXED.buildDone, RATE); setIndex(builds.length); return }
+      if (index + 1 >= builds.length) {
+        cheer()
+        say(RADICAL_FIXED.buildDone, RATE)
+        if (next) later(() => say(next.say, RATE), lasts(RADICAL_FIXED.buildDone) + BEAT)
+        setIndex(builds.length)
+        return
+      }
       setIndex(index + 1)
     }, t)
   }
@@ -158,7 +166,8 @@ export default function Workshop({ family, families, progress, hue, onFind, onAg
           <span key={c} className="ws-done-char"><Glyph data={loaded.strokes.get(c)!} rad={loaded.splits.get(c)!.rad} /></span>
         ))}</div>
         <div className="roots-actions">
-          <button className="roots-btn go" onClick={() => { tap(); onAgain() }}>🔨 再蓋一次</button>
+          {next && <button className="roots-btn go" onClick={() => { tap(); next.go() }}>{next.label}</button>}
+          <button className={'roots-btn' + (next ? '' : ' go')} onClick={() => { tap(); onAgain() }}>🔨 再蓋一次</button>
           <button className="roots-btn" onClick={() => { tap(); onHall() }}>🏠 換一家</button>
         </div>
       </div>

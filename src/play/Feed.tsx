@@ -15,7 +15,7 @@ import type { Sky as StageSky } from './stageScenes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
-import type { Stop, StopGo } from './today'
+import { stopAfter, type Stop, type StopGo } from './today'
 
 /**
  * 餵大怪獸：怪獸說「我要吃火！」，孩子從兩張只有字的卡片裡找出來餵牠。
@@ -124,9 +124,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const dishWords = useMemo(() => new Map(dishes.map((c) => [c, byChar.get(c) ? exampleWord(byChar.get(c)!) : undefined])), [dishes, byChar])
   const wordOf = (c: string) => dishWords.get(c)?.text ?? c
   // 今天的路上「想起來」這一站，跟它後面第一個還沒做完的站（從「自己逛逛」進來、字還太少時沒有這一站）
-  const stop = path.find((s) => s.id === 'recall')
-  const nextStop = stop ? path.slice(path.indexOf(stop) + 1).find((s) => s.done < s.need) : undefined
-  const stopDone = Boolean(stop && stop.done >= stop.need)
+  const { stop, nextStop, stopDone } = stopAfter(path, 'recall')
   // 吃飽那一下是排好的計時器觸發的，要看「現在」這一站做完沒（紀錄是一道一道記進去的）
   const walk = useRef({ stopDone, nextStop })
   walk.current = { stopDone, nextStop }

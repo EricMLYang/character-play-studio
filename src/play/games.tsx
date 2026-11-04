@@ -115,7 +115,7 @@ export const GAMES: Game[] = [
     id: 'book', icon: '📖', title: '指讀小書', fresh: true,
     subtitle: (p) => { const n = Object.keys(p.books || {}).length; return n ? `讀過 ${n} 句` : '自己讀一本小書' },
     render: (ctx) => (
-      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back}
+      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} stars={ctx.stars} path={ctx.path} onWalk={ctx.walk} onPick={ctx.open} onBack={ctx.back}
         onRead={(text, char, ok, mine) => ctx.record({ kind: 'book', char, text, ok, ...(mine ? { mine: true } : {}) })} />
     ),
   },
@@ -123,7 +123,7 @@ export const GAMES: Game[] = [
     id: 'roots', icon: '🏠', title: '字的家族', fresh: true,
     subtitle: (p) => { const n = Object.values(p.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0); return n ? `找到 ${n} 個家人` : '部首會變身' },
     render: (ctx) => (
-      <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} onPick={ctx.open} onBack={ctx.back}
+      <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} path={ctx.path} onWalk={ctx.walk} onPick={ctx.open} onBack={ctx.back}
         onFind={(family, char, ok, word) => ctx.record({ kind: 'radical', char, family, ok, ...(word ? { word } : {}) })} />
     ),
   },
