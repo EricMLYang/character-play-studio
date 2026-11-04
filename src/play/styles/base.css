@@ -168,3 +168,26 @@ button:disabled { cursor: default; }
 .crown-prize h2 b { font-family: var(--kai); color: #FFD24A; }
 .crown-prize p { margin: 0; font-size: 16px; font-weight: 700; color: rgba(255,255,255,.88); }
 .crown-prize .nav-btn { flex: none; margin-top: 8px; min-width: 190px; }
+
+/* ---------- 今日戰報（DayCard.tsx）：今天的路走完，今天的字一個個飛進來 ---------- */
+.daycard { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; }
+.daycard-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: min(720px, 94vw);
+  padding: 28px 26px 26px; border-radius: 36px; background: #FFFDF6; box-shadow: 0 10px 0 rgba(0,0,0,.08), 0 30px 70px rgba(0,0,0,.3);
+  animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.daycard-card h2 { margin: 0; font-size: clamp(22px, 4vh, 30px); }
+.daycard-sub { margin: 0; font-size: 18px; font-weight: 700; color: rgba(46,42,38,.7); }
+.daycard-card .daycard-hero { position: absolute; left: -34px; top: -56px; width: clamp(90px, 16vh, 130px); }
+.daycard-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-height: 120px; }
+.daycard-char { display: flex; flex-direction: column; align-items: center; gap: 4px; width: clamp(76px, 13vh, 98px); padding: 10px 6px 8px; border-radius: 24px;
+  background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.07); opacity: 0; transform: translateY(-120px) scale(.5) rotate(-12deg); }
+.daycard-char.in { animation: dayIn .55s cubic-bezier(.2,1.5,.4,1) both; }
+@keyframes dayIn { from { opacity: 0; transform: translateY(-120px) scale(.5) rotate(-12deg); } to { opacity: 1; transform: none; } }
+.daycard-glyph { display: grid; place-items: center; width: 100%; aspect-ratio: 1; font-family: var(--kai); font-size: clamp(54px, 10vh, 72px); font-weight: 700; line-height: 1; color: var(--ink); }
+.daycard-glyph .hand { width: 92%; height: 92%; }
+.daycard-mine { padding: 1px 8px; border-radius: 99px; background: var(--c3); color: #fff; font-size: 12px; font-weight: 800; }
+.daycard-deeds { font-size: 16px; letter-spacing: 1px; }
+@media (max-height: 500px) and (orientation: landscape) {
+  .daycard-card { padding: 16px; gap: 8px; }
+  .daycard-hero { display: none; }
+  .daycard-char { width: 78px; }
+}

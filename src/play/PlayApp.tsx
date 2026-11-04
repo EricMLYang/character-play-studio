@@ -5,9 +5,7 @@ import { taiwanDay, starIndex } from '../../shared/domain.mjs'
 import { browseCharacters } from '../../shared/selection.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
-import { arrive, magic } from '../lib/sfx'
-import { say } from '../lib/audio'
-import { FIXED_LINES } from '../../shared/voice-lines.mjs'
+import { arrive } from '../lib/sfx'
 import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
@@ -20,6 +18,7 @@ import { pathDone, todayPath } from './today'
 import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
+import DayCard from './DayCard'
 import Stage, { useStagePointer } from './Stage'
 import { sceneFor } from './stageScenes'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
@@ -134,6 +133,8 @@ export default function PlayApp() {
   const [chest, setChest] = useState<Partner | null>(null)
   /** 一個字的星星集滿了：加冕（Crown.tsx）。跟寶箱同時發生就排在寶箱後面 */
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
+  /** 今天的路走完：今日戰報（DayCard.tsx） */
+  const [day, setDay] = useState(false)
   // 今天的路（today.ts）：走完要慶祝一次
   const path = useMemo(() => todayPath(all, progress), [all, progress])
   const walked = pathDone(path)
@@ -156,9 +157,8 @@ export default function PlayApp() {
     }
     if (full) return
     if (walked && !was.walked) {
-      magic()
-      say(FIXED_LINES.pathAllDone, 0.85)
-      setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.pathAllDone, big: true })
+      // 不只放彩帶：一張「今天的字」卡，他今天碰過的字一個個飛進來（DayCard 自己唸「今天的路走完了」）
+      setDay(true)
       return
     }
     if (!got) return
@@ -295,6 +295,7 @@ export default function PlayApp() {
       {chest && <Chest partner={chest} onClose={() => setChest(null)}
         onGo={() => { serveNextWith(chest.id); setChest(null); enter('feed') }} />}
       {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
+      {day && !chest && !crown && <DayCard progress={progress} onClose={() => setDay(false)} />}
       {pop && !chest && !crown && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
