@@ -1,12 +1,14 @@
 // 媒體查詢（手機直放、橫放）裡的規則，被檔案後面「同一個選擇器」的本體規則蓋掉——同樣權重、後寫的贏，
 // 寫在 @media 裡的那條等於沒寫。第二夜（2026-11-06）踩到：直放時升級徽章往內挪，結果完全沒生效，量了才發現。
-// 這裡把 src/play/styles 每個檔案粗略拆開：@media 裡的「選擇器＋屬性」，後面有一模一樣的選擇器又設同一個屬性，就算錯。
+// 這裡把 src 底下每個樣式檔粗略拆開：@media 裡的「選擇器＋屬性」，後面有一模一樣的選擇器又設同一個屬性，就算錯。
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 
-const DIR = path.join(import.meta.dirname, '..', 'src/play/styles')
+const SRC = path.join(import.meta.dirname, '..', 'src')
+/** 孩子端、Studio、動畫的所有樣式檔 */
+const FILES = fs.readdirSync(SRC, { recursive: true }).filter((f) => f.endsWith('.css')).map((f) => path.join(SRC, f))
 
 /** 拆成 [{ selector, props, media, at }]；只認一層 @media（這個 repo 沒有更深的） */
 function rules(css) {
@@ -32,16 +34,32 @@ function rules(css) {
   return out
 }
 
-test('手機版（@media 裡）的規則沒有被後面同一個選擇器的本體規則蓋掉', () => {
+/** 被蓋掉的：@media 裡的選擇器＋屬性，後面同一個選擇器的本體規則又設了同一個屬性 */
+function overridden(css) {
+  const all = rules(css)
   const bad = []
-  for (const file of fs.readdirSync(DIR).filter((f) => f.endsWith('.css'))) {
-    const all = rules(fs.readFileSync(path.join(DIR, file), 'utf8'))
-    for (const r of all.filter((x) => x.media)) {
-      for (const later of all.filter((x) => !x.media && x.selector === r.selector && x.at > r.at)) {
-        const both = r.props.filter((p) => later.props.includes(p))
-        if (both.length) bad.push(`${file}：${r.media} 裡的「${r.selector}」的 ${both.join('、')} 被後面的本體規則蓋掉`)
-      }
+  for (const r of all.filter((x) => x.media)) {
+    for (const later of all.filter((x) => !x.media && x.selector === r.selector && x.at > r.at)) {
+      const both = r.props.filter((p) => later.props.includes(p))
+      if (both.length) bad.push(`${r.media} 裡的「${r.selector}」的 ${both.join('、')}`)
     }
   }
+  return bad
+}
+
+test('檢查器本身：抓得到被蓋掉的，寫在後面的、權重比較高的、不同屬性的不算', () => {
+  const css = `
+    @media (orientation: portrait) { .a { right: 10px; } .b .a { top: 0; } .c { color: red; } }
+    @keyframes x { 0% { right: 0; } }
+    .a { right: -16px; top: -16px; }  /* 蓋掉直放的 right */
+    .c { margin: 0; }                 /* 不同屬性，不算 */
+    @media (orientation: portrait) { .a { top: 2px; } }  /* 寫在後面，沒被蓋 */
+  `
+  assert.deepEqual(overridden(css), ['@media (orientation: portrait) 裡的「.a」的 right'])
+})
+
+test('手機版（@media 裡）的規則沒有被後面同一個選擇器的本體規則蓋掉', () => {
+  assert.ok(FILES.length > 10)
+  const bad = FILES.flatMap((full) => overridden(fs.readFileSync(full, 'utf8')).map((b) => `${path.relative(SRC, full)}：${b} 被後面的本體規則蓋掉`))
   assert.deepEqual(bad, [])
 })
