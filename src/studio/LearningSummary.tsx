@@ -99,7 +99,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
           {gallery && <SpellGallery characters={characters} progress={progress} onClose={() => setGallery(false)} />}
           <p className="st-dim">
             每寫一次升一級：描過一次 → 下次只「看一眼」外框就淡掉 → 描過兩次就「遮起來寫」 → 憑記憶寫出兩次就「聽寫」（不給看）。
-            最近 7 天寫過 {s.wroteThisWeek} 個字。上面那排是他最近寫的字（他自己的筆跡，🙈＝憑記憶寫過）；🧙 那一排是他不看就寫得出來的字。
+            {s.wroteToday > 0 ? <><b>今天寫了 {s.wroteToday} 個字</b>{s.wroteToday >= 6 ? '（六個以上，魔法筆的目標到了）' : ''}，</> : null}最近 7 天寫過 {s.wroteThisWeek} 個字。上面那排是他最近寫的字（他自己的筆跡，🙈＝憑記憶寫過）；🧙 那一排是他不看就寫得出來的字。
           </p>
           {s.recentWrites.length > 0 && (
             <div className="st-hand-row" aria-label="最近寫的字（他自己的筆跡）">
