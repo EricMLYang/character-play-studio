@@ -4,6 +4,7 @@ import { NO_PICTURE } from '../play/puzzles'
 import { nextPartner, partnerCount } from '../play/partners'
 import { deedsFor } from '../play/stars'
 import { browseCharacters } from '../../shared/selection.mjs'
+import { writeLevel, type WriteLevel } from '../play/wishes'
 
 /**
  * 家長看的學習小結：孩子端各個遊戲記下的東西，整理成大人一眼看得懂的幾個數字與清單。
@@ -39,6 +40,13 @@ export type Summary = {
    */
   notWritten: string[]
   onlyOnce: string[]
+  /**
+   * 寫字等級（魔法筆的鷹架，src/play/wishes.ts）：描過的字各在哪一級。
+   * 🧙 聽寫級的字＝他不看就寫得出來，研究上這才是真的會了。
+   */
+  writeLevels: Record<WriteLevel, string[]>
+  /** 最近 7 天寫過（描或憑記憶）幾個不同的字 */
+  wroteThisWeek: number
   /**
    * 只差一顆就集滿的字，跟缺的是哪一顆。
    * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
@@ -85,6 +93,12 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
       .sort((a, b) => (progress.watched[b.char].count) - (progress.watched[a.char].count)).slice(0, 10).map((c) => c.char),
     onlyOnce: visible.filter((c) => progress.watched?.[c.char]?.count === 1)
       .sort((a, b) => Date.parse(progress.watched[a.char].last) - Date.parse(progress.watched[b.char].last)).slice(0, 10).map((c) => c.char),
+    writeLevels: Object.entries(progress.town || {}).reduce((acc, [char, r]) => {
+      // writeLevel 是「下一次要怎麼寫」：描過一次 → 下次看一眼。家長看的是「現在到哪」，所以直接用它的名字
+      acc[writeLevel(r)].push(char)
+      return acc
+    }, { trace: [], look: [], blind: [], memory: [] } as Record<WriteLevel, string[]>),
+    wroteThisWeek: Object.values(progress.town || {}).filter((r) => now.getTime() - Date.parse(r.last) < 7 * 864e5).length,
     stars: stars,
     partners: partnerCount(stars),
     toNextPartner: nextPartner(stars)?.need ?? null,

@@ -114,3 +114,17 @@ test('小結列出看過但還沒憑記憶寫過、以及只看過一次的字',
   assert.deepEqual(s.notWritten, ['水', '山'], '火 憑記憶寫過了；山 只描過不算')
   assert.deepEqual(s.onlyOnce, ['水', '山'], '最久沒再看的在前')
 })
+
+test('寫字等級（魔法筆）：描過的字各在哪一級；最近 7 天寫過幾個字', () => {
+  const r = (traces, blind, last) => ({ traces, blind, first: last, last, strokes: [] })
+  const s = summarize({
+    watched: {},
+    town: {
+      火: r(1, 0, '2026-10-20T01:00:00Z'),   // 描過一次 → 看一眼
+      水: r(2, 0, '2026-10-18T01:00:00Z'),   // 描過兩次 → 遮起來寫
+      山: r(5, 2, '2026-10-01T01:00:00Z'),   // 憑記憶寫過兩次 → 聽寫（上次是 19 天前）
+    },
+  }, characters, now)
+  assert.deepEqual(s.writeLevels, { trace: [], look: ['火'], blind: ['水'], memory: ['山'] })
+  assert.equal(s.wroteThisWeek, 2)
+})

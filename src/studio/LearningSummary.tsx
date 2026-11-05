@@ -88,6 +88,21 @@ export default function LearningSummary({ progress, characters, onPick }: {
         </section>
       )}
 
+      {Object.values(s.writeLevels).some((l) => l.length > 0) && (
+        <section className="st-card st-write-levels">
+          <h4>🪄 寫字等級（魔法筆）</h4>
+          <p className="st-dim">
+            每寫一次升一級：描過一次 → 下次只「看一眼」外框就淡掉 → 描過兩次就「遮起來寫」 → 憑記憶寫出兩次就「聽寫」（不給看）。
+            最近 7 天寫過 {s.wroteThisWeek} 個字。🧙 那一排是他不看就寫得出來的字。
+          </p>
+          <div className="st-chip-rows">
+            {([['memory', '🧙 聽寫級'], ['blind', '🙈 遮起來寫'], ['look', '👀 看一眼']] as const).map(([level, label]) => s.writeLevels[level].length > 0 && (
+              <p key={level}><b>{label}（{s.writeLevels[level].length}）：</b>{s.writeLevels[level].map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
       <div className="st-learn-cols">
         <section className="st-card">
           <h4>常找錯的字</h4>
