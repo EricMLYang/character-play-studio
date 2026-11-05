@@ -60,6 +60,9 @@
 .spell-peek img { width: 100%; height: 100%; object-fit: contain; }
 @keyframes spellPeek { 0%, 60%, 100% { translate: 0 0; } 30% { translate: 0 -5px; } }
 @media (prefers-reduced-motion: reduce) { .spell-peek i { animation: none; } }
+.spell-invite { animation: spellInvite 1.1s ease-in-out 3; }
+@keyframes spellInvite { 0%, 100% { scale: 1; } 40% { scale: 1.12; } 60% { scale: .97; } }
+@media (prefers-reduced-motion: reduce) { .spell-invite { animation: none; } }
 .spell-empty { margin: auto; font-size: 20px; font-weight: 700; }
 
 /* 直的（手機、iPad 直放）：夥伴在上、格子在中間、架子在下面一排；結算的世界改成直的（不硬擠成 16:10 的小長條） */

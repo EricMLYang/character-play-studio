@@ -140,7 +140,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.pick, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.pick, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.more, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...wishes.flatMap((w) => (w.level === 'trace' && radicalWhy(w.char) ? [radicalWhy(w.char)!] : [])),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
@@ -276,11 +276,20 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     speak([combo.thanks])
     later(finishRound, lasts(combo.thanks) + 700)
   }
+  /** 結算唸完，「再變三個」那顆跳一下（第一輪、今天的路沒有下一站要走的時候，多問一句「還想再變嗎？」） */
+  const [invite, setInvite] = useState(false)
   const finishRound = () => {
     cheer()
     setPhase('done')
-    speak([SPELL_FIXED.done, SPELL_FIXED.world])
-    later(() => holdCelebrations(false), lasts(SPELL_FIXED.done) + lasts(SPELL_FIXED.world) + 600)
+    // 直接邀請：六歲聽到「還想再變嗎？」比自己去找按鈕容易——研究上的目標是一次寫六個字以上（兩輪）。
+    // 只問第一輪（問每一輪變成嘮叨）；今天的路還有下一站要走就不問（不要跟「下一站」搶）
+    const after = stopAfter(path, 'write')
+    const more = round === 0 && !(after.stopDone && after.nextStop)
+    const lines = [SPELL_FIXED.done, SPELL_FIXED.world, ...(more ? [SPELL_FIXED.more] : [])]
+    speak(lines)
+    const said = lines.reduce((t, l) => t + lasts(l) + 160, 0)
+    later(() => holdCelebrations(false), said + 600)
+    if (more) later(() => setInvite(true), said - lasts(SPELL_FIXED.more))
   }
 
   // 結算的時候就先挑好下一輪（這時候這一輪的紀錄都記進去了），按鈕上露出那三個東西：想看它們變出來，就會想再寫
@@ -293,6 +302,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     setPicker(false)
     timers.current.forEach(clearTimeout)
     timers.current = []
+    setInvite(false)
     setMade([])
     setSkipped([])
     writtenRef.current = []
@@ -346,7 +356,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </span>} />
 
       {phase === 'done' ? (
-        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current} upcoming={upcoming?.wishes ?? []} onPicker={() => { tap(); setPicker(true); speak([SPELL_FIXED.pick]) }}
+        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current} upcoming={upcoming?.wishes ?? []} invite={invite} onPicker={() => { tap(); setPicker(true); speak([SPELL_FIXED.pick]) }}
           onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={() => again()} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
@@ -413,7 +423,7 @@ function Shelf({ made }: { made: Made[] }) {
 }
 
 /** 結算：他寫出來的世界攤開（這一輪變出來的從天上掉進來），做完寫一寫這一站就多一顆「下一站」 */
-function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAgain, onPicker, onBack }: {
+function SpellDone({ world, fresh, next, written, upcoming, invite, onPick, onNext, onAgain, onPicker, onBack }: {
   /** 「我想變別的」：打開整面圖卡讓他自己挑 */
   onPicker: () => void
   world: Dweller[]
@@ -421,6 +431,8 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
   written: Written[]
   /** 下一輪會變的東西（按鈕上露出來，讓他想看它們變出來） */
   upcoming: Wish[]
+  /** 唸到「還想再變嗎？」：再變三個那顆跳一下 */
+  invite?: boolean
   fresh: string[]
   next?: Stop
   onPick: (char: string) => void
@@ -461,7 +473,7 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
       <World dwellers={world} fresh={fresh} onPick={onPick} />
       <div className="spell-actions">
         {next && <button className="spell-btn spell-go" onClick={() => onNext(next.go)}>下一站：{next.icon} {next.title} →</button>}
-        <button className={'spell-btn' + (next ? '' : ' spell-go')} onClick={onAgain}>🪄 再變三個
+        <button className={'spell-btn' + (next ? '' : ' spell-go') + (invite ? ' spell-invite' : '')} onClick={onAgain}>🪄 再變三個
           {upcoming.length > 0 && <span className="spell-peek" aria-hidden>{upcoming.map((w, i) => (
             <i key={w.char} style={{ animationDelay: `${i * 0.2}s` }}>{emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : w.emoji}</i>
           ))}</span>}

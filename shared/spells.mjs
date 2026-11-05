@@ -162,6 +162,7 @@ export const SPELL_FIXED = {
   stuckBlind: '卡住了嗎？按偷看，看一下！',
   pick: '你想變什麼？點一個！',
   stuckTrace: '跟著灰灰的線，描描看！',
+  more: '還想再變嗎？',
 }
 
 /** 這個字會不會變身；不會的回 undefined */
