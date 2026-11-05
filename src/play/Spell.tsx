@@ -5,8 +5,8 @@ import { cheer, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { SPELL_FIXED } from '../../shared/spells.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
-import { RADICAL_FIXED } from '../../shared/radicals.mjs'
-import Strokes from './Strokes'
+import { RADICAL_FIXED, familyOf } from '../../shared/radicals.mjs'
+import Strokes, { loadChar } from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction, type ReactionState } from './Buddy'
 import { partnersAt, type Partner } from './partners'
@@ -74,7 +74,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const [made, setMade] = useState<Made[]>([])
   /** 筆順抓不到、跳過的字（不算變出來，架子上不放） */
   const [skipped, setSkipped] = useState<string[]>([])
-  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox>; land?: { x: number; y: number } } | null>(null)
+  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox>; land?: { x: number; y: number }; rad?: number[] } | null>(null)
   const [reaction, react] = useReaction()
   const grid = useRef<HTMLDivElement>(null)
   const timers = useRef<number[]>([])
@@ -209,7 +209,12 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     // 好吃的東西飛進夥伴嘴裡（他的頭大約在圖的上三分之一）
     const buddy = wish.act === 'yum' ? document.querySelector('.spell-buddy')?.getBoundingClientRect() : null
     const land = buddy ? { x: buddy.left + buddy.width / 2, y: buddy.top + buddy.height * 0.38 } : undefined
-    if (from) setConjure({ key: Date.now(), strokes, from, land })
+    if (from) {
+      const key = Date.now()
+      setConjure({ key, strokes, from, land })
+      // 部首那幾筆（筆順檔的 radStrokes；loadChar 有快取，剛剛寫的時候就抓過了）
+      loadChar(wish.char).then((d) => setConjure((c) => (c && c.key === key ? { ...c, rad: (d as { radStrokes?: number[] }).radStrokes } : c))).catch(() => {})
+    }
     else finishConjure()
   }
   /** 這個字的筆順檔抓不到（理論上不會，spells 測試有擋）：不要卡在這裡，跳到下一個願望 */
@@ -339,7 +344,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
               {LEVEL_BADGE[levelUp && phase === 'thanks' ? levelUp : wish.level]}
             </span>
             {phase !== 'ask' && (
-              <Strokes key={`${round}-${turn}`} char={wish.char}
+              <Strokes key={`${round}-${turn}`} char={wish.char} radical={Boolean(familyOf(wish.char))}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
                 onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} onStroke={stroke} onWritten={poke}
                 onUnavailable={skip} />
@@ -352,7 +357,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
         <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound}
-          power={powerOf(wish.level, wroteBlind.current)} onDone={finishConjure} />
+          power={powerOf(wish.level, wroteBlind.current)} radStrokes={familyOf(wish.char) ? conjure.rad : undefined} onDone={finishConjure} />
       )}
     </div>
   )

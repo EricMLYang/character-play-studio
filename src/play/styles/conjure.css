@@ -10,6 +10,10 @@
 .cj-ink { position: absolute; overflow: visible; transition: transform .56s cubic-bezier(.6,0,.4,1), opacity .5s .1s; }
 .cj-ink path { fill: none; stroke: #2E2A26; stroke-width: 44; stroke-linecap: round; stroke-linejoin: round; }
 .cj-glow .cj-ink path { animation: cjGlow .52s ease-out both; }
+/* 部首那幾筆先是藍的（字卡、蓋字工坊同一個藍），發光到一半才跟著變金色 */
+.cj-ink path.cj-rad { stroke: #0F7FA8; }
+.cj-glow .cj-ink path.cj-rad { animation: cjGlowRad .52s ease-out both; }
+@keyframes cjGlowRad { 0%, 55% { stroke: #0F7FA8; } 100% { stroke: #FFC53D; } }
 @keyframes cjGlow { to { stroke: #FFC53D; } }
 .cj-glow .cj-ink { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 0 22px #FFB020); transform: translateY(-2%) scale(1.04); }
 .cj-gather .cj-ink, .cj-origin .cj-ink, .cj-pop .cj-ink, .cj-act .cj-ink, .cj-end .cj-ink { transform: scale(.04) rotate(40deg); opacity: 0; }

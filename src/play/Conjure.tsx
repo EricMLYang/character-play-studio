@@ -23,6 +23,8 @@ export type ConjureProps = {
   land?: { x: number; y: number }
   /** 這個字（有「以前長這樣」的象形字，收攏之後先畫出古時候的樣子再變身） */
   char?: string
+  /** 部首那幾筆（第幾筆）：他的筆跡浮起來的時候先是藍的，再跟其他筆一起變金色——在自己寫的字裡看到部首 */
+  radStrokes?: number[]
   /** 這個字自己的聲音（sfx.ts 的函式名字），沒給就用動作的預設 */
   sound?: string
   /**
@@ -46,7 +48,7 @@ export function inkBox(host: Element | null | undefined): ConjureProps['from'] |
 
 type Step = 'glow' | 'gather' | 'origin' | 'pop' | 'act' | 'end'
 
-export default function Conjure({ strokes, emoji, act, from, land, char, sound: own, power = 0, onDone }: ConjureProps) {
+export default function Conjure({ strokes, emoji, act, from, land, char, sound: own, power = 0, radStrokes = [], onDone }: ConjureProps) {
   // 象形字：他寫的字 → 古時候畫的樣子 → 真的東西（字是從圖畫變來的，第一夜的「以前長這樣」）
   const origin = char ? ORIGINS[char] : undefined
   const [step, setStep] = useState<Step>('glow')
@@ -89,7 +91,7 @@ export default function Conjure({ strokes, emoji, act, from, land, char, sound: 
       <svg className="cj-ink" viewBox="0 0 1024 1024"
         style={{ left: from.left, top: from.top, width: from.width, height: from.height, transformOrigin: `${(center.x / 1024) * 100}% ${((900 - center.y) / 1024) * 100}%` }}>
         <g transform="scale(1, -1) translate(0, -900)">
-          {strokes.map((s, i) => <path key={i} d={inkPath(s)} style={{ animationDelay: `${i * 40}ms` }} />)}
+          {strokes.map((s, i) => <path key={i} d={inkPath(s)} className={radStrokes.includes(i) ? 'cj-rad' : undefined} style={{ animationDelay: `${i * 40}ms` }} />)}
         </g>
       </svg>
       {origin && (step === 'origin' || step === 'pop') && (

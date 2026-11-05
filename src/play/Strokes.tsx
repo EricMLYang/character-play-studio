@@ -56,8 +56,10 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
  * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
-export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onStroke, onUnavailable }: {
+export default function Strokes({ char, highlight, radical = false, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onStroke, onUnavailable }: {
   char: string
+  /** 部首那幾筆（筆順檔的 radStrokes）用藍色寫：魔法筆裡有部首家族的字（跟字卡、蓋字工坊同一個藍） */
+  radical?: boolean
   /** 這一筆寫錯了：mistakes＝這一筆錯第幾次（錯兩次那一筆會閃提示） */
   onMiss?: (mistakes: number) => void
   /** 寫對一筆：還剩幾筆、一共幾筆（魔法筆的夥伴在最後一筆前幫他打氣） */
@@ -184,7 +186,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         strokeColor: '#2E2A26', outlineColor: 'rgba(46,42,38,.16)',
         drawingColor: '#FF6B6B', highlightColor: '#FFC53D',
         // hanzi-writer 只會把 radStrokes 那幾筆畫成 radicalColor，所以直接餵它我們要標的筆
-        radicalColor: marked ? '#0F7FA8' : null,
+        radicalColor: marked || radical ? '#0F7FA8' : null,
         // 筆畫多的字（像「龍」16 筆）用預設速度會拖到二十幾秒，孩子等不住
         strokeAnimationSpeed: 1.4, delayBetweenStrokes: 250, drawingWidth: 26,
         // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆
@@ -282,7 +284,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
       try { writer?.cancelQuiz() } catch { /* 還沒建好就卸載，忽略 */ }
       host.replaceChildren()
     }
-  }, [char, round, marked, blind, look])
+  }, [char, round, marked, blind, look, radical])
 
   if (stage === 'unavailable') return null
 
