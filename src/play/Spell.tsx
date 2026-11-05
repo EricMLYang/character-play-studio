@@ -38,6 +38,8 @@ const RATE = 0.85
 const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length + 0.5) * 1000
 /** 遮起來寫之前給他看多久 */
 const PREVIEW_MS = 2200
+/** 寫字的時候多久沒動作算卡住（遮起來寫要先看兩秒、想一下，所以不能太短） */
+const STUCK_MS = 15000
 
 type Phase = 'choose' | 'ask' | 'write' | 'conjure' | 'thanks' | 'fuse' | 'fused' | 'done'
 /** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
@@ -120,7 +122,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -156,13 +158,37 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
    */
   const hinted = useRef(-1)
   const missed = (mistakes: number) => {
+    poke()
     react('oops')
     if (mistakes >= 2 && hinted.current !== turn) { hinted.current = turn; speak([SPELL_FIXED.hint]) }
   }
   /** 寫到只剩最後一筆（五筆以上的字）：夥伴喊「最後一筆！」——六歲寫一個八筆的字要一分鐘，快好的時候有人打氣才撐得住 */
   const stroke = (left: number, total: number) => {
+    poke()
     if (left === 1 && total >= 5) { react('cheer'); speak([SPELL_FIXED.lastOne]) }
   }
+  /**
+   * 卡住了：寫字的時候 15 秒都沒動（沒寫對也沒寫錯），夥伴歪頭問一次——遮起來寫就提醒可以偷看，
+   * 描的就說跟著灰灰的線。一個願望只問一次；他一動就重新計時。
+   */
+  const idle = useRef<number | undefined>(undefined)
+  const askedStuck = useRef(-1)
+  const poke = () => {
+    clearTimeout(idle.current)
+    if (!wish || askedStuck.current === turn) return
+    const blindish = wish.level === 'blind' || wish.level === 'memory'
+    idle.current = window.setTimeout(() => {
+      askedStuck.current = turn
+      react('think')
+      speak([blindish ? SPELL_FIXED.stuckBlind : SPELL_FIXED.stuckTrace])
+    }, STUCK_MS)
+  }
+  // 開始寫就開始計時；不在寫的時候（變身、謝謝、換下一個）一律停掉
+  useEffect(() => {
+    if (phase === 'write') poke()
+    else clearTimeout(idle.current)
+    return () => clearTimeout(idle.current)
+  }, [phase, turn])
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)
   const told = useRef(false)
@@ -319,7 +345,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
-                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} onStroke={stroke}
+                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} onStroke={stroke} onWritten={poke}
                 onUnavailable={skip} />
             )}
           </div>

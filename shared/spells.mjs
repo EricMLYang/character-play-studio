@@ -162,6 +162,8 @@ export const SPELL_FIXED = {
   master: '你變成這個字的大魔法師了！不用看就寫得出來！',
   yours: '你寫的字，變成真的了！',
   lastOne: '最後一筆！',
+  stuckBlind: '卡住了嗎？按偷看，看一下！',
+  stuckTrace: '跟著灰灰的線，描描看！',
 }
 
 /** 這個字會不會變身；不會的回 undefined */
