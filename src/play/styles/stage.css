@@ -3,15 +3,15 @@
  * 只動 transform／opacity（iPad Safari 才順）；不用 filter: blur（很吃 GPU）。
  * --px／--py 是手指位置（-1..1，useStagePointer 寫在 <html>），每一層乘自己的深度 --d。
  */
-.stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.scenery { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .stage-sky { position: absolute; inset: 0; background: linear-gradient(var(--sky-top), var(--sky-mid) 55%, var(--sky-low));
   transition: background 2s; }
-.stage.sky-day   { --sky-top: #9ED8FF; --sky-mid: #D4EEFF; --sky-low: #FFF6E9; }
-.stage.sky-dawn  { --sky-top: #FFD3C2; --sky-mid: #FFE9D6; --sky-low: #FFF6E9; }
-.stage.sky-dusk  { --sky-top: #FFB38A; --sky-mid: #FFD9B8; --sky-low: #FFF0E0; }
+.scenery.sky-day   { --sky-top: #9ED8FF; --sky-mid: #D4EEFF; --sky-low: #FFF6E9; }
+.scenery.sky-dawn  { --sky-top: #FFD3C2; --sky-mid: #FFE9D6; --sky-low: #FFF6E9; }
+.scenery.sky-dusk  { --sky-top: #FFB38A; --sky-mid: #FFD9B8; --sky-low: #FFF0E0; }
 /* 晚上刻意不黑：紫粉色的黃昏，上方列的深色字照樣讀得清楚 */
-.stage.sky-night { --sky-top: #A9A2EA; --sky-mid: #D4C9F5; --sky-low: #FCEAF2; }
-.stage.sky-snow  { --sky-top: #D8E9F7; --sky-mid: #EEF6FD; --sky-low: #FFFFFF; }
+.scenery.sky-night { --sky-top: #A9A2EA; --sky-mid: #D4C9F5; --sky-low: #FCEAF2; }
+.scenery.sky-snow  { --sky-top: #D8E9F7; --sky-mid: #EEF6FD; --sky-low: #FFFFFF; }
 
 .stage-layer { position: absolute; inset: 0;
   transform: translate3d(calc(var(--px, 0) * var(--d) * -1px), calc(var(--py, 0) * var(--d) * -0.5px), 0);
@@ -27,14 +27,14 @@
 @keyframes sunBob { 50% { transform: translateY(8px) rotate(6deg); } }
 
 /* 雲：一個圓角長條加兩顆圓，從畫面外慢慢飄過去 */
-.cloud { position: absolute; left: 0; width: 150px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.88);
+.stage-cloud { position: absolute; left: 0; width: 150px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.88);
   animation: stageCloud linear infinite; }
-.cloud::before, .cloud::after { content: ''; position: absolute; border-radius: 50%; background: inherit; }
-.cloud::before { left: 22px; top: -26px; width: 62px; height: 62px; }
-.cloud::after { left: 70px; top: -16px; width: 48px; height: 48px; }
-.c1 { top: 12%; animation-duration: 95s; animation-delay: -30s; }
-.c2 { top: 24%; scale: .7; opacity: .8; animation-duration: 130s; animation-delay: -80s; }
-.c3 { top: 6%; scale: .55; opacity: .7; animation-duration: 160s; animation-delay: -20s; }
+.stage-cloud::before, .stage-cloud::after { content: ''; position: absolute; border-radius: 50%; background: inherit; }
+.stage-cloud::before { left: 22px; top: -26px; width: 62px; height: 62px; }
+.stage-cloud::after { left: 70px; top: -16px; width: 48px; height: 48px; }
+.stage-cloud.k1 { top: 12%; animation-duration: 95s; animation-delay: -30s; }
+.stage-cloud.k2 { top: 24%; scale: .7; opacity: .8; animation-duration: 130s; animation-delay: -80s; }
+.stage-cloud.k3 { top: 6%; scale: .55; opacity: .7; animation-duration: 160s; animation-delay: -20s; }
 @keyframes stageCloud { from { transform: translateX(-200px); } to { transform: translateX(calc(100vw + 60px)); } }
 
 .stage-hill { position: absolute; left: -4%; width: 108%; display: block; }
@@ -78,7 +78,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .stage-layer { transform: none; transition: none; }
-  .cloud, .stage-flyer, .stage-snow, .stage-prop.sway, .stage-sun, .stage-stars i { animation: none; }
+  .stage-cloud, .stage-flyer, .stage-snow, .stage-prop.sway, .stage-sun, .stage-stars i { animation: none; }
   .stage-flyer, .stage-snow { display: none; }
   .scene-enter { animation: none; }
 }

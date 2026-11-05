@@ -4,7 +4,7 @@
 
 .feed { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column; isolation: isolate; }
 /* 背景是自己的舞台（Feed 傳夥伴的天色給 Stage）：壓在 .feed 裡所有東西的下面 */
-.feed > .stage { z-index: -1; }
+.feed > .scenery { z-index: -1; }
 /* 一位夥伴一種天色（partners.ts 的 skyFor）：同一個玩法玩第三次還有新鮮感，靠的是這個 */
 /* 天色交給舞台（Stage 的 sky-*）；晚上是紫粉色的黃昏，深色字照樣讀得清楚，不用另外反白 */
 /* 端菜的夥伴站在怪獸旁邊 */

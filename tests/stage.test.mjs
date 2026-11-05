@@ -95,3 +95,22 @@ test('舞台、角色、部首特效的 @keyframes 名字不能跟別的檔撞�
     }
   }
 })
+
+test('舞台、角色、部首特效的 class 名字不能跟別的檔撞名（以前背景叫 .stage，跟描字格子同名、pointer-events: none 讓他寫不了字）', () => {
+  const dir = path.join(ROOT, 'src/play/styles')
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.css'))
+  const classes = (f) => {
+    const css = fs.readFileSync(path.join(dir, f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/@keyframes[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '')
+    return new Set([...css.matchAll(/\.(-?[a-zA-Z_][\w-]*)/g)].map((m) => m[1]))
+  }
+  const all = Object.fromEntries(files.map((f) => [f, classes(f)]))
+  // 別的檔拿這幾個來排版（.play 是最外層；餵大怪獸把舞台壓到底；小書的夥伴站在舞台上）是故意的
+  const ok = new Set(['play', 'scenery@feed.css', 'rig-body@book.css'])
+  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css']) {
+    for (const c of all[own]) {
+      const clash = files.filter((f) => f !== own && all[f].has(c) && !ok.has(c) && !ok.has(`${c}@${f}`))
+      assert.deepEqual(clash, [], `.${c}（${own}）也出現在 ${clash.join('、')}`)
+    }
+  }
+})

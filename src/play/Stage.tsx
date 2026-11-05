@@ -40,7 +40,7 @@ export default function Stage({ screen, sky }: { screen: string; sky?: Sky }) {
   })), [])
 
   return (
-    <div className={`stage sky-${tone} scene-${scene.id}`} aria-hidden>
+    <div className={`scenery sky-${tone} scene-${scene.id}`} aria-hidden>
       <div className="stage-sky" />
       {night && <div className="stage-stars">{stars.map((s, i) => (
         <i key={i} style={{ left: `${s.left}%`, top: `${s.top}%`, width: s.size, height: s.size, animationDelay: `${s.delay}s` }} />
@@ -49,7 +49,7 @@ export default function Stage({ screen, sky }: { screen: string; sky?: Sky }) {
         <Art emoji={night ? '🌙' : tone === 'snow' ? '☁️' : '🌞'} className="stage-sun" />
       </div>
       <div className="stage-layer depth-2 stage-clouds">
-        <span className="cloud c1" /><span className="cloud c2" /><span className="cloud c3" />
+        <span className="stage-cloud k1" /><span className="stage-cloud k2" /><span className="stage-cloud k3" />
       </div>
       <div className="stage-layer depth-3">
         <svg className="stage-hill far" viewBox="0 0 1200 200" preserveAspectRatio="none">
