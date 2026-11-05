@@ -23,8 +23,8 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
         <path d="M0 62 C22 56 40 62 60 58 C78 55 90 60 100 58 V100 H0 Z" fill="#86C96F" />
         <ellipse cx="24" cy="78" rx="19" ry="11" fill="#7FC8F0" />
         <ellipse cx="24" cy="76" rx="15" ry="7" fill="#A9DDF7" opacity=".7" />
-        <rect x="56" y="86" width="36" height="9" rx="2" fill="#FF8F8F" />
-        <path d="M56 88.5 H92 M56 91.5 H92 M62 86 V95 M71 86 V95 M80 86 V95" stroke="#fff" strokeWidth=".7" opacity=".8" />
+        <rect x="47" y="82" width="52" height="16" rx="2" fill="#FF8F8F" />
+        <path d="M47 86 H99 M47 90 H99 M47 94 H99 M55 82 V98 M64 82 V98 M73 82 V98 M82 82 V98 M91 82 V98" stroke="#fff" strokeWidth=".7" opacity=".8" />
       </svg>
       {shown.map((d, i) => {
         const art = emojiArt(d.emoji)

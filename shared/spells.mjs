@@ -85,6 +85,32 @@ export const SPELLS = [
   { char: '糕', n: 16, act: 'yum', wish: '今天有人生日，幫我寫糕！', thanks: '蛋糕來了，生日快樂！' },
   { char: '肉', n: 6, act: 'yum', wish: '我想吃烤肉，幫我寫肉！', thanks: '烤肉好香！' },
   { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', thanks: '小雞吃得好開心！' },
+  // ---- 2026-11-06 第 15 輪加的：天地、會長的、好吃的、東西 ----
+  { char: '山', n: 3, act: 'grow', wish: '我想去爬山，幫我變一座山！', thanks: '長出一座大山了！' },
+  { char: '土', n: 3, act: 'grow', wish: '種子沒有地方住，幫我寫土！', thanks: '有土了，種子發芽了！' },
+  { char: '島', n: 10, act: 'grow', wish: '海上好空，幫我變一座島！', thanks: '冒出一座小島了！' },
+  { char: '浪', n: 10, act: 'splash', wish: '我想衝浪，幫我寫浪！', thanks: '大浪來了，嘩啦！' },
+  { char: '露', n: 21, act: 'fall', wish: '早上的葉子好乾，幫我寫露！', thanks: '露珠滴下來了！' },
+  { char: '陽', n: 11, act: 'shine', wish: '好冷喔，幫我變出太陽！', thanks: '陽光好溫暖！' },
+  { char: '冰', n: 6, act: 'fall', wish: '好熱喔，幫我寫冰！', thanks: '冰塊掉下來了，好涼！' },
+  { char: '根', n: 10, act: 'grow', wish: '兔子想吃紅蘿蔔，幫我寫根！', thanks: '拔出一根紅蘿蔔了！' },
+  { char: '枝', n: 8, act: 'grow', wish: '小鳥沒地方站，幫我寫枝！', thanks: '長出樹枝了，小鳥站上去！' },
+  { char: '菜', n: 11, act: 'yum', wish: '要多吃青菜，幫我寫菜！', thanks: '青菜好脆！' },
+  { char: '湯', n: 12, act: 'yum', wish: '好冷喔，我想喝湯，幫我寫湯！', thanks: '熱熱的湯，好暖！' },
+  { char: '粥', n: 12, act: 'yum', wish: '我肚子不舒服，幫我寫粥！', thanks: '吃粥，肚子舒服多了！' },
+  { char: '餃', n: 14, act: 'yum', wish: '我想吃水餃，幫我寫餃！', thanks: '水餃好好吃！' },
+  { char: '茶', n: 9, act: 'yum', wish: '好渴喔，幫我寫茶！', thanks: '喝茶，咕嚕咕嚕！' },
+  { char: '豆', n: 7, act: 'yum', wish: '我想種豆子，幫我寫豆！', thanks: '好多豆子！' },
+  { char: '甜', n: 11, act: 'yum', wish: '我想吃甜甜的蜂蜜，幫我寫甜！', thanks: '好甜好甜！' },
+  { char: '辣', n: 14, act: 'yum', wish: '我想吃辣椒，幫我寫辣！', thanks: '好辣好辣，呼呼！' },
+  { char: '酸', n: 14, act: 'yum', wish: '我想吃檸檬，幫我寫酸！', thanks: '好酸喔，眼睛都閉起來了！' },
+  { char: '喝', n: 12, act: 'yum', wish: '好渴喔，我想喝飲料，幫我寫喝！', thanks: '咕嚕咕嚕，喝光光！' },
+  { char: '王', n: 4, act: 'shine', wish: '我想當國王，幫我寫王！', thanks: '戴上王冠了！' },
+  { char: '金', n: 8, act: 'shine', wish: '我想拿第一名，幫我寫金！', thanks: '拿到金牌了！' },
+  { char: '書', n: 10, act: 'float', wish: '我想聽故事，幫我寫書！', thanks: '翻開故事書了！' },
+  { char: '家', n: 10, act: 'grow', wish: '下雨了，我想回家，幫我寫家！', thanks: '蓋好一間房子了！' },
+  { char: '心', n: 4, act: 'float', wish: '我想送你一個愛心，幫我寫心！', thanks: '愛心飄起來了！' },
+  { char: '玩', n: 8, act: 'bounce', wish: '我好無聊，想玩玩具，幫我寫玩！', thanks: '玩具熊跳起來了！' },
 ]
 
 /**
@@ -107,6 +133,13 @@ export const COMBOS = [
   { word: '雪糕', emoji: '🍦', act: 'yum', thanks: '雪糕冰冰涼涼！' },
   { word: '蛋糕', emoji: '🎂', act: 'yum', thanks: '生日快樂！吃蛋糕！' },
   { word: '電燈', emoji: '💡', act: 'shine', thanks: '電燈亮起來了！' },
+  { word: '火山', emoji: '🌋', act: 'burn', thanks: '火山爆發了！轟隆隆！' },
+  { word: '雪山', emoji: '🏔️', act: 'grow', thanks: '好高的雪山，白白的！' },
+  { word: '金魚', emoji: '🐠', act: 'swim', thanks: '金魚游來游去，金光閃閃！' },
+  { word: '山羊', emoji: '🐐', act: 'hop', thanks: '山羊跳上石頭了！' },
+  { word: '蛋餅', emoji: '🍳', act: 'yum', thanks: '早餐吃蛋餅，好香！' },
+  { word: '甜心', emoji: '💗', act: 'float', thanks: '你是我的小甜心！' },
+  { word: '陽傘', emoji: '⛱️', act: 'float', thanks: '撐起陽傘，不怕曬！' },
 ]
 
 /** 每一次寫字都用得到的固定句 */

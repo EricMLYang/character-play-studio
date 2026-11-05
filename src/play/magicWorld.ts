@@ -20,11 +20,11 @@ export const ZONE_OF: Record<Act, Zone> = {
 
 /** 每一區在世界裡的範圍（百分比：左、右、上、下） */
 export const ZONES: Record<Zone, [number, number, number, number]> = {
-  sky: [5, 95, 17, 39],
-  hill: [8, 92, 40, 56],
-  pond: [8, 40, 66, 86],
-  ground: [44, 92, 62, 84],
-  picnic: [58, 90, 86, 94],
+  sky: [4, 96, 16, 40],
+  hill: [5, 95, 42, 58],
+  pond: [6, 42, 66, 88],
+  ground: [44, 95, 60, 86],
+  picnic: [50, 97, 84, 98],
 }
 
 export type Dweller = { char: string; emoji: string; act: Act; zone: Zone; x: number; y: number; size: number; level: number }
@@ -38,7 +38,7 @@ export function spot(char: string, salt = 0): number {
 
 /**
  * 世界裡住了誰。emojiOf：字 → 它的 emoji（字庫的）；沒有的不放。
- * 同一區的東西太擠就往旁邊挪一點（最多試 16 次）。
+ * 同一區的東西太擠就往旁邊挪一點（最多試 40 次）。
  */
 export function dwellers(town: Record<string, Resident>, emojiOf: (char: string) => string | undefined): Dweller[] {
   const out: Dweller[] = []
@@ -48,14 +48,17 @@ export function dwellers(town: Record<string, Resident>, emojiOf: (char: string)
     if (!resident?.traces || !emoji) continue
     const zone = ZONE_OF[s.act]
     const [l, r, t, b] = ZONES[zone]
+    const level = residentLevel(resident)
+    // 野餐墊上的吃的小一點（吃的字最多，一樣大放不下）
+    const size = (7 + level * 1.6) * (zone === 'picnic' ? 0.7 : 1)
     let x = 0, y = 0
-    for (let k = 0; k < 16; k++) {
+    for (let k = 0; k < 40; k++) {
       x = l + spot(s.char, k) * (r - l)
       y = t + spot(s.char, k + 100) * (b - t)
-      if (!out.some((d) => d.zone === zone && Math.hypot(d.x - x, (d.y - y) * 1.6) < 9)) break
+      // 跟旁邊的東西至少隔兩個人大小的一半（y 乘 1.6：世界是 16:10，橫的距離跟直的一樣長）
+      if (!out.some((d) => Math.hypot(d.x - x, (d.y - y) * 1.6) < (d.size + size) * 0.42)) break
     }
-    const level = residentLevel(resident)
-    out.push({ char: s.char, emoji, act: s.act, zone, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10, size: 7 + level * 1.6, level })
+    out.push({ char: s.char, emoji, act: s.act, zone, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10, size: Math.round(size * 10) / 10, level })
   }
   // 後面（上面）的先畫，前面（下面）的蓋在上面
   return out.sort((a, b) => a.y - b.y)
