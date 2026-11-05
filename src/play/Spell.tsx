@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/audio'
-import { cheer, tap } from '../lib/sfx'
+import { cheer, stroke as strokeTone, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { SPELLS, SPELL_FIXED } from '../../shared/spells.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
@@ -41,6 +41,8 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length 
 const PREVIEW_MS = 2200
 /** 寫字的時候多久沒動作算卡住（遮起來寫要先看兩秒、想一下，所以不能太短） */
 const STUCK_MS = 15000
+/** 結算點他寫的字重寫一次：每一筆隔多久 */
+const REDRAW_MS = 320
 
 /**
  * 這個字為什麼住在它的部首家（shared/radicals.mjs 的 members）。變出來的東西跟那句講的不是同一件事的不說：
@@ -425,6 +427,15 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
 }) {
   /** 點他寫的字：唸出來，同時用他自己的筆跡照筆順一筆一筆重寫一次（「看，我是這樣寫的」）；n 換了就重播 */
   const [redraw, setRedraw] = useState<{ char: string; n: number } | null>(null)
+  // 每一筆畫出來的時候響一聲（跟描字同一個音，越寫越高）
+  const tones = useRef<number[]>([])
+  useEffect(() => () => tones.current.forEach(clearTimeout), [])
+  const replay = (w: Written) => {
+    onPick(w.char)
+    setRedraw((r) => ({ char: w.char, n: (r?.n || 0) + 1 }))
+    tones.current.forEach(clearTimeout)
+    tones.current = w.strokes.map((_, k) => window.setTimeout(() => strokeTone(k, w.strokes.length), k * REDRAW_MS))
+  }
   return (
     <div className="spell-done">
       <Confetti />
@@ -433,9 +444,9 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
       {written.length > 0 && (
         <div className="spell-done-hand" aria-label="你這一輪寫的字">
           {written.map((w, i) => (
-            <button key={w.char} onClick={() => { onPick(w.char); setRedraw((r) => ({ char: w.char, n: (r?.n || 0) + 1 })) }} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
+            <button key={w.char} onClick={() => replay(w)} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
               <svg key={redraw?.char === w.char ? redraw.n : 0} viewBox="0 0 1024 1024" className={redraw?.char === w.char ? 'spell-redraw' : undefined} aria-hidden>
-                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} pathLength={1} style={{ animationDelay: `${k * 0.32}s` }} />)}</g>
+                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} pathLength={1} style={{ animationDelay: `${k * REDRAW_MS}ms` }} />)}</g>
               </svg>
             </button>
           ))}
