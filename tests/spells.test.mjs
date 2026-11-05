@@ -216,3 +216,9 @@ test('合體紀錄：記第一次合出來的時間；伺服器只收 COMBOS 裡
   assert.ok(v && v.emoji === '🌋', '火山住進來了')
   assert.ok(v.size > world.find((d) => d.char === '火').size, '合體的比單字大一號')
 })
+
+test('挑願望：魔法世界還空著的那一區先補（天上已經有東西、池塘還空著 → 魚比鳥先）', () => {
+  const progress = { watched: { 魚: { count: 1 }, 鳥: { count: 1 } }, recall: {}, town: { 星: r(1), 月: r(1) } }
+  // 魚、鳥都是 11 筆、都看過、都沒寫過，只差在池塘空著
+  assert.equal(pickWishes(lib, progress, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '魚')
+})

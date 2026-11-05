@@ -1,5 +1,6 @@
 import type { CharEntry, Progress, Resident } from '../types'
 import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
+import { ZONE_OF, type Zone } from './magicWorld'
 
 /**
  * 魔法筆（Spell.tsx）的兩個決定：今天許哪幾個願望、每個字要他怎麼寫。
@@ -32,7 +33,7 @@ export const WISHES_PER_ROUND = 3
 /**
  * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
  * 看過的字裡：該複習的（記住程度到期了）最優先，再來是還沒寫過的、只描過沒遮起來寫過的。
- * 筆畫多的往後排（第一次寫的字尤其是）。一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
+ * 筆畫多的往後排（第一次寫的字尤其是）；魔法世界還空著的那一區先補。一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
  */
 type PickOptions = {
   n?: number; want?: string; today: string; rand?: () => number
@@ -80,6 +81,8 @@ export function pickRound(library: CharEntry[], progress: Progress, options: Pic
 
 function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [], today, rand = Math.random }: PickOptions) {
   const byChar = new Map(library.map((e) => [e.char, e]))
+  // 魔法世界哪一區還空著（池塘沒有魚、天上沒有東西）：住那一區的字加一點分，世界才會每個地方都熱鬧起來
+  const filled = new Set<Zone>(SPELLS.filter((s) => progress.town?.[s.char]?.traces).map((s) => ZONE_OF[s.act]))
   return SPELLS.flatMap((s) => {
     const entry = byChar.get(s.char)
     if (!entry?.emoji) return []
@@ -90,6 +93,7 @@ function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [
     if (seen) score += 4
     if (due && due <= today) score += 2
     if (focus.includes(s.char)) score += 2.5
+    if (!filled.has(ZONE_OF[s.act])) score += 1
     if (!resident) score += 1.5
     else if (!resident.blind) score += 1
     // 筆畫太多會寫到放棄：第一次寫的字 8 筆以內最好，越熟可以越多（六歲一次寫 15 筆是很大的工程）
