@@ -23,7 +23,7 @@ export const ZONES: Record<Zone, [number, number, number, number]> = {
   sky: [4, 96, 16, 40],
   hill: [5, 95, 42, 58],
   pond: [6, 42, 66, 88],
-  ground: [44, 95, 58, 80],
+  ground: [42, 96, 50, 80],
   picnic: [50, 97, 84, 98],
 }
 
@@ -51,12 +51,23 @@ export function dwellers(town: Record<string, Resident>, emojiOf: (char: string)
     }),
     ...COMBOS.filter((c) => fused[c.word]).map((c) => ({ char: c.word, emoji: c.emoji, act: c.act, level: 2, big: 2.5 })),
   ]
+  // 野餐墊上的吃的小一點（吃的字最多，一樣大放不下）
+  const natural = (zone: Zone, level: number, big: number) => (7 + level * 1.6 + big) * (zone === 'picnic' ? 0.7 : 1)
+  // 一區住太多就整區一起縮小：照原大小全部要佔的面積超過那一區放得下的，就等比例縮（最多縮到 55%）。
+  // 寫到六十幾個字（兩個月的模擬），地上擠了二十幾個，原大小怎麼挪都疊在一起、字牌互相蓋住
+  // 一個東西佔 size²：結算那張世界裡每個東西寬 size%（背景那張只有一半大），照比較擠的那張算
+  const need: Partial<Record<Zone, number>> = {}
+  for (const w of who) { const z = ZONE_OF[w.act]; need[z] = (need[z] || 0) + natural(z, w.level, w.big) ** 2 }
+  const shrink = (zone: Zone) => {
+    const [l, r, t, b] = ZONES[zone]
+    const room = 0.45 * (r - l) * (b - t) * 1.6
+    return Math.max(0.55, Math.min(1, Math.sqrt(room / (need[zone] || 1))))
+  }
   for (const { char, emoji, act, level, big } of who) {
     const s = { char, act }
     const zone = ZONE_OF[act]
     const [l, r, t, b] = ZONES[zone]
-    // 野餐墊上的吃的小一點（吃的字最多，一樣大放不下）
-    const size = (7 + level * 1.6 + big) * (zone === 'picnic' ? 0.7 : 1)
+    const size = natural(zone, level, big) * shrink(zone)
     let x = 0, y = 0
     for (let k = 0; k < 40; k++) {
       x = l + spot(s.char, k) * (r - l)

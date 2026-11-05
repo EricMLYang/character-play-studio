@@ -154,6 +154,22 @@ test('魔法世界：會變身的字全部都寫過也住得下（同一區不�
   assert.ok(close / 2 <= 6, `疊在一起的有 ${close / 2} 對`)
 })
 
+test('魔法世界：一區住太多就一起縮小，不會疊成一團；住得少的時候不縮', () => {
+  // 全部寫過、合體全合過（最擠的時候）：幾乎沒有「中心距離小於兩個人大小加起來 0.3 倍」的重疊（沒縮之前有 21 對）
+  const all = Object.fromEntries(SPELLS.map((s, i) => [s.char, r(1 + (i % 4), i % 3)]))
+  const world = dwellers(all, emojiOf, Object.fromEntries(COMBOS.map((c) => [c.word, 'x'])))
+  let heavy = 0
+  for (let i = 0; i < world.length; i++) for (let j = i + 1; j < world.length; j++) {
+    const d = world[i], e = world[j]
+    if (Math.hypot(d.x - e.x, (d.y - e.y) * 1.6) < (d.size + e.size) * 0.3) heavy++
+  }
+  assert.ok(heavy <= 2, `重疊 ${heavy} 對`)
+  // 最多縮到 55%：再小在 iPad 上就看不清楚
+  assert.ok(world.every((d) => d.size >= 7 * 0.7 * 0.55 - 0.1))
+  // 只住幾個的時候照原大小
+  assert.equal(dwellers({ 魚: r(1) }, emojiOf)[0].size, 7 + 1.6, '第 1 級的魚照原大小')
+})
+
 test('合體魔法：每個詞的兩個字都會變身、詞有 3D 圖、合起來是另一個東西；台詞都會預先做', () => {
   const lines = spellLines()
   for (const c of COMBOS) {
