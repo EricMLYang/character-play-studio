@@ -5,6 +5,6 @@ export const SPELLS: Spell[]
 export type Combo = { word: string; emoji: string; act: Act; thanks: string }
 export const COMBOS: Combo[]
 export function comboOf(a: string, b: string): Combo | undefined
-export const SPELL_FIXED: { hello: string; look: string; gone: string; peek: string; traceIt: string; again: string; done: string; world: string; fuse: string; hint: string; choose: string; memory: string; levelUp: string; master: string; yours: string; lastOne: string; stuckBlind: string; stuckTrace: string }
+export const SPELL_FIXED: { hello: string; look: string; gone: string; done: string; world: string; fuse: string; hint: string; choose: string; memory: string; levelUp: string; master: string; yours: string; lastOne: string; stuckBlind: string; stuckTrace: string }
 export function spellFor(char: string): Spell | undefined
 export function spellLines(): string[]
