@@ -11,6 +11,7 @@ import Buddy, { useReaction } from './Buddy'
 import Stage from './Stage'
 import { partnersAt, type Partner } from './partners'
 import { pickWishes, type Wish } from './wishes'
+import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers } from './magicWorld'
 import World from './World'
 import { Confetti, SubBar, emojiArt } from './ui'
@@ -32,16 +33,20 @@ type Phase = 'ask' | 'write' | 'conjure' | 'thanks' | 'done'
 /** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
 type Made = { char: string; emoji: string; blind?: boolean }
 
-export default function Spell({ library, progress, stars, want, onTraced, onBack }: {
+export default function Spell({ library, progress, stars, want, focus, path, onWalk, onTraced, onBack }: {
   library: CharEntry[]
   progress: Progress
   stars: number
   want?: string
+  focus?: string[]
+  /** 今天的路：做完「寫一寫」這一站，結算多一顆「下一站」 */
+  path?: Stop[]
+  onWalk?: (go: StopGo) => void
   onTraced: (char: string, strokes: number[][], blind: boolean) => void
   onBack: () => void
 }) {
   const [round, setRound] = useState(0)
-  const wishes = useMemo(() => pickWishes(library, progress, { want: round === 0 ? want : undefined, today: taiwanDay() }), [round])
+  const wishes = useMemo(() => pickWishes(library, progress, { want: round === 0 ? want : undefined, focus, today: taiwanDay() }), [round])
   const partner = useMemo<Partner>(() => { const crew = partnersAt(stars); return crew[Math.floor(Math.random() * crew.length)] }, [round])
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('ask')
@@ -126,6 +131,9 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
     )
   }
 
+  // 寫一寫這一站做完了（今天寫滿三個字）：下一站
+  const { stopDone, nextStop: next } = stopAfter(path, 'write')
+  const showNext = phase === 'done' && stopDone ? next : undefined
   const art = wish ? emojiArt(wish.emoji) : null
   const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
   const world = phase === 'done' ? dwellers(progress.town || {}, emojiOf) : []
@@ -145,7 +153,8 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
           {/* 他寫過的東西都住在這裡（從小鎮的紀錄推出來），這一輪變出來的從天上掉進來 */}
           <World dwellers={world} fresh={made.map((m) => m.char)} onPick={(c) => { tap(); say(c, RATE) }} />
           <div className="spell-actions">
-            <button className="spell-btn spell-go" onClick={again}>🪄 再變三個</button>
+            {showNext && <button className="spell-btn spell-go" onClick={() => { tap(); stopSpeech(); onWalk?.(showNext.go) }}>下一站：{showNext.icon} {showNext.title} →</button>}
+            <button className={'spell-btn' + (showNext ? '' : ' spell-go')} onClick={again}>🪄 再變三個</button>
             <button className="spell-btn" onClick={() => { tap(); onBack() }}>🏠 回首頁</button>
           </div>
         </div>

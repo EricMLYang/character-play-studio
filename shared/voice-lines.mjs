@@ -82,6 +82,7 @@ export const FIXED_LINES = {
   /** 今天的路（src/play/today.ts）：每一站的那句話，以及走完 */
   pathRecall: '先把前幾天的字想起來！',
   pathNew: '來認識今天的新朋友！',
+  pathWrite: '拿起魔法筆！寫什麼，就變什麼！',
   pathFamily: '看看今天的字住在哪一家！',
   pathRead: '用今天的字，讀一本小書！',
   pathHome: '回家囉！去小鎮看看！',
