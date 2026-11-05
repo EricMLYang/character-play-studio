@@ -46,3 +46,15 @@ await window.__autoWrite('魚')
 - `.spell-pad[data-char]`：現在要寫的是哪個字，可以直接丟給 `__autoWrite`。
 - `.spell[data-combo]`：這一輪湊得成哪個合體詞，空的就是沒有合體。要測合體的話，重新進魔法筆直到它有值為止。
 - 階段寫在最外層的 class：`spell-is-choose`、`ask`、`write`、`conjure`、`thanks`、`fuse`、`fused`、`done`。
+
+## 四種尺寸掃一遍（有沒有東西超出畫面）
+> 第二夜第 87、88 輪：手機橫放的結算按鈕整排在畫面外、直放的升級徽章切到邊——之前只量過寫字畫面，沒有每一段都量。
+
+- `resize_window` 在這台機器沒用，改在頁面裡塞一個固定大小的 iframe（`/#/spell`，同源，可以直接操作裡面的 document）。
+- 尺寸：手機直 390×844、手機橫 844×390、iPad 直 820×1180、iPad 橫 1180×820。
+- 在 iframe 裡照上面的方法自動走完一輪（`__autoWrite` 的 `document` 換成 iframe 的、`MouseEvent` 用 iframe 的 `window.MouseEvent`），
+  每寫一筆、每換一段就檢查 `.spell-btn`、`.spell-card`、`.stroke-canvas`、`.spell-bubble`、`.spell-level`、`.fuse-card`、`button`……
+  的 `getBoundingClientRect()` 有沒有超出 iframe 的寬高（背景世界 `.world` 裡的東西不算），依階段（`spell-is-*`）分開記。
+- 結算再按「🎨 我想變別的」量圖鑑；網址帶 `?w=火山` 可以保證這一輪有合體。
+- 動畫中的東西（升級徽章放大那一下）也要量：每一筆都量一次就抓得到。
+- 量完一定把 iframe 拿掉。
