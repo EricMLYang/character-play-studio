@@ -158,6 +158,7 @@ export const SPELL_FIXED = {
   choose: '你想先變哪一個？',
   memory: '這次不給你看了！你記得怎麼寫嗎？',
   levelUp: '升級了！',
+  master: '你變成這個字的大魔法師了！不用看就寫得出來！',
   yours: '你寫的字，變成真的了！',
 }
 

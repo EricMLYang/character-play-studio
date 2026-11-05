@@ -116,7 +116,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.yours, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -192,7 +192,11 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     setMade((m) => [...m, { char: wish.char, emoji: wish.emoji, blind: wroteBlind.current }])
     setPhase('thanks')
     react('cheer')
-    const lines = [...(wroteBlind.current ? [FIXED_LINES.wroteBlind] : []), ...(levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
+    // 升到 🧙 聽寫級＝這個字真的會了（不看就寫得出來）：比一般升級更大聲地慶祝
+    const master = levelUp === 'memory'
+    if (master) cheer()
+    // 大魔法師那句已經說了「不用看就寫得出來」，就不再先說「沒有偷看」（話太長他聽不完）
+    const lines = [...(wroteBlind.current && !master ? [FIXED_LINES.wroteBlind] : []), ...(master ? [SPELL_FIXED.master] : levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
     speak(lines)
     const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
     later(() => {
@@ -296,7 +300,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             <button className="spell-bubble" onClick={() => { tap(); speak([wish.wish]) }} aria-label={`再聽一次：${wish.wish}`}>
               {phase === 'fused' && combo ? combo.thanks : phase === 'fuse' ? SPELL_FIXED.fuse
                 : phase === 'conjure' && toldTurn.current === turn ? SPELL_FIXED.yours
-                : phase === 'thanks' ? `${made[made.length - 1]?.blind ? FIXED_LINES.wroteBlind : ''}${levelUp ? `${wish.char}${SPELL_FIXED.levelUp}` : ''}${wish.thanks}` : wish.wish} <span aria-hidden>🔊</span>
+                : phase === 'thanks' ? `${made[made.length - 1]?.blind && levelUp !== 'memory' ? FIXED_LINES.wroteBlind : ''}${levelUp === 'memory' ? SPELL_FIXED.master : levelUp ? `${wish.char}${SPELL_FIXED.levelUp}` : ''}${wish.thanks}` : wish.wish} <span aria-hidden>🔊</span>
             </button>
             <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
           </div>
@@ -319,6 +323,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
           ))}</div>
         </div>
       )}
+      {phase === 'thanks' && levelUp === 'memory' && <Confetti />}
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
         <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound} onDone={finishConjure} />
