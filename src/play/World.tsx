@@ -38,6 +38,8 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
             onClick={() => { setPoke((p) => ({ char: d.char, n: (p?.n || 0) + 1 })); onPick?.(d.char) }} aria-label={d.char} tabIndex={backdrop ? -1 : undefined}>
             <span key={poke?.char === d.char ? poke.n : 0} className="world-body">{art ? <img src={art} alt="" draggable={false} /> : d.emoji}</span>
             <b className="world-char">{d.char}</b>
+            {/* 🧙 聽寫級（不看就寫得出來）的字：頭上一圈星光，學會了的字在世界裡看得出來 */}
+            {d.level >= 3 && [...d.char].length === 1 && <i className="world-master" aria-hidden>✨</i>}
           </button>
         )
       })}

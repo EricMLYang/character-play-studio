@@ -292,6 +292,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             <button key={w.char} className={'spell-card' + (index === i ? ' spell-picked' : '')} onClick={() => { setIndex(i); pick(i) }} aria-label={w.char}>
               {emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : <span>{w.emoji}</span>}
               <b>{w.char}</b>
+              {/* 這個字的魔法等級：熟的、新的一眼看得出來，他也許會想挑一個快升級的 */}
+              <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[w.level]}</i>
             </button>
           ))}</div>
           <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (

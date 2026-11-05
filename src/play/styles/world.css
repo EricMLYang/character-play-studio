@@ -21,6 +21,11 @@
 @keyframes worldSway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 @keyframes worldHop { 0%, 70% { transform: none; } 85% { transform: translateY(-14%) scale(.96, 1.04); } 100% { transform: none; } }
 
+/* 聽寫級的字頭上的星光 */
+.world-master { position: absolute; left: 50%; top: -18%; translate: -50% 0; font-style: normal; font-size: clamp(14px, 2.4vh, 26px); pointer-events: none;
+  animation: worldTwinkle 1.6s ease-in-out infinite alternate; }
+@keyframes worldTwinkle { from { opacity: .5; transform: scale(.85) rotate(-10deg); } to { opacity: 1; transform: scale(1.1) rotate(10deg); } }
+
 /* 剛變出來的：從天上掉進來，閃一下光 */
 .world-fresh { animation: worldDrop .8s cubic-bezier(.3,1.5,.5,1) both; }
 .world-fresh .world-body img { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 4px 4px rgba(0,0,0,.2)); }
