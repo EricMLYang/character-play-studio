@@ -26,8 +26,8 @@
 .spell-is-ask .spell-pad::before { content: '🪄'; font-size: 80px; animation: spellWand 1s ease-in-out infinite alternate; }
 @keyframes spellWand { from { transform: rotate(-12deg) translateY(4px); } to { transform: rotate(12deg) translateY(-6px); } }
 /* 寫完了就不用那些「再描一次」的鈕：變身接著演 */
-.spell-is-conjure .stroke-actions, .spell-is-thanks .stroke-actions { visibility: hidden; }
-.spell-is-conjure .stroke-canvas svg, .spell-is-thanks .stroke-canvas svg { opacity: .25; transition: opacity .4s; }
+.spell-is-conjure .stroke-actions, .spell-is-thanks .stroke-actions, .spell-is-fuse .stroke-actions, .spell-is-fused .stroke-actions { visibility: hidden; }
+.spell-is-conjure .stroke-canvas svg, .spell-is-thanks .stroke-canvas svg, .spell-is-fuse .stroke-canvas svg, .spell-is-fused .stroke-canvas svg { opacity: .25; transition: opacity .4s; }
 
 /* 變出來的東西排在右邊架子上 */
 .spell-shelf { justify-self: start; display: flex; flex-direction: column; gap: 10px; }

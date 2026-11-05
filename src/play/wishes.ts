@@ -1,5 +1,5 @@
 import type { CharEntry, Progress, Resident } from '../types'
-import { SPELLS, type Spell } from '../../shared/spells.mjs'
+import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
 
 /**
  * 魔法筆（Spell.tsx）的兩個決定：今天許哪幾個願望、每個字要他怎麼寫。
@@ -31,13 +31,53 @@ export const WISHES_PER_ROUND = 3
  * 看過的字裡：該複習的（記住程度到期了）最優先，再來是還沒寫過的、只描過沒遮起來寫過的。
  * 筆畫多的往後排（第一次寫的字尤其是）。一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
  */
-export function pickWishes(library: CharEntry[], progress: Progress, { n = WISHES_PER_ROUND, want, focus = [], today, rand = Math.random }: {
+type PickOptions = {
   n?: number; want?: string; today: string; rand?: () => number
   /** 今天的路上的字（今天的新字、該複習的）：今天學的就今天寫 */
   focus?: string[]
-}): Wish[] {
+}
+
+export function pickWishes(library: CharEntry[], progress: Progress, options: PickOptions): Wish[] {
+  const n = options.n ?? WISHES_PER_ROUND
+  const scored = scoreSpells(library, progress, options)
+  const picked: typeof scored = []
+  for (const w of scored) if (picked.length < n && !picked.some((p) => p.act === w.act)) picked.push(w)
+  for (const w of scored) if (picked.length < n && !picked.includes(w)) picked.push(w)
+  return picked.map(strip)
+}
+
+const strip = ({ score: _score, ...w }: Wish & { score: number }): Wish => w
+
+/** 一輪：三個願望；後兩個湊得成合體魔法（月＋餅 → 月餅）的話，combo 就是那個詞 */
+export type Round = { wishes: Wish[]; combo?: Combo }
+
+/** 合體的兩個字都要排在前面這麼多名以內（不能為了合體硬塞他沒看過、筆畫又多的字） */
+const COMBO_RANK = 10
+
+/**
+ * 挑一輪。先看有沒有合體湊得成：兩個字都在前 10 名裡（看過、不太難），挑兩個字分數加起來最高的那組，
+ * 排在第二、三個願望，第一個是另外一個字（動作不跟它們重複）。湊不成就是普通的三個願望。
+ */
+export function pickRound(library: CharEntry[], progress: Progress, options: PickOptions): Round {
+  const scored = scoreSpells(library, progress, options)
+  const top = scored.slice(0, COMBO_RANK)
+  const rank = (c: string) => top.find((w) => w.char === c)
+  const combos = COMBOS.flatMap((combo) => {
+    const [a, b] = [...combo.word]
+    const wa = rank(a), wb = rank(b)
+    if (!wa || !wb || a === options.want || b === options.want) return []
+    return [{ combo, wa, wb, score: wa.score + wb.score }]
+  }).sort((x, y) => y.score - x.score)
+  const best = combos[0]
+  if (!best) return { wishes: pickWishes(library, progress, options) }
+  const first = scored.find((w) => w !== best.wa && w !== best.wb && w.act !== best.wa.act && w.act !== best.wb.act)
+    ?? scored.find((w) => w !== best.wa && w !== best.wb)
+  return { wishes: [...(first ? [first] : []), best.wa, best.wb].map(strip), combo: best.combo }
+}
+
+function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [], today, rand = Math.random }: PickOptions) {
   const byChar = new Map(library.map((e) => [e.char, e]))
-  const scored = SPELLS.flatMap((s) => {
+  return SPELLS.flatMap((s) => {
     const entry = byChar.get(s.char)
     if (!entry?.emoji) return []
     const seen = (progress.watched?.[s.char]?.count || 0) > 0
@@ -55,9 +95,4 @@ export function pickWishes(library: CharEntry[], progress: Progress, { n = WISHE
     if (s.char === want) score += 100
     return [{ ...s, emoji: entry.emoji, level, score }]
   }).sort((a, b) => b.score - a.score)
-
-  const picked: typeof scored = []
-  for (const w of scored) if (picked.length < n && !picked.some((p) => p.act === w.act)) picked.push(w)
-  for (const w of scored) if (picked.length < n && !picked.includes(w)) picked.push(w)
-  return picked.map(({ score: _score, ...w }) => w)
 }

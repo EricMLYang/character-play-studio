@@ -16,7 +16,7 @@ registerHooks({
 })
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const { SPELLS, ACTS, SPELL_FIXED, spellFor, spellLines } = await import('../shared/spells.mjs')
+const { SPELLS, ACTS, SPELL_FIXED, COMBOS, comboOf, spellFor, spellLines } = await import('../shared/spells.mjs')
 const { inkPath, inkCenter, ACT_SOUND, conjureTotal } = await import('../src/play/conjuring.ts')
 const library = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/characters.json'), 'utf8'))
 const entries = new Map((library.characters || library).map((c) => [c.char, c]))
@@ -70,7 +70,7 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.ok(conjureTotal() > 3000 && conjureTotal() < 5000, '整段變身 3～5 秒')
 })
 
-const { writeLevel, pickWishes, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
+const { writeLevel, pickWishes, pickRound, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
 const lib = [...entries.values()]
 const fixed = () => 0.5
 
@@ -140,4 +140,33 @@ test('魔法世界：全部 60 個字都寫過也住得下（同一區不疊在�
   let close = 0
   for (const d of world) for (const e of world) if (d !== e && Math.hypot(d.x - e.x, (d.y - e.y) * 1.6) < 4) close++
   assert.ok(close / 2 <= 6, `疊在一起的有 ${close / 2} 對`)
+})
+
+test('合體魔法：每個詞的兩個字都會變身、詞有 3D 圖、合起來是另一個東西；台詞都會預先做', () => {
+  const lines = spellLines()
+  for (const c of COMBOS) {
+    const [a, b] = [...c.word]
+    assert.ok(spellFor(a) && spellFor(b), c.word)
+    assert.notEqual(a, b, `${c.word} 是疊字`)
+    assert.ok(has3d.has(code(c.emoji)), `${c.word}（${c.emoji}）沒有 3D 圖`)
+    assert.ok(ACTS.includes(c.act))
+    assert.ok(lines.includes(c.word) && lines.includes(c.thanks))
+    assert.equal(comboOf(a, b), c)
+  }
+  assert.equal(comboOf('餅', '月'), undefined, '順序反了不算')
+})
+
+test('挑一輪：兩個字都看過、排得夠前面就安排合體，排在第二、三個；他為了哪個字來的還是第一個', () => {
+  const progress = { watched: { 月: { count: 2 }, 餅: { count: 2 }, 火: { count: 1 } }, recall: {}, town: {} }
+  const round = pickRound(lib, progress, { today: '2026-11-06', rand: fixed })
+  assert.equal(round.combo?.word, '月餅')
+  assert.deepEqual(round.wishes.slice(1).map((w) => w.char), ['月', '餅'])
+  assert.equal(round.wishes.length, 3)
+  const wanted = pickRound(lib, progress, { today: '2026-11-06', rand: fixed, want: '雨' })
+  assert.equal(wanted.wishes[0].char, '雨')
+  assert.equal(wanted.combo?.word, '月餅')
+  // 他沒看過的字湊不成合體（不能為了合體硬塞）
+  const none = pickRound(lib, { watched: { 火: { count: 1 }, 水: { count: 1 }, 木: { count: 1 }, 羊: { count: 1 }, 犬: { count: 1 }, 日: { count: 1 }, 瓜: { count: 1 }, 石: { count: 1 }, 米: { count: 1 }, 肉: { count: 1 }, 花: { count: 1 } } }, { today: '2026-11-06', rand: fixed })
+  assert.equal(none.combo, undefined)
+  assert.equal(none.wishes.length, 3)
 })

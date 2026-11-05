@@ -127,6 +127,28 @@
   60% { transform: scale(1.1); clip-path: inset(0 0 0 0); } 75% { transform: scale(1); clip-path: inset(0 0 0 30%); }
   90% { transform: scale(.9); clip-path: inset(0 0 0 65%); } 100% { transform: scale(.6); clip-path: inset(0 0 0 100%); } }
 
+/* ---- 合體魔法（Fuse.tsx）：他寫的兩個字並排成詞卡 → 滑到一起 → 變成那個詞的東西 ---- */
+.fuse { background: rgba(255,250,240,.6); animation: fuseIn .35s ease-out both; }
+@keyframes fuseIn { from { background: rgba(255,250,240,0); } }
+.fuse-card { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: flex; align-items: center; gap: 0;
+  padding: 18px 26px; border-radius: 32px; background: #FFFEFB; box-shadow: 0 0 0 6px rgba(155,123,255,.35), 0 18px 40px rgba(0,0,0,.2);
+  animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; transition: opacity .35s, scale .5s cubic-bezier(.6,0,.4,1), rotate .5s; }
+.fuse-ink { width: min(30vh, 34vw); height: min(30vh, 34vw); overflow: visible; transition: transform .7s cubic-bezier(.6,0,.4,1), filter .5s; }
+.fuse-ink path { fill: none; stroke: #2E2A26; stroke-width: 48; stroke-linecap: round; stroke-linejoin: round; transition: stroke .5s; }
+.fuse-plus { order: 1; font-size: min(9vh, 64px); font-weight: 900; color: #9B7BFF; transition: opacity .3s; }
+.fuse-ink-1 { order: 2; }
+.fuse-show .fuse-ink { animation: fuseBreathe 1.1s ease-in-out infinite alternate; }
+@keyframes fuseBreathe { to { transform: scale(1.04); } }
+/* 滑到一起：兩個字往中間靠、變金色 */
+.fuse-join .fuse-plus { opacity: 0; }
+.fuse-join .fuse-ink path { stroke: #FFC53D; }
+.fuse-join .fuse-ink { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 0 22px #FFB020); }
+.fuse-join .fuse-ink-0 { transform: translateX(28%) scale(.9); }
+.fuse-join .fuse-ink-1 { transform: translateX(-28%) scale(.9); }
+.fuse-pop .fuse-card, .fuse-act .fuse-card, .fuse-end .fuse-card { opacity: 0; scale: .2; rotate: 20deg; }
+.fuse-word { position: absolute; left: 50%; top: calc(50% + min(22vh, 180px)); translate: -50% 0; padding: 4px 22px; border-radius: 20px; background: #fff;
+  font-family: var(--kai); font-size: min(9vh, 72px); line-height: 1.1; box-shadow: 0 6px 0 rgba(0,0,0,.08); animation: popUp .45s .2s cubic-bezier(.2,1.6,.4,1) both; }
+
 @media (prefers-reduced-motion: reduce) {
   .cj-act .cj-thing, .cj-act .cj-body { animation: none !important; }
 }

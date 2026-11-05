@@ -87,6 +87,28 @@ export const SPELLS = [
   { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', thanks: '小雞吃得好開心！' },
 ]
 
+/**
+ * 合體魔法：兩個會變身的字合在一起變成一個詞（月＋餅 → 月餅）。一輪裡第二、三個願望湊得成一組，就在最後合體——
+ * 他自己寫的兩個字並排成一個詞，再變成那個東西。「同一個字在不同的詞裡」是詞素意識，研究上比聲韻覺識更能預測讀寫。
+ * 只收合起來是「另一個東西」的（🌙＋🍪 → 🥮），疊字（星星）跟合起來還是原本那個的（樹葉）不收。
+ */
+export const COMBOS = [
+  { word: '月餅', emoji: '🥮', act: 'yum', thanks: '中秋節吃月餅，好甜！' },
+  { word: '水球', emoji: '💦', act: 'bounce', thanks: '水球砸下來，嘩啦！' },
+  { word: '雨傘', emoji: '☂️', act: 'float', thanks: '撐開雨傘，不怕下雨！' },
+  { word: '鳥蛋', emoji: '🥚', act: 'bounce', thanks: '鳥媽媽生了一顆蛋！' },
+  { word: '飛龍', emoji: '🐉', act: 'fly', thanks: '飛龍衝上天了！' },
+  { word: '水果', emoji: '🍉', act: 'yum', thanks: '好多水果，好好吃！' },
+  { word: '糖果', emoji: '🍬', act: 'yum', thanks: '糖果甜甜的！' },
+  { word: '熊貓', emoji: '🐼', act: 'stomp', thanks: '熊貓來了，黑白黑白！' },
+  { word: '龍蝦', emoji: '🦞', act: 'swim', thanks: '龍蝦揮揮大鉗子！' },
+  { word: '花豹', emoji: '🐆', act: 'run', thanks: '花豹跑得好快！' },
+  { word: '雪花', emoji: '❄️', act: 'fall', thanks: '雪花一片一片飄下來！' },
+  { word: '雪糕', emoji: '🍦', act: 'yum', thanks: '雪糕冰冰涼涼！' },
+  { word: '蛋糕', emoji: '🎂', act: 'yum', thanks: '生日快樂！吃蛋糕！' },
+  { word: '電燈', emoji: '💡', act: 'shine', thanks: '電燈亮起來了！' },
+]
+
 /** 每一次寫字都用得到的固定句 */
 export const SPELL_FIXED = {
   hello: '魔法筆來了！寫什麼，就變什麼！',
@@ -97,10 +119,14 @@ export const SPELL_FIXED = {
   again: '再變一個！',
   done: '你今天變出了好多東西！',
   world: '它們都住進你的魔法世界了！',
+  fuse: '這兩個字合起來，會變成什麼？',
 }
 
 /** 這個字會不會變身；不會的回 undefined */
 export const spellFor = (char) => SPELLS.find((s) => s.char === char)
 
 /** 伺服器要預先做的句子 */
-export const spellLines = () => [...Object.values(SPELL_FIXED), ...SPELLS.flatMap((s) => [s.wish, s.thanks])]
+export const spellLines = () => [...Object.values(SPELL_FIXED), ...SPELLS.flatMap((s) => [s.wish, s.thanks]), ...COMBOS.flatMap((c) => [c.word, c.thanks])]
+
+/** 這兩個字（照順序）合得成哪一個詞 */
+export const comboOf = (a, b) => COMBOS.find((c) => c.word === a + b)
