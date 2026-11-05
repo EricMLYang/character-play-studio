@@ -85,8 +85,11 @@ export function dwellers(town: Record<string, Resident>, emojiOf: (char: string)
  * 他最近變出來的幾個東西（最近寫的、會變身的字）：首頁今天的路兩旁站著陪他，點了進魔法筆（Home 的 PathBoard）。
  * 每次打開樂園都看得到自己寫出來的魚、球——寫字的成果不只在魔法筆裡。
  */
-export function recentMade(town: Record<string, Resident>, emojiOf: (char: string) => string | undefined, n = 2): { char: string; emoji: string }[] {
-  return SPELLS.filter((s) => town[s.char]?.traces && emojiOf(s.char))
-    .sort((a, b) => Date.parse(town[b.char].last) - Date.parse(town[a.char].last))
-    .slice(0, n).map((s) => ({ char: s.char, emoji: emojiOf(s.char)! }))
+export function recentMade(town: Record<string, Resident>, emojiOf: (char: string) => string | undefined, n = 2, fused: Record<string, string> = {}): { char: string; emoji: string }[] {
+  // 合體合出來的詞也算（剛合出火山，站在路旁的就是火山，比火、山更威）；char 是那個詞，點了排一輪火山
+  const made = [
+    ...SPELLS.filter((s) => town[s.char]?.traces && emojiOf(s.char)).map((s) => ({ char: s.char, emoji: emojiOf(s.char)!, at: Date.parse(town[s.char].last) })),
+    ...COMBOS.filter((c) => fused[c.word]).map((c) => ({ char: c.word, emoji: c.emoji, at: Date.parse(fused[c.word]) })),
+  ]
+  return made.sort((a, b) => b.at - a.at).slice(0, n).map(({ char, emoji }) => ({ char, emoji }))
 }

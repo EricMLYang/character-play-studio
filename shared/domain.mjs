@@ -62,12 +62,13 @@ export const residentLevel = (resident) => Math.min(1 + (resident?.blind || 0), 
 export const CROWN_LEVEL = 5
 
 /**
- * 魔法筆的合體（shared/spells.mjs 的 COMBOS）：這個詞第一次合出來的時間。
- * 之後再合出來不改——跟魔法鍋一樣，記的是「發現」，魔法世界裡就一直住著它。
+ * 魔法筆的合體（shared/spells.mjs 的 COMBOS）：這個詞最近一次合出來的時間（合過的就一直住在魔法世界裡）。
+ * 原本記第一次（像魔法鍋記「發現」），但用到它的都要的是「最近」：挑一輪時三天內合過的先不排、首頁路旁站最近合的。
+ * 離線補送的舊紀錄晚到，不蓋掉新的。
  */
 export function fuseWord(progress, word, at = new Date().toISOString()) {
   const previous = progress.fused?.[word]
-  if (previous && Date.parse(previous) <= Date.parse(at)) return progress
+  if (previous && Date.parse(previous) >= Date.parse(at)) return progress
   return { ...progress, fused: { ...progress.fused, [word]: at } }
 }
 

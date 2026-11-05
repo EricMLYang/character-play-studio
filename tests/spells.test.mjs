@@ -249,13 +249,13 @@ test('升級：第一次描完升到看一眼；描兩次升到遮起來；遮�
   for (const l of ['trace', 'look', 'blind', 'memory']) assert.ok(LEVEL_BADGE[l])
 })
 
-test('合體紀錄：記第一次合出來的時間；伺服器只收 COMBOS 裡的詞、兩個字都要在字庫；合過的詞住進魔法世界', async () => {
+test('合體紀錄：記最近一次合出來的時間；伺服器只收 COMBOS 裡的詞、兩個字都要在字庫；合過的詞住進魔法世界', async () => {
   const { fuseWord } = await import('../shared/domain.mjs')
   const { acceptEvent, applyEvent } = await import('../shared/play-events.mjs')
   const p1 = fuseWord({ watched: {} }, '火山', '2026-11-06T01:00:00Z')
   assert.equal(p1.fused.火山, '2026-11-06T01:00:00Z')
-  assert.equal(fuseWord(p1, '火山', '2026-11-07T01:00:00Z'), p1, '再合一次不改（記的是發現）')
-  assert.equal(fuseWord(p1, '火山', '2026-11-05T01:00:00Z').fused.火山, '2026-11-05T01:00:00Z', '更早的離線紀錄後到，用早的')
+  assert.equal(fuseWord(p1, '火山', '2026-11-07T01:00:00Z').fused.火山, '2026-11-07T01:00:00Z', '再合一次記新的（三天內合過的先不排、首頁站最近合的）')
+  assert.equal(fuseWord(p1, '火山', '2026-11-05T01:00:00Z'), p1, '更早的離線紀錄後到，不蓋掉新的')
   const known = (c) => entries.has(c)
   const ev = (char) => ({ id: 'abcdef12-fuse', char, at: '2026-11-06T01:00:00Z' })
   assert.equal(acceptEvent('fuse', ev('火山'), known, Date.parse('2026-11-06T02:00:00Z')), true)
@@ -303,6 +303,10 @@ test('首頁陪他的：最近寫的兩個會變身的字（新的在前），�
   const town = { 魚: at('2026-11-01T01:00:00Z'), 火: at('2026-11-05T01:00:00Z'), 好: at('2026-11-06T01:00:00Z'), 球: at('2026-11-03T01:00:00Z') }
   assert.deepEqual(recentMade(town, emojiOf), [{ char: '火', emoji: emojiOf('火') }, { char: '球', emoji: emojiOf('球') }])
   assert.deepEqual(recentMade({}, emojiOf), [])
+  // 合體合出來的詞也算，照合出來的時間排
+  const withFuse = recentMade(town, emojiOf, 2, { 火山: '2026-11-05T02:00:00Z' })
+  assert.deepEqual(withFuse.map((m) => m.char), ['火山', '火'])
+  assert.equal(withFuse[0].emoji, COMBOS.find((c) => c.word === '火山').emoji)
 })
 
 test('一輪怎麼走（nextStep）：兩個以上讓他挑、剩一個直接寫、為了某個字來的先寫它；寫完兩個合體字才合體，不然結算', () => {

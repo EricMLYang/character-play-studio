@@ -250,7 +250,7 @@ function PathBoard({ stops, walked, starTotal, todayCount, made, onGo, onMine, o
     <section className="path" aria-label="今天的路">
       {/* 他寫出來的東西站在兩旁（他每次打開樂園都看得到自己寫的魚）；點了去魔法筆再變一個 */}
       {made.slice(0, 2).map(({ char, emoji }, i) => (
-        <button key={char} className={`path-made path-made-${i}`} aria-label={`${char}：去魔法筆`} onClick={() => { tap(); onGo({ kind: 'game', id: 'spell' }) }}>
+        <button key={char} className={`path-made path-made-${i}`} aria-label={`${char}：去魔法筆`} onClick={() => { tap(); onGo({ kind: 'game', id: 'spell', want: char }) }}>
           {emojiArt(emoji) ? <img src={emojiArt(emoji)!} alt="" draggable={false} /> : <span>{emoji}</span>}
           <b>{char}</b>
         </button>
