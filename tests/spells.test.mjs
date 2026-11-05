@@ -313,4 +313,9 @@ test('新字跟複習混著：一輪三個裡至少一個沒寫過的字；合�
   const p2 = { watched: { 月: { count: 2 }, 餅: { count: 2 }, 雪: { count: 2 }, 花: { count: 2 } }, recall: {}, town: {} }
   assert.equal(pickRound(lib, p2, { today: '2026-11-06', rand: fixed }).combo?.word, '雪花')
   assert.equal(pickRound(lib, { ...p2, fused: { 雪花: '2026-11-05T00:00:00Z' } }, { today: '2026-11-06', rand: fixed }).combo?.word, '月餅')
+  // 兩組都在三天內合過：這一輪不合體（不然寫得辛苦的時候同一組隔天又來）
+  const both = { ...p2, fused: { 雪花: '2026-11-05T00:00:00Z', 月餅: '2026-11-04T00:00:00Z' } }
+  assert.equal(pickRound(lib, both, { today: '2026-11-06', rand: fixed }).combo, undefined)
+  // 一週前合過的可以再合
+  assert.equal(pickRound(lib, { ...p2, fused: { 雪花: '2026-10-28T00:00:00Z', 月餅: '2026-10-28T00:00:00Z' } }, { today: '2026-11-06', rand: fixed }).combo?.word, '雪花')
 })
