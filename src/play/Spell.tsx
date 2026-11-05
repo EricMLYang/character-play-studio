@@ -4,7 +4,7 @@ import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/aud
 import { cheer, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { SPELL_FIXED } from '../../shared/spells.mjs'
-import { FIXED_LINES } from '../../shared/voice-lines.mjs'
+import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { RADICAL_FIXED } from '../../shared/radicals.mjs'
 import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
@@ -280,6 +280,15 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const { stopDone, nextStop: next } = stopAfter(path, 'write')
   const showNext = phase === 'done' && stopDone ? next : undefined
   const art = wish ? emojiArt(wish.emoji) : null
+  /**
+   * 點魔法世界裡的東西，它自我介紹：「我是火！火車的火」（跟小鎮居民同一句，音檔本來就有），每次隨機挑一個詞——
+   * 把字放進他知道的詞裡（詞素意識）。合體的詞（火山）就唸詞本身；沒有詞的字只唸字。
+   */
+  const introOf = (c: string) => {
+    const words = library.find((e) => e.char === c)?.words?.filter((w) => w?.text) ?? []
+    if ([...c].length > 1 || !words.length) return c
+    return LINES.townWord(c, words[Math.floor(Math.random() * words.length)].text)
+  }
   /** 夥伴泡泡裡的話（畫面上的話都唸得出來：每一段跟當下唸的那句一樣） */
   const bubble = (w: Wish) => {
     if (phase === 'fused' && combo) return combo.thanks
@@ -304,7 +313,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
       {phase === 'done' ? (
         <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext}
-          onPick={(c) => { tap(); say(c, RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={again} onBack={() => { tap(); onBack() }} />
+          onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={again} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
           <Friend text={SPELL_FIXED.choose} onReplay={() => { tap(); speak([SPELL_FIXED.choose]) }} partner={partner} reaction={reaction} />
