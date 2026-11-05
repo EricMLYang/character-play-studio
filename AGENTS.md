@@ -20,6 +20,7 @@
 - 新的靜態檔放 `public/` 底下；放別處要在 `scripts/app-build.mjs` 加複製。
 - 不要引入任何外部網址（CDN、字型、分析工具）。
 - 裝置儲存只碰 `src/lib/deviceStore.ts`，檔案交換只碰 `src/lib/deviceFiles.ts`（第三階段換成 Capacitor 原生實作只改這兩個檔）。
+- 手機版、直放的 CSS（`@media` 裡）要寫在同一個選擇器的本體規則**後面**，不然同樣權重、後寫的贏，等於沒寫（`tests/css-order.test.mjs` 會擋）。版面改完照 `docs/testing/autowrite.md` 的「四種尺寸掃一遍」量。
 
 ## 留痕
 用 repo-context（MCP）：開工 `context_for`，做了判斷 `log_decision`，發現待辦 `add_todo`，收尾一定 `handoff`。
