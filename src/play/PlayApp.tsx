@@ -137,7 +137,7 @@ export default function PlayApp() {
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
   /** 今天的路走完：今日戰報（DayCard.tsx） */
   const [day, setDay] = useState(false)
-  /** 首頁的景裡站著他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade） */
+  /** 首頁今天的路兩旁站著他最近在魔法筆變出來的東西，點了去魔法筆（magicWorld.ts 的 recentMade） */
   const madeByHim = useMemo(() => recentMade(progress.town || {}, (c) => all.find((e) => e.char === c)?.emoji), [progress.town, all])
   /** 魔法筆一輪還在演（hold.ts）：加冕、寶箱、戰報等它演完再出來 */
   const held = useCelebrationsHeld()
