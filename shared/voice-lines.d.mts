@@ -12,7 +12,7 @@ export const FIXED_LINES: Record<'feedHungry' | 'feedFull' | 'feedRecap' | 'feed
   | 'nudgeFirst' | 'nudgeToday' | 'nudgeLab' | 'nudgeTrain' | 'nudgePuzzle' | 'nudgeMore'
   | 'nudgeFeedDue' | 'nudgeChest' | 'nudgeStars' | 'nudgeNearly'
   | 'nudgeDoWatch' | 'nudgeDoWrite' | 'nudgeDoRecall' | 'nudgeDoPuzzle' | 'nudgeDoBrew' | 'nudgeDoFamily' | 'recallAsk' | 'blindInvite' | 'wroteBlind'
-  | 'labHello' | 'trainHello' | 'chestOpen' | 'crownFull' | 'pathRecall' | 'pathNew' | 'pathFamily' | 'pathRead' | 'pathHome' | 'pathAllDone'
+  | 'labHello' | 'trainHello' | 'chestOpen' | 'crownFull' | 'pathRecall' | 'pathNew' | 'pathWrite' | 'pathFamily' | 'pathRead' | 'pathHome' | 'pathAllDone' | 'pathWake' | 'wakeAsk' | 'wakeUp' | 'dayCard' | 'originSay'
   | 'movedIn' | 'movedGrow' | 'movedCrown' | 'puzzleHello' | 'puzzleRecap' | 'puzzleNew' | 'puzzlePicture' | 'puzzlePerfect', string>
 export const PARTNER_SERVES: string[]
 export function linesForEntry(entry: Pick<CharEntry, 'char' | 'words' | 'concept'>): string[]

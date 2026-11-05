@@ -1,0 +1,195 @@
+import type { CharEntry, Progress, Resident } from '../types'
+import { taiwanDay } from '../../shared/domain.mjs'
+import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
+import { ZONE_OF, type Zone } from './magicWorld'
+
+/**
+ * 魔法筆（Spell.tsx）的兩個決定：今天許哪幾個願望、每個字要他怎麼寫。
+ *
+ * 怎麼寫＝鷹架（研究：寫比描好、遮起來寫比照著抄好，所以一步一步把扶手拿掉）：
+ *   trace  第一次寫這個字：先示範一筆一筆寫給他看，再照著外框描
+ *   look   描過一次：不示範，外框在他寫對第一筆後慢慢淡掉，後面憑剛剛那一眼寫（寫錯兩次那一筆會閃）
+ *   blind  描過兩次或憑記憶寫過：「看一眼，記住喔！」字整個給他看兩秒，然後變不見，他自己寫出來
+ *   memory 憑記憶寫過兩次：不給看了，只有圖和聲音，他自己把字想出來（聽寫，最強的提取練習）；卡住可以偷看
+ * 這就是 Look-Cover-Write：看一眼、遮起來、寫，每一次都是一次提取練習。
+ */
+export type WriteLevel = 'trace' | 'look' | 'blind' | 'memory'
+
+export function writeLevel(resident?: Resident): WriteLevel {
+  if (!resident || !resident.traces) return 'trace'
+  // 憑記憶寫過兩次：不用再先看了
+  if ((resident.blind || 0) >= 2) return 'memory'
+  // 描過兩次、或憑記憶寫過一次，就該把扶手拿掉了（不然在魔法筆裡永遠只是「看一眼」）
+  return (resident.blind || 0) > 0 || resident.traces >= 2 ? 'blind' : 'look'
+}
+
+export type Wish = Spell & { emoji: string; level: WriteLevel }
+
+/**
+ * 寫字的間隔複習：寫過的字隔幾天再寫最好（越熟隔越久）。到了就優先挑；今天寫過的先讓別的字。
+ * 間隔效應是學習研究裡最穩的結果之一：隔開來寫，比同一天寫三次記得牢。
+ */
+export const WRITE_AGAIN_DAYS: Record<WriteLevel, number> = { trace: 0, look: 1, blind: 2, memory: 4 }
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / 864e5)
+
+/** 每種寫法舒服的筆畫數：超過一筆扣一點分（不是不准，看過又該複習的字還是會被挑到） */
+const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14, memory: 14 }
+
+/** 一輪許幾個願望：三個剛好（每個字要寫一陣子，六歲一次大約撐三個） */
+export const WISHES_PER_ROUND = 3
+
+type PickOptions = {
+  /** want：他為了哪個字來的；也可以是合體的詞（「我想變別的」點了火山＝這一輪一定有火和山） */
+  n?: number; want?: string; today: string; rand?: () => number
+  /** 今天的路上的字（今天的新字、該複習的）：今天學的就今天寫 */
+  focus?: string[]
+}
+
+/**
+ * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
+ * 看過的字裡：該複習的（記住程度到期了）最優先，再來是今天路上的字、還沒寫過的、只描過沒遮起來寫過的；
+ * 寫過的字隔夠久了（WRITE_AGAIN_DAYS）也優先，今天寫過的先讓別的字。
+ * 筆畫多的往後排（第一次寫的字尤其是）；魔法世界還空著的那一區先補。一輪裡動作不重複（不要三個都在游泳）。
+ * want＝他為了這個字來的，有的話排第一個。分數怎麼算在 scoreSpells。
+ */
+export function pickWishes(library: CharEntry[], progress: Progress, options: PickOptions): Wish[] {
+  const n = options.n ?? WISHES_PER_ROUND
+  const scored = scoreSpells(library, progress, options)
+  const picked: typeof scored = []
+  for (const w of scored) if (picked.length < n && !picked.some((p) => p.act === w.act)) picked.push(w)
+  for (const w of scored) if (picked.length < n && !picked.includes(w)) picked.push(w)
+  return picked.map(strip)
+}
+
+const strip = ({ score: _score, ...w }: Wish & { score: number }): Wish => w
+
+/** 一輪：三個願望；後兩個湊得成合體魔法（月＋餅 → 月餅）的話，combo 就是那個詞 */
+export type Round = { wishes: Wish[]; combo?: Combo }
+
+/** 合體的兩個字都要排在前面這麼多名以內（不能為了合體硬塞他沒看過、筆畫又多的字） */
+const COMBO_RANK = 10
+
+/**
+ * 挑一輪。先看有沒有合體湊得成：兩個字都在前 10 名裡（看過、不太難），挑兩個字分數加起來最高的那組，
+ * 排在第二、三個願望，第一個是另外一個字（動作不跟它們重複）。湊不成就是普通的三個願望。
+ */
+export function pickRound(library: CharEntry[], progress: Progress, options: PickOptions): Round {
+  const scored = scoreSpells(library, progress, options)
+  // 他自己點了一個合體（火山）：火、山一定在這一輪（不管排第幾、合過沒），第一個照常挑一個動作不一樣的
+  const asked = options.want && [...options.want].length > 1 ? COMBOS.find((c) => c.word === options.want) : undefined
+  if (asked) {
+    const [a, b] = [...asked.word].map((c) => scored.find((w) => w.char === c))
+    if (a && b) {
+      const first = scored.find((w) => w !== a && w !== b && w.act !== a.act && w.act !== b.act) ?? scored.find((w) => w !== a && w !== b)
+      return { wishes: [...(first ? [first] : []), a, b].map(strip), combo: asked }
+    }
+  }
+  const top = scored.slice(0, COMBO_RANK)
+  const rank = (c: string) => top.find((w) => w.char === c)
+  // 合過的詞往後排（一週模擬：水果一週出現三次），讓他去發現新的合體
+  const combos = COMBOS.flatMap((combo) => {
+    const [a, b] = [...combo.word]
+    const wa = rank(a), wb = rank(b)
+    if (!wa || !wb || a === options.want || b === options.want) return []
+    // 最近三天合過的先不合：不然寫得比較辛苦的時候，同一組隔天又來（模擬：水果、火山輪流）
+    const at = progress.fused?.[combo.word]
+    if (at && daysBetween(taiwanDay(at), options.today) <= 3) return []
+    return [{ combo, wa, wb, score: wa.score + wb.score - (at ? 3 : 0) }]
+  }).sort((x, y) => y.score - x.score)
+  const best = combos[0]
+  if (!best) return { wishes: withNew(pickWishes(library, progress, options), scored, progress, options.want) }
+  const first = scored.find((w) => w !== best.wa && w !== best.wb && w.act !== best.wa.act && w.act !== best.wb.act)
+    ?? scored.find((w) => w !== best.wa && w !== best.wb)
+  const round = [...(first ? [first] : []), best.wa, best.wb].map(strip)
+  // 合體的兩個字不能換掉；要放新字只能換第一個（他為了某個字來的那個也不換）
+  return { wishes: first && first.char !== options.want ? withNew(round, scored, progress, options.want, 0) : round, combo: best.combo }
+}
+
+/**
+ * 新字跟複習要混著（學習上的標準做法）：一輪三個裡至少一個是他沒寫過的字，有的話。
+ * 一週模擬發現，間隔複習把昨天的字今天又拉回來，一週只寫到十來個字——新字進不來。
+ * 換掉的是 slot（預設最後一個）；他為了某個字來的（want）不換。
+ */
+function withNew(wishes: Wish[], scored: (Wish & { score: number })[], progress: Progress, want?: string, slot = wishes.length - 1): Wish[] {
+  const isNew = (c: string) => !progress.town?.[c]?.traces
+  if (wishes.some((w) => isNew(w.char)) || slot < 0 || wishes[slot]?.char === want) return wishes
+  const others = wishes.filter((_, i) => i !== slot)
+  const fresh = scored.find((w) => isNew(w.char) && !wishes.some((x) => x.char === w.char) && !others.some((x) => x.act === w.act))
+    ?? scored.find((w) => isNew(w.char) && !wishes.some((x) => x.char === w.char))
+  if (!fresh) return wishes
+  return wishes.map((w, i) => (i === slot ? strip(fresh) : w))
+}
+
+function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [], today, rand = Math.random }: PickOptions) {
+  const byChar = new Map(library.map((e) => [e.char, e]))
+  // 魔法世界哪一區還空著（池塘沒有魚、天上沒有東西）：住那一區的字加一點分，世界才會每個地方都熱鬧起來
+  const filled = new Set<Zone>(SPELLS.filter((s) => progress.town?.[s.char]?.traces).map((s) => ZONE_OF[s.act]))
+  return SPELLS.flatMap((s) => {
+    const entry = byChar.get(s.char)
+    if (!entry?.emoji) return []
+    const seen = (progress.watched?.[s.char]?.count || 0) > 0
+    const due = progress.recall?.[s.char]?.due
+    const resident = progress.town?.[s.char]
+    let score = rand() * 1.2
+    if (seen) score += 4
+    if (due && due <= today) score += 2
+    if (focus.includes(s.char)) score += 2.5
+    if (!filled.has(ZONE_OF[s.act])) score += 1
+    if (!resident) score += 1.5
+    else if (!resident.blind) score += 1
+    // 筆畫太多會寫到放棄：第一次寫的字 8 筆以內最好，越熟可以越多（六歲一次寫 15 筆是很大的工程）
+    const level = writeLevel(resident)
+    if (resident?.last) {
+      const days = daysBetween(taiwanDay(resident.last), today)
+      // 今天寫過的先讓別的字：結算按「再變三個」，剛寫完的月又出現，像在罰寫（-2 壓不住看過＋今天的路＋空區的加分）
+      if (days <= 0) score -= 6
+      else if (days >= WRITE_AGAIN_DAYS[level]) score += 1.5
+    }
+    score -= Math.max(0, s.n - COMFORT[level]) * 0.45
+    if (s.char === want) score += 100
+    // 有第二種說法的字，一半機率換那一句（同一個字寫第二次，故事不一樣）
+    const wish = s.alt && rand() < 0.5 ? s.alt : s.wish
+    return [{ ...s, wish, emoji: entry.emoji, level, score }]
+  }).sort((a, b) => b.score - a.score)
+}
+
+/** 每一級的徽章（寫字格子右上角；升級的時候換掉） */
+export const LEVEL_BADGE: Record<WriteLevel, string> = { trace: '✏️', look: '👀', blind: '🙈', memory: '🧙' }
+const RANK: WriteLevel[] = ['trace', 'look', 'blind', 'memory']
+
+/** 這一次寫完之後會升到哪一級；沒升級回 null（偷看過、照著描的不算 blind） */
+export function levelAfter(resident: Resident | undefined, blind: boolean): WriteLevel | null {
+  const before = writeLevel(resident)
+  const after = writeLevel({
+    traces: (resident?.traces || 0) + 1, blind: (resident?.blind || 0) + (blind ? 1 : 0),
+    first: resident?.first || '', last: resident?.last || '', strokes: [],
+  })
+  return RANK.indexOf(after) > RANK.indexOf(before) ? after : null
+}
+
+/**
+ * 一個願望做完（或一開始）之後，下一步要做什麼（Spell.tsx 照這個走）：
+ *   choose   還有兩個以上沒做：擺卡片讓他挑
+ *   start    只剩一個、或他為了某個字來的第一個：直接開始寫第 i 個
+ *   fuse     都做完了，合體的兩個字他都寫了：合體
+ *   finish   都做完了：結算
+ * done＝已經變出來或跳過的字；written＝他真的寫了的字（合體要兩個都寫了才合）。
+ */
+export type NextStep = { kind: 'choose' } | { kind: 'start'; index: number } | { kind: 'fuse' } | { kind: 'finish' }
+
+export function nextStep(round: Round, done: string[], written: string[], want?: string): NextStep {
+  const left = round.wishes.map((w, i) => ({ w, i })).filter(({ w }) => !done.includes(w.char))
+  if (left.length === 0) {
+    const both = round.combo && [...round.combo.word].every((c) => written.includes(c))
+    return both ? { kind: 'fuse' } : { kind: 'finish' }
+  }
+  if (left.length === 1) return { kind: 'start', index: left[0].i }
+  if (done.length === 0 && want && round.wishes[0]?.char === want) return { kind: 'start', index: 0 }
+  return { kind: 'choose' }
+}
+
+/**
+ * 變身的魔法有多強（Conjure 的 power）：這一次是憑記憶寫出來的才變強，🧙 聽寫級寫出來的最強。
+ * 越會寫，變出來的越厲害——同一個字寫很多次（間隔複習），變身也跟著長大，不會每次都一樣。
+ */
+export const powerOf = (level: WriteLevel, fromMemory: boolean) => (!fromMemory ? 0 : level === 'memory' ? 2 : 1)

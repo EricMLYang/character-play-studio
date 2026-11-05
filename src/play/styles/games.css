@@ -24,3 +24,12 @@
   .game-tray { padding: 8px 14px calc(10px + env(safe-area-inset-bottom)); }
   .game-tray-title { display: none; }
 }
+
+/* ---------- 拖放（useDrag.ts）：卡片可以拿起來放進目標，點一下也照樣算 ---------- */
+/* 手指按在卡片上拖不能變成捲動畫面 */
+[data-drag] { touch-action: none; }
+/* 拿起來：浮在所有東西上面、影子變深；原本的呼吸／發亮動畫先停，不然會蓋掉跟著手指的位置 */
+.dragging { position: relative; z-index: 30; animation: none !important; cursor: grabbing;
+  box-shadow: 0 18px 30px rgba(0,0,0,.18), 0 6px 0 rgba(0,0,0,.08) !important; }
+/* 卡片拿到目標上面：目標亮一圈、輕輕脹一下，告訴他「放這裡就對了」 */
+.drop-ready { outline: 5px dashed rgba(255,197,61,.9); outline-offset: 8px; }

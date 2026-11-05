@@ -1,16 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, gulp, hic, tap } from '../lib/sfx'
+import { boing, cheer, drum, gulp, hic, ladder, tap } from '../lib/sfx'
+import { streakOf } from './streak'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { BURST, DISHES, fillBelly, mysteryIndex, pickDishes, plateFor, recallLevel, recap, requeue } from './dishes'
 import { forgetServeRequest, partnersAt, serveLine, skyFor, waiterFor } from './partners'
 import InkReveal from './InkReveal'
+import Stage from './Stage'
+import Buddy, { useReaction } from './Buddy'
+import { useDrag } from './useDrag'
+import type { Sky as StageSky } from './stageScenes'
 import { Confetti, SubBar } from './ui'
 import { FINALES, FINALE_IDS, pickFinale, type FinaleId } from './finales'
 import { exampleWord } from './puzzles'
-import type { Stop, StopGo } from './today'
+import { stopAfter, type Stop, type StopGo } from './today'
 
 /**
  * 餵大怪獸：怪獸說「我要吃火！」，孩子從兩張只有字的卡片裡找出來餵牠。
@@ -46,6 +51,9 @@ type Served = { char: string; ok: boolean }
 /** 結局袋子跨輪保留：再餵一次也不會馬上又是同一種 */
 let finaleBag: FinaleId[] = []
 let lastFinale: FinaleId | null = null
+
+/** 夥伴的天色 → 舞台的天色（舞台的傍晚叫 dusk） */
+const STAGE_SKY: Record<ReturnType<typeof skyFor>, StageSky> = { day: 'day', sunset: 'dusk', snow: 'snow', night: 'night' }
 
 export default function Feed({ library, progress, stars, want, onRecall, onPick, onBack, path, onWalk }: {
   library: CharEntry[]
@@ -84,6 +92,17 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const [phase, setPhase] = useState<Phase>('hello')
   const [missed, setMissed] = useState(false)
   const [wrong, setWrong] = useState<string | null>(null)
+  // 端菜的夥伴陪著他：找對了跳起來，點錯了歪頭（不是生氣）
+  const [waiterReaction, waiterReact] = useReaction()
+  // 也可以把字卡拖進怪獸嘴巴（點一下照樣算）；拿到牠面前，牠會張大嘴等著
+  const monster = useRef<HTMLImageElement>(null)
+  const [craving, setCraving] = useState(false)
+  const drag = useDrag({ target: () => monster.current, onDrop: (c) => { setCraving(false); pickRef.current(c) }, onHover: setCraving })
+  const pickRef = useRef<(c: string) => void>(() => {})
+  useEffect(() => {
+    if (phase === 'got') waiterReact('cheer')
+    else if (phase === 'oops') waiterReact('oops')
+  }, [phase, waiterReact])
   const [served, setServed] = useState<Served[]>([])
   /** 肚子裡塞了幾個自己找到的字（塞滿 BURST 個就爆炸） */
   const [belly, setBelly] = useState(0)
@@ -105,9 +124,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const dishWords = useMemo(() => new Map(dishes.map((c) => [c, byChar.get(c) ? exampleWord(byChar.get(c)!) : undefined])), [dishes, byChar])
   const wordOf = (c: string) => dishWords.get(c)?.text ?? c
   // 今天的路上「想起來」這一站，跟它後面第一個還沒做完的站（從「自己逛逛」進來、字還太少時沒有這一站）
-  const stop = path.find((s) => s.id === 'recall')
-  const nextStop = stop ? path.slice(path.indexOf(stop) + 1).find((s) => s.done < s.need) : undefined
-  const stopDone = Boolean(stop && stop.done >= stop.need)
+  const { stop, nextStop, stopDone } = stopAfter(path, 'recall')
   // 吃飽那一下是排好的計時器觸發的，要看「現在」這一站做完沒（紀錄是一道一道記進去的）
   const walk = useRef({ stopDone, nextStop })
   walk.current = { stopDone, nextStop }
@@ -234,6 +251,8 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
       const word = wordOf(target)
       const all = [...served, { char: target, ok: !missed }]
       setPhase('got')
+      // 第一下就找對：連對越多音越高；靠提示才找到的不響（照樣吃得到）
+      if (!missed) ladder(streakOf(all))
       say(word, 0.8)
       const shown = Math.max(1300, lasts(word) + 300)
       // 怪獸把圖吃掉，盤子上出現那個圖
@@ -285,6 +304,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   if (dishes.length < 2) {
     return (
       <div className="feed">
+        <Stage screen="feed" />
         <SubBar title="🍽️ 餵大怪獸" onBack={onBack} />
         <div className="feed-empty">
           <img className="feed-monster" src="/hero/monster/idle.png" alt="" />
@@ -302,8 +322,11 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const encore = queue.indexOf(target) < at
 
   const mysteryNow = target !== undefined && isMystery(at, queue)
+  pickRef.current = pick
   return (
     <div className={`feed sky-${skyFor(waiter)}`}>
+      {/* 天色跟著端菜的夥伴（partners.ts 的 skyFor）；舞台的傍晚叫 dusk */}
+      <Stage screen="feed" sky={STAGE_SKY[skyFor(waiter)]} />
       <SubBar title="🍽️ 餵大怪獸" stat={`餵了 ${served.length} / ${queue.length} 道`} onBack={onBack} />
       <div className="feed-plates" aria-label={`已經餵了 ${served.length} 道`}>
         {queue.map((c, i) => (
@@ -335,9 +358,9 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
             {phase === 'recap' && (reading >= 0 ? <>「<b>{good[reading]}</b>」！</> : '我吃到了這些字！')}
             {phase === 'full' && '我吃飽了！謝謝你！'}
           </div>
-          <img className="feed-monster" src={`/hero/monster/${pose}.png`} alt="大怪獸" />
+          <img ref={monster} className={'feed-monster' + (craving ? ' craving' : '')} src={`/hero/monster/${pose}.png`} alt="大怪獸" />
           {/* 端菜的夥伴：他收集到的那幾位輪流來，一位一種天色 */}
-          <img className="feed-waiter" src={`/hero/${waiter.id}/${phase === 'got' || phase === 'yum' ? 'happy' : 'idle'}.png`} alt={waiter.name} title={serveLine(waiter)} />
+          <Buddy className="feed-waiter" hero={waiter.id} pose={phase === 'yum' ? 'happy' : 'idle'} reaction={waiterReaction} greet alt={waiter.name} title={serveLine(waiter)} />
           {phase === 'climax' && <FinaleFx id={finale} eaten={burst} />}
           <div className={'feed-belly' + (belly === BURST - 1 ? ' nearly' : '')} aria-label={`肚子裡有 ${belly} 個字，${BURST} 個就會爆炸`} role="img">
             {Array.from({ length: BURST }, (_, i) => <span key={i} className={i < belly ? 'full' : ''} />)}
@@ -402,7 +425,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
                   const mine = c === target && (phase === 'got' || phase === 'chomp')
                   const gone = c !== target && (phase === 'got' || phase === 'chomp')
                   return (
-                    <button key={`${at}-${c}`}
+                    <button key={`${at}-${c}`} {...drag(c)}
                       className={'feed-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (mine ? ' got' : '') + (mine && phase === 'chomp' ? ' eaten' : '') + (gone ? ' gone' : '')}
                       disabled={(phase !== 'ask' && !(phase === 'oops' && c === target)) || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `餵「${c}」`}>
                       {(flipped || mine) && <span className="feed-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}

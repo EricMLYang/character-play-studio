@@ -3,7 +3,7 @@
 .place-book .place-icon { animation-delay: -1.7s; }
 
 .book { position: relative; height: 100%; display: flex; flex-direction: column;
-  background: linear-gradient(#FFF6E9, #FFF0F4 70%, #FFE6EE); }
+  /* 背景是共用的舞台（stage.css），這裡透明 */ }
 .book :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .book-empty { margin: auto; padding: 0 24px; font-size: 20px; font-weight: 700; text-align: center; }
 
@@ -58,3 +58,43 @@
 .book-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .book-list li { font-family: var(--kai); font-size: clamp(24px, 4vh, 34px); padding: 6px 16px; border-radius: 16px; background: #fff; animation: cardIn .35s both; }
 .book-list li.ok { box-shadow: inset 0 0 0 3px #FFD24A; }
+
+/* ---------- 每一頁的小舞台（Book.tsx 的 BookScene、bookActs.ts）：夥伴當演員，句子唸到哪演到哪 ---------- */
+.book-scene { position: relative; display: flex; align-items: flex-end; justify-content: space-around; gap: 12px;
+  width: min(560px, 92vw); height: clamp(150px, 30vh, 250px); padding: 0 6% 18px; border-radius: 32px; overflow: visible;
+  background: linear-gradient(#fff 0 72%, #E7F5DC 72%); box-shadow: 0 6px 0 rgba(0,0,0,.06); animation: pop .4s cubic-bezier(.2,1.6,.4,1) both; }
+.book-actor { width: clamp(84px, 18vh, 150px); flex-shrink: 0; }
+.book-thing { position: relative; display: grid; place-items: center; width: clamp(80px, 17vh, 140px); aspect-ratio: 1; font-size: clamp(64px, 14vh, 120px); line-height: 1;
+  transform-origin: 50% 100%; }
+.book-thing img { width: 100%; height: 100%; object-fit: contain; }
+.book-hearts i { position: absolute; left: 50%; top: 10%; font-style: normal; font-size: .34em; opacity: 0; animation: bookHeart 1.4s ease-out both; }
+.book-hearts i:nth-child(2) { animation-delay: .2s; left: 20%; }
+.book-hearts i:nth-child(3) { animation-delay: .4s; left: 80%; }
+@keyframes bookHeart { 0% { opacity: 0; transform: translate(-50%, 0) scale(.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -120%) scale(1.1); } }
+
+/* 好大！變超大，停在大大的樣子 */
+.act-big.on .book-thing { animation: bookBig .8s cubic-bezier(.2,1.5,.4,1) both; }
+@keyframes bookBig { to { transform: scale(1.75); } }
+/* 好小！縮成一點點 */
+.act-small.on .book-thing { animation: bookSmall .7s cubic-bezier(.3,1.4,.5,1) both; }
+@keyframes bookSmall { to { transform: scale(.38); } }
+/* 好可愛！搖頭晃腦、冒愛心 */
+.act-cute.on .book-thing, .act-love.on .book-thing { animation: bookCute 1.2s ease-in-out both; }
+@keyframes bookCute { 15%, 45%, 75% { transform: rotate(-9deg) scale(1.08); } 30%, 60%, 90% { transform: rotate(9deg) scale(1.08); } }
+/* 好好玩！轉一圈跳起來 */
+.act-fun.on .book-thing { animation: bookFun 1s cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes bookFun { 40% { transform: translateY(-40%) rotate(200deg); } 70% { transform: translateY(0) rotate(360deg) scale(1.1, .9); } 100% { transform: rotate(360deg); } }
+/* 你有＿：東西飛到演員手上 */
+.act-have.on .book-thing { animation: bookHave .9s cubic-bezier(.4,0,.2,1) both; }
+@keyframes bookHave { 50% { transform: translate(-60%, -40%) scale(.8); } to { transform: translate(-105%, -10%) scale(.6) rotate(-10deg); } }
+/* 他要＿：東西在那邊晃，演員伸手想拿 */
+.act-want.on .book-thing { animation: bookWant 1.4s ease-in-out both; }
+@keyframes bookWant { 20%, 60% { transform: translateX(-12%) rotate(-6deg); } 40%, 80% { transform: translateX(6%) rotate(6deg); } }
+.act-want.on .book-actor .rig-body { transform: translateX(10%) rotate(6deg); transition: transform .5s; }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .book-scene { height: 38vh; width: min(440px, 60vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-scene.on .book-thing { animation-duration: .01ms; }
+}

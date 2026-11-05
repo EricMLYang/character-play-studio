@@ -4,6 +4,8 @@ import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { familyOf } from '../../shared/radicals.mjs'
 import { familiesIn, familyFor, foundIn } from './families'
 import { dueDishes } from './dishes'
+import { sleepersIn } from './naps'
+import { SPELLS } from '../../shared/spells.mjs'
 
 /**
  * 今天的路：打開就是這五站，走完就結束（10～15 分鐘）。
@@ -14,6 +16,7 @@ import { dueDishes } from './dishes'
  *
  *   ① 想起來  複習到期的字（間隔提取）      → 餵大怪獸
  *   ② 新朋友  今天的新字：看 → 描 → 憑記憶寫 → 字卡
+ *   ②' 寫一寫  把字寫出來，寫的字變成真的       → 魔法筆（2026-11-06：他幾乎不寫字，寫字要自己一站）
  *   ③ 牠的家  今天的字住哪一家               → 部首家族
  *   ④ 讀一讀  用今天的字組成的小書，指著字讀   → 指讀小書
  *   ⑤ 回家    搬進小鎮、開寶箱               → 小鎮
@@ -27,7 +30,7 @@ export type StopGo =
   | null
 
 export type Stop = {
-  id: 'recall' | 'new' | 'family' | 'read' | 'home'
+  id: 'recall' | 'new' | 'write' | 'family' | 'read' | 'home'
   icon: string
   title: string
   /** 這一站要做什麼，一句話 */
@@ -51,6 +54,8 @@ export type Stop = {
 export const NEW_PER_DAY = 2
 export const RECALL_PER_DAY = 3
 export const READ_PER_DAY = 3
+/** 寫一寫：一天寫幾個字（魔法筆一輪就是三個願望） */
+export const WRITE_PER_DAY = 3
 /** 看過的字不到這個數就先不開遊戲那幾站 */
 const ENOUGH = 4
 
@@ -94,6 +99,17 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
       go: nextNew ? { kind: 'char', char: nextNew.char } : null })
   }
 
+  // ②' 寫一寫：魔法筆（Spell.tsx）。字庫裡有會變身的字就開（全新的孩子也開：寫字不必先認得很多字）；
+  // 今天寫了幾個字＝小鎮紀錄最後一次是今天的字（字卡上描的也算）
+  const byChar = new Map(library.map((c) => [c.char, c]))
+  const spellable = SPELLS.filter((s) => byChar.get(s.char)?.emoji)
+  if (spellable.length) {
+    const wroteToday = Object.values(progress.town || {}).filter((r) => taiwanDay(r.last) === today).length
+    const writeChars = [...picks.map((c) => c.char), ...due.slice(0, RECALL_PER_DAY)].filter((c) => spellable.some((s) => s.char === c))
+    stops.push({ id: 'write', icon: '🪄', title: '寫一寫', hint: '寫出來，就變出來！', hero: 'ninja', cta: '拿魔法筆 →',
+      say: FIXED_LINES.pathWrite, chars: writeChars, done: Math.min(wroteToday, WRITE_PER_DAY), need: WRITE_PER_DAY,
+      go: { kind: 'game', id: 'spell', ...(writeChars[0] ? { want: writeChars[0] } : {}) } })
+  }
   // ③ 牠的家：今天的字裡誰住的那一家開了門；都沒有就找一家還沒找齊的
   const todayChars = [...due.slice(0, RECALL_PER_DAY), ...picks.map((c) => c.char)]
   const fromToday = todayChars.find((c) => familyFor(c, families))
@@ -118,9 +134,23 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
 
   // ⑤ 回家：前面都做完了才算到家
   const rest = stops.every((s) => s.done >= s.need)
-  stops.push({ id: 'home', icon: '🏡', title: '回家', hint: '回小鎮看看今天搬進來的字', hero: 'sheriff', cta: '去小鎮 →',
-    say: FIXED_LINES.pathHome, chars: [], done: rest ? 1 : 0, need: 1, go: { kind: 'game', id: 'town' } })
+  // 小鎮裡有字睡著了（今天該複習的字，naps.ts）：回家那一站改說去叫醒他們。不列出是哪幾個字——到了小鎮要自己想起來
+  const sleepers = sleepersIn(progress, today)
+  stops.push({ id: 'home', icon: '🏡', title: '回家', hero: 'sheriff', cta: '去小鎮 →',
+    hint: sleepers.length ? `小鎮裡有 ${sleepers.length} 個字睡著了，去叫醒他們！` : '回小鎮看看今天搬進來的字',
+    say: sleepers.length ? FIXED_LINES.pathWake : FIXED_LINES.pathHome, chars: [], done: rest ? 1 : 0, need: 1, go: { kind: 'game', id: 'town' } })
   return stops
+}
+
+/**
+ * 遊戲裡看「今天的路」：這個遊戲是哪一站、做完了沒、做完之後下一站是哪（第一個還沒做完的）。
+ * 從「自己逛逛」進來、或字還太少時沒有這一站，stop 就是 undefined。做完那一站就給「下一站」按鈕。
+ */
+export function stopAfter(path: Stop[] | undefined, id: Stop['id']) {
+  const stops = path ?? []
+  const stop = stops.find((s) => s.id === id)
+  const nextStop = stop ? stops.slice(stops.indexOf(stop) + 1).find((s) => s.done < s.need) : undefined
+  return { stop, nextStop, stopDone: Boolean(stop && stop.done >= stop.need) }
 }
 
 /** 現在走到哪一站（第一個沒做完的）；全部做完回 null */

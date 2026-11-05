@@ -15,6 +15,7 @@ import { linesForEntry, FIXED_LINES, PARTNER_SERVES } from '../shared/voice-line
 import { radicalLines } from '../shared/radicals.mjs'
 import { bookLines } from '../shared/books.mjs'
 import { soundLines } from '../shared/phonetics.mjs'
+import { spellLines } from '../shared/spells.mjs'
 
 export const VOICE_NAME = process.env.CPS_VOICE && process.env.CPS_VOICE !== 'off' ? process.env.CPS_VOICE : 'Meijia'
 const enabled = () => process.platform === 'darwin' && process.env.CPS_VOICE !== 'off'
@@ -91,7 +92,7 @@ export function syncVoice({ texts, onProgress } = {}) {
   const run = async () => {
     fs.mkdirSync(VOICE, { recursive: true })
     const full = !texts
-    const wanted = full ? voiceTexts(loadCharacters(), [...clipSayTexts(), ...Object.values(FIXED_LINES), ...PARTNER_SERVES, ...radicalLines(), ...bookLines(), ...soundLines()]) : [...new Set(texts.filter(Boolean))]
+    const wanted = full ? voiceTexts(loadCharacters(), [...clipSayTexts(), ...Object.values(FIXED_LINES), ...PARTNER_SERVES, ...radicalLines(), ...bookLines(), ...soundLines(), ...spellLines()]) : [...new Set(texts.filter(Boolean))]
     const index = loadVoiceIndex()
     if (index.voice !== VOICE_NAME) index.items = {}
     const items = full ? {} : { ...index.items }

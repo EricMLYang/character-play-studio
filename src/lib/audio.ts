@@ -10,6 +10,8 @@ type Item = { file: string; dur: number }
 let items: Record<string, Item> = {}
 const buffers = new Map<string, Promise<AudioBuffer | null>>()
 let current: { stop: () => void } | null = null
+/** 音檔唸到幾點（performance.now 的毫秒）；isSpeaking 用 */
+let speakingUntil = 0
 
 if (typeof fetch !== 'undefined' && typeof window !== 'undefined') {
   fetch('/voice/index.json').then((r) => (r.ok ? r.json() : null)).then((j) => { if (j?.items) items = j.items }).catch(() => {})
@@ -53,6 +55,7 @@ function playFile(text: string, volume: number) {
     gain.gain.value = volume
     source.connect(gain).connect(ac.destination)
     source.start()
+    speakingUntil = performance.now() + buffer.duration * 1000
   })
 }
 
@@ -131,7 +134,16 @@ export function sayAll(texts: string[], rate = 0.75, gap = 300, over = false) {
   return () => { timers.forEach(clearTimeout); stopSpeech() }
 }
 
+/**
+ * 現在有沒有在唸字。景裡飛過去的小鳥叫一聲之前先問這個：唸字是主角，裝飾的聲音不能蓋到它。
+ */
+export function isSpeaking() {
+  if (performance.now() < speakingUntil) return true
+  return typeof speechSynthesis !== 'undefined' && speechSynthesis.speaking
+}
+
 export function stopSpeech() {
+  speakingUntil = 0
   current?.stop()
   current = null
   if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel()

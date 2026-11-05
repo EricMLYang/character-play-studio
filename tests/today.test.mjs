@@ -115,3 +115,28 @@ test('回家那一站要前面都做完才算，全部做完整條路就走完�
   assert.equal(notYet.at(-1).done, 0)
   assert.equal(currentStop(notYet).id, 'family')
 })
+
+test('stopAfter：這一站做完了沒、下一站是第一個還沒做完的；沒有這一站就什麼都沒有', async () => {
+  const { stopAfter } = await import('../src/play/today.ts')
+  const s = (id, done, need = 1) => ({ id, done, need, icon: '', title: id, hint: '', hero: '', cta: '', say: id, chars: [], go: null })
+  const path = [s('recall', 3, 3), s('new', 0, 2), s('family', 1), s('read', 0, 3), s('home', 0)]
+  assert.deepEqual([stopAfter(path, 'recall').stopDone, stopAfter(path, 'recall').nextStop.id], [true, 'new'])
+  assert.equal(stopAfter(path, 'family').nextStop.id, 'read')
+  assert.equal(stopAfter(path, 'read').stopDone, false)
+  assert.equal(stopAfter([s('new', 0), s('home', 0)], 'read').stop, undefined)
+})
+
+test('寫一寫（魔法筆）：字庫有會變身的字就在新朋友後面；今天寫了幾個字就算幾個；按鈕帶今天的字去', () => {
+  const lib = ['火', '水', '木', '山', '口'].map((c, i) => ({ ...entry(c, i), emoji: { 火: '🔥', 水: '💧', 木: '🌳' }[c] || '' }))
+  const town = { 火: { traces: 1, first: now, last: now, strokes: [] }, 水: { traces: 1, first: before, last: before, strokes: [] } }
+  const stops = todayPath(lib, { watched: watched('山口', before), town }, today)
+  assert.deepEqual(ids(stops), ['new', 'write', 'home'])
+  const write = stops.find((s) => s.id === 'write')
+  assert.equal(write.need, 3)
+  assert.equal(write.done, 1, '火 是今天寫的，水 是以前寫的')
+  assert.deepEqual(write.go.id, 'spell')
+  assert.ok(write.say && write.hint && write.cta && write.hero)
+  // 新朋友挑到的字（火、水、木 還沒看過）會變身的，就是今天要寫的
+  assert.ok(write.chars.every((c) => '火水木'.includes(c)) && write.chars.length > 0)
+  assert.equal(write.go.want, write.chars[0])
+})

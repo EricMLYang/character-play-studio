@@ -56,8 +56,18 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
  * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
-export default function Strokes({ char, highlight, startBlind = false, onWritten, onTraced, onUnavailable }: {
+export default function Strokes({ char, highlight, radical = false, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onStroke, onUnavailable }: {
   char: string
+  /** 部首那幾筆（筆順檔的 radStrokes）用藍色寫：魔法筆裡有部首家族的字（跟字卡、蓋字工坊同一個藍） */
+  radical?: boolean
+  /** 這一筆寫錯了：mistakes＝這一筆錯第幾次（錯兩次那一筆會閃提示） */
+  onMiss?: (mistakes: number) => void
+  /** 寫對一筆：還剩幾筆、一共幾筆（魔法筆的夥伴在最後一筆前幫他打氣） */
+  onStroke?: (left: number, total: number) => void
+  /** 一進來就是「看一眼」：不示範，外框在他寫對第一筆後慢慢淡掉（魔法筆的鷹架，wishes.ts） */
+  startLook?: boolean
+  /** 遮起來寫之前先把整個字給他看幾毫秒（看一眼、記住、變不見）；0＝不給看 */
+  preview?: number
   /** 這個字裡面那個他已經學過的字佔掉的筆畫，會用另一個顏色寫出來。 */
   highlight?: number[]
   /** 一進來就是遮起來寫（今天的路上複習時用） */
@@ -74,10 +84,39 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
   const [drawn, setDrawn] = useState(0)
   const [round, setRound] = useState(0)
   const [blind, setBlind] = useState(startBlind)
-  const again = (nextBlind: boolean) => { setBlind(nextBlind); setRound((r) => r + 1) }
+  /** 這一輪是「看一眼」（只有第一輪；按重來、再寫一次就回到平常的樣子） */
+  const [look, setLook] = useState(startLook && !startBlind)
+  const [peeking, setPeeking] = useState(false)
+  /** 這一次遮起來寫算不算憑記憶（沒偷看、提示不超過一筆）：寫完那行字照實說 */
+  const [credited, setCredited] = useState(true)
+  /** 遮起來寫的時候偷看過（外框亮一下）：這次就不算憑記憶寫，小鎮不長大，但照樣算寫完 */
+  const peeked = useRef(false)
+  /**
+   * 遮起來寫的時候，有幾筆是錯到閃提示才寫出來的（同一筆錯兩次 hanzi-writer 會讓那一筆閃）。
+   * 超過一筆就跟偷看一樣，不算憑記憶寫——不然靠提示一筆一筆描完也會升到「聽寫」。一筆寫歪是六歲的日常，放過。
+   */
+  const hinted = useRef(0)
+  const HINTS_ALLOWED = 1
+  const writerRef = useRef<HanziWriter | null>(null)
+  /** 偷看過了：提示那行不能再說「沒有偷看」 */
+  const [peekedOnce, setPeekedOnce] = useState(false)
+  const peek = () => {
+    const w = writerRef.current
+    if (!w) return
+    peeked.current = true
+    setPeekedOnce(true)
+    setPeeking(true)
+    w.showOutline({ duration: 200 })
+    window.setTimeout(() => { setPeeking(false); try { w.hideOutline({ duration: 500 }) } catch { /* 已經換字了 */ } }, 1400)
+  }
+  const again = (nextBlind: boolean) => { setBlind(nextBlind); setLook(false); setRound((r) => r + 1) }
   const written = useRef(onWritten)
   const traced = useRef(onTraced)
   const unavailable = useRef(onUnavailable)
+  const missed = useRef(onMiss)
+  missed.current = onMiss
+  const stroked = useRef(onStroke)
+  stroked.current = onStroke
   written.current = onWritten
   traced.current = onTraced
   unavailable.current = onUnavailable
@@ -147,13 +186,18 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
         strokeColor: '#2E2A26', outlineColor: 'rgba(46,42,38,.16)',
         drawingColor: '#FF6B6B', highlightColor: '#FFC53D',
         // hanzi-writer 只會把 radStrokes 那幾筆畫成 radicalColor，所以直接餵它我們要標的筆
-        radicalColor: marked ? '#0F7FA8' : null,
+        radicalColor: marked || radical ? '#0F7FA8' : null,
         // 筆畫多的字（像「龍」16 筆）用預設速度會拖到二十幾秒，孩子等不住
         strokeAnimationSpeed: 1.4, delayBetweenStrokes: 250, drawingWidth: 26,
-        // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆
-        leniency: 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
+        // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆。
+        // 遮起來寫再鬆一點：沒有外框可以對，位置很難抓準；要練的是想起字長什麼樣、怎麼寫，不是擺得多準
+        leniency: blind ? 1.9 : 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
         charDataLoader: () => (marked ? { ...data, radStrokes: marked.split(',').map(Number) } : data),
       })
+      writerRef.current = writer
+      peeked.current = false
+      hinted.current = 0
+      setPeekedOnce(false)
       observer = new ResizeObserver(() => {
         writer?.updateDimensions({ width: size(), height: size(), padding: Math.round(size() * 0.05) })
       })
@@ -179,11 +223,18 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
         // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
         // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
         writer?.quiz({
+            onMistake: (s) => {
+              if (!alive) return
+              if (s.mistakesOnStroke === 2) hinted.current += 1
+              try { missed.current?.(s.mistakesOnStroke) } catch { /* 同下：不能卡住描字 */ }
+            },
             onCorrectStroke: (s) => {
               if (!alive) return
               try {
                 hand[s.strokeNum] = keepStroke(s.drawnPath.points)
+                if (look && s.strokesRemaining === data.strokes.length - 1) writer?.hideOutline({ duration: 1800 })
                 setDrawn(data.strokes.length - s.strokesRemaining)
+                if (s.strokesRemaining > 0) stroked.current?.(s.strokesRemaining, data.strokes.length)
                 // 特效順著他手指畫的線走；點一下就過的（錯四次當寫對）用那一筆的標準路線
                 const own = s.drawnPath.points.length > 1 ? s.drawnPath.points : data.medians[s.strokeNum].map(([x, y]) => ({ x, y }))
                 play(toLocal(own), data.strokes.length - s.strokesRemaining, data.strokes.length)
@@ -198,13 +249,27 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
               } catch { /* 沒有炸開也要能慶祝 */ }
               setStage('done')
               // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
-              try { traced.current?.(Array.from(hand, (s) => s || []), blind) } catch { /* 存不了筆跡也要能慶祝 */ }
+              const fromMemory = blind && !peeked.current && hinted.current <= HINTS_ALLOWED
+              setCredited(fromMemory)
+              try { traced.current?.(Array.from(hand, (s) => s || []), fromMemory) } catch { /* 存不了筆跡也要能慶祝 */ }
             },
           })
       }
       // 遮起來寫：沒有示範，直接換他寫（示範播完才算「看完」，這裡不算）
-      if (blind) startQuiz()
-      else {
+      // preview：先把整個字亮給他看一眼，再變不見（看一眼、記住、遮起來寫）
+      if (blind && preview > 0 && round === 0) {
+        setPeeking(true)
+        writer.showCharacter({ duration: 0 })
+        window.setTimeout(() => {
+          if (!alive) return
+          setPeeking(false)
+          writer?.hideCharacter({ duration: 450, onComplete: () => startQuiz() })
+        }, preview)
+      } else if (blind) startQuiz()
+      else if (look) {
+        // 看一眼：外框先在，他寫對第一筆才開始慢慢淡掉（onCorrectStroke）；寫錯兩次那一筆還是會閃提示
+        startQuiz()
+      } else {
         setStage('writing')
         writer.animateCharacter({ onComplete: () => { if (!alive) return; written.current?.(); startQuiz() } })
       }
@@ -220,7 +285,7 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
       try { writer?.cancelQuiz() } catch { /* 還沒建好就卸載，忽略 */ }
       host.replaceChildren()
     }
-  }, [char, round, marked, blind])
+  }, [char, round, marked, blind, look, radical])
 
   if (stage === 'unavailable') return null
 
@@ -234,10 +299,12 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
         </div>
       )}
       <p className="stroke-tip" role="status">
-        {stage === 'loading' ? '準備筆順…'
+        {peeking ? '👀 看一眼，記住喔！'
+          : stage === 'loading' ? '準備筆順…'
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
-          : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
-          : blind ? '🌟 沒有偷看就寫出來了！' : '🎉 你自己把這個字寫出來了！'}
+          : stage === 'tracing' && look && drawn === 0 ? '👀 看清楚，開始寫！外框會偷偷變不見'
+          : stage === 'tracing' ? (blind ? `${peekedOnce ? '✏️ 自己寫寫看！' : '🙈 沒有偷看，自己寫！'}還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
+          : blind ? (credited ? '🌟 沒有偷看就寫出來了！' : '🎉 寫出來了！下次不看提示試試看') : '🎉 你自己把這個字寫出來了！'}
       </p>
       {stage !== 'loading' && (
         <div className="stroke-actions">
@@ -249,6 +316,9 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
           </button>
           {stage === 'done' && blind && (
             <button className="stroke-again" onClick={() => again(false)}>✏️ 看著描</button>
+          )}
+          {stage === 'tracing' && blind && (
+            <button className="stroke-again peek" onClick={peek} aria-label="偷看一下">👀 偷看一下</button>
           )}
           {(stage === 'tracing' || stage === 'done') && (
             <button key={theme} className="stroke-again fx-pick changed" onClick={switchTheme} aria-label="換一種寫字特效">

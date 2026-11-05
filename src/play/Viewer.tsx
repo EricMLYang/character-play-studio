@@ -13,6 +13,12 @@ import { pickSource, mediaUrl, type Broken } from './source'
 import VideoPlayer from './VideoPlayer'
 import { flow, initialFlow } from './viewerFlow'
 import { familiesIn, homesFor } from './families'
+import MeaningFx from './MeaningFx'
+import OriginPlay from './OriginPlay'
+import { hasOrigin } from './origins'
+import Conjure, { inkBox } from './Conjure'
+import { powerOf, writeLevel } from './wishes'
+import { spellFor } from '../../shared/spells.mjs'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -70,6 +76,9 @@ export default function Viewer({
     const moved = !resident ? 'in' : blind ? (level + 1 >= CROWN_LEVEL ? 'crown' : 'grow') : null
     dispatch({ type: 'traced', moved })
     onTraced(entry, strokes, blind)
+    // 會變身的字（shared/spells.mjs）：他寫的那幾筆從格子裡飛出來，變成那個東西；強度跟魔法筆同一套（🧙 聽寫級寫出來戴小皇冠）
+    const from = inkBox(root.current?.querySelector('.stroke-canvas'))
+    if (spell && entry.emoji && from) setConjure({ key: Date.now(), strokes, from, power: powerOf(writeLevel(resident), blind) })
     voice.current?.()
     const line = moved === 'in' ? FIXED_LINES.movedIn : moved === 'crown' ? FIXED_LINES.movedCrown
       : moved === 'grow' ? FIXED_LINES.movedGrow : null
@@ -176,6 +185,12 @@ export default function Viewer({
   const hides = useMemo(() => hidesIn(entry.char).filter((c) => known.has(c)), [entry.char, known])
   // 這個字住在哪幾家（部首家、聲音家、它自己的詞家族）：點了去看那一家的故事（families.ts）
   const homes = useMemo(() => homesFor(entry.char, familiesIn(library)), [entry.char, library])
+  /** 象形字「以前長這樣」開著沒（origins.ts） */
+  const [origin, setOrigin] = useState(false)
+  /** 描完變身（Conjure.tsx）：他寫的筆跡變成那個東西 */
+  const spell = spellFor(entry.char)
+  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: { left: number; top: number; width: number; height: number }; power: number } | null>(null)
+  useEffect(() => setConjure(null), [entry.char])
   const words = entry.words || []
   /** 有 3D 圖就用 3D 圖：沒有影片的字，這張圖就是他看到的主角 */
   const art = emojiArt(entry.emoji)
@@ -203,7 +218,11 @@ export default function Viewer({
           onGame={onGame} onWrite={trace ? undefined : toggleTrace} />
       </header>
 
-      {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0) && (
+      {origin && <OriginPlay char={entry.char} onClose={() => setOrigin(false)} />}
+      {conjure && spell && entry.emoji && (
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={entry.emoji} act={spell.act} from={conjure.from} char={entry.char} sound={spell.sound} power={conjure.power} onDone={() => setConjure(null)} />
+      )}
+      {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0 || hasOrigin(entry.char)) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
             <button key={word.text} className="say-word" onClick={() => say(word.text, 0.8, speechVolume)} aria-label={`唸「${word.text}」`}>
@@ -216,6 +235,11 @@ export default function Viewer({
             </button>
           ))}</div>
           <div className="band-links">
+          {hasOrigin(entry.char) && (
+            <span className="band-group">
+              <button className="part origin-btn" onClick={() => setOrigin(true)} aria-label={`「${entry.char}」以前長這樣`}>🖼️ 以前長這樣</button>
+            </span>
+          )}
           {parts.length > 0 && (
             <span className="band-group">
               <span className="band-label">裡面有</span>
@@ -230,7 +254,10 @@ export default function Viewer({
               <span className="band-label">住在</span>
               {homes.map((home) => (
                 <button key={home.id} className="part root-home" onClick={() => onGame('roots', `${home.id}:${entry.char}`)}
-                  aria-label={`去看${home.name}的家`}>{home.emoji} {home.name}的家</button>
+                  aria-label={`去看${home.name}的家`}>
+                  {/* 部首的家那顆小圖會演一下自己的意思（水滴下來、火冒上去），聲音家與詞家族不演 */}
+                  <span className="root-home-fx"><MeaningFx family={home.id} small>{home.emoji}</MeaningFx></span> {home.name}的家
+                </button>
               ))}
             </span>
           )}

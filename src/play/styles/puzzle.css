@@ -2,7 +2,7 @@
 .place-puzzle { background: #CDEBFF; }
 .place-puzzle .place-icon { animation-delay: -1.5s; }
 
-.puz { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(#EAF6FF, #F4FBEF 65%); }
+.puz { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; /* 背景是共用的舞台（stage.css） */ }
 .puz :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* 右上角：圖鑑，數字是收集了幾個詞 */
@@ -31,10 +31,7 @@
 /* 出題的浣熊：站在題目旁邊，不佔題目的位置 */
 .puz-main { position: relative; }
 .puz-host { position: absolute; left: clamp(8px, 9vw, 190px); top: 38%; z-index: 1;
-  width: clamp(78px, 16vh, 140px); height: auto; object-fit: contain; pointer-events: none;
-  animation: bob 2.6s ease-in-out infinite; }
-.phase-alive .puz-host, .phase-done .puz-host { animation: boing .8s cubic-bezier(.2,1.6,.4,1) both; }
-.phase-oops .puz-host { animation: wobble .45s ease-in-out 2; }
+  width: clamp(78px, 16vh, 140px); pointer-events: none; } /* 呼吸、跳、歪頭在 buddy.css */
 
 .puz-pic { font-size: min(27vh, 38vw, 230px); line-height: 1.05; filter: brightness(0) opacity(.14); transition: filter .5s;
   user-select: none; animation: dropIn .5s both; }

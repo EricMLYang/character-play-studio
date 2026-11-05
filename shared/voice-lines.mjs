@@ -82,10 +82,20 @@ export const FIXED_LINES = {
   /** 今天的路（src/play/today.ts）：每一站的那句話，以及走完 */
   pathRecall: '先把前幾天的字想起來！',
   pathNew: '來認識今天的新朋友！',
+  pathWrite: '拿起魔法筆！寫什麼，就變什麼！',
   pathFamily: '看看今天的字住在哪一家！',
   pathRead: '用今天的字，讀一本小書！',
   pathHome: '回家囉！去小鎮看看！',
   pathAllDone: '今天的路走完了！好厲害！',
+  /** 今日戰報（src/play/DayCard.tsx）：後面一個一個接今天的字 */
+  dayCard: '今天你認識了這些字！',
+  /** 字卡上「以前長這樣」（src/play/origins.ts）：前面先唸那個字 */
+  originSay: '以前長這樣！',
+  /** 回家那一站：小鎮裡有字睡著了（src/play/naps.ts） */
+  pathWake: '小鎮裡有字睡著了，去叫醒他們！',
+  /** 小鎮：點睡著的居民，要找出他的名字叫醒他（後面接那個字） */
+  wakeAsk: '他睡著了！找出這個字，叫醒他：',
+  wakeUp: '醒來了！謝謝你！',
   /** 餵大怪獸的神秘料理（原本的小偵探）：怪獸不說字，盤子上一筆一筆畫出來，猜猜是誰 */
   guessWho: '猜猜我要吃誰？',
   guessFast: '哇！好厲害！',

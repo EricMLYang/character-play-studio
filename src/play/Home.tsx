@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 
 import { tap } from '../lib/sfx'
-import { preloadVoice, say, sayAll } from '../lib/audio'
+import { preloadVoice, sayAll } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'
 import { currentStop, type Stop, type StopGo } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
+import Buddy, { useReaction } from './Buddy'
+import { emojiArt } from './ui'
 import DeviceParent from './DeviceParent'
 import { STANDALONE } from '../lib/target'
 
@@ -22,8 +24,10 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo,
+  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo, made = [],
 }: {
+  /** 他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
+  made?: { char: string; emoji: string }[]
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
   groups: WordGroup[] | null
@@ -163,7 +167,7 @@ export default function Home({
       </header>
 
       {!explore && (
-        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount}
+        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount} made={made}
           onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); setExplore(true) }} />
       )}
 
@@ -220,7 +224,8 @@ export default function Home({
  * 今天的路：上面一排五站（做完的打勾、現在這一站亮著），下面是站在這一站的角色，
  * 說這一站要做什麼、這一站的字，按一下直接過去。他讀不到字，那句話會唸出來。
  */
-function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplore }: {
+function PathBoard({ stops, walked, starTotal, todayCount, made, onGo, onMine, onExplore }: {
+  made: { char: string; emoji: string }[]
   stops: Stop[]
   walked: boolean
   starTotal: number
@@ -233,6 +238,8 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
   /** 角色正在唸的那句。離開首頁要停掉，不然他已經進遊戲了還在背後講話 */
   const voice = useRef<(() => void) | null>(null)
   const line = walked ? FIXED_LINES.pathAllDone : now?.say
+  const [reaction, react] = useReaction()
+  const replay = () => { voice.current?.(); voice.current = sayAll([line!], 0.85) }
   useEffect(() => {
     preloadVoice(stops.map((s) => s.say).concat(FIXED_LINES.pathAllDone))
     if (!line) return
@@ -241,27 +248,22 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
   }, [line])
   return (
     <section className="path" aria-label="今天的路">
+      {/* 他寫出來的東西站在兩旁（他每次打開樂園都看得到自己寫的魚）；點了去魔法筆再變一個 */}
+      {made.slice(0, 2).map(({ char, emoji }, i) => (
+        <button key={char} className={`path-made path-made-${i}`} aria-label={`${char}：去魔法筆`} onClick={() => { tap(); onGo({ kind: 'game', id: 'spell', want: char }) }}>
+          {emojiArt(emoji) ? <img src={emojiArt(emoji)!} alt="" draggable={false} /> : <span>{emoji}</span>}
+          <b>{char}</b>
+        </button>
+      ))}
       <div className="path-top">
         <StarBank total={starTotal} onOpen={onMine} />
         <TodayStars count={todayCount} />
       </div>
-      <ol className="path-road">
-        {stops.map((s) => {
-          const done = s.done >= s.need
-          return (
-            <li key={s.id}>
-              <button className={'stop' + (done ? ' done' : '') + (s === now ? ' now' : '')} onClick={() => { tap(); onGo(s.go) }}
-                aria-label={`${s.title}${s.need > 1 ? `，做到 ${s.done} / ${s.need}` : ''}${done ? '，做完了' : s === now ? '，現在這一站' : ''}`}>
-                <span className="stop-dot" aria-hidden>{done ? '✅' : s.icon}</span>
-                <b>{s.title}</b>
-                {s.need > 1 && <small>{s.done} / {s.need}</small>}
-              </button>
-            </li>
-          )
-        })}
-      </ol>
+      <Trail stops={stops} now={now} walked={walked} onGo={onGo} />
       <div className="path-now">
-        <img className="path-hero" src={`/hero/${walked || !now ? 'yang' : now.hero}/${walked ? 'happy' : 'idle'}.png`} alt="" />
+        {/* 站在這一站的角色：換站的時候揮手出場，點他會再講一次、跳一下 */}
+        <Buddy key={walked ? 'done' : now?.id} className="path-hero" hero={walked || !now ? 'yang' : now.hero} pose={walked ? 'happy' : 'idle'}
+          greet reaction={reaction} alt="再聽一次" onClick={line ? () => { tap(); react('cheer'); replay() } : undefined} />
         {walked || !now ? (
           <div className="path-text">
             <b>🎉 今天的路走完了！</b>
@@ -282,7 +284,7 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
         {walked || !now
           ? <button className="path-go ghost" onClick={onExplore}>🎲 自己逛逛</button>
           : <button className="path-go" onClick={() => { tap(); onGo(now.go) }}>{now.cta}</button>}
-        {line && <button className="path-listen" onClick={() => { voice.current?.(); voice.current = sayAll([line], 0.85) }} aria-label="再聽一次">🔊</button>}
+        {line && <button className="path-listen" onClick={replay} aria-label="再聽一次">🔊</button>}
       </div>
     </section>
   )
@@ -387,5 +389,63 @@ function ParentGate() {
       {hint && <div className="home-parent-hint" role="status">長按一秒才會進入家長專區</div>}
       {STANDALONE && panel && <DeviceParent onClose={() => setPanel(false)} />}
     </>
+  )
+}
+
+/**
+ * 今天的路畫成一條真的小路：五站是路上的五個點，一高一低彎過去；走過的那段路是金色的，
+ * 楊捷睿站在現在這一站上面跳。路是量了每一站的位置之後用 SVG 畫的，畫面寬窄怎麼變都接得起來。
+ */
+function Trail({ stops, now, walked, onGo }: { stops: Stop[]; now: Stop | null; walked: boolean; onGo: (go: StopGo) => void }) {
+  const box = useRef<HTMLOListElement>(null)
+  const [road, setRoad] = useState<{ d: string; gold: string; w: number; h: number } | null>(null)
+  useLayoutEffect(() => {
+    const el = box.current
+    if (!el) return
+    const draw = () => {
+      const base = el.getBoundingClientRect()
+      const pts = [...el.querySelectorAll<HTMLElement>('.stop-dot')].map((dot) => {
+        const r = dot.getBoundingClientRect()
+        return [r.left - base.left + el.scrollLeft + r.width / 2, r.top - base.top + r.height / 2] as const
+      })
+      if (pts.length < 2) { setRoad(null); return }
+      const curve = (list: (readonly [number, number])[]) => list.reduce((d, [x, y], i) => {
+        if (!i) return `M${x} ${y}`
+        const [px, py] = list[i - 1]
+        const mx = (px + x) / 2
+        return `${d} C${mx} ${py}, ${mx} ${y}, ${x} ${y}`
+      }, '')
+      const reached = walked ? pts.length : Math.max(1, stops.findIndex((s) => s === now) + 1)
+      setRoad({ d: curve(pts), gold: curve(pts.slice(0, reached)), w: el.scrollWidth, h: el.clientHeight })
+    }
+    draw()
+    const ro = new ResizeObserver(draw)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [stops, now, walked])
+  return (
+    <ol className="path-road" ref={box}>
+      {road && (
+        <svg className="trail" width={road.w} height={road.h} aria-hidden>
+          <path d={road.d} className="trail-ground" />
+          <path d={road.d} className="trail-dash" />
+          {road.gold.includes('C') && <path d={road.gold} className="trail-gold" pathLength={1} />}
+        </svg>
+      )}
+      {stops.map((s, i) => {
+        const done = s.done >= s.need
+        return (
+          <li key={s.id} className={i % 2 ? 'low' : 'high'}>
+            <button className={'stop' + (done ? ' done' : '') + (s === now ? ' now' : '')} onClick={() => { tap(); onGo(s.go) }}
+              aria-label={`${s.title}${s.need > 1 ? `，做到 ${s.done} / ${s.need}` : ''}${done ? '，做完了' : s === now ? '，現在這一站' : ''}`}>
+              {s === now && <img className="stop-me" src="/hero/yang/idle.png" alt="" draggable={false} />}
+              <span className="stop-dot" aria-hidden>{done ? '✅' : s.icon}</span>
+              <b>{s.title}</b>
+              {s.need > 1 && <small>{s.done} / {s.need}</small>}
+            </button>
+          </li>
+        )
+      })}
+    </ol>
   )
 }

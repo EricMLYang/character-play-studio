@@ -1,0 +1,182 @@
+/* ---------- 魔法筆的變身（Conjure.tsx、conjuring.ts） ---------- */
+/*
+ * 一次變身分四段（.cj-glow → .cj-gather → .cj-pop → .cj-act，時間在 conjuring.ts 的 CONJURE_MS）：
+ *   筆跡發光 → 收攏成一點 → 「啵」變出東西 → 照意思動。
+ * class 與 @keyframes 一律 cj 開頭（tests/stage.test.mjs 擋撞名）。
+ */
+.cj { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+
+/* 他的筆跡：深色、粗、圓頭，跟他寫在格子上的一樣 */
+.cj-ink { position: absolute; overflow: visible; transition: transform .56s cubic-bezier(.6,0,.4,1), opacity .5s .1s; }
+.cj-ink path { fill: none; stroke: #2E2A26; stroke-width: 44; stroke-linecap: round; stroke-linejoin: round; }
+.cj-glow .cj-ink path { animation: cjGlow .52s ease-out both; }
+/* 部首那幾筆先是藍的（字卡、蓋字工坊同一個藍），發光到一半才跟著變金色 */
+.cj-ink path.cj-rad { stroke: #0F7FA8; }
+.cj-glow .cj-ink path.cj-rad { animation: cjGlowRad .52s ease-out both; }
+@keyframes cjGlowRad { 0%, 55% { stroke: #0F7FA8; } 100% { stroke: #FFC53D; } }
+@keyframes cjGlow { to { stroke: #FFC53D; } }
+.cj-glow .cj-ink { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 0 22px #FFB020); transform: translateY(-2%) scale(1.04); }
+.cj-gather .cj-ink, .cj-origin .cj-ink, .cj-pop .cj-ink, .cj-act .cj-ink, .cj-end .cj-ink { transform: scale(.04) rotate(40deg); opacity: 0; }
+.cj-gather .cj-ink path, .cj-origin .cj-ink path, .cj-pop .cj-ink path, .cj-act .cj-ink path { stroke: #FFC53D; }
+.cj-gather .cj-ink { filter: drop-shadow(0 0 14px #FFE58A) drop-shadow(0 0 30px #FFB020); }
+
+/* 象形字：收攏之後在那一點畫出古時候的樣子（像刻在骨頭上的棕色線，跟「以前長這樣」同一種畫法），啵的時候淡掉 */
+.cj-pic { position: absolute; translate: -50% -50%; overflow: visible; border-radius: 24px; background: rgba(246,232,207,.92);
+  box-shadow: 0 0 0 6px rgba(140,100,50,.15), 0 0 40px rgba(255,214,120,.6); animation: cjOriginIn .3s ease-out both; }
+.cj-pic path { fill: none; stroke: #8A5A2B; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: cjOriginDraw ease-out both; }
+@keyframes cjOriginIn { from { opacity: 0; transform: scale(.3); } }
+@keyframes cjOriginDraw { to { stroke-dashoffset: 0; } }
+.cj-pop .cj-pic { opacity: 0; transform: scale(1.4); transition: opacity .35s, transform .35s; }
+
+/* 「啵」那一下的光圈 */
+.cj-flash { position: absolute; width: 40px; height: 40px; translate: -50% -50%; border-radius: 50%;
+  box-shadow: 0 0 0 6px #FFE58A, 0 0 40px 20px rgba(255,197,61,.7); animation: cjFlash .6s ease-out both; }
+@keyframes cjFlash { from { transform: scale(.2); opacity: 1; } to { transform: scale(7); opacity: 0; } }
+
+/* 魔法有多強（Conjure 的 power）：🙈 彩虹光圈；🧙 金光閃閃、戴小皇冠（大小在 Conjure.tsx 裡乘上去） */
+.cj-power-1 .cj-flash { box-shadow: 0 0 0 6px #FF8FD8, 0 0 0 14px #9B7BFF, 0 0 0 22px #6FD3FF, 0 0 50px 24px rgba(155,123,255,.6); }
+.cj-power-2 .cj-flash { box-shadow: 0 0 0 8px #FFE58A, 0 0 0 18px #FFC53D, 0 0 70px 36px rgba(255,197,61,.9); }
+.cj-power-2 .cj-body img { filter: drop-shadow(0 0 14px #FFE58A) drop-shadow(0 0 30px rgba(255,197,61,.8)) drop-shadow(0 10px 14px rgba(0,0,0,.22)); }
+.cj-crown { position: absolute; left: 50%; top: -30%; width: 42%; translate: -50% 0; font-style: normal; font-size: 60px; line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.25)); animation: cjCrown .5s .15s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes cjCrown { from { transform: translateY(-80%) scale(0) rotate(-30deg); } }
+
+/* 變出來的東西：translate 拿來置中，動作都用 transform，才不會互相蓋掉 */
+.cj-thing { position: absolute; translate: -50% -50%; display: block; }
+.cj-body { display: block; width: 100%; height: 100%; }
+.cj-body img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(0,0,0,.22)); }
+.cj-emoji { display: grid; place-items: center; width: 100%; height: 100%; font-size: 140px; line-height: 1; }
+/* 往右走的東西把圖翻過來（3D 圖側面幾乎都朝左，conjuring.ts 的 flipFor）。用 scale 屬性，不跟動作的 transform 打架 */
+.cj-flip .cj-body img, .cj-flip .cj-emoji { scale: -1 1; }
+.cj-pop .cj-thing { animation: cjPop .52s cubic-bezier(.2,1.8,.4,1) both; }
+@keyframes cjPop { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1); } }
+.cj-end .cj-thing { opacity: 0; transition: opacity .3s; }
+
+/* ---- 每一種動作（.cj-act 那一段，2.6 秒） ---- */
+.cj-act .cj-thing { animation: 2.6s ease-in-out both; }
+.cj-act .cj-body { animation: .6s ease-in-out infinite alternate; }
+
+/* 游：往右游出去，身體上下擺 */
+.cj-act .cj-act-swim { animation-name: cjSwim; animation-timing-function: cubic-bezier(.4,0,.7,1); }
+.cj-act .cj-act-swim .cj-body { animation-name: cjBob; }
+@keyframes cjSwim { 0% { transform: none; } 30% { transform: translate(-6vw, 4vh) scale(1.05); } 100% { transform: translate(60vw, -4vh) scale(.8); } }
+@keyframes cjBob { from { transform: translateY(-6%) rotate(-6deg); } to { transform: translateY(6%) rotate(6deg); } }
+
+/* 飛：先繞一下再往右上飛走 */
+.cj-act .cj-act-fly { animation-name: cjFly; animation-timing-function: cubic-bezier(.45,0,.6,1); }
+.cj-act .cj-act-fly .cj-body { animation-name: cjFlutter; animation-duration: .18s; }
+@keyframes cjFly { 0% { transform: none; } 30% { transform: translate(-10vw, -8vh) scale(1.1) rotate(-8deg); } 55% { transform: translate(6vw, -16vh) rotate(6deg); }
+  100% { transform: translate(55vw, -75vh) scale(.5) rotate(10deg); } }
+@keyframes cjFlutter { from { transform: scaleY(1) translateY(0); } to { transform: scaleY(.86) translateY(-4%); } }
+
+/* 掉下來：一整片（雨滴、雪花、葉子），從上面落下，每一顆位置、時間錯開 */
+.cj-thing.many { --spread: calc((var(--i) - (var(--n) - 1) / 2) * 10vw); }
+.cj-pop .cj-thing.many { animation: cjPopMany .52s cubic-bezier(.2,1.8,.4,1) both; animation-delay: calc(var(--i) * 30ms); }
+@keyframes cjPopMany { from { transform: translateX(0) scale(0); } to { transform: translate(var(--spread), -30vh) scale(.42); } }
+.cj-act .cj-act-fall { animation-name: cjFall; animation-timing-function: cubic-bezier(.5,0,.9,.6); animation-delay: calc(var(--i) * 90ms); }
+@keyframes cjFall { 0% { transform: translate(var(--spread), -30vh) scale(.42); }
+  85% { opacity: 1; } 100% { transform: translate(calc(var(--spread) + 3vw), 70vh) scale(.42) rotate(25deg); opacity: 0; } }
+
+/* 長大：從地上冒出來長很大，最後輕輕搖 */
+.cj-act .cj-act-grow { animation-name: cjGrow; transform-origin: 50% 100%; animation-timing-function: cubic-bezier(.2,1.4,.4,1); }
+@keyframes cjGrow { 0% { transform: scale(.3); } 45% { transform: scale(1.6); } 65% { transform: scale(1.5) rotate(-4deg); } 85% { transform: scale(1.55) rotate(3deg); } 100% { transform: scale(1.5); } }
+
+/* 彈：彈三下，一次比一次低，落地壓扁 */
+.cj-act .cj-act-bounce { animation-name: cjBounce; animation-timing-function: linear; }
+@keyframes cjBounce { 0% { transform: none; } 15% { transform: translate(4vw, -30vh) rotate(120deg); } 30% { transform: translate(8vw, 0) scale(1.2, .75); }
+  45% { transform: translate(12vw, -16vh) rotate(240deg); } 60% { transform: translate(16vw, 0) scale(1.15, .82); } 75% { transform: translate(19vw, -7vh) rotate(330deg); }
+  90%, 100% { transform: translate(21vw, 0) rotate(360deg); } }
+
+/* 燒：一直跳動、發出橘光 */
+.cj-act .cj-act-burn { animation-name: cjBurn; }
+.cj-act .cj-act-burn .cj-body { animation-name: cjFlick; animation-duration: .16s; }
+.cj-act .cj-act-burn img { filter: drop-shadow(0 0 20px #FF8A00) drop-shadow(0 0 50px rgba(255,90,0,.6)); }
+@keyframes cjBurn { 0% { transform: none; } 30% { transform: scale(1.5); } 80% { transform: scale(1.45); } 100% { transform: scale(1.2) translateY(-4vh); } }
+@keyframes cjFlick { from { transform: scale(1, 1) skewX(-3deg); } to { transform: scale(.94, 1.08) skewX(3deg); } }
+
+/* 亮：變大、發光、慢慢轉 */
+.cj-act .cj-act-shine { animation-name: cjShine; }
+.cj-act .cj-act-shine img { filter: drop-shadow(0 0 24px #FFF4B0) drop-shadow(0 0 60px rgba(255,214,80,.8)) brightness(1.1); }
+@keyframes cjShine { 0% { transform: none; } 35% { transform: scale(1.7) rotate(12deg); } 70% { transform: scale(1.6) rotate(-6deg); } 100% { transform: scale(1.5) translateY(-10vh); } }
+
+/* 開車：抖兩下發動，然後衝出去 */
+.cj-act .cj-act-drive { animation-name: cjDrive; animation-timing-function: cubic-bezier(.6,0,.9,.4); }
+@keyframes cjDrive { 0% { transform: none; } 10% { transform: translateX(-1vw) rotate(-2deg); } 20% { transform: translateX(1vw) rotate(2deg); } 30% { transform: translateX(-3vw); }
+  100% { transform: translateX(80vw); } }
+
+/* 跑：一路上下踩著跑出去 */
+.cj-act .cj-act-run { animation-name: cjRun; animation-timing-function: cubic-bezier(.4,0,.8,.6); }
+.cj-act .cj-act-run .cj-body { animation-name: cjStep; animation-duration: .14s; }
+@keyframes cjRun { 0% { transform: none; } 20% { transform: translateX(-4vw); } 100% { transform: translateX(65vw); } }
+@keyframes cjStep { from { transform: translateY(0) rotate(-4deg); } to { transform: translateY(-10%) rotate(4deg); } }
+
+/* 跳：三個大弧線跳過去 */
+.cj-act .cj-act-hop { animation-name: cjHop; animation-timing-function: linear; }
+@keyframes cjHop { 0% { transform: none; } 12% { transform: translate(5vw, -20vh); } 24% { transform: translate(10vw, 0) scale(1.1, .85); }
+  36% { transform: translate(16vw, -20vh); } 48% { transform: translate(22vw, 0) scale(1.1, .85); } 62% { transform: translate(28vw, -20vh); }
+  76%, 100% { transform: translate(34vw, 0); } }
+
+/* 重重地走：變很大，一步一步咚咚咚 */
+.cj-act .cj-act-stomp { animation-name: cjStomp; animation-timing-function: steps(1); }
+.cj-act .cj-act-stomp .cj-body { animation-name: cjStompBody; animation-duration: .32s; }
+@keyframes cjStomp { 0% { transform: scale(1.4); } 25% { transform: translateX(6vw) scale(1.4); } 50% { transform: translateX(12vw) scale(1.4); }
+  75% { transform: translateX(18vw) scale(1.4); } 100% { transform: translateX(24vw) scale(1.4); } }
+@keyframes cjStompBody { from { transform: rotate(-5deg) translateY(-6%); } to { transform: rotate(5deg) translateY(0); } }
+
+/* 扭：一路 S 形扭過去 */
+.cj-act .cj-act-slither { animation-name: cjSlither; animation-timing-function: linear; }
+@keyframes cjSlither { 0% { transform: none; } 20% { transform: translate(10vw, 5vh) rotate(15deg); } 40% { transform: translate(20vw, -5vh) rotate(-15deg); }
+  60% { transform: translate(30vw, 5vh) rotate(15deg); } 80% { transform: translate(40vw, -5vh) rotate(-15deg); } 100% { transform: translate(50vw, 0); } }
+
+/* 爬：慢慢爬一小段，身體一直扭 */
+.cj-act .cj-act-crawl { animation-name: cjCrawl; animation-timing-function: linear; }
+.cj-act .cj-act-crawl .cj-body { animation-name: cjWiggle; animation-duration: .3s; }
+@keyframes cjCrawl { from { transform: none; } to { transform: translateX(22vw); } }
+@keyframes cjWiggle { from { transform: scaleX(1) rotate(-3deg); } to { transform: scaleX(.9) rotate(3deg); } }
+
+/* 飄：慢慢往旁邊上面飄、變大 */
+.cj-act .cj-act-float { animation-name: cjFloat; }
+@keyframes cjFloat { 0% { transform: none; } 50% { transform: translate(12vw, -8vh) scale(1.35); } 100% { transform: translate(28vw, -16vh) scale(1.5); } }
+
+/* 嘩啦：往下潑，晃一晃 */
+.cj-act .cj-act-splash { animation-name: cjSplash; }
+@keyframes cjSplash { 0% { transform: none; } 25% { transform: translateY(10vh) scale(1.4, .8); } 45% { transform: translateY(6vh) scale(.9, 1.3); }
+  65% { transform: translateY(9vh) scale(1.2, .9); } 100% { transform: translateY(8vh) scale(1.3); } }
+
+/* 好吃：晃一晃，然後被吃掉（一口一口變小） */
+.cj-act .cj-act-yum { animation-name: cjYum; }
+/* 有給 land（夥伴的嘴巴在哪）：晃一晃，飛過去，被他一口吃掉 */
+.cj-act .cj-act-yum.cj-land { animation-name: cjYumTo; animation-timing-function: cubic-bezier(.5,0,.6,1); }
+@keyframes cjYumTo { 0% { transform: none; } 25% { transform: scale(1.3) rotate(-8deg); } 40% { transform: scale(1.3) rotate(8deg); }
+  80% { transform: translate(var(--dx), var(--dy)) scale(.5); opacity: 1; } 90% { transform: translate(var(--dx), var(--dy)) scale(.55, .35); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; } }
+@keyframes cjYum { 0% { transform: none; } 30% { transform: scale(1.4) rotate(-8deg); } 45% { transform: scale(1.4) rotate(8deg); }
+  60% { transform: scale(1.1); clip-path: inset(0 0 0 0); } 75% { transform: scale(1); clip-path: inset(0 0 0 30%); }
+  90% { transform: scale(.9); clip-path: inset(0 0 0 65%); } 100% { transform: scale(.6); clip-path: inset(0 0 0 100%); } }
+
+/* ---- 合體魔法（Fuse.tsx）：他寫的兩個字並排成詞卡 → 滑到一起 → 變成那個詞的東西 ---- */
+.fuse { background: rgba(255,250,240,.6); animation: fuseIn .35s ease-out both; }
+@keyframes fuseIn { from { background: rgba(255,250,240,0); } }
+.fuse-card { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: flex; align-items: center; gap: 0;
+  padding: 18px 26px; border-radius: 32px; background: #FFFEFB; box-shadow: 0 0 0 6px rgba(155,123,255,.35), 0 18px 40px rgba(0,0,0,.2);
+  animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; transition: opacity .35s, scale .5s cubic-bezier(.6,0,.4,1), rotate .5s; }
+.fuse-ink { width: min(30vh, 30vw); height: min(30vh, 30vw); overflow: visible; transition: transform .7s cubic-bezier(.6,0,.4,1), filter .5s; }
+.fuse-ink path { fill: none; stroke: #2E2A26; stroke-width: 48; stroke-linecap: round; stroke-linejoin: round; transition: stroke .5s; }
+.fuse-plus { order: 1; font-size: min(9vh, 64px); font-weight: 900; color: #9B7BFF; transition: opacity .3s; }
+.fuse-ink-1 { order: 2; }
+.fuse-show .fuse-ink { animation: fuseBreathe 1.1s ease-in-out infinite alternate; }
+@keyframes fuseBreathe { to { transform: scale(1.04); } }
+/* 滑到一起：兩個字往中間靠、變金色 */
+.fuse-join .fuse-plus { opacity: 0; }
+.fuse-join .fuse-ink path { stroke: #FFC53D; }
+.fuse-join .fuse-ink { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 0 22px #FFB020); }
+.fuse-join .fuse-ink-0 { transform: translateX(28%) scale(.9); }
+.fuse-join .fuse-ink-1 { transform: translateX(-28%) scale(.9); }
+.fuse-pop .fuse-card, .fuse-act .fuse-card, .fuse-end .fuse-card { opacity: 0; scale: .2; rotate: 20deg; }
+.fuse-word { position: absolute; left: 50%; top: calc(50% + min(22vh, 180px)); translate: -50% 0; padding: 4px 22px; border-radius: 20px; background: #fff;
+  font-family: var(--kai); font-size: min(9vh, 72px); line-height: 1.1; box-shadow: 0 6px 0 rgba(0,0,0,.08); animation: popUp .45s .2s cubic-bezier(.2,1.6,.4,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cj-act .cj-thing, .cj-act .cj-body { animation: none !important; }
+}

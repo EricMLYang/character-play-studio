@@ -8,6 +8,7 @@ import Feed from './Feed'
 import Puzzle from './Puzzle'
 import Roots from './Roots'
 import Book from './Book'
+import Spell from './Spell'
 import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
@@ -77,11 +78,21 @@ export type Game = {
 
 export const GAMES: Game[] = [
   {
+    // 2026-11-06 第二夜：寫出來，就變出來（Spell.tsx）。描字有史以來 13 次，這個遊戲是為了讓他想寫
+    id: 'spell', icon: '🪄', title: '魔法筆', fresh: true,
+    subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `寫過 ${n} 個字` : '寫什麼就變什麼' },
+    render: (ctx) => (
+      <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} focus={ctx.focus} path={ctx.path} onWalk={ctx.walk} onBack={ctx.back}
+        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })}
+        onFused={(word) => ctx.record({ kind: 'fuse', char: word })} />
+    ),
+  },
+  {
     id: 'town', icon: '🏡', title: '我的小鎮',
     subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `住了 ${n} 個字` : '寫一個字搬進來' },
     render: (ctx) => (
-      <Town residents={ctx.progress.town || {}} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
-        onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} />
+      <Town residents={ctx.progress.town || {}} progress={ctx.progress} library={ctx.library} hues={ctx.hues} stars={ctx.stars}
+        onPick={ctx.open} onBack={ctx.back} onGame={ctx.go} onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} />
     ),
   },
   {
@@ -115,7 +126,7 @@ export const GAMES: Game[] = [
     id: 'book', icon: '📖', title: '指讀小書', fresh: true,
     subtitle: (p) => { const n = Object.keys(p.books || {}).length; return n ? `讀過 ${n} 句` : '自己讀一本小書' },
     render: (ctx) => (
-      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} onPick={ctx.open} onBack={ctx.back}
+      <Book library={ctx.library} progress={ctx.progress} focus={ctx.focus} stars={ctx.stars} path={ctx.path} onWalk={ctx.walk} onPick={ctx.open} onBack={ctx.back}
         onRead={(text, char, ok, mine) => ctx.record({ kind: 'book', char, text, ok, ...(mine ? { mine: true } : {}) })} />
     ),
   },
@@ -123,7 +134,7 @@ export const GAMES: Game[] = [
     id: 'roots', icon: '🏠', title: '字的家族', fresh: true,
     subtitle: (p) => { const n = Object.values(p.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0); return n ? `找到 ${n} 個家人` : '部首會變身' },
     render: (ctx) => (
-      <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} onPick={ctx.open} onBack={ctx.back}
+      <Roots library={ctx.library} progress={ctx.progress} want={ctx.want} path={ctx.path} onWalk={ctx.walk} onPick={ctx.open} onBack={ctx.back}
         onFind={(family, char, ok, word) => ctx.record({ kind: 'radical', char, family, ok, ...(word ? { word } : {}) })} />
     ),
   },

@@ -1,13 +1,11 @@
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { taiwanDay, starIndex } from '../../shared/domain.mjs'
 import { browseCharacters } from '../../shared/selection.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
-import { magic } from '../lib/sfx'
-import { say } from '../lib/audio'
-import { FIXED_LINES } from '../../shared/voice-lines.mjs'
+import { arrive } from '../lib/sfx'
 import { Confetti } from './ui'
 import Home from './Home'
 import Viewer from './Viewer'
@@ -20,6 +18,11 @@ import { pathDone, todayPath } from './today'
 import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
+import DayCard from './DayCard'
+import { useCelebrationsHeld } from './hold'
+import Stage, { useStagePointer } from './Stage'
+import { sceneFor } from './stageScenes'
+import { recentMade } from './magicWorld'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -44,6 +47,13 @@ export default function PlayApp() {
   const active = route.char ?? null
   const ride = route.ride ?? null
   const home = useRef<HTMLDivElement>(null)
+  useStagePointer()
+  // 走進一個地方響那個地方的小旋律（第一次打開不響：還沒有人碰過畫面，瀏覽器也不讓出聲）
+  const arrived = useRef(false)
+  useEffect(() => {
+    if (arrived.current) arrive(sceneFor(screen).id)
+    arrived.current = true
+  }, [screen])
   const lastActive = useRef<string | null>(null)
 
   // 觀看層開著時，背後的字庫要完全退出（不能被 Tab 進去、讀屏也不該唸）；關閉後回到剛才那張字卡
@@ -125,6 +135,12 @@ export default function PlayApp() {
   const [chest, setChest] = useState<Partner | null>(null)
   /** 一個字的星星集滿了：加冕（Crown.tsx）。跟寶箱同時發生就排在寶箱後面 */
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
+  /** 今天的路走完：今日戰報（DayCard.tsx） */
+  const [day, setDay] = useState(false)
+  /** 首頁今天的路兩旁站著他最近在魔法筆變出來的東西，點了去魔法筆（magicWorld.ts 的 recentMade） */
+  const madeByHim = useMemo(() => recentMade(progress.town || {}, (c) => all.find((e) => e.char === c)?.emoji, 2, progress.fused), [progress.town, progress.fused, all])
+  /** 魔法筆一輪還在演（hold.ts）：加冕、寶箱、戰報等它演完再出來 */
+  const held = useCelebrationsHeld()
   // 今天的路（today.ts）：走完要慶祝一次
   const path = useMemo(() => todayPath(all, progress), [all, progress])
   const walked = pathDone(path)
@@ -147,9 +163,8 @@ export default function PlayApp() {
     }
     if (full) return
     if (walked && !was.walked) {
-      magic()
-      say(FIXED_LINES.pathAllDone, 0.85)
-      setPop({ key: Date.now(), icon: '🎉', text: FIXED_LINES.pathAllDone, big: true })
+      // 不只放彩帶：一張「今天的字」卡，他今天碰過的字一個個飛進來（DayCard 自己唸「今天的路走完了」）
+      setDay(true)
       return
     }
     if (!got) return
@@ -215,13 +230,14 @@ export default function PlayApp() {
 
   return (
     <div className="play">
-      <Blobs />
+      {/* 底下那片景（stageScenes.ts）；餵大怪獸的天色跟著端菜的夥伴，它自己放一片；魔法筆的背景是他的魔法世界 */}
+      {screen !== 'feed' && screen !== 'spell' && <Stage screen={screen} />}
       <div className="screen" ref={home}>
         {/*
           key 帶上 want：他已經站在這個遊戲裡、從字卡點「去 →」進來的時候，
           畫面沒有換、遊戲不會重新掛載，第一題就不會換成他要的那個字。
         */}
-        {game ? <Fragment key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</Fragment> : (
+        {game ? <div className="scene-enter" key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</div> : (
           <Home
             items={items}
             groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
@@ -246,6 +262,7 @@ export default function PlayApp() {
             onRide={startRide}
             path={path}
             walked={walked}
+            made={madeByHim}
             onGo={(go) => {
               if (!go) surprise()
               else if (go.kind === 'char') open(go.char)
@@ -282,9 +299,11 @@ export default function PlayApp() {
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
-      {chest && <Chest partner={chest} onClose={() => setChest(null)}
+      {chest && !held && <Chest partner={chest} onClose={() => setChest(null)}
         onGo={() => { serveNextWith(chest.id); setChest(null); enter('feed') }} />}
-      {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
+      {crown && !chest && !held && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
+      {/* 戰報等他關掉字卡再出來：走完的那一下常常是在字卡上（看完第二個新字），蓋上去會打斷描字 */}
+      {day && !chest && !crown && !held && !entry && !ride && <DayCard progress={progress} onClose={() => setDay(false)} />}
       {pop && !chest && !crown && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}
@@ -300,10 +319,3 @@ export default function PlayApp() {
   )
 }
 
-function Blobs() {
-  return (
-    <div className="blobs" aria-hidden>
-      <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
-    </div>
-  )
-}

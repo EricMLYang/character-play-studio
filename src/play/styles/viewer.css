@@ -335,9 +335,35 @@
   .stroke-dots { display: none; }
   .stroke-tip { grid-column: 2; grid-row: 1 / span 2; font-size: 15px; }
   .stroke-again { grid-column: 2; grid-row: 3; }
-  .hook { font-size: 13px; padding: 6px 12px; }
+  /* 小故事泡泡在這個高度會壓到右邊那欄的「你自己把這個字寫出來了」（#197）：
+     他讀不到那行字、點了會唸出來，所以收成左上角一顆「💡🔊」小按鈕就夠了 */
+  .hook { left: 10px; transform: none; font-size: 0; gap: 2px; padding: 6px 10px; }
+  .hook > span { font-size: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scene, .confetti { display: none; }
+}
+
+/* ---------- 「以前長這樣」（OriginPlay.tsx、origins.ts） ---------- */
+.origin-btn { background: #FFF3D6; }
+.origin { position: fixed; inset: 0; z-index: 46; display: grid; place-items: center; padding: 16px; background: rgba(46,42,38,.35); }
+.origin-card { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 28px; border-radius: 32px;
+  background: #FFFBF0; box-shadow: 0 10px 0 rgba(0,0,0,.08), 0 24px 60px rgba(0,0,0,.25); animation: popUp .35s cubic-bezier(.2,1.6,.4,1) both; }
+.origin-stage { position: relative; width: min(46vh, 70vw, 320px); aspect-ratio: 1; border-radius: 24px;
+  background: #F6E8CF; box-shadow: inset 0 0 0 6px rgba(140,100,50,.12); }
+/* 簡筆圖：像刻在骨頭上的棕色線，一筆一筆描出來 */
+.origin-pic { position: absolute; inset: 8%; width: 84%; height: 84%; overflow: visible; transition: opacity .8s, transform .8s cubic-bezier(.3,1.2,.5,1); }
+.origin-pic path { fill: none; stroke: #8A5A2B; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: originDraw ease-out both; }
+@keyframes originDraw { to { stroke-dashoffset: 0; } }
+.origin-char { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--kai); font-size: min(34vh, 52vw, 230px);
+  font-weight: 700; line-height: 1; color: var(--ink); opacity: 0; transform: scale(1.25); transition: opacity .7s .2s, transform .7s .2s cubic-bezier(.2,1.5,.4,1); }
+/* 變身：圖退到後面變淡，現在的字浮出來疊在上面 */
+.step-morph .origin-pic { opacity: .28; transform: scale(.92); }
+.step-morph .origin-char { opacity: 1; transform: none; }
+.origin-say { margin: 0; font-size: 22px; font-weight: 800; }
+.origin-actions { display: flex; gap: 12px; }
+@media (prefers-reduced-motion: reduce) {
+  .origin-pic path { animation-duration: .01ms !important; }
 }

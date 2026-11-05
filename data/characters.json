@@ -46,6 +46,10 @@
         {
           "text": "日記",
           "emoji": "📔"
+        },
+        {
+          "text": "日曆",
+          "emoji": "📅"
         }
       ],
       "scene": "glow"
@@ -95,6 +99,10 @@
         {
           "text": "月球",
           "emoji": "🌕"
+        },
+        {
+          "text": "月台",
+          "emoji": "🚉"
         }
       ],
       "scene": "glow"
@@ -144,6 +152,10 @@
         {
           "text": "山洞",
           "emoji": "🕳️"
+        },
+        {
+          "text": "雪山",
+          "emoji": "🏔️"
         }
       ],
       "scene": "grow"
@@ -193,6 +205,10 @@
         {
           "text": "水餃",
           "emoji": "🥟"
+        },
+        {
+          "text": "水球",
+          "emoji": "💦"
         }
       ],
       "scene": "rain"
@@ -242,6 +258,10 @@
         {
           "text": "煙火",
           "emoji": "🎆"
+        },
+        {
+          "text": "火箭",
+          "emoji": "🚀"
         }
       ],
       "scene": "fire"
@@ -291,6 +311,10 @@
         {
           "text": "黏土",
           "emoji": "🎨"
+        },
+        {
+          "text": "土司",
+          "emoji": "🍞"
         }
       ],
       "scene": "grow"
@@ -340,6 +364,10 @@
         {
           "text": "積木",
           "emoji": "🧱"
+        },
+        {
+          "text": "木瓜",
+          "emoji": "🥭"
         }
       ],
       "scene": "grow"
@@ -438,6 +466,10 @@
         {
           "text": "口水",
           "emoji": "💧"
+        },
+        {
+          "text": "口罩",
+          "emoji": "😷"
         }
       ],
       "scene": "bounce"
@@ -502,6 +534,10 @@
         {
           "text": "拍手",
           "emoji": "👏"
+        },
+        {
+          "text": "手套",
+          "emoji": "🧤"
         }
       ],
       "scene": "zap"
@@ -581,6 +617,10 @@
         {
           "text": "足跡",
           "emoji": "👣"
+        },
+        {
+          "text": "遠足",
+          "emoji": "🎒"
         }
       ],
       "scene": "bounce"
@@ -679,6 +719,10 @@
         {
           "text": "耳機",
           "emoji": "🎧"
+        },
+        {
+          "text": "耳環",
+          "emoji": "💍"
         }
       ],
       "scene": "bounce"
@@ -826,6 +870,10 @@
         {
           "text": "上車",
           "emoji": "🚌"
+        },
+        {
+          "text": "上廁所",
+          "emoji": "🚽"
         }
       ],
       "scene": "fly"
@@ -924,6 +972,10 @@
         {
           "text": "空中",
           "emoji": "🎈"
+        },
+        {
+          "text": "中秋",
+          "emoji": "🥮"
         }
       ],
       "scene": "zap"
@@ -973,6 +1025,10 @@
         {
           "text": "天氣",
           "emoji": "🌤️"
+        },
+        {
+          "text": "天使",
+          "emoji": "👼"
         }
       ],
       "scene": "glow"
@@ -1120,6 +1176,10 @@
         {
           "text": "鑽石",
           "emoji": "💎"
+        },
+        {
+          "text": "寶石",
+          "emoji": "💍"
         }
       ],
       "scene": "grow"
@@ -1279,6 +1339,10 @@
         {
           "text": "魚缸",
           "emoji": "🐟"
+        },
+        {
+          "text": "鯊魚",
+          "emoji": "🦈"
         }
       ],
       "scene": "bounce"
@@ -1376,6 +1440,10 @@
         {
           "text": "羊毛",
           "emoji": "🧶"
+        },
+        {
+          "text": "小羊",
+          "emoji": "🐏"
         }
       ],
       "scene": "bounce"
@@ -1474,6 +1542,10 @@
         {
           "text": "犬齒",
           "emoji": "🦷"
+        },
+        {
+          "text": "柴犬",
+          "emoji": "🐕"
         }
       ],
       "scene": "bounce"
@@ -1523,6 +1595,10 @@
         {
           "text": "點心",
           "emoji": "🍪"
+        },
+        {
+          "text": "愛心",
+          "emoji": "❤️"
         }
       ],
       "scene": "glow"
@@ -1621,6 +1697,10 @@
         {
           "text": "彈弓",
           "emoji": "🪃"
+        },
+        {
+          "text": "弓箭手",
+          "emoji": "🎯"
         }
       ],
       "scene": "zap"
@@ -1670,6 +1750,10 @@
         {
           "text": "消防車",
           "emoji": "🚒"
+        },
+        {
+          "text": "腳踏車",
+          "emoji": "🚲"
         }
       ],
       "scene": "bounce"
@@ -1719,6 +1803,10 @@
         {
           "text": "門牙",
           "emoji": "🦷"
+        },
+        {
+          "text": "門鈴",
+          "emoji": "🔔"
         }
       ],
       "scene": "zap"
@@ -1768,6 +1856,10 @@
         {
           "text": "米粉",
           "emoji": "🍜"
+        },
+        {
+          "text": "爆米花",
+          "emoji": "🍿"
         }
       ],
       "scene": "grow"
@@ -1866,6 +1958,10 @@
         {
           "text": "開花",
           "emoji": "🌼"
+        },
+        {
+          "text": "花瓶",
+          "emoji": "🏺"
         }
       ],
       "scene": "grow"
@@ -1979,6 +2075,10 @@
         {
           "text": "機器人",
           "emoji": "🤖"
+        },
+        {
+          "text": "直升機",
+          "emoji": "🚁"
         }
       ],
       "scene": "zap"
@@ -2028,6 +2128,10 @@
         {
           "text": "武器",
           "emoji": "⚔️"
+        },
+        {
+          "text": "吸塵器",
+          "emoji": "🧹"
         }
       ],
       "scene": "zap"
@@ -2077,6 +2181,10 @@
         {
           "text": "忍耐",
           "emoji": "😤"
+        },
+        {
+          "text": "忍者刀",
+          "emoji": "🗡️"
         }
       ],
       "scene": "zap"
@@ -2126,6 +2234,10 @@
         {
           "text": "地球",
           "emoji": "🌍"
+        },
+        {
+          "text": "氣球",
+          "emoji": "🎈"
         }
       ],
       "scene": "bounce"
@@ -2175,6 +2287,10 @@
         {
           "text": "超市",
           "emoji": "🛒"
+        },
+        {
+          "text": "超車",
+          "emoji": "🏎️"
         }
       ],
       "scene": "glow"
@@ -2273,6 +2389,10 @@
         {
           "text": "閃電",
           "emoji": "⚡"
+        },
+        {
+          "text": "電梯",
+          "emoji": "🛗"
         }
       ],
       "scene": "fire"
@@ -2334,6 +2454,10 @@
         {
           "text": "笑話",
           "emoji": "🤣"
+        },
+        {
+          "text": "笑臉",
+          "emoji": "😊"
         }
       ],
       "scene": "glow"
@@ -2382,6 +2506,10 @@
         {
           "text": "戰車",
           "emoji": "🛡️"
+        },
+        {
+          "text": "戰鬥機",
+          "emoji": "✈️"
         }
       ],
       "needsRedo": false,
@@ -2431,6 +2559,10 @@
         {
           "text": "跑道",
           "emoji": "🛣️"
+        },
+        {
+          "text": "跑車",
+          "emoji": "🏎️"
         }
       ],
       "needsRedo": false,
@@ -2529,6 +2661,10 @@
         {
           "text": "蜂王",
           "emoji": "🐝"
+        },
+        {
+          "text": "女王",
+          "emoji": "👸"
         }
       ],
       "needsRedo": false,
@@ -2578,6 +2714,10 @@
         {
           "text": "金字塔",
           "emoji": "🔺"
+        },
+        {
+          "text": "金牌",
+          "emoji": "🏅"
         }
       ],
       "needsRedo": false,
@@ -2627,6 +2767,10 @@
         {
           "text": "水龍頭",
           "emoji": "🚰"
+        },
+        {
+          "text": "龍捲風",
+          "emoji": "🌪️"
         }
       ],
       "needsRedo": false,
@@ -2676,6 +2820,10 @@
         {
           "text": "玩水",
           "emoji": "💦"
+        },
+        {
+          "text": "玩沙",
+          "emoji": "🏖️"
         }
       ],
       "needsRedo": false,
@@ -2872,6 +3020,10 @@
         {
           "text": "火星",
           "emoji": "🪐"
+        },
+        {
+          "text": "流星",
+          "emoji": "🌠"
         }
       ],
       "needsRedo": false,
@@ -2921,6 +3073,10 @@
         {
           "text": "燈光",
           "emoji": "💡"
+        },
+        {
+          "text": "光頭",
+          "emoji": "👨‍🦲"
         }
       ],
       "needsRedo": false,
@@ -3166,6 +3322,10 @@
         {
           "text": "吃飽",
           "emoji": "🤤"
+        },
+        {
+          "text": "吃冰",
+          "emoji": "🍦"
         }
       ],
       "scene": "grow",
@@ -3199,6 +3359,10 @@
         {
           "text": "喝牛奶",
           "emoji": "🥛"
+        },
+        {
+          "text": "喝茶",
+          "emoji": "🍵"
         }
       ],
       "scene": "rain"
@@ -3295,6 +3459,10 @@
         {
           "text": "家人",
           "emoji": "👪"
+        },
+        {
+          "text": "搬家",
+          "emoji": "🚚"
         }
       ],
       "scene": "grow"
@@ -3359,6 +3527,10 @@
         {
           "text": "糖果",
           "emoji": "🍬"
+        },
+        {
+          "text": "果汁",
+          "emoji": "🧃"
         }
       ],
       "scene": "grow"
@@ -3391,6 +3563,10 @@
         {
           "text": "高山",
           "emoji": "⛰️"
+        },
+        {
+          "text": "高鐵",
+          "emoji": "🚄"
         }
       ],
       "scene": "grow"
@@ -3423,6 +3599,10 @@
         {
           "text": "黑熊",
           "emoji": "🐻"
+        },
+        {
+          "text": "黑貓",
+          "emoji": "🐈‍⬛"
         }
       ],
       "scene": "fire"
@@ -6911,6 +7091,10 @@
         {
           "text": "抱枕",
           "emoji": "🛏️"
+        },
+        {
+          "text": "熊抱",
+          "emoji": "🐻"
         }
       ],
       "concept": {
@@ -7088,6 +7272,10 @@
         {
           "text": "叫醒",
           "emoji": "⏰"
+        },
+        {
+          "text": "尖叫",
+          "emoji": "🙀"
         }
       ],
       "concept": {
@@ -7537,6 +7725,10 @@
         {
           "text": "長髮",
           "emoji": "💇"
+        },
+        {
+          "text": "長褲",
+          "emoji": "👖"
         }
       ],
       "concept": {
@@ -7696,6 +7888,10 @@
         {
           "text": "冷冷",
           "emoji": "🥶"
+        },
+        {
+          "text": "冷凍",
+          "emoji": "🧊"
         }
       ],
       "concept": {
@@ -7892,6 +8088,10 @@
         {
           "text": "不怕",
           "emoji": "💪"
+        },
+        {
+          "text": "可怕",
+          "emoji": "👻"
         }
       ],
       "concept": {
@@ -7924,6 +8124,10 @@
         {
           "text": "緊急",
           "emoji": "🚨"
+        },
+        {
+          "text": "急救",
+          "emoji": "🚑"
         }
       ],
       "concept": {
@@ -7956,6 +8160,10 @@
         {
           "text": "慢跑",
           "emoji": "🏃"
+        },
+        {
+          "text": "慢動作",
+          "emoji": "🎬"
         }
       ],
       "concept": {
@@ -8902,6 +9110,10 @@
         {
           "text": "大閘蟹",
           "emoji": "🍜"
+        },
+        {
+          "text": "寄居蟹",
+          "emoji": "🐚"
         }
       ],
       "concept": {
@@ -8934,6 +9146,10 @@
         {
           "text": "蝦餅",
           "emoji": "🍘"
+        },
+        {
+          "text": "抓蝦",
+          "emoji": "🎣"
         }
       ],
       "concept": {
@@ -8966,6 +9182,10 @@
         {
           "text": "蛙鏡",
           "emoji": "🥽"
+        },
+        {
+          "text": "牛蛙",
+          "emoji": "🐂"
         }
       ],
       "concept": {
@@ -10944,6 +11164,10 @@
         {
           "text": "姓楊",
           "emoji": "🏷️"
+        },
+        {
+          "text": "楊桃",
+          "emoji": "🌟"
         }
       ],
       "concept": {

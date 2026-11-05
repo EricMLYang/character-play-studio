@@ -205,3 +205,31 @@
 
 .st-chip-rows p { margin: 6px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .st-chip-rows b { font-size: 13px; margin-right: 4px; }
+
+/* 寫字等級卡片：他最近寫的字（自己的筆跡） */
+.st-hand-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.st-hand { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 74px; padding: 6px 4px 4px; border-radius: 12px;
+  background: #fff; border: 1px solid rgba(0,0,0,.08); cursor: pointer; }
+.st-hand svg { width: 60px; height: 60px; background-image: linear-gradient(to right, rgba(0,0,0,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,.06) 1px, transparent 1px);
+  background-size: 50% 50%; background-position: center; }
+.st-hand path { fill: none; stroke: #2E2A26; stroke-width: 44; stroke-linecap: round; stroke-linejoin: round; }
+.st-hand span { font-size: 12px; color: rgba(0,0,0,.6); }
+
+/* 魔法筆預覽（SpellGallery.tsx）：給爸媽一個一個點來看、戴耳機聽 */
+.st-gallery-open { margin-left: 8px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(0,0,0,.12); background: #fff; font-size: 13px; cursor: pointer; }
+.st-gallery { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(30,26,22,.45); }
+.st-gallery-card { width: min(980px, 100%); max-height: calc(100vh - 40px); overflow: auto; padding: 18px 22px; border-radius: 18px; background: #FFFDF8; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.st-gallery-head { position: sticky; top: -18px; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: -18px -22px 8px; padding: 14px 22px 10px; background: #FFFDF8; border-bottom: 1px solid rgba(0,0,0,.06); }
+.st-gallery-head h3 { margin: 0; }
+.st-gallery-head .st-dim { flex: 1 1 100%; margin: 0; order: 3; }
+.st-gallery-power { display: flex; align-items: center; gap: 4px; font-size: 13px; }
+.st-gallery-power button { padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(0,0,0,.12); background: #fff; cursor: pointer; }
+.st-gallery-power button.on { background: #9B7BFF; color: #fff; border-color: #9B7BFF; }
+.st-gallery-close:first-of-type { margin-left: auto; }
+.st-gallery-close { padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(0,0,0,.12); background: #fff; cursor: pointer; }
+.st-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.st-gallery-item { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px 6px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); background: #fff; cursor: pointer; }
+.st-gallery-item img { width: 44px; height: 44px; object-fit: contain; }
+.st-gallery-item b { font-family: var(--kai, serif); font-size: 22px; line-height: 1.1; }
+.st-gallery-item small { font-size: 11px; color: rgba(0,0,0,.45); }
+.st-gallery-item.on { outline: 3px solid #9B7BFF; }

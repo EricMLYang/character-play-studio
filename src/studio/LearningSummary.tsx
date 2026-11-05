@@ -1,5 +1,8 @@
+import { useState } from 'react'
+import { inkPath } from '../play/conjuring'
 import type { CharEntry, Progress } from '../types'
 import { summarize } from './summary'
+import SpellGallery from './SpellGallery'
 import { pathDone, todayPath } from '../play/today'
 
 /**
@@ -13,6 +16,8 @@ export default function LearningSummary({ progress, characters, onPick }: {
   onPick: (char: string) => void
 }) {
   const s = summarize(progress, characters)
+  /** 魔法筆預覽（SpellGallery）開著沒 */
+  const [gallery, setGallery] = useState(false)
   // 孩子端首頁的「今天的路」：家長看得到他走到哪一站，才接得上話
   const stops = todayPath(characters.filter((c) => !c.hidden), progress)
   const tiles = [
@@ -84,6 +89,35 @@ export default function LearningSummary({ progress, characters, onPick }: {
           <div className="st-chip-rows">
             {s.notWritten.length > 0 && <p><b>還沒憑記憶寫過（看最多次的在前）：</b>{s.notWritten.map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>}
             {s.onlyOnce.length > 0 && <p><b>只看過一次（最久沒再看的在前）：</b>{s.onlyOnce.map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>}
+          </div>
+        </section>
+      )}
+
+      {Object.values(s.writeLevels).some((l) => l.length > 0) && (
+        <section className="st-card st-write-levels">
+          <h4>🪄 寫字等級（魔法筆） <button className="st-gallery-open" onClick={() => setGallery(true)}>🎧 預覽全部變身</button></h4>
+          {gallery && <SpellGallery characters={characters} progress={progress} onClose={() => setGallery(false)} />}
+          <p className="st-dim">
+            每寫一次升一級：描過一次 → 下次只「看一眼」外框就淡掉 → 描過兩次就「遮起來寫」 → 憑記憶寫出兩次就「聽寫」（不給看）。
+            {s.wroteToday > 0 ? <><b>今天寫了 {s.wroteToday} 個字</b>{s.wroteToday >= 6 ? '（六個以上，魔法筆的目標到了）' : ''}，</> : null}最近 7 天寫過 {s.wroteThisWeek} 個字。上面那排是他最近寫的字（他自己的筆跡，🙈＝憑記憶寫過）；🧙 那一排是他不看就寫得出來的字。
+          </p>
+          {s.recentWrites.length > 0 && (
+            <div className="st-hand-row" aria-label="最近寫的字（他自己的筆跡）">
+              {s.recentWrites.map((w) => (
+                <button key={w.char} className="st-hand" onClick={() => onPick(w.char)} title={`「${w.char}」${w.blind ? '（憑記憶寫過）' : ''}`}>
+                  <svg viewBox="0 0 1024 1024" aria-hidden>
+                    <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, i) => <path key={i} d={inkPath(st)} />)}</g>
+                  </svg>
+                  <span>{w.char}{w.blind ? ' 🙈' : ''}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="st-chip-rows">
+            {([['memory', '🧙 聽寫級'], ['blind', '🙈 遮起來寫'], ['look', '👀 看一眼']] as const).map(([level, label]) => s.writeLevels[level].length > 0 && (
+              <p key={level}><b>{label}（{s.writeLevels[level].length}）：</b>{s.writeLevels[level].map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>
+            ))}
+            {s.fused.length > 0 && <p><b>🔮 合體合出來的詞（{s.fused.length}）：</b>{s.fused.join('、')}</p>}
           </div>
         </section>
       )}

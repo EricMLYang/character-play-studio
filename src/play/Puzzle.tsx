@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, snap, stash, tap } from '../lib/sfx'
+import { boing, cheer, drum, ladder, snap, stash, tap } from '../lib/sfx'
+import { streakOf } from './streak'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { requeue } from './dishes'
 import { PICTURE_ROUNDS, PIECES, collection, completesChar, pickPuzzles, shelves, type PuzzleItem } from './puzzles'
 import { Confetti, SubBar, emojiArt, hueOf, hueVar } from './ui'
+import Buddy, { useReaction } from './Buddy'
+import { useDrag } from './useDrag'
 
 /**
  * 詞語拼圖：上面一張圖（還是灰灰的影子）跟一個缺了一個字的詞，例如「生 □」配 🎂。
@@ -53,6 +56,16 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
   const [at, setAt] = useState(0)
   const [options, setOptions] = useState<string[]>([])
   const [phase, setPhase] = useState<Phase>('hello')
+  // 字卡（或圖卡）可以拖進空格；點一下照樣算
+  const board = useRef<HTMLElement>(null)
+  const pickRef = useRef<(c: string) => void>(() => {})
+  const drag = useDrag({ target: () => board.current?.querySelector<HTMLElement>('.puz-slot:not(.filled), .puz-pic-slot') ?? null, onDrop: (c) => pickRef.current(c) })
+  // 出題的浣熊：拼對了跳起來，放錯了歪頭
+  const [hostReaction, hostReact] = useReaction()
+  useEffect(() => {
+    if (phase === 'alive') hostReact('cheer')
+    else if (phase === 'oops') hostReact('oops')
+  }, [phase, hostReact])
   const [missed, setMissed] = useState(false)
   const [wrong, setWrong] = useState<string | null>(null)
   const [solved, setSolved] = useState<Solved[]>([])
@@ -164,6 +177,7 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
       const all = [...solved, { word: item.word, ok, fresh, crown }]
       // 喀！卡片進到格子裡 → 圖變成彩色跳起來，再唸一次整個詞
       snap()
+      if (ok) setTimeout(() => ladder(streakOf(all)), 140)
       setPhase('snap')
       later(() => { setSolved(all); setPhase('alive'); say(item.word, 0.8); if (fresh) stash() }, 450)
       let shown = 450 + Math.max(1700, lasts(item.word) + 900)
@@ -207,6 +221,7 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
     else if (phase === 'recap') { setReading(-1); setPhase('done') }
   }
 
+  pickRef.current = pick
   const shelf = collection(progress)
   const bookButton = (
     <button className="puz-book-btn" onClick={openBook} disabled={!canOpenBook} aria-label={`打開詞語圖鑑，收集了 ${shelf.length} 個詞`}>
@@ -304,8 +319,8 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
       ) : item && (
         <div className={`puz-main phase-${phase}`}>
           {/* 出題的浣熊。其他六個玩法都有一隻角色在旁邊，只有這裡沒有 */}
-          <img className="puz-host" src={`/hero/raccoon/${HOST_POSE[phase] || 'idle'}.png`} alt="" aria-hidden />
-          <section className="puz-board" aria-live="polite">
+          <Buddy className="puz-host" hero="raccoon" pose={HOST_POSE[phase] || 'idle'} reaction={hostReaction} greet />
+          <section className="puz-board" aria-live="polite" ref={board}>
             {item.kind === 'picture' && !filled
               ? <div className="puz-pic-slot" aria-hidden><span>?</span></div>
               : <div className={'puz-pic' + (phase === 'alive' ? ' alive' : '') + (item.kind === 'picture' ? ' landed' : '')} aria-hidden>
@@ -330,7 +345,7 @@ export default function Puzzle({ library, hues, progress, want, onSolve, onPick,
               const used = c === answer && filled
               const gone = c !== answer && filled
               return (
-                <button key={`${at}-${c}`} className={'puz-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (used ? ' used' : '') + (gone ? ' gone' : '')}
+                <button key={`${at}-${c}`} {...drag(c)} className={'puz-card' + (flipped ? ' flipped' : '') + (hint ? ' hint' : '') + (used ? ' used' : '') + (gone ? ' gone' : '')}
                   disabled={phase !== 'ask' || flipped} onClick={() => pick(c)}
                   aria-label={item.kind === 'picture' ? (flipped ? `這是「${c}」` : `放這張圖`) : (flipped ? `這是「${c}」` : `放「${c}」`)}>
                   {item.kind === 'picture' ? <>

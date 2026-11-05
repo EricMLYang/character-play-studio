@@ -6,6 +6,10 @@ import { LINES } from '../../shared/voice-lines.mjs'
 import { BOOK_FIXED, sentenceText } from '../../shared/books.mjs'
 import { askable, pickBook, segmentsOf, type Page, type ReadPage, type Word } from './books'
 import { Confetti, SubBar, emojiArt } from './ui'
+import Buddy, { useReaction } from './Buddy'
+import { actSegment, stagingFor, type Act } from './bookActs'
+import { partnersAt } from './partners'
+import { stopAfter, type Stop, type StopGo } from './today'
 
 /**
  * 指讀小書：3～5 句用他看過的字組成的小故事，一句一句唸、唸到哪一段哪一段亮，
@@ -20,8 +24,13 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.3 * [...text].length +
 const BEAT = 320
 const RATE = 0.8
 
-export default function Book({ library, progress, focus, onRead, onPick, onBack }: {
+export default function Book({ library, progress, focus, stars, path, onWalk, onRead, onPick, onBack }: {
+  /** 今天的路：讀完這一站就給「下一站」按鈕（跟餵大怪獸一樣） */
+  path: Stop[]
+  onWalk: (go: StopGo) => void
   library: CharEntry[]
+  /** 總共幾顆星星：他收集到的夥伴輪流來當演員（partners.ts） */
+  stars: number
   progress: Progress
   /** 今天的字（今天的路上的），優先進書 */
   focus: string[]
@@ -42,6 +51,12 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)) }
   const clear = () => { timers.current.forEach(clearTimeout); timers.current = [] }
   const page = at >= 0 ? pages[at] : undefined
+  // 這一頁的演員：他收集到的夥伴，一頁換一位
+  const cast = useMemo(() => partnersAt(stars), [stars])
+  const actor = cast[Math.max(at, 0) % cast.length]
+  /** 演到了沒（唸到那一段就演，演完停在那個樣子，指對了再演一次） */
+  const [acting, setActing] = useState(0)
+  const [reaction, react] = useReaction()
   const title = useMemo(() => pages.filter((p): p is ReadPage => p.kind === 'read').map((p) => p.char).join(''), [pages])
 
   useEffect(() => {
@@ -59,8 +74,11 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
     setPhase('reading')
     setMissed([])
     let t = 400
+    setActing(0)
+    const staging = stagingFor(p.pattern.id)
+    const cue = actSegment(p.pattern, staging)
     p.segments.forEach((s, i) => {
-      later(() => { setLit(i); if (s.say) say(s.say, RATE) }, t)
+      later(() => { setLit(i); if (s.say) say(s.say, RATE); if (i === cue) { setActing((n) => n + 1); react(staging.reaction) } }, t)
       t += (s.say ? lasts(s.say) : 300) + BEAT
     })
     later(() => setLit(-1), t)
@@ -107,6 +125,8 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
     const ok = missed.length === 0
     cheer()
     setPhase('right')
+    setActing((n) => n + 1)
+    react('cheer')
     setResults((r) => [...r, { text: p.text, ok }])
     onRead(p.text, p.char, ok)
     say(p.char, RATE)
@@ -135,8 +155,13 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
     if (phase !== 'done') return
     const all = results.length > 0 && results.every((r) => r.ok)
     say(BOOK_FIXED.bookDone, RATE)
-    if (all) later(() => say(BOOK_FIXED.bookPerfect, RATE), lasts(BOOK_FIXED.bookDone) + BEAT)
+    let t = lasts(BOOK_FIXED.bookDone) + BEAT
+    if (all) { later(() => say(BOOK_FIXED.bookPerfect, RATE), t); t += lasts(BOOK_FIXED.bookPerfect) + BEAT }
+    // 讀一讀這一站做完了：接著唸下一站要做什麼（按鈕在下面）
+    const { stopDone, nextStop } = stopAfter(path, 'read')
+    if (stopDone && nextStop) later(() => say(nextStop.say, RATE), t)
   }, [phase])
+  const { stopDone, nextStop } = stopAfter(path, 'read')
 
   if (!pages.length) {
     return (
@@ -160,9 +185,7 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
 
       {page?.kind === 'read' && phase !== 'done' && (
         <div className="book-page">
-          <div className="book-picture" aria-hidden>
-            {emojiArt(page.word.emoji) ? <img src={emojiArt(page.word.emoji)!} alt="" /> : page.word.emoji}
-          </div>
+          <BookScene act={stagingFor(page.pattern.id).act} acting={acting} emoji={page.word.emoji} hero={actor.id} reaction={reaction} />
           <p className="book-sentence" aria-label={page.text}>
             {(() => {
               let index = 0
@@ -227,10 +250,36 @@ export default function Book({ library, progress, focus, onRead, onPick, onBack 
             {results.map((r) => <li key={r.text} className={r.ok ? 'ok' : ''}>{r.ok ? '⭐' : '📖'} {r.text}</li>)}
           </ul>
           <div className="book-actions">
-            <button className="book-btn go" onClick={onBack}>回今天的路 →</button>
+            {stopDone && nextStop
+              ? <button className="book-btn go" onClick={() => { tap(); clear(); stopSpeech(); onWalk(nextStop.go) }}>下一站：{nextStop.icon} {nextStop.title} →</button>
+              : <button className="book-btn go" onClick={onBack}>回今天的路 →</button>}
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+/**
+ * 一頁的小舞台（bookActs.ts 有為什麼）：左邊是演員，右邊是句子裡的那個東西。
+ * acting 每加一就重演一次（key 換掉），0 是還沒唸到、東西安安靜靜站著。
+ */
+function BookScene({ act, acting, emoji, hero, reaction }: {
+  act: Act
+  acting: number
+  emoji?: string
+  hero: string
+  reaction: ReturnType<typeof useReaction>[0]
+}) {
+  const art = emojiArt(emoji)
+  return (
+    <div className={`book-scene act-${act}` + (acting ? ' on' : '')} aria-hidden>
+      <Buddy className="book-actor" hero={hero} reaction={reaction} greet />
+      <span key={acting} className="book-thing">
+        {art ? <img src={art} alt="" draggable={false} /> : emoji}
+        {acting > 0 && (act === 'cute' || act === 'love') && <span className="book-hearts"><i>💗</i><i>💖</i><i>💗</i></span>}
+        {acting > 0 && act === 'fun' && <span className="book-hearts"><i>✨</i><i>🎉</i><i>✨</i></span>}
+      </span>
     </div>
   )
 }
