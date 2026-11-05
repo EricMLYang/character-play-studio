@@ -161,7 +161,7 @@
 .fuse-card { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: flex; align-items: center; gap: 0;
   padding: 18px 26px; border-radius: 32px; background: #FFFEFB; box-shadow: 0 0 0 6px rgba(155,123,255,.35), 0 18px 40px rgba(0,0,0,.2);
   animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; transition: opacity .35s, scale .5s cubic-bezier(.6,0,.4,1), rotate .5s; }
-.fuse-ink { width: min(30vh, 34vw); height: min(30vh, 34vw); overflow: visible; transition: transform .7s cubic-bezier(.6,0,.4,1), filter .5s; }
+.fuse-ink { width: min(30vh, 30vw); height: min(30vh, 30vw); overflow: visible; transition: transform .7s cubic-bezier(.6,0,.4,1), filter .5s; }
 .fuse-ink path { fill: none; stroke: #2E2A26; stroke-width: 48; stroke-linecap: round; stroke-linejoin: round; transition: stroke .5s; }
 .fuse-plus { order: 1; font-size: min(9vh, 64px); font-weight: 900; color: #9B7BFF; transition: opacity .3s; }
 .fuse-ink-1 { order: 2; }

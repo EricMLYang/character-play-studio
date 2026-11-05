@@ -334,3 +334,6 @@
 
 ## 02:30 第 76 輪：iPad 單機版有帶到新音檔
 - app:build 會把整個 public/（含 voice）複製進 dist-app；拿 dist-app/voice/index.json 對 spellLines()：256 句魔法筆台詞 0 句缺（iPad 不連網也唸得出來）
+
+## 02:32 第 77 輪：合體詞卡在手機上不貼邊 ✅
+- 390px 直立手機：詞卡原本 381px 寬（兩個字各 34vw）幾乎貼邊 → 改 min(30vh, 30vw)；量詞卡剛出現時：左 20、右 370、寬 350，兩邊各留 20px
