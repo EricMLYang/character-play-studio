@@ -6,7 +6,8 @@
 .world-land { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* 每個住戶：以腳底為準站在 (x, y)；身體跟著自己住的地方輕輕動 */
-.world-dweller { position: absolute; translate: -50% -100%; width: calc(var(--s) * 1%); aspect-ratio: 1; padding: 0; background: none; display: block; }
+/* 寬度照世界的寬度算，但手機上的世界很窄（三百多 px），至少要有一個手指頭大，不然只看得到標籤 */
+.world-dweller { position: absolute; translate: -50% -100%; width: max(calc(var(--s) * 1%), calc(var(--s) * 4.6px)); aspect-ratio: 1; padding: 0; background: none; display: block; }
 .world-body { display: block; width: 100%; height: 100%; animation: 3s ease-in-out infinite alternate both; animation-delay: var(--d); }
 .world-body img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,.2)); }
 .world-char { position: absolute; left: 50%; bottom: -2px; translate: -50% 40%; padding: 0 .35em; border-radius: 8px; background: rgba(255,255,255,.85);
@@ -40,7 +41,7 @@
 
 /* 鋪滿當背景（魔法筆）：不要框、不要圓角；字小一點，不要搶寫字格子的注意力 */
 .world.world-backdrop { position: absolute; inset: 0; z-index: -1; width: auto; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
-.world-backdrop .world-dweller { pointer-events: none; width: calc(var(--s) * .55%); }
+.world-backdrop .world-dweller { pointer-events: none; width: max(calc(var(--s) * .55%), calc(var(--s) * 4px)); }
 .world-backdrop { transition: filter .6s; }
 .world-backdrop .world-char { font-size: clamp(12px, 1.8vh, 18px); opacity: .85; }
 /* 當背景的時候最多 85 個東西一起動，每張再套陰影濾鏡，舊 iPad 會掉格：背景不要陰影（剛掉進來的那個除外） */
