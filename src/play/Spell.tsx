@@ -37,8 +37,11 @@ import { holdCelebrations } from './hold'
  */
 const RATE = 0.85
 const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length + 0.5) * 1000
-/** 遮起來寫之前給他看多久 */
-const PREVIEW_MS = 2200
+/**
+ * 遮起來寫之前給他看多久：筆畫越多看越久（日 4 筆 2.2 秒、龍 16 筆 3.4 秒）。
+ * 「看一眼、記住」是要他把字的樣子記下來，十幾筆的字兩秒看不完，只好偷看。
+ */
+const previewMs = (strokes: number) => Math.min(3400, 1800 + 100 * Math.max(4, strokes))
 /** 寫字的時候多久沒動作算卡住（遮起來寫要先看兩秒、想一下，所以不能太短） */
 const STUCK_MS = 15000
 /** 結算點他寫的字重寫一次：每一筆隔多久 */
@@ -165,7 +168,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     // 遮起來寫：願望唸完才出格子，「看一眼，記住喔！」字亮兩秒，「變不見了！你自己寫出來！」
     const at = helloMs + lasts(wish.wish) + 200
     later(() => { setPhase('write'); speak([SPELL_FIXED.look]) }, at)
-    later(() => speak([SPELL_FIXED.gone]), at + PREVIEW_MS + 300)
+    later(() => speak([SPELL_FIXED.gone]), at + previewMs(wish.n) + 300)
   }, [turn])
 
   /**
@@ -371,7 +374,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             </span>
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char} radical={Boolean(familyOf(wish.char))}
-                startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
+                startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? previewMs(wish.n) : 0}
                 onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} onStroke={stroke} onWritten={poke}
                 onUnavailable={skip} />
             )}
