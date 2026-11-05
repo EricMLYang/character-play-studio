@@ -32,6 +32,13 @@ test('會變身的字都在字庫裡、有筆順、有 3D 圖（變出來的是�
   }
 })
 
+test('筆畫數跟筆順檔一樣（挑字靠它）', () => {
+  for (const s of SPELLS) {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/strokes', `${s.char}.json`), 'utf8'))
+    assert.equal(s.n, data.strokes.length, s.char)
+  }
+})
+
 test('每個字只出現一次、動作都有動畫、願望和謝謝都有話', () => {
   const css = fs.readFileSync(path.join(ROOT, 'src/play/styles/conjure.css'), 'utf8')
   assert.equal(new Set(SPELLS.map((s) => s.char)).size, SPELLS.length)
@@ -90,4 +97,13 @@ test('挑願望：全新的孩子（什麼都沒看過）也挑得出三個，�
   const picked = pickWishes(lib, {}, { today: '2026-11-06' })
   assert.equal(picked.length, WISHES_PER_ROUND)
   assert.equal(new Set(picked.map((w) => w.char)).size, WISHES_PER_ROUND)
+})
+
+test('挑願望：第一次寫的字，筆畫少的先（都看過的話，火 4 筆比麵 20 筆先）', () => {
+  const progress = { watched: { 火: { count: 1 }, 麵: { count: 1 } }, recall: {}, town: {} }
+  const picked = pickWishes(lib, progress, { today: '2026-11-06', rand: fixed, n: 2 })
+  assert.equal(picked[0].char, '火')
+  // 很熟的字（遮起來寫過）筆畫多一點也還好
+  const known = { watched: { 麵: { count: 3 }, 羊: { count: 1 } }, recall: {}, town: { 麵: { traces: 4, blind: 2, first: '', last: '', strokes: [] } } }
+  assert.equal(pickWishes(lib, known, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '羊', '20 筆還是重，沒寫過的羊先')
 })

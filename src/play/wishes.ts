@@ -20,13 +20,16 @@ export function writeLevel(resident?: Resident): WriteLevel {
 
 export type Wish = Spell & { emoji: string; level: WriteLevel }
 
+/** 每種寫法舒服的筆畫數：超過一筆扣一點分（不是不准，看過又該複習的字還是會被挑到） */
+const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14 }
+
 /** 一輪許幾個願望：三個剛好（每個字要寫一陣子，六歲一次大約撐三個） */
 export const WISHES_PER_ROUND = 3
 
 /**
  * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
  * 看過的字裡：該複習的（記住程度到期了）最優先，再來是還沒寫過的、只描過沒遮起來寫過的。
- * 一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
+ * 筆畫多的往後排（第一次寫的字尤其是）。一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
  */
 export function pickWishes(library: CharEntry[], progress: Progress, { n = WISHES_PER_ROUND, want, today, rand = Math.random }: {
   n?: number; want?: string; today: string; rand?: () => number
@@ -43,8 +46,11 @@ export function pickWishes(library: CharEntry[], progress: Progress, { n = WISHE
     if (due && due <= today) score += 2
     if (!resident) score += 1.5
     else if (!resident.blind) score += 1
+    // 筆畫太多會寫到放棄：第一次寫的字 8 筆以內最好，越熟可以越多（六歲一次寫 15 筆是很大的工程）
+    const level = writeLevel(resident)
+    score -= Math.max(0, s.n - COMFORT[level]) * 0.45
     if (s.char === want) score += 100
-    return [{ ...s, emoji: entry.emoji, level: writeLevel(resident), score }]
+    return [{ ...s, emoji: entry.emoji, level, score }]
   }).sort((a, b) => b.score - a.score)
 
   const picked: typeof scored = []
