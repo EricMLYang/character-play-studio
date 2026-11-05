@@ -113,7 +113,7 @@ test('挑願望：第一次寫的字，筆畫少的先（都看過的話，火 4
   assert.equal(pickWishes(lib, known, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '羊', '20 筆還是重，沒寫過的羊先')
 })
 
-const { dwellers, ZONE_OF, ZONES, spot } = await import('../src/play/magicWorld.ts')
+const { dwellers, recentMade, ZONE_OF, ZONES, spot } = await import('../src/play/magicWorld.ts')
 const emojiOf = (c) => entries.get(c)?.emoji
 const r = (traces, blind = 0) => ({ traces, blind, first: '', last: '', strokes: [] })
 
@@ -250,4 +250,11 @@ test('寫字的間隔複習：今天寫過的先讓別的字；隔夠久的（�
   const memory = { traces: 5, blind: 3, first: '', last: '2026-11-05T04:00:00Z', strokes: [] }
   const p2 = { watched: { 火: { count: 1 }, 水: { count: 1 } }, recall: {}, town: { 火: memory, 水: { ...memory, last: '2026-11-01T04:00:00Z' } } }
   assert.equal(pickWishes(lib, p2, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '水')
+})
+
+test('首頁陪他的：最近寫的兩個會變身的字（新的在前），不會變身的字不算', () => {
+  const at = (last) => ({ traces: 1, first: '', last, strokes: [] })
+  const town = { 魚: at('2026-11-01T01:00:00Z'), 火: at('2026-11-05T01:00:00Z'), 好: at('2026-11-06T01:00:00Z'), 球: at('2026-11-03T01:00:00Z') }
+  assert.deepEqual(recentMade(town, emojiOf), [emojiOf('火'), emojiOf('球')])
+  assert.deepEqual(recentMade({}, emojiOf), [])
 })

@@ -10,7 +10,10 @@ import { isSpeaking } from '../lib/audio'
  *
  * sky 不給就照裝置時間（早上、白天、傍晚、晚上）；餵大怪獸有自己的天色（夥伴決定），由它傳進來。
  */
-export default function Stage({ screen, sky }: { screen: string; sky?: Sky }) {
+/** 他最近變出來的東西站在近景的哪裡：首頁的樹右邊、蘑菇跟向日葵中間（左右兩側，中間留給路；stageScenes.ts 同一條規矩） */
+const MINE_AT = [11, 88]
+
+export default function Stage({ screen, sky, mine = [] }: { screen: string; sky?: Sky; mine?: string[] }) {
   const scene = sceneFor(screen)
   const now = useHourSky()
   const tone = sky ?? now
@@ -62,6 +65,11 @@ export default function Stage({ screen, sky }: { screen: string; sky?: Sky }) {
           <path d="M0 110 C 200 70, 380 130, 600 100 S 1000 60, 1200 105 L1200 200 L0 200 Z" fill={scene.hills[1]} />
         </svg>
         {scene.props.filter((p) => p.layer === 'near').map((p, i) => <PropArt key={i} {...p} />)}
+        {mine.slice(0, MINE_AT.length).map((emoji, i) => (
+          <span key={`${emoji}${i}`} className="stage-prop stage-mine" style={{ left: `${MINE_AT[i]}%`, ['--size' as any]: '9vh', animationDelay: `${i * -0.7}s` }}>
+            <Art emoji={emoji} />
+          </span>
+        ))}
       </div>
       {tone === 'snow' && <div className="stage-snow">{stars.slice(0, 14).map((s, i) => (
         <i key={i} style={{ left: `${s.left}%`, animationDelay: `${s.delay * 1.7}s`, animationDuration: `${7 + (i % 4)}s` }} />

@@ -47,6 +47,9 @@
 .depth-3 .stage-prop { bottom: 17%; opacity: .85; }
 .depth-4 .stage-prop { bottom: 4%; }
 .stage-prop.sway { animation: sway 5s ease-in-out infinite; }
+/* 他在魔法筆變出來的東西（Stage 的 mine）：站在近景兩旁，偶爾跳一下 */
+.stage-mine { bottom: 3% !important; animation: stageMineHop 3.2s ease-in-out infinite; }
+@keyframes stageMineHop { 0%, 70%, 100% { transform: none; } 80% { transform: translateY(-18%) scale(.95, 1.05); } 90% { transform: none; } }
 @keyframes sway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
 
 /* 偶爾飛過去：一路上下起伏 */
@@ -78,7 +81,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .stage-layer { transform: none; transition: none; }
-  .stage-cloud, .stage-flyer, .stage-snow, .stage-prop.sway, .stage-sun, .stage-stars i { animation: none; }
+  .stage-cloud, .stage-flyer, .stage-snow, .stage-prop.sway, .stage-mine, .stage-sun, .stage-stars i { animation: none; }
   .stage-flyer, .stage-snow { display: none; }
   .scene-enter { animation: none; }
 }

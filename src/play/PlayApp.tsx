@@ -22,6 +22,7 @@ import DayCard from './DayCard'
 import { useCelebrationsHeld } from './hold'
 import Stage, { useStagePointer } from './Stage'
 import { sceneFor } from './stageScenes'
+import { recentMade } from './magicWorld'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
 import { useRoute, type Route } from './route'
 import './play.css'
@@ -136,6 +137,8 @@ export default function PlayApp() {
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
   /** 今天的路走完：今日戰報（DayCard.tsx） */
   const [day, setDay] = useState(false)
+  /** 首頁的景裡站著他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade） */
+  const madeByHim = useMemo(() => recentMade(progress.town || {}, (c) => all.find((e) => e.char === c)?.emoji), [progress.town, all])
   /** 魔法筆一輪還在演（hold.ts）：加冕、寶箱、戰報等它演完再出來 */
   const held = useCelebrationsHeld()
   // 今天的路（today.ts）：走完要慶祝一次
@@ -228,7 +231,7 @@ export default function PlayApp() {
   return (
     <div className="play">
       {/* 底下那片景（stageScenes.ts）；餵大怪獸的天色跟著端菜的夥伴，它自己放一片；魔法筆的背景是他的魔法世界 */}
-      {screen !== 'feed' && screen !== 'spell' && <Stage screen={screen} />}
+      {screen !== 'feed' && screen !== 'spell' && <Stage screen={screen} mine={screen === 'home' ? madeByHim : undefined} />}
       <div className="screen" ref={home}>
         {/*
           key 帶上 want：他已經站在這個遊戲裡、從字卡點「去 →」進來的時候，

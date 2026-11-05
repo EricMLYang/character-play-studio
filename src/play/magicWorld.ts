@@ -69,3 +69,13 @@ export function dwellers(town: Record<string, Resident>, emojiOf: (char: string)
   // 後面（上面）的先畫，前面（下面）的蓋在上面
   return out.sort((a, b) => a.y - b.y)
 }
+
+/**
+ * 他最近變出來的幾個東西（最近寫的、會變身的字）：首頁的景裡站在兩旁陪他（Stage 的 mine）。
+ * 每次打開樂園都看得到自己寫出來的魚、球——寫字的成果不只在魔法筆裡。
+ */
+export function recentMade(town: Record<string, Resident>, emojiOf: (char: string) => string | undefined, n = 2): string[] {
+  return SPELLS.filter((s) => town[s.char]?.traces && emojiOf(s.char))
+    .sort((a, b) => Date.parse(town[b.char].last) - Date.parse(town[a.char].last))
+    .slice(0, n).map((s) => emojiOf(s.char)!)
+}
