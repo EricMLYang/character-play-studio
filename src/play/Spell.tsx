@@ -104,7 +104,15 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     greeted.current = true
   }
   useEffect(() => { chooseNext([], true) }, [round])
-  const pick = (i: number) => { tap(); voice.current?.(); start(i) }
+  // 點了一張卡：先唸那個字（看著卡上的字聽到字音，就是一次認字），再開始許願
+  const picking = useRef(false)
+  const pick = (i: number) => {
+    if (picking.current) return
+    picking.current = true
+    tap()
+    speak([wishes[i].char])
+    later(() => { picking.current = false; start(i) }, lasts(wishes[i].char) + 150)
+  }
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
@@ -273,7 +281,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
           </div>
           {/* 還沒變的願望一張一張擺出來，圖底下是字：他自己挑 */}
           <div className="spell-choose">{wishes.map((w, i) => made.some((m) => m.char === w.char) || skipped.includes(w.char) ? null : (
-            <button key={w.char} className="spell-card" onClick={() => pick(i)} aria-label={w.char}>
+            <button key={w.char} className={'spell-card' + (index === i ? ' spell-picked' : '')} onClick={() => { setIndex(i); pick(i) }} aria-label={w.char}>
               {emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : <span>{w.emoji}</span>}
               <b>{w.char}</b>
             </button>

@@ -96,3 +96,6 @@
 
 /* 格子底下那行提示在他的世界上面：給它白底，不然壓在背景的羊、兔子身上讀不清楚 */
 .spell-pad .stroke-tip { padding: 4px 14px; border-radius: 999px; background: rgba(255,255,255,.88); }
+/* 點到的那張卡跳一下（唸那個字的時候） */
+.spell-card.spell-picked { animation: spellPicked .5s cubic-bezier(.2,1.6,.4,1) both; box-shadow: 0 0 0 6px #9B7BFF, 0 8px 0 rgba(0,0,0,.08); }
+@keyframes spellPicked { 50% { transform: scale(1.12) rotate(-3deg); } 100% { transform: scale(1.06); } }
