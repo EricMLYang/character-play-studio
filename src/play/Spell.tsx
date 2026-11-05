@@ -41,6 +41,13 @@ const PREVIEW_MS = 2200
 /** 寫字的時候多久沒動作算卡住（遮起來寫要先看兩秒、想一下，所以不能太短） */
 const STUCK_MS = 15000
 
+/**
+ * 這個字為什麼住在它的部首家（shared/radicals.mjs 的 members）。變出來的東西跟那句講的不是同一件事的不說：
+ * 熊變出來是一隻熊，那句卻是「熊熊大火」；根變出來是紅蘿蔔，那句講的是樹根——會搞混。
+ */
+const WHY_SKIP = new Set(['熊', '根'])
+const radicalWhy = (char: string) => (WHY_SKIP.has(char) ? undefined : familyOf(char)?.members[char])
+
 type Phase = 'choose' | 'ask' | 'write' | 'conjure' | 'thanks' | 'fuse' | 'fused' | 'done'
 /** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
 type Made = { char: string; emoji: string; blind?: boolean }
@@ -123,6 +130,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   // 這一輪會唸到的話先抓好
   useEffect(() => {
     preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+      ...wishes.flatMap((w) => (w.level === 'trace' && radicalWhy(w.char) ? [radicalWhy(w.char)!] : [])),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -234,7 +242,10 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     const master = levelUp === 'memory'
     if (master) cheer()
     // 大魔法師那句已經說了「不用看就寫得出來」，就不再先說「沒有偷看」（話太長他聽不完）
-    const lines = [...(wroteBlind.current && !master ? [FIXED_LINES.wroteBlind] : []), ...(master ? [SPELL_FIXED.master] : levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
+    // 第一次寫這個字（✏️ 描）而且它有部首家族：謝謝後面接它為什麼住那一家（「海裡有好多好多水」，音檔本來就有）——
+    // 部首跟意思連起來；之後再寫就不說了（那時要的是想起來，不是聽說明）
+    const why = wish.level === 'trace' ? radicalWhy(wish.char) : undefined
+    const lines = [...(wroteBlind.current && !master ? [FIXED_LINES.wroteBlind] : []), ...(master ? [SPELL_FIXED.master] : levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks, ...(why ? [why] : [])]
     speak(lines)
     const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
     later(() => goNext(doneChars), lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
@@ -302,7 +313,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     if (phase !== 'thanks') return w.wish
     const praise = made[made.length - 1]?.blind && levelUp !== 'memory' ? FIXED_LINES.wroteBlind : ''
     const up = levelUp === 'memory' ? SPELL_FIXED.master : levelUp ? `${w.char}${SPELL_FIXED.levelUp}` : ''
-    return `${praise}${up}${w.thanks}`
+    const why = w.level === 'trace' ? radicalWhy(w.char) : undefined
+    return `${praise}${up}${w.thanks}${why ? `（${why}）` : ''}`
   }
   // 正在寫、正在變身的那個字：紀錄已經記了，但東西要等變身演完才住進來
   const hidden = wish && (phase === 'write' || phase === 'conjure') ? [wish.char] : []
