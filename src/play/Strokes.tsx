@@ -94,10 +94,13 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
   const hinted = useRef(0)
   const HINTS_ALLOWED = 1
   const writerRef = useRef<HanziWriter | null>(null)
+  /** 偷看過了：提示那行不能再說「沒有偷看」 */
+  const [peekedOnce, setPeekedOnce] = useState(false)
   const peek = () => {
     const w = writerRef.current
     if (!w) return
     peeked.current = true
+    setPeekedOnce(true)
     setPeeking(true)
     w.showOutline({ duration: 200 })
     window.setTimeout(() => { setPeeking(false); try { w.hideOutline({ duration: 500 }) } catch { /* 已經換字了 */ } }, 1400)
@@ -187,6 +190,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
       writerRef.current = writer
       peeked.current = false
       hinted.current = 0
+      setPeekedOnce(false)
       observer = new ResizeObserver(() => {
         writer?.updateDimensions({ width: size(), height: size(), padding: Math.round(size() * 0.05) })
       })
@@ -291,7 +295,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
           : stage === 'loading' ? '準備筆順…'
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
           : stage === 'tracing' && look && drawn === 0 ? '👀 看清楚，開始寫！外框會偷偷變不見'
-          : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
+          : stage === 'tracing' ? (blind ? `${peekedOnce ? '✏️ 自己寫寫看！' : '🙈 沒有偷看，自己寫！'}還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
           : blind ? (credited ? '🌟 沒有偷看就寫出來了！' : '🎉 寫出來了！下次不看提示試試看') : '🎉 你自己把這個字寫出來了！'}
       </p>
       {stage !== 'loading' && (
