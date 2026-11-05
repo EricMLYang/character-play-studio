@@ -260,7 +260,7 @@ test('寫字的間隔複習：今天寫過的先讓別的字；隔夠久的（�
 test('首頁陪他的：最近寫的兩個會變身的字（新的在前），不會變身的字不算', () => {
   const at = (last) => ({ traces: 1, first: '', last, strokes: [] })
   const town = { 魚: at('2026-11-01T01:00:00Z'), 火: at('2026-11-05T01:00:00Z'), 好: at('2026-11-06T01:00:00Z'), 球: at('2026-11-03T01:00:00Z') }
-  assert.deepEqual(recentMade(town, emojiOf), [emojiOf('火'), emojiOf('球')])
+  assert.deepEqual(recentMade(town, emojiOf), [{ char: '火', emoji: emojiOf('火') }, { char: '球', emoji: emojiOf('球') }])
   assert.deepEqual(recentMade({}, emojiOf), [])
 })
 

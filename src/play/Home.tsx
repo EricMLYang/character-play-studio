@@ -26,8 +26,8 @@ const FILTERS: { id: Filter; label: string }[] = [
 export default function Home({
   items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo, made = [],
 }: {
-  /** 他最近在魔法筆變出來的東西（emoji，magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
-  made?: string[]
+  /** 他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
+  made?: { char: string; emoji: string }[]
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
   groups: WordGroup[] | null
@@ -225,7 +225,7 @@ export default function Home({
  * 說這一站要做什麼、這一站的字，按一下直接過去。他讀不到字，那句話會唸出來。
  */
 function PathBoard({ stops, walked, starTotal, todayCount, made, onGo, onMine, onExplore }: {
-  made: string[]
+  made: { char: string; emoji: string }[]
   stops: Stop[]
   walked: boolean
   starTotal: number
@@ -249,9 +249,10 @@ function PathBoard({ stops, walked, starTotal, todayCount, made, onGo, onMine, o
   return (
     <section className="path" aria-label="今天的路">
       {/* 他寫出來的東西站在兩旁（他每次打開樂園都看得到自己寫的魚）；點了去魔法筆再變一個 */}
-      {made.slice(0, 2).map((emoji, i) => (
-        <button key={`${emoji}${i}`} className={`path-made path-made-${i}`} aria-label="去魔法筆" onClick={() => { tap(); onGo({ kind: 'game', id: 'spell' }) }}>
+      {made.slice(0, 2).map(({ char, emoji }, i) => (
+        <button key={char} className={`path-made path-made-${i}`} aria-label={`${char}：去魔法筆`} onClick={() => { tap(); onGo({ kind: 'game', id: 'spell' }) }}>
           {emojiArt(emoji) ? <img src={emojiArt(emoji)!} alt="" draggable={false} /> : <span>{emoji}</span>}
+          <b>{char}</b>
         </button>
       ))}
       <div className="path-top">

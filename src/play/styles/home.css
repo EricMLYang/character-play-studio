@@ -486,6 +486,9 @@
 .path-made-1 { left: 88%; animation-delay: -1.1s; }
 .path-made img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 6px rgba(0,0,0,.2)); }
 .path-made span { font-size: 60px; }
+/* 底下標他寫的那個字（跟魔法世界一樣：東西跟字綁在一起） */
+.path-made b { position: absolute; left: 50%; bottom: -6px; translate: -50% 40%; padding: 0 .35em; border-radius: 8px; background: rgba(255,255,255,.88);
+  font-family: var(--kai); font-size: clamp(15px, 2.4vh, 22px); line-height: 1.25; color: var(--ink); white-space: nowrap; }
 @keyframes pathMadeHop { 0%, 70%, 100% { transform: none; } 80% { transform: translateY(-18%) scale(.95, 1.05); } 90% { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .path-made { animation: none; } }
 /* 橫的手機太矮：今天的路那張卡片一路到底，站兩旁會壓到卡片和🔊，不放 */
