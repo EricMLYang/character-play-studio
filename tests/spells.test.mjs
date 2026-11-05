@@ -275,3 +275,16 @@ test('一輪怎麼走（nextStep）：兩個以上讓他挑、剩一個直接寫
   assert.deepEqual(nextStep(round, ['水', '日', '果'], ['水', '日']), { kind: 'finish' }, '果 是跳過的（筆順抓不到），不能合體')
   assert.deepEqual(nextStep({ wishes: round.wishes }, ['水', '日', '果'], ['水', '日', '果']), { kind: 'finish' }, '沒有合體就結算')
 })
+
+test('慶祝等一下（hold.ts）：魔法筆一輪在演就擋著，放開才通知；重複設同一個值不重複通知', async () => {
+  const hold = await import('../src/play/hold.ts')
+  // useSyncExternalStore 的訂閱是內部的；這裡只驗開關本身不會丟例外、重複設定是安靜的
+  hold.holdCelebrations(true)
+  hold.holdCelebrations(true)
+  hold.holdCelebrations(false)
+  hold.holdCelebrations(false)
+  const src = fs.readFileSync(path.join(ROOT, 'src/play/PlayApp.tsx'), 'utf8')
+  for (const what of ['chest && !held', 'crown && !chest && !held', '!held && !entry']) assert.ok(src.includes(what), `PlayApp 的 ${what} 不見了：加冕、寶箱、戰報會蓋到變身上`)
+  const spell = fs.readFileSync(path.join(ROOT, 'src/play/Spell.tsx'), 'utf8')
+  assert.match(spell, /holdCelebrations\(false\)/, '魔法筆要記得放開，不然離開之後加冕永遠出不來')
+})
