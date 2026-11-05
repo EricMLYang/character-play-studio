@@ -10,7 +10,7 @@ import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction, type ReactionState } from './Buddy'
 import { partnersAt, type Partner } from './partners'
-import { LEVEL_BADGE, levelAfter, nextStep, pickRound, type Wish, type WriteLevel } from './wishes'
+import { LEVEL_BADGE, levelAfter, nextStep, pickRound, powerOf, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers, type Dweller } from './magicWorld'
@@ -341,7 +341,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       {phase === 'thanks' && levelUp === 'memory' && <Confetti />}
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
-        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound} onDone={finishConjure} />
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound}
+          power={powerOf(wish.level, wroteBlind.current)} onDone={finishConjure} />
       )}
     </div>
   )

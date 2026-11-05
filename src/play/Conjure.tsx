@@ -25,6 +25,11 @@ export type ConjureProps = {
   char?: string
   /** 這個字自己的聲音（sfx.ts 的函式名字），沒給就用動作的預設 */
   sound?: string
+  /**
+   * 魔法有多強（0～2）：越會寫，變出來的越厲害——🙈 遮起來寫出來的大一號、彩虹光圈；🧙 聽寫級的金光閃閃、戴小皇冠。
+   * 同一個字會寫很多次（間隔複習），每次都一樣會膩；跟著等級長大，他看得到「我越會寫，魔法越強」。
+   */
+  power?: number
   onDone?: () => void
 }
 
@@ -41,7 +46,7 @@ export function inkBox(host: Element | null | undefined): ConjureProps['from'] |
 
 type Step = 'glow' | 'gather' | 'origin' | 'pop' | 'act' | 'end'
 
-export default function Conjure({ strokes, emoji, act, from, land, char, sound: own, onDone }: ConjureProps) {
+export default function Conjure({ strokes, emoji, act, from, land, char, sound: own, power = 0, onDone }: ConjureProps) {
   // 象形字：他寫的字 → 古時候畫的樣子 → 真的東西（字是從圖畫變來的，第一夜的「以前長這樣」）
   const origin = char ? ORIGINS[char] : undefined
   const [step, setStep] = useState<Step>('glow')
@@ -75,12 +80,12 @@ export default function Conjure({ strokes, emoji, act, from, land, char, sound: 
   const sx = from.width / 1024
   const px = from.left + center.x * sx
   const py = from.top + (900 - center.y) * sx
-  const size = Math.max(90, Math.min(from.width * 0.62, 260))
+  const size = Math.max(90, Math.min(from.width * 0.62, 260)) * (1 + power * 0.2)
   const count = MANY[act] ?? 1
   const thing = art ? <img src={art} alt="" draggable={false} /> : <span className="cj-emoji">{emoji}</span>
 
   return (
-    <div className={`cj cj-${step}`} aria-hidden>
+    <div className={`cj cj-${step} cj-power-${power}`} aria-hidden>
       <svg className="cj-ink" viewBox="0 0 1024 1024"
         style={{ left: from.left, top: from.top, width: from.width, height: from.height, transformOrigin: `${(center.x / 1024) * 100}% ${((900 - center.y) / 1024) * 100}%` }}>
         <g transform="scale(1, -1) translate(0, -900)">
@@ -104,6 +109,7 @@ export default function Conjure({ strokes, emoji, act, from, land, char, sound: 
             ...(land ? { ['--dx' as string]: `${land.x - px}px`, ['--dy' as string]: `${land.y - py}px` } : {}),
           }}>
           <span className="cj-body">{thing}</span>
+          {power >= 2 && (emojiArt('👑') ? <img className="cj-crown" src={emojiArt('👑')!} alt="" draggable={false} /> : <i className="cj-crown">👑</i>)}
         </span>
       ))}
     </div>

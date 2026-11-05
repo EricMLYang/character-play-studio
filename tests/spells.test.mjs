@@ -81,7 +81,7 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.ok(conjureTotal(true) < 6000, '象形字多畫一段古字也不超過 6 秒')
 })
 
-const { writeLevel, pickWishes, pickRound, levelAfter, nextStep, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
+const { writeLevel, pickWishes, pickRound, levelAfter, nextStep, powerOf, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
 const lib = [...entries.values()]
 const fixed = () => 0.5
 
@@ -289,4 +289,12 @@ test('慶祝等一下（hold.ts）：魔法筆一輪在演就擋著，放開才�
   for (const what of ['chest && !held', 'crown && !chest && !held', '!held && !entry']) assert.ok(src.includes(what), `PlayApp 的 ${what} 不見了：加冕、寶箱、戰報會蓋到變身上`)
   const spell = fs.readFileSync(path.join(ROOT, 'src/play/Spell.tsx'), 'utf8')
   assert.match(spell, /holdCelebrations\(false\)/, '魔法筆要記得放開，不然離開之後加冕永遠出不來')
+})
+
+test('越會寫變出來的越厲害：照著描是普通的、憑記憶寫出來大一號、聽寫級寫出來金光閃閃；偷看過的不變強', () => {
+  assert.equal(powerOf('trace', false), 0)
+  assert.equal(powerOf('look', false), 0)
+  assert.equal(powerOf('blind', true), 1)
+  assert.equal(powerOf('memory', true), 2)
+  assert.equal(powerOf('memory', false), 0, '偷看過、靠提示寫完的')
 })

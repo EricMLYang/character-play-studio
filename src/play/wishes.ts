@@ -155,3 +155,9 @@ export function nextStep(round: Round, done: string[], written: string[], want?:
   if (done.length === 0 && want && round.wishes[0]?.char === want) return { kind: 'start', index: 0 }
   return { kind: 'choose' }
 }
+
+/**
+ * 變身的魔法有多強（Conjure 的 power）：這一次是憑記憶寫出來的才變強，🧙 聽寫級寫出來的最強。
+ * 越會寫，變出來的越厲害——同一個字寫很多次（間隔複習），變身也跟著長大，不會每次都一樣。
+ */
+export const powerOf = (level: WriteLevel, fromMemory: boolean) => (!fromMemory ? 0 : level === 'memory' ? 2 : 1)

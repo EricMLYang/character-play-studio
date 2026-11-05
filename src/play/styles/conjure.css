@@ -30,6 +30,14 @@
   box-shadow: 0 0 0 6px #FFE58A, 0 0 40px 20px rgba(255,197,61,.7); animation: cjFlash .6s ease-out both; }
 @keyframes cjFlash { from { transform: scale(.2); opacity: 1; } to { transform: scale(7); opacity: 0; } }
 
+/* 魔法有多強（Conjure 的 power）：🙈 彩虹光圈；🧙 金光閃閃、戴小皇冠（大小在 Conjure.tsx 裡乘上去） */
+.cj-power-1 .cj-flash { box-shadow: 0 0 0 6px #FF8FD8, 0 0 0 14px #9B7BFF, 0 0 0 22px #6FD3FF, 0 0 50px 24px rgba(155,123,255,.6); }
+.cj-power-2 .cj-flash { box-shadow: 0 0 0 8px #FFE58A, 0 0 0 18px #FFC53D, 0 0 70px 36px rgba(255,197,61,.9); }
+.cj-power-2 .cj-body img { filter: drop-shadow(0 0 14px #FFE58A) drop-shadow(0 0 30px rgba(255,197,61,.8)) drop-shadow(0 10px 14px rgba(0,0,0,.22)); }
+.cj-crown { position: absolute; left: 50%; top: -30%; width: 42%; translate: -50% 0; font-style: normal; font-size: 60px; line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.25)); animation: cjCrown .5s .15s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes cjCrown { from { transform: translateY(-80%) scale(0) rotate(-30deg); } }
+
 /* 變出來的東西：translate 拿來置中，動作都用 transform，才不會互相蓋掉 */
 .cj-thing { position: absolute; translate: -50% -50%; display: block; }
 .cj-body { display: block; width: 100%; height: 100%; }
