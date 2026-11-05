@@ -56,10 +56,12 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
  * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
-export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onUnavailable }: {
+export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onStroke, onUnavailable }: {
   char: string
   /** 這一筆寫錯了：mistakes＝這一筆錯第幾次（錯兩次那一筆會閃提示） */
   onMiss?: (mistakes: number) => void
+  /** 寫對一筆：還剩幾筆、一共幾筆（魔法筆的夥伴在最後一筆前幫他打氣） */
+  onStroke?: (left: number, total: number) => void
   /** 一進來就是「看一眼」：不示範，外框在他寫對第一筆後慢慢淡掉（魔法筆的鷹架，wishes.ts） */
   startLook?: boolean
   /** 遮起來寫之前先把整個字給他看幾毫秒（看一眼、記住、變不見）；0＝不給看 */
@@ -111,6 +113,8 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
   const unavailable = useRef(onUnavailable)
   const missed = useRef(onMiss)
   missed.current = onMiss
+  const stroked = useRef(onStroke)
+  stroked.current = onStroke
   written.current = onWritten
   traced.current = onTraced
   unavailable.current = onUnavailable
@@ -227,6 +231,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
                 hand[s.strokeNum] = keepStroke(s.drawnPath.points)
                 if (look && s.strokesRemaining === data.strokes.length - 1) writer?.hideOutline({ duration: 1800 })
                 setDrawn(data.strokes.length - s.strokesRemaining)
+                if (s.strokesRemaining > 0) stroked.current?.(s.strokesRemaining, data.strokes.length)
                 // 特效順著他手指畫的線走；點一下就過的（錯四次當寫對）用那一筆的標準路線
                 const own = s.drawnPath.points.length > 1 ? s.drawnPath.points : data.medians[s.strokeNum].map(([x, y]) => ({ x, y }))
                 play(toLocal(own), data.strokes.length - s.strokesRemaining, data.strokes.length)

@@ -116,7 +116,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -154,6 +154,10 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const missed = (mistakes: number) => {
     react('oops')
     if (mistakes >= 2 && hinted.current !== turn) { hinted.current = turn; speak([SPELL_FIXED.hint]) }
+  }
+  /** 寫到只剩最後一筆（五筆以上的字）：夥伴喊「最後一筆！」——六歲寫一個八筆的字要一分鐘，快好的時候有人打氣才撐得住 */
+  const stroke = (left: number, total: number) => {
+    if (left === 1 && total >= 5) { react('cheer'); speak([SPELL_FIXED.lastOne]) }
   }
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)
@@ -314,7 +318,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
-                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed}
+                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} onStroke={stroke}
                 onUnavailable={skip} />
             )}
           </div>

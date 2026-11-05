@@ -160,6 +160,7 @@ export const SPELL_FIXED = {
   levelUp: '升級了！',
   master: '你變成這個字的大魔法師了！不用看就寫得出來！',
   yours: '你寫的字，變成真的了！',
+  lastOne: '最後一筆！',
 }
 
 /** 這個字會不會變身；不會的回 undefined */
