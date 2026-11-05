@@ -62,10 +62,10 @@ export const SPELLS = [
   { char: '電', n: 13, act: 'shine', wish: '燈不亮了，幫我寫電！', thanks: '有電了，亮起來了！' },
   { char: '虹', n: 9, act: 'float', wish: '雨停了，幫我寫一道虹！', thanks: '出現彩虹了！' },
   // ---- 會長大的 ----
-  { char: '木', n: 4, act: 'grow', wish: '這裡好空，幫我寫木，種一棵樹！', alt: '我想蓋一間樹屋，幫我寫木！', thanks: '長出一棵大樹了！' },
-  { char: '樹', n: 16, act: 'grow', wish: '我想在樹下乘涼，幫我寫樹！', thanks: '大樹長好高！' },
+  { char: '木', n: 4, act: 'grow', wish: '這裡好空，幫我寫木，變出一棵樹！', alt: '我想蓋一間樹屋，幫我寫木！', thanks: '冒出一棵大樹了！' },
+  { char: '樹', n: 16, act: 'grow', wish: '我想在樹下乘涼，幫我寫樹！', thanks: '大樹好高好高！' },
   { char: '花', n: 7, act: 'grow', wish: '我想送媽媽花，幫我寫花！', alt: '我想戴一朵花，幫我寫花！', thanks: '花開了，好香！' },
-  { char: '草', n: 9, act: 'grow', wish: '小羊沒有東西吃，幫我寫草！', alt: '我想在草地上打滾，幫我寫草！', thanks: '長出綠綠的草了！' },
+  { char: '草', n: 9, act: 'grow', wish: '小羊沒有東西吃，幫我寫草！', alt: '我想在草地上打滾，幫我寫草！', thanks: '冒出綠綠的草了！' },
   { char: '葉', n: 13, act: 'fall', sound: 'swipe', wish: '秋天到了，幫我寫葉！', thanks: '葉子飄下來了！' },
   // ---- 會動的東西 ----
   { char: '火', n: 4, act: 'burn', wish: '好冷喔，幫我寫一點火！', alt: '我想烤棉花糖，幫我寫火！', thanks: '好暖和喔！' },
@@ -88,7 +88,7 @@ export const SPELLS = [
   { char: '肉', n: 6, act: 'yum', wish: '我想吃烤肉，幫我寫肉！', alt: '烤肉節到了，幫我寫肉！', thanks: '烤肉好香！' },
   { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', alt: '我想煮飯，幫我寫米！', thanks: '米粒撒下來了，香噴噴！' },
   // ---- 2026-11-06 第 15 輪加的：天地、會長的、好吃的、東西 ----
-  { char: '山', n: 3, act: 'grow', wish: '我想去爬山，幫我變一座山！', alt: '我想玩溜滑梯，幫我變一座山！', thanks: '長出一座大山了！' },
+  { char: '山', n: 3, act: 'grow', wish: '我想去爬山，幫我變一座山！', alt: '我想玩溜滑梯，幫我變一座山！', thanks: '冒出一座大山了！' },
   { char: '土', n: 3, act: 'grow', wish: '種子沒有地方住，幫我寫土！', alt: '小花想要一個家，幫我寫土！', thanks: '有土了，種子發芽了！' },
   { char: '島', n: 10, act: 'grow', wish: '海上好空，幫我變一座島！', thanks: '冒出一座小島了！' },
   { char: '浪', n: 10, act: 'splash', wish: '我想衝浪，幫我寫浪！', thanks: '大浪來了，嘩啦！' },
@@ -96,7 +96,7 @@ export const SPELLS = [
   { char: '陽', n: 11, act: 'shine', wish: '好冷喔，幫我變出太陽！', thanks: '陽光好溫暖！' },
   { char: '冰', n: 6, act: 'fall', sound: 'frost', wish: '好熱喔，幫我寫冰！', thanks: '冰塊掉下來了，好涼！' },
   { char: '根', n: 10, act: 'grow', wish: '兔子想吃紅蘿蔔，幫我寫根！', thanks: '拔出一根紅蘿蔔了！' },
-  { char: '枝', n: 8, act: 'grow', wish: '小鳥沒地方站，幫我寫枝！', thanks: '長出樹枝了，小鳥站上去！' },
+  { char: '枝', n: 8, act: 'grow', wish: '小鳥沒地方站，幫我寫枝！', thanks: '冒出樹枝了，小鳥站上去！' },
   { char: '菜', n: 11, act: 'yum', wish: '要多吃青菜，幫我寫菜！', thanks: '青菜好脆！' },
   { char: '湯', n: 12, act: 'yum', wish: '好冷喔，我想喝湯，幫我寫湯！', thanks: '熱熱的湯，好暖！' },
   { char: '粥', n: 12, act: 'yum', wish: '我肚子不舒服，幫我寫粥！', thanks: '吃粥，肚子舒服多了！' },
