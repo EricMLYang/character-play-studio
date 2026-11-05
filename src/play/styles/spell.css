@@ -110,7 +110,8 @@
 
 /* 結算時他這一輪寫的字（他自己的筆跡），一個一個彈出來 */
 .spell-done-hand { display: flex; gap: 10px; }
-.spell-done-hand svg { width: clamp(54px, 9vh, 84px); height: clamp(54px, 9vh, 84px); border-radius: 16px; background: #FFFEFB;
+.spell-done-hand button { padding: 0; border-radius: 16px; background: #FFFEFB;
   box-shadow: 0 0 0 3px rgba(155,123,255,.3), 0 4px 0 rgba(0,0,0,.06); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.spell-done-hand svg { display: block; width: clamp(54px, 9vh, 84px); height: clamp(54px, 9vh, 84px); }
 .spell-done-hand path { fill: none; stroke: #2E2A26; stroke-width: 56; stroke-linecap: round; stroke-linejoin: round; }
 @media (max-height: 500px) and (orientation: landscape) { .spell-done-hand { display: none; } }

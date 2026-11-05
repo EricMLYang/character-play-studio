@@ -415,9 +415,11 @@ function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onBac
       {written.length > 0 && (
         <div className="spell-done-hand" aria-label="你這一輪寫的字">
           {written.map((w, i) => (
-            <svg key={w.char} viewBox="0 0 1024 1024" style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
-              <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} />)}</g>
-            </svg>
+            <button key={w.char} onClick={() => onPick(w.char)} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
+              <svg viewBox="0 0 1024 1024" aria-hidden>
+                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} />)}</g>
+              </svg>
+            </button>
           ))}
         </div>
       )}
