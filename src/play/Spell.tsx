@@ -3,7 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/audio'
 import { cheer, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
-import { SPELL_FIXED } from '../../shared/spells.mjs'
+import { SPELLS, SPELL_FIXED } from '../../shared/spells.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { RADICAL_FIXED, familyOf } from '../../shared/radicals.mjs'
 import Strokes, { loadChar } from './Strokes'
@@ -68,8 +68,11 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   onBack: () => void
 }) {
   const [round, setRound] = useState(0)
+  /** 他自己挑的下一個（結算時「我想變別的」）：下一輪從這個字開始 */
+  const [wantNext, setWantNext] = useState<string | undefined>(undefined)
+  const [picker, setPicker] = useState(false)
   // 一輪：三個願望；後兩個湊得成一個詞的話最後合體（wishes.ts 的 pickRound）
-  const plan = useMemo(() => pickRound(library, progress, { want: round === 0 ? want : undefined, focus, today: taiwanDay() }), [round])
+  const plan = useMemo(() => pickRound(library, progress, { want: round === 0 ? want : wantNext, focus, today: taiwanDay() }), [round])
   const { wishes, combo } = plan
   /** 這一輪他寫的每個字（合體時並排他自己的筆跡） */
   const writtenRef = useRef<Written[]>([])
@@ -107,7 +110,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const greeted = useRef(false)
   /** 下一步（wishes.ts 的 nextStep 決定）：挑卡片、直接寫、合體、結算 */
   const goNext = (doneChars: string[]) => {
-    const step = nextStep(plan, doneChars, writtenRef.current.map((w) => w.char), round === 0 ? want : undefined)
+    const step = nextStep(plan, doneChars, writtenRef.current.map((w) => w.char), round === 0 ? want : wantNext)
     if (step.kind === 'start') { start(step.index); return }
     if (step.kind === 'fuse') { setPhase('fuse'); return }
     if (step.kind === 'finish') { finishRound(); return }
@@ -130,7 +133,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.pick, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.master, SPELL_FIXED.yours, SPELL_FIXED.lastOne, SPELL_FIXED.stuckBlind, SPELL_FIXED.stuckTrace, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...wishes.flatMap((w) => (w.level === 'trace' && radicalWhy(w.char) ? [radicalWhy(w.char)!] : [])),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
@@ -273,8 +276,10 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     later(() => holdCelebrations(false), lasts(SPELL_FIXED.done) + lasts(SPELL_FIXED.world) + 600)
   }
 
-  const again = () => {
+  const again = (next?: string) => {
     tap()
+    setWantNext(next)
+    setPicker(false)
     timers.current.forEach(clearTimeout)
     timers.current = []
     setMade([])
@@ -330,8 +335,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </span>} />
 
       {phase === 'done' ? (
-        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current}
-          onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={again} onBack={() => { tap(); onBack() }} />
+        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current} onPicker={() => { tap(); setPicker(true); speak([SPELL_FIXED.pick]) }}
+          onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={() => again()} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
           <Friend text={SPELL_FIXED.choose} onReplay={() => { tap(); speak([SPELL_FIXED.choose]) }} partner={partner} reaction={reaction} />
@@ -367,6 +372,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </div>
       )}
       {phase === 'thanks' && levelUp === 'memory' && <Confetti />}
+      {picker && <SpellPicker library={library} progress={progress} onPick={(c) => { say(c, RATE); again(c) }} onClose={() => { tap(); setPicker(false) }} />}
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
         <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound}
@@ -396,7 +402,9 @@ function Shelf({ made }: { made: Made[] }) {
 }
 
 /** 結算：他寫出來的世界攤開（這一輪變出來的從天上掉進來），做完寫一寫這一站就多一顆「下一站」 */
-function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onBack }: {
+function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onPicker, onBack }: {
+  /** 「我想變別的」：打開整面圖卡讓他自己挑 */
+  onPicker: () => void
   world: Dweller[]
   /** 這一輪他寫的字（他自己的筆跡）：結算的時候排一排給他看「這是我寫的」 */
   written: Written[]
@@ -428,7 +436,44 @@ function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onBac
       <div className="spell-actions">
         {next && <button className="spell-btn spell-go" onClick={() => onNext(next.go)}>下一站：{next.icon} {next.title} →</button>}
         <button className={'spell-btn' + (next ? '' : ' spell-go')} onClick={onAgain}>🪄 再變三個</button>
+        <button className="spell-btn" onClick={onPicker}>🎨 我想變別的</button>
         <button className="spell-btn" onClick={onBack}>🏠 回首頁</button>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * 「我想變別的」：會變身的東西整面攤開（看過的字排前面），他點哪個，下一輪就從那個字開始。
+ * 喜歡恐龍的就是想寫龍——自己想要的最有勁；他是看圖挑的，寫的時候就把圖跟字連起來。
+ * 太難的字（龍 16 筆）照樣是 ✏️ 示範＋描，不會卡住。
+ */
+function SpellPicker({ library, progress, onPick, onClose }: {
+  library: CharEntry[]
+  progress: Progress
+  onPick: (char: string) => void
+  onClose: () => void
+}) {
+  const byChar = new Map(library.map((e) => [e.char, e]))
+  const seen = (c: string) => (progress.watched?.[c]?.count || 0) > 0
+  const list = SPELLS.filter((s) => byChar.get(s.char)?.emoji).sort((a, b) => Number(seen(b.char)) - Number(seen(a.char)))
+  return (
+    <div className="spell-picker" role="dialog" aria-label={SPELL_FIXED.pick}>
+      <div className="spell-picker-card">
+        <p className="spell-picker-title">{SPELL_FIXED.pick}</p>
+        <div className="spell-picker-grid">
+          {list.map((s) => {
+            const e = byChar.get(s.char)!
+            const art = emojiArt(e.emoji)
+            return (
+              <button key={s.char} className="spell-picker-item" onClick={() => onPick(s.char)} aria-label={s.char}>
+                {art ? <img src={art} alt="" draggable={false} /> : <span>{e.emoji}</span>}
+                <b>{s.char}</b>
+              </button>
+            )
+          })}
+        </div>
+        <button className="spell-btn" onClick={onClose}>✖ 不用了</button>
       </div>
     </div>
   )

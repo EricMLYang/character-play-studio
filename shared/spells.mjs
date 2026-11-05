@@ -160,6 +160,7 @@ export const SPELL_FIXED = {
   yours: '你寫的字，變成真的了！',
   lastOne: '最後一筆！',
   stuckBlind: '卡住了嗎？按偷看，看一下！',
+  pick: '你想變什麼？點一個！',
   stuckTrace: '跟著灰灰的線，描描看！',
 }
 
