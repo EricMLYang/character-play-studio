@@ -70,6 +70,8 @@
   .spell-pad { min-width: 0; min-height: 0; }
   .spell-pad .stroke-canvas { width: 60vh; height: 60vh; }
   .spell-pad .strokes { grid-template-columns: auto minmax(0, 150px); }
+  /* 這個高度寫字區比格子寬（右邊多一欄提示），等級徽章要貼著格子的右上角，不是整個寫字區的 */
+  .spell-level { right: auto; left: calc(60vh - 28px); }
   .spell-friend { max-width: 190px; }
 }
 
