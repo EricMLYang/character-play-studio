@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Act } from '../../shared/spells.mjs'
 import * as sfx from '../lib/sfx'
-import { ACT_SOUND, CONJURE_MS, MANY, inkCenter, inkPath } from './conjuring'
+import { ACT_SOUND, CONJURE_MS, MANY, flipFor, inkCenter, inkPath } from './conjuring'
 import { emojiArt } from './ui'
 
 /**
@@ -81,7 +81,7 @@ export default function Conjure({ strokes, emoji, act, from, land, onDone }: Con
       </svg>
       {(step === 'pop' || step === 'act' || step === 'end') && <span className="cj-flash" style={{ left: px, top: py }} />}
       {(step === 'pop' || step === 'act' || step === 'end') && Array.from({ length: count }, (_, i) => (
-        <span key={i} className={`cj-thing cj-act-${act}${count > 1 ? ' many' : ''}${land ? ' cj-land' : ''}`}
+        <span key={i} className={`cj-thing cj-act-${act}${count > 1 ? ' many' : ''}${land ? ' cj-land' : ''}${flipFor(emoji, act) ? ' cj-flip' : ''}`}
           style={{
             left: px, top: py, width: size, height: size,
             ['--i' as string]: i, ['--n' as string]: count,

@@ -123,7 +123,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const hinted = useRef(-1)
   const missed = (mistakes: number) => {
     react('oops')
-    if (mistakes >= 2 && hinted.current !== index) { hinted.current = index; speak([SPELL_FIXED.hint]) }
+    if (mistakes >= 2 && hinted.current !== turn) { hinted.current = turn; speak([SPELL_FIXED.hint]) }
   }
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)

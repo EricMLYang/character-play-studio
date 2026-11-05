@@ -26,6 +26,8 @@
 .cj-body { display: block; width: 100%; height: 100%; }
 .cj-body img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(0,0,0,.22)); }
 .cj-emoji { display: grid; place-items: center; width: 100%; height: 100%; font-size: 140px; line-height: 1; }
+/* 往右走的東西把圖翻過來（3D 圖側面幾乎都朝左，conjuring.ts 的 flipFor）。用 scale 屬性，不跟動作的 transform 打架 */
+.cj-flip .cj-body img, .cj-flip .cj-emoji { scale: -1 1; }
 .cj-pop .cj-thing { animation: cjPop .52s cubic-bezier(.2,1.8,.4,1) both; }
 @keyframes cjPop { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1); } }
 .cj-end .cj-thing { opacity: 0; transition: opacity .3s; }

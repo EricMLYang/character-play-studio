@@ -35,3 +35,13 @@ export const ACT_SOUND: Record<Act, string> = {
   drive: 'toot', run: 'whoosh', hop: 'boing', stomp: 'rumble', slither: 'slide', crawl: 'blip', float: 'whoosh',
   splash: 'splash', yum: 'gulp',
 }
+
+/**
+ * 往右移動的動作。3D 圖（Fluent Emoji）的側面幾乎都朝左（魚、車、鳥、象…，2026-11-06 逐張看過），
+ * 往右游、往右開就變成倒退——這些動作要把圖左右翻過來。
+ */
+export const MOVES_RIGHT = new Set<Act>(['swim', 'fly', 'drive', 'run', 'hop', 'stomp', 'slither', 'crawl'])
+/** 3D 圖本來就朝右的（不用翻）：飛機機頭朝右上 */
+export const FACES_RIGHT = new Set(['✈️', '✈'])
+/** 這個東西演這個動作要不要翻過來 */
+export const flipFor = (emoji: string, act: Act) => MOVES_RIGHT.has(act) && !FACES_RIGHT.has(emoji)

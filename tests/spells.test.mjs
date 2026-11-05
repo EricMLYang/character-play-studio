@@ -17,7 +17,7 @@ registerHooks({
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const { SPELLS, ACTS, SPELL_FIXED, COMBOS, comboOf, spellFor, spellLines } = await import('../shared/spells.mjs')
-const { inkPath, inkCenter, ACT_SOUND, conjureTotal } = await import('../src/play/conjuring.ts')
+const { inkPath, inkCenter, ACT_SOUND, conjureTotal, flipFor } = await import('../src/play/conjuring.ts')
 const library = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/characters.json'), 'utf8'))
 const entries = new Map((library.characters || library).map((c) => [c.char, c]))
 const has3d = new Set(fs.readdirSync(path.join(ROOT, 'public/emoji3d')).map((f) => f.replace(/\.png$/, '')))
@@ -178,4 +178,12 @@ test('願望和謝謝不提夥伴的名字（誰都可能來許願，小老鼠�
   for (const line of [...SPELLS.flatMap((s) => [s.wish, s.thanks]), ...COMBOS.map((c) => c.thanks)]) {
     for (const n of names) assert.ok(!line.includes(n), `「${line}」提到 ${n}`)
   }
+})
+
+test('往右走的東西要翻過來（3D 圖側面朝左，不然車在倒車、魚倒退游）；飛機本來就朝右；不移動的不翻', () => {
+  assert.equal(flipFor('🚗', 'drive'), true)
+  assert.equal(flipFor('🐟', 'swim'), true)
+  assert.equal(flipFor('✈️', 'fly'), false)
+  assert.equal(flipFor('🔥', 'burn'), false)
+  assert.equal(flipFor('🍎', 'yum'), false)
 })

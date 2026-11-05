@@ -4,12 +4,12 @@ import { SPELL_FIXED } from '../../shared/spells.mjs'
 import { RADICAL_FIXED } from '../../shared/radicals.mjs'
 import { sayAll, voiceDuration } from '../lib/audio'
 import * as sfx from '../lib/sfx'
-import { ACT_SOUND, CONJURE_MS, MANY, inkPath } from './conjuring'
+import { ACT_SOUND, CONJURE_MS, MANY, flipFor, inkPath } from './conjuring'
 import { emojiArt } from './ui'
 
 /**
  * 合體魔法（shared/spells.mjs 的 COMBOS）：他剛寫的兩個字（他自己的筆跡）並排成一張詞卡，
- * 「等一下！這兩個字合在一起，會變成什麼？」→ 兩個字滑到一起 →「月，加上，餅，變成，月餅！」→ 啵！🥮
+ * 「這兩個字合起來，會變成什麼？」→ 兩個字滑到一起 →「月，加上，餅，變成，月餅！」→ 啵！🥮
  * 動作跟單字的變身共用 conjure.css 的 .cj-act-*。
  */
 const RATE = 0.85
@@ -56,7 +56,7 @@ export default function Fuse({ parts, combo, onDone }: { parts: [Written, Writte
       </div>
       {popped && <span className="cj-flash" style={{ left: '50%', top: '50%' }} />}
       {popped && Array.from({ length: count }, (_, i) => (
-        <span key={i} className={`cj-thing cj-act-${combo.act}${count > 1 ? ' many' : ''}`}
+        <span key={i} className={`cj-thing cj-act-${combo.act}${count > 1 ? ' many' : ''}${flipFor(combo.emoji, combo.act) ? ' cj-flip' : ''}`}
           style={{ left: '50%', top: '50%', width: 'min(38vh, 300px)', height: 'min(38vh, 300px)', ['--i' as string]: i, ['--n' as string]: count }}>
           <span className="cj-body">{thing}</span>
         </span>
