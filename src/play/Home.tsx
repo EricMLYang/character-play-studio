@@ -11,6 +11,7 @@ import { currentStop, type Stop, type StopGo } from './today'
 import { nextPartner, STARS_PER } from './partners'
 import Mine from './Mine'
 import Buddy, { useReaction } from './Buddy'
+import { emojiArt } from './ui'
 import DeviceParent from './DeviceParent'
 import { STANDALONE } from '../lib/target'
 
@@ -23,8 +24,10 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 
 export default function Home({
-  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo,
+  items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo, made = [],
 }: {
+  /** 他最近在魔法筆變出來的東西（emoji，magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
+  made?: string[]
   items: CharEntry[]
   /** 有給就把字卡一個詞一個詞排；搜尋或「還沒看過」時是 null，照清單平鋪 */
   groups: WordGroup[] | null
@@ -164,7 +167,7 @@ export default function Home({
       </header>
 
       {!explore && (
-        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount}
+        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount} made={made}
           onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); setExplore(true) }} />
       )}
 
@@ -221,7 +224,8 @@ export default function Home({
  * 今天的路：上面一排五站（做完的打勾、現在這一站亮著），下面是站在這一站的角色，
  * 說這一站要做什麼、這一站的字，按一下直接過去。他讀不到字，那句話會唸出來。
  */
-function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplore }: {
+function PathBoard({ stops, walked, starTotal, todayCount, made, onGo, onMine, onExplore }: {
+  made: string[]
   stops: Stop[]
   walked: boolean
   starTotal: number
@@ -244,6 +248,12 @@ function PathBoard({ stops, walked, starTotal, todayCount, onGo, onMine, onExplo
   }, [line])
   return (
     <section className="path" aria-label="今天的路">
+      {/* 他寫出來的東西站在兩旁（他每次打開樂園都看得到自己寫的魚）；點了去魔法筆再變一個 */}
+      {made.slice(0, 2).map((emoji, i) => (
+        <button key={`${emoji}${i}`} className={`path-made path-made-${i}`} aria-label="去魔法筆" onClick={() => { tap(); onGo({ kind: 'game', id: 'spell' }) }}>
+          {emojiArt(emoji) ? <img src={emojiArt(emoji)!} alt="" draggable={false} /> : <span>{emoji}</span>}
+        </button>
+      ))}
       <div className="path-top">
         <StarBank total={starTotal} onOpen={onMine} />
         <TodayStars count={todayCount} />

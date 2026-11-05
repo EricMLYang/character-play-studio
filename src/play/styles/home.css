@@ -477,3 +477,16 @@
   .path-text b { font-size: 21px; }
   .path-go { padding: 12px 20px; font-size: 18px; }
 }
+
+/* 他在魔法筆變出來的東西（Home 的 PathBoard）：站在今天的路兩旁——樹的右邊、蘑菇跟向日葵中間（景的道具位置，stageScenes.ts），
+   偶爾跳一下；點了去魔法筆。中間不放，留給路。 */
+.path-made { position: fixed; z-index: 2; bottom: 3%; width: clamp(56px, 10vh, 96px); height: clamp(56px, 10vh, 96px); padding: 0; background: none;
+  translate: -50% 0; transform-origin: 50% 100%; animation: pathMadeHop 3.2s ease-in-out infinite; }
+.path-made-0 { left: 11%; }
+.path-made-1 { left: 88%; animation-delay: -1.1s; }
+.path-made img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 6px rgba(0,0,0,.2)); }
+.path-made span { font-size: 60px; }
+@keyframes pathMadeHop { 0%, 70%, 100% { transform: none; } 80% { transform: translateY(-18%) scale(.95, 1.05); } 90% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .path-made { animation: none; } }
+/* 橫的手機太矮：今天的路那張卡片一路到底，站兩旁會壓到卡片和🔊，不放 */
+@media (max-height: 500px) { .path-made { display: none; } }

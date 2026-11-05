@@ -231,7 +231,7 @@ export default function PlayApp() {
   return (
     <div className="play">
       {/* 底下那片景（stageScenes.ts）；餵大怪獸的天色跟著端菜的夥伴，它自己放一片；魔法筆的背景是他的魔法世界 */}
-      {screen !== 'feed' && screen !== 'spell' && <Stage screen={screen} mine={screen === 'home' ? madeByHim : undefined} />}
+      {screen !== 'feed' && screen !== 'spell' && <Stage screen={screen} />}
       <div className="screen" ref={home}>
         {/*
           key 帶上 want：他已經站在這個遊戲裡、從字卡點「去 →」進來的時候，
@@ -262,6 +262,7 @@ export default function PlayApp() {
             onRide={startRide}
             path={path}
             walked={walked}
+            made={madeByHim}
             onGo={(go) => {
               if (!go) surprise()
               else if (go.kind === 'char') open(go.char)
