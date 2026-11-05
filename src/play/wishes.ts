@@ -1,4 +1,5 @@
 import type { CharEntry, Progress, Resident } from '../types'
+import { taiwanDay } from '../../shared/domain.mjs'
 import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
 import { ZONE_OF, type Zone } from './magicWorld'
 
@@ -24,6 +25,13 @@ export function writeLevel(resident?: Resident): WriteLevel {
 
 export type Wish = Spell & { emoji: string; level: WriteLevel }
 
+/**
+ * 寫字的間隔複習：寫過的字隔幾天再寫最好（越熟隔越久）。到了就優先挑；今天寫過的先讓別的字。
+ * 間隔效應是學習研究裡最穩的結果之一：隔開來寫，比同一天寫三次記得牢。
+ */
+export const WRITE_AGAIN_DAYS: Record<WriteLevel, number> = { trace: 0, look: 1, blind: 2, memory: 4 }
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / 864e5)
+
 /** 每種寫法舒服的筆畫數：超過一筆扣一點分（不是不准，看過又該複習的字還是會被挑到） */
 const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14, memory: 14 }
 
@@ -38,7 +46,8 @@ type PickOptions = {
 
 /**
  * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
- * 看過的字裡：該複習的（記住程度到期了）最優先，再來是今天路上的字、還沒寫過的、只描過沒遮起來寫過的。
+ * 看過的字裡：該複習的（記住程度到期了）最優先，再來是今天路上的字、還沒寫過的、只描過沒遮起來寫過的；
+ * 寫過的字隔夠久了（WRITE_AGAIN_DAYS）也優先，今天寫過的先讓別的字。
  * 筆畫多的往後排（第一次寫的字尤其是）；魔法世界還空著的那一區先補。一輪裡動作不重複（不要三個都在游泳）。
  * want＝他為了這個字來的，有的話排第一個。分數怎麼算在 scoreSpells。
  */
@@ -99,6 +108,11 @@ function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [
     else if (!resident.blind) score += 1
     // 筆畫太多會寫到放棄：第一次寫的字 8 筆以內最好，越熟可以越多（六歲一次寫 15 筆是很大的工程）
     const level = writeLevel(resident)
+    if (resident?.last) {
+      const days = daysBetween(taiwanDay(resident.last), today)
+      if (days <= 0) score -= 2
+      else if (days >= WRITE_AGAIN_DAYS[level]) score += 1.5
+    }
     score -= Math.max(0, s.n - COMFORT[level]) * 0.45
     if (s.char === want) score += 100
     return [{ ...s, emoji: entry.emoji, level, score }]

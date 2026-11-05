@@ -237,3 +237,14 @@ test('變身、合體的「階段」class（.cj-<階段>、.fuse-<階段>）只�
     }
   }
 })
+
+test('寫字的間隔複習：今天寫過的先讓別的字；隔夠久的（看一眼級隔 1 天、遮起來隔 2 天、聽寫隔 4 天）優先', () => {
+  const at = (day) => ({ traces: 1, blind: 0, first: '', last: `${day}T04:00:00Z`, strokes: [] })
+  // 火、水 都是 4 筆、都看過、都描過一次（看一眼級）；火 今天寫過，水 昨天寫的
+  const progress = { watched: { 火: { count: 1 }, 水: { count: 1 } }, recall: {}, town: { 火: at('2026-11-06'), 水: at('2026-11-05') } }
+  assert.equal(pickWishes(lib, progress, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '水')
+  // 聽寫級的字昨天才寫過，還不到 4 天：沒寫過的、隔夠久的先
+  const memory = { traces: 5, blind: 3, first: '', last: '2026-11-05T04:00:00Z', strokes: [] }
+  const p2 = { watched: { 火: { count: 1 }, 水: { count: 1 } }, recall: {}, town: { 火: memory, 水: { ...memory, last: '2026-11-01T04:00:00Z' } } }
+  assert.equal(pickWishes(lib, p2, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '水')
+})
