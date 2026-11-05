@@ -10,7 +10,7 @@ import Strokes, { loadChar } from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction, type ReactionState } from './Buddy'
 import { partnersAt, type Partner } from './partners'
-import { LEVEL_BADGE, levelAfter, nextStep, pickRound, powerOf, type Wish, type WriteLevel } from './wishes'
+import { LEVEL_BADGE, levelAfter, nextStep, pickRound, powerOf, writeLevel, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers, type Dweller } from './magicWorld'
@@ -469,6 +469,8 @@ function SpellPicker({ library, progress, onPick, onClose }: {
               <button key={s.char} className="spell-picker-item" onClick={() => onPick(s.char)} aria-label={s.char}>
                 {art ? <img src={art} alt="" draggable={false} /> : <span>{e.emoji}</span>}
                 <b>{s.char}</b>
+                {/* 寫過的字標等級（沒寫過的不標，不然一整面都是 ✏️） */}
+                {progress.town?.[s.char]?.traces ? <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[writeLevel(progress.town[s.char])]}</i> : null}
               </button>
             )
           })}
