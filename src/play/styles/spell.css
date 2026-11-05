@@ -107,3 +107,10 @@
 /* 點到的那張卡跳一下（唸那個字的時候） */
 .spell-card.spell-picked { animation: spellPicked .5s cubic-bezier(.2,1.6,.4,1) both; box-shadow: 0 0 0 6px #9B7BFF, 0 8px 0 rgba(0,0,0,.08); }
 @keyframes spellPicked { 50% { transform: scale(1.12) rotate(-3deg); } 100% { transform: scale(1.06); } }
+
+/* 結算時他這一輪寫的字（他自己的筆跡），一個一個彈出來 */
+.spell-done-hand { display: flex; gap: 10px; }
+.spell-done-hand svg { width: clamp(54px, 9vh, 84px); height: clamp(54px, 9vh, 84px); border-radius: 16px; background: #FFFEFB;
+  box-shadow: 0 0 0 3px rgba(155,123,255,.3), 0 4px 0 rgba(0,0,0,.06); animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both; }
+.spell-done-hand path { fill: none; stroke: #2E2A26; stroke-width: 56; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-height: 500px) and (orientation: landscape) { .spell-done-hand { display: none; } }

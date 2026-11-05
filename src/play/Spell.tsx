@@ -16,6 +16,7 @@ import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers, type Dweller } from './magicWorld'
 import World from './World'
 import { Confetti, SubBar, emojiArt } from './ui'
+import { inkPath } from './conjuring'
 import { holdCelebrations } from './hold'
 
 /**
@@ -329,7 +330,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </span>} />
 
       {phase === 'done' ? (
-        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext}
+        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current}
           onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={again} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
@@ -395,8 +396,10 @@ function Shelf({ made }: { made: Made[] }) {
 }
 
 /** 結算：他寫出來的世界攤開（這一輪變出來的從天上掉進來），做完寫一寫這一站就多一顆「下一站」 */
-function SpellDone({ world, fresh, next, onPick, onNext, onAgain, onBack }: {
+function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onBack }: {
   world: Dweller[]
+  /** 這一輪他寫的字（他自己的筆跡）：結算的時候排一排給他看「這是我寫的」 */
+  written: Written[]
   fresh: string[]
   next?: Stop
   onPick: (char: string) => void
@@ -409,6 +412,15 @@ function SpellDone({ world, fresh, next, onPick, onNext, onAgain, onBack }: {
       <Confetti />
       <p className="spell-done-title">{SPELL_FIXED.done}</p>
       <p className="spell-done-sub">{SPELL_FIXED.world}</p>
+      {written.length > 0 && (
+        <div className="spell-done-hand" aria-label="你這一輪寫的字">
+          {written.map((w, i) => (
+            <svg key={w.char} viewBox="0 0 1024 1024" style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
+              <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} />)}</g>
+            </svg>
+          ))}
+        </div>
+      )}
       {/* 他寫過的東西都住在這裡（從小鎮的紀錄推出來） */}
       <World dwellers={world} fresh={fresh} onPick={onPick} />
       <div className="spell-actions">
