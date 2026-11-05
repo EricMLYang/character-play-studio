@@ -8,6 +8,7 @@
  *   n      幾筆（跟 public/strokes 一樣，測試對過）：第一次寫的字挑筆畫少的（wishes.ts）
  *   act    怎麼動（Conjure.tsx 的 .cj-act-<act>）
  *   wish   夥伴的願望（唸給他聽；畫面上的字他讀不到，所以整句要唸）
+ *   alt    （可省略）第二種說法：常出現的字每次挑到一半機率換這句，寫第二、第三次的時候故事不一樣
  *   thanks 變出來之後夥伴說的話
  *   sound  （可省略）這個字自己的聲音，蓋掉動作的預設（雪跟雨都是「落下」，但雪不該嘩啦一聲）
  *
@@ -20,29 +21,29 @@ export const ACTS = ['swim', 'fly', 'fall', 'grow', 'bounce', 'burn', 'shine', '
 
 export const SPELLS = [
   // ---- 水裡的 ----
-  { char: '魚', n: 11, act: 'swim', wish: '池塘裡好空喔，幫我變一條魚！', thanks: '魚游來游去，好可愛！' },
+  { char: '魚', n: 11, act: 'swim', wish: '池塘裡好空喔，幫我變一條魚！', alt: '我想去釣魚，幫我寫魚！', thanks: '魚游來游去，好可愛！' },
   { char: '蝦', n: 15, act: 'swim', wish: '我想看蝦子游泳，幫我寫一隻蝦！', thanks: '蝦子彈呀彈地游走了！' },
   { char: '龜', n: 18, act: 'crawl', wish: '我想要一個慢慢走的朋友，寫一隻龜！', thanks: '烏龜慢慢爬，好有耐心！' },
   { char: '蟹', n: 19, act: 'crawl', wish: '沙灘上少了一隻螃蟹，幫我寫蟹！', thanks: '螃蟹橫著走耶！' },
   { char: '鴨', n: 16, act: 'swim', wish: '河裡好安靜，幫我變一隻鴨！', thanks: '呱呱呱，鴨子游過去了！' },
   { char: '蛙', n: 12, act: 'hop', wish: '荷葉上沒有人，幫我變一隻蛙！', thanks: '青蛙跳起來了，呱！' },
   // ---- 天上飛的 ----
-  { char: '鳥', n: 11, act: 'fly', wish: '天空好空喔，幫我變一隻鳥！', thanks: '小鳥飛上天了！' },
+  { char: '鳥', n: 11, act: 'fly', wish: '天空好空喔，幫我變一隻鳥！', alt: '樹上好安靜，幫我變一隻鳥！', thanks: '小鳥飛上天了！' },
   { char: '蝶', n: 15, act: 'fly', wish: '花園裡少了蝴蝶，幫我寫蝶！', thanks: '蝴蝶飛呀飛！' },
   { char: '蜂', n: 13, act: 'fly', wish: '花需要蜜蜂，幫我寫一隻蜂！', thanks: '嗡嗡嗡，蜜蜂去採蜜了！' },
   { char: '燕', n: 16, act: 'fly', wish: '春天到了，幫我變一隻燕子！', thanks: '燕子咻一下飛走了！' },
   { char: '龍', n: 16, act: 'fly', wish: '我想要一隻會飛的龍，寫龍！', thanks: '哇！龍飛起來了！' },
   { char: '飛', n: 9, act: 'fly', wish: '我好想飛，幫我寫一個飛！', thanks: '飛機飛上天了！' },
   // ---- 地上跑的 ----
-  { char: '犬', n: 4, act: 'run', wish: '我想要一隻小狗陪我玩，寫犬！', thanks: '汪汪！小狗跑過來了！' },
+  { char: '犬', n: 4, act: 'run', wish: '我想要一隻小狗陪我玩，寫犬！', alt: '我想帶狗狗去散步，幫我寫犬！', thanks: '汪汪！小狗跑過來了！' },
   { char: '貓', n: 16, act: 'run', wish: '我想抱一隻貓，幫我寫貓！', thanks: '喵～小貓跑來了！' },
-  { char: '兔', n: 8, act: 'hop', wish: '草地上少了一隻兔子，寫兔！', thanks: '兔子蹦蹦跳！' },
-  { char: '虎', n: 8, act: 'stomp', wish: '我想看老虎，幫我寫虎！', thanks: '吼！老虎來了！' },
+  { char: '兔', n: 8, act: 'hop', wish: '草地上少了一隻兔子，寫兔！', alt: '紅蘿蔔沒人吃，幫我變一隻兔！', thanks: '兔子蹦蹦跳！' },
+  { char: '虎', n: 8, act: 'stomp', wish: '我想看老虎，幫我寫虎！', alt: '森林裡好安靜，幫我寫虎！', thanks: '吼！老虎來了！' },
   { char: '獅', n: 13, act: 'stomp', wish: '森林需要一個國王，寫獅！', thanks: '獅子大吼一聲！' },
   { char: '象', n: 11, act: 'stomp', wish: '我想要一個很大很大的朋友，寫象！', thanks: '大象咚咚咚走過來了！' },
   { char: '熊', n: 14, act: 'stomp', wish: '我想要一個抱抱，幫我寫熊！', thanks: '大熊給你一個熊抱！' },
   { char: '豬', n: 15, act: 'run', wish: '農場少了一隻豬，幫我寫豬！', thanks: '豬噗噗噗跑來了！' },
-  { char: '羊', n: 6, act: 'run', wish: '草好多，幫我變一隻羊來吃草！', thanks: '咩～小羊來吃草了！' },
+  { char: '羊', n: 6, act: 'run', wish: '草好多，幫我變一隻羊來吃草！', alt: '我好想摸摸毛茸茸的羊，幫我寫羊！', thanks: '咩～小羊來吃草了！' },
   { char: '猴', n: 12, act: 'hop', wish: '樹上少了一隻猴子，寫猴！', thanks: '猴子跳來跳去！' },
   { char: '鹿', n: 11, act: 'run', wish: '森林裡好安靜，幫我寫鹿！', thanks: '小鹿跑過去了！' },
   { char: '豹', n: 10, act: 'run', wish: '我想看跑最快的動物，寫豹！', thanks: '咻！豹跑好快！' },
@@ -51,44 +52,44 @@ export const SPELLS = [
   { char: '蟲', n: 18, act: 'crawl', wish: '葉子上少了一隻小蟲，寫蟲！', thanks: '小蟲蟲慢慢爬！' },
   { char: '鵝', n: 18, act: 'swim', wish: '湖上少了一隻鵝，幫我寫鵝！', thanks: '鵝在湖上游呀游！' },
   // ---- 天氣與天上的東西 ----
-  { char: '雨', n: 8, act: 'fall', wish: '花好渴喔，幫我寫雨！', thanks: '下雨了，花喝飽了！' },
+  { char: '雨', n: 8, act: 'fall', wish: '花好渴喔，幫我寫雨！', alt: '天好熱好乾，幫我寫雨！', thanks: '下雨了，花喝飽了！' },
   { char: '雪', n: 11, act: 'fall', sound: 'frost', wish: '我想堆雪人，幫我寫雪！', thanks: '下雪了！好漂亮！' },
   { char: '雲', n: 12, act: 'float', wish: '太陽好曬，幫我變一朵雲！', thanks: '雲飄過來了，好涼！' },
-  { char: '風', n: 9, act: 'float', wish: '好熱喔，幫我變一陣風！', thanks: '呼～風吹過來了！' },
-  { char: '日', n: 4, act: 'shine', wish: '天好黑，幫我寫一個日！', thanks: '太陽出來了，好亮！' },
-  { char: '月', n: 4, act: 'shine', wish: '晚上好黑，幫我變一個月亮！', thanks: '月亮出來了！' },
-  { char: '星', n: 9, act: 'shine', wish: '夜空好空，幫我寫一顆星！', thanks: '星星一閃一閃！' },
+  { char: '風', n: 9, act: 'float', wish: '好熱喔，幫我變一陣風！', alt: '我的風箏飛不起來，幫我寫風！', thanks: '呼～風吹過來了！' },
+  { char: '日', n: 4, act: 'shine', wish: '天好黑，幫我寫一個日！', alt: '小花想曬太陽，幫我寫日！', thanks: '太陽出來了，好亮！' },
+  { char: '月', n: 4, act: 'shine', wish: '晚上好黑，幫我變一個月亮！', alt: '我要講床邊故事了，幫我寫月！', thanks: '月亮出來了！' },
+  { char: '星', n: 9, act: 'shine', wish: '夜空好空，幫我寫一顆星！', alt: '我想許願，幫我寫一顆星！', thanks: '星星一閃一閃！' },
   { char: '電', n: 13, act: 'shine', wish: '燈不亮了，幫我寫電！', thanks: '有電了，亮起來了！' },
   { char: '虹', n: 9, act: 'float', wish: '雨停了，幫我寫一道虹！', thanks: '出現彩虹了！' },
   // ---- 會長大的 ----
-  { char: '木', n: 4, act: 'grow', wish: '這裡好空，幫我種一棵木！', thanks: '長出一棵大樹了！' },
+  { char: '木', n: 4, act: 'grow', wish: '這裡好空，幫我種一棵木！', alt: '我想蓋一間樹屋，幫我寫木！', thanks: '長出一棵大樹了！' },
   { char: '樹', n: 16, act: 'grow', wish: '我想在樹下乘涼，寫樹！', thanks: '大樹長好高！' },
-  { char: '花', n: 7, act: 'grow', wish: '我想送媽媽花，幫我寫花！', thanks: '花開了，好香！' },
-  { char: '草', n: 9, act: 'grow', wish: '小羊沒有東西吃，幫我寫草！', thanks: '長出綠綠的草了！' },
+  { char: '花', n: 7, act: 'grow', wish: '我想送媽媽花，幫我寫花！', alt: '我想戴一朵花，幫我寫花！', thanks: '花開了，好香！' },
+  { char: '草', n: 9, act: 'grow', wish: '小羊沒有東西吃，幫我寫草！', alt: '我想在草地上打滾，幫我寫草！', thanks: '長出綠綠的草了！' },
   { char: '葉', n: 13, act: 'fall', sound: 'swipe', wish: '秋天到了，幫我寫葉！', thanks: '葉子飄下來了！' },
   // ---- 會動的東西 ----
-  { char: '火', n: 4, act: 'burn', wish: '好冷喔，幫我寫一點火！', thanks: '好暖和喔！' },
-  { char: '水', n: 4, act: 'splash', wish: '好渴喔，幫我寫一點水！', thanks: '咕嚕咕嚕，好好喝！' },
+  { char: '火', n: 4, act: 'burn', wish: '好冷喔，幫我寫一點火！', alt: '我想烤棉花糖，幫我寫火！', thanks: '好暖和喔！' },
+  { char: '水', n: 4, act: 'splash', wish: '好渴喔，幫我寫一點水！', alt: '花園的花口渴了，幫我寫水！', thanks: '咕嚕咕嚕，好好喝！' },
   { char: '海', n: 10, act: 'splash', wish: '我想去玩水，幫我寫海！', thanks: '海浪嘩啦嘩啦！' },
   { char: '球', n: 11, act: 'bounce', wish: '我想踢球，幫我寫球！', thanks: '球彈起來了！' },
-  { char: '車', n: 7, act: 'drive', wish: '我要出門，幫我寫一台車！', thanks: '叭叭！車子開走了！' },
+  { char: '車', n: 7, act: 'drive', wish: '我要出門，幫我寫一台車！', alt: '我想去兜風，幫我寫車！', thanks: '叭叭！車子開走了！' },
   { char: '傘', n: 12, act: 'float', wish: '下雨了，幫我寫一把傘！', thanks: '有傘就不怕雨了！' },
   { char: '燈', n: 16, act: 'shine', wish: '房間好暗，幫我寫燈！', thanks: '燈亮了！' },
-  { char: '石', n: 5, act: 'bounce', wish: '我要蓋城堡，幫我寫石！', thanks: '咚！石頭掉下來了！' },
+  { char: '石', n: 5, act: 'bounce', wish: '我要蓋城堡，幫我寫石！', alt: '我想丟石頭打水漂，幫我寫石！', thanks: '咚！石頭掉下來了！' },
   // ---- 好吃的 ----
-  { char: '果', n: 8, act: 'yum', wish: '我肚子餓了，幫我寫果！', thanks: '蘋果好甜！' },
+  { char: '果', n: 8, act: 'yum', wish: '我肚子餓了，幫我寫果！', alt: '我想做果汁，幫我寫果！', thanks: '蘋果好甜！' },
   { char: '蛋', n: 11, act: 'yum', wish: '我想吃早餐，幫我寫蛋！', thanks: '荷包蛋好香！' },
   { char: '餅', n: 14, act: 'yum', wish: '點心時間到了，幫我寫餅！', thanks: '餅乾脆脆的！' },
   { char: '糖', n: 16, act: 'yum', wish: '我想吃甜甜的，幫我寫糖！', thanks: '糖果好甜！' },
-  { char: '瓜', n: 5, act: 'yum', wish: '好熱喔，幫我寫瓜！', thanks: '西瓜好涼！' },
+  { char: '瓜', n: 5, act: 'yum', wish: '好熱喔，幫我寫瓜！', alt: '夏天到了，幫我寫瓜！', thanks: '西瓜好涼！' },
   { char: '麵', n: 20, act: 'yum', wish: '我想吃麵，幫我寫麵！', thanks: '麵好好吃，呼嚕呼嚕！' },
   { char: '飯', n: 12, act: 'yum', wish: '吃飯時間到了，幫我寫飯！', thanks: '白飯香噴噴！' },
   { char: '糕', n: 16, act: 'yum', wish: '今天有人生日，幫我寫糕！', thanks: '蛋糕來了，生日快樂！' },
-  { char: '肉', n: 6, act: 'yum', wish: '我想吃烤肉，幫我寫肉！', thanks: '烤肉好香！' },
-  { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', thanks: '小雞吃得好開心！' },
+  { char: '肉', n: 6, act: 'yum', wish: '我想吃烤肉，幫我寫肉！', alt: '烤肉節到了，幫我寫肉！', thanks: '烤肉好香！' },
+  { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', alt: '我想煮飯，幫我寫米！', thanks: '小雞吃得好開心！' },
   // ---- 2026-11-06 第 15 輪加的：天地、會長的、好吃的、東西 ----
-  { char: '山', n: 3, act: 'grow', wish: '我想去爬山，幫我變一座山！', thanks: '長出一座大山了！' },
-  { char: '土', n: 3, act: 'grow', wish: '種子沒有地方住，幫我寫土！', thanks: '有土了，種子發芽了！' },
+  { char: '山', n: 3, act: 'grow', wish: '我想去爬山，幫我變一座山！', alt: '我想玩溜滑梯，幫我變一座山！', thanks: '長出一座大山了！' },
+  { char: '土', n: 3, act: 'grow', wish: '種子沒有地方住，幫我寫土！', alt: '我想玩泥巴，幫我寫土！', thanks: '有土了，種子發芽了！' },
   { char: '島', n: 10, act: 'grow', wish: '海上好空，幫我變一座島！', thanks: '冒出一座小島了！' },
   { char: '浪', n: 10, act: 'splash', wish: '我想衝浪，幫我寫浪！', thanks: '大浪來了，嘩啦！' },
   { char: '露', n: 21, act: 'fall', sound: 'blip', wish: '早上的葉子好乾，幫我寫露！', thanks: '露珠滴下來了！' },
@@ -101,16 +102,16 @@ export const SPELLS = [
   { char: '粥', n: 12, act: 'yum', wish: '我肚子不舒服，幫我寫粥！', thanks: '吃粥，肚子舒服多了！' },
   { char: '餃', n: 14, act: 'yum', wish: '我想吃水餃，幫我寫餃！', thanks: '水餃好好吃！' },
   { char: '茶', n: 9, act: 'yum', wish: '好渴喔，幫我寫茶！', thanks: '喝茶，咕嚕咕嚕！' },
-  { char: '豆', n: 7, act: 'yum', wish: '我想種豆子，幫我寫豆！', thanks: '好多豆子！' },
+  { char: '豆', n: 7, act: 'yum', wish: '我想種豆子，幫我寫豆！', alt: '我想吃紅豆湯，幫我寫豆！', thanks: '好多豆子！' },
   { char: '甜', n: 11, act: 'yum', wish: '我想吃甜甜的蜂蜜，幫我寫甜！', thanks: '好甜好甜！' },
   { char: '辣', n: 14, act: 'yum', wish: '我想吃辣椒，幫我寫辣！', thanks: '好辣好辣，呼呼！' },
   { char: '酸', n: 14, act: 'yum', wish: '我想吃檸檬，幫我寫酸！', thanks: '好酸喔，眼睛都閉起來了！' },
   { char: '喝', n: 12, act: 'yum', wish: '好渴喔，我想喝飲料，幫我寫喝！', thanks: '咕嚕咕嚕，喝光光！' },
-  { char: '王', n: 4, act: 'shine', wish: '我想當國王，幫我寫王！', thanks: '戴上王冠了！' },
-  { char: '金', n: 8, act: 'shine', wish: '我想拿第一名，幫我寫金！', thanks: '拿到金牌了！' },
+  { char: '王', n: 4, act: 'shine', wish: '我想當國王，幫我寫王！', alt: '我想坐上王座，幫我寫王！', thanks: '戴上王冠了！' },
+  { char: '金', n: 8, act: 'shine', wish: '我想拿第一名，幫我寫金！', alt: '我想找寶藏，幫我寫金！', thanks: '拿到金牌了！' },
   { char: '書', n: 10, act: 'float', wish: '我想聽故事，幫我寫書！', thanks: '翻開故事書了！' },
   { char: '家', n: 10, act: 'grow', wish: '下雨了，我想回家，幫我寫家！', thanks: '蓋好一間房子了！' },
-  { char: '心', n: 4, act: 'float', wish: '我想送你一個愛心，幫我寫心！', thanks: '愛心飄起來了！' },
+  { char: '心', n: 4, act: 'float', wish: '我想送你一個愛心，幫我寫心！', alt: '我想跟你說我好喜歡你，幫我寫心！', thanks: '愛心飄起來了！' },
   { char: '玩', n: 8, act: 'bounce', wish: '我好無聊，想玩玩具，幫我寫玩！', thanks: '玩具熊跳起來了！' },
 ]
 
@@ -167,7 +168,7 @@ export const SPELL_FIXED = {
 export const spellFor = (char) => SPELLS.find((s) => s.char === char)
 
 /** 伺服器要預先做的句子 */
-export const spellLines = () => [...Object.values(SPELL_FIXED), ...SPELLS.flatMap((s) => [s.wish, s.thanks]), ...COMBOS.flatMap((c) => [c.word, c.thanks])]
+export const spellLines = () => [...Object.values(SPELL_FIXED), ...SPELLS.flatMap((s) => [s.wish, s.thanks, ...(s.alt ? [s.alt] : [])]), ...COMBOS.flatMap((c) => [c.word, c.thanks])]
 
 /** 這兩個字（照順序）合得成哪一個詞 */
 export const comboOf = (a, b) => COMBOS.find((c) => c.word === a + b)

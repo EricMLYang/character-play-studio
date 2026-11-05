@@ -115,7 +115,9 @@ function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [
     }
     score -= Math.max(0, s.n - COMFORT[level]) * 0.45
     if (s.char === want) score += 100
-    return [{ ...s, emoji: entry.emoji, level, score }]
+    // 有第二種說法的字，一半機率換那一句（同一個字寫第二次，故事不一樣）
+    const wish = s.alt && rand() < 0.5 ? s.alt : s.wish
+    return [{ ...s, wish, emoji: entry.emoji, level, score }]
   }).sort((a, b) => b.score - a.score)
 }
 

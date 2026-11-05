@@ -49,6 +49,8 @@ export type Summary = {
   wroteThisWeek: number
   /** 最近寫的字，帶著他最後一次寫的筆跡（小鎮紀錄裡存的）：爸爸看得到他的字長什麼樣 */
   recentWrites: { char: string; strokes: number[][]; blind: boolean }[]
+  /** 魔法筆合體合出來過的詞（新的在前）：同一個字放進不同的詞裡，是詞素意識 */
+  fused: string[]
   /**
    * 只差一顆就集滿的字，跟缺的是哪一顆。
    * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
@@ -104,6 +106,7 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
     recentWrites: Object.entries(progress.town || {}).filter(([, r]) => r.strokes?.length)
       .sort((a, b) => Date.parse(b[1].last) - Date.parse(a[1].last)).slice(0, 10)
       .map(([char, r]) => ({ char, strokes: r.strokes, blind: (r.blind || 0) > 0 })),
+    fused: Object.entries(progress.fused || {}).sort((a, b) => Date.parse(b[1]) - Date.parse(a[1])).map(([word]) => word),
     stars: stars,
     partners: partnerCount(stars),
     toNextPartner: nextPartner(stars)?.need ?? null,

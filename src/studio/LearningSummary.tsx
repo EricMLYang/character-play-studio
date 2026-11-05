@@ -112,6 +112,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
             {([['memory', '🧙 聽寫級'], ['blind', '🙈 遮起來寫'], ['look', '👀 看一眼']] as const).map(([level, label]) => s.writeLevels[level].length > 0 && (
               <p key={level}><b>{label}（{s.writeLevels[level].length}）：</b>{s.writeLevels[level].map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>
             ))}
+            {s.fused.length > 0 && <p><b>🔮 合體合出來的詞（{s.fused.length}）：</b>{s.fused.join('、')}</p>}
           </div>
         </section>
       )}

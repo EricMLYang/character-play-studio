@@ -60,7 +60,12 @@ test('每個字只出現一次、動作都有動畫、願望和謝謝都有話',
 test('魔法筆說的每一句都會預先做音檔（伺服器那邊有接上）', () => {
   const lines = spellLines()
   for (const t of Object.values(SPELL_FIXED)) assert.ok(lines.includes(t))
-  for (const s of SPELLS) assert.ok(lines.includes(s.wish) && lines.includes(s.thanks))
+  for (const s of SPELLS) assert.ok(lines.includes(s.wish) && lines.includes(s.thanks) && (!s.alt || lines.includes(s.alt)))
+  // 第二種說法也要叫得出那個字（不然他聽不出要寫什麼）
+  for (const s of SPELLS) {
+    assert.ok(s.wish.includes(s.char), `${s.char} 的願望沒提到這個字`)
+    if (s.alt) assert.ok(s.alt.includes(s.char), `${s.char} 的第二種說法沒提到這個字`)
+  }
   assert.match(fs.readFileSync(path.join(ROOT, 'server/voice.mjs'), 'utf8'), /\.\.\.spellLines\(\)/)
 })
 
@@ -180,7 +185,7 @@ test('願望和謝謝不提夥伴的名字（誰都可能來許願，小老鼠�
   const src = fs.readFileSync(path.join(ROOT, 'src/play/partners.ts'), 'utf8')
   const names = [...src.matchAll(/name: '([^']+)'/g)].map((m) => m[1])
   assert.ok(names.length > 10)
-  for (const line of [...SPELLS.flatMap((s) => [s.wish, s.thanks]), ...COMBOS.map((c) => c.thanks)]) {
+  for (const line of [...SPELLS.flatMap((s) => [s.wish, s.thanks, ...(s.alt ? [s.alt] : [])]), ...COMBOS.map((c) => c.thanks)]) {
     for (const n of names) assert.ok(!line.includes(n), `「${line}」提到 ${n}`)
   }
 })

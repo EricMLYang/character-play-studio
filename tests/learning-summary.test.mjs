@@ -134,4 +134,6 @@ test('寫字等級（魔法筆）：描過的字各在哪一級；最近 7 天�
     山: { traces: 1, first: '', last: '2026-10-21T01:00:00Z', strokes: [] },
   } }, characters, now)
   assert.deepEqual(t.recentWrites.map((w) => [w.char, w.blind]), [['火', false], ['水', true]])
+  const f = summarize({ watched: {}, fused: { 火山: '2026-10-19T01:00:00Z', 水果: '2026-10-20T01:00:00Z' } }, characters, now)
+  assert.deepEqual(f.fused, ['水果', '火山'], '新的在前')
 })
