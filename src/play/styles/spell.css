@@ -93,3 +93,6 @@
   display: grid; place-items: center; font-size: clamp(24px, 4.4vh, 36px); border-radius: 50%; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.08); }
 .spell-level-up { animation: spellLevelUp .9s cubic-bezier(.2,1.6,.4,1) both; box-shadow: 0 0 0 5px #FFD24A, 0 0 26px 8px rgba(255,197,61,.8); }
 @keyframes spellLevelUp { 0% { transform: scale(0) rotate(-180deg); } 70% { transform: scale(1.5) rotate(10deg); } 100% { transform: scale(1.15); } }
+
+/* 格子底下那行提示在他的世界上面：給它白底，不然壓在背景的羊、兔子身上讀不清楚 */
+.spell-pad .stroke-tip { padding: 4px 14px; border-radius: 999px; background: rgba(255,255,255,.88); }

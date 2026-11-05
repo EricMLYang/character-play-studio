@@ -10,7 +10,7 @@
 .world-body { display: block; width: 100%; height: 100%; animation: 3s ease-in-out infinite alternate both; animation-delay: var(--d); }
 .world-body img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,.2)); }
 .world-char { position: absolute; left: 50%; bottom: -2px; translate: -50% 40%; padding: 0 .35em; border-radius: 8px; background: rgba(255,255,255,.85);
-  font-family: var(--kai); font-size: clamp(14px, 2.2vh, 22px); line-height: 1.25; color: var(--ink); pointer-events: none; }
+  font-family: var(--kai); font-size: clamp(14px, 2.2vh, 22px); line-height: 1.25; color: var(--ink); pointer-events: none; white-space: nowrap; }
 .world-pond .world-body { animation-name: worldSwim; }
 .world-sky .world-body { animation-name: worldFloat; }
 .world-hill .world-body { animation-name: worldSway; transform-origin: 50% 100%; }

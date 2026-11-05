@@ -16,6 +16,7 @@ import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers } from './magicWorld'
 import World from './World'
 import { Confetti, SubBar, emojiArt } from './ui'
+import { holdCelebrations } from './hold'
 
 /**
  * 魔法筆：夥伴許一個願望（「好冷喔，幫我寫一點火！」），他把那個字寫出來，
@@ -70,6 +71,9 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const voice = useRef<(() => void) | null>(null)
   const speak = (lines: string[]) => { voice.current?.(); voice.current = sayAll(lines, RATE, 160) }
   useEffect(() => () => { timers.current.forEach(clearTimeout); voice.current?.(); stopSpeech() }, [])
+  // 一輪還在演：加冕、寶箱先等（hold.ts）；結算那兩句唸完（finishRound）、或離開魔法筆才放行
+  useEffect(() => { if (phase !== 'done') holdCelebrations(true) }, [phase])
+  useEffect(() => () => holdCelebrations(false), [])
 
   const wish: Wish | undefined = index >= 0 ? wishes[index] : undefined
   const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
@@ -196,6 +200,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     cheer()
     setPhase('done')
     speak([SPELL_FIXED.done, SPELL_FIXED.world])
+    later(() => holdCelebrations(false), lasts(SPELL_FIXED.done) + lasts(SPELL_FIXED.world) + 600)
   }
 
   const again = () => {

@@ -19,6 +19,7 @@ import { PARTNERS, partnerCount, serveNextWith, type Partner } from './partners'
 import Chest from './Chest'
 import Crown from './Crown'
 import DayCard from './DayCard'
+import { useCelebrationsHeld } from './hold'
 import Stage, { useStagePointer } from './Stage'
 import { sceneFor } from './stageScenes'
 import { GAMES, gameById, type GameContext, type NewEvent } from './games'
@@ -135,6 +136,8 @@ export default function PlayApp() {
   const [crown, setCrown] = useState<{ char: string; stars: number } | null>(null)
   /** 今天的路走完：今日戰報（DayCard.tsx） */
   const [day, setDay] = useState(false)
+  /** 魔法筆一輪還在演（hold.ts）：加冕、寶箱、戰報等它演完再出來 */
+  const held = useCelebrationsHeld()
   // 今天的路（today.ts）：走完要慶祝一次
   const path = useMemo(() => todayPath(all, progress), [all, progress])
   const walked = pathDone(path)
@@ -292,11 +295,11 @@ export default function PlayApp() {
           onClose={close}
           onBuild={() => go({ screen: 'train' }, { replace: true })} />
       )}
-      {chest && <Chest partner={chest} onClose={() => setChest(null)}
+      {chest && !held && <Chest partner={chest} onClose={() => setChest(null)}
         onGo={() => { serveNextWith(chest.id); setChest(null); enter('feed') }} />}
-      {crown && !chest && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
+      {crown && !chest && !held && <Crown char={crown.char} stars={crown.stars} onClose={() => setCrown(null)} />}
       {/* 戰報等他關掉字卡再出來：走完的那一下常常是在字卡上（看完第二個新字），蓋上去會打斷描字 */}
-      {day && !chest && !crown && !entry && !ride && <DayCard progress={progress} onClose={() => setDay(false)} />}
+      {day && !chest && !crown && !held && !entry && !ride && <DayCard progress={progress} onClose={() => setDay(false)} />}
       {pop && !chest && !crown && (
         <>
           {/* 彩帶要從整個畫面的頂端灑下來，所以不能包在那顆小藥丸裡 */}

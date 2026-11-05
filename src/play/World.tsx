@@ -23,8 +23,9 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
         <path d="M0 62 C22 56 40 62 60 58 C78 55 90 60 100 58 V100 H0 Z" fill="#86C96F" />
         <ellipse cx="24" cy="78" rx="19" ry="11" fill="#7FC8F0" />
         <ellipse cx="24" cy="76" rx="15" ry="7" fill="#A9DDF7" opacity=".7" />
-        <rect x="47" y="82" width="52" height="16" rx="2" fill="#FF8F8F" />
-        <path d="M47 86 H99 M47 90 H99 M47 94 H99 M55 82 V98 M64 82 V98 M73 82 V98 M82 82 V98 M91 82 V98" stroke="#fff" strokeWidth=".7" opacity=".8" />
+        {/* 野餐墊：淡淡的，吃的東西才是主角（太紅會搶整個畫面） */}
+        <rect x="47" y="82" width="52" height="16" rx="3" fill="#FFE1D6" opacity=".9" />
+        <path d="M47 86 H99 M47 90 H99 M47 94 H99 M55 82 V98 M64 82 V98 M73 82 V98 M82 82 V98 M91 82 V98" stroke="#FFB7A3" strokeWidth=".5" opacity=".7" />
       </svg>
       {shown.map((d, i) => {
         const art = emojiArt(d.emoji)
