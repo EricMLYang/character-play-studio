@@ -17,6 +17,7 @@ import MeaningFx from './MeaningFx'
 import OriginPlay from './OriginPlay'
 import { hasOrigin } from './origins'
 import Conjure, { inkBox } from './Conjure'
+import { powerOf, writeLevel } from './wishes'
 import { spellFor } from '../../shared/spells.mjs'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
@@ -75,9 +76,9 @@ export default function Viewer({
     const moved = !resident ? 'in' : blind ? (level + 1 >= CROWN_LEVEL ? 'crown' : 'grow') : null
     dispatch({ type: 'traced', moved })
     onTraced(entry, strokes, blind)
-    // 會變身的字（shared/spells.mjs）：他寫的那幾筆從格子裡飛出來，變成那個東西
+    // 會變身的字（shared/spells.mjs）：他寫的那幾筆從格子裡飛出來，變成那個東西；強度跟魔法筆同一套（🧙 聽寫級寫出來戴小皇冠）
     const from = inkBox(root.current?.querySelector('.stroke-canvas'))
-    if (spell && entry.emoji && from) setConjure({ key: Date.now(), strokes, from, power: blind ? 1 : 0 })
+    if (spell && entry.emoji && from) setConjure({ key: Date.now(), strokes, from, power: powerOf(writeLevel(resident), blind) })
     voice.current?.()
     const line = moved === 'in' ? FIXED_LINES.movedIn : moved === 'crown' ? FIXED_LINES.movedCrown
       : moved === 'grow' ? FIXED_LINES.movedGrow : null
