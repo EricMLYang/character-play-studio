@@ -157,6 +157,7 @@ export const SPELL_FIXED = {
   choose: '你想先變哪一個？',
   memory: '這次不給你看了！你記得怎麼寫嗎？',
   levelUp: '升級了！',
+  yours: '你寫的字，變成真的了！',
 }
 
 /** 這個字會不會變身；不會的回 undefined */

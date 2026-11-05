@@ -100,7 +100,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好；第一個願望前先打招呼
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.yours, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -141,6 +141,9 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   }
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)
+  const told = useRef(false)
+  /** 說「你寫的字，變成真的了！」的是哪一個願望（泡泡也要寫出來，畫面上的話都唸得出來） */
+  const toldTurn = useRef(-1)
   /** 這一次寫完升到哪一級（徽章換掉、多誇一句「魚，升級了！」）；沒升級是 null */
   const [levelUp, setLevelUp] = useState<WriteLevel | null>(null)
   const written = (strokes: number[][], blind: boolean) => {
@@ -151,7 +154,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     onTraced(wish.char, strokes, blind)
     const from = inkBox(grid.current)
     setPhase('conjure')
-    say(wish.char, RATE)
+    // 第一次變身多說一句「你寫的字，變成真的了！」：讓他知道那是「他寫的」變出來的；之後只唸字
+    if (!told.current) { told.current = true; toldTurn.current = turn; speak([wish.char, SPELL_FIXED.yours]) } else say(wish.char, RATE)
     // 好吃的東西飛進夥伴嘴裡（他的頭大約在圖的上三分之一）
     const buddy = wish.act === 'yum' ? document.querySelector('.spell-buddy')?.getBoundingClientRect() : null
     const land = buddy ? { x: buddy.left + buddy.width / 2, y: buddy.top + buddy.height * 0.38 } : undefined
@@ -275,6 +279,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
           <div className="spell-friend">
             <button className="spell-bubble" onClick={() => { tap(); speak([wish.wish]) }} aria-label={`再聽一次：${wish.wish}`}>
               {phase === 'fused' && combo ? combo.thanks : phase === 'fuse' ? SPELL_FIXED.fuse
+                : phase === 'conjure' && toldTurn.current === turn ? SPELL_FIXED.yours
                 : phase === 'thanks' ? `${made[made.length - 1]?.blind ? FIXED_LINES.wroteBlind : ''}${levelUp ? `${wish.char}${SPELL_FIXED.levelUp}` : ''}${wish.thanks}` : wish.wish} <span aria-hidden>🔊</span>
             </button>
             <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
