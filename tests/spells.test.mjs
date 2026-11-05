@@ -46,10 +46,13 @@ test('每個字只出現一次、動作都有動畫、願望和謝謝都有話',
     assert.ok(ACTS.includes(s.act), `${s.char} 的動作 ${s.act}`)
     assert.ok(s.wish.length >= 4 && s.thanks.length >= 3, s.char)
   }
+  const sfx = fs.readFileSync(path.join(ROOT, 'src/lib/sfx.ts'), 'utf8')
+  const hasSound = (name) => new RegExp(`export (const|function) ${name}\\b`).test(sfx)
   for (const a of ACTS) {
     assert.ok(css.includes(`.cj-act-${a}`), `${a} 沒有動畫`)
-    assert.ok(ACT_SOUND[a], `${a} 沒有聲音`)
+    assert.ok(ACT_SOUND[a] && hasSound(ACT_SOUND[a]), `${a} 沒有聲音（${ACT_SOUND[a]}）`)
   }
+  for (const s of SPELLS) if (s.sound) assert.ok(hasSound(s.sound), `${s.char} 的聲音 ${s.sound} 不在 sfx.ts`)
   assert.equal(spellFor('魚').act, 'swim')
   assert.equal(spellFor('好'), undefined)
 })

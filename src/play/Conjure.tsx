@@ -23,6 +23,8 @@ export type ConjureProps = {
   land?: { x: number; y: number }
   /** 這個字（有「以前長這樣」的象形字，收攏之後先畫出古時候的樣子再變身） */
   char?: string
+  /** 這個字自己的聲音（sfx.ts 的函式名字），沒給就用動作的預設 */
+  sound?: string
   onDone?: () => void
 }
 
@@ -39,7 +41,7 @@ export function inkBox(host: Element | null | undefined): ConjureProps['from'] |
 
 type Step = 'glow' | 'gather' | 'origin' | 'pop' | 'act' | 'end'
 
-export default function Conjure({ strokes, emoji, act, from, land, char, onDone }: ConjureProps) {
+export default function Conjure({ strokes, emoji, act, from, land, char, sound: own, onDone }: ConjureProps) {
   // 象形字：他寫的字 → 古時候畫的樣子 → 真的東西（字是從圖畫變來的，第一夜的「以前長這樣」）
   const origin = char ? ORIGINS[char] : undefined
   const [step, setStep] = useState<Step>('glow')
@@ -59,7 +61,7 @@ export default function Conjure({ strokes, emoji, act, from, land, char, onDone 
     next('gather', CONJURE_MS.glow, () => sfx.swipe())
     if (origin) next('origin', CONJURE_MS.gather, () => sfx.chime(2, 5))
     next('pop', origin ? ORIGIN_MS : CONJURE_MS.gather, () => sfx.poof())
-    const sound = () => (sfx as unknown as Record<string, (a?: number, b?: number) => void>)[ACT_SOUND[act]]?.(3, 5)
+    const sound = () => (sfx as unknown as Record<string, (a?: number, b?: number) => void>)[own ?? ACT_SOUND[act]]?.(3, 5)
     // 飛進夥伴嘴裡的：吃到的那一下（動畫 80%）才「咕嚕」
     next('act', CONJURE_MS.pop, () => {
       if (land) t.push(window.setTimeout(() => { try { sound() } catch { /* 同上 */ } }, CONJURE_MS.act * 0.8))

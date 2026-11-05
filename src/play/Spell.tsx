@@ -321,7 +321,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       )}
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
-        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} onDone={finishConjure} />
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound} onDone={finishConjure} />
       )}
     </div>
   )

@@ -219,7 +219,7 @@ export default function Viewer({
 
       {origin && <OriginPlay char={entry.char} onClose={() => setOrigin(false)} />}
       {conjure && spell && entry.emoji && (
-        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={entry.emoji} act={spell.act} from={conjure.from} char={entry.char} onDone={() => setConjure(null)} />
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={entry.emoji} act={spell.act} from={conjure.from} char={entry.char} sound={spell.sound} onDone={() => setConjure(null)} />
       )}
       {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0 || hasOrigin(entry.char)) && (
         <div className="band">

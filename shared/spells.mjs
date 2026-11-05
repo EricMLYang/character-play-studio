@@ -9,6 +9,7 @@
  *   act    怎麼動（Conjure.tsx 的 .cj-act-<act>）
  *   wish   夥伴的願望（唸給他聽；畫面上的字他讀不到，所以整句要唸）
  *   thanks 變出來之後夥伴說的話
+ *   sound  （可省略）這個字自己的聲音，蓋掉動作的預設（雪跟雨都是「落下」，但雪不該嘩啦一聲）
  *
  * 只收「寫出來看得到」的字：東西、動物、天氣、食物。抽象的字（快、好、不）變不出東西，留給別的遊戲。
  * 這張表同時是伺服器預先做音檔的來源（server/voice.mjs 的 spellLines）。
@@ -51,7 +52,7 @@ export const SPELLS = [
   { char: '鵝', n: 18, act: 'swim', wish: '湖上少了一隻鵝，幫我寫鵝！', thanks: '鵝在湖上游呀游！' },
   // ---- 天氣與天上的東西 ----
   { char: '雨', n: 8, act: 'fall', wish: '花好渴喔，幫我寫雨！', thanks: '下雨了，花喝飽了！' },
-  { char: '雪', n: 11, act: 'fall', wish: '我想堆雪人，幫我寫雪！', thanks: '下雪了！好漂亮！' },
+  { char: '雪', n: 11, act: 'fall', sound: 'frost', wish: '我想堆雪人，幫我寫雪！', thanks: '下雪了！好漂亮！' },
   { char: '雲', n: 12, act: 'float', wish: '太陽好曬，幫我變一朵雲！', thanks: '雲飄過來了，好涼！' },
   { char: '風', n: 9, act: 'float', wish: '好熱喔，幫我變一陣風！', thanks: '呼～風吹過來了！' },
   { char: '日', n: 4, act: 'shine', wish: '天好黑，幫我寫一個日！', thanks: '太陽出來了，好亮！' },
@@ -64,7 +65,7 @@ export const SPELLS = [
   { char: '樹', n: 16, act: 'grow', wish: '我想在樹下乘涼，寫樹！', thanks: '大樹長好高！' },
   { char: '花', n: 7, act: 'grow', wish: '我想送媽媽花，幫我寫花！', thanks: '花開了，好香！' },
   { char: '草', n: 9, act: 'grow', wish: '小羊沒有東西吃，幫我寫草！', thanks: '長出綠綠的草了！' },
-  { char: '葉', n: 13, act: 'fall', wish: '秋天到了，幫我寫葉！', thanks: '葉子飄下來了！' },
+  { char: '葉', n: 13, act: 'fall', sound: 'swipe', wish: '秋天到了，幫我寫葉！', thanks: '葉子飄下來了！' },
   // ---- 會動的東西 ----
   { char: '火', n: 4, act: 'burn', wish: '好冷喔，幫我寫一點火！', thanks: '好暖和喔！' },
   { char: '水', n: 4, act: 'splash', wish: '好渴喔，幫我寫一點水！', thanks: '咕嚕咕嚕，好好喝！' },
@@ -90,9 +91,9 @@ export const SPELLS = [
   { char: '土', n: 3, act: 'grow', wish: '種子沒有地方住，幫我寫土！', thanks: '有土了，種子發芽了！' },
   { char: '島', n: 10, act: 'grow', wish: '海上好空，幫我變一座島！', thanks: '冒出一座小島了！' },
   { char: '浪', n: 10, act: 'splash', wish: '我想衝浪，幫我寫浪！', thanks: '大浪來了，嘩啦！' },
-  { char: '露', n: 21, act: 'fall', wish: '早上的葉子好乾，幫我寫露！', thanks: '露珠滴下來了！' },
+  { char: '露', n: 21, act: 'fall', sound: 'blip', wish: '早上的葉子好乾，幫我寫露！', thanks: '露珠滴下來了！' },
   { char: '陽', n: 11, act: 'shine', wish: '好冷喔，幫我變出太陽！', thanks: '陽光好溫暖！' },
-  { char: '冰', n: 6, act: 'fall', wish: '好熱喔，幫我寫冰！', thanks: '冰塊掉下來了，好涼！' },
+  { char: '冰', n: 6, act: 'fall', sound: 'frost', wish: '好熱喔，幫我寫冰！', thanks: '冰塊掉下來了，好涼！' },
   { char: '根', n: 10, act: 'grow', wish: '兔子想吃紅蘿蔔，幫我寫根！', thanks: '拔出一根紅蘿蔔了！' },
   { char: '枝', n: 8, act: 'grow', wish: '小鳥沒地方站，幫我寫枝！', thanks: '長出樹枝了，小鳥站上去！' },
   { char: '菜', n: 11, act: 'yum', wish: '要多吃青菜，幫我寫菜！', thanks: '青菜好脆！' },
