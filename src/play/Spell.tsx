@@ -11,6 +11,8 @@ import Buddy, { useReaction } from './Buddy'
 import Stage from './Stage'
 import { partnersAt, type Partner } from './partners'
 import { pickWishes, type Wish } from './wishes'
+import { dwellers } from './magicWorld'
+import World from './World'
 import { Confetti, SubBar, emojiArt } from './ui'
 
 /**
@@ -57,7 +59,7 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
 
   // 這一輪會唸到的話先抓好；第一個願望前先打招呼
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.done, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char])])
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char])])
   }, [wishes])
   useEffect(() => {
     if (!wish) return
@@ -102,7 +104,7 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
       if (index + 1 < wishes.length) { setIndex(index + 1); return }
       cheer()
       setPhase('done')
-      speak([SPELL_FIXED.done])
+      speak([SPELL_FIXED.done, SPELL_FIXED.world])
     }, lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
   }
 
@@ -125,6 +127,8 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
   }
 
   const art = wish ? emojiArt(wish.emoji) : null
+  const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
+  const world = phase === 'done' ? dwellers(progress.town || {}, emojiOf) : []
   return (
     <div className={`spell spell-is-${phase}`}>
       <Stage screen="spell" />
@@ -137,12 +141,9 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
         <div className="spell-done">
           <Confetti />
           <p className="spell-done-title">{SPELL_FIXED.done}</p>
-          <div className="spell-done-row">{made.map((m) => (
-            <span key={m.char} className="spell-made">
-              {emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : <span>{m.emoji}</span>}
-              <b>{m.char}</b>{m.blind && <i className="spell-star">🌟</i>}
-            </span>
-          ))}</div>
+          <p className="spell-done-sub">{SPELL_FIXED.world}</p>
+          {/* 他寫過的東西都住在這裡（從小鎮的紀錄推出來），這一輪變出來的從天上掉進來 */}
+          <World dwellers={world} fresh={made.map((m) => m.char)} onPick={(c) => { tap(); say(c, RATE) }} />
           <div className="spell-actions">
             <button className="spell-btn spell-go" onClick={again}>🪄 再變三個</button>
             <button className="spell-btn" onClick={() => { tap(); onBack() }}>🏠 回首頁</button>

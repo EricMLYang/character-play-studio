@@ -2,6 +2,6 @@ export type Act = 'swim' | 'fly' | 'fall' | 'grow' | 'bounce' | 'burn' | 'shine'
 export type Spell = { char: string; n: number; act: Act; wish: string; thanks: string }
 export const ACTS: Act[]
 export const SPELLS: Spell[]
-export const SPELL_FIXED: { hello: string; look: string; gone: string; peek: string; traceIt: string; again: string; done: string }
+export const SPELL_FIXED: { hello: string; look: string; gone: string; peek: string; traceIt: string; again: string; done: string; world: string }
 export function spellFor(char: string): Spell | undefined
 export function spellLines(): string[]

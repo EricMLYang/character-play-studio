@@ -96,6 +96,7 @@ export const SPELL_FIXED = {
   traceIt: '跟著描描看！',
   again: '再變一個！',
   done: '你今天變出了好多東西！',
+  world: '它們都住進你的魔法世界了！',
 }
 
 /** 這個字會不會變身；不會的回 undefined */

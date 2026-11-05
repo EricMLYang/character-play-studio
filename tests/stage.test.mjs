@@ -89,7 +89,7 @@ test('舞台、角色、部首特效的 @keyframes 名字不能跟別的檔撞�
       names.set(m[1], [...(names.get(m[1]) || []), f])
     }
   }
-  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css', 'conjure.css', 'spell.css']) {
+  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css', 'conjure.css', 'spell.css', 'world.css']) {
     for (const [name, where] of names) {
       if (where.includes(own)) assert.equal(where.length, 1, `@keyframes ${name} 同時在 ${where.join('、')}`)
     }
@@ -107,9 +107,9 @@ test('舞台、角色、部首特效的 class 名字不能跟別的檔撞名（�
   const all = Object.fromEntries(files.map((f) => [f, classes(f)]))
   // 別的檔拿這幾個來排版（.play 是最外層；餵大怪獸、魔法筆把舞台壓到底；小書的夥伴站在舞台上）是故意的
   // 魔法筆把描字元件（strokes、stroke-*，viewer.css 的）放大、在寫完時收掉按鈕，也是故意的
-  const ok = new Set(['play', 'scenery@feed.css', 'scenery@spell.css', 'scenery@stage.css', 'rig-body@book.css',
+  const ok = new Set(['play', 'scenery@feed.css', 'scenery@spell.css', 'scenery@stage.css', 'rig-body@book.css', 'world@spell.css', 'world@world.css',
     'strokes', 'stroke-canvas', 'stroke-actions', 'stroke-dots'])
-  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css', 'conjure.css', 'spell.css']) {
+  for (const own of ['stage.css', 'buddy.css', 'radicalfx.css', 'conjure.css', 'spell.css', 'world.css']) {
     for (const c of all[own]) {
       const clash = files.filter((f) => f !== own && all[f].has(c) && !ok.has(c) && !ok.has(`${c}@${f}`))
       assert.deepEqual(clash, [], `.${c}（${own}）也出現在 ${clash.join('、')}`)

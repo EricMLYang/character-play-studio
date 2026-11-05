@@ -107,3 +107,37 @@ test('挑願望：第一次寫的字，筆畫少的先（都看過的話，火 4
   const known = { watched: { 麵: { count: 3 }, 羊: { count: 1 } }, recall: {}, town: { 麵: { traces: 4, blind: 2, first: '', last: '', strokes: [] } } }
   assert.equal(pickWishes(lib, known, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '羊', '20 筆還是重，沒寫過的羊先')
 })
+
+const { dwellers, ZONE_OF, ZONES, spot } = await import('../src/play/magicWorld.ts')
+const emojiOf = (c) => entries.get(c)?.emoji
+const r = (traces, blind = 0) => ({ traces, blind, first: '', last: '', strokes: [] })
+
+test('魔法世界：只住他寫過的字；每種動作都有地方住；魚在池塘、鳥在天上', () => {
+  for (const a of ACTS) assert.ok(ZONES[ZONE_OF[a]], a)
+  const world = dwellers({ 魚: r(1), 鳥: r(2), 好: r(3) }, emojiOf)
+  assert.deepEqual(world.map((d) => d.char).sort(), ['魚', '鳥'])
+  const fish = world.find((d) => d.char === '魚'), bird = world.find((d) => d.char === '鳥')
+  assert.equal(fish.zone, 'pond')
+  assert.equal(bird.zone, 'sky')
+  for (const d of world) {
+    const [l, rr, t, b] = ZONES[d.zone]
+    assert.ok(d.x >= l && d.x <= rr && d.y >= t && d.y <= b, `${d.char} 跑出 ${d.zone}`)
+  }
+})
+
+test('魔法世界：同一個字每次都站在同一個地方；憑記憶寫越多越大', () => {
+  assert.equal(spot('魚'), spot('魚'))
+  assert.notEqual(spot('魚'), spot('鳥'))
+  const a = dwellers({ 魚: r(1) }, emojiOf)[0], b = dwellers({ 魚: r(5, 3) }, emojiOf)[0]
+  assert.equal(a.x, b.x)
+  assert.ok(b.size > a.size)
+})
+
+test('魔法世界：全部 60 個字都寫過也住得下（同一區不疊在一起太多）', () => {
+  const all = Object.fromEntries(SPELLS.map((s) => [s.char, r(1)]))
+  const world = dwellers(all, emojiOf)
+  assert.equal(world.length, SPELLS.length)
+  let close = 0
+  for (const d of world) for (const e of world) if (d !== e && Math.hypot(d.x - e.x, (d.y - e.y) * 1.6) < 4) close++
+  assert.ok(close / 2 <= 6, `疊在一起的有 ${close / 2} 對`)
+})

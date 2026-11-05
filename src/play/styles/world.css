@@ -1,0 +1,35 @@
+/* ---------- 魔法世界（World.tsx、magicWorld.ts） ---------- */
+/* 固定 16:10，住戶的位置用百分比才不會跑掉。class 與 @keyframes 一律 world 開頭 */
+.world { position: relative; width: min(94vw, 108vh); aspect-ratio: 16 / 10; border-radius: 28px; overflow: hidden;
+  box-shadow: 0 0 0 6px rgba(255,255,255,.7), 0 18px 40px rgba(0,0,0,.18); }
+.world-sky { position: absolute; inset: 0; background: linear-gradient(#9ED8FF, #D4EEFF 45%, #FFF6E9); }
+.world-land { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* 每個住戶：以腳底為準站在 (x, y)；身體跟著自己住的地方輕輕動 */
+.world-dweller { position: absolute; translate: -50% -100%; aspect-ratio: 1; padding: 0; background: none; display: block; }
+.world-body { display: block; width: 100%; height: 100%; animation: 3s ease-in-out infinite alternate both; animation-delay: var(--d); }
+.world-body img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,.2)); }
+.world-char { position: absolute; left: 50%; bottom: -2px; translate: -50% 40%; padding: 0 .35em; border-radius: 8px; background: rgba(255,255,255,.85);
+  font-family: var(--kai); font-size: clamp(14px, 2.2vh, 22px); line-height: 1.25; color: var(--ink); pointer-events: none; }
+.world-pond .world-body { animation-name: worldSwim; }
+.world-sky .world-body { animation-name: worldFloat; }
+.world-hill .world-body { animation-name: worldSway; transform-origin: 50% 100%; }
+.world-ground .world-body { animation-name: worldHop; animation-duration: 1.6s; }
+.world-picnic .world-body { animation-name: worldSway; animation-duration: 4s; transform-origin: 50% 100%; }
+@keyframes worldSwim { from { transform: translateX(-12%) rotate(-4deg); } to { transform: translateX(12%) rotate(4deg); } }
+@keyframes worldFloat { from { transform: translateY(-8%); } to { transform: translateY(8%); } }
+@keyframes worldSway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes worldHop { 0%, 70% { transform: none; } 85% { transform: translateY(-14%) scale(.96, 1.04); } 100% { transform: none; } }
+
+/* 剛變出來的：從天上掉進來，閃一下光 */
+.world-fresh { animation: worldDrop .8s cubic-bezier(.3,1.5,.5,1) both; }
+.world-fresh .world-body img { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 4px 4px rgba(0,0,0,.2)); }
+@keyframes worldDrop { from { transform: translateY(-160%) scale(.4); opacity: 0; } 60% { opacity: 1; } }
+.world-dweller:active .world-body { scale: 1.15; }
+
+.world-empty { position: absolute; left: 50%; top: 42%; translate: -50% -50%; margin: 0; padding: 10px 18px; border-radius: 999px; background: rgba(255,255,255,.85);
+  font-size: 20px; font-weight: 800; }
+
+@media (prefers-reduced-motion: reduce) {
+  .world-body, .world-fresh { animation: none; }
+}
