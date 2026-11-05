@@ -35,6 +35,8 @@
 .world-backdrop .world-dweller { pointer-events: none; width: calc(var(--s) * .55%); }
 .world-backdrop { transition: filter .6s; }
 .world-backdrop .world-char { font-size: clamp(12px, 1.8vh, 18px); opacity: .85; }
+/* 當背景的時候最多 85 個東西一起動，每張再套陰影濾鏡，舊 iPad 會掉格：背景不要陰影（剛掉進來的那個除外） */
+.world-backdrop .world-dweller:not(.world-fresh) .world-body img { filter: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .world-body, .world-fresh { animation: none; }
