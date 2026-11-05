@@ -508,7 +508,7 @@ function SpellPicker({ library, progress, onPick, onClose }: {
           {list.map((s) => {
             const e = byChar.get(s.char)!
             const art = emojiArt(e.emoji)
-            // 還沒變過的是灰的（看得出是什麼、照樣可以點）：變過的才有顏色——一本還沒集滿的圖鑑，想把灰的變成彩色
+            // 還沒變過的是淡色（看得出是什麼、照樣可以點）：變過的才是全彩——一本還沒集滿的圖鑑，想把淡的變成彩色
             const made = Boolean(progress.town?.[s.char]?.traces)
             return (
               <button key={s.char} className={'spell-picker-item' + (made ? '' : ' spell-picker-new')} onClick={() => onPick(s.char)} aria-label={s.char}>
@@ -519,7 +519,7 @@ function SpellPicker({ library, progress, onPick, onClose }: {
               </button>
             )
           })}
-          {/* 合體也可以自己挑：點火山，下一輪就有火和山，寫完兩個就合起來。合過的彩色、還沒合過的灰的 */}
+          {/* 合體也可以自己挑：點火山，下一輪就有火和山，寫完兩個就合起來。合過的彩色、還沒合過的淡色 */}
           <span className="spell-picker-sep" aria-hidden>✨ ➕ ✨</span>
           {combos.map((c) => {
             const art = emojiArt(c.emoji)
