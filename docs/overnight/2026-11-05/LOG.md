@@ -112,3 +112,6 @@
 - 自我檢查修掉：關「以前長這樣」後影片不會接著播、`.at(-1)` 舊 iPadOS 不支援、手指視差每動一點就改 <html> 變數（加門檻）（36cc909）；小書怪句子加 BOOK_SKIP（0e1e4f0）。
 - 確認：`src/play/scenes.ts` 跟 main 一模一樣（今晚被 mv 蓋掉又救回來的那個）；server/、src/studio/ 沒動；Studio 開得起來沒有錯誤；兩邊工作樹乾淨（main 上只有原本就在的 characters.json）。
 - 規劃的東西 00:14 全部做完，**提早收尾**：不為了填滿到 05:00 硬加功能，每多一項都是早上要多驗的東西。
+
+## 早上補修（11/05）
+- **描字寫不了**（使用者試玩發現）：背景舞台最外層的 `.stage` 跟描字格子（viewer.css 的 `.stage`）同名，`pointer-events: none` 把手指擋掉。改名 `.scenery`；雲的 `.cloud`／`.c1～.c3` 也會漏到小鎮、字火車的雲，改成 `.stage-cloud.k1～k3`。加測試擋 class 撞名。夜裡沒抓到是因為描字只做了靜態截圖，沒有實際畫一筆（commit 400ccfc）。
