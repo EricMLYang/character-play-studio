@@ -492,12 +492,14 @@ function SpellPicker({ library, progress, onPick, onClose }: {
           {list.map((s) => {
             const e = byChar.get(s.char)!
             const art = emojiArt(e.emoji)
+            // 還沒變過的是灰的（看得出是什麼、照樣可以點）：變過的才有顏色——一本還沒集滿的圖鑑，想把灰的變成彩色
+            const made = Boolean(progress.town?.[s.char]?.traces)
             return (
-              <button key={s.char} className="spell-picker-item" onClick={() => onPick(s.char)} aria-label={s.char}>
+              <button key={s.char} className={'spell-picker-item' + (made ? '' : ' spell-picker-new')} onClick={() => onPick(s.char)} aria-label={s.char}>
                 {art ? <img src={art} alt="" draggable={false} /> : <span>{e.emoji}</span>}
                 <b>{s.char}</b>
                 {/* 寫過的字標等級（沒寫過的不標，不然一整面都是 ✏️） */}
-                {progress.town?.[s.char]?.traces ? <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[writeLevel(progress.town[s.char])]}</i> : null}
+                {made ? <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[writeLevel(progress.town?.[s.char])]}</i> : null}
               </button>
             )
           })}

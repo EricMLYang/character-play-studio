@@ -137,3 +137,5 @@
 .spell-picker-item img { width: 56px; height: 56px; object-fit: contain; }
 .spell-picker-item b { font-family: var(--kai); font-size: 28px; line-height: 1.1; }
 .spell-picker-item .spell-card-level { width: 30px; height: 30px; font-size: 17px; right: -4px; top: -4px; }
+.spell-picker-new img, .spell-picker-new > span { filter: grayscale(1) opacity(.55); transition: filter .25s; }
+.spell-picker-new:active img, .spell-picker-new:active > span { filter: none; }
