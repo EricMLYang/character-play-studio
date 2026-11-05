@@ -105,9 +105,9 @@ test('舞台、角色、部首特效的 class 名字不能跟別的檔撞名（�
     return new Set([...css.matchAll(/\.(-?[a-zA-Z_][\w-]*)/g)].map((m) => m[1]))
   }
   const all = Object.fromEntries(files.map((f) => [f, classes(f)]))
-  // 別的檔拿這幾個來排版（.play 是最外層；餵大怪獸、魔法筆把舞台壓到底；小書的夥伴站在舞台上）是故意的
+  // 別的檔拿這幾個來排版（.play 是最外層；餵大怪獸把舞台壓到底；小書的夥伴站在舞台上）是故意的
   // 魔法筆把描字元件（strokes、stroke-*，viewer.css 的）放大、在寫完時收掉按鈕，也是故意的
-  const ok = new Set(['play', 'scenery@feed.css', 'scenery@spell.css', 'scenery@stage.css', 'rig-body@book.css', 'world@spell.css', 'world@world.css',
+  const ok = new Set(['play', 'scenery@feed.css', 'rig-body@book.css', 'world@spell.css', 'world@world.css', 'world-backdrop@spell.css', 'world-backdrop@world.css',
     'strokes', 'stroke-canvas', 'stroke-actions', 'stroke-dots'])
   for (const own of ['stage.css', 'buddy.css', 'radicalfx.css', 'conjure.css', 'spell.css', 'world.css']) {
     for (const c of all[own]) {

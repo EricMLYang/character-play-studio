@@ -9,7 +9,6 @@ import { RADICAL_FIXED } from '../../shared/radicals.mjs'
 import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction } from './Buddy'
-import Stage from './Stage'
 import { partnersAt, type Partner } from './partners'
 import { pickRound, type Wish } from './wishes'
 import Fuse, { type Written } from './Fuse'
@@ -165,10 +164,13 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const showNext = phase === 'done' && stopDone ? next : undefined
   const art = wish ? emojiArt(wish.emoji) : null
   const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
-  const world = phase === 'done' ? dwellers(progress.town || {}, emojiOf) : []
+  const world = useMemo(() => dwellers(progress.town || {}, emojiOf), [progress.town])
+  // 正在寫、正在變身的那個字：紀錄已經記了，但東西要等變身演完才住進來
+  const hidden = wish && (phase === 'write' || phase === 'conjure') ? [wish.char] : []
   return (
     <div className={`spell spell-is-${phase}`} data-combo={combo?.word}>
-      <Stage screen="spell" />
+      {/* 背景就是他的魔法世界：每變出一個東西，演完就掉進它住的地方（done 的時候換成正中間那一個大的） */}
+      {phase !== 'done' && <World dwellers={world} fresh={made.map((m) => m.char)} hide={hidden} backdrop />}
       <SubBar title="🪄 魔法筆" onBack={onBack}
         stat={<span className="spell-steps" aria-label={`第 ${Math.min(index + 1, wishes.length)} 個願望`}>
           {wishes.map((w, i) => <span key={w.char} className={i < made.length ? 'spell-on' : i === index && phase !== 'done' ? 'spell-now' : ''} />)}

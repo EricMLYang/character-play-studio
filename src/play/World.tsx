@@ -5,13 +5,18 @@ import { emojiArt } from './ui'
  * 魔法世界的畫面（magicWorld.ts 決定誰住哪裡）：天空、山、池塘、草地、野餐墊，上面住著他寫出來的東西。
  * fresh：這一輪剛變出來的字，從天上掉進來、閃一下；點一個東西會唸它的字（onPick）。
  */
-export default function World({ dwellers, fresh = [], onPick }: {
+export default function World({ dwellers, fresh = [], hide = [], backdrop = false, onPick }: {
   dwellers: Dweller[]
   fresh?: string[]
+  /** 還沒演完變身的字先不放進來（紀錄一寫完就有了，但東西要等變身演完才掉進來） */
+  hide?: string[]
+  /** 鋪滿整個畫面當背景（魔法筆寫字的時候，他的世界就在後面） */
+  backdrop?: boolean
   onPick?: (char: string) => void
 }) {
+  const shown = dwellers.filter((d) => !hide.includes(d.char))
   return (
-    <div className="world" aria-label={`你的魔法世界，住了 ${dwellers.length} 個東西`}>
+    <div className={'world' + (backdrop ? ' world-backdrop' : '')} aria-label={`你的魔法世界，住了 ${shown.length} 個東西`} aria-hidden={backdrop || undefined}>
       <div className="world-sky" />
       <svg className="world-land" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
         <path d="M0 50 C18 38 32 44 50 40 C70 36 82 44 100 40 V100 H0 Z" fill="#A8DB8F" />
@@ -21,18 +26,18 @@ export default function World({ dwellers, fresh = [], onPick }: {
         <rect x="56" y="86" width="36" height="9" rx="2" fill="#FF8F8F" />
         <path d="M56 88.5 H92 M56 91.5 H92 M62 86 V95 M71 86 V95 M80 86 V95" stroke="#fff" strokeWidth=".7" opacity=".8" />
       </svg>
-      {dwellers.map((d, i) => {
+      {shown.map((d, i) => {
         const art = emojiArt(d.emoji)
         return (
           <button key={d.char} className={`world-dweller world-${d.zone} world-act-${d.act}${fresh.includes(d.char) ? ' world-fresh' : ''}`}
-            style={{ left: `${d.x}%`, top: `${d.y}%`, width: `${d.size}%`, ['--d' as string]: `${(i % 7) * -0.7}s` }}
-            onClick={() => onPick?.(d.char)} aria-label={d.char}>
+            style={{ left: `${d.x}%`, top: `${d.y}%`, ['--s' as string]: d.size, ['--d' as string]: `${(i % 7) * -0.7}s` }}
+            onClick={() => onPick?.(d.char)} aria-label={d.char} tabIndex={backdrop ? -1 : undefined}>
             <span className="world-body">{art ? <img src={art} alt="" draggable={false} /> : d.emoji}</span>
             <b className="world-char">{d.char}</b>
           </button>
         )
       })}
-      {dwellers.length === 0 && <p className="world-empty">寫一個字，它就會住進來！</p>}
+      {shown.length === 0 && !backdrop && <p className="world-empty">寫一個字，它就會住進來！</p>}
     </div>
   )
 }
