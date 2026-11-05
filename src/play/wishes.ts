@@ -81,7 +81,10 @@ export function pickRound(library: CharEntry[], progress: Progress, options: Pic
     const [a, b] = [...combo.word]
     const wa = rank(a), wb = rank(b)
     if (!wa || !wb || a === options.want || b === options.want) return []
-    return [{ combo, wa, wb, score: wa.score + wb.score - (progress.fused?.[combo.word] ? 3 : 0) }]
+    // 最近三天合過的先不合：不然寫得比較辛苦的時候，同一組隔天又來（模擬：水果、火山輪流）
+    const at = progress.fused?.[combo.word]
+    if (at && daysBetween(taiwanDay(at), options.today) <= 3) return []
+    return [{ combo, wa, wb, score: wa.score + wb.score - (at ? 3 : 0) }]
   }).sort((x, y) => y.score - x.score)
   const best = combos[0]
   if (!best) return { wishes: withNew(pickWishes(library, progress, options), scored, progress, options.want) }
