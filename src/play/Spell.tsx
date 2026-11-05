@@ -10,7 +10,7 @@ import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction } from './Buddy'
 import { partnersAt, type Partner } from './partners'
-import { pickRound, type Wish } from './wishes'
+import { LEVEL_BADGE, levelAfter, pickRound, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers } from './magicWorld'
@@ -92,7 +92,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   // 這一輪會唸到的話先抓好；第一個願望前先打招呼
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
@@ -105,6 +105,12 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     const lines = hello ? [SPELL_FIXED.hello, wish.wish] : [wish.wish]
     speak(lines)
     const helloMs = hello ? lasts(SPELL_FIXED.hello) + 160 : 0
+    if (wish.level === 'memory') {
+      // 聽寫：願望唸完，「這次不給你看了！你記得怎麼寫嗎？」，格子一出來就是空的
+      const at = helloMs + lasts(wish.wish) + 200
+      later(() => { setPhase('write'); speak([SPELL_FIXED.memory]) }, at)
+      return
+    }
     if (wish.level !== 'blind') {
       // 招呼唸完、願望一開始唸格子就出來（示範邊聽邊看）；不要等整句唸完，六歲等不住
       later(() => setPhase('write'), helloMs + 700)
@@ -127,9 +133,12 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   }
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)
+  /** 這一次寫完升到哪一級（徽章換掉、多誇一句「魚，升級了！」）；沒升級是 null */
+  const [levelUp, setLevelUp] = useState<WriteLevel | null>(null)
   const written = (strokes: number[][], blind: boolean) => {
     if (!wish) return
     wroteBlind.current = blind
+    setLevelUp(levelAfter(progress.town?.[wish.char], blind))
     writtenRef.current = [...writtenRef.current.filter((w) => w.char !== wish.char), { char: wish.char, strokes }]
     onTraced(wish.char, strokes, blind)
     const from = inkBox(grid.current)
@@ -147,7 +156,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     setMade((m) => [...m, { char: wish.char, emoji: wish.emoji, blind: wroteBlind.current }])
     setPhase('thanks')
     react('cheer')
-    const lines = wroteBlind.current ? [FIXED_LINES.wroteBlind, wish.thanks] : [wish.thanks]
+    const lines = [...(wroteBlind.current ? [FIXED_LINES.wroteBlind] : []), ...(levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
     speak(lines)
     const doneChars = [...made.map((m) => m.char), wish.char]
     later(() => {
@@ -247,16 +256,20 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
           <div className="spell-friend">
             <button className="spell-bubble" onClick={() => { tap(); speak([wish.wish]) }} aria-label={`再聽一次：${wish.wish}`}>
               {phase === 'fused' && combo ? combo.thanks : phase === 'fuse' ? SPELL_FIXED.fuse
-                : phase === 'thanks' ? (made[made.length - 1]?.blind ? `${FIXED_LINES.wroteBlind}${wish.thanks}` : wish.thanks) : wish.wish} <span aria-hidden>🔊</span>
+                : phase === 'thanks' ? `${made[made.length - 1]?.blind ? FIXED_LINES.wroteBlind : ''}${levelUp ? `${wish.char}${SPELL_FIXED.levelUp}` : ''}${wish.thanks}` : wish.wish} <span aria-hidden>🔊</span>
             </button>
             <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
           </div>
           <div className="spell-pad" ref={grid} data-char={wish.char}>
             {/* 要寫的那個字是什麼東西：給他一個圖當線索（還不會讀「火」的時候，看得到 🔥） */}
             <span className="spell-clue" aria-hidden>{art ? <img src={art} alt="" /> : wish.emoji}</span>
+            {/* 這個字的魔法等級：✏️ 描 → 👀 看一眼 → 🙈 遮起來 → 🧙 聽寫；升級的那一下換新的、跳一下 */}
+            <span key={levelUp && phase === 'thanks' ? 'up' : 'now'} className={'spell-level' + (levelUp && phase === 'thanks' ? ' spell-level-up' : '')} aria-hidden>
+              {LEVEL_BADGE[levelUp && phase === 'thanks' ? levelUp : wish.level]}
+            </span>
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char}
-                startLook={wish.level === 'look'} startBlind={wish.level === 'blind'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
+                startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
                 onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} />
             )}
           </div>

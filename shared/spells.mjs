@@ -122,6 +122,8 @@ export const SPELL_FIXED = {
   fuse: '這兩個字合起來，會變成什麼？',
   hint: '沒關係！跟著亮亮的那一筆寫！',
   choose: '你想先變哪一個？',
+  memory: '這次不給你看了！你記得怎麼寫嗎？',
+  levelUp: '升級了！',
 }
 
 /** 這個字會不會變身；不會的回 undefined */

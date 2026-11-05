@@ -70,7 +70,7 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.ok(conjureTotal() > 3000 && conjureTotal() < 5000, '整段變身 3～5 秒')
 })
 
-const { writeLevel, pickWishes, pickRound, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
+const { writeLevel, pickWishes, pickRound, levelAfter, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
 const lib = [...entries.values()]
 const fixed = () => 0.5
 
@@ -80,6 +80,7 @@ test('鷹架：沒寫過＝示範＋描；描過一次＝看一眼；描過兩�
   assert.equal(writeLevel({ traces: 1, first: '', last: '', strokes: [] }), 'look')
   assert.equal(writeLevel({ traces: 2, first: '', last: '', strokes: [] }), 'blind', '描兩次就升級，魔法筆裡才走得到遮起來寫')
   assert.equal(writeLevel({ traces: 3, blind: 1, first: '', last: '', strokes: [] }), 'blind')
+  assert.equal(writeLevel({ traces: 4, blind: 2, first: '', last: '', strokes: [] }), 'memory', '憑記憶寫過兩次就聽寫')
 })
 
 test('挑願望：看過的字先、該複習的更先；一輪三個、動作不重複；他為了哪個字來就先出那個字', () => {
@@ -186,4 +187,14 @@ test('往右走的東西要翻過來（3D 圖側面朝左，不然車在倒車�
   assert.equal(flipFor('✈️', 'fly'), false)
   assert.equal(flipFor('🔥', 'burn'), false)
   assert.equal(flipFor('🍎', 'yum'), false)
+})
+
+test('升級：第一次描完升到看一眼；描兩次升到遮起來；遮起來寫（沒偷看）兩次升到聽寫；沒升級是 null', () => {
+  assert.equal(levelAfter(undefined, false), 'look')
+  assert.equal(levelAfter(r(1), false), 'blind')
+  assert.equal(levelAfter(r(2), false), null, '描第三次還是遮起來')
+  assert.equal(levelAfter(r(3, 1), false), null, '偷看過的不算')
+  assert.equal(levelAfter(r(3, 1), true), 'memory')
+  assert.equal(levelAfter(r(5, 2), true), null, '已經最高級')
+  for (const l of ['trace', 'look', 'blind', 'memory']) assert.ok(LEVEL_BADGE[l])
 })

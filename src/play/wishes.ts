@@ -8,12 +8,15 @@ import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
  *   trace  第一次寫這個字：先示範一筆一筆寫給他看，再照著外框描
  *   look   描過一次：不示範，外框在他寫對第一筆後慢慢淡掉，後面憑剛剛那一眼寫（寫錯兩次那一筆會閃）
  *   blind  描過兩次或憑記憶寫過：「看一眼，記住喔！」字整個給他看兩秒，然後變不見，他自己寫出來
+ *   memory 憑記憶寫過兩次：不給看了，只有圖和聲音，他自己把字想出來（聽寫，最強的提取練習）；卡住可以偷看
  * 這就是 Look-Cover-Write：看一眼、遮起來、寫，每一次都是一次提取練習。
  */
-export type WriteLevel = 'trace' | 'look' | 'blind'
+export type WriteLevel = 'trace' | 'look' | 'blind' | 'memory'
 
 export function writeLevel(resident?: Resident): WriteLevel {
   if (!resident || !resident.traces) return 'trace'
+  // 憑記憶寫過兩次：不用再先看了
+  if ((resident.blind || 0) >= 2) return 'memory'
   // 描過兩次、或憑記憶寫過一次，就該把扶手拿掉了（不然在魔法筆裡永遠只是「看一眼」）
   return (resident.blind || 0) > 0 || resident.traces >= 2 ? 'blind' : 'look'
 }
@@ -21,7 +24,7 @@ export function writeLevel(resident?: Resident): WriteLevel {
 export type Wish = Spell & { emoji: string; level: WriteLevel }
 
 /** 每種寫法舒服的筆畫數：超過一筆扣一點分（不是不准，看過又該複習的字還是會被挑到） */
-const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14 }
+const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14, memory: 14 }
 
 /** 一輪許幾個願望：三個剛好（每個字要寫一陣子，六歲一次大約撐三個） */
 export const WISHES_PER_ROUND = 3
@@ -95,4 +98,18 @@ function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [
     if (s.char === want) score += 100
     return [{ ...s, emoji: entry.emoji, level, score }]
   }).sort((a, b) => b.score - a.score)
+}
+
+/** 每一級的徽章（寫字格子右上角；升級的時候換掉） */
+export const LEVEL_BADGE: Record<WriteLevel, string> = { trace: '✏️', look: '👀', blind: '🙈', memory: '🧙' }
+const RANK: WriteLevel[] = ['trace', 'look', 'blind', 'memory']
+
+/** 這一次寫完之後會升到哪一級；沒升級回 null（偷看過、照著描的不算 blind） */
+export function levelAfter(resident: Resident | undefined, blind: boolean): WriteLevel | null {
+  const before = writeLevel(resident)
+  const after = writeLevel({
+    traces: (resident?.traces || 0) + 1, blind: (resident?.blind || 0) + (blind ? 1 : 0),
+    first: resident?.first || '', last: resident?.last || '', strokes: [],
+  })
+  return RANK.indexOf(after) > RANK.indexOf(before) ? after : null
 }

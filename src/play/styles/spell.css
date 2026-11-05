@@ -85,3 +85,9 @@
   .spell-card { width: 110px; padding: 8px; }
   .spell-card b { font-size: 34px; }
 }
+
+/* 這個字的魔法等級（右上角）；升級的時候跳出來發光 */
+.spell-level { position: absolute; z-index: 4; right: -16px; top: -16px; width: clamp(44px, 8vh, 64px); height: clamp(44px, 8vh, 64px);
+  display: grid; place-items: center; font-size: clamp(24px, 4.4vh, 36px); border-radius: 50%; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.08); }
+.spell-level-up { animation: spellLevelUp .9s cubic-bezier(.2,1.6,.4,1) both; box-shadow: 0 0 0 5px #FFD24A, 0 0 26px 8px rgba(255,197,61,.8); }
+@keyframes spellLevelUp { 0% { transform: scale(0) rotate(-180deg); } 70% { transform: scale(1.5) rotate(10deg); } 100% { transform: scale(1.15); } }
