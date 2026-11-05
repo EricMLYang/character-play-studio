@@ -58,6 +58,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const [turn, setTurn] = useState(0)
   const [phase, setPhase] = useState<Phase>('choose')
   const [made, setMade] = useState<Made[]>([])
+  /** 筆順抓不到、跳過的字（不算變出來，架子上不放） */
+  const [skipped, setSkipped] = useState<string[]>([])
   const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox>; land?: { x: number; y: number } } | null>(null)
   const [reaction, react] = useReaction()
   const grid = useRef<HTMLDivElement>(null)
@@ -150,6 +152,14 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     if (from) setConjure({ key: Date.now(), strokes, from, land })
     else finishConjure()
   }
+  /** 這個字的筆順檔抓不到（理論上不會，spells 測試有擋）：不要卡在這裡，跳到下一個願望 */
+  const skip = () => {
+    if (!wish) return
+    const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
+    setSkipped((s) => [...s, wish.char])
+    if (doneChars.length < wishes.length) chooseNext(doneChars)
+    else finishRound()
+  }
   const finishConjure = () => {
     if (!wish) return
     setConjure(null)
@@ -158,7 +168,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     react('cheer')
     const lines = [...(wroteBlind.current ? [FIXED_LINES.wroteBlind] : []), ...(levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
     speak(lines)
-    const doneChars = [...made.map((m) => m.char), wish.char]
+    const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
     later(() => {
       if (doneChars.length < wishes.length) { chooseNext(doneChars); return }
       if (fuseParts()) { setPhase('fuse'); return }
@@ -190,6 +200,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     timers.current.forEach(clearTimeout)
     timers.current = []
     setMade([])
+    setSkipped([])
     writtenRef.current = []
     setIndex(-1)
     setRound((r) => r + 1)
@@ -241,7 +252,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
           </div>
           {/* 還沒變的願望一張一張擺出來，圖底下是字：他自己挑 */}
-          <div className="spell-choose">{wishes.map((w, i) => made.some((m) => m.char === w.char) ? null : (
+          <div className="spell-choose">{wishes.map((w, i) => made.some((m) => m.char === w.char) || skipped.includes(w.char) ? null : (
             <button key={w.char} className="spell-card" onClick={() => pick(i)} aria-label={w.char}>
               {emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : <span>{w.emoji}</span>}
               <b>{w.char}</b>
@@ -270,7 +281,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
-                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} />
+                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed}
+                onUnavailable={skip} />
             )}
           </div>
           <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
