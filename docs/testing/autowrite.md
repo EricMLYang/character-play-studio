@@ -41,3 +41,8 @@ await window.__autoWrite('魚')
 - `document.getAnimations().forEach((a) => a.pause())` 可以把 CSS 動畫定格再截圖。
 - 但 React 的計時器還在跑，截圖慢一點就會跳到下一段。要完全定住，可以先把 `window.setTimeout` 包一層，用旗標擋住之後的回呼（第二夜 LOG 第 17 輪拍火山就是這樣）。
 - 手動掛上去測的元件（`createRoot` 掛 Fuse、Conjure）測完要 `unmount` 並移除，不然下一個檢查會量到它。
+
+## 魔法筆的測試鉤子
+- `.spell-pad[data-char]`：現在要寫的是哪個字，可以直接丟給 `__autoWrite`。
+- `.spell[data-combo]`：這一輪湊得成哪個合體詞，空的就是沒有合體。要測合體的話，重新進魔法筆直到它有值為止。
+- 階段寫在最外層的 class：`spell-is-choose`、`ask`、`write`、`conjure`、`thanks`、`fuse`、`fused`、`done`。
