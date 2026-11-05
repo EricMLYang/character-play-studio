@@ -8,12 +8,12 @@ import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { RADICAL_FIXED } from '../../shared/radicals.mjs'
 import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
-import Buddy, { useReaction } from './Buddy'
+import Buddy, { useReaction, type ReactionState } from './Buddy'
 import { partnersAt, type Partner } from './partners'
 import { LEVEL_BADGE, levelAfter, nextStep, pickRound, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
-import { dwellers } from './magicWorld'
+import { dwellers, type Dweller } from './magicWorld'
 import World from './World'
 import { Confetti, SubBar, emojiArt } from './ui'
 import { holdCelebrations } from './hold'
@@ -280,6 +280,16 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const { stopDone, nextStop: next } = stopAfter(path, 'write')
   const showNext = phase === 'done' && stopDone ? next : undefined
   const art = wish ? emojiArt(wish.emoji) : null
+  /** 夥伴泡泡裡的話（畫面上的話都唸得出來：每一段跟當下唸的那句一樣） */
+  const bubble = (w: Wish) => {
+    if (phase === 'fused' && combo) return combo.thanks
+    if (phase === 'fuse') return SPELL_FIXED.fuse
+    if (phase === 'conjure' && toldTurn.current === turn) return SPELL_FIXED.yours
+    if (phase !== 'thanks') return w.wish
+    const praise = made[made.length - 1]?.blind && levelUp !== 'memory' ? FIXED_LINES.wroteBlind : ''
+    const up = levelUp === 'memory' ? SPELL_FIXED.master : levelUp ? `${w.char}${SPELL_FIXED.levelUp}` : ''
+    return `${praise}${up}${w.thanks}`
+  }
   // 正在寫、正在變身的那個字：紀錄已經記了，但東西要等變身演完才住進來
   const hidden = wish && (phase === 'write' || phase === 'conjure') ? [wish.char] : []
   return (
@@ -292,26 +302,11 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </span>} />
 
       {phase === 'done' ? (
-        <div className="spell-done">
-          <Confetti />
-          <p className="spell-done-title">{SPELL_FIXED.done}</p>
-          <p className="spell-done-sub">{SPELL_FIXED.world}</p>
-          {/* 他寫過的東西都住在這裡（從小鎮的紀錄推出來），這一輪變出來的從天上掉進來 */}
-          <World dwellers={world} fresh={made.map((m) => m.char)} onPick={(c) => { tap(); say(c, RATE) }} />
-          <div className="spell-actions">
-            {showNext && <button className="spell-btn spell-go" onClick={() => { tap(); stopSpeech(); onWalk?.(showNext.go) }}>下一站：{showNext.icon} {showNext.title} →</button>}
-            <button className={'spell-btn' + (showNext ? '' : ' spell-go')} onClick={again}>🪄 再變三個</button>
-            <button className="spell-btn" onClick={() => { tap(); onBack() }}>🏠 回首頁</button>
-          </div>
-        </div>
+        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext}
+          onPick={(c) => { tap(); say(c, RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={again} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
-          <div className="spell-friend">
-            <button className="spell-bubble" onClick={() => { tap(); speak([SPELL_FIXED.choose]) }} aria-label={`再聽一次：${SPELL_FIXED.choose}`}>
-              {SPELL_FIXED.choose} <span aria-hidden>🔊</span>
-            </button>
-            <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
-          </div>
+          <Friend text={SPELL_FIXED.choose} onReplay={() => { tap(); speak([SPELL_FIXED.choose]) }} partner={partner} reaction={reaction} />
           {/* 還沒變的願望一張一張擺出來，圖底下是字：他自己挑 */}
           <div className="spell-choose">{wishes.map((w, i) => made.some((m) => m.char === w.char) || skipped.includes(w.char) ? null : (
             <button key={w.char} className={'spell-card' + (index === i ? ' spell-picked' : '')} onClick={() => { setIndex(i); pick(i) }} aria-label={w.char}>
@@ -321,20 +316,11 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
               <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[w.level]}</i>
             </button>
           ))}</div>
-          <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
-            <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}{m.blind && <i className="spell-star">🌟</i>}</span>
-          ))}</div>
+          <Shelf made={made} />
         </div>
       ) : wish && (
         <div className="spell-main">
-          <div className="spell-friend">
-            <button className="spell-bubble" onClick={() => { tap(); speak([wish.wish]) }} aria-label={`再聽一次：${wish.wish}`}>
-              {phase === 'fused' && combo ? combo.thanks : phase === 'fuse' ? SPELL_FIXED.fuse
-                : phase === 'conjure' && toldTurn.current === turn ? SPELL_FIXED.yours
-                : phase === 'thanks' ? `${made[made.length - 1]?.blind && levelUp !== 'memory' ? FIXED_LINES.wroteBlind : ''}${levelUp === 'memory' ? SPELL_FIXED.master : levelUp ? `${wish.char}${SPELL_FIXED.levelUp}` : ''}${wish.thanks}` : wish.wish} <span aria-hidden>🔊</span>
-            </button>
-            <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
-          </div>
+          <Friend text={bubble(wish)} onReplay={() => { tap(); speak([wish.wish]) }} partner={partner} reaction={reaction} />
           <div className="spell-pad" ref={grid} data-char={wish.char}>
             {/* 要寫的那個字是什麼東西：給他一個圖當線索（還不會讀「火」的時候，看得到 🔥） */}
             <span className="spell-clue" aria-hidden>{art ? <img src={art} alt="" /> : wish.emoji}</span>
@@ -349,9 +335,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
                 onUnavailable={skip} />
             )}
           </div>
-          <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
-            <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}{m.blind && <i className="spell-star">🌟</i>}</span>
-          ))}</div>
+          <Shelf made={made} />
         </div>
       )}
       {phase === 'thanks' && levelUp === 'memory' && <Confetti />}
@@ -359,6 +343,51 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       {conjure?.from && wish && (
         <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} char={wish.char} sound={wish.sound} onDone={finishConjure} />
       )}
+    </div>
+  )
+}
+
+/** 夥伴和他的泡泡（點泡泡再聽一次） */
+function Friend({ text, onReplay, partner, reaction }: { text: string; onReplay: () => void; partner: Partner; reaction: ReactionState }) {
+  return (
+    <div className="spell-friend">
+      <button className="spell-bubble" onClick={onReplay} aria-label={`再聽一次：${text}`}>{text} <span aria-hidden>🔊</span></button>
+      <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
+    </div>
+  )
+}
+
+/** 這一輪變出來的東西排在旁邊的架子上；沒偷看寫出來的戴一顆星 */
+function Shelf({ made }: { made: Made[] }) {
+  return (
+    <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
+      <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}{m.blind && <i className="spell-star">🌟</i>}</span>
+    ))}</div>
+  )
+}
+
+/** 結算：他寫出來的世界攤開（這一輪變出來的從天上掉進來），做完寫一寫這一站就多一顆「下一站」 */
+function SpellDone({ world, fresh, next, onPick, onNext, onAgain, onBack }: {
+  world: Dweller[]
+  fresh: string[]
+  next?: Stop
+  onPick: (char: string) => void
+  onNext: (go: StopGo) => void
+  onAgain: () => void
+  onBack: () => void
+}) {
+  return (
+    <div className="spell-done">
+      <Confetti />
+      <p className="spell-done-title">{SPELL_FIXED.done}</p>
+      <p className="spell-done-sub">{SPELL_FIXED.world}</p>
+      {/* 他寫過的東西都住在這裡（從小鎮的紀錄推出來） */}
+      <World dwellers={world} fresh={fresh} onPick={onPick} />
+      <div className="spell-actions">
+        {next && <button className="spell-btn spell-go" onClick={() => onNext(next.go)}>下一站：{next.icon} {next.title} →</button>}
+        <button className={'spell-btn' + (next ? '' : ' spell-go')} onClick={onAgain}>🪄 再變三個</button>
+        <button className="spell-btn" onClick={onBack}>🏠 回首頁</button>
+      </div>
     </div>
   )
 }
