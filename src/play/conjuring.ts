@@ -7,7 +7,9 @@ import type { Act } from '../../shared/spells.mjs'
 
 /** 一段一段的時間（毫秒）：筆跡發光 → 收攏成一點 → 「啵」變出東西 → 照意思動 → 結束 */
 export const CONJURE_MS = { glow: 520, gather: 560, pop: 520, act: 2600 }
-export const conjureTotal = () => Object.values(CONJURE_MS).reduce((a, b) => a + b, 0)
+/** 象形字多一段：收攏之後先一筆一筆畫出古時候的樣子（origins.ts），再變成東西 */
+export const ORIGIN_MS = 1100
+export const conjureTotal = (origin = false) => Object.values(CONJURE_MS).reduce((a, b) => a + b, 0) + (origin ? ORIGIN_MS : 0)
 
 /** 一筆是 [x0, y0, x1, y1, …]（hanzi-writer 的字座標：1024 格、y 朝上）→ SVG 的 path */
 export function inkPath(stroke: number[]): string {

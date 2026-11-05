@@ -68,6 +68,7 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.deepEqual(inkCenter([[0, 0, 100, 100], [200, 200]]), { x: 100, y: 100 })
   assert.deepEqual(inkCenter([]), { x: 512, y: 388 })
   assert.ok(conjureTotal() > 3000 && conjureTotal() < 5000, '整段變身 3～5 秒')
+  assert.ok(conjureTotal(true) < 6000, '象形字多畫一段古字也不超過 6 秒')
 })
 
 const { writeLevel, pickWishes, pickRound, levelAfter, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
@@ -221,4 +222,18 @@ test('挑願望：魔法世界還空著的那一區先補（天上已經有東�
   const progress = { watched: { 魚: { count: 1 }, 鳥: { count: 1 } }, recall: {}, town: { 星: r(1), 月: r(1) } }
   // 魚、鳥都是 11 筆、都看過、都沒寫過，只差在池塘空著
   assert.equal(pickWishes(lib, progress, { today: '2026-11-06', rand: fixed, n: 1 })[0].char, '魚')
+})
+
+test('變身、合體的「階段」class（.cj-<階段>、.fuse-<階段>）只拿來當外層狀態，不能是某個元素自己的 class（撞過兩次：spell-write、cj-origin）', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'src/play/styles/conjure.css'), 'utf8')
+  const conjure = fs.readFileSync(path.join(ROOT, 'src/play/Conjure.tsx'), 'utf8')
+  const fuse = fs.readFileSync(path.join(ROOT, 'src/play/Fuse.tsx'), 'utf8')
+  const steps = (src) => [...src.match(/type Step = ([^\n]+)/)[1].matchAll(/'(\w+)'/g)].map((m) => m[1])
+  for (const [prefix, list] of [['cj', steps(conjure)], ['fuse', steps(fuse)]]) {
+    assert.ok(list.length >= 4)
+    for (const s of list) {
+      // 單獨一個 .cj-origin { … } 這種規則＝把階段名當成元素樣式
+      assert.ok(!new RegExp(`(^|[},])\\s*\\.${prefix}-${s}\\s*[{,]`, 'm').test(css), `.${prefix}-${s} 被當成元素樣式`)
+    }
+  }
 })

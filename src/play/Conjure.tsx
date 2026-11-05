@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Act } from '../../shared/spells.mjs'
 import * as sfx from '../lib/sfx'
-import { ACT_SOUND, CONJURE_MS, MANY, flipFor, inkCenter, inkPath } from './conjuring'
+import { ACT_SOUND, CONJURE_MS, MANY, ORIGIN_MS, flipFor, inkCenter, inkPath } from './conjuring'
+import { ORIGINS, strokeTiming } from './origins'
 import { emojiArt } from './ui'
 
 /**
@@ -20,6 +21,8 @@ export type ConjureProps = {
   from: { left: number; top: number; width: number; height: number }
   /** 東西演完要停在哪裡（畫面座標）；沒給就演完淡出 */
   land?: { x: number; y: number }
+  /** 這個字（有「以前長這樣」的象形字，收攏之後先畫出古時候的樣子再變身） */
+  char?: string
   onDone?: () => void
 }
 
@@ -34,9 +37,11 @@ export function inkBox(host: Element | null | undefined): ConjureProps['from'] |
   return { left: m.e, top: m.f - 900 * m.a, width: 1024 * m.a, height: 1024 * m.a }
 }
 
-type Step = 'glow' | 'gather' | 'pop' | 'act' | 'end'
+type Step = 'glow' | 'gather' | 'origin' | 'pop' | 'act' | 'end'
 
-export default function Conjure({ strokes, emoji, act, from, land, onDone }: ConjureProps) {
+export default function Conjure({ strokes, emoji, act, from, land, char, onDone }: ConjureProps) {
+  // 象形字：他寫的字 → 古時候畫的樣子 → 真的東西（字是從圖畫變來的，第一夜的「以前長這樣」）
+  const origin = char ? ORIGINS[char] : undefined
   const [step, setStep] = useState<Step>('glow')
   const done = useRef(onDone)
   done.current = onDone
@@ -52,7 +57,8 @@ export default function Conjure({ strokes, emoji, act, from, land, onDone }: Con
     }
     try { sfx.magic() } catch { /* 同上 */ }
     next('gather', CONJURE_MS.glow, () => sfx.swipe())
-    next('pop', CONJURE_MS.gather, () => sfx.poof())
+    if (origin) next('origin', CONJURE_MS.gather, () => sfx.chime(2, 5))
+    next('pop', origin ? ORIGIN_MS : CONJURE_MS.gather, () => sfx.poof())
     const sound = () => (sfx as unknown as Record<string, (a?: number, b?: number) => void>)[ACT_SOUND[act]]?.(3, 5)
     // 飛進夥伴嘴裡的：吃到的那一下（動畫 80%）才「咕嚕」
     next('act', CONJURE_MS.pop, () => {
@@ -79,6 +85,14 @@ export default function Conjure({ strokes, emoji, act, from, land, onDone }: Con
           {strokes.map((s, i) => <path key={i} d={inkPath(s)} style={{ animationDelay: `${i * 40}ms` }} />)}
         </g>
       </svg>
+      {origin && (step === 'origin' || step === 'pop') && (
+        <svg className="cj-pic" viewBox="0 0 100 100" style={{ left: px, top: py, width: size * 1.1, height: size * 1.1 }}>
+          {origin.map((d, i) => {
+            const t = strokeTiming(origin.length)[i]
+            return <path key={i} d={d} pathLength={1} style={{ animationDelay: `${t.delay * 0.6}ms`, animationDuration: `${t.dur * 0.6}ms` }} />
+          })}
+        </svg>
+      )}
       {(step === 'pop' || step === 'act' || step === 'end') && <span className="cj-flash" style={{ left: px, top: py }} />}
       {(step === 'pop' || step === 'act' || step === 'end') && Array.from({ length: count }, (_, i) => (
         <span key={i} className={`cj-thing cj-act-${act}${count > 1 ? ' many' : ''}${land ? ' cj-land' : ''}${flipFor(emoji, act) ? ' cj-flip' : ''}`}

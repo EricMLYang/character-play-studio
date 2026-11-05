@@ -12,9 +12,18 @@
 .cj-glow .cj-ink path { animation: cjGlow .52s ease-out both; }
 @keyframes cjGlow { to { stroke: #FFC53D; } }
 .cj-glow .cj-ink { filter: drop-shadow(0 0 10px #FFE58A) drop-shadow(0 0 22px #FFB020); transform: translateY(-2%) scale(1.04); }
-.cj-gather .cj-ink, .cj-pop .cj-ink, .cj-act .cj-ink, .cj-end .cj-ink { transform: scale(.04) rotate(40deg); opacity: 0; }
-.cj-gather .cj-ink path, .cj-pop .cj-ink path, .cj-act .cj-ink path { stroke: #FFC53D; }
+.cj-gather .cj-ink, .cj-origin .cj-ink, .cj-pop .cj-ink, .cj-act .cj-ink, .cj-end .cj-ink { transform: scale(.04) rotate(40deg); opacity: 0; }
+.cj-gather .cj-ink path, .cj-origin .cj-ink path, .cj-pop .cj-ink path, .cj-act .cj-ink path { stroke: #FFC53D; }
 .cj-gather .cj-ink { filter: drop-shadow(0 0 14px #FFE58A) drop-shadow(0 0 30px #FFB020); }
+
+/* 象形字：收攏之後在那一點畫出古時候的樣子（像刻在骨頭上的棕色線，跟「以前長這樣」同一種畫法），啵的時候淡掉 */
+.cj-pic { position: absolute; translate: -50% -50%; overflow: visible; border-radius: 24px; background: rgba(246,232,207,.92);
+  box-shadow: 0 0 0 6px rgba(140,100,50,.15), 0 0 40px rgba(255,214,120,.6); animation: cjOriginIn .3s ease-out both; }
+.cj-pic path { fill: none; stroke: #8A5A2B; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: cjOriginDraw ease-out both; }
+@keyframes cjOriginIn { from { opacity: 0; transform: scale(.3); } }
+@keyframes cjOriginDraw { to { stroke-dashoffset: 0; } }
+.cj-pop .cj-pic { opacity: 0; transform: scale(1.4); transition: opacity .35s, transform .35s; }
 
 /* 「啵」那一下的光圈 */
 .cj-flash { position: absolute; width: 40px; height: 40px; translate: -50% -50%; border-radius: 50%;
