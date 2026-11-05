@@ -218,7 +218,7 @@
 /* 魔法筆預覽（SpellGallery.tsx）：給爸媽一個一個點來看、戴耳機聽 */
 .st-gallery-open { margin-left: 8px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(0,0,0,.12); background: #fff; font-size: 13px; cursor: pointer; }
 .st-gallery { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(30,26,22,.45); }
-.st-gallery-card { width: min(980px, 100%); max-height: 100%; overflow: auto; padding: 18px 22px; border-radius: 18px; background: #FFFDF8; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.st-gallery-card { width: min(980px, 100%); max-height: calc(100vh - 40px); overflow: auto; padding: 18px 22px; border-radius: 18px; background: #FFFDF8; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
 .st-gallery-head { position: sticky; top: -18px; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: -18px -22px 8px; padding: 14px 22px 10px; background: #FFFDF8; border-bottom: 1px solid rgba(0,0,0,.06); }
 .st-gallery-head h3 { margin: 0; }
 .st-gallery-head .st-dim { flex: 1 1 100%; margin: 0; order: 3; }
