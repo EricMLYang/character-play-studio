@@ -1,0 +1,53 @@
+import type { CharEntry, Progress, Resident } from '../types'
+import { SPELLS, type Spell } from '../../shared/spells.mjs'
+
+/**
+ * 魔法筆（Spell.tsx）的兩個決定：今天許哪幾個願望、每個字要他怎麼寫。
+ *
+ * 怎麼寫＝鷹架（研究：寫比描好、遮起來寫比照著抄好，所以一步一步把扶手拿掉）：
+ *   trace  第一次寫這個字：先示範一筆一筆寫給他看，再照著外框描
+ *   look   描過了：不示範，外框只亮一下就淡掉，他憑剛剛那一眼寫（寫錯兩次外框那一筆會閃）
+ *   blind  憑記憶寫過了：「看一眼，記住喔！」字整個給他看兩秒，然後變不見，他自己寫出來
+ * 這就是 Look-Cover-Write：看一眼、遮起來、寫，每一次都是一次提取練習。
+ */
+export type WriteLevel = 'trace' | 'look' | 'blind'
+
+export function writeLevel(resident?: Resident): WriteLevel {
+  if (!resident || !resident.traces) return 'trace'
+  return (resident.blind || 0) > 0 ? 'blind' : 'look'
+}
+
+export type Wish = Spell & { emoji: string; level: WriteLevel }
+
+/** 一輪許幾個願望：三個剛好（每個字要寫一陣子，六歲一次大約撐三個） */
+export const WISHES_PER_ROUND = 3
+
+/**
+ * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
+ * 看過的字裡：該複習的（記住程度到期了）最優先，再來是還沒寫過的、只描過沒遮起來寫過的。
+ * 一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
+ */
+export function pickWishes(library: CharEntry[], progress: Progress, { n = WISHES_PER_ROUND, want, today, rand = Math.random }: {
+  n?: number; want?: string; today: string; rand?: () => number
+}): Wish[] {
+  const byChar = new Map(library.map((e) => [e.char, e]))
+  const scored = SPELLS.flatMap((s) => {
+    const entry = byChar.get(s.char)
+    if (!entry?.emoji) return []
+    const seen = (progress.watched?.[s.char]?.count || 0) > 0
+    const due = progress.recall?.[s.char]?.due
+    const resident = progress.town?.[s.char]
+    let score = rand() * 1.2
+    if (seen) score += 4
+    if (due && due <= today) score += 2
+    if (!resident) score += 1.5
+    else if (!resident.blind) score += 1
+    if (s.char === want) score += 100
+    return [{ ...s, emoji: entry.emoji, level: writeLevel(resident), score }]
+  }).sort((a, b) => b.score - a.score)
+
+  const picked: typeof scored = []
+  for (const w of scored) if (picked.length < n && !picked.some((p) => p.act === w.act)) picked.push(w)
+  for (const w of scored) if (picked.length < n && !picked.includes(w)) picked.push(w)
+  return picked.map(({ score: _score, ...w }) => w)
+}

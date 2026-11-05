@@ -56,8 +56,12 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
  * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
-export default function Strokes({ char, highlight, startBlind = false, onWritten, onTraced, onUnavailable }: {
+export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onUnavailable }: {
   char: string
+  /** 一進來就是「看一眼」：不示範，外框亮一下就淡掉（魔法筆的鷹架，wishes.ts） */
+  startLook?: boolean
+  /** 遮起來寫之前先把整個字給他看幾毫秒（看一眼、記住、變不見）；0＝不給看 */
+  preview?: number
   /** 這個字裡面那個他已經學過的字佔掉的筆畫，會用另一個顏色寫出來。 */
   highlight?: number[]
   /** 一進來就是遮起來寫（今天的路上複習時用） */
@@ -74,7 +78,10 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
   const [drawn, setDrawn] = useState(0)
   const [round, setRound] = useState(0)
   const [blind, setBlind] = useState(startBlind)
-  const again = (nextBlind: boolean) => { setBlind(nextBlind); setRound((r) => r + 1) }
+  /** 這一輪是「看一眼」（只有第一輪；按重來、再寫一次就回到平常的樣子） */
+  const [look, setLook] = useState(startLook && !startBlind)
+  const [peeking, setPeeking] = useState(false)
+  const again = (nextBlind: boolean) => { setBlind(nextBlind); setLook(false); setRound((r) => r + 1) }
   const written = useRef(onWritten)
   const traced = useRef(onTraced)
   const unavailable = useRef(onUnavailable)
@@ -203,8 +210,21 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
           })
       }
       // 遮起來寫：沒有示範，直接換他寫（示範播完才算「看完」，這裡不算）
-      if (blind) startQuiz()
-      else {
+      // preview：先把整個字亮給他看一眼，再變不見（看一眼、記住、遮起來寫）
+      if (blind && preview > 0 && round === 0) {
+        setPeeking(true)
+        writer.showCharacter({ duration: 0 })
+        window.setTimeout(() => {
+          if (!alive) return
+          setPeeking(false)
+          writer?.hideCharacter({ duration: 450, onComplete: () => startQuiz() })
+        }, preview)
+      } else if (blind) startQuiz()
+      else if (look) {
+        // 看一眼：外框先在，寫到一半才淡掉；寫錯兩次那一筆還是會閃提示
+        startQuiz()
+        window.setTimeout(() => { if (alive) writer?.hideOutline({ duration: 900 }) }, 1600)
+      } else {
         setStage('writing')
         writer.animateCharacter({ onComplete: () => { if (!alive) return; written.current?.(); startQuiz() } })
       }
@@ -220,7 +240,7 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
       try { writer?.cancelQuiz() } catch { /* 還沒建好就卸載，忽略 */ }
       host.replaceChildren()
     }
-  }, [char, round, marked, blind])
+  }, [char, round, marked, blind, look])
 
   if (stage === 'unavailable') return null
 
@@ -234,7 +254,8 @@ export default function Strokes({ char, highlight, startBlind = false, onWritten
         </div>
       )}
       <p className="stroke-tip" role="status">
-        {stage === 'loading' ? '準備筆順…'
+        {peeking ? '👀 看一眼，記住喔！'
+          : stage === 'loading' ? '準備筆順…'
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
           : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
           : blind ? '🌟 沒有偷看就寫出來了！' : '🎉 你自己把這個字寫出來了！'}

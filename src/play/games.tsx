@@ -8,6 +8,7 @@ import Feed from './Feed'
 import Puzzle from './Puzzle'
 import Roots from './Roots'
 import Book from './Book'
+import Spell from './Spell'
 import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
@@ -76,6 +77,15 @@ export type Game = {
 }
 
 export const GAMES: Game[] = [
+  {
+    // 2026-11-06 第二夜：寫出來，就變出來（Spell.tsx）。描字有史以來 13 次，這個遊戲是為了讓他想寫
+    id: 'spell', icon: '🪄', title: '魔法筆', fresh: true,
+    subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `寫過 ${n} 個字` : '寫什麼就變什麼' },
+    render: (ctx) => (
+      <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} onBack={ctx.back}
+        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })} />
+    ),
+  },
   {
     id: 'town', icon: '🏡', title: '我的小鎮',
     subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `住了 ${n} 個字` : '寫一個字搬進來' },

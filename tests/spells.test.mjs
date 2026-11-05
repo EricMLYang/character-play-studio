@@ -62,3 +62,31 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.deepEqual(inkCenter([]), { x: 512, y: 388 })
   assert.ok(conjureTotal() > 3000 && conjureTotal() < 5000, '整段變身 3～5 秒')
 })
+
+const { writeLevel, pickWishes, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
+const lib = [...entries.values()]
+const fixed = () => 0.5
+
+test('鷹架：沒寫過＝示範＋描；描過＝看一眼；遮起來寫過＝先看兩秒再自己寫', () => {
+  assert.equal(writeLevel(undefined), 'trace')
+  assert.equal(writeLevel({ traces: 0, first: '', last: '', strokes: [] }), 'trace')
+  assert.equal(writeLevel({ traces: 2, first: '', last: '', strokes: [] }), 'look')
+  assert.equal(writeLevel({ traces: 3, blind: 1, first: '', last: '', strokes: [] }), 'blind')
+})
+
+test('挑願望：看過的字先、該複習的更先；一輪三個、動作不重複；他為了哪個字來就先出那個字', () => {
+  const progress = { watched: { 魚: { count: 2 }, 火: { count: 1 }, 球: { count: 1 }, 蛇: { count: 1 } }, recall: { 蛇: { box: 1, due: '2026-11-01' } }, town: {} }
+  const picked = pickWishes(lib, progress, { today: '2026-11-06', rand: fixed })
+  assert.equal(picked.length, WISHES_PER_ROUND)
+  assert.equal(picked[0].char, '蛇', '該複習的排第一')
+  assert.ok(picked.every((w) => ['魚', '火', '球', '蛇'].includes(w.char)), '看過的字優先')
+  assert.equal(new Set(picked.map((w) => w.act)).size, picked.length)
+  assert.ok(picked.every((w) => w.emoji && w.level === 'trace'))
+  assert.equal(pickWishes(lib, progress, { today: '2026-11-06', rand: fixed, want: '雨' })[0].char, '雨')
+})
+
+test('挑願望：全新的孩子（什麼都沒看過）也挑得出三個，不會空著', () => {
+  const picked = pickWishes(lib, {}, { today: '2026-11-06' })
+  assert.equal(picked.length, WISHES_PER_ROUND)
+  assert.equal(new Set(picked.map((w) => w.char)).size, WISHES_PER_ROUND)
+})
