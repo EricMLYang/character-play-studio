@@ -189,8 +189,9 @@ export default function Strokes({ char, highlight, radical = false, startBlind =
         radicalColor: marked || radical ? '#0F7FA8' : null,
         // 筆畫多的字（像「龍」16 筆）用預設速度會拖到二十幾秒，孩子等不住
         strokeAnimationSpeed: 1.4, delayBetweenStrokes: 250, drawingWidth: 26,
-        // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆
-        leniency: 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
+        // 六歲的手指不準：放寬判定，錯兩次給提示，錯四次就當寫對，不讓他卡在同一筆。
+        // 遮起來寫再鬆一點：沒有外框可以對，位置很難抓準；要練的是想起字長什麼樣、怎麼寫，不是擺得多準
+        leniency: blind ? 1.9 : 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
         charDataLoader: () => (marked ? { ...data, radStrokes: marked.split(',').map(Number) } : data),
       })
       writerRef.current = writer
