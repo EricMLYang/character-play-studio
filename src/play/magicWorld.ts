@@ -71,7 +71,7 @@ export function dwellers(town: Record<string, Resident>, emojiOf: (char: string)
 }
 
 /**
- * 他最近變出來的幾個東西（最近寫的、會變身的字）：首頁的景裡站在兩旁陪他（Stage 的 mine）。
+ * 他最近變出來的幾個東西（最近寫的、會變身的字）：首頁今天的路兩旁站著陪他，點了進魔法筆（Home 的 PathBoard）。
  * 每次打開樂園都看得到自己寫出來的魚、球——寫字的成果不只在魔法筆裡。
  */
 export function recentMade(town: Record<string, Resident>, emojiOf: (char: string) => string | undefined, n = 2): string[] {
