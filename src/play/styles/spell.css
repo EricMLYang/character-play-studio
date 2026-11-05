@@ -60,7 +60,9 @@
 
 /* 直的（手機、iPad 直放）：夥伴在上、格子在中間、架子在下面一排；結算的世界改成直的（不硬擠成 16:10 的小長條） */
 @media (orientation: portrait) {
-  .spell-done .world { aspect-ratio: 4 / 5; width: min(94vw, 58vh); }
+  /* 放不下就壓扁世界（裡面的東西是用 % 排的，比例變了也排得開），底下的按鈕不能被擠出畫面（390×844 量過：再變三個露出三個圖之後按鈕變三排） */
+  .spell-done { min-height: 0; }
+  .spell-done .world { aspect-ratio: 4 / 5; width: min(94vw, 58vh); flex: 0 1 auto; min-height: 160px; }
   .spell-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto; justify-items: center; align-content: center; }
   .spell-friend { justify-self: center; flex-direction: row-reverse; max-width: 92vw; }
   .spell-buddy { width: clamp(80px, 14vh, 140px); }
