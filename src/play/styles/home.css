@@ -239,11 +239,6 @@
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-  /* 橫躺的「我的東西」：那條路短一點，面板本來就會捲 */
-  .trail-box { max-height: min(150px, 42vh); }
-  .mine-sheet { max-height: calc(100% - 10px); gap: 6px; padding: 12px 14px; }
-  .mine-stars b { font-size: 30px; }
-  .mine-star { font-size: 28px; }
   /* 橫躺的手機只剩一點高度：留下去處的入口，標語與統計收起來 */
   .home-invite { display: flex; padding: 2px 14px 8px; }
   .home-invite > :not(.home-places) { display: none; }
@@ -442,6 +437,12 @@
   .stop b { font-size: 13px; }
   .stop small { display: none; }
   .stop-me { top: -26px; width: 34px; }
+  /* 橫躺的「我的東西」：那條路短一點，面板本來就會捲。
+     要寫在這裡（.mine-sheet 等本體規則的後面）：原本放在檔案前面那段，同樣權重被後寫的本體蓋掉、一直沒生效（tests/css-order 抓到的） */
+  .trail-box { max-height: min(150px, 42vh); }
+  .mine-sheet { max-height: calc(100% - 10px); gap: 6px; padding: 12px 14px; }
+  .mine-stars b { font-size: 30px; }
+  .mine-star { font-size: 28px; }
 }
 @keyframes stopHop { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-12px) scale(.96, 1.04); } 55% { transform: translateY(0) scale(1.06, .94); } }
 .stop:active { transform: translateY(2px); }

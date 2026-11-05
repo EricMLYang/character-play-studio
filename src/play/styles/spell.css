@@ -65,6 +65,9 @@
 /* 直的（手機、iPad 直放）：夥伴在上、格子在中間、架子在下面一排；結算的世界改成直的（不硬擠成 16:10 的小長條） */
 @media (orientation: portrait) {
   .spell-done .world { aspect-ratio: 4 / 5; width: min(94vw, 58vh); min-height: 160px; }
+  /* 格子幾乎跟畫面一樣寬：升級的徽章放大到 1.5 倍會切到畫面外（390 寬量到 415），徽章挪進格子裡一點
+     （不能改成從右上角長大：一開始轉半圈會甩到右邊外面）。要寫 .spell-pad：底下 .spell-level 的本體規則在這段後面，同樣權重會蓋掉這裡 */
+  .spell-pad .spell-level { right: 10px; top: -10px; }
   .spell-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto; justify-items: center; align-content: center; }
   .spell-friend { justify-self: center; flex-direction: row-reverse; max-width: 92vw; }
   .spell-buddy { width: clamp(80px, 14vh, 140px); }
@@ -81,7 +84,7 @@
   .spell-pad .stroke-canvas { width: 60vh; height: 60vh; }
   .spell-pad .strokes { grid-template-columns: auto minmax(0, 150px); }
   /* 這個高度寫字區比格子寬（右邊多一欄提示），等級徽章要貼著格子的右上角，不是整個寫字區的 */
-  .spell-level { right: auto; left: calc(60vh - 28px); }
+  .spell-pad .spell-level { right: auto; left: calc(60vh - 28px); }
   .spell-friend { max-width: 190px; }
   /* 結算：副標那句本來就會唸，矮的螢幕拿掉，留位置給世界和按鈕 */
   .spell-done { gap: 8px; padding-bottom: 8px; }
