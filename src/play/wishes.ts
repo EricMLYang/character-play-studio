@@ -6,15 +6,16 @@ import { SPELLS, type Spell } from '../../shared/spells.mjs'
  *
  * 怎麼寫＝鷹架（研究：寫比描好、遮起來寫比照著抄好，所以一步一步把扶手拿掉）：
  *   trace  第一次寫這個字：先示範一筆一筆寫給他看，再照著外框描
- *   look   描過了：不示範，外框只亮一下就淡掉，他憑剛剛那一眼寫（寫錯兩次外框那一筆會閃）
- *   blind  憑記憶寫過了：「看一眼，記住喔！」字整個給他看兩秒，然後變不見，他自己寫出來
+ *   look   描過一次：不示範，外框在他寫對第一筆後慢慢淡掉，後面憑剛剛那一眼寫（寫錯兩次那一筆會閃）
+ *   blind  描過兩次或憑記憶寫過：「看一眼，記住喔！」字整個給他看兩秒，然後變不見，他自己寫出來
  * 這就是 Look-Cover-Write：看一眼、遮起來、寫，每一次都是一次提取練習。
  */
 export type WriteLevel = 'trace' | 'look' | 'blind'
 
 export function writeLevel(resident?: Resident): WriteLevel {
   if (!resident || !resident.traces) return 'trace'
-  return (resident.blind || 0) > 0 ? 'blind' : 'look'
+  // 描過兩次、或憑記憶寫過一次，就該把扶手拿掉了（不然在魔法筆裡永遠只是「看一眼」）
+  return (resident.blind || 0) > 0 || resident.traces >= 2 ? 'blind' : 'look'
 }
 
 export type Wish = Spell & { emoji: string; level: WriteLevel }

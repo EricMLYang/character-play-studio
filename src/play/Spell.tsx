@@ -4,6 +4,7 @@ import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/aud
 import { cheer, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { SPELL_FIXED } from '../../shared/spells.mjs'
+import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction } from './Buddy'
@@ -26,7 +27,8 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length 
 const PREVIEW_MS = 2200
 
 type Phase = 'ask' | 'write' | 'conjure' | 'thanks' | 'done'
-type Made = { char: string; emoji: string }
+/** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
+type Made = { char: string; emoji: string; blind?: boolean }
 
 export default function Spell({ library, progress, stars, want, onTraced, onBack }: {
   library: CharEntry[]
@@ -64,12 +66,23 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
     const hello = index === 0 && round === 0
     const lines = hello ? [SPELL_FIXED.hello, wish.wish] : [wish.wish]
     speak(lines)
-    // 招呼唸完、願望一開始唸格子就出來（示範邊聽邊看）；不要等整句唸完，六歲等不住
-    later(() => setPhase('write'), (hello ? lasts(SPELL_FIXED.hello) + 160 : 0) + 700)
+    const helloMs = hello ? lasts(SPELL_FIXED.hello) + 160 : 0
+    if (wish.level !== 'blind') {
+      // 招呼唸完、願望一開始唸格子就出來（示範邊聽邊看）；不要等整句唸完，六歲等不住
+      later(() => setPhase('write'), helloMs + 700)
+      return
+    }
+    // 遮起來寫：願望唸完才出格子，「看一眼，記住喔！」字亮兩秒，「變不見了！你自己寫出來！」
+    const at = helloMs + lasts(wish.wish) + 200
+    later(() => { setPhase('write'); speak([SPELL_FIXED.look]) }, at)
+    later(() => speak([SPELL_FIXED.gone]), at + PREVIEW_MS + 300)
   }, [wish, index, round])
 
+  /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
+  const wroteBlind = useRef(false)
   const written = (strokes: number[][], blind: boolean) => {
     if (!wish) return
+    wroteBlind.current = blind
     onTraced(wish.char, strokes, blind)
     const from = inkBox(grid.current)
     setPhase('conjure')
@@ -80,16 +93,17 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
   const finishConjure = () => {
     if (!wish) return
     setConjure(null)
-    setMade((m) => [...m, { char: wish.char, emoji: wish.emoji }])
+    setMade((m) => [...m, { char: wish.char, emoji: wish.emoji, blind: wroteBlind.current }])
     setPhase('thanks')
     react('cheer')
-    speak([wish.thanks])
+    const lines = wroteBlind.current ? [FIXED_LINES.wroteBlind, wish.thanks] : [wish.thanks]
+    speak(lines)
     later(() => {
       if (index + 1 < wishes.length) { setIndex(index + 1); return }
       cheer()
       setPhase('done')
       speak([SPELL_FIXED.done])
-    }, lasts(wish.thanks) + 700)
+    }, lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
   }
 
   const again = () => {
@@ -126,7 +140,7 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
           <div className="spell-done-row">{made.map((m) => (
             <span key={m.char} className="spell-made">
               {emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : <span>{m.emoji}</span>}
-              <b>{m.char}</b>
+              <b>{m.char}</b>{m.blind && <i className="spell-star">🌟</i>}
             </span>
           ))}</div>
           <div className="spell-actions">
@@ -138,7 +152,7 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
         <div className="spell-main">
           <div className="spell-friend">
             <button className="spell-bubble" onClick={() => { tap(); speak([wish.wish]) }} aria-label={`再聽一次：${wish.wish}`}>
-              {phase === 'thanks' ? wish.thanks : wish.wish} <span aria-hidden>🔊</span>
+              {phase === 'thanks' ? (made[made.length - 1]?.blind ? `${FIXED_LINES.wroteBlind}${wish.thanks}` : wish.thanks) : wish.wish} <span aria-hidden>🔊</span>
             </button>
             <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
           </div>
@@ -152,7 +166,7 @@ export default function Spell({ library, progress, stars, want, onTraced, onBack
             )}
           </div>
           <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
-            <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}</span>
+            <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}{m.blind && <i className="spell-star">🌟</i>}</span>
           ))}</div>
         </div>
       )}

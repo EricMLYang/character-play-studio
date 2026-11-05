@@ -18,7 +18,7 @@
 /* 寫字的地方：格子左上角掛一個圖當線索 */
 .spell-pad { position: relative; display: grid; place-items: center; min-width: min(52vh, 58vw); min-height: min(52vh, 58vw); }
 .spell-pad .strokes { animation: none; }
-.spell-pad .stroke-canvas { width: min(52vh, 58vw); height: min(52vh, 58vw); box-shadow: 0 0 0 6px rgba(155,123,255,.28), 0 12px 32px rgba(0,0,0,.14); }
+.spell-pad .stroke-canvas { width: min(52vh, 58vw); height: min(52vh, 58vw); background-color: #FFFEFB; box-shadow: 0 0 0 6px rgba(155,123,255,.28), 0 12px 32px rgba(0,0,0,.14); }
 .spell-clue { position: absolute; z-index: 4; left: -18px; top: -18px; width: clamp(56px, 10vh, 84px); height: clamp(56px, 10vh, 84px);
   display: grid; place-items: center; font-size: 48px; border-radius: 50%; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.08);
   animation: popUp .4s cubic-bezier(.2,1.6,.4,1) both; }
@@ -61,3 +61,7 @@
   .spell-pad, .spell-pad .stroke-canvas { min-width: 62vh; min-height: 62vh; width: 62vh; height: 62vh; }
   .spell-pad .stroke-dots { display: none; }
 }
+
+/* 沒偷看寫出來的那個東西戴一顆星 */
+.spell-made { position: relative; }
+.spell-star { position: absolute; right: -6px; top: -6px; font-style: normal; font-size: 26px; animation: spellLand .5s .2s cubic-bezier(.2,1.6,.4,1) both; }

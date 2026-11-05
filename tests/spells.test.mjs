@@ -67,10 +67,11 @@ const { writeLevel, pickWishes, WISHES_PER_ROUND } = await import('../src/play/w
 const lib = [...entries.values()]
 const fixed = () => 0.5
 
-test('鷹架：沒寫過＝示範＋描；描過＝看一眼；遮起來寫過＝先看兩秒再自己寫', () => {
+test('鷹架：沒寫過＝示範＋描；描過一次＝看一眼；描過兩次或遮起來寫過＝先看兩秒再自己寫', () => {
   assert.equal(writeLevel(undefined), 'trace')
   assert.equal(writeLevel({ traces: 0, first: '', last: '', strokes: [] }), 'trace')
-  assert.equal(writeLevel({ traces: 2, first: '', last: '', strokes: [] }), 'look')
+  assert.equal(writeLevel({ traces: 1, first: '', last: '', strokes: [] }), 'look')
+  assert.equal(writeLevel({ traces: 2, first: '', last: '', strokes: [] }), 'blind', '描兩次就升級，魔法筆裡才走得到遮起來寫')
   assert.equal(writeLevel({ traces: 3, blind: 1, first: '', last: '', strokes: [] }), 'blind')
 })
 

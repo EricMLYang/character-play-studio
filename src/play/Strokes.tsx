@@ -58,7 +58,7 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  */
 export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onUnavailable }: {
   char: string
-  /** 一進來就是「看一眼」：不示範，外框亮一下就淡掉（魔法筆的鷹架，wishes.ts） */
+  /** 一進來就是「看一眼」：不示範，外框在他寫對第一筆後慢慢淡掉（魔法筆的鷹架，wishes.ts） */
   startLook?: boolean
   /** 遮起來寫之前先把整個字給他看幾毫秒（看一眼、記住、變不見）；0＝不給看 */
   preview?: number
@@ -81,6 +81,17 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
   /** 這一輪是「看一眼」（只有第一輪；按重來、再寫一次就回到平常的樣子） */
   const [look, setLook] = useState(startLook && !startBlind)
   const [peeking, setPeeking] = useState(false)
+  /** 遮起來寫的時候偷看過（外框亮一下）：這次就不算憑記憶寫，小鎮不長大，但照樣算寫完 */
+  const peeked = useRef(false)
+  const writerRef = useRef<HanziWriter | null>(null)
+  const peek = () => {
+    const w = writerRef.current
+    if (!w) return
+    peeked.current = true
+    setPeeking(true)
+    w.showOutline({ duration: 200 })
+    window.setTimeout(() => { setPeeking(false); try { w.hideOutline({ duration: 500 }) } catch { /* 已經換字了 */ } }, 1400)
+  }
   const again = (nextBlind: boolean) => { setBlind(nextBlind); setLook(false); setRound((r) => r + 1) }
   const written = useRef(onWritten)
   const traced = useRef(onTraced)
@@ -161,6 +172,8 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         leniency: 1.6, showHintAfterMisses: 2, markStrokeCorrectAfterMisses: 4,
         charDataLoader: () => (marked ? { ...data, radStrokes: marked.split(',').map(Number) } : data),
       })
+      writerRef.current = writer
+      peeked.current = false
       observer = new ResizeObserver(() => {
         writer?.updateDimensions({ width: size(), height: size(), padding: Math.round(size() * 0.05) })
       })
@@ -190,6 +203,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
               if (!alive) return
               try {
                 hand[s.strokeNum] = keepStroke(s.drawnPath.points)
+                if (look && s.strokesRemaining === data.strokes.length - 1) writer?.hideOutline({ duration: 1800 })
                 setDrawn(data.strokes.length - s.strokesRemaining)
                 // 特效順著他手指畫的線走；點一下就過的（錯四次當寫對）用那一筆的標準路線
                 const own = s.drawnPath.points.length > 1 ? s.drawnPath.points : data.medians[s.strokeNum].map(([x, y]) => ({ x, y }))
@@ -205,7 +219,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
               } catch { /* 沒有炸開也要能慶祝 */ }
               setStage('done')
               // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
-              try { traced.current?.(Array.from(hand, (s) => s || []), blind) } catch { /* 存不了筆跡也要能慶祝 */ }
+              try { traced.current?.(Array.from(hand, (s) => s || []), blind && !peeked.current) } catch { /* 存不了筆跡也要能慶祝 */ }
             },
           })
       }
@@ -221,9 +235,8 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         }, preview)
       } else if (blind) startQuiz()
       else if (look) {
-        // 看一眼：外框先在，寫到一半才淡掉；寫錯兩次那一筆還是會閃提示
+        // 看一眼：外框先在，他寫對第一筆才開始慢慢淡掉（onCorrectStroke）；寫錯兩次那一筆還是會閃提示
         startQuiz()
-        window.setTimeout(() => { if (alive) writer?.hideOutline({ duration: 900 }) }, 1600)
       } else {
         setStage('writing')
         writer.animateCharacter({ onComplete: () => { if (!alive) return; written.current?.(); startQuiz() } })
@@ -257,6 +270,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         {peeking ? '👀 看一眼，記住喔！'
           : stage === 'loading' ? '準備筆順…'
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
+          : stage === 'tracing' && look && drawn === 0 ? '👀 看清楚，開始寫！外框會偷偷變不見'
           : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
           : blind ? '🌟 沒有偷看就寫出來了！' : '🎉 你自己把這個字寫出來了！'}
       </p>
@@ -270,6 +284,9 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
           </button>
           {stage === 'done' && blind && (
             <button className="stroke-again" onClick={() => again(false)}>✏️ 看著描</button>
+          )}
+          {stage === 'tracing' && blind && (
+            <button className="stroke-again peek" onClick={peek} aria-label="偷看一下">👀 偷看一下</button>
           )}
           {(stage === 'tracing' || stage === 'done') && (
             <button key={theme} className="stroke-again fx-pick changed" onClick={switchTheme} aria-label="換一種寫字特效">

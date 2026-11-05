@@ -88,7 +88,7 @@ export const SPELLS = [
 
 /** 每一次寫字都用得到的固定句 */
 export const SPELL_FIXED = {
-  hello: '魔法筆來了！你寫什麼字，就會變出什麼！',
+  hello: '魔法筆來了！寫什麼，就變什麼！',
   look: '看一眼，記住喔！',
   gone: '變不見了！你自己寫出來！',
   peek: '偷看一下！',
