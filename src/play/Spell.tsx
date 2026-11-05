@@ -423,6 +423,8 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
   onAgain: () => void
   onBack: () => void
 }) {
+  /** 點他寫的字：唸出來，同時用他自己的筆跡照筆順一筆一筆重寫一次（「看，我是這樣寫的」）；n 換了就重播 */
+  const [redraw, setRedraw] = useState<{ char: string; n: number } | null>(null)
   return (
     <div className="spell-done">
       <Confetti />
@@ -431,9 +433,9 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
       {written.length > 0 && (
         <div className="spell-done-hand" aria-label="你這一輪寫的字">
           {written.map((w, i) => (
-            <button key={w.char} onClick={() => onPick(w.char)} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
-              <svg viewBox="0 0 1024 1024" aria-hidden>
-                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} />)}</g>
+            <button key={w.char} onClick={() => { onPick(w.char); setRedraw((r) => ({ char: w.char, n: (r?.n || 0) + 1 })) }} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
+              <svg key={redraw?.char === w.char ? redraw.n : 0} viewBox="0 0 1024 1024" className={redraw?.char === w.char ? 'spell-redraw' : undefined} aria-hidden>
+                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} pathLength={1} style={{ animationDelay: `${k * 0.32}s` }} />)}</g>
               </svg>
             </button>
           ))}

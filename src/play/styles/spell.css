@@ -121,6 +121,10 @@
 .spell-done-hand svg { display: block; width: clamp(54px, 9vh, 84px); height: clamp(54px, 9vh, 84px); }
 .spell-done-hand path { fill: none; stroke: #2E2A26; stroke-width: 56; stroke-linecap: round; stroke-linejoin: round; }
 @media (max-height: 500px) and (orientation: landscape) { .spell-done-hand { display: none; } }
+/* 點了照筆順重寫一次：每一筆從頭畫到尾（pathLength=1，所以虛線長 1 就是整筆） */
+.spell-redraw path { stroke-dasharray: 1 2; stroke-dashoffset: 1; animation: spellInk .3s ease-out forwards; }
+@keyframes spellInk { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .spell-redraw path { animation: none; stroke-dashoffset: 0; } }
 
 /* 「我想變別的」：會變身的東西整面攤開，他自己挑 */
 .spell-picker { position: fixed; inset: 0; z-index: 55; display: grid; place-items: center; padding: 16px; background: rgba(46,42,38,.35); }
