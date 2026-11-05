@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CharEntry } from '../types'
+import type { CharEntry, Progress } from '../types'
+import { LEVEL_BADGE, writeLevel } from '../play/wishes'
 import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
 import { sayAll, stopSpeech, voiceDuration } from '../lib/audio'
 import { loadChar } from '../play/Strokes'
@@ -12,13 +13,13 @@ import { hasOrigin } from '../play/origins'
 /**
  * 給爸媽的魔法筆預覽：85 個字的變身、21 個合體，一個一個點來看、戴耳機聽（願望 → 第二種說法 → 謝謝）。
  * 孩子端要真的寫完一個字才看得到一次，驗收全部太慢；這裡用標準筆畫（不是孩子的筆跡）直接演。
- * 不記任何紀錄。
+ * 不記任何紀錄。格子底下的小字是動作名（×2＝有第二種說法）和他現在的等級（寫過的才有）。
  */
 type Playing = { key: number; kind: 'spell'; spell: Spell; strokes: number[][] } | { key: number; kind: 'combo'; combo: Combo; parts: [Written, Written] }
 
 const medians = async (char: string) => ((await loadChar(char)).medians as number[][][]).map((m) => m.flat())
 
-export default function SpellGallery({ characters, onClose }: { characters: CharEntry[]; onClose: () => void }) {
+export default function SpellGallery({ characters, progress, onClose }: { characters: CharEntry[]; progress?: Progress; onClose: () => void }) {
   const emojiOf = (c: string) => characters.find((e) => e.char === c)?.emoji
   const [playing, setPlaying] = useState<Playing | null>(null)
   const [power, setPower] = useState(0)
@@ -81,7 +82,7 @@ export default function SpellGallery({ characters, onClose }: { characters: Char
               <button key={s.char} className={'st-gallery-item' + (auto !== null && SPELLS[auto]?.char === s.char ? ' on' : '')} onClick={() => playSpell(s)} title={`${s.wish}／${s.thanks}`}>
                 {art ? <img src={art} alt="" /> : <span>{emojiOf(s.char)}</span>}
                 <b>{s.char}</b>
-                <small>{s.act}{s.alt ? ' ×2' : ''}</small>
+                <small>{s.act}{s.alt ? ' ×2' : ''}{progress?.town?.[s.char]?.traces ? ` ${LEVEL_BADGE[writeLevel(progress.town[s.char])]}` : ''}</small>
               </button>
             )
           })}

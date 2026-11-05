@@ -96,7 +96,7 @@ export default function LearningSummary({ progress, characters, onPick }: {
       {Object.values(s.writeLevels).some((l) => l.length > 0) && (
         <section className="st-card st-write-levels">
           <h4>🪄 寫字等級（魔法筆） <button className="st-gallery-open" onClick={() => setGallery(true)}>🎧 預覽全部變身</button></h4>
-          {gallery && <SpellGallery characters={characters} onClose={() => setGallery(false)} />}
+          {gallery && <SpellGallery characters={characters} progress={progress} onClose={() => setGallery(false)} />}
           <p className="st-dim">
             每寫一次升一級：描過一次 → 下次只「看一眼」外框就淡掉 → 描過兩次就「遮起來寫」 → 憑記憶寫出兩次就「聽寫」（不給看）。
             最近 7 天寫過 {s.wroteThisWeek} 個字。上面那排是他最近寫的字（他自己的筆跡，🙈＝憑記憶寫過）；🧙 那一排是他不看就寫得出來的字。
