@@ -56,8 +56,10 @@ function keepStroke(points: { x: number; y: number }[]): number[] {
  * 他自己寫（描或遮起來寫）的時候，每寫對一筆就順著他畫的線演一下特效（忍者砍一刀、噴火、閃電…十種，
  * strokeThemes.ts），寫完整個字在中間炸開一圈。一次寫字一種，下一次換下一種；特效鈕可以自己換。
  */
-export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onUnavailable }: {
+export default function Strokes({ char, highlight, startBlind = false, startLook = false, preview = 0, onWritten, onTraced, onMiss, onUnavailable }: {
   char: string
+  /** 這一筆寫錯了：mistakes＝這一筆錯第幾次（錯兩次那一筆會閃提示） */
+  onMiss?: (mistakes: number) => void
   /** 一進來就是「看一眼」：不示範，外框在他寫對第一筆後慢慢淡掉（魔法筆的鷹架，wishes.ts） */
   startLook?: boolean
   /** 遮起來寫之前先把整個字給他看幾毫秒（看一眼、記住、變不見）；0＝不給看 */
@@ -96,6 +98,8 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
   const written = useRef(onWritten)
   const traced = useRef(onTraced)
   const unavailable = useRef(onUnavailable)
+  const missed = useRef(onMiss)
+  missed.current = onMiss
   written.current = onWritten
   traced.current = onTraced
   unavailable.current = onUnavailable
@@ -199,6 +203,10 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         // 這兩個 callback 丟例外會中斷 hanzi-writer 的 _handleSuccess，
         // 讓它永遠清不掉手上那一筆，整個描字就此卡死；一律吞掉
         writer?.quiz({
+            onMistake: (s) => {
+              if (!alive) return
+              try { missed.current?.(s.mistakesOnStroke) } catch { /* 同下：不能卡住描字 */ }
+            },
             onCorrectStroke: (s) => {
               if (!alive) return
               try {

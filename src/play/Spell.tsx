@@ -30,7 +30,7 @@ const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length 
 /** 遮起來寫之前給他看多久 */
 const PREVIEW_MS = 2200
 
-type Phase = 'ask' | 'write' | 'conjure' | 'thanks' | 'fuse' | 'fused' | 'done'
+type Phase = 'choose' | 'ask' | 'write' | 'conjure' | 'thanks' | 'fuse' | 'fused' | 'done'
 /** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
 type Made = { char: string; emoji: string; blind?: boolean }
 
@@ -52,8 +52,11 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   /** 這一輪他寫的每個字（合體時並排他自己的筆跡） */
   const writtenRef = useRef<Written[]>([])
   const partner = useMemo<Partner>(() => { const crew = partnersAt(stars); return crew[Math.floor(Math.random() * crew.length)] }, [round])
-  const [index, setIndex] = useState(0)
-  const [phase, setPhase] = useState<Phase>('ask')
+  /** 現在寫第幾個願望；-1＝還在選 */
+  const [index, setIndex] = useState(-1)
+  /** 每開始寫一個願望 +1（同一個 index 也要重新開始：換一輪的時候） */
+  const [turn, setTurn] = useState(0)
+  const [phase, setPhase] = useState<Phase>('choose')
   const [made, setMade] = useState<Made[]>([])
   const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox>; land?: { x: number; y: number } } | null>(null)
   const [reaction, react] = useReaction()
@@ -64,18 +67,41 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const speak = (lines: string[]) => { voice.current?.(); voice.current = sayAll(lines, RATE, 160) }
   useEffect(() => () => { timers.current.forEach(clearTimeout); voice.current?.(); stopSpeech() }, [])
 
-  const wish: Wish | undefined = wishes[index]
+  const wish: Wish | undefined = index >= 0 ? wishes[index] : undefined
+  const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
+  const world = useMemo(() => dwellers(progress.town || {}, emojiOf), [progress.town])
+
+  /**
+   * 讓他自己選下一個要變什麼（剩兩個以上的時候）：圖底下寫著字，挑的時候就在認字；
+   * 自己選的，寫起來比被派的有勁。他為了某個字來的（want）第一個直接寫那個字。
+   */
+  const start = (i: number) => { setIndex(i); setTurn((t) => t + 1) }
+  /** 「魔法筆來了！」只在第一次說 */
+  const greeted = useRef(false)
+  const chooseNext = (doneChars: string[], first = false) => {
+    const left = wishes.map((w, i) => ({ w, i })).filter(({ w }) => !doneChars.includes(w.char))
+    if (left.length === 1 || (first && want && wishes[0]?.char === want)) { start(left[0].i); return }
+    setIndex(-1)
+    setPhase('choose')
+    react('wave')
+    speak(greeted.current ? [SPELL_FIXED.choose] : [SPELL_FIXED.hello, SPELL_FIXED.choose])
+    greeted.current = true
+  }
+  useEffect(() => { chooseNext([], true) }, [round])
+  const pick = (i: number) => { tap(); voice.current?.(); start(i) }
 
   // 這一輪會唸到的話先抓好；第一個願望前先打招呼
   useEffect(() => {
-    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
+    preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
   }, [wishes])
   useEffect(() => {
     if (!wish) return
     setPhase('ask')
     react('wave')
-    const hello = index === 0 && round === 0
+    // 招呼只在沒得選、直接開始寫的時候說（有得選的話選之前已經說過了）
+    const hello = !greeted.current
+    greeted.current = true
     const lines = hello ? [SPELL_FIXED.hello, wish.wish] : [wish.wish]
     speak(lines)
     const helloMs = hello ? lasts(SPELL_FIXED.hello) + 160 : 0
@@ -88,8 +114,17 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     const at = helloMs + lasts(wish.wish) + 200
     later(() => { setPhase('write'); speak([SPELL_FIXED.look]) }, at)
     later(() => speak([SPELL_FIXED.gone]), at + PREVIEW_MS + 300)
-  }, [wish, index, round])
+  }, [turn])
 
+  /**
+   * 寫錯一筆：夥伴歪頭（不是罵他）。同一筆錯第二次 hanzi-writer 會讓那一筆閃，這時說一次「跟著亮亮的那一筆寫」——
+   * 一個願望只說一次，說多了變成嘮叨。
+   */
+  const hinted = useRef(-1)
+  const missed = (mistakes: number) => {
+    react('oops')
+    if (mistakes >= 2 && hinted.current !== index) { hinted.current = index; speak([SPELL_FIXED.hint]) }
+  }
   /** 這一個是沒有偷看、憑記憶寫出來的：謝謝之前先大大誇他一句（小鎮的居民也長大一號） */
   const wroteBlind = useRef(false)
   const written = (strokes: number[][], blind: boolean) => {
@@ -114,8 +149,9 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     react('cheer')
     const lines = wroteBlind.current ? [FIXED_LINES.wroteBlind, wish.thanks] : [wish.thanks]
     speak(lines)
+    const doneChars = [...made.map((m) => m.char), wish.char]
     later(() => {
-      if (index + 1 < wishes.length) { setIndex(index + 1); return }
+      if (doneChars.length < wishes.length) { chooseNext(doneChars); return }
       if (fuseParts()) { setPhase('fuse'); return }
       finishRound()
     }, lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
@@ -146,7 +182,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     timers.current = []
     setMade([])
     writtenRef.current = []
-    setIndex(0)
+    setIndex(-1)
     setRound((r) => r + 1)
   }
 
@@ -163,8 +199,6 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const { stopDone, nextStop: next } = stopAfter(path, 'write')
   const showNext = phase === 'done' && stopDone ? next : undefined
   const art = wish ? emojiArt(wish.emoji) : null
-  const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
-  const world = useMemo(() => dwellers(progress.town || {}, emojiOf), [progress.town])
   // 正在寫、正在變身的那個字：紀錄已經記了，但東西要等變身演完才住進來
   const hidden = wish && (phase === 'write' || phase === 'conjure') ? [wish.char] : []
   return (
@@ -172,8 +206,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       {/* 背景就是他的魔法世界：每變出一個東西，演完就掉進它住的地方（done 的時候換成正中間那一個大的） */}
       {phase !== 'done' && <World dwellers={world} fresh={made.map((m) => m.char)} hide={hidden} backdrop />}
       <SubBar title="🪄 魔法筆" onBack={onBack}
-        stat={<span className="spell-steps" aria-label={`第 ${Math.min(index + 1, wishes.length)} 個願望`}>
-          {wishes.map((w, i) => <span key={w.char} className={i < made.length ? 'spell-on' : i === index && phase !== 'done' ? 'spell-now' : ''} />)}
+        stat={<span className="spell-steps" aria-label={`變出 ${made.length} 個了，一共 ${wishes.length} 個`}>
+          {wishes.map((w, i) => <span key={w.char} className={i < made.length ? 'spell-on' : i === made.length && phase !== 'done' ? 'spell-now' : ''} />)}
         </span>} />
 
       {phase === 'done' ? (
@@ -189,6 +223,25 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             <button className="spell-btn" onClick={() => { tap(); onBack() }}>🏠 回首頁</button>
           </div>
         </div>
+      ) : phase === 'choose' ? (
+        <div className="spell-main">
+          <div className="spell-friend">
+            <button className="spell-bubble" onClick={() => { tap(); speak([SPELL_FIXED.choose]) }} aria-label={`再聽一次：${SPELL_FIXED.choose}`}>
+              {SPELL_FIXED.choose} <span aria-hidden>🔊</span>
+            </button>
+            <Buddy hero={partner.id} reaction={reaction} className="spell-buddy" alt={partner.name} />
+          </div>
+          {/* 還沒變的願望一張一張擺出來，圖底下是字：他自己挑 */}
+          <div className="spell-choose">{wishes.map((w, i) => made.some((m) => m.char === w.char) ? null : (
+            <button key={w.char} className="spell-card" onClick={() => pick(i)} aria-label={w.char}>
+              {emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : <span>{w.emoji}</span>}
+              <b>{w.char}</b>
+            </button>
+          ))}</div>
+          <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (
+            <span key={m.char} className="spell-made spell-tiny">{emojiArt(m.emoji) ? <img src={emojiArt(m.emoji)!} alt="" /> : m.emoji}{m.blind && <i className="spell-star">🌟</i>}</span>
+          ))}</div>
+        </div>
       ) : wish && (
         <div className="spell-main">
           <div className="spell-friend">
@@ -202,9 +255,9 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             {/* 要寫的那個字是什麼東西：給他一個圖當線索（還不會讀「火」的時候，看得到 🔥） */}
             <span className="spell-clue" aria-hidden>{art ? <img src={art} alt="" /> : wish.emoji}</span>
             {phase !== 'ask' && (
-              <Strokes key={`${round}-${index}`} char={wish.char}
+              <Strokes key={`${round}-${turn}`} char={wish.char}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind'} preview={wish.level === 'blind' ? PREVIEW_MS : 0}
-                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} />
+                onTraced={(strokes, blind) => { if (phase === 'write') written(strokes, blind) }} onMiss={missed} />
             )}
           </div>
           <div className="spell-shelf" aria-label="變出來的東西">{made.map((m) => (

@@ -120,6 +120,8 @@ export const SPELL_FIXED = {
   done: '你今天變出了好多東西！',
   world: '它們都住進你的魔法世界了！',
   fuse: '這兩個字合起來，會變成什麼？',
+  hint: '沒關係！跟著亮亮的那一筆寫！',
+  choose: '你想先變哪一個？',
 }
 
 /** 這個字會不會變身；不會的回 undefined */
