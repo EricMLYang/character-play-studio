@@ -39,6 +39,7 @@ const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14, mem
 export const WISHES_PER_ROUND = 3
 
 type PickOptions = {
+  /** want：他為了哪個字來的；也可以是合體的詞（「我想變別的」點了火山＝這一輪一定有火和山） */
   n?: number; want?: string; today: string; rand?: () => number
   /** 今天的路上的字（今天的新字、該複習的）：今天學的就今天寫 */
   focus?: string[]
@@ -74,6 +75,15 @@ const COMBO_RANK = 10
  */
 export function pickRound(library: CharEntry[], progress: Progress, options: PickOptions): Round {
   const scored = scoreSpells(library, progress, options)
+  // 他自己點了一個合體（火山）：火、山一定在這一輪（不管排第幾、合過沒），第一個照常挑一個動作不一樣的
+  const asked = options.want && [...options.want].length > 1 ? COMBOS.find((c) => c.word === options.want) : undefined
+  if (asked) {
+    const [a, b] = [...asked.word].map((c) => scored.find((w) => w.char === c))
+    if (a && b) {
+      const first = scored.find((w) => w !== a && w !== b && w.act !== a.act && w.act !== b.act) ?? scored.find((w) => w !== a && w !== b)
+      return { wishes: [...(first ? [first] : []), a, b].map(strip), combo: asked }
+    }
+  }
   const top = scored.slice(0, COMBO_RANK)
   const rank = (c: string) => top.find((w) => w.char === c)
   // 合過的詞往後排（一週模擬：水果一週出現三次），讓他去發現新的合體

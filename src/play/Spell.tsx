@@ -3,7 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/audio'
 import { cheer, stroke as strokeTone, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
-import { SPELLS, SPELL_FIXED } from '../../shared/spells.mjs'
+import { COMBOS, SPELLS, SPELL_FIXED } from '../../shared/spells.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
 import { RADICAL_FIXED, familyOf } from '../../shared/radicals.mjs'
 import Strokes, { loadChar } from './Strokes'
@@ -487,6 +487,7 @@ function SpellPicker({ library, progress, onPick, onClose }: {
   const byChar = new Map(library.map((e) => [e.char, e]))
   const seen = (c: string) => (progress.watched?.[c]?.count || 0) > 0
   const list = SPELLS.filter((s) => byChar.get(s.char)?.emoji).sort((a, b) => Number(seen(b.char)) - Number(seen(a.char)))
+  const combos = COMBOS.filter((c) => [...c.word].every((ch) => byChar.get(ch)?.emoji))
   return (
     <div className="spell-picker" role="dialog" aria-label={SPELL_FIXED.pick}>
       <div className="spell-picker-card">
@@ -503,6 +504,17 @@ function SpellPicker({ library, progress, onPick, onClose }: {
                 <b>{s.char}</b>
                 {/* 寫過的字標等級（沒寫過的不標，不然一整面都是 ✏️） */}
                 {made ? <i className="spell-card-level" aria-hidden>{LEVEL_BADGE[writeLevel(progress.town?.[s.char])]}</i> : null}
+              </button>
+            )
+          })}
+          {/* 合體也可以自己挑：點火山，下一輪就有火和山，寫完兩個就合起來。合過的彩色、還沒合過的灰的 */}
+          <span className="spell-picker-sep" aria-hidden>✨ ➕ ✨</span>
+          {combos.map((c) => {
+            const art = emojiArt(c.emoji)
+            return (
+              <button key={c.word} className={'spell-picker-item spell-picker-word' + (progress.fused?.[c.word] ? '' : ' spell-picker-new')} onClick={() => onPick(c.word)} aria-label={c.word}>
+                {art ? <img src={art} alt="" draggable={false} /> : <span>{c.emoji}</span>}
+                <b>{c.word}</b>
               </button>
             )
           })}

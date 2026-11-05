@@ -183,6 +183,19 @@ test('挑一輪：兩個字都看過、排得夠前面就安排合體，排在�
   assert.equal(none.wishes.length, 3)
 })
 
+test('他自己點了合體（火山）：火和山一定在這一輪，合過的、沒看過的字也一樣', () => {
+  const progress = { watched: { 月: { count: 2 }, 餅: { count: 2 } }, recall: {}, town: {}, fused: { 火山: '2026-11-06T01:00:00Z' } }
+  const round = pickRound(lib, progress, { today: '2026-11-06', rand: fixed, want: '火山' })
+  assert.equal(round.combo?.word, '火山')
+  assert.deepEqual(round.wishes.slice(1).map((w) => w.char), ['火', '山'])
+  assert.equal(round.wishes.length, 3)
+  assert.ok(!['火', '山'].includes(round.wishes[0].char))
+  // 他點的是要先選的（不是直接寫第一個）
+  assert.equal(nextStep(round, [], [], '火山').kind, 'choose')
+  // 不是合體的詞就照平常挑
+  assert.equal(pickRound(lib, progress, { today: '2026-11-06', rand: fixed, want: '火車' }).combo?.word, '月餅')
+})
+
 test('再變三個：剛寫完的字下一輪不再出現（就算是今天路上的字、該複習的字）', async () => {
   const { addTrace } = await import('../shared/domain.mjs')
   const seen = ['月', '火', '水', '木', '羊', '犬', '日', '瓜', '石', '米']
