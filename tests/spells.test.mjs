@@ -298,3 +298,19 @@ test('越會寫變出來的越厲害：照著描是普通的、憑記憶寫出�
   assert.equal(powerOf('memory', true), 2)
   assert.equal(powerOf('memory', false), 0, '偷看過、靠提示寫完的')
 })
+
+test('新字跟複習混著：一輪三個裡至少一個沒寫過的字；合過的詞往後排', () => {
+  const at = (char, blind = 0) => [char, { traces: 2, blind, first: '', last: '2026-11-01T04:00:00Z', strokes: [] }]
+  // 看過的字都寫過了：這一輪還是要放一個沒寫過的字進來（新字從沒看過的裡面挑）
+  const watched = Object.fromEntries(['火', '水', '木', '日', '月', '石'].map((c) => [c, { count: 2 }]))
+  const town = Object.fromEntries(['火', '水', '木', '日', '月', '石'].map((c) => at(c)))
+  for (const want of [undefined, '火']) {
+    const round = pickRound(lib, { watched, recall: {}, town }, { today: '2026-11-06', rand: fixed, want })
+    assert.ok(round.wishes.some((w) => !town[w.char]), `${round.wishes.map((w) => w.char).join('')} 沒有新字`)
+    if (want) assert.equal(round.wishes[0].char, want, 'want 的那個不換')
+  }
+  // 雪花比月餅好寫（餅 14 筆），平常先合雪花；雪花合過之後，換去發現月餅
+  const p2 = { watched: { 月: { count: 2 }, 餅: { count: 2 }, 雪: { count: 2 }, 花: { count: 2 } }, recall: {}, town: {} }
+  assert.equal(pickRound(lib, p2, { today: '2026-11-06', rand: fixed }).combo?.word, '雪花')
+  assert.equal(pickRound(lib, { ...p2, fused: { 雪花: '2026-11-05T00:00:00Z' } }, { today: '2026-11-06', rand: fixed }).combo?.word, '月餅')
+})

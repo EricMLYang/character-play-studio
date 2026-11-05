@@ -76,17 +76,35 @@ export function pickRound(library: CharEntry[], progress: Progress, options: Pic
   const scored = scoreSpells(library, progress, options)
   const top = scored.slice(0, COMBO_RANK)
   const rank = (c: string) => top.find((w) => w.char === c)
+  // 合過的詞往後排（一週模擬：水果一週出現三次），讓他去發現新的合體
   const combos = COMBOS.flatMap((combo) => {
     const [a, b] = [...combo.word]
     const wa = rank(a), wb = rank(b)
     if (!wa || !wb || a === options.want || b === options.want) return []
-    return [{ combo, wa, wb, score: wa.score + wb.score }]
+    return [{ combo, wa, wb, score: wa.score + wb.score - (progress.fused?.[combo.word] ? 3 : 0) }]
   }).sort((x, y) => y.score - x.score)
   const best = combos[0]
-  if (!best) return { wishes: pickWishes(library, progress, options) }
+  if (!best) return { wishes: withNew(pickWishes(library, progress, options), scored, progress, options.want) }
   const first = scored.find((w) => w !== best.wa && w !== best.wb && w.act !== best.wa.act && w.act !== best.wb.act)
     ?? scored.find((w) => w !== best.wa && w !== best.wb)
-  return { wishes: [...(first ? [first] : []), best.wa, best.wb].map(strip), combo: best.combo }
+  const round = [...(first ? [first] : []), best.wa, best.wb].map(strip)
+  // 合體的兩個字不能換掉；要放新字只能換第一個（他為了某個字來的那個也不換）
+  return { wishes: first && first.char !== options.want ? withNew(round, scored, progress, options.want, 0) : round, combo: best.combo }
+}
+
+/**
+ * 新字跟複習要混著（學習上的標準做法）：一輪三個裡至少一個是他沒寫過的字，有的話。
+ * 一週模擬發現，間隔複習把昨天的字今天又拉回來，一週只寫到十來個字——新字進不來。
+ * 換掉的是 slot（預設最後一個）；他為了某個字來的（want）不換。
+ */
+function withNew(wishes: Wish[], scored: (Wish & { score: number })[], progress: Progress, want?: string, slot = wishes.length - 1): Wish[] {
+  const isNew = (c: string) => !progress.town?.[c]?.traces
+  if (wishes.some((w) => isNew(w.char)) || slot < 0 || wishes[slot]?.char === want) return wishes
+  const others = wishes.filter((_, i) => i !== slot)
+  const fresh = scored.find((w) => isNew(w.char) && !wishes.some((x) => x.char === w.char) && !others.some((x) => x.act === w.act))
+    ?? scored.find((w) => isNew(w.char) && !wishes.some((x) => x.char === w.char))
+  if (!fresh) return wishes
+  return wishes.map((w, i) => (i === slot ? strip(fresh) : w))
 }
 
 function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [], today, rand = Math.random }: PickOptions) {
