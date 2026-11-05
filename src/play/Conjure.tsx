@@ -53,7 +53,12 @@ export default function Conjure({ strokes, emoji, act, from, land, onDone }: Con
     try { sfx.magic() } catch { /* 同上 */ }
     next('gather', CONJURE_MS.glow, () => sfx.swipe())
     next('pop', CONJURE_MS.gather, () => sfx.poof())
-    next('act', CONJURE_MS.pop, () => (sfx as unknown as Record<string, (a?: number, b?: number) => void>)[ACT_SOUND[act]]?.(3, 5))
+    const sound = () => (sfx as unknown as Record<string, (a?: number, b?: number) => void>)[ACT_SOUND[act]]?.(3, 5)
+    // 飛進夥伴嘴裡的：吃到的那一下（動畫 80%）才「咕嚕」
+    next('act', CONJURE_MS.pop, () => {
+      if (land) t.push(window.setTimeout(() => { try { sound() } catch { /* 同上 */ } }, CONJURE_MS.act * 0.8))
+      else sound()
+    })
     next('end', CONJURE_MS.act, () => done.current?.())
     return () => t.forEach(clearTimeout)
   }, [])
@@ -76,7 +81,7 @@ export default function Conjure({ strokes, emoji, act, from, land, onDone }: Con
       </svg>
       {(step === 'pop' || step === 'act' || step === 'end') && <span className="cj-flash" style={{ left: px, top: py }} />}
       {(step === 'pop' || step === 'act' || step === 'end') && Array.from({ length: count }, (_, i) => (
-        <span key={i} className={`cj-thing cj-act-${act}${count > 1 ? ' many' : ''}`}
+        <span key={i} className={`cj-thing cj-act-${act}${count > 1 ? ' many' : ''}${land ? ' cj-land' : ''}`}
           style={{
             left: px, top: py, width: size, height: size,
             ['--i' as string]: i, ['--n' as string]: count,

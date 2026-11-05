@@ -170,3 +170,12 @@ test('挑一輪：兩個字都看過、排得夠前面就安排合體，排在�
   assert.equal(none.combo, undefined)
   assert.equal(none.wishes.length, 3)
 })
+
+test('願望和謝謝不提夥伴的名字（誰都可能來許願，小老鼠說「大怪獸想吃肉」會搞混）', async () => {
+  const src = fs.readFileSync(path.join(ROOT, 'src/play/partners.ts'), 'utf8')
+  const names = [...src.matchAll(/name: '([^']+)'/g)].map((m) => m[1])
+  assert.ok(names.length > 10)
+  for (const line of [...SPELLS.flatMap((s) => [s.wish, s.thanks]), ...COMBOS.map((c) => c.thanks)]) {
+    for (const n of names) assert.ok(!line.includes(n), `「${line}」提到 ${n}`)
+  }
+})

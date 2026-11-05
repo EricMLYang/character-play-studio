@@ -60,8 +60,11 @@
   .spell-main { gap: 10px; padding-bottom: 8px; }
   .spell-bubble { font-size: 15px; padding: 10px 12px; }
   .spell-buddy { width: 84px; }
-  .spell-pad, .spell-pad .stroke-canvas { min-width: 62vh; min-height: 62vh; width: 62vh; height: 62vh; }
-  .spell-pad .stroke-dots { display: none; }
+  /* 字卡那邊的左右排（viewer.css：格子在左、提示和按鈕在右）照用，寫字區不能卡死成格子的寬度，不然右邊那欄被擠成一字一行 */
+  .spell-pad { min-width: 0; min-height: 0; }
+  .spell-pad .stroke-canvas { width: 60vh; height: 60vh; }
+  .spell-pad .strokes { grid-template-columns: auto minmax(0, 150px); }
+  .spell-friend { max-width: 190px; }
 }
 
 /* 沒偷看寫出來的那個東西戴一顆星 */

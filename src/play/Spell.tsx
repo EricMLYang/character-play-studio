@@ -56,7 +56,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('ask')
   const [made, setMade] = useState<Made[]>([])
-  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox> } | null>(null)
+  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: ReturnType<typeof inkBox>; land?: { x: number; y: number } } | null>(null)
   const [reaction, react] = useReaction()
   const grid = useRef<HTMLDivElement>(null)
   const timers = useRef<number[]>([])
@@ -101,7 +101,10 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     const from = inkBox(grid.current)
     setPhase('conjure')
     say(wish.char, RATE)
-    if (from) setConjure({ key: Date.now(), strokes, from })
+    // 好吃的東西飛進夥伴嘴裡（他的頭大約在圖的上三分之一）
+    const buddy = wish.act === 'yum' ? document.querySelector('.spell-buddy')?.getBoundingClientRect() : null
+    const land = buddy ? { x: buddy.left + buddy.width / 2, y: buddy.top + buddy.height * 0.38 } : undefined
+    if (from) setConjure({ key: Date.now(), strokes, from, land })
     else finishConjure()
   }
   const finishConjure = () => {
@@ -209,7 +212,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
       )}
       {phase === 'fuse' && combo && fuseParts() && <Fuse parts={fuseParts()!} combo={combo} onDone={fused} />}
       {conjure?.from && wish && (
-        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} onDone={finishConjure} />
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={wish.emoji} act={wish.act} from={conjure.from} land={conjure.land} onDone={finishConjure} />
       )}
     </div>
   )

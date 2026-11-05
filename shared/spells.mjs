@@ -40,7 +40,7 @@ export const SPELLS = [
   { char: '獅', n: 13, act: 'stomp', wish: '森林需要一個國王，寫獅！', thanks: '獅子大吼一聲！' },
   { char: '象', n: 11, act: 'stomp', wish: '我想要一個很大很大的朋友，寫象！', thanks: '大象咚咚咚走過來了！' },
   { char: '熊', n: 14, act: 'stomp', wish: '我想要一個抱抱，幫我寫熊！', thanks: '大熊給你一個熊抱！' },
-  { char: '豬', n: 15, act: 'run', wish: '我想要一隻小豬，幫我寫豬！', thanks: '小豬噗噗噗跑來了！' },
+  { char: '豬', n: 15, act: 'run', wish: '農場少了一隻豬，幫我寫豬！', thanks: '豬噗噗噗跑來了！' },
   { char: '羊', n: 6, act: 'run', wish: '草好多，幫我變一隻羊來吃草！', thanks: '咩～小羊來吃草了！' },
   { char: '猴', n: 12, act: 'hop', wish: '樹上少了一隻猴子，寫猴！', thanks: '猴子跳來跳去！' },
   { char: '鹿', n: 11, act: 'run', wish: '森林裡好安靜，幫我寫鹿！', thanks: '小鹿跑過去了！' },
@@ -83,7 +83,7 @@ export const SPELLS = [
   { char: '麵', n: 20, act: 'yum', wish: '我想吃麵，幫我寫麵！', thanks: '麵好好吃，呼嚕呼嚕！' },
   { char: '飯', n: 12, act: 'yum', wish: '吃飯時間到了，幫我寫飯！', thanks: '白飯香噴噴！' },
   { char: '糕', n: 16, act: 'yum', wish: '今天有人生日，幫我寫糕！', thanks: '蛋糕來了，生日快樂！' },
-  { char: '肉', n: 6, act: 'yum', wish: '大怪獸想吃肉，幫我寫肉！', thanks: '肉好香！' },
+  { char: '肉', n: 6, act: 'yum', wish: '我想吃烤肉，幫我寫肉！', thanks: '烤肉好香！' },
   { char: '米', n: 6, act: 'yum', wish: '小雞想吃東西，幫我寫米！', thanks: '小雞吃得好開心！' },
 ]
 
