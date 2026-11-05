@@ -134,3 +134,24 @@ export function levelAfter(resident: Resident | undefined, blind: boolean): Writ
   })
   return RANK.indexOf(after) > RANK.indexOf(before) ? after : null
 }
+
+/**
+ * 一個願望做完（或一開始）之後，下一步要做什麼（Spell.tsx 照這個走）：
+ *   choose   還有兩個以上沒做：擺卡片讓他挑
+ *   start    只剩一個、或他為了某個字來的第一個：直接開始寫第 i 個
+ *   fuse     都做完了，合體的兩個字他都寫了：合體
+ *   finish   都做完了：結算
+ * done＝已經變出來或跳過的字；written＝他真的寫了的字（合體要兩個都寫了才合）。
+ */
+export type NextStep = { kind: 'choose' } | { kind: 'start'; index: number } | { kind: 'fuse' } | { kind: 'finish' }
+
+export function nextStep(round: Round, done: string[], written: string[], want?: string): NextStep {
+  const left = round.wishes.map((w, i) => ({ w, i })).filter(({ w }) => !done.includes(w.char))
+  if (left.length === 0) {
+    const both = round.combo && [...round.combo.word].every((c) => written.includes(c))
+    return both ? { kind: 'fuse' } : { kind: 'finish' }
+  }
+  if (left.length === 1) return { kind: 'start', index: left[0].i }
+  if (done.length === 0 && want && round.wishes[0]?.char === want) return { kind: 'start', index: 0 }
+  return { kind: 'choose' }
+}

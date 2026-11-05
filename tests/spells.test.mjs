@@ -79,7 +79,7 @@ test('他的筆跡畫成 SVG：點一下就過的那一筆也看得到；重心�
   assert.ok(conjureTotal(true) < 6000, '象形字多畫一段古字也不超過 6 秒')
 })
 
-const { writeLevel, pickWishes, pickRound, levelAfter, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
+const { writeLevel, pickWishes, pickRound, levelAfter, nextStep, LEVEL_BADGE, WISHES_PER_ROUND } = await import('../src/play/wishes.ts')
 const lib = [...entries.values()]
 const fixed = () => 0.5
 
@@ -262,4 +262,16 @@ test('首頁陪他的：最近寫的兩個會變身的字（新的在前），�
   const town = { 魚: at('2026-11-01T01:00:00Z'), 火: at('2026-11-05T01:00:00Z'), 好: at('2026-11-06T01:00:00Z'), 球: at('2026-11-03T01:00:00Z') }
   assert.deepEqual(recentMade(town, emojiOf), [emojiOf('火'), emojiOf('球')])
   assert.deepEqual(recentMade({}, emojiOf), [])
+})
+
+test('一輪怎麼走（nextStep）：兩個以上讓他挑、剩一個直接寫、為了某個字來的先寫它；寫完兩個合體字才合體，不然結算', () => {
+  const w = (char) => ({ char })
+  const round = { wishes: [w('日'), w('水'), w('果')], combo: { word: '水果' } }
+  assert.deepEqual(nextStep(round, [], []), { kind: 'choose' })
+  assert.deepEqual(nextStep(round, [], [], '日'), { kind: 'start', index: 0 }, 'want 第一個直接寫')
+  assert.deepEqual(nextStep(round, ['水'], ['水']), { kind: 'choose' })
+  assert.deepEqual(nextStep(round, ['水', '日'], ['水', '日']), { kind: 'start', index: 2 }, '剩一個不用選')
+  assert.deepEqual(nextStep(round, ['水', '日', '果'], ['水', '日', '果']), { kind: 'fuse' })
+  assert.deepEqual(nextStep(round, ['水', '日', '果'], ['水', '日']), { kind: 'finish' }, '果 是跳過的（筆順抓不到），不能合體')
+  assert.deepEqual(nextStep({ wishes: round.wishes }, ['水', '日', '果'], ['水', '日', '果']), { kind: 'finish' }, '沒有合體就結算')
 })

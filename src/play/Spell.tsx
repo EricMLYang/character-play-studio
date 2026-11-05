@@ -10,7 +10,7 @@ import Strokes from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction } from './Buddy'
 import { partnersAt, type Partner } from './partners'
-import { LEVEL_BADGE, levelAfter, pickRound, type Wish, type WriteLevel } from './wishes'
+import { LEVEL_BADGE, levelAfter, nextStep, pickRound, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers } from './magicWorld'
@@ -59,7 +59,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 }) {
   const [round, setRound] = useState(0)
   // 一輪：三個願望；後兩個湊得成一個詞的話最後合體（wishes.ts 的 pickRound）
-  const { wishes, combo } = useMemo(() => pickRound(library, progress, { want: round === 0 ? want : undefined, focus, today: taiwanDay() }), [round])
+  const plan = useMemo(() => pickRound(library, progress, { want: round === 0 ? want : undefined, focus, today: taiwanDay() }), [round])
+  const { wishes, combo } = plan
   /** 這一輪他寫的每個字（合體時並排他自己的筆跡） */
   const writtenRef = useRef<Written[]>([])
   const partner = useMemo<Partner>(() => { const crew = partnersAt(stars); return crew[Math.floor(Math.random() * crew.length)] }, [round])
@@ -94,16 +95,19 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   const start = (i: number) => { setIndex(i); setTurn((t) => t + 1) }
   /** 「魔法筆來了！」只在第一次說 */
   const greeted = useRef(false)
-  const chooseNext = (doneChars: string[], first = false) => {
-    const left = wishes.map((w, i) => ({ w, i })).filter(({ w }) => !doneChars.includes(w.char))
-    if (left.length === 1 || (first && want && wishes[0]?.char === want)) { start(left[0].i); return }
+  /** 下一步（wishes.ts 的 nextStep 決定）：挑卡片、直接寫、合體、結算 */
+  const goNext = (doneChars: string[]) => {
+    const step = nextStep(plan, doneChars, writtenRef.current.map((w) => w.char), round === 0 ? want : undefined)
+    if (step.kind === 'start') { start(step.index); return }
+    if (step.kind === 'fuse') { setPhase('fuse'); return }
+    if (step.kind === 'finish') { finishRound(); return }
     setIndex(-1)
     setPhase('choose')
     react('wave')
     speak(greeted.current ? [SPELL_FIXED.choose] : [SPELL_FIXED.hello, SPELL_FIXED.choose])
     greeted.current = true
   }
-  useEffect(() => { chooseNext([], true) }, [round])
+  useEffect(() => { goNext([]) }, [round])
   // 點了一張卡：先唸那個字（看著卡上的字聽到字音，就是一次認字），再開始許願
   const picking = useRef(false)
   const pick = (i: number) => {
@@ -187,8 +191,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     if (!wish) return
     const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
     setSkipped((s) => [...s, wish.char])
-    if (doneChars.length < wishes.length) chooseNext(doneChars)
-    else finishRound()
+    goNext(doneChars)
   }
   const finishConjure = () => {
     if (!wish) return
@@ -203,11 +206,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     const lines = [...(wroteBlind.current && !master ? [FIXED_LINES.wroteBlind] : []), ...(master ? [SPELL_FIXED.master] : levelUp ? [wish.char, SPELL_FIXED.levelUp] : []), wish.thanks]
     speak(lines)
     const doneChars = [...made.map((m) => m.char), ...skipped, wish.char]
-    later(() => {
-      if (doneChars.length < wishes.length) { chooseNext(doneChars); return }
-      if (fuseParts()) { setPhase('fuse'); return }
-      finishRound()
-    }, lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
+    later(() => goNext(doneChars), lines.reduce((t, l) => t + lasts(l) + 160, 0) + 700)
   }
   /** 合體要的兩個字（照詞的順序），他都寫了才合 */
   const fuseParts = (): [Written, Written] | null => {
