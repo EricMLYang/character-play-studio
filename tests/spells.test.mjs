@@ -183,6 +183,16 @@ test('挑一輪：兩個字都看過、排得夠前面就安排合體，排在�
   assert.equal(none.wishes.length, 3)
 })
 
+test('再變三個：剛寫完的字下一輪不再出現（就算是今天路上的字、該複習的字）', async () => {
+  const { addTrace } = await import('../shared/domain.mjs')
+  const seen = ['月', '火', '水', '木', '羊', '犬', '日', '瓜', '石', '米']
+  let progress = { watched: Object.fromEntries(seen.map((c) => [c, { count: 2 }])), recall: { 月: { due: '2026-11-01' } }, town: {} }
+  for (const c of ['月', '火', '水']) progress = addTrace(progress, c, [[0, 0, 1, 1]], '2026-11-06T04:00:00Z', false)
+  const next = pickRound(lib, progress, { today: '2026-11-06', rand: fixed, focus: ['月'] })
+  assert.equal(next.wishes.length, 3)
+  for (const w of next.wishes) assert.ok(!['月', '火', '水'].includes(w.char), `${w.char} 剛寫過又來`)
+})
+
 test('願望和謝謝不提夥伴的名字（誰都可能來許願，小老鼠說「大怪獸想吃肉」會搞混）', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'src/play/partners.ts'), 'utf8')
   const names = [...src.matchAll(/name: '([^']+)'/g)].map((m) => m[1])

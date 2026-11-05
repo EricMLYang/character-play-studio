@@ -131,7 +131,8 @@ function scoreSpells(library: CharEntry[], progress: Progress, { want, focus = [
     const level = writeLevel(resident)
     if (resident?.last) {
       const days = daysBetween(taiwanDay(resident.last), today)
-      if (days <= 0) score -= 2
+      // 今天寫過的先讓別的字：結算按「再變三個」，剛寫完的月又出現，像在罰寫（-2 壓不住看過＋今天的路＋空區的加分）
+      if (days <= 0) score -= 6
       else if (days >= WRITE_AGAIN_DAYS[level]) score += 1.5
     }
     score -= Math.max(0, s.n - COMFORT[level]) * 0.45

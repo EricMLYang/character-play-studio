@@ -50,6 +50,12 @@
 .spell-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .spell-btn { padding: 14px 26px; border-radius: 999px; background: #fff; font-size: 18px; font-weight: 800; box-shadow: 0 5px 0 rgba(0,0,0,.08); }
 .spell-btn.spell-go { background: #9B7BFF; color: #fff; }
+/* 「再變三個」上露出下一輪的三個東西，一個接一個輕輕跳：想看它們變出來 */
+.spell-peek { display: inline-flex; gap: 2px; margin-left: 8px; vertical-align: middle; }
+.spell-peek i { display: inline-grid; place-items: center; width: 30px; height: 30px; font-style: normal; font-size: 24px; animation: spellPeek 1.6s ease-in-out infinite; }
+.spell-peek img { width: 100%; height: 100%; object-fit: contain; }
+@keyframes spellPeek { 0%, 60%, 100% { translate: 0 0; } 30% { translate: 0 -5px; } }
+@media (prefers-reduced-motion: reduce) { .spell-peek i { animation: none; } }
 .spell-empty { margin: auto; font-size: 20px; font-weight: 700; }
 
 /* 直的（手機、iPad 直放）：夥伴在上、格子在中間、架子在下面一排；結算的世界改成直的（不硬擠成 16:10 的小長條） */

@@ -10,7 +10,7 @@ import Strokes, { loadChar } from './Strokes'
 import Conjure, { inkBox } from './Conjure'
 import Buddy, { useReaction, type ReactionState } from './Buddy'
 import { partnersAt, type Partner } from './partners'
-import { LEVEL_BADGE, levelAfter, nextStep, pickRound, powerOf, writeLevel, type Wish, type WriteLevel } from './wishes'
+import { LEVEL_BADGE, levelAfter, nextStep, pickRound, powerOf, writeLevel, type Round, type Wish, type WriteLevel } from './wishes'
 import Fuse, { type Written } from './Fuse'
 import { stopAfter, type Stop, type StopGo } from './today'
 import { dwellers, type Dweller } from './magicWorld'
@@ -71,8 +71,10 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   /** 他自己挑的下一個（結算時「我想變別的」）：下一輪從這個字開始 */
   const [wantNext, setWantNext] = useState<string | undefined>(undefined)
   const [picker, setPicker] = useState(false)
+  /** 結算時預告的下一輪（「再變三個」按鈕上露出來的那三個）：按下去就是它們，不重挑 */
+  const ahead = useRef<Round | null>(null)
   // 一輪：三個願望；後兩個湊得成一個詞的話最後合體（wishes.ts 的 pickRound）
-  const plan = useMemo(() => pickRound(library, progress, { want: round === 0 ? want : wantNext, focus, today: taiwanDay() }), [round])
+  const plan = useMemo(() => (round > 0 && ahead.current) || pickRound(library, progress, { want: round === 0 ? want : wantNext, focus, today: taiwanDay() }), [round])
   const { wishes, combo } = plan
   /** 這一輪他寫的每個字（合體時並排他自己的筆跡） */
   const writtenRef = useRef<Written[]>([])
@@ -276,8 +278,12 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     later(() => holdCelebrations(false), lasts(SPELL_FIXED.done) + lasts(SPELL_FIXED.world) + 600)
   }
 
+  // 結算的時候就先挑好下一輪（這時候這一輪的紀錄都記進去了），按鈕上露出那三個東西：想看它們變出來，就會想再寫
+  const upcoming = useMemo(() => (phase === 'done' ? pickRound(library, progress, { focus, today: taiwanDay() }) : null), [phase, round])
   const again = (next?: string) => {
     tap()
+    // 自己挑了別的（我想變別的）就照他挑的重排；不然就是預告的那三個
+    ahead.current = next ? null : upcoming
     setWantNext(next)
     setPicker(false)
     timers.current.forEach(clearTimeout)
@@ -335,7 +341,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
         </span>} />
 
       {phase === 'done' ? (
-        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current} onPicker={() => { tap(); setPicker(true); speak([SPELL_FIXED.pick]) }}
+        <SpellDone world={world} fresh={made.map((m) => m.char)} next={showNext} written={writtenRef.current} upcoming={upcoming?.wishes ?? []} onPicker={() => { tap(); setPicker(true); speak([SPELL_FIXED.pick]) }}
           onPick={(c) => { tap(); say(introOf(c), RATE) }} onNext={(go) => { tap(); stopSpeech(); onWalk?.(go) }} onAgain={() => again()} onBack={() => { tap(); onBack() }} />
       ) : phase === 'choose' ? (
         <div className="spell-main">
@@ -402,12 +408,14 @@ function Shelf({ made }: { made: Made[] }) {
 }
 
 /** 結算：他寫出來的世界攤開（這一輪變出來的從天上掉進來），做完寫一寫這一站就多一顆「下一站」 */
-function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onPicker, onBack }: {
+function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAgain, onPicker, onBack }: {
   /** 「我想變別的」：打開整面圖卡讓他自己挑 */
   onPicker: () => void
   world: Dweller[]
   /** 這一輪他寫的字（他自己的筆跡）：結算的時候排一排給他看「這是我寫的」 */
   written: Written[]
+  /** 下一輪會變的東西（按鈕上露出來，讓他想看它們變出來） */
+  upcoming: Wish[]
   fresh: string[]
   next?: Stop
   onPick: (char: string) => void
@@ -435,7 +443,11 @@ function SpellDone({ world, fresh, next, written, onPick, onNext, onAgain, onPic
       <World dwellers={world} fresh={fresh} onPick={onPick} />
       <div className="spell-actions">
         {next && <button className="spell-btn spell-go" onClick={() => onNext(next.go)}>下一站：{next.icon} {next.title} →</button>}
-        <button className={'spell-btn' + (next ? '' : ' spell-go')} onClick={onAgain}>🪄 再變三個</button>
+        <button className={'spell-btn' + (next ? '' : ' spell-go')} onClick={onAgain}>🪄 再變三個
+          {upcoming.length > 0 && <span className="spell-peek" aria-hidden>{upcoming.map((w, i) => (
+            <i key={w.char} style={{ animationDelay: `${i * 0.2}s` }}>{emojiArt(w.emoji) ? <img src={emojiArt(w.emoji)!} alt="" draggable={false} /> : w.emoji}</i>
+          ))}</span>}
+        </button>
         <button className="spell-btn" onClick={onPicker}>🎨 我想變別的</button>
         <button className="spell-btn" onClick={onBack}>🏠 回首頁</button>
       </div>
