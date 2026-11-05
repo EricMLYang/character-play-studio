@@ -47,6 +47,8 @@ export type Summary = {
   writeLevels: Record<WriteLevel, string[]>
   /** 最近 7 天寫過（描或憑記憶）幾個不同的字 */
   wroteThisWeek: number
+  /** 最近寫的字，帶著他最後一次寫的筆跡（小鎮紀錄裡存的）：爸爸看得到他的字長什麼樣 */
+  recentWrites: { char: string; strokes: number[][]; blind: boolean }[]
   /**
    * 只差一顆就集滿的字，跟缺的是哪一顆。
    * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
@@ -99,6 +101,9 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
       return acc
     }, { trace: [], look: [], blind: [], memory: [] } as Record<WriteLevel, string[]>),
     wroteThisWeek: Object.values(progress.town || {}).filter((r) => now.getTime() - Date.parse(r.last) < 7 * 864e5).length,
+    recentWrites: Object.entries(progress.town || {}).filter(([, r]) => r.strokes?.length)
+      .sort((a, b) => Date.parse(b[1].last) - Date.parse(a[1].last)).slice(0, 10)
+      .map(([char, r]) => ({ char, strokes: r.strokes, blind: (r.blind || 0) > 0 })),
     stars: stars,
     partners: partnerCount(stars),
     toNextPartner: nextPartner(stars)?.need ?? null,

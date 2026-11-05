@@ -1,3 +1,4 @@
+import { inkPath } from '../play/conjuring'
 import type { CharEntry, Progress } from '../types'
 import { summarize } from './summary'
 import { pathDone, todayPath } from '../play/today'
@@ -93,8 +94,20 @@ export default function LearningSummary({ progress, characters, onPick }: {
           <h4>🪄 寫字等級（魔法筆）</h4>
           <p className="st-dim">
             每寫一次升一級：描過一次 → 下次只「看一眼」外框就淡掉 → 描過兩次就「遮起來寫」 → 憑記憶寫出兩次就「聽寫」（不給看）。
-            最近 7 天寫過 {s.wroteThisWeek} 個字。🧙 那一排是他不看就寫得出來的字。
+            最近 7 天寫過 {s.wroteThisWeek} 個字。上面那排是他最近寫的字（他自己的筆跡，🙈＝憑記憶寫過）；🧙 那一排是他不看就寫得出來的字。
           </p>
+          {s.recentWrites.length > 0 && (
+            <div className="st-hand-row" aria-label="最近寫的字（他自己的筆跡）">
+              {s.recentWrites.map((w) => (
+                <button key={w.char} className="st-hand" onClick={() => onPick(w.char)} title={`「${w.char}」${w.blind ? '（憑記憶寫過）' : ''}`}>
+                  <svg viewBox="0 0 1024 1024" aria-hidden>
+                    <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, i) => <path key={i} d={inkPath(st)} />)}</g>
+                  </svg>
+                  <span>{w.char}{w.blind ? ' 🙈' : ''}</span>
+                </button>
+              ))}
+            </div>
+          )}
           <div className="st-chip-rows">
             {([['memory', '🧙 聽寫級'], ['blind', '🙈 遮起來寫'], ['look', '👀 看一眼']] as const).map(([level, label]) => s.writeLevels[level].length > 0 && (
               <p key={level}><b>{label}（{s.writeLevels[level].length}）：</b>{s.writeLevels[level].map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</p>
