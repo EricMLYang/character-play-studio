@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CharEntry } from '../types'
 import { COMBOS, SPELLS, type Combo, type Spell } from '../../shared/spells.mjs'
-import { sayAll, stopSpeech } from '../lib/audio'
+import { sayAll, stopSpeech, voiceDuration } from '../lib/audio'
 import { loadChar } from '../play/Strokes'
 import Conjure from '../play/Conjure'
 import Fuse, { type Written } from '../play/Fuse'
 import { emojiArt } from '../play/ui'
+import { conjureTotal } from '../play/conjuring'
+import { hasOrigin } from '../play/origins'
 
 /**
  * 給爸媽的魔法筆預覽：85 個字的變身、21 個合體，一個一個點來看、戴耳機聽（願望 → 第二種說法 → 謝謝）。
@@ -21,7 +23,25 @@ export default function SpellGallery({ characters, onClose }: { characters: Char
   const [playing, setPlaying] = useState<Playing | null>(null)
   const [power, setPower] = useState(0)
   const voice = useRef<(() => void) | null>(null)
-  useEffect(() => () => { voice.current?.(); stopSpeech() }, [])
+  /** 全部連著播到第幾個（null＝沒在播）；按停止或關掉就停 */
+  const [auto, setAuto] = useState<number | null>(null)
+  const autoRun = useRef(0)
+  useEffect(() => () => { autoRun.current++; voice.current?.(); stopSpeech() }, [])
+  const lasts = (t: string) => (voiceDuration(t) ?? 0.28 * [...t].length + 0.5) * 1000
+  /** 一個字要播多久：唸完那幾句、變身也演完，再多停一下 */
+  const spellMs = (sp: Spell) => Math.max([sp.wish, sp.alt, sp.char, sp.thanks].filter(Boolean).reduce((n, t) => n + lasts(t!) + 300, 0), conjureTotal(hasOrigin(sp.char))) + 600
+  const playAll = async () => {
+    const run = ++autoRun.current
+    for (let i = 0; i < SPELLS.length; i++) {
+      if (autoRun.current !== run) return
+      setAuto(i)
+      await playSpell(SPELLS[i])
+      document.querySelectorAll('.st-gallery-item')[i]?.scrollIntoView({ block: 'nearest' })
+      await new Promise((r) => setTimeout(r, spellMs(SPELLS[i])))
+    }
+    if (autoRun.current === run) setAuto(null)
+  }
+  const stopAll = () => { autoRun.current++; setAuto(null); voice.current?.(); stopSpeech(); setPlaying(null) }
 
   const size = Math.min(320, window.innerWidth * 0.5)
   const from = { left: window.innerWidth / 2 - size / 2, top: window.innerHeight / 2 - size / 2, width: size, height: size }
@@ -48,14 +68,17 @@ export default function SpellGallery({ characters, onClose }: { characters: Char
               <button key={label} className={power === i ? 'on' : ''} onClick={() => setPower(i)}>{label}</button>
             ))}
           </label>
-          <button className="st-gallery-close" onClick={onClose}>關閉</button>
+          {auto === null
+            ? <button className="st-gallery-close" onClick={playAll}>▶ 全部連著播（{SPELLS.length} 個，約 {Math.round(SPELLS.reduce((n, sp) => n + spellMs(sp), 0) / 60000)} 分鐘）</button>
+            : <button className="st-gallery-close" onClick={stopAll}>■ 停止（第 {auto + 1} 個）</button>}
+          <button className="st-gallery-close" onClick={() => { stopAll(); onClose() }}>關閉</button>
         </header>
         <h4>會變身的字（{SPELLS.length}）</h4>
         <div className="st-gallery-grid">
           {SPELLS.map((s) => {
             const art = emojiArt(emojiOf(s.char))
             return (
-              <button key={s.char} className="st-gallery-item" onClick={() => playSpell(s)} title={`${s.wish}／${s.thanks}`}>
+              <button key={s.char} className={'st-gallery-item' + (auto !== null && SPELLS[auto]?.char === s.char ? ' on' : '')} onClick={() => playSpell(s)} title={`${s.wish}／${s.thanks}`}>
                 {art ? <img src={art} alt="" /> : <span>{emojiOf(s.char)}</span>}
                 <b>{s.char}</b>
                 <small>{s.act}{s.alt ? ' ×2' : ''}</small>
