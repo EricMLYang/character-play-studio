@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Progress } from '../types'
-import { holdSpeech, preloadVoice, say, sayAll } from '../lib/audio'
+import { holdSpeech, preloadVoice, say } from '../lib/audio'
 import { cheer, ladder, magic } from '../lib/sfx'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import { DEED_ICON, dayCard } from './todayRecap'

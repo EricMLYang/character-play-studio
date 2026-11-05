@@ -19,12 +19,20 @@ import { Confetti, SubBar, emojiArt } from './ui'
 import { holdCelebrations } from './hold'
 
 /**
- * 魔法筆：夥伴許一個願望（「好冷喔，幫我寫一點火！」），他把那個字寫出來，
- * 他寫的筆跡就變成那個東西（Conjure.tsx）。一輪三個願望（wishes.ts 挑字、決定怎麼寫）。
+ * 魔法筆：寫出來，就變出來（docs/overnight/2026-11-06/PLAN.md）。
  *
  * 寫字從「看完影片的尾巴」變成「要什麼就寫什麼」的能力——研究上最有效的事（寫、遮起來寫）
  * 剛好是他最少做的事（2026-11-05 看紀錄：描字有史以來 13 次），這個遊戲就是為了把它翻過來。
- * 記成 trace 紀錄：小鎮搬家、長大、星星都跟字卡上描字一樣算。
+ *
+ * 一輪三個願望（wishes.ts 的 pickRound 挑字）：
+ *   選   「你想先變哪一個？」三張圖卡，圖底下是字，他自己挑（剩一個就不用選）
+ *   許願  夥伴說願望（「好冷喔，幫我寫一點火！」）
+ *   寫   照這個字的魔法等級寫（✏️ 描 → 👀 看一眼 → 🙈 遮起來 → 🧙 聽寫，wishes.ts 的 writeLevel）
+ *   變身  他寫的筆跡變成那個東西（Conjure.tsx），演完掉進背景他的魔法世界（World.tsx）
+ *   謝謝  夥伴道謝；升級了、沒偷看就寫出來了都多誇一句
+ *   合體  後兩個字湊得成一個詞就合起來（Fuse.tsx：火＋山＝火山）
+ * 記成 trace 紀錄（小鎮搬家、長大、星星都跟字卡上描字一樣算）；合體記成 fuse。
+ * 一輪還在演的時候，加冕、寶箱先等（hold.ts）。
  */
 const RATE = 0.85
 const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length + 0.5) * 1000
@@ -98,7 +106,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   useEffect(() => { chooseNext([], true) }, [round])
   const pick = (i: number) => { tap(); voice.current?.(); start(i) }
 
-  // 這一輪會唸到的話先抓好；第一個願望前先打招呼
+  // 這一輪會唸到的話先抓好
   useEffect(() => {
     preloadVoice([SPELL_FIXED.hello, SPELL_FIXED.choose, SPELL_FIXED.memory, SPELL_FIXED.levelUp, SPELL_FIXED.yours, SPELL_FIXED.look, SPELL_FIXED.gone, SPELL_FIXED.hint, SPELL_FIXED.done, SPELL_FIXED.world, SPELL_FIXED.again, ...wishes.flatMap((w) => [w.wish, w.thanks, w.char]),
       ...(combo ? [SPELL_FIXED.fuse, combo.word, combo.thanks, RADICAL_FIXED.buildPlus, RADICAL_FIXED.buildMake] : [])])
@@ -107,7 +115,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     if (!wish) return
     setPhase('ask')
     react('wave')
-    // 招呼只在沒得選、直接開始寫的時候說（有得選的話選之前已經說過了）
+    // 招呼只說一次：有得選的話選之前已經說過了，沒得選（want 來的）就在這裡說
     const hello = !greeted.current
     greeted.current = true
     const lines = hello ? [SPELL_FIXED.hello, wish.wish] : [wish.wish]

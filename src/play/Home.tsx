@@ -3,7 +3,7 @@ import type { CharEntry, Progress } from '../types'
 import { hasMovie } from '../anim/clips'
 
 import { tap } from '../lib/sfx'
-import { preloadVoice, say, sayAll } from '../lib/audio'
+import { preloadVoice, sayAll } from '../lib/audio'
 import { FIXED_LINES } from '../../shared/voice-lines.mjs'
 import type { Filter } from './PlayApp'
 import { hueMap, type WordGroup } from './words'

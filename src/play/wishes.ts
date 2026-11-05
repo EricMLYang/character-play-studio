@@ -30,17 +30,18 @@ const COMFORT: Record<WriteLevel, number> = { trace: 8, look: 11, blind: 14, mem
 /** 一輪許幾個願望：三個剛好（每個字要寫一陣子，六歲一次大約撐三個） */
 export const WISHES_PER_ROUND = 3
 
-/**
- * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
- * 看過的字裡：該複習的（記住程度到期了）最優先，再來是還沒寫過的、只描過沒遮起來寫過的。
- * 筆畫多的往後排（第一次寫的字尤其是）；魔法世界還空著的那一區先補。一輪裡動作不重複（不要三個都在游泳）。want＝他為了這個字來的，有的話排第一個。
- */
 type PickOptions = {
   n?: number; want?: string; today: string; rand?: () => number
   /** 今天的路上的字（今天的新字、該複習的）：今天學的就今天寫 */
   focus?: string[]
 }
 
+/**
+ * 挑願望。先挑他看過的字（沒看過的字還不認得，寫出來也只是描線條）；
+ * 看過的字裡：該複習的（記住程度到期了）最優先，再來是今天路上的字、還沒寫過的、只描過沒遮起來寫過的。
+ * 筆畫多的往後排（第一次寫的字尤其是）；魔法世界還空著的那一區先補。一輪裡動作不重複（不要三個都在游泳）。
+ * want＝他為了這個字來的，有的話排第一個。分數怎麼算在 scoreSpells。
+ */
 export function pickWishes(library: CharEntry[], progress: Progress, options: PickOptions): Wish[] {
   const n = options.n ?? WISHES_PER_ROUND
   const scored = scoreSpells(library, progress, options)

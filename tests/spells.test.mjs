@@ -134,7 +134,7 @@ test('魔法世界：同一個字每次都站在同一個地方；憑記憶寫�
   assert.ok(b.size > a.size)
 })
 
-test('魔法世界：全部 60 個字都寫過也住得下（同一區不疊在一起太多）', () => {
+test('魔法世界：會變身的字全部都寫過也住得下（同一區不疊在一起太多）', () => {
   const all = Object.fromEntries(SPELLS.map((s) => [s.char, r(1)]))
   const world = dwellers(all, emojiOf)
   assert.equal(world.length, SPELLS.length)
