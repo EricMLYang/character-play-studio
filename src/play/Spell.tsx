@@ -445,8 +445,10 @@ function SpellDone({ world, fresh, next, written, upcoming, onPick, onNext, onAg
         <div className="spell-done-hand" aria-label="你這一輪寫的字">
           {written.map((w, i) => (
             <button key={w.char} onClick={() => replay(w)} style={{ animationDelay: `${i * 0.15}s` }} aria-label={w.char}>
-              <svg key={redraw?.char === w.char ? redraw.n : 0} viewBox="0 0 1024 1024" className={redraw?.char === w.char ? 'spell-redraw' : undefined} aria-hidden>
-                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} pathLength={1} style={{ animationDelay: `${k * REDRAW_MS}ms` }} />)}</g>
+              {/* 一進結算就自己一筆一筆寫出來（快一點、不出聲）：他看得出那是他寫的；點了再慢慢重寫一次 */}
+              <svg key={redraw?.char === w.char ? redraw.n : 0} viewBox="0 0 1024 1024" className={!redraw || redraw.char === w.char ? 'spell-redraw' : undefined} aria-hidden>
+                <g transform="scale(1, -1) translate(0, -900)">{w.strokes.map((st, k) => <path key={k} d={inkPath(st)} pathLength={1}
+                  style={{ animationDelay: `${redraw ? k * REDRAW_MS : 400 + i * 150 + k * 110}ms` }} />)}</g>
               </svg>
             </button>
           ))}
