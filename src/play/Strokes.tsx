@@ -83,8 +83,16 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
   /** 這一輪是「看一眼」（只有第一輪；按重來、再寫一次就回到平常的樣子） */
   const [look, setLook] = useState(startLook && !startBlind)
   const [peeking, setPeeking] = useState(false)
+  /** 這一次遮起來寫算不算憑記憶（沒偷看、提示不超過一筆）：寫完那行字照實說 */
+  const [credited, setCredited] = useState(true)
   /** 遮起來寫的時候偷看過（外框亮一下）：這次就不算憑記憶寫，小鎮不長大，但照樣算寫完 */
   const peeked = useRef(false)
+  /**
+   * 遮起來寫的時候，有幾筆是錯到閃提示才寫出來的（同一筆錯兩次 hanzi-writer 會讓那一筆閃）。
+   * 超過一筆就跟偷看一樣，不算憑記憶寫——不然靠提示一筆一筆描完也會升到「聽寫」。一筆寫歪是六歲的日常，放過。
+   */
+  const hinted = useRef(0)
+  const HINTS_ALLOWED = 1
   const writerRef = useRef<HanziWriter | null>(null)
   const peek = () => {
     const w = writerRef.current
@@ -178,6 +186,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
       })
       writerRef.current = writer
       peeked.current = false
+      hinted.current = 0
       observer = new ResizeObserver(() => {
         writer?.updateDimensions({ width: size(), height: size(), padding: Math.round(size() * 0.05) })
       })
@@ -205,6 +214,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
         writer?.quiz({
             onMistake: (s) => {
               if (!alive) return
+              if (s.mistakesOnStroke === 2) hinted.current += 1
               try { missed.current?.(s.mistakesOnStroke) } catch { /* 同下：不能卡住描字 */ }
             },
             onCorrectStroke: (s) => {
@@ -227,7 +237,9 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
               } catch { /* 沒有炸開也要能慶祝 */ }
               setStage('done')
               // 補齊漏掉的筆（理論上不會），避免存下有洞的陣列
-              try { traced.current?.(Array.from(hand, (s) => s || []), blind && !peeked.current) } catch { /* 存不了筆跡也要能慶祝 */ }
+              const fromMemory = blind && !peeked.current && hinted.current <= HINTS_ALLOWED
+              setCredited(fromMemory)
+              try { traced.current?.(Array.from(hand, (s) => s || []), fromMemory) } catch { /* 存不了筆跡也要能慶祝 */ }
             },
           })
       }
@@ -280,7 +292,7 @@ export default function Strokes({ char, highlight, startBlind = false, startLook
           : stage === 'writing' ? '✏️ 一筆一畫，寫給你看'
           : stage === 'tracing' && look && drawn === 0 ? '👀 看清楚，開始寫！外框會偷偷變不見'
           : stage === 'tracing' ? (blind ? `🙈 沒有偷看，自己寫！還有 ${Math.max(total - drawn, 0)} 筆` : `👆 換你用手指描！還有 ${Math.max(total - drawn, 0)} 筆`)
-          : blind ? '🌟 沒有偷看就寫出來了！' : '🎉 你自己把這個字寫出來了！'}
+          : blind ? (credited ? '🌟 沒有偷看就寫出來了！' : '🎉 寫出來了！下次不看提示試試看') : '🎉 你自己把這個字寫出來了！'}
       </p>
       {stage !== 'loading' && (
         <div className="stroke-actions">
