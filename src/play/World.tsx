@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Dweller } from './magicWorld'
+import { skyAt } from './stageScenes'
 import { emojiArt } from './ui'
 
 /**
@@ -19,7 +20,8 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
   // 點一個東西：它跳一下（key 換掉讓動畫重來），唸它的字——他會想把每個都點一遍，每點一次就是一次認字
   const [poke, setPoke] = useState<{ char: string; n: number } | null>(null)
   return (
-    <div className={'world' + (backdrop ? ' world-backdrop' : '')} aria-label={`你的魔法世界，住了 ${shown.length} 個東西`} aria-hidden={backdrop || undefined}>
+    // 天色跟整個樂園一樣照時間（stageScenes.ts 的 skyAt）：晚上進魔法筆不會突然變成大白天
+    <div className={`world world-sky-${skyAt(new Date().getHours())}` + (backdrop ? ' world-backdrop' : '')} aria-label={`你的魔法世界，住了 ${shown.length} 個東西`} aria-hidden={backdrop || undefined}>
       <div className="world-sky" />
       <svg className="world-land" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
         <path d="M0 50 C18 38 32 44 50 40 C70 36 82 44 100 40 V100 H0 Z" fill="#A8DB8F" />

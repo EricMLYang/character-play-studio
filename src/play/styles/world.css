@@ -2,7 +2,11 @@
 /* 固定 16:10，住戶的位置用百分比才不會跑掉。class 與 @keyframes 一律 world 開頭 */
 .world { position: relative; width: min(94vw, 108vh); aspect-ratio: 16 / 10; border-radius: 28px; overflow: hidden;
   box-shadow: 0 0 0 6px rgba(255,255,255,.7), 0 18px 40px rgba(0,0,0,.18); }
-.world-sky { position: absolute; inset: 0; background: linear-gradient(#9ED8FF, #D4EEFF 45%, #FFF6E9); }
+.world-sky { position: absolute; inset: 0; background: linear-gradient(var(--w-top, #9ED8FF), var(--w-mid, #D4EEFF) 45%, var(--w-low, #FFF6E9)); }
+/* 天色跟舞台（stage.css 的 .scenery.sky-*）同一組顏色 */
+.world-sky-dawn  { --w-top: #FFD3C2; --w-mid: #FFE9D6; --w-low: #FFF6E9; }
+.world-sky-dusk  { --w-top: #FFB38A; --w-mid: #FFD9B8; --w-low: #FFF0E0; }
+.world-sky-night { --w-top: #A9A2EA; --w-mid: #D4C9F5; --w-low: #FCEAF2; }
 .world-land { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* 每個住戶：以腳底為準站在 (x, y)；身體跟著自己住的地方輕輕動 */
