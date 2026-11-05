@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Dweller } from './magicWorld'
 import { emojiArt } from './ui'
 
@@ -15,6 +16,8 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
   onPick?: (char: string) => void
 }) {
   const shown = dwellers.filter((d) => !hide.includes(d.char))
+  // 點一個東西：它跳一下（key 換掉讓動畫重來），唸它的字——他會想把每個都點一遍，每點一次就是一次認字
+  const [poke, setPoke] = useState<{ char: string; n: number } | null>(null)
   return (
     <div className={'world' + (backdrop ? ' world-backdrop' : '')} aria-label={`你的魔法世界，住了 ${shown.length} 個東西`} aria-hidden={backdrop || undefined}>
       <div className="world-sky" />
@@ -30,10 +33,10 @@ export default function World({ dwellers, fresh = [], hide = [], backdrop = fals
       {shown.map((d, i) => {
         const art = emojiArt(d.emoji)
         return (
-          <button key={d.char} className={`world-dweller world-${d.zone} world-act-${d.act}${fresh.includes(d.char) ? ' world-fresh' : ''}`}
+          <button key={d.char} className={`world-dweller world-${d.zone} world-act-${d.act}${fresh.includes(d.char) ? ' world-fresh' : ''}${poke?.char === d.char ? ' world-poked' : ''}`}
             style={{ left: `${d.x}%`, top: `${d.y}%`, ['--s' as string]: d.size, ['--d' as string]: `${(i % 7) * -0.7}s` }}
-            onClick={() => onPick?.(d.char)} aria-label={d.char} tabIndex={backdrop ? -1 : undefined}>
-            <span className="world-body">{art ? <img src={art} alt="" draggable={false} /> : d.emoji}</span>
+            onClick={() => { setPoke((p) => ({ char: d.char, n: (p?.n || 0) + 1 })); onPick?.(d.char) }} aria-label={d.char} tabIndex={backdrop ? -1 : undefined}>
+            <span key={poke?.char === d.char ? poke.n : 0} className="world-body">{art ? <img src={art} alt="" draggable={false} /> : d.emoji}</span>
             <b className="world-char">{d.char}</b>
           </button>
         )
