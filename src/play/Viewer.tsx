@@ -16,6 +16,8 @@ import { familiesIn, homesFor } from './families'
 import MeaningFx from './MeaningFx'
 import OriginPlay from './OriginPlay'
 import { hasOrigin } from './origins'
+import Conjure, { inkBox } from './Conjure'
+import { spellFor } from '../../shared/spells.mjs'
 import { Confetti, emojiArt, hueOf, hueVar } from './ui'
 
 /**
@@ -73,6 +75,9 @@ export default function Viewer({
     const moved = !resident ? 'in' : blind ? (level + 1 >= CROWN_LEVEL ? 'crown' : 'grow') : null
     dispatch({ type: 'traced', moved })
     onTraced(entry, strokes, blind)
+    // 會變身的字（shared/spells.mjs）：他寫的那幾筆從格子裡飛出來，變成那個東西
+    const from = inkBox(root.current?.querySelector('.stroke-canvas'))
+    if (spell && entry.emoji && from) setConjure({ key: Date.now(), strokes, from })
     voice.current?.()
     const line = moved === 'in' ? FIXED_LINES.movedIn : moved === 'crown' ? FIXED_LINES.movedCrown
       : moved === 'grow' ? FIXED_LINES.movedGrow : null
@@ -181,6 +186,10 @@ export default function Viewer({
   const homes = useMemo(() => homesFor(entry.char, familiesIn(library)), [entry.char, library])
   /** 象形字「以前長這樣」開著沒（origins.ts） */
   const [origin, setOrigin] = useState(false)
+  /** 描完變身（Conjure.tsx）：他寫的筆跡變成那個東西 */
+  const spell = spellFor(entry.char)
+  const [conjure, setConjure] = useState<{ key: number; strokes: number[][]; from: { left: number; top: number; width: number; height: number } } | null>(null)
+  useEffect(() => setConjure(null), [entry.char])
   const words = entry.words || []
   /** 有 3D 圖就用 3D 圖：沒有影片的字，這張圖就是他看到的主角 */
   const art = emojiArt(entry.emoji)
@@ -209,6 +218,9 @@ export default function Viewer({
       </header>
 
       {origin && <OriginPlay char={entry.char} onClose={() => setOrigin(false)} />}
+      {conjure && spell && entry.emoji && (
+        <Conjure key={conjure.key} strokes={conjure.strokes} emoji={entry.emoji} act={spell.act} from={conjure.from} onDone={() => setConjure(null)} />
+      )}
       {!covered && (words.length > 0 || parts.length > 0 || hides.length > 0 || homes.length > 0 || hasOrigin(entry.char)) && (
         <div className="band">
           <div className="band-words">{words.map((word) => (
