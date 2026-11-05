@@ -6,6 +6,7 @@ export function completeWatch(progress: Progress, char: string, at?: string): Pr
 export function addTrace(progress: Progress, char: string, strokes: number[][], at?: string, blind?: boolean): Progress
 export function residentLevel(resident: Resident | undefined): number
 export const CROWN_LEVEL: number
+export function fuseWord(progress: Progress, word: string, at?: string): Progress
 export function discover(progress: Progress, char: string, at?: string): Progress
 export const MAX_WORDS: number
 export function validWord(text: unknown): text is string

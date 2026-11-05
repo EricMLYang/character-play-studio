@@ -83,7 +83,8 @@ export const GAMES: Game[] = [
     subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `寫過 ${n} 個字` : '寫什麼就變什麼' },
     render: (ctx) => (
       <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} focus={ctx.focus} path={ctx.path} onWalk={ctx.walk} onBack={ctx.back}
-        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })} />
+        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })}
+        onFused={(word) => ctx.record({ kind: 'fuse', char: word })} />
     ),
   },
   {

@@ -15,6 +15,8 @@ export type PlayEvent =
   | { kind: 'radical'; char: string; id: string; at: string; family: string; ok: boolean; word?: string }
   /** 指讀小書：text 是整句，char 是他指出來的字，ok 是第一下就指對；mine＝最後一頁他自己接的 */
   | { kind: 'book'; char: string; id: string; at: string; text: string; ok: boolean; mine?: boolean }
+  /** 魔法筆的合體：char 是合出來的詞（shared/spells.mjs 的 COMBOS） */
+  | { kind: 'fuse'; char: string; id: string; at: string }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>
 
 export const PLAY_EVENTS: Record<PlayEventKind, {

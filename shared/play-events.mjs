@@ -1,4 +1,5 @@
-import { taiwanDay, completeWatch, addTrace, discover, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily, validBook, readBook } from './domain.mjs'
+import { taiwanDay, completeWatch, addTrace, discover, fuseWord, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily, validBook, readBook } from './domain.mjs'
+import { COMBOS } from './spells.mjs'
 
 /**
  * 孩子端的每一種紀錄：觀看、描字搬進小鎮、魔法鍋發現、字火車組的詞、餵怪獸、詞語拼圖。
@@ -28,6 +29,9 @@ export const PLAY_EVENTS = {
   radical: { error: '家族紀錄不正確', valid: validRadical, apply: (p, e) => findFamily(p, e.family, e.char, e.at, e.word) },
   // 指讀小書：text 是整句，char 是他指出來的字；mine 是最後一頁自己接的
   book: { error: '小書紀錄不正確', valid: validBook, apply: (p, e) => readBook(p, e.text, e.char, e.ok, e.at, e.mine === true) },
+  // 魔法筆的合體：char 是合出來的詞（shared/spells.mjs 的 COMBOS 裡才收），兩個字都要在字庫裡
+  fuse: { error: '合體紀錄不正確', valid: (e) => COMBOS.some((c) => c.word === e.char), chars: (e) => [...e.char],
+    apply: (p, e) => fuseWord(p, e.char, e.at) },
 }
 
 /** 升級前排進佇列的觀看紀錄沒有 kind，照樣當觀看。 */

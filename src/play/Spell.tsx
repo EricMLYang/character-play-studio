@@ -34,7 +34,7 @@ type Phase = 'choose' | 'ask' | 'write' | 'conjure' | 'thanks' | 'fuse' | 'fused
 /** 變出來的東西；blind＝那個字是沒偷看寫出來的（架子上戴一顆星） */
 type Made = { char: string; emoji: string; blind?: boolean }
 
-export default function Spell({ library, progress, stars, want, focus, path, onWalk, onTraced, onBack }: {
+export default function Spell({ library, progress, stars, want, focus, path, onWalk, onTraced, onFused, onBack }: {
   library: CharEntry[]
   progress: Progress
   stars: number
@@ -44,6 +44,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   path?: Stop[]
   onWalk?: (go: StopGo) => void
   onTraced: (char: string, strokes: number[][], blind: boolean) => void
+  /** 合體合出一個詞（記下來，魔法世界裡一直住著它） */
+  onFused?: (word: string) => void
   onBack: () => void
 }) {
   const [round, setRound] = useState(0)
@@ -71,7 +73,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
 
   const wish: Wish | undefined = index >= 0 ? wishes[index] : undefined
   const emojiOf = (c: string) => library.find((e) => e.char === c)?.emoji
-  const world = useMemo(() => dwellers(progress.town || {}, emojiOf), [progress.town])
+  const world = useMemo(() => dwellers(progress.town || {}, emojiOf, progress.fused), [progress.town, progress.fused])
 
   /**
    * 讓他自己選下一個要變什麼（剩兩個以上的時候）：圖底下寫著字，挑的時候就在認字；
@@ -183,6 +185,7 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
   }
   const fused = () => {
     if (!combo) return
+    onFused?.(combo.word)
     setMade((m) => [...m, { char: combo.word, emoji: combo.emoji }])
     setPhase('fused')
     react('cheer')
