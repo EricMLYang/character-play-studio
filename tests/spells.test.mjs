@@ -64,6 +64,8 @@ test('魔法筆說的每一句都會預先做音檔（伺服器那邊有接上�
   // 第二種說法也要叫得出那個字（不然他聽不出要寫什麼）
   for (const s of SPELLS) {
     assert.ok(s.wish.includes(s.char), `${s.char} 的願望沒提到這個字`)
+    // 每一句都是「…，幫我寫／變／種○！」：他聽熟這個句型，聽到「幫我寫」就知道後面那個字是要寫的
+    for (const w of [s.wish, s.alt].filter(Boolean)) assert.match(w, /幫我(寫|變|種)/, `「${w}」少了「幫我寫」`)
     if (s.alt) assert.ok(s.alt.includes(s.char), `${s.char} 的第二種說法沒提到這個字`)
   }
   assert.match(fs.readFileSync(path.join(ROOT, 'server/voice.mjs'), 'utf8'), /\.\.\.spellLines\(\)/)
