@@ -23,7 +23,7 @@ export const ZONES: Record<Zone, [number, number, number, number]> = {
   sky: [4, 96, 16, 40],
   hill: [5, 95, 42, 58],
   pond: [6, 42, 66, 88],
-  ground: [44, 95, 60, 86],
+  ground: [44, 95, 58, 80],
   picnic: [50, 97, 84, 98],
 }
 
