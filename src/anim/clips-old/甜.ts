@@ -1,0 +1,133 @@
+import type { Clip } from '../clip'
+
+// 甜（v8）：毛茸茸的大怪獸和發條鯊魚拿巨大棒棒糖當劍決鬥，怪獸忍不住先舔一口自己的劍。兩邊大力一揮——怪獸揮空轉兩圈，鯊魚咬到自己的劍也轉圈；
+// 頭昏昏走到中間「咚」地撞頭坐倒，糖棒和怪獸背上那捆糖果棒散落成「甜」。杯子蛋糕蹦出來，鯊魚撲過去咬空滿鼻奶油；最後鯊魚終於一口咬到——櫻桃彈到頭上。甜、甜、甜點
+const clip: Clip = {
+  char: '甜',
+  meta: { theme: '糖果劍決鬥', cast: '大怪獸＋發條鯊魚＋棒棒糖劍＋杯子蛋糕', gags: ['偷舔自己的劍', '揮空轉圈咬到自己', '撞頭坐倒', '撲空滿鼻奶油'] },
+  duration: 10,
+  bg: { top: '#FFE3EE', bottom: '#FFF5F9', floor: '#F3C6D6', scenery: 'hills' },
+  actors: [
+    { id: 'bundle', emoji: '🍬', x: 22, y: 63, size: 8, hidden: true },
+    { id: 'monster', emoji: 'hero:monster/idle', x: 32, y: 70.3, size: 16, hidden: true, flip: true },
+    { id: 'lolly1', emoji: '🍭', x: 42, y: 62, size: 9, hidden: true },
+    { id: 'shark', emoji: 'hero:shark/idle', x: 128, y: 70.7, size: 15, hidden: true },
+    { id: 'lolly2', emoji: '🍭', x: 118, y: 62, size: 9, hidden: true },
+    { id: 'cupcake', emoji: '🧁', x: 120, y: 73.5, size: 8, hidden: true },
+  ],
+  moves: [
+    { at: 0.1, actor: 'monster', do: 'enter', from: { x: -20, y: 70.3 }, dur: 0.6 },
+    { at: 0.1, actor: 'bundle', do: 'enter', from: { x: -30, y: 63 }, dur: 0.6 },
+    { at: 0.1, actor: 'lolly1', do: 'enter', from: { x: -10, y: 62 }, dur: 0.6 },
+    { at: 0.1, actor: 'shark', do: 'enter', from: { x: 180, y: 70.7 }, dur: 0.6 },
+    { at: 0.1, actor: 'lolly2', do: 'enter', from: { x: 170, y: 62 }, dur: 0.6 },
+    // 怪獸忍不住舔一口自己的劍
+    { at: 0.9, actor: 'monster', do: 'swap', emoji: 'hero:monster/happy' },
+    { at: 0.9, actor: 'lolly1', do: 'moveTo', to: { x: 38, y: 58 }, dur: 0.3 },
+    { at: 1.4, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 1.4, actor: 'shark', do: 'shake', amount: 0.6, dur: 0.4 },
+    { at: 1.6, actor: 'lolly1', do: 'moveTo', to: { x: 42, y: 62 }, dur: 0.2 },
+    // 大力預備——揮！
+    { at: 1.8, actor: 'monster', do: 'swap', emoji: 'hero:monster/roar' },
+    { at: 1.8, actor: 'monster', do: 'squash', amount: -0.3, dur: 0.35 },
+    { at: 1.8, actor: 'shark', do: 'squash', amount: -0.3, dur: 0.35 },
+    { at: 1.8, actor: 'shark', do: 'swap', emoji: 'hero:shark/idle' },
+    // 怪獸揮空轉兩圈
+    { at: 2.2, actor: 'monster', do: 'spin', times: 2, dur: 0.7 },
+    { at: 2.2, actor: 'lolly1', do: 'moveTo', to: { x: 22, y: 60 }, dur: 0.35, arc: 6 },
+    { at: 2.55, actor: 'lolly1', do: 'moveTo', to: { x: 42, y: 62 }, dur: 0.35, arc: 6 },
+    // 鯊魚咬到自己的劍，原地轉圈
+    { at: 2.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 2.4, actor: 'shark', do: 'swap', emoji: 'hero:shark/spin' },
+    { at: 2.4, actor: 'shark', do: 'spin', times: 2, dur: 0.7 },
+    { at: 2.4, actor: 'lolly2', do: 'shake', amount: 1, dur: 0.6 },
+    // 頭昏昏走到中間
+    { at: 3.2, actor: 'monster', do: 'swap', emoji: 'hero:monster/dizzy' },
+    { at: 3.2, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
+    { at: 3.2, actor: 'monster', do: 'moveTo', to: { x: 69, y: 70.3 }, dur: 0.5 },
+    { at: 3.2, actor: 'lolly1', do: 'moveTo', to: { x: 79, y: 62 }, dur: 0.5 },
+    { at: 3.2, actor: 'bundle', do: 'moveTo', to: { x: 59, y: 63 }, dur: 0.5 },
+    { at: 3.2, actor: 'shark', do: 'moveTo', to: { x: 92, y: 70.7 }, dur: 0.5 },
+    { at: 3.2, actor: 'lolly2', do: 'moveTo', to: { x: 83, y: 62 }, dur: 0.5 },
+    // 定格半拍，往前靠——咚！
+    { at: 3.75, actor: 'monster', do: 'tilt', amount: 10, dur: 0.25 },
+    { at: 3.75, actor: 'shark', do: 'tilt', amount: -10, dur: 0.25 },
+    { at: 3.95, actor: 'monster', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 3.95, actor: 'shark', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 4.0, actor: 'lolly1', do: 'moveTo', to: { x: 66, y: 30 }, dur: 0.3, arc: 6 },
+    { at: 4.0, actor: 'lolly2', do: 'moveTo', to: { x: 96, y: 30 }, dur: 0.3, arc: 6 },
+    { at: 4.0, actor: 'bundle', do: 'moveTo', to: { x: 62, y: 40 }, dur: 0.3, arc: 6 },
+    { at: 4.0, actor: 'lolly1', do: 'spin', times: 2, dur: 0.3 },
+    { at: 4.0, actor: 'lolly2', do: 'spin', times: 2, dur: 0.3 },
+    { at: 4.3, actor: 'lolly1', do: 'vanish', dur: 0.1 },
+    { at: 4.3, actor: 'bundle', do: 'vanish', dur: 0.1 },
+    { at: 4.65, actor: 'lolly2', do: 'vanish', dur: 0.1 },
+    { at: 4.05, actor: 'monster', do: 'moveTo', to: { x: 30, y: 70.3 }, dur: 0.5, arc: 6, ease: 'out' },
+    { at: 4.05, actor: 'shark', do: 'moveTo', to: { x: 136, y: 70.7 }, dur: 0.5, arc: 6, ease: 'out' },
+    { at: 4.55, actor: 'monster', do: 'squash', amount: 0.3, dur: 0.3 },
+    { at: 4.55, actor: 'shark', do: 'squash', amount: 0.3, dur: 0.3 },
+    // 杯子蛋糕蹦出來
+    { at: 5.9, actor: 'cupcake', do: 'pop', dur: 0.35 },
+    { at: 5.9, actor: 'shark', do: 'swap', emoji: 'hero:shark/surprised' },
+    { at: 5.9, actor: 'monster', do: 'swap', emoji: 'hero:monster/happy' },
+    // 鯊魚撲過去——蛋糕跳開，咬空滿鼻奶油
+    { at: 6.6, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 6.6, actor: 'shark', do: 'moveTo', to: { x: 124, y: 70.7 }, dur: 0.25, anticipate: 3, ease: 'in' },
+    { at: 6.6, actor: 'cupcake', do: 'hop', amount: 10, dur: 0.45 },
+    { at: 6.9, actor: 'shark', do: 'moveTo', to: { x: 136, y: 70.7 }, dur: 0.35, ease: 'out' },
+    { at: 7.2, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    { at: 7.2, actor: 'shark', do: 'spin', times: 1, dur: 0.5 },
+    // 怪獸舔一根掉下來的糖果棒，晃晃角
+    { at: 7.0, actor: 'monster', do: 'shake', amount: 0.5, dur: 0.6 },
+    // 回馬槍：鯊魚終於一口咬到，櫻桃彈到頭上
+    { at: 8.2, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 8.2, actor: 'shark', do: 'moveTo', to: { x: 125, y: 70.7 }, dur: 0.2, ease: 'in' },
+    { at: 8.4, actor: 'cupcake', do: 'vanish', dur: 0.15 },
+    { at: 8.5, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    { at: 8.5, actor: 'shark', do: 'squash', amount: 0.2, dur: 0.25 },
+    { at: 8.9, actor: 'shark', do: 'moveTo', to: { x: 134, y: 70.7 }, dur: 0.3 },
+    { at: 9.0, actor: 'monster', do: 'bounce', amount: 3, times: 2, dur: 0.6 },
+  ],
+  builds: [
+    // 怪獸背上那捆莓果糖棒 → 舌；鯊魚的大糖棒 → 甘
+    { at: 4.15, dur: 0.75, strokes: [0, 1, 2, 3, 4, 5], from: 'bundle', color: '#E64980' },
+    { at: 4.55, dur: 0.6, strokes: [6, 7, 8, 9, 10], from: 'lolly2', color: '#F76707' },
+  ],
+  glyph: [{ at: 5.2, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 1.0, kind: 'pop', actor: 'monster', emoji: '👅', dur: 0.5 },
+    { at: 1.0, kind: 'pop', actor: 'shark', emoji: '😤', dur: 0.4 },
+    { at: 2.2, kind: 'puff', actor: 'monster', dur: 0.6 },
+    { at: 2.35, kind: 'burst', actor: 'shark', emoji: '💢', n: 1, dur: 0.3 },
+    { at: 3.2, kind: 'dizzy', actor: 'monster', dur: 0.6 },
+    { at: 3.2, kind: 'dizzy', actor: 'shark', dur: 0.6 },
+    { at: 3.95, kind: 'burst', x: 80, y: 58, n: 1, dur: 0.4 },
+    { at: 4.6, kind: 'dizzy', actor: 'monster', dur: 1.2 },
+    { at: 4.6, kind: 'dizzy', actor: 'shark', dur: 1.2 },
+    { at: 6.0, kind: 'burst', actor: 'cupcake', emoji: '✨', n: 5, dur: 0.4 },
+    { at: 6.9, kind: 'pop', actor: 'shark', emoji: '🍦', dur: 0.8, dx: -5 },
+    { at: 7.0, kind: 'pop', actor: 'monster', emoji: '👅', dur: 0.6 },
+    { at: 8.6, kind: 'pop', actor: 'shark', emoji: '🍒', dur: 0.9 },
+  ],
+  camera: [
+    { at: 3.75, dur: 0.6, do: 'punch', amount: 0.2, to: { x: 80, y: 58 } },
+    { at: 3.95, dur: 0.3, do: 'shake', amount: 1 },
+  ],
+  cues: [
+    { at: 1.0, say: '甜' },
+    { at: 1.4, sfx: 'clink' },
+    { at: 2.2, sfx: 'whoosh' },
+    { at: 2.35, sfx: 'crack' },
+    { at: 3.95, sfx: 'bonk' },
+    { at: 4.2, sfx: 'clink' },
+    { at: 4.55, sfx: 'plop' },
+    { at: 5.25, say: '甜' },
+    { at: 5.95, sfx: 'boing' },
+    { at: 6.15, say: '甜點' },
+    { at: 6.6, sfx: 'whoosh' },
+    { at: 8.35, sfx: 'gulp' },
+    { at: 9.5, sfx: 'cheer' },
+  ],
+}
+
+export default clip
