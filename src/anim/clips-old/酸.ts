@@ -1,0 +1,117 @@
+import type { Clip } from '../clip'
+
+// 酸：機器人想拿吊在高高的酸梅，長手臂馬達太強，「咻」地伸過頭撞到天花板。酷炫車子衝進來也想搶，衝過頭一頭撞上機器人，把他撞成彈珠：
+// 地板、車頂、牆壁、天花板連環彈，每撞一下「喀」地敲進一組筆畫，最後一彈正好坐在「酸」的上面，咬一口酸梅臉皺成一團。酸梅湯冒出來，車子又衝過頭把杯子撞翻。酸、酸、酸梅湯
+const clip: Clip = {
+  char: '酸',
+  meta: { theme: '搶酸梅', cast: '機器人＋酷炫車子＋酸梅＋酸梅湯', gags: ['長手臂伸過頭', '被撞成彈珠連環彈', '咬一口酸到皺臉', '車子又衝過頭撞翻杯子'] },
+  duration: 10,
+  bg: { top: '#FFF0A8', bottom: '#FFFAE0', floor: '#E6CF8A', scenery: 'room' },
+  actors: [
+    { id: 'plum', emoji: '🫐', x: 84, y: 11, size: 8, float: true },
+    { id: 'glass', emoji: '🥤', x: 136, y: 72, size: 11, hidden: true },
+    { id: 'plum2', emoji: '🫐', x: 136, y: 54, size: 6, hidden: true, float: true },
+    { id: 'robot', emoji: 'hero:robot/idle', x: 30, y: 71, size: 14, hidden: true, flip: true },
+    { id: 'car', emoji: 'hero:car/idle', x: 132, y: 69, size: 19, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'robot', do: 'enter', from: { x: -15, y: 71 }, dur: 0.6, ease: 'out' },
+    { at: 0, actor: 'robot', do: 'bounce', amount: 1.5, times: 3, dur: 0.6 },
+    { at: 0.3, actor: 'plum', do: 'tilt', amount: 15, dur: 1.2 },
+    // 長手臂往上伸——馬達太強，伸過頭撞到天花板，踮著腳晃
+    { at: 1.0, actor: 'robot', do: 'swap', emoji: 'hero:robot/surprised' },
+    { at: 1.35, actor: 'robot', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 1.4, actor: 'robot', do: 'tilt', amount: 10, dur: 0.5 },
+    // 車子衝進來，衝過頭一頭撞上機器人
+    { at: 1.8, actor: 'car', do: 'enter', from: { x: 185, y: 69 }, dur: 0.4, ease: 'back' },
+    { at: 2.2, actor: 'car', do: 'shake', amount: 1, dur: 0.3 },
+    { at: 2.5, actor: 'car', do: 'swap', emoji: 'hero:car/fast' },
+    { at: 2.5, actor: 'car', do: 'moveTo', to: { x: 46, y: 69 }, dur: 0.35, anticipate: 4, ease: 'in' },
+    { at: 2.85, actor: 'car', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 2.85, actor: 'car', do: 'swap', emoji: 'hero:car/dizzy' },
+    { at: 2.85, actor: 'robot', do: 'squash', amount: 0.5, dur: 0.2 },
+    { at: 2.85, actor: 'robot', do: 'swap', emoji: 'hero:robot/dizzy' },
+    // 彈珠連環彈：地板、車頂、牆壁、天花板，最後坐在字上面
+    { at: 3.05, actor: 'robot', do: 'moveTo', to: { x: 66, y: 72 }, dur: 0.25, ease: 'linear' },
+    { at: 3.3, actor: 'robot', do: 'moveTo', to: { x: 46, y: 56 }, dur: 0.3, ease: 'linear' },
+    { at: 3.6, actor: 'robot', do: 'moveTo', to: { x: 152, y: 36 }, dur: 0.4, ease: 'linear' },
+    { at: 4.0, actor: 'robot', do: 'moveTo', to: { x: 112, y: 7 }, dur: 0.3, ease: 'linear' },
+    { at: 4.3, actor: 'robot', do: 'moveTo', to: { x: 72, y: 11 }, dur: 0.4, arc: 6, ease: 'out' },
+    { at: 3.05, actor: 'robot', do: 'spin', times: 4, dur: 1.65 },
+    { at: 3.3, actor: 'car', do: 'squash', amount: 0.3, dur: 0.2 },
+    // 酸梅盪進他手裡
+    { at: 4.5, actor: 'plum', do: 'moveTo', to: { x: 80, y: 9 }, dur: 0.3, ease: 'back' },
+    { at: 4.75, actor: 'robot', do: 'squash', amount: 0.25, dur: 0.2 },
+    // 咬一口——酸到臉皺成一團
+    { at: 5.6, actor: 'robot', do: 'swap', emoji: 'hero:robot/happy' },
+    { at: 5.8, actor: 'plum', do: 'scaleTo', amount: 0.7, dur: 0.1 },
+    { at: 5.9, actor: 'robot', do: 'swap', emoji: 'hero:robot/broken' },
+    { at: 5.9, actor: 'robot', do: 'shake', amount: 1.2, dur: 0.6 },
+    { at: 5.9, actor: 'robot', do: 'squash', amount: 0.3, dur: 0.4 },
+    // 酸梅湯冒出來，第二顆酸梅撲通掉進去
+    { at: 6.8, actor: 'glass', do: 'pop', dur: 0.3 },
+    { at: 7.0, actor: 'plum2', do: 'pop', dur: 0.15 },
+    { at: 7.1, actor: 'plum2', do: 'moveTo', to: { x: 136, y: 68 }, dur: 0.3, ease: 'in' },
+    { at: 7.4, actor: 'plum2', do: 'vanish', dur: 0.1 },
+    { at: 7.4, actor: 'glass', do: 'squash', amount: 0.2, dur: 0.2 },
+    { at: 7.6, actor: 'car', do: 'shake', amount: 0.8, dur: 0.4 },
+    { at: 7.7, actor: 'robot', do: 'swap', emoji: 'hero:robot/happy' },
+    // 回馬槍：車子又衝過頭，把杯子撞翻
+    { at: 8.3, actor: 'car', do: 'flip' },
+    { at: 8.3, actor: 'car', do: 'swap', emoji: 'hero:car/fast' },
+    { at: 8.4, actor: 'car', do: 'moveTo', to: { x: 124, y: 69 }, dur: 0.35, anticipate: 4, ease: 'in' },
+    { at: 8.75, actor: 'glass', do: 'rotateTo', amount: 90, dur: 0.25, ease: 'bounce' },
+    { at: 8.75, actor: 'glass', do: 'moveTo', to: { x: 145, y: 72 }, dur: 0.25 },
+    { at: 8.75, actor: 'car', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 8.8, actor: 'car', do: 'swap', emoji: 'hero:car/surprised' },
+  ],
+  builds: [
+    // 地板喀 → 酉的外框；車頂喀 → 酉裡面；牆壁喀 → 厶和八；天花板喀 → 夊
+    { at: 3.3, dur: 0.3, strokes: [0, 1, 2, 6], from: { x: 66, y: 72 }, color: '#7B2CBF' },
+    { at: 3.6, dur: 0.3, strokes: [3, 4, 5], from: { x: 46, y: 56 }, color: '#9D4EDD' },
+    { at: 4.0, dur: 0.3, strokes: [7, 8, 9, 10], from: { x: 152, y: 36 }, color: '#7B2CBF' },
+    { at: 4.3, dur: 0.35, strokes: [11, 12, 13], from: { x: 112, y: 7 }, style: 'drop', color: '#9D4EDD' },
+  ],
+  glyph: [{ at: 4.9, dur: 0.4, do: 'wobble' }, { at: 9.3, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'bubble', actor: 'robot', emoji: '🫐', dur: 0.6 },
+    { at: 0, kind: 'line', actor: 'plum', to: { x: 84, y: -2 }, color: '#868E96', width: 0.6, dur: 4.5 },
+    { at: 1.0, kind: 'line', actor: 'robot', to: { x: 96, y: 1 }, color: '#ADB5BD', width: 2, dur: 0.5 },
+    { at: 1.3, kind: 'burst', x: 96, y: 5, n: 1, dur: 0.3 },
+    { at: 1.5, kind: 'sweat', actor: 'robot' },
+    { at: 2.2, kind: 'puff', actor: 'car', dur: 0.4 },
+    { at: 2.85, kind: 'burst', actor: 'robot', n: 1, dx: 4, dur: 0.3 },
+    { at: 3.3, kind: 'pop', actor: 'car', emoji: '😵', dur: 0.4 },
+    { at: 4.0, kind: 'burst', x: 150, y: 36, n: 1, dur: 0.25 },
+    { at: 4.8, kind: 'dizzy', actor: 'robot', dy: 8, dur: 0.8 },
+    { at: 5.9, kind: 'pop', actor: 'robot', emoji: '😖', dx: -12, dy: 12, dur: 0.7 },
+    { at: 6.0, kind: 'burst', actor: 'robot', emoji: '🌀', n: 3, dy: 12, dur: 0.5 },
+    { at: 7.4, kind: 'fountain', actor: 'glass', emoji: '💧', dur: 0.4 },
+    { at: 7.8, kind: 'pop', actor: 'robot', emoji: '👍', dx: -12, dy: 12, dur: 0.7 },
+    { at: 8.75, kind: 'fountain', actor: 'glass', emoji: '💧', dur: 0.6 },
+    { at: 8.9, kind: 'pop', actor: 'robot', emoji: '😆', dx: -12, dy: 12, dur: 0.7 },
+  ],
+  camera: [
+    { at: 2.85, dur: 0.3, do: 'shake', amount: 0.8 },
+    { at: 2.5, dur: 0.6, do: 'punch', amount: 0.15, to: { x: 42, y: 64 } },
+  ],
+  cues: [
+    { at: 1.0, say: '酸' },
+    { at: 1.3, sfx: 'bonk' },
+    { at: 1.8, sfx: 'rumble' },
+    { at: 2.5, sfx: 'whoosh' },
+    { at: 2.85, sfx: 'bonk' },
+    { at: 3.3, sfx: 'boing' },
+    { at: 3.6, sfx: 'clink' },
+    { at: 4.0, sfx: 'bonk' },
+    { at: 4.3, sfx: 'tap' },
+    { at: 4.95, say: '酸' },
+    { at: 5.85, sfx: 'crack' },
+    { at: 6.8, say: '酸梅湯' },
+    { at: 7.4, sfx: 'splash' },
+    { at: 8.75, sfx: 'splash' },
+    { at: 9.4, sfx: 'cheer' },
+  ],
+}
+
+export default clip
