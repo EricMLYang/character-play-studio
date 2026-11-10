@@ -61,7 +61,10 @@ npm run anim:check -- 字1 字2   # 檢查唸字次數與時機、筆畫有沒�
 唸字的「會被打斷」是用**真實音檔長度**算的（`public/voice/index.json`，dev server 開著就會自動把新劇本的句子做好；
 沒有就先跑 `npm run voice`），所以這一項要認真修：把下一句往後挪，或把前一句提早。
 
-再用 `anim:shot` 看整支成品（背景開 headless Chrome 跑真正的試播頁，不用開瀏覽器、不碰孩子的紀錄）：
+再用 `anim:shot` 看整支成品（背景開 headless Chrome 跑真正的試播頁，不用開瀏覽器、不碰孩子的紀錄）。
+**劇本用到新的 emoji（角色、swap、效果都算）後，出總覽之前先跑 `npm run emoji3d`**：孩子端預設畫 3D 圖，
+還沒下載的 emoji 會先用系統 emoji 字代替，看到的不是孩子端的樣子（3D 版的朝向、顏色、留白常常不一樣）。
+最後一行列出「對不到 3D 圖」的就換一個有 3D 圖的 emoji（太新的 emoji 舊 iPad 也可能顯示成方框）。
 
 ```bash
 npm run anim:shot -- 字1 字2              # 整支每 0.25 秒一格的縮圖總覽，每格左上角標秒數（一支約 6 秒）

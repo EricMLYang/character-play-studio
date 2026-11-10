@@ -8,6 +8,9 @@ const M = 68.6 // 小猴子（size 20）
 const TX = -10 // 尾巴在小猴子左後方（小猴子朝右）
 const TY = -1
 
+// 3D 版的椰子切面是灰紫色、外殼偏粉紅，看起來像泡泡；染成咖啡色才認得出是椰子
+const COCO = 'sepia(1) saturate(1.1) brightness(.68) contrast(1.3)'
+
 const clip: Clip = {
   char: '猴',
   meta: { theme: '抓樹上的猴子尾巴', cast: '豬探長＋小猴子＋猴子尾巴＋椰子樹＋香蕉＋椰子', gags: ['跳起來尾巴剛好縮上去', '拉彎椰子樹被彈飛', '椰子砸頭', '猴子翻筋斗落地', '再拉一次樹更彎甩更遠香蕉雨'] },
@@ -15,14 +18,14 @@ const clip: Clip = {
   bg: { top: '#DDF0D0', bottom: '#F6FBEF', floor: '#D8C28E', scenery: 'forest' },
   actors: [
     { id: 'monkey', emoji: '🐒', x: 138, y: 50, size: 20, flip: true, pivot: 'center' },
-    { id: 'coco2', emoji: '🥥', x: 128, y: 48, size: 10, float: true, pivot: 'center' },
-    { id: 'coco3', emoji: '🥥', x: 142, y: 48, size: 10, float: true, pivot: 'center' },
+    { id: 'coco2', emoji: '🥥', tint: COCO, x: 128, y: 48, size: 10, float: true, pivot: 'center' },
+    { id: 'coco3', emoji: '🥥', tint: COCO, x: 142, y: 48, size: 10, float: true, pivot: 'center' },
     { id: 'tree', emoji: '🌴', x: 134, y: 60.5, size: 40 },
     { id: 'tail', emoji: '➰', x: 120, y: 57, size: 12, float: true, tint: 'sepia(1) saturate(3) brightness(.6)' },
     { id: 'ban1', emoji: '🍌', x: 126, y: 46, size: 8, float: true, pivot: 'center' },
     { id: 'ban2', emoji: '🍌', x: 132, y: 42, size: 8, float: true, pivot: 'center' },
     { id: 'ban3', emoji: '🍌', x: 120, y: 44, size: 8, float: true, pivot: 'center' },
-    { id: 'coco', emoji: '🥥', x: 138, y: 46, size: 10, float: true, pivot: 'center' },
+    { id: 'coco', emoji: '🥥', tint: COCO, x: 138, y: 46, size: 10, float: true, pivot: 'center' },
     { id: 'pig', emoji: 'hero:pig/think', x: 40, y: P, size: 22, flip: true, hidden: true },
   ],
   moves: [

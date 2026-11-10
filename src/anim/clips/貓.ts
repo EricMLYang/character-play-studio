@@ -54,7 +54,8 @@ const clip: Clip = {
     { at: 4.95, actor: 'mon', do: 'moveTo', to: { x: 126, y: G }, arc: 12, dur: 0.5, ease: 'out' },
     { at: 4.95, actor: 'mon', do: 'spin', times: 1, dur: 0.5, pivot: 'center' },
     { at: 4.95, actor: 'tree', do: 'rotateTo', amount: -32, dur: 0.6, ease: 'elastic' },
-    { at: 5.05, actor: 'tree', do: 'swap', emoji: '🪾' },
+    // 葉子掉光只剩樹幹：用 🪵（有分枝的樹幹）。🪾 沒有 3D 圖、舊 iPad 也可能顯示成方框
+    { at: 5.05, actor: 'tree', do: 'swap', emoji: '🪵' },
     // 小貓被彈上天
     { at: 5.05, actor: 'kit', do: 'moveTo', to: { x: 40, y: -20 }, dur: 0.35, ease: 'out' },
     { at: 5.05, actor: 'kit', do: 'spin', times: 2, dur: 0.35 },
