@@ -89,13 +89,15 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   const g = glyphAt(clip, t)
   const fx = fxAt(clip, t)
   const cam = cameraAt(clip, t, actors)
+  // 畫面正中間對到的舞台座標（背景視差的支點）
+  const mid = { x: cam.cx + (80 - cam.cx - cam.px) / cam.z, y: cam.cy + (45 - cam.cy - cam.py) / cam.z }
   const visible = actors.filter((a) => a.visible)
-  // 殘影：跑得非常快的角色後面留兩個淡淡的分身（卡通的「咻」）
-  const ghosts = visible.filter((a) => !a.top && velocity(a).speed > 80).flatMap((a) =>
-    [0.035, 0.07].map((lag, i) => {
-      const past = actorsAt(clip, Math.max(0, t - lag)).find((x) => x.id === a.id)
-      return past && past.visible ? { ...past, id: `${a.id}-ghost${i}`, o: past.o * (i ? 0.14 : 0.3), glow: 0 } : null
-    }).filter((x): x is NonNullable<typeof x> => x !== null))
+  // 殘影：跑得非常快的角色後面留一個很淡的分身（卡通的「咻」）。以前兩個分身疊在一起像糊掉，現在只留一個，
+  // 而且直接用 0.05 秒前那一格（上面算速度時已經算過），不用再多算一次
+  const ghosts = visible.filter((a) => !a.top && velocity(a).speed > 110).flatMap((a) => {
+    const past = before.get(a.id)
+    return past && past.visible ? [{ ...past, id: `${a.id}-ghost`, o: past.o * 0.16, glow: 0 }] : []
+  })
   const dark = lightAt(clip, t)
   // 同一頁可能有兩個播放器（Studio 預覽），漸層 id 不能撞
   const uid = useId().replace(/:/g, '')
@@ -111,6 +113,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     const breath = a.float ? 0 : Math.sin(t * 6.9 + phase(a.id)) * 0.022
     // 3D 圖有些跟 Apple emoji 朝反方向，劇本照 Apple 寫，這裡再翻回來
     const flip = a.flip !== (art === '3d' && FLIP_3D.has(codeOf(a.emoji)))
+    // lean：引擎自動加的身體歪斜（走路、急停、換重心），以腳底為支點斜切，上半身像果凍一樣晚一點跟上
     // 拉伸：移動得快就順著方向拉長一點、另一軸縮一點（squash & stretch），停下來自然回彈
     const v = velocity(a)
     const k = Math.min(0.22, Math.max(0, v.speed - 40) / 700)
@@ -122,7 +125,7 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     const filter = [a.tint, art === '3d' ? SOFT : STICKER, a.glow && `drop-shadow(0 0 ${2 + a.glow * 4}px #FFD400) brightness(${1 + a.glow * 0.6})`].filter(Boolean).join(' ')
     return (
       <g key={a.id} opacity={a.o}
-        transform={`translate(${a.x} ${base}) rotate(${a.r}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
+        transform={`translate(${a.x} ${base}) rotate(${a.r}) skewX(${-a.lean}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
         style={filter ? { filter } : undefined}>
         <Emoji char={a.emoji} size={a.size} art={art} />
       </g>
@@ -161,11 +164,13 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
         </radialGradient>
       </defs>
 
-      <g transform={`translate(${cam.cx + cam.dx} ${cam.cy + cam.dy}) scale(${cam.z}) translate(${-cam.cx} ${-cam.cy})`}>
+      {/* 以 (cx, cy) 為定點推近，再平移 (px, py)：自動取景把畫面中心對到正在演的角色 */}
+      <g transform={`translate(${cam.cx + cam.dx + cam.px} ${cam.cy + cam.dy + cam.py}) scale(${cam.z}) translate(${-cam.cx} ${-cam.cy})`}>
         {/* 背景畫大一點，鏡頭震動或推近時邊緣不會露白 */}
         <rect x="-20" y="-20" width="200" height="130" fill={`url(#${sky})`} />
         {/* 視差：背景只跟著鏡頭動一部分，推近、震動時才有景深 */}
-        <g transform={`translate(${cam.cx} ${cam.cy}) scale(${(1 + (cam.z - 1) * 0.4) / cam.z}) translate(${-cam.cx - cam.dx * 0.6} ${-cam.cy - cam.dy * 0.6})`}>
+        {/* 以畫面中心看到的那一點為準縮放，推近、平移時背景的邊才不會露出來 */}
+        <g transform={`translate(${mid.x} ${mid.y}) scale(${(1 + (cam.z - 1) * 0.4) / cam.z}) translate(${-mid.x - cam.dx * 0.6} ${-mid.y - cam.dy * 0.6})`}>
           <Scenery kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} noMoon={noMoon} noSun={noSun} noWindow={noWindow} />
         </g>
         <Ground kind={clip.bg.scenery} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} uid={uid} />

@@ -145,6 +145,8 @@ export type Clip = {
 export type ActorState = {
   id: string; emoji: string; size: number; flip: boolean; float: boolean; top: boolean; tint?: string
   x: number; y: number; s: number; sx: number; sy: number; r: number; o: number
+  /** 身體往左右歪（度，正的是頭往右）：以腳底為支點的斜切，像果凍一樣上半身晚一點跟上；引擎自動加的 */
+  lean: number
   visible: boolean; glow: number
 }
 
@@ -174,73 +176,428 @@ const DEFAULT_DUR: Record<Move['do'], number> = {
 }
 export const durOf = (m: Move) => m.dur ?? DEFAULT_DUR[m.do]
 
-/** 時間 t 時每個角色長什麼樣。動作依開始時間套用，後面的動作接著前面的結果。 */
+/**
+ * 時間 t 時每個角色長什麼樣。動作依開始時間套用，後面的動作接著前面的結果。
+ * 劇本寫的動作之外，引擎會再自動加上卡通的質感（角色放大一點、走路的步伐、換姿勢的彈一下、
+ * 急停往前傾、落地壓扁、站著等的小動作、唸字那一拍點頭），規則在下面「自動質感」。
+ */
 export function actorsAt(clip: Clip, t: number): ActorState[] {
-  const moves = [...clip.moves].sort((a, b) => a.at - b.at)
+  const life = lifeOf(clip)
   return clip.actors.map((a) => {
-    const st: ActorState = {
-      id: a.id, emoji: a.emoji, size: a.size, flip: !!a.flip, float: !!a.float, top: !!a.top, tint: a.tint,
-      x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, o: 1, visible: !a.hidden, glow: 0,
-    }
-    for (const m of moves) {
-      if (m.actor !== a.id || t < m.at) continue
-      const d = durOf(m)
-      const p = d > 0 ? clamp((t - m.at) / d) : 1
-      const live = t <= m.at + d
-      // 預備動作：前 22% 往反方向縮，之後才真的出發
-      const ant = (m.do === 'moveTo' || m.do === 'enter') && m.anticipate ? m.anticipate : 0
-      const pm = ant ? clamp((p - 0.22) / 0.78) : p
-      const e = easeBy(m.ease)(pm)
-      const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * pm)
-      const pull = ant ? ant * Math.sin(Math.PI * clamp(p / 0.22)) : 0
-      // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
-      if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
-      switch (m.do) {
-        case 'enter': {
-          const from = m.from ?? { x: -15, y: st.y }
-          st.visible = true
-          const dir = unit(from, { x: st.x, y: st.y })
-          st.x = lerp(from.x, st.x, e) - dir.x * pull; st.y = lerp(from.y, st.y, e) - arcUp - dir.y * pull
-          break
-        }
-        case 'pop': st.visible = true; st.s *= backOut(p); break
-        case 'drop': st.visible = true; st.y = lerp(-20, st.y, bounceOut(p)); break
-        case 'vanish':
-          st.s *= 1 - e; st.o *= 1 - e
-          if (p >= 1) st.visible = false
-          break
-        case 'moveTo':
-          if (m.to) {
-            const dir = unit({ x: st.x, y: st.y }, m.to)
-            st.x = lerp(st.x, m.to.x, e) - dir.x * pull; st.y = lerp(st.y, m.to.y, e) - arcUp - dir.y * pull
-          }
-          break
-        case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
-        case 'rotateTo': st.r += lerp(0, m.amount ?? 0, e); break
-        case 'swap': if (m.emoji) st.emoji = m.emoji; break
-        case 'tint': st.tint = m.filter || undefined; break
-        case 'flip': st.flip = !st.flip; break
-        default: {
-          if (!live) break
-          const amt = m.amount
-          if (m.do === 'hop') st.y -= (amt ?? 8) * Math.sin(Math.PI * p)
-          if (m.do === 'bounce') st.y -= (amt ?? 5) * Math.abs(Math.sin(Math.PI * (m.times ?? 2) * p)) * (1 - p * 0.5)
-          if (m.do === 'squash') { const k = Math.sin(Math.PI * p) * (amt ?? 0.35); st.sx *= 1 + k; st.sy *= 1 - k * 0.86 }
-          if (m.do === 'shake') st.x += (amt ?? 1.5) * Math.sin(p * Math.PI * 12) * (1 - p)
-          if (m.do === 'spin') st.r += 360 * (m.times ?? 1) * e
-          if (m.do === 'tilt') st.r += (amt ?? 15) * Math.sin(Math.PI * p)
-          if (m.do === 'flash') st.glow = Math.max(st.glow, Math.abs(Math.sin(Math.PI * 3 * p)))
-        }
-      }
-    }
+    const st = baseActor(clip, a, t)
+    applyLife(st, life.get(a.id)!, t)
     return st
   })
+}
+
+/** 只有劇本寫的動作（加上角色放大），沒有自動質感。自動質感本身、鏡頭自動取景用這個算。 */
+export function baseActorsAt(clip: Clip, t: number): ActorState[] {
+  return clip.actors.map((a) => baseActor(clip, a, t))
+}
+
+/** 劇本的動作依開始時間排好；同一份劇本只排一次。 */
+const sortedCache = new WeakMap<Clip, { n: number; moves: Move[] }>()
+function sortedMoves(clip: Clip): Move[] {
+  const hit = sortedCache.get(clip)
+  if (hit && hit.n === clip.moves.length) return hit.moves
+  const moves = [...clip.moves].sort((a, b) => a.at - b.at)
+  sortedCache.set(clip, { n: clip.moves.length, moves })
+  return moves
+}
+
+function baseActor(clip: Clip, a: Actor, t: number): ActorState {
+  const st = rawActor(clip, a, t)
+  castUp(st, castFactor(clip))
+  return st
+}
+
+/** 劇本寫的動作算出來的樣子（還沒放大）。 */
+function rawActor(clip: Clip, a: Actor, t: number): ActorState {
+  const st: ActorState = {
+    id: a.id, emoji: a.emoji, size: a.size, flip: !!a.flip, float: !!a.float, top: !!a.top, tint: a.tint,
+    x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
+  }
+  for (const m of sortedMoves(clip)) {
+    if (t < m.at) break
+    if (m.actor !== a.id) continue
+    const d = durOf(m)
+    const p = d > 0 ? clamp((t - m.at) / d) : 1
+    const live = t <= m.at + d
+    // 預備動作：前 22% 往反方向縮，之後才真的出發
+    const ant = (m.do === 'moveTo' || m.do === 'enter') && m.anticipate ? m.anticipate : 0
+    const pm = ant ? clamp((p - 0.22) / 0.78) : p
+    const e = easeBy(m.ease)(pm)
+    const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * pm)
+    const pull = ant ? ant * Math.sin(Math.PI * clamp(p / 0.22)) : 0
+    // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
+    if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
+    switch (m.do) {
+      case 'enter': {
+        const from = m.from ?? { x: -15, y: st.y }
+        st.visible = true
+        const dir = unit(from, { x: st.x, y: st.y })
+        st.x = lerp(from.x, st.x, e) - dir.x * pull; st.y = lerp(from.y, st.y, e) - arcUp - dir.y * pull
+        break
+      }
+      case 'pop': st.visible = true; st.s *= backOut(p); break
+      case 'drop': st.visible = true; st.y = lerp(-20, st.y, bounceOut(p)); break
+      case 'vanish':
+        st.s *= 1 - e; st.o *= 1 - e
+        if (p >= 1) st.visible = false
+        break
+      case 'moveTo':
+        if (m.to) {
+          const dir = unit({ x: st.x, y: st.y }, m.to)
+          st.x = lerp(st.x, m.to.x, e) - dir.x * pull; st.y = lerp(st.y, m.to.y, e) - arcUp - dir.y * pull
+        }
+        break
+      case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
+      case 'rotateTo': st.r += lerp(0, m.amount ?? 0, e); break
+      case 'swap': if (m.emoji) st.emoji = m.emoji; break
+      case 'tint': st.tint = m.filter || undefined; break
+      case 'flip': st.flip = !st.flip; break
+      default: {
+        if (!live) break
+        const amt = m.amount
+        if (m.do === 'hop') st.y -= (amt ?? 8) * Math.sin(Math.PI * p)
+        if (m.do === 'bounce') st.y -= (amt ?? 5) * Math.abs(Math.sin(Math.PI * (m.times ?? 2) * p)) * (1 - p * 0.5)
+        if (m.do === 'squash') { const k = Math.sin(Math.PI * p) * (amt ?? 0.35); st.sx *= 1 + k; st.sy *= 1 - k * 0.86 }
+        if (m.do === 'shake') st.x += (amt ?? 1.5) * Math.sin(p * Math.PI * 12) * (1 - p)
+        if (m.do === 'spin') st.r += 360 * (m.times ?? 1) * e
+        if (m.do === 'tilt') st.r += (amt ?? 15) * Math.sin(Math.PI * p)
+        if (m.do === 'flash') st.glow = Math.max(st.glow, Math.abs(Math.sin(Math.PI * 3 * p)))
+      }
+    }
+  }
+  return st
 }
 
 /** a → b 的單位向量（兩點重疊時是 0 向量）。 */
 function unit(a: Vec, b: Vec): Vec {
   const len = Math.hypot(b.x - a.x, b.y - a.y)
   return len ? { x: (b.x - a.x) / len, y: (b.y - a.y) / len } : { x: 0, y: 0 }
+}
+
+// ---------- 自動質感（劇本不用寫，189 支一起受惠）----------
+// 全部是「劇本＋t → 畫面」的純函式：要用到的時間表（哪一段在走路、哪一刻落地、什麼時候閒著）
+// 同一份劇本只整理一次（lifeOf），之後每一格只是查表加幾個 sin，不會讓每格的運算量變多。
+
+/** 站在地上的腳底高度（skill 裡的 y ≈ 77 − 0.42 × size） */
+const GROUND = 77
+
+/**
+ * 角色整體放大：小角色在 160 寬的舞台上只有 1/12，戲都看不清楚。小的（18 以下）放大三成，越大放得越少，34 以上不動，
+ * 腳底高度跟著同一個倍率往上算，頭上頂的東西、坐在車上的人才不會陷進去或飄起來。
+ */
+export const castScale = (size: number, u = 1) => 1 + 0.3 * u * clamp((34 - size) / 16)
+
+function castUp(st: ActorState, u: number) {
+  const k = castScale(st.size, u)
+  if (k === 1) return
+  if (st.float) { st.size *= k; return }
+  const h = GROUND - (st.y + 0.42 * st.size)
+  // 地上的以腳底為準往上長；離地越高越改成以中心放大（天上的東西不再往上推，免得被推出畫面）
+  const fall = 1 - clamp((h - 25) / 20)
+  const feet = GROUND - h * (1 + (k - 1) * fall)
+  const y = st.y
+  st.size *= k
+  st.y = lerp(y, feet - 0.42 * st.size, fall)
+}
+
+/** 國字的中間（anim:check 用同一個範圍檢查「國字完成後有沒有被擋住」） */
+export const glyphCore = () => ({ x0: GLYPH.x + 6, x1: GLYPH.x + GLYPH.size - 6, y0: GLYPH.y + 6, y1: GLYPH.y + GLYPH.size - 8 })
+/** 頭上的效果最高冒到頭頂上面多少（照 fxAt 的畫法估；不在頭上、不是 emoji 的效果不用管） */
+const headroom = (f: Fx) => f.kind === 'burst' ? ((f.n ?? 0) > 1 ? 14.5 : 6.6) : ({ pop: 12, bubble: 16.5, dizzy: 7, sweat: 7, zzz: 17, fountain: 12 } as Partial<Record<Fx['kind'], number>>)[f.kind]
+
+const castCache = new WeakMap<Clip, { n: number; u: number }>()
+/**
+ * 這支劇本的角色能放大多少（0～1，1 就是 castScale 的全額）。整支用同一個比例，疊在一起的東西才不會錯開。
+ * 放大以後，國字完成後會多擋到字、或頭上的效果會被畫面頂端切掉，就一階一階退回去，退到跟原本一樣為止。
+ */
+export function castFactor(clip: Clip): number {
+  const sig = clip.moves.length * 1000 + clip.actors.length
+  const hit = castCache.get(clip)
+  if (hit && hit.n === sig) return hit.u
+  const done = Math.max(...clip.builds.map((b) => b.at + b.dur)) + 0.2
+  const core = glyphCore()
+  const samples: { t: number; post: boolean; raw: ActorState[] }[] = []
+  // 跟 anim:check 取一樣的時間點：開頭起每 0.1 秒（看效果），國字完成後起每 0.1 秒（看擋字）
+  const sample = (t: number, post: boolean) => samples.push({ t, post, raw: clip.actors.map((a) => rawActor(clip, a, t)) })
+  for (let t = 0; t <= clip.duration; t += 0.1) sample(t, false)
+  for (let t = done; t <= clip.duration; t += 0.1) sample(t, true)
+  const blocks = (a: ActorState) => {
+    const half = a.size * a.s * 0.4
+    return a.visible && a.o >= 0.3 && a.x + half > core.x0 && a.x - half < core.x1 && a.y + half > core.y0 && a.y - half < core.y1
+  }
+  const headTop = (a: ActorState, room: number) => a.y - a.size * 0.45 * a.s * a.sy - room
+  // 跟 anim:check 同一條規則：同一個角色在國字完成後擋到字，頭尾超過 0.25 秒才算
+  const blockedLong = (u: number) => {
+    const span = new Map<string, [number, number]>()
+    for (const { t, post, raw } of samples) {
+      if (!post) continue
+      for (const r of raw) {
+        const s = { ...r }
+        castUp(s, u)
+        if (!blocks(s)) continue
+        const sp = span.get(s.id)
+        if (sp) sp[1] = t; else span.set(s.id, [t, t])
+      }
+    }
+    return new Set([...span].filter(([, [a, b]]) => b - a >= 0.25).map(([id]) => id))
+  }
+  const blocked0 = blockedLong(0)
+  const ok = (u: number) => {
+    for (const id of blockedLong(u)) if (!blocked0.has(id)) return false
+    for (const { t, post, raw } of samples) {
+      if (post) continue
+      for (const r of raw) {
+        if (!r.visible) continue
+        const s = { ...r }
+        castUp(s, u)
+        for (const f of clip.fx ?? []) {
+          const room = headroom(f)
+          if (room === undefined || f.actor !== r.id || t < f.at || t > f.at + (f.dur ?? FX_DUR[f.kind])) continue
+          const y = headTop(s, room) + (f.dy ?? 0)
+          if (y < -1 && y < headTop(r, room) + (f.dy ?? 0) - 0.01) return false
+        }
+      }
+    }
+    return true
+  }
+  let u = 0
+  for (const cand of [1, 0.75, 0.5, 0.25]) if (ok(cand)) { u = cand; break }
+  castCache.set(clip, { n: sig, u })
+  return u
+}
+
+type Kind = 'creature' | 'vehicle' | 'prop'
+
+/** 有輪子、有引擎的東西：不會踩步伐，煞車時只微微點頭 */
+function isVehicle(emoji: string) {
+  if (emoji.startsWith('hero:car/')) return true
+  const c = emoji.codePointAt(0) ?? 0
+  return (c >= 0x1f680 && c <= 0x1f6a4) || c === 0x1f6b2 || (c >= 0x1f6e0 && c <= 0x1f6fc) || c === 0x1f3ce || c === 0x1f3cd
+    || c === 0x2708 || c === 0x26f5 || c === 0x1f9bc || c === 0x1f9bd
+}
+
+/** 在地上爬、游、滑的動物：會有跟隨動作與小動作，但不踩步伐 */
+const NO_STEPS = new Set([...'🐌🐍🐛🪱🐟🐠🐡🐬🐳🐋🐙🦑🦈🦭🦪🐚🦐🦞🪼'].map((c) => c.codePointAt(0)!))
+
+/** 會走路、會等、會點頭的「角色」：主角、動物、人、臉、機器人、外星人 */
+function kindOf(emoji: string): Kind {
+  if (isVehicle(emoji)) return 'vehicle'
+  if (emoji.startsWith('hero:')) return 'creature'
+  const c = emoji.codePointAt(0) ?? 0
+  const inR = (a: number, b: number) => c >= a && c <= b
+  if (inR(0x1f400, 0x1f43d) || c === 0x1f43f || inR(0x1f980, 0x1f9ae) || inR(0x1fab0, 0x1fabd) || inR(0x1face, 0x1facf)
+    || inR(0x1f466, 0x1f487) || inR(0x1f600, 0x1f64f) || inR(0x1f910, 0x1f92f) || inR(0x1f970, 0x1f97a) || c === 0x1f977
+    || inR(0x1f9b8, 0x1f9b9) || inR(0x1f9cd, 0x1f9df) || c === 0x1f916 || c === 0x1f575 || c === 0x1f57a || inR(0x1f3c3, 0x1f3c4)
+    || c === 0x1f6b6 || c === 0x1f577 || c === 0x1f54a || c === 0x2603 || c === 0x26c4) return 'creature'
+  return 'prop'
+}
+const canStep = (emoji: string) => kindOf(emoji) === 'creature' && !emoji.startsWith('hero:shark/') && !emoji.endsWith('/drive')
+  && !NO_STEPS.has(emoji.codePointAt(0) ?? 0)
+
+/** 一段在地上走過去：步數 n 跟距離走，最後一步剛好踩在終點 */
+type Step = { at: number; d: number; ease?: Ease; ant: boolean; n: number; amp: number }
+/** 一段水平移動：中途身體順著方向歪，停下來往前甩再晃回來 */
+type Glide = { at: number; d: number; ease?: Ease; ant: boolean; dir: number; dist: number; lean: number; stop: number }
+/** 一下子的自動小動作：kind 決定怎麼動，k 是力道或方向 */
+type Beat = { at: number; d: number; kind: 'land' | 'pop' | 'nod' | 'shift' | 'bob' | 'tilt'; k: number }
+type Life = { steps: Step[]; glides: Glide[]; beats: Beat[] }
+
+const lifeCache = new WeakMap<Clip, { n: number; life: Map<string, Life> }>()
+
+/** 整理一份劇本的自動質感時間表（每支劇本只算一次）。 */
+export function lifeOf(clip: Clip): Map<string, Life> {
+  const sig = clip.moves.length * 1000 + clip.actors.length
+  const hit = lifeCache.get(clip)
+  if (hit && hit.n === sig) return hit.life
+  const life = new Map<string, Life>()
+  const moves = sortedMoves(clip)
+  const at = (a: Actor, t: number) => baseActor(clip, a, t)
+  const positional = (m: Move) => m.do === 'moveTo' || m.do === 'enter'
+  for (const a of clip.actors) {
+    const L: Life = { steps: [], glides: [], beats: [] }
+    life.set(a.id, L)
+    if (a.top) continue
+    const mine = moves.filter((m) => m.actor === a.id)
+    const live = (m: Move, t0: number, t1: number) => m.at < t1 && m.at + durOf(m) > t0
+    const scripted = (kinds: Move['do'][], t0: number, t1: number) => mine.some((m) => kinds.includes(m.do) && m.at >= t0 && m.at <= t1)
+    const busy: [number, number][] = []
+    for (const m of mine) busy.push([m.at - 0.2, m.at + durOf(m) + 0.35])
+
+    for (const m of mine) {
+      const d = durOf(m)
+      const s0 = at(a, m.at), s1 = at(a, m.at + d)
+      const kind = kindOf(s0.emoji)
+      // 換姿勢：新的樣子一出來先擠一下再彈開（劇本同一刻自己寫了 squash 就不重複）
+      if (m.do === 'swap' && m.emoji && m.emoji !== at(a, m.at - 0.001).emoji && !scripted(['squash'], m.at - 0.05, m.at + 0.05)) {
+        L.beats.push({ at: m.at, d: 0.26, kind: 'pop', k: 1 })
+      }
+      if (positional(m) && d > 0) {
+        const dx = s1.x - s0.x, dy = s1.y - s0.y
+        const dist = Math.abs(dx)
+        const feet = (s: ActorState) => s.y + 0.42 * s.size
+        const grounded = !s0.float && feet(s0) >= FLOOR - 4 && feet(s1) >= FLOOR - 4
+        // 跟別人同一刻、同樣長、去同一個地方：是被載著走（坐車、被抱著），不另外踩步
+        const carried = moves.some((o) => o !== m && o.actor !== a.id && positional(o) && Math.abs(o.at - m.at) < 0.01 && durOf(o) === d
+          && Math.abs((o.to?.x ?? o.from?.x ?? 1e9) - (m.to?.x ?? m.from?.x ?? -1e9)) < 2)
+        const jumpy = (m.arc ?? 0) >= 1 || mine.some((o) => o !== m && ['hop', 'bounce', 'spin', 'drop'].includes(o.do) && live(o, m.at, m.at + d))
+        const wobbly = m.ease === 'bounce' || m.ease === 'elastic'
+        const speed = dist / d
+        // 步伐
+        if (canStep(s0.emoji) && grounded && !carried && !jumpy && !wobbly && dist >= 6 && Math.abs(dy) <= 3 && Math.abs(s0.r) < 30) {
+          const n = Math.min(Math.round(dist / (s0.size * 0.5)), Math.floor(d * 6.5))
+          if (n >= 2) L.steps.push({ at: m.at, d, ease: m.ease, ant: !!m.anticipate, n, amp: s0.size * 0.055 * (speed > 140 ? 0.6 : 1) })
+        }
+        // 身體歪、急停往前甩
+        if (kind !== 'prop' && !carried && !wobbly && dist >= 6 && speed >= 18 && Math.abs(dx) > Math.abs(dy) * 0.8) {
+          const k = kind === 'vehicle' ? 0.55 : 1
+          const next = mine.find((o) => o !== m && positional(o) && o.at > m.at && o.at < m.at + d + 0.2)
+          const STOP: Partial<Record<Ease, number>> = { linear: 1, in: 1, out: 0.55, inOut: 0.45 }
+          const stop = next || (m.arc ?? 0) >= 3 ? 0 : (STOP[m.ease ?? 'inOut'] ?? 0) * clamp(speed / 90) * 10 * k
+          L.glides.push({ at: m.at, d, ease: m.ease, ant: !!m.anticipate, dir: Math.sign(dx), dist, lean: 7 * k, stop })
+          if (stop) busy.push([m.at + d, m.at + d + 0.7])
+        }
+        // 從空中落到地上
+        const fallH = (m.arc ?? 0) >= 3 ? m.arc! : s1.y - s0.y
+        if (!s0.float && fallH >= 6 && feet(s1) >= FLOOR - 4) addLand(L, m.at + d, fallH)
+      }
+      if (m.do === 'hop' && (m.amount ?? 8) >= 4 && !s0.float) addLand(L, m.at + d, m.amount ?? 8)
+      if (m.do === 'drop' && !s0.float) addLand(L, m.at + d * 0.364, 20)
+    }
+
+    function addLand(L: Life, tl: number, h: number) {
+      // 劇本在落地那一刻自己寫了壓扁，或馬上又彈起來：不重複
+      if (scripted(['squash'], tl - 0.12, tl + 0.15) || mine.some((o) => o.do === 'squash' && live(o, tl, tl + 0.01))) return
+      if (scripted(['hop', 'bounce', 'drop'], tl - 0.05, tl + 0.1)) return
+      L.beats.push({ at: tl, d: 0.24, kind: 'land', k: 0.12 + 0.12 * clamp(h / 16) })
+      busy.push([tl, tl + 0.4])
+    }
+
+    // 站著等的小動作：閒下來超過一秒，每隔一陣子換一下重心、點一下、歪一下頭。
+    // 節奏和第一下的時間由 id 決定，每個角色不一樣，不會全部一起抖
+    if (kindOf(a.emoji) === 'creature' || mine.some((m) => m.emoji && kindOf(m.emoji) === 'creature')) {
+      const h = hashOf(a.id)
+      busy.sort((p, q) => p[0] - q[0])
+      let free = 0
+      const gaps: [number, number][] = []
+      for (const [b0, b1] of busy) { if (b0 > free) gaps.push([free, b0]); free = Math.max(free, b1) }
+      if (free < clip.duration) gaps.push([free, clip.duration])
+      let k = 0
+      for (const [g0, g1] of gaps) {
+        if (g1 - g0 < 1) continue
+        const period = 1.45 + (h % 7) * 0.1
+        for (let t0 = g0 + 0.35 + (h % 5) * 0.12; t0 + 0.6 <= g1 - 0.05; t0 += period, k++) {
+          const kind = (['shift', 'bob', 'tilt'] as const)[(h + k) % 3]
+          L.beats.push({ at: t0, d: kind === 'bob' ? 0.4 : 0.6, kind, k: k % 2 ? -1 : 1 })
+        }
+      }
+    }
+  }
+
+  // 唸字那一拍：最近在演的角色點一下頭（劇本同一刻已經讓他跳、壓扁就不加）
+  for (const c of clip.cues) {
+    if (!('say' in c)) continue
+    let best: { a: Actor; score: number } | null = null
+    for (const a of clip.actors) {
+      if (a.top) continue
+      const s = baseActor(clip, a, c.at)
+      if (!s.visible || s.o < 0.5 || kindOf(s.emoji) !== 'creature') continue
+      const last = moves.filter((m) => m.actor === a.id && m.at <= c.at + 0.15 && m.at >= c.at - 2.5).at(-1)
+      if (!last) continue
+      const score = last.at + (s.emoji.startsWith('hero:') ? 0.3 : 0)
+      if (!best || score > best.score) best = { a, score }
+    }
+    if (!best) continue
+    const L = life.get(best.a.id)!
+    const busyNow = moves.some((m) => m.actor === best!.a.id && ['hop', 'bounce', 'squash', 'spin', 'drop', 'pop'].includes(m.do)
+      && m.at < c.at + 0.3 && m.at + durOf(m) > c.at - 0.05)
+    if (busyNow) continue
+    // 小動作跟點頭撞在一起就讓給點頭
+    L.beats = L.beats.filter((b) => !(['shift', 'bob', 'tilt'].includes(b.kind) && b.at < c.at + 0.4 && b.at + b.d > c.at - 0.1))
+    L.beats.push({ at: c.at, d: 0.34, kind: 'nod', k: 1 })
+  }
+  lifeCache.set(clip, { n: sig, life })
+  return life
+}
+
+/** 把自動質感加到一個角色身上（每一格只查自己的表）。 */
+function applyLife(st: ActorState, L: Life, t: number) {
+  if (!st.visible) return
+  const size = st.size
+  for (const s of L.steps) {
+    if (t <= s.at || t >= s.at + s.d) continue
+    const p = (t - s.at) / s.d
+    const pm = s.ant ? clamp((p - 0.22) / 0.78) : p
+    const ph = s.n * easeBy(s.ease)(pm)
+    const w = Math.sin(Math.PI * ph)
+    st.y -= s.amp * Math.abs(w)
+    // 左右腳輪流：身體往這邊歪一點、再往那邊歪一點；踩到地那一下微微壓扁
+    st.r += 4 * w
+    const contact = (1 - Math.abs(w)) ** 3
+    st.sy *= 1 - 0.05 * contact; st.sx *= 1 + 0.035 * contact
+  }
+  for (const g of L.glides) {
+    if (t < g.at) continue
+    const end = g.at + g.d
+    if (t < end) {
+      const p = (t - g.at) / g.d
+      const span = g.ant ? 0.78 : 1
+      const pm = g.ant ? clamp((p - 0.22) / 0.78) : p
+      const f = easeBy(g.ease), h = 0.02
+      const slope = (f(Math.min(1, pm + h)) - f(Math.max(0, pm - h))) / (Math.min(1, pm + h) - Math.max(0, pm - h))
+      const v = (g.dist * slope) / (g.d * span)
+      st.lean += g.dir * g.lean * clamp(v / 110)
+    } else if (g.stop && t < end + 0.7) {
+      // 急停：上半身繼續往前甩，晃一下回來
+      const tau = t - end
+      st.lean += g.dir * g.stop * (Math.exp(-6 * tau) * Math.sin(9 * tau)) / 0.4
+    }
+  }
+  for (const b of L.beats) {
+    if (t < b.at || t > b.at + b.d) continue
+    const q = (t - b.at) / b.d
+    const bell = Math.sin(Math.PI * q)
+    switch (b.kind) {
+      case 'land': { const k = b.k * bell; st.sx *= 1 + k; st.sy *= 1 - k * 0.86; break }
+      case 'pop': {
+        // 新姿勢一出來先擠扁，彈過頭一點再停：幾格就好
+        const w = Math.exp(-3 * q) * Math.cos(2.5 * Math.PI * q)
+        st.sy *= 1 - 0.14 * w; st.sx *= 1 + 0.1 * w
+        break
+      }
+      case 'nod': st.y -= size * 0.09 * bell; st.sy *= 1 + 0.05 * Math.sin(2 * Math.PI * q) * (1 - q); st.lean += 3 * bell * (st.flip ? 1 : -1); break
+      case 'shift': st.lean += 3.2 * b.k * bell; break
+      case 'bob': st.y -= size * 0.05 * bell; st.sy *= 1 - 0.035 * Math.sin(2 * Math.PI * q); break
+      case 'tilt': st.r += 3.5 * b.k * bell; break
+    }
+  }
+}
+
+/** 自動落地的揚塵（fxAt 用）：劇本在附近自己放了 puff 就不加 */
+function autoDust(clip: Clip, t: number, actors: Map<string, ActorState>, out: FxItem[]) {
+  for (const [id, L] of lifeOf(clip)) {
+    for (const b of L.beats) {
+      if (b.kind !== 'land' || b.k < 0.17 || t < b.at || t > b.at + 0.4) continue
+      if ((clip.fx ?? []).some((f) => f.kind === 'puff' && f.actor === id && Math.abs(f.at - b.at) < 0.3)) continue
+      const a = actors.get(id)
+      if (!a || !a.visible) continue
+      const p = (t - b.at) / 0.4
+      const feet = { x: a.x, y: a.y + a.size * 0.42 }
+      if (feet.x < 14 || feet.x > 146) continue
+      for (const side of [-1, 1]) {
+        out.push({ key: `land-${id}-${b.at}-${side}`, emoji: '💨', x: feet.x + side * (3 + 7 * p), y: feet.y - 1.5 - 1.5 * p, size: 3.5 + 2 * p, o: 0.85 * (1 - p), s: 1, r: 0 })
+      }
+    }
+  }
+}
+
+function hashOf(id: string) {
+  let h = 7
+  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 100003
+  return h
 }
 
 // ---------- 國字 ----------
@@ -454,6 +811,7 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
         break
     }
   })
+  autoDust(clip, t, actors, out)
   return out
 }
 
@@ -466,25 +824,7 @@ type CamLasting = Extract<Camera, { do: 'zoom' | 'follow' }>
 
 export function cameraAt(clip: Clip, t: number, actors: ActorState[] = actorsAt(clip, t)) {
   const ops = [...(clip.camera ?? [])]
-  const lasting = ops.filter((c): c is CamLasting => c.do === 'zoom' || c.do === 'follow').sort((a, b) => a.at - b.at)
-  const where = (id: string | undefined, at: number, fallback: Vec): Vec => {
-    if (!id) return fallback
-    const a = (at === t ? actors : actorsAt(clip, at)).find((x) => x.id === id)
-    return a ? { x: a.x, y: a.y } : fallback
-  }
-  // 留下結果的鏡頭：每一個從「上一個在它開始時的狀態」漸變到自己的目標；follow 的目標跟著角色跑
-  const stateAt = (i: number, at: number): CamState => {
-    if (i < 0) return HOME
-    const c = lasting[i]
-    if (at < c.at) return stateAt(i - 1, at)
-    const from = stateAt(i - 1, c.at)
-    const p = easeInOut(clamp(c.dur > 0 ? (at - c.at) / c.dur : 1))
-    const z = c.do === 'follow' ? (c.amount ?? 1.5) : (c.amount ?? 1.4)
-    const center = c.do === 'follow' ? where(c.actor, at, { x: from.cx, y: from.cy })
-      : c.to ?? where(c.actor, at, { x: HOME.cx, y: HOME.cy })
-    return { z: lerp(from.z, z, p), cx: lerp(from.cx, center.x, p), cy: lerp(from.cy, center.y, p) }
-  }
-  let { z, cx, cy } = stateAt(lasting.length - 1, t)
+  let { z, cx, cy } = scriptedCam(clip, lastingOps(clip), t, actors)
   // 整支片鏡頭一直很慢地往前推一點點，畫面不會像一張靜止的圖
   z *= 1 + 0.035 * easeInOut(clamp(t / clip.duration))
   let dx = 0, dy = 0
@@ -508,14 +848,196 @@ export function cameraAt(clip: Clip, t: number, actors: ActorState[] = actorsAt(
   const hw = 80 / z, hh = 45 / z
   cx = clamp(cx, PAINTED.x0 + hw, PAINTED.x1 - hw)
   cy = clamp(cy, PAINTED.y0 + hh, 90 - hh)
-  return { z, cx, cy, dx, dy }
+  // 劇本的鏡頭是「以 (cx, cy) 為定點推近」。自動取景是「把畫面中心對到某一點」，疊在劇本鏡頭底下：
+  // 先自動取景、再套劇本的鏡頭，換算成同一個定點加一段平移 (px, py)
+  const a = autoCamAt(clip, t)
+  if (a.z === 1 && a.cx === STAGE_MID.x && a.cy === STAGE_MID.y) return { z, cx, cy, dx, dy, px: 0, py: 0 }
+  return { z: z * a.z, cx: a.cx, cy: a.cy, dx, dy, px: z * (STAGE_MID.x - cx) + cx - a.cx, py: z * (STAGE_MID.y - cy) + cy - a.cy }
 }
 
-/** 時間 t 看得到的舞台範圍（給 anim:check 檢查國字有沒有被鏡頭切掉）。 */
+const lastingOps = (clip: Clip) => (clip.camera ?? []).filter((c): c is CamLasting => c.do === 'zoom' || c.do === 'follow').sort((a, b) => a.at - b.at)
+
+/** 劇本自己寫的 zoom／follow 在 t 的鏡頭（沒寫就是全景）。 */
+function scriptedCam(clip: Clip, lasting: CamLasting[], t: number, actors?: ActorState[]): CamState {
+  const where = (id: string | undefined, at: number, fallback: Vec): Vec => {
+    if (!id) return fallback
+    const a = (at === t && actors ? actors : actorsAt(clip, at)).find((x) => x.id === id)
+    return a ? { x: a.x, y: a.y } : fallback
+  }
+  // 留下結果的鏡頭：每一個從「上一個在它開始時的狀態」漸變到自己的目標；follow 的目標跟著角色跑
+  const stateAt = (i: number, at: number): CamState => {
+    if (i < 0) return HOME
+    const c = lasting[i]
+    if (at < c.at) return stateAt(i - 1, at)
+    const from = stateAt(i - 1, c.at)
+    const p = easeInOut(clamp(c.dur > 0 ? (at - c.at) / c.dur : 1))
+    const z = c.do === 'follow' ? (c.amount ?? 1.5) : (c.amount ?? 1.4)
+    const center = c.do === 'follow' ? where(c.actor, at, { x: from.cx, y: from.cy })
+      : c.to ?? where(c.actor, at, { x: HOME.cx, y: HOME.cy })
+    return { z: lerp(from.z, z, p), cx: lerp(from.cx, center.x, p), cy: lerp(from.cy, center.y, p) }
+  }
+  return stateAt(lasting.length - 1, t)
+}
+
+/** 舞台正中間：自動取景「沒動」時的畫面中心 */
+const STAGE_MID = { x: 80, y: 45 }
+
+// ---------- 自動取景 ----------
+// 角色在全景裡只有畫面的 1/12，國字拼好之前的戲常常擠在角落。劇本沒有自己運鏡的時候，
+// 鏡頭自己推近到「正在演的角色」：取景範圍每 0.05 秒算一次、前後平滑（鏡頭會稍微先動，像攝影師預判），
+// 推近最多 1.6 倍；國字開始拼之前平順地退回全景。國字拼好以後，有人在演時鏡頭往他那邊靠一點、推近一點點（最多 1.2 倍），
+// 國字永遠整個留在畫面裡，結尾 pulse 前回到全景。劇本自己寫了 zoom／follow 的時段尊重劇本。
+
+const CAM_DT = 0.05
+const CAM_MAX = 1.6
+/** 國字拼好以後最多推近多少（國字要整個留在畫面裡，而且不能偏離中間太多） */
+const POST_MAX = 1.2
+const camCache = new WeakMap<Clip, { n: number; iz: Float32Array; cx: Float32Array; cy: Float32Array }>()
+
+function autoCamAt(clip: Clip, t: number): CamState {
+  const g = autoCamGrid(clip)
+  const i = t / CAM_DT
+  const i0 = Math.floor(i)
+  if (i0 < 0 || i0 + 1 >= g.iz.length) return { z: 1, cx: STAGE_MID.x, cy: STAGE_MID.y }
+  const f = i - i0
+  if (g.iz[i0] === 1 && g.iz[i0 + 1] === 1) return { z: 1, cx: STAGE_MID.x, cy: STAGE_MID.y }
+  return { z: 1 / lerp(g.iz[i0], g.iz[i0 + 1], f), cx: lerp(g.cx[i0], g.cx[i0 + 1], f), cy: lerp(g.cy[i0], g.cy[i0 + 1], f) }
+}
+
+/** 一支劇本的自動取景表（每支只算一次）。 */
+export function autoCamGrid(clip: Clip) {
+  const sig = clip.moves.length * 1000 + (clip.camera?.length ?? 0)
+  const hit = camCache.get(clip)
+  if (hit && hit.n === sig) return hit
+  const firstBuild = Math.min(...clip.builds.map((b) => b.at), clip.duration)
+  const done = glyphDoneAt(clip)
+  // 結尾國字 pulse（或最後一秒）之前回到全景，國字最後一定是置中、完整、大大的
+  const finale = Math.min(clip.duration - 1, ...(clip.glyph ?? []).filter((g) => g.do === 'pulse' && g.at >= done).map((g) => g.at))
+  const n = Math.ceil(clip.duration / CAM_DT) + 2
+  // 存的是 1/倍率（視野寬度的比例）：平滑、漸變都在這個空間做，框住國字的鏡頭混出來還是框得住
+  const iz = new Float32Array(n).fill(1), cx = new Float32Array(n).fill(STAGE_MID.x), cy = new Float32Array(n).fill(STAGE_MID.y)
+  const lasting = lastingOps(clip)
+  const moves = sortedMoves(clip)
+  // 不能自動運鏡的時段。hard：前後都要平順地退回全景（拼字、結尾、國字拼好後的 punch／shake）；
+  // scripted：劇本自己的 zoom／follow 在推，自動取景在劇本推的那段時間裡慢慢讓出來，劇本退回全景後再慢慢接回來
+  const hard = new Uint8Array(n), scripted = new Uint8Array(n)
+  for (let i = 0; i < n; i++) {
+    const t = i * CAM_DT
+    // 開場先給一眼全景（看清楚誰在哪裡），再推近
+    if (t < 0.2 || (t >= firstBuild - 0.05 && t <= done + 0.3) || t >= finale) hard[i] = 1
+    if (t > done && (clip.camera ?? []).some((c) => (c.do === 'punch' || c.do === 'shake') && t >= c.at - 0.05 && t <= c.at + c.dur)) hard[i] = 1
+    if (lasting.length && scriptedCam(clip, lasting, t).z > 1.005) scripted[i] = 1
+  }
+  const banned = hard
+  // 每一格要框住的範圍（左、右、上、下）；沒有要框的就是 NaN
+  const box = [0, 1, 2, 3].map(() => new Float32Array(n).fill(NaN))
+  const postAt = (i: number) => i * CAM_DT > done
+  for (let i = 0; i < n; i++) {
+    if (banned[i]) continue
+    const t = i * CAM_DT
+    const post = postAt(i)
+    const all = baseActorsAt(clip, t).filter((a) => a.visible && a.o > 0.3 && a.size * a.s <= 50 && a.x > -8 && a.x < 168 && a.y > -15 && a.y < 100)
+    const busy = (id: string) => moves.some((m) => m.actor === id && m.at - 0.4 <= t && m.at + durOf(m) + 0.4 >= t)
+      || (clip.fx ?? []).some((f) => (f.actor === id || f.target === id) && f.at - 0.2 <= t && f.at + (f.dur ?? FX_DUR[f.kind]) + 0.2 >= t)
+    const act = all.filter((a) => busy(a.id))
+    // 國字拼好以後：只有真的有人在演才動
+    const pick = act.length || post ? act : all
+    if (!pick.length) continue
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
+    const add = (a: ActorState) => {
+      const r = a.size * a.s
+      x0 = Math.min(x0, a.x - r * 0.5 - 4); x1 = Math.max(x1, a.x + r * 0.5 + 4)
+      // 頭上要留位置給冒出來的符號、想法泡泡
+      y0 = Math.min(y0, a.y - r * 0.45 - 12); y1 = Math.max(y1, a.y + r * 0.5 + 3)
+    }
+    pick.forEach(add)
+    // 沒在演、但已經有一半進到畫面裡的（旁邊的道具、等著的人）整個框進來，不要切一半
+    const zz = clamp(Math.min(160 / (x1 - x0), 90 / (y1 - y0)), 1, CAM_MAX), mx = (x0 + x1) / 2, my = (y0 + y1) / 2
+    for (const a of all) if (!pick.includes(a) && Math.abs(a.x - mx) < 80 / zz && Math.abs(a.y - my) < 45 / zz) add(a)
+    box[0][i] = x0; box[1][i] = x1; box[2][i] = y0; box[3][i] = y1
+  }
+  // 前後 0.3 秒內要框到的都框進來（鏡頭先讓出位置給要進場的人），再前後平滑（不會落後，也不會抖）
+  const W = Math.round(0.3 / CAM_DT)
+  const grown = box.map((arr, k) => {
+    const out = new Float32Array(n).fill(NaN)
+    for (let i = 0; i < n; i++) {
+      if (banned[i]) continue
+      let v = NaN
+      for (let j = Math.max(0, i - W); j <= Math.min(n - 1, i + W); j++) {
+        if (Number.isNaN(arr[j]) || postAt(j) !== postAt(i)) continue
+        v = Number.isNaN(v) ? arr[j] : k % 2 ? Math.max(v, arr[j]) : Math.min(v, arr[j])
+      }
+      out[i] = v
+    }
+    return out
+  })
+  for (let i = 0; i < n; i++) {
+    if (Number.isNaN(grown[0][i])) continue
+    let [x0, x1, y0, y1] = grown.map((g) => g[i])
+    const post = postAt(i)
+    // 國字拼好以後，國字整個要留在畫面裡，而且不能偏離中間太多
+    if (post) {
+      x0 = Math.min(x0, GLYPH.x - 4); x1 = Math.max(x1, GLYPH.x + GLYPH.size + 4)
+      y0 = Math.min(y0, GLYPH.y - 4); y1 = Math.max(y1, GLYPH.y + GLYPH.size + 4)
+    }
+    let c = { x: (x0 + x1) / 2, y: (y0 + y1) / 2 }
+    if (post) c = { x: clamp(c.x, STAGE_MID.x - 12, STAGE_MID.x + 12), y: c.y }
+    // 中心被限制住時，視野要放寬到還是框得住
+    const hw = Math.max(c.x - x0, x1 - c.x, 80 / (post ? POST_MAX : CAM_MAX)), hh = Math.max(c.y - y0, y1 - c.y)
+    const z = clamp(Math.min(80 / hw, 45 / hh), 1, post ? POST_MAX : CAM_MAX)
+    // 視野不能跑出畫好的背景，往下最多到舞台底。遠景有視差（推近時只放大四成），所以左右上方要多留一點
+    const zp = 1 + (z - 1) * 0.4
+    iz[i] = 1 / z; cx[i] = clamp(c.x, PAINTED.x0 + 80 / zp, PAINTED.x1 - 80 / zp); cy[i] = clamp(c.y, PAINTED.y0 + 45 / zp, 90 - 45 / z)
+  }
+  const smooth = (arr: Float32Array, tau: number) => {
+    const k = 1 - Math.exp(-CAM_DT / tau)
+    for (let i = 1; i < n; i++) arr[i] = arr[i - 1] + (arr[i] - arr[i - 1]) * k
+    for (let i = n - 2; i >= 0; i--) arr[i] = arr[i + 1] + (arr[i] - arr[i + 1]) * k
+  }
+  smooth(iz, 0.3); smooth(cx, 0.3); smooth(cy, 0.3)
+  // 平滑過的鏡頭追不上衝得很快的角色：這一刻要框的東西超出視野，就把視野放寬（放寬的部分也平順地來去）
+  const need = new Float32Array(n)
+  for (let i = 0; i < n; i++) {
+    if (Number.isNaN(box[0][i])) continue
+    let [x0, x1, y0, y1] = box.map((b) => b[i])
+    if (postAt(i)) { x0 = Math.min(x0, GLYPH.x - 4); x1 = Math.max(x1, GLYPH.x + GLYPH.size + 4); y0 = Math.min(y0, GLYPH.y - 4); y1 = Math.max(y1, GLYPH.y + GLYPH.size + 4) }
+    need[i] = Math.min(1, Math.max(cx[i] - x0, x1 - cx[i]) / 80, Math.max(cy[i] - y0, y1 - cy[i]) / 45)
+  }
+  const wide = new Float32Array(n)
+  for (let i = 0; i < n; i++) for (let j = Math.max(0, i - 3); j <= Math.min(n - 1, i + 3); j++) wide[i] = Math.max(wide[i], need[j])
+  smooth(wide, 0.1)
+  for (let i = 0; i < n; i++) iz[i] = Math.min(1, Math.max(iz[i], wide[i]))
+  const RAMP = 0.6
+  const ahead = new Float32Array(n)
+  for (let i = n - 1, d = 1e9; i >= 0; i--) { d = hard[i] ? 0 : d + CAM_DT; ahead[i] = d }
+  // 劇本開始推的那一刻：自動取景在劇本那一段 zoom／follow 的時間裡慢慢退掉（兩個疊在一起，畫面不會跳）
+  const handoff = (t: number) => lasting.find((c) => t >= c.at && t <= c.at + Math.max(c.dur, 0.25) && scriptedCam(clip, lasting, c.at - 0.001).z <= 1.005)
+  for (let i = 0, since = 1e9, sinceScript = 1e9, held = 1; i < n; i++) {
+    const t = i * CAM_DT
+    since = hard[i] ? 0 : since + CAM_DT
+    let ws: number
+    if (scripted[i]) {
+      const c = handoff(t)
+      ws = c ? held * (1 - easeInOut(clamp((t - c.at) / Math.max(c.dur, 0.25)))) : 0
+      sinceScript = 0
+    } else {
+      sinceScript += CAM_DT
+      ws = held = easeInOut(clamp(sinceScript / RAMP))
+    }
+    const w = Math.min(ws, easeInOut(clamp(Math.min(since, ahead[i]) / RAMP)))
+    iz[i] = 1 + (iz[i] - 1) * w; cx[i] = STAGE_MID.x + (cx[i] - STAGE_MID.x) * w; cy[i] = STAGE_MID.y + (cy[i] - STAGE_MID.y) * w
+  }
+  const out = { n: sig, iz, cx, cy }
+  camCache.set(clip, out)
+  return out
+}
+
+/** 時間 t 看得到的舞台範圍（給 anim:check 檢查國字有沒有被鏡頭切掉）：畫面四個角換回舞台座標。 */
 export function viewAt(clip: Clip, t: number) {
-  const { z, cx, cy, dx, dy } = cameraAt(clip, t)
-  const hw = 80 / z, hh = 45 / z
-  return { x0: cx - dx - hw, x1: cx - dx + hw, y0: cy - dy - hh, y1: cy - dy + hh }
+  const { z, cx, cy, dx, dy, px, py } = cameraAt(clip, t)
+  const back = (sx: number, sy: number) => ({ x: cx + (sx - cx - dx - px) / z, y: cy + (sy - cy - dy - py) / z })
+  const a = back(0, 0), b = back(160, 90)
+  return { x0: a.x, x1: b.x, y0: a.y, y1: b.y }
 }
 
 export function lightAt(clip: Clip, t: number) {
