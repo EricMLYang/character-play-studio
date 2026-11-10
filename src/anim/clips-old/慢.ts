@@ -1,0 +1,118 @@
+import type { Clip } from '../clip'
+
+// 慢：拉布拉多警長塞在玩具大砲裡，豬探長用力一拉——「碰」！警長卻用超級慢動作飄出來，像氣球一樣慢慢飄過天空，
+// 越過紫色積木塔、彈到彈簧輪胎，倒栽蔥掉進水桶。「咚」一聲把積木塔震散，積木落成「慢」；警長頂著水桶一步一步慢慢走。
+// 回馬槍：豬探長再拉一次，大砲噴出一個甜甜圈——也是慢慢飄，最後掉進豬探長嘴裡。慢、慢、慢慢
+const clip: Clip = {
+  char: '慢',
+  meta: { theme: '慢動作大砲', cast: '拉布拉多警長＋豬探長＋玩具大砲＋積木塔', gags: ['大砲發射卻超級慢動作', '彈到輪胎倒栽進水桶', '頂著水桶慢慢走'] },
+  duration: 10,
+  bg: { top: '#E3F7EE', bottom: '#F6FFFA', floor: '#BFDCCB', scenery: 'room' },
+  actors: [
+    { id: 'k1', emoji: '🟪', x: 118, y: 70, size: 8 },
+    { id: 'k2', emoji: '🟪', x: 118, y: 62, size: 8 },
+    { id: 'k3', emoji: '🟪', x: 118, y: 54, size: 8 },
+    { id: 'k4', emoji: '🟪', x: 118, y: 46, size: 8 },
+    { id: 'tire', emoji: '🛞', x: 154, y: 40, size: 11, float: true },
+    { id: 'sheriff', emoji: 'hero:sheriff/whistle', x: 24, y: 60, size: 13 },
+    { id: 'cannon', emoji: '🛢️', x: 24, y: 70, size: 14 },
+    { id: 'pig', emoji: 'hero:pig/idle', x: 8, y: 71, size: 14, hidden: true, flip: true },
+    { id: 'bucket', emoji: '🪣', x: 140, y: 72, size: 12 },
+    { id: 'donut', emoji: '🍩', x: 24, y: 60, size: 7, hidden: true, float: true },
+  ],
+  moves: [
+    // 警長塞在砲管裡吹哨，擺好姿勢；豬探長衝進來拉桿
+    { at: 0.3, actor: 'sheriff', do: 'bounce', amount: 1.5, times: 2, dur: 0.5 },
+    { at: 0.6, actor: 'pig', do: 'enter', from: { x: -15, y: 71 }, dur: 0.4, ease: 'out' },
+    { at: 0.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
+    { at: 1.1, actor: 'pig', do: 'squash', amount: -0.25, dur: 0.3 },
+    { at: 1.35, actor: 'pig', do: 'tilt', amount: -25, dur: 0.4 },
+    { at: 1.4, actor: 'cannon', do: 'squash', amount: 0.3, dur: 0.3 },
+    // 碰！——超級慢動作飄出去
+    { at: 1.6, actor: 'cannon', do: 'shake', amount: 1.2, dur: 0.4 },
+    { at: 1.65, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/run' },
+    { at: 1.65, actor: 'sheriff', do: 'moveTo', to: { x: 76, y: 16 }, dur: 1.6, ease: 'out' },
+    { at: 1.8, actor: 'sheriff', do: 'shake', amount: 0.8, dur: 1.8 },
+    { at: 2.5, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at: 2.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
+    { at: 2.4, actor: 'pig', do: 'tilt', amount: -12, dur: 1.0 },
+    // 越過積木塔，彈到輪胎，倒栽蔥掉進水桶
+    { at: 3.25, actor: 'sheriff', do: 'moveTo', to: { x: 146, y: 36 }, dur: 0.8, ease: 'in' },
+    { at: 4.05, actor: 'tire', do: 'squash', amount: 0.5, dur: 0.25 },
+    { at: 4.05, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    { at: 4.1, actor: 'sheriff', do: 'rotateTo', amount: 180, dur: 0.35 },
+    { at: 4.1, actor: 'sheriff', do: 'moveTo', to: { x: 140, y: 56 }, arc: 8, dur: 0.35, ease: 'in' },
+    { at: 4.45, actor: 'bucket', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 4.5, actor: 'sheriff', do: 'shake', amount: 1.2, dur: 1.4 },
+    // 咚！積木塔震散
+    { at: 4.5, actor: 'k4', do: 'shake', amount: 2, dur: 0.3 },
+    { at: 4.5, actor: 'k3', do: 'shake', amount: 1.5, dur: 0.3 },
+    { at: 4.7, actor: 'k1', do: 'vanish', dur: 0.15 },
+    { at: 5.1, actor: 'k2', do: 'vanish', dur: 0.15 },
+    { at: 5.5, actor: 'k3', do: 'vanish', dur: 0.15 },
+    { at: 6.0, actor: 'k4', do: 'vanish', dur: 0.15 },
+    { at: 2.0, actor: 'k4', do: 'hop', amount: 2, dur: 0.3 },
+    // 翻正過來，頂著水桶一步一步慢慢走
+    { at: 6.3, actor: 'sheriff', do: 'rotateTo', amount: -180, dur: 0.4 },
+    { at: 6.3, actor: 'sheriff', do: 'moveTo', to: { x: 140, y: 71 }, dur: 0.4 },
+    { at: 6.3, actor: 'bucket', do: 'moveTo', to: { x: 140, y: 62 }, arc: 4, dur: 0.4 },
+    { at: 6.7, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
+    { at: 6.9, actor: 'sheriff', do: 'moveTo', to: { x: 143, y: 71 }, arc: 2, dur: 0.45 },
+    { at: 6.9, actor: 'bucket', do: 'moveTo', to: { x: 143, y: 62 }, arc: 2, dur: 0.45 },
+    { at: 7.4, actor: 'sheriff', do: 'moveTo', to: { x: 146, y: 71 }, arc: 2, dur: 0.45 },
+    { at: 7.4, actor: 'bucket', do: 'moveTo', to: { x: 146, y: 62 }, arc: 2, dur: 0.45 },
+    { at: 6.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
+    { at: 6.9, actor: 'pig', do: 'moveTo', to: { x: 11, y: 71 }, arc: 2, dur: 0.45 },
+    { at: 7.4, actor: 'pig', do: 'moveTo', to: { x: 14, y: 71 }, arc: 2, dur: 0.45 },
+    // 回馬槍：再拉一次，噴出甜甜圈——也是慢慢飄，掉進豬探長嘴裡
+    { at: 8.0, actor: 'pig', do: 'tilt', amount: -20, dur: 0.3 },
+    { at: 8.15, actor: 'cannon', do: 'shake', amount: 1, dur: 0.3 },
+    { at: 8.2, actor: 'donut', do: 'pop', dur: 0.2 },
+    { at: 8.2, actor: 'donut', do: 'moveTo', to: { x: 15, y: 63 }, arc: 24, dur: 1.3, ease: 'inOut' },
+    { at: 8.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: 9.5, actor: 'donut', do: 'vanish', dur: 0.15 },
+    { at: 9.5, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
+    { at: 9.5, actor: 'pig', do: 'squash', amount: 0.25, dur: 0.25 },
+  ],
+  builds: [
+    // 震散的積木一組一組落下：忄 → 日 → 罒 → 又
+    { at: 4.7, dur: 0.45, strokes: [0, 1, 2], from: 'k1', color: '#7048E8' },
+    { at: 5.1, dur: 0.45, strokes: [3, 4, 5, 6], from: 'k2', color: '#7048E8' },
+    { at: 5.5, dur: 0.55, strokes: [7, 8, 9, 10, 11], from: 'k3', color: '#7048E8' },
+    { at: 6.0, dur: 0.4, strokes: [12, 13], from: 'k4', color: '#7048E8' },
+  ],
+  glyph: [{ at: 6.4, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.3, kind: 'pop', actor: 'sheriff', emoji: '🎵', dur: 0.4 },
+    { at: 0.9, kind: 'pop', actor: 'sheriff', emoji: '👉', dur: 0.6, dx: 7 },
+    { at: 1.6, kind: 'burst', actor: 'cannon', emoji: '💨', n: 5, dur: 0.6 },
+    { at: 2.2, kind: 'sweat', actor: 'sheriff', dur: 1.0 },
+    { at: 2.6, kind: 'pop', actor: 'pig', emoji: '❓', dur: 0.7 },
+    { at: 4.05, kind: 'burst', actor: 'tire', dur: 0.35, dx: -6 },
+    { at: 4.45, kind: 'burst', actor: 'bucket', dur: 0.4 },
+    { at: 7.0, kind: 'zzz', actor: 'pig', emoji: '🐌', dur: 1.0 },
+    { at: 8.15, kind: 'puff', actor: 'cannon', dur: 0.4 },
+    { at: 8.5, kind: 'pop', actor: 'pig', emoji: '😮', dur: 0.6 },
+  ],
+  camera: [
+    { at: 1.7, dur: 0.5, do: 'zoom', amount: 1.25, to: { x: 60, y: 30 } },
+    { at: 3.3, dur: 0.6, do: 'zoom', amount: 1 },
+    { at: 4.45, dur: 0.35, do: 'shake', amount: 1.3 },
+  ],
+  cues: [
+    { at: 0.3, sfx: 'blip' },
+    { at: 1.6, sfx: 'poof' },
+    { at: 2.3, say: '慢' },
+    { at: 2.5, sfx: 'whoosh' },
+    { at: 4.05, sfx: 'boing' },
+    { at: 4.45, sfx: 'bonk' },
+    { at: 4.75, sfx: 'clink' },
+    { at: 6.45, say: '慢' },
+    { at: 7.0, say: '慢慢' },
+    { at: 8.15, sfx: 'poof' },
+    { at: 9.5, sfx: 'gulp' },
+    { at: 9.6, sfx: 'cheer' },
+  ],
+}
+
+export default clip
