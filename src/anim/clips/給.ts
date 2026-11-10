@@ -1,118 +1,196 @@
-import type { Clip } from '../clip'
+import type { Clip, Move } from '../clip'
 import { ride } from '../helpers'
 
-// 給：太空人玩偶想把金星星送給飛碟裡的小外星人，一走路就飄起來，只好站上彈跳板把自己發射出去——飛過頭撞牆、倒栽蔥掉進水桶。
-// 發射時踢翻的線軸散成「糸」，撞牆震下來的屋頂、橫條、箱子疊成「合」，拼出「給」；半空中的星星被外星人的光束接進飛碟。
-// 最後光束不小心把整個水桶也吸起來又放下。給、給、給你
+// 給（重做）：太空人玩偶捧著禮物要送給飛碟上的小外星人，踮腳搆不到、往上丟又砸回自己頭上；用力一跳頭撞飛碟，禮物飛上天掉下來炸開，
+// 緞帶變成「糸」、蓋子和盒子變成「合」，裡面的星星落進他手裡。國字讓到上方，飛碟降落在中間，他把星星遞給外星人（給你）。
+// 回馬槍：外星人太開心，從飛碟丟回一個超大禮物，「咚」地把他整個罩住，禮物盒自己跳著走到旁邊，他再從盒子裡冒出來。給、給、給你
+const A = 66.9 // 太空人（size 24）站在地上的 y
+const U = 30 // 飛碟在空中的 y
+const R = -11 // 外星人站在飛碟上（相對飛碟的 y）
+
+// 太空人的移動抄一份給手上的東西（dx／dy 是相對他的位置）
+const carry = (ms: Move[], item: string, dx: number, dy: number): Move[] => ms.flatMap((m) => [
+  m,
+  ...(m.do === 'moveTo' || m.do === 'enter'
+    ? [{ ...m, actor: item, to: m.to && { x: m.to.x + dx, y: m.to.y + dy }, from: m.from && { x: m.from.x + dx, y: m.from.y + dy } }]
+    : []),
+])
+
 const clip: Clip = {
   char: '給',
-  meta: { theme: '送星星給外星人', cast: '太空人玩偶＋小外星人飛碟＋彈跳板', gags: ['一走路就飄起來', '發射飛過頭撞牆倒栽蔥', '光束吸錯把水桶吸起來'] },
+  meta: { theme: '送禮物給外星人', cast: '太空人玩偶＋小外星人＋飛碟＋禮物＋星星＋超大禮物', gags: ['踮腳搆不到', '往上丟砸回自己頭', '一跳頭撞飛碟', '禮物炸開變成字', '回禮把人整個罩住盒子自己走'] },
   duration: 10,
   bg: { top: '#D9F5EA', bottom: '#F2FBF6', floor: '#F6EBD4', scenery: 'hills' },
   actors: [
-    { id: 'pad', emoji: '🛹', x: 20, y: 73, size: 11 },
-    { id: 'spool', emoji: '🧵', x: 28, y: 71, size: 7 },
-    { id: 'wall', emoji: '🧱', x: 153, y: 71, size: 14 },
-    { id: 'crate', emoji: '📦', x: 153, y: 59, size: 8 },
-    { id: 'roof', emoji: '⛺', x: 153, y: 52, size: 8 },
-    { id: 'alien', emoji: 'hero:alien/saucer', x: 136, y: 30, size: 16, float: true },
-    { id: 'astro', emoji: 'hero:astronaut/idle', x: 34, y: 71, size: 14, flip: true },
-    { id: 'star', emoji: '⭐', x: 38, y: 68, size: 6, hidden: true },
-    { id: 'bucket', emoji: '🪣', x: 136, y: 71, size: 12 },
+    { id: 'ufo', emoji: '🛸', x: 100, y: U, size: 22, float: true, pivot: 'center' },
+    { id: 'alien', emoji: 'hero:alien/idle', x: 100, y: U + R, size: 16, float: true, pivot: 'center' },
+    { id: 'star', emoji: '⭐', x: 80, y: 66, size: 9, hidden: true, pivot: 'center' },
+    { id: 'astro', emoji: 'hero:astronaut/idle', x: 30, y: A, size: 24, flip: true },
+    { id: 'gift', emoji: '🎁', x: 38, y: A + 1, size: 12, pivot: 'center' },
+    { id: 'big', emoji: '🎁', x: 110, y: 54, size: 30, hidden: true },
   ],
   moves: [
-    { at: 0.3, actor: 'star', do: 'pop', dur: 0.3 },
-    { at: 0.7, actor: 'star', do: 'hop', amount: 4, dur: 0.35 },
-    { at: 0, actor: 'alien', do: 'bounce', amount: 2, times: 3, dur: 1.5 },
+    // 太空人捧著禮物走進來；飛碟在空中晃
+    ...carry([
+      { at: 0, actor: 'astro', do: 'enter', from: { x: -20, y: A }, dur: 0.6, ease: 'out' },
+    ], 'gift', 8, 1),
     ...ride([
-      // 走兩步……靴子就飄起來，在空中划水
-      { at: 1.1, actor: 'astro', do: 'moveTo', to: { x: 44, y: 71 }, dur: 0.4 },
-      { at: 1.5, actor: 'astro', do: 'moveTo', to: { x: 46, y: 54 }, dur: 0.5, ease: 'out' },
-      { at: 2.0, actor: 'astro', do: 'shake', amount: 1.5, dur: 0.5 },
-      // 噗通掉回彈跳板上
-      { at: 2.5, actor: 'astro', do: 'moveTo', to: { x: 20, y: 66 }, dur: 0.35, arc: 4, ease: 'in' },
-    ], 'star', -3, 14),
-    { at: 1.5, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/float' },
-    { at: 2.5, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/idle' },
-    { at: 2.85, actor: 'astro', do: 'squash', amount: 0.25, dur: 0.2 },
-    { at: 2.85, actor: 'pad', do: 'squash', amount: 0.3, dur: 0.2 },
-    // 蹲下蓄力——彈！一大道弧線飛過整個畫面
-    { at: 3.2, actor: 'astro', do: 'squash', amount: 0.4, dur: 0.45 },
-    { at: 3.2, actor: 'pad', do: 'squash', amount: 0.45, dur: 0.45 },
-    { at: 3.65, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/float' },
-    { at: 3.65, actor: 'astro', do: 'moveTo', to: { x: 143, y: 62 }, arc: 46, dur: 0.95, ease: 'linear' },
-    { at: 3.65, actor: 'star', do: 'moveTo', to: { x: 78, y: 16 }, arc: 10, dur: 0.5, ease: 'out' },
-    { at: 4.15, actor: 'star', do: 'moveTo', to: { x: 118, y: 14 }, dur: 0.6, ease: 'out' },
-    { at: 4.8, actor: 'star', do: 'bounce', amount: 1.5, times: 3, dur: 1.2 },
-    // 踢翻的線軸飛起來
-    { at: 3.65, actor: 'spool', do: 'moveTo', to: { x: 44, y: 48 }, arc: 8, dur: 0.35, ease: 'out' },
-    { at: 3.75, actor: 'spool', do: 'spin', times: 2, dur: 0.4 },
-    { at: 4.6, actor: 'spool', do: 'vanish', dur: 0.2 },
-    // 砰！撞牆，彈回來翻個身，倒栽蔥掉進水桶
-    { at: 4.6, actor: 'astro', do: 'squash', amount: -0.35, dur: 0.25 },
-    { at: 4.6, actor: 'wall', do: 'shake', amount: 1.2, dur: 0.4 },
-    { at: 4.85, actor: 'astro', do: 'moveTo', to: { x: 136, y: 52 }, arc: 10, dur: 0.45, ease: 'out' },
-    { at: 4.85, actor: 'astro', do: 'rotateTo', amount: 180, dur: 0.45 },
-    { at: 5.3, actor: 'bucket', do: 'squash', amount: 0.3, dur: 0.25 },
-    { at: 5.4, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/dizzy' },
-    { at: 5.5, actor: 'astro', do: 'shake', amount: 1, dur: 0.6 },
-    // 牆上那一疊被震下來
-    { at: 4.75, actor: 'roof', do: 'hop', amount: 6, dur: 0.3 },
-    { at: 4.8, actor: 'crate', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 5.15, actor: 'roof', do: 'vanish', dur: 0.2 },
-    { at: 5.45, actor: 'crate', do: 'vanish', dur: 0.2 },
-    // 外星人的光束把星星接進飛碟
-    { at: 6.6, actor: 'star', do: 'moveTo', to: { x: 136, y: 28 }, dur: 0.7, ease: 'inOut' },
-    { at: 7.3, actor: 'star', do: 'scaleTo', amount: 0.6, dur: 0.2 },
-    { at: 7.35, actor: 'alien', do: 'swap', emoji: 'hero:alien/happy' },
-    { at: 7.35, actor: 'alien', do: 'bounce', amount: 3, times: 2, dur: 0.7 },
-    { at: 7.35, actor: 'star', do: 'bounce', amount: 3, times: 2, dur: 0.7 },
-    { at: 7.9, actor: 'astro', do: 'shake', amount: 0.8, dur: 0.5 },
-    // 回馬槍：光束又來一次……吸錯，把整個水桶連人吸起來又放下
-    { at: 8.1, actor: 'alien', do: 'swap', emoji: 'hero:alien/saucer' },
-    { at: 8.4, actor: 'bucket', do: 'hop', amount: 7, dur: 0.8 },
-    { at: 8.4, actor: 'astro', do: 'hop', amount: 7, dur: 0.8 },
-    { at: 9.2, actor: 'bucket', do: 'squash', amount: 0.3, dur: 0.2 },
+      { at: 0, actor: 'ufo', do: 'bounce', amount: 1.5, times: 2, dur: 1.2 },
+    ], 'alien', R, 22),
+    // 給！舉起禮物
+    { at: 0.75, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/happy' },
+    { at: 0.75, actor: 'astro', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 0.75, actor: 'gift', do: 'hop', amount: 6, dur: 0.35 },
+    { at: 1.05, actor: 'alien', do: 'swap', emoji: 'hero:alien/surprised' },
+    // 第一次：走到飛碟下面，踮腳舉高——差好遠
+    ...carry([
+      { at: 1.2, actor: 'astro', do: 'moveTo', to: { x: 84, y: A }, dur: 0.55 },
+    ], 'gift', 8, 1),
+    { at: 1.85, actor: 'astro', do: 'squash', amount: -0.35, dur: 0.55 },
+    { at: 1.85, actor: 'gift', do: 'hop', amount: 9, dur: 0.55 },
+    { at: 1.9, actor: 'alien', do: 'hop', amount: -3, dur: 0.5 },
+    // 第二次：往上丟——丟不到，掉回來砸在自己頭上
+    { at: 2.5, actor: 'astro', do: 'squash', amount: -0.25, dur: 0.25 },
+    { at: 2.5, actor: 'gift', do: 'moveTo', to: { x: 94, y: 38 }, dur: 0.3, ease: 'out' },
+    { at: 2.5, actor: 'gift', do: 'spin', times: 1, dur: 0.3 },
+    { at: 2.8, actor: 'gift', do: 'moveTo', to: { x: 86, y: A - 21 }, dur: 0.25, ease: 'in' },
+    { at: 3.05, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/dizzy' },
+    { at: 3.05, actor: 'astro', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: 3.05, actor: 'gift', do: 'moveTo', to: { x: 92, y: A + 1 }, arc: 5, dur: 0.3, ease: 'out' },
+    // 第三次：蹲好低——用力一跳
+    { at: 3.45, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/idle' },
+    { at: 3.45, actor: 'astro', do: 'squash', amount: 0.45, dur: 0.35 },
+    { at: 3.45, actor: 'gift', do: 'hop', amount: -4, dur: 0.35 },
+    { at: 3.8, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/float' },
+    ...carry([
+      { at: 3.8, actor: 'astro', do: 'moveTo', to: { x: 92, y: 51 }, dur: 0.24, ease: 'out' },
+    ], 'gift', 8, -2),
+    // 頭撞飛碟！飛碟轉著被撞開，禮物飛上天
+    ...ride([
+      { at: 4.04, actor: 'ufo', do: 'moveTo', to: { x: 130, y: 26 }, dur: 0.45, ease: 'out' },
+      { at: 4.04, actor: 'ufo', do: 'spin', times: 2, dur: 0.55 },
+    ], 'alien', R, 22),
+    { at: 4.04, actor: 'gift', do: 'moveTo', to: { x: 80, y: 12 }, dur: 0.35, ease: 'out' },
+    { at: 4.04, actor: 'gift', do: 'spin', times: -2, dur: 0.75 },
+    { at: 4.4, actor: 'gift', do: 'moveTo', to: { x: 80, y: 70 }, dur: 0.4, ease: 'in' },
+    // 太空人慢慢飄下來，在空中划手
+    { at: 4.05, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/surprised' },
+    { at: 4.05, actor: 'astro', do: 'moveTo', to: { x: 38, y: A }, dur: 1.15, ease: 'inOut' },
+    { at: 4.3, actor: 'astro', do: 'shake', amount: 1.2, dur: 0.7 },
+    // 禮物落地、抖一抖、鼓起來——碰！
+    { at: 4.95, actor: 'gift', do: 'shake', amount: 1, dur: 0.35 },
+    { at: 4.95, actor: 'gift', do: 'scaleTo', amount: 1.4, dur: 0.35, ease: 'in' },
+    { at: 5.3, actor: 'gift', do: 'vanish', dur: 0.08 },
+    // 裡面的星星飛出來，落進太空人手裡
+    { at: 5.3, actor: 'star', do: 'pop' },
+    { at: 5.3, actor: 'star', do: 'moveTo', to: { x: 46, y: A - 2 }, arc: 22, dur: 0.55, ease: 'linear' },
+    { at: 5.3, actor: 'star', do: 'spin', times: -2, dur: 0.55 },
+    { at: 5.85, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/happy' },
+    { at: 5.85, actor: 'astro', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 5.85, actor: 'star', do: 'hop', amount: 3, dur: 0.3 },
+    // 炫耀一下星星，外星人眼睛發亮
+    { at: 6.4, actor: 'astro', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 6.4, actor: 'star', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 6.4, actor: 'star', do: 'spin', times: 1, dur: 0.3 },
+    // 飛碟還在暈
+    { at: 4.6, actor: 'alien', do: 'swap', emoji: 'hero:alien/dizzy' },
+    { at: 5.9, actor: 'alien', do: 'swap', emoji: 'hero:alien/surprised' },
+    // 國字讓位：飛碟降落在中間，太空人捧著星星走過去
+    ...ride([
+      { at: 6.85, actor: 'ufo', do: 'moveTo', to: { x: 96, y: 66 }, dur: 0.55, ease: 'inOut' },
+    ], 'alien', R, 22),
+    ...carry([
+      { at: 6.9, actor: 'astro', do: 'moveTo', to: { x: 66, y: A }, dur: 0.5 },
+    ], 'star', 8, -2),
+    // 給你！把星星遞過去
+    { at: 7.5, actor: 'astro', do: 'tilt', amount: 12, dur: 0.4 },
+    { at: 7.5, actor: 'star', do: 'moveTo', to: { x: 89, y: 52 }, arc: 6, dur: 0.3, ease: 'out' },
+    { at: 7.8, actor: 'star', do: 'scaleTo', amount: 1.5, dur: 0.2, ease: 'back' },
+    { at: 7.8, actor: 'alien', do: 'swap', emoji: 'hero:alien/happy' },
+    { at: 7.8, actor: 'alien', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 7.8, actor: 'star', do: 'hop', amount: 4, dur: 0.3 },
+    // 回馬槍：外星人也要回禮——飛起來，丟下一個超大禮物
+    ...ride([
+      { at: 8.15, actor: 'ufo', do: 'moveTo', to: { x: 110, y: 40 }, dur: 0.3, ease: 'in' },
+    ], 'alien', R, 22),
+    { at: 8.15, actor: 'star', do: 'moveTo', to: { x: 103, y: 55 }, dur: 0.3, ease: 'in' },
+    { at: 8.45, actor: 'alien', do: 'tilt', amount: -18, dur: 0.35 },
+    { at: 8.45, actor: 'ufo', do: 'tilt', amount: -10, dur: 0.35 },
+    { at: 8.5, actor: 'big', do: 'pop' },
+    { at: 8.55, actor: 'big', do: 'moveTo', to: { x: 66, y: 64.4 }, arc: 10, dur: 0.32, ease: 'in' },
+    { at: 8.55, actor: 'big', do: 'spin', times: -1, dur: 0.32 },
+    { at: 8.6, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/surprised' },
+    // 咚！整個人被罩住
+    { at: 8.87, actor: 'astro', do: 'vanish', dur: 0.04 },
+    { at: 8.87, actor: 'big', do: 'squash', amount: 0.35, dur: 0.3 },
+    // 禮物盒自己一跳一跳走到旁邊
+    { at: 8.98, actor: 'big', do: 'moveTo', to: { x: 30, y: 64.4 }, dur: 0.42, ease: 'linear' },
+    { at: 8.98, actor: 'big', do: 'bounce', amount: 3, times: 3, dur: 0.42 },
+    { at: 8.98, actor: 'astro', do: 'moveTo', to: { x: 30, y: A - 20 }, dur: 0.42 },
+    ...ride([
+      { at: 8.9, actor: 'ufo', do: 'moveTo', to: { x: 132, y: U + 4 }, dur: 0.45 },
+    ], 'alien', R, 22),
+    { at: 8.9, actor: 'star', do: 'moveTo', to: { x: 125, y: U + 19 }, dur: 0.45 },
+    // 從盒子裡冒出來
+    { at: 9.6, actor: 'astro', do: 'swap', emoji: 'hero:astronaut/happy' },
+    { at: 9.6, actor: 'astro', do: 'pop' },
+    { at: 9.6, actor: 'astro', do: 'hop', amount: 4, dur: 0.3 },
   ],
   builds: [
-    // 線軸的線在空中散開 → 糸；牆上震下來的屋頂、橫條、箱子 → 合
-    { at: 3.9, dur: 0.7, strokes: [0, 1, 2, 3, 4, 5], from: 'spool', color: '#E8461E' },
-    { at: 5.0, dur: 0.35, strokes: [6, 7], from: 'roof', color: '#D9480F' },
-    { at: 5.3, dur: 0.55, strokes: [8, 9, 10, 11], from: 'crate', color: '#D9480F' },
+    // 禮物炸開：緞帶 → 糸；蓋子 → 人＋一；盒子 → 口
+    { at: 5.3, dur: 0.5, strokes: [0, 1, 2, 3, 4, 5], from: 'gift', color: '#E64980' },
+    { at: 5.4, dur: 0.4, strokes: [6, 7, 8], from: 'gift', color: '#F08C00' },
+    { at: 5.55, dur: 0.4, strokes: [9, 10, 11], from: 'gift', color: '#F08C00' },
   ],
-  glyph: [{ at: 5.95, dur: 0.4, do: 'wobble' }, { at: 9.3, dur: 0.6, do: 'pulse' }],
+  glyph: [
+    { at: 6.0, dur: 0.4, do: 'wobble' },
+    { at: 6.8, dur: 0.45, do: 'park' },
+    { at: 9.1, dur: 0.38, do: 'home' },
+    { at: 9.5, dur: 0.5, do: 'pulse' },
+  ],
   fx: [
-    { at: 0.4, kind: 'bubble', actor: 'astro', emoji: '👽', dur: 0.9 },
-    { at: 1.6, kind: 'pop', actor: 'astro', emoji: '😲', dur: 0.5 },
-    { at: 2.0, kind: 'sweat', actor: 'astro' },
-    { at: 2.9, kind: 'pop', actor: 'astro', emoji: '💡', dur: 0.5 },
-    { at: 3.65, kind: 'puff', actor: 'pad', dur: 0.5 },
-    { at: 4.6, kind: 'burst', actor: 'wall', n: 1, dur: 0.4, dx: -6 },
-    { at: 5.5, kind: 'burst', actor: 'bucket', emoji: '⭐', n: 5, dur: 0.5 },
-    { at: 6.5, dur: 0.9, kind: 'beam', actor: 'alien', n: 8 },
-    { at: 7.4, kind: 'pop', actor: 'alien', emoji: '💕', dur: 0.7, dx: -10 },
-    { at: 7.9, kind: 'pop', actor: 'bucket', emoji: '👍', dur: 0.7, dx: -12, dy: 4 },
-    { at: 8.3, dur: 0.9, kind: 'beam', actor: 'alien', n: 12 },
-    { at: 8.6, kind: 'pop', actor: 'alien', emoji: '😅', dur: 0.6, dx: -10 },
+    { at: 0.2, kind: 'pop', actor: 'alien', emoji: '😢', dx: 12, dy: 6, dur: 0.6 },
+    { at: 1.05, kind: 'pop', actor: 'alien', emoji: '❗', dx: 12, dy: 6, dur: 0.4 },
+    { at: 2.2, kind: 'sweat', actor: 'astro' },
+    { at: 3.05, kind: 'burst', actor: 'astro', n: 1, dur: 0.35 },
+    { at: 3.1, kind: 'pop', actor: 'alien', emoji: '😬', dx: 12, dy: 6, dur: 0.4 },
+    { at: 3.45, kind: 'pop', actor: 'astro', emoji: '😤', dur: 0.35 },
+    { at: 4.04, kind: 'burst', x: 98, y: 32, n: 1, dur: 0.35 },
+    { at: 4.6, kind: 'dizzy', actor: 'alien', dur: 1.2 },
+    { at: 5.3, kind: 'burst', actor: 'gift', emoji: '🎊', n: 8, dur: 0.6 },
+    { at: 6.3, kind: 'pop', actor: 'alien', emoji: '🤩', dx: 12, dy: 6, dur: 0.45 },
+    { at: 7.8, kind: 'burst', actor: 'star', emoji: '✨', n: 6, dur: 0.5 },
+    { at: 7.95, kind: 'pop', actor: 'alien', emoji: '💕', dx: 12, dy: 2, dur: 0.5 },
+    { at: 8.2, kind: 'pop', actor: 'alien', emoji: '🎁', dx: 13, dur: 0.4 },
+    { at: 8.6, kind: 'pop', actor: 'astro', emoji: '😱', dx: -10, dur: 0.3 },
+    { at: 8.87, kind: 'puff', actor: 'big', dur: 0.4 },
+    { at: 9.0, kind: 'pop', actor: 'alien', emoji: '😅', dx: 12, dur: 0.5 },
   ],
   camera: [
-    // 飛起來那一下跟拍，撞牆前退回全景
-    { at: 3.65, dur: 0.3, do: 'follow', actor: 'astro', amount: 1.3 },
-    { at: 4.3, dur: 0.4, do: 'zoom', amount: 1 },
-    { at: 4.6, dur: 0.4, do: 'shake', amount: 1.5 },
+    { at: 4.04, dur: 0.3, do: 'shake', amount: 1.5 },
+    { at: 5.3, dur: 0.35, do: 'shake', amount: 1.8 },
+    { at: 7.8, dur: 0.45, do: 'punch', amount: 0.12, to: { x: 78, y: 56 } },
+    { at: 8.87, dur: 0.3, do: 'shake', amount: 1.4 },
+  ],
+  lights: [
+    // 禮物炸開：白光一閃
+    { at: 5.3, dur: 0.04, level: -0.5 },
+    { at: 5.34, dur: 0.3, level: 0 },
   ],
   cues: [
-    { at: 0.75, say: '給' },
-    { at: 1.5, sfx: 'whoosh' },
-    { at: 2.85, sfx: 'plop' },
-    { at: 3.65, sfx: 'boing' },
-    { at: 4.6, sfx: 'bonk' },
-    { at: 5.3, sfx: 'clink' },
+    { at: 0.8, say: '給' },
+    { at: 2.5, sfx: 'whoosh' },
+    { at: 3.05, sfx: 'bonk' },
+    { at: 3.8, sfx: 'boing' },
+    { at: 4.04, sfx: 'bonk' },
+    { at: 4.8, sfx: 'plop' },
+    { at: 5.3, sfx: 'poof' },
     { at: 6.0, say: '給' },
-    { at: 6.6, sfx: 'laser' },
-    { at: 7.35, say: '給你' },
-    { at: 8.4, sfx: 'laser' },
-    { at: 9.2, sfx: 'plop' },
+    { at: 6.85, sfx: 'whoosh' },
+    { at: 7.5, say: '給你' },
+    { at: 8.5, sfx: 'whoosh' },
+    { at: 8.87, sfx: 'bonk' },
+    { at: 8.98, sfx: 'boing' },
     { at: 9.5, sfx: 'cheer' },
   ],
 }
