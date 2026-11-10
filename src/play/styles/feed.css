@@ -199,6 +199,43 @@
 @keyframes flipIn { from { transform: rotateY(90deg) } to { transform: rotateY(0) } }
 @keyframes flyIn { to { transform: translate(var(--fly-x), var(--fly-y)) scale(.12) rotate(-30deg); opacity: 0 } }
 
+/* ---------- 手感（2026-11-11 品質躍進階段 4） ---------- */
+/* 按下去要馬上看得到：卡片的進場動畫（dropIn，fill both）一直佔著 transform，
+   :hover/:active 的 transform 被它蓋掉、按了沒有任何變化。按下的縮放改用獨立的 scale 屬性，跟動畫疊得起來 */
+.feed-card { transition: transform .15s cubic-bezier(.2,1.7,.4,1), scale .08s ease-out, opacity .3s; }
+.feed-card:active:not(:disabled) { scale: .9; }
+.feed-ask:active, .feed-done-char:active, .feed-review-char:active { scale: .92; }
+/* 點錯的那張：翻開時先搖一下頭（不是罰，是「不是這張喔」），正確的那張在怪獸說話時就開始發亮 */
+.feed-card.flipped { animation: flipIn .45s both, cardNo .4s ease-in-out .45s; }
+@keyframes cardNo { 0%, 100% { translate: 0 } 25% { translate: -10px 0 } 75% { translate: 10px 0 } }
+/* 找對了：卡片彈一下再輕輕晃（等怪獸吃之前的那一秒多不要停住），怪獸開心地跳 */
+.feed-card.got:not(.eaten) { animation: gotPop .5s cubic-bezier(.2,1.7,.4,1) both, bob 1s ease-in-out .5s infinite; }
+/* 彈的幅度有上限：卡片貼著畫面右緣（iPad 直放、三張的時候），放太大會切到畫面外 */
+@keyframes gotPop { 0% { transform: scale(1) } 40% { transform: scale(1.08) rotate(-3deg) } 100% { transform: scale(1.02) } }
+.phase-got .feed-monster { animation: boing .6s cubic-bezier(.2,1.6,.4,1) 2; }
+.feed-got-word { font-size: 38px; padding: 10px 24px; }
+/* 噴出來的星星：從卡片中間往外飛（transform／opacity，最多 12 顆） */
+.feed-burst { position: absolute; left: 50%; top: 45%; width: 0; height: 0; pointer-events: none; z-index: 3; }
+.feed-burst span { position: absolute; left: 0; top: 0; line-height: 1; translate: -50% -50%; font-size: 34px;
+  animation: fling .9s cubic-bezier(.15,.8,.3,1) calc(var(--i) * .06s) both; }
+.feed-burst.big span { font-size: 46px; animation-duration: 1.1s; }
+/* 連對第三個起：卡片外面多一圈金光往外擴 */
+.feed-burst.big::before { content: ''; position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%;
+  border: 8px solid rgba(255,210,74,.9); animation: ring .7s ease-out both; }
+@keyframes ring { from { transform: scale(.3); opacity: 1 } to { transform: scale(2.2); opacity: 0 } }
+.combo .feed-card.got { box-shadow: 0 0 0 8px #FFD24A, 0 8px 0 rgba(0,0,0,.1), 0 0 60px rgba(255,180,40,.9); }
+/* 連對中的盤子發金光：連對越多，上面一排亮越多個 */
+.feed-plate.hot { box-shadow: inset 0 0 0 4px #FFD24A, 0 0 14px rgba(255,197,61,.85); }
+/* 肚子餓、等點菜的空檔：怪獸不要只是輕輕晃，搓肚子一樣左右扭 */
+.phase-hello .feed-monster { animation: hungry 1.1s ease-in-out infinite; }
+@keyframes hungry { 0%, 100% { transform: rotate(-3deg) translateY(0) } 25% { transform: rotate(0) translateY(-10px) } 50% { transform: rotate(3deg) translateY(0) } 75% { transform: rotate(0) translateY(-10px) } }
+/* 吃完了，主按鈕呼吸：唸完就知道要點哪裡 */
+.feed-later.shown .nav-btn.primary { animation: breathe 1.2s ease-in-out infinite; }
+.feed-ask:active, .nav-btn:active { scale: .94; }
+@media (prefers-reduced-motion: reduce) {
+  .feed-burst span, .feed-burst.big::before, .phase-hello .feed-monster, .feed-later.shown .nav-btn.primary { animation: none; }
+}
+
 @media (max-width: 700px) {
   .feed-plates { gap: 6px; }
   .feed-plate { width: 40px; height: 40px; font-size: 22px; }
@@ -218,4 +255,26 @@
   .feed-card.got .feed-card-char { font-size: min(18vw, 11vh); }
   .feed-got-word { font-size: 24px; }
   .feed-done-char { width: 60px; height: 70px; font-size: 30px; }
+}
+
+/* 橫的手機（矮）：吃完的結算一排五個字會折成兩排，把「下一站」擠到畫面外面（2026-11-11 四種尺寸量到：844×390 按鈕底在 418）。
+   字卡縮小排成一排、間距收緊 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .feed-done { gap: 6px; }
+  .feed-done-title { font-size: 16px; }
+  .feed-done-row { flex-wrap: nowrap; gap: 6px; }
+  .feed-done-char { width: 52px; height: 60px; font-size: 26px; border-radius: 16px; }
+  .feed-done-char span { font-size: 18px; }
+}
+/* iPad 直放（寬 701 以上的直的）：盤子那一欄只有四百多寬，三張卡的時候第三張切到畫面右邊外面（820×1180 量到右緣 839），三張再縮一點 */
+@media (orientation: portrait) and (min-width: 701px) {
+  .feed-cards:has(.feed-card:nth-child(3)) .feed-card { width: 15vw; height: 19vw; }
+  .feed-cards:has(.feed-card:nth-child(3)) .feed-card-char { font-size: 11vw; }
+}
+/* 手機直放：找對時那個語詞排在卡片下面會掉到畫面底下外面（390×844 量到底在 859），改成浮在卡片上面 */
+@media (max-width: 700px) {
+  .feed-pick { position: relative; }
+  .feed-got-word { position: absolute; left: 50%; top: -46px; translate: -50% 0; z-index: 4; padding: 6px 16px; white-space: nowrap; }
+  /* 彈一下往上長，不要往下長出畫面 */
+  .feed-card.got { transform-origin: center bottom; }
 }

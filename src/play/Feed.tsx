@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { boing, cheer, drum, gulp, hic, ladder, tap } from '../lib/sfx'
+import { boing, cheer, drum, gulp, hic, ladder, magic, tap } from '../lib/sfx'
 import { streakOf } from './streak'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
@@ -92,6 +92,8 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
   const [phase, setPhase] = useState<Phase>('hello')
   const [missed, setMissed] = useState(false)
   const [wrong, setWrong] = useState<string | null>(null)
+  /** 這一下是連對第幾個（第一下就找對才算；靠提示找到的是 0）：答對那一下的星星越噴越多 */
+  const [combo, setCombo] = useState(0)
   // 端菜的夥伴陪著他：找對了跳起來，點錯了歪頭（不是生氣）
   const [waiterReaction, waiterReact] = useReaction()
   // 也可以把字卡拖進怪獸嘴巴（點一下照樣算）；拿到牠面前，牠會張大嘴等著
@@ -251,8 +253,12 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
       const word = wordOf(target)
       const all = [...served, { char: target, ok: !missed }]
       setPhase('got')
-      // 第一下就找對：連對越多音越高；靠提示才找到的不響（照樣吃得到）
-      if (!missed) ladder(streakOf(all))
+      // 第一下就找對：連對越多音越高；靠提示才找到的不響（照樣吃得到）。
+      // 連對到第三個起多疊一串亮晶晶的音：第三個對要聽起來跟第一個對不一樣
+      const streak = missed ? 0 : streakOf(all)
+      setCombo(streak)
+      if (!missed) ladder(streak)
+      if (streak >= 3) later(magic, 180)
       say(word, 0.8)
       const shown = Math.max(1300, lasts(word) + 300)
       // 怪獸把圖吃掉，盤子上出現那個圖
@@ -330,13 +336,13 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
       <SubBar title="🍽️ 餵大怪獸" stat={`餵了 ${served.length} / ${queue.length} 道`} onBack={onBack} />
       <div className="feed-plates" aria-label={`已經餵了 ${served.length} 道`}>
         {queue.map((c, i) => (
-          <span key={i} className={'feed-plate' + (i < served.length ? ' done' : '') + (queue.indexOf(c) < i ? ' encore' : '')}>
+          <span key={i} className={'feed-plate' + (i < served.length ? ' done' : '') + (i < served.length && i >= served.length - streakOf(served) ? ' hot' : '') + (queue.indexOf(c) < i ? ' encore' : '')}>
             {i < served.length ? byChar.get(served[i].char)?.emoji || '✨' : ''}
           </span>
         ))}
       </div>
 
-      <div className={`feed-main phase-${phase} finale-${finale}` + (belly === BURST - 1 ? ' nearly' : '')} onClick={skipRecap}>
+      <div className={`feed-main phase-${phase} finale-${finale}` + (belly === BURST - 1 ? ' nearly' : '') + (phase === 'got' && combo >= 3 ? ' combo' : '')} onClick={skipRecap}>
         <section className="feed-stage" aria-live="polite" style={{ ['--belly' as any]: belly / BURST }}>
           <div className="feed-bubble">
             {phase === 'hello' && '我肚子好餓喔！'}
@@ -421,7 +427,7 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
               <div className="feed-cards">
                 {options.map((c) => {
                   const flipped = c === wrong
-                  const hint = missed && c === target && phase === 'ask'
+                  const hint = missed && c === target && (phase === 'ask' || phase === 'oops')
                   const mine = c === target && (phase === 'got' || phase === 'chomp')
                   const gone = c !== target && (phase === 'got' || phase === 'chomp')
                   return (
@@ -430,6 +436,8 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
                       disabled={(phase !== 'ask' && !(phase === 'oops' && c === target)) || flipped} onClick={() => pick(c)} aria-label={flipped ? `這是「${c}」` : `餵「${c}」`}>
                       {(flipped || mine) && <span className="feed-card-emoji" aria-hidden>{byChar.get(c)?.emoji}</span>}
                       <span className="feed-card-char">{c}</span>
+                      {/* 找對了：從這張卡噴出星星，連對越多噴越多（一次最多 12 顆，iPad 跑得動） */}
+                      {mine && phase === 'got' && <GotBurst combo={combo} />}
                     </button>
                   )
                 })}
@@ -445,6 +453,17 @@ export default function Feed({ library, progress, stars, want, onRecall, onPick,
       {phase === 'ask' && !missed && mysteryNow && <p className="game-hint feed-tip">神秘料理！看牠一筆一筆畫出哪個字，猜到就點那一張！</p>}
       {phase === 'ask' && encore && !missed && <p className="game-hint feed-tip">剛剛那個字又來了，這次自己找找看！</p>}
       {phase === 'ask' && missed && !wrong && <p className="game-hint feed-tip">找找看發亮的那一張！</p>}
+    </div>
+  )
+}
+
+/** 找對那一下從卡片噴出來的星星：第一個對 6 顆，連對越多越多、越大（最多 12 顆）；樣式在 feed.css 的 .feed-burst */
+function GotBurst({ combo }: { combo: number }) {
+  const n = Math.min(12, 6 + Math.max(0, combo - 1) * 3)
+  const bits = ['⭐', '✨', '🌟', '💛']
+  return (
+    <div className={'feed-burst' + (combo >= 3 ? ' big' : '')} aria-hidden>
+      {Array.from({ length: n }, (_, i) => <span key={i} style={{ ['--a' as any]: `${(i * 360) / n + 10}deg`, ['--d' as any]: `${90 + (i % 3) * 30 + Math.min(combo, 4) * 10}px`, ['--i' as any]: i % 3 }}>{bits[i % bits.length]}</span>)}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import { preloadVoice, say, sayAll, stopSpeech, voiceDuration } from '../lib/audio'
-import { cheer, stroke as strokeTone, tap } from '../lib/sfx'
+import { cheer, ladder, stroke as strokeTone, tap } from '../lib/sfx'
 import { taiwanDay } from '../../shared/domain.mjs'
 import { COMBOS, SPELLS, SPELL_FIXED } from '../../shared/spells.mjs'
 import { FIXED_LINES, LINES } from '../../shared/voice-lines.mjs'
@@ -252,6 +252,8 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
     // 升到 🧙 聽寫級＝這個字真的會了（不看就寫得出來）：比一般升級更大聲地慶祝
     const master = levelUp === 'memory'
     if (master) cheer()
+    // 變出第幾個就爬到第幾級（跟餵大怪獸連對同一套音）：第三個聽起來比第一個高、比第一個爽
+    else ladder(made.length + 1)
     // 大魔法師那句已經說了「不用看就寫得出來」，就不再先說「沒有偷看」（話太長他聽不完）
     // 第一次寫這個字（✏️ 描）而且它有部首家族：謝謝後面接它為什麼住那一家（「海裡有好多好多水」，音檔本來就有）——
     // 部首跟意思連起來；之後再寫就不說了（那時要的是想起來，不是聽說明）
@@ -382,6 +384,9 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
             <span key={levelUp && phase === 'thanks' ? 'up' : 'now'} className={'spell-level' + (levelUp && phase === 'thanks' ? ' spell-level-up' : '')} aria-hidden>
               {LEVEL_BADGE[levelUp && phase === 'thanks' ? levelUp : wish.level]}
             </span>
+            {/* 謝謝的那一兩秒：變出來的東西回到格子正中間彈一下、噴星星，不要只剩一個淡掉的字停在那裡。
+                第幾個變出來的，星星就多幾顆（一次最多 12 顆） */}
+            {phase === 'thanks' && <TaDa key={turn} art={art} emoji={wish.emoji} nth={made.length} />}
             {phase !== 'ask' && (
               <Strokes key={`${round}-${turn}`} char={wish.char} radical={Boolean(familyOf(wish.char))}
                 startLook={wish.level === 'look'} startBlind={wish.level === 'blind' || wish.level === 'memory'} preview={wish.level === 'blind' ? previewMs(wish.n) : 0}
@@ -400,6 +405,17 @@ export default function Spell({ library, progress, stars, want, focus, path, onW
           power={powerOf(wish.level, wroteBlind.current)} radStrokes={familyOf(wish.char) ? conjure.rad : undefined} onDone={finishConjure} />
       )}
     </div>
+  )
+}
+
+/** 謝謝的時候格子正中間的那一下：東西彈出來、四周噴星星（transform／opacity，樣式在 spell.css 的 .spell-tada） */
+function TaDa({ art, emoji, nth }: { art: string | null; emoji: string; nth: number }) {
+  const n = Math.min(12, 3 + nth * 3)
+  return (
+    <span className="spell-tada" aria-hidden>
+      {Array.from({ length: n }, (_, i) => <i key={i} style={{ ['--a' as any]: `${(i * 360) / n}deg`, ['--d' as any]: `${110 + (i % 2) * 50 + nth * 10}px` }}>{['✨', '⭐', '🌟'][i % 3]}</i>)}
+      {art ? <img src={art} alt="" draggable={false} /> : <b>{emoji}</b>}
+    </span>
   )
 }
 

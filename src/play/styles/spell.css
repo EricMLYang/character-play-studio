@@ -156,3 +156,28 @@
 .spell-picker-word b { font-size: 24px; letter-spacing: 1px; }
 .spell-picker-new img, .spell-picker-new > span { filter: saturate(.25) opacity(.6); transition: filter .25s; }
 .spell-picker-new:active img, .spell-picker-new:active > span { filter: none; }
+
+/* ---------- 手感（2026-11-11 品質躍進階段 4） ---------- */
+/* 按下去馬上縮一下（獨立的 scale 屬性：不會被進場、跳一下的 transform 動畫蓋掉） */
+.spell-card, .spell-btn, .spell-bubble, .spell-picker-item, .spell-done-hand button { transition: scale .08s ease-out; }
+.spell-card:active, .spell-btn:active, .spell-bubble:active, .spell-picker-item:active, .spell-done-hand button:active { scale: .92; }
+/* 等他挑的時候卡片輪流跳一下：「點我」，不靠字也看得懂（進場的 popUp 用 transform，這裡用 translate，兩個疊得起來） */
+.spell-is-choose .spell-card:not(.spell-picked) { animation: popUp .45s cubic-bezier(.2,1.6,.4,1) both, spellNudge 3s ease-in-out 2.4s infinite; }
+.spell-is-choose .spell-card:nth-child(2):not(.spell-picked) { animation-delay: .08s, 3.4s; }
+.spell-is-choose .spell-card:nth-child(3):not(.spell-picked) { animation-delay: .16s, 4.4s; }
+@keyframes spellNudge { 0%, 24%, 100% { translate: 0 0; } 8% { translate: 0 -14px; } 16% { translate: 0 2px; } }
+/* 變出一個，上面那排點點亮一個時跳一下 */
+.spell-steps span.spell-on { animation: pop .4s cubic-bezier(.2,1.7,.4,1) both; }
+/* 謝謝：變出來的東西在格子正中間彈出來、輕輕晃，四周噴星星 */
+.spell-tada { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
+.spell-tada img, .spell-tada b { grid-area: 1 / 1; width: 62%; height: 62%; object-fit: contain; font-size: min(26vh, 30vw); line-height: 1; display: grid; place-items: center;
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,.2)); animation: spellTada .55s cubic-bezier(.2,1.7,.4,1) both, spellTadaIdle 1s ease-in-out .55s infinite; }
+@keyframes spellTadaIdle { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-16px) rotate(-4deg); } 60% { transform: translateY(0) rotate(3deg) scale(1.04, .96); } }
+@keyframes spellTada { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 60% { transform: scale(1.18) rotate(6deg); opacity: 1; } 100% { transform: none; } }
+.spell-tada i { grid-area: 1 / 1; font-style: normal; font-size: 34px; line-height: 1; animation: fling .95s cubic-bezier(.15,.8,.3,1) .1s both; }
+/* 結算：主按鈕呼吸（唸完「還想再變嗎？」那三下跳之外，一直輕輕提醒點這裡） */
+.spell-actions .spell-go:not(.spell-invite) { animation: spellGo 1.6s ease-in-out 1.5s infinite; }
+@keyframes spellGo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) {
+  .spell-is-choose .spell-card:not(.spell-picked), .spell-tada img, .spell-tada b, .spell-tada i, .spell-actions .spell-go:not(.spell-invite) { animation: none; }
+}
