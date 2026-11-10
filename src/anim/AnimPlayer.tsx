@@ -107,7 +107,9 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   const renderActor = (a: (typeof visible)[number]) => {
     // 以腳底為支點：壓扁、翻倒都從地板上發生。
     // 但側躺（接近 90°）時身體會轉到地板下面，所以轉得越斜就把支點往上抬，側躺時剛好躺在地板上。
-    const tip = a.float ? 0 : Math.min(1, Math.abs(Math.sin((a.r * Math.PI) / 180)))
+    // pivot: 'center' 轉的那部分（rc）另外繞身體中心轉，不抬支點：滾動的球原地轉、不離地也不陷進地板。
+    const rf = a.r - a.rc
+    const tip = a.float ? 0 : Math.min(1, Math.abs(Math.sin((rf * Math.PI) / 180)))
     const base = a.y + a.size * 0.42 - tip * a.size * 0.42 * a.s
     // 站在地上的角色會微微呼吸，畫面不會有完全靜止的死角；每個角色節奏錯開
     const breath = a.float ? 0 : Math.sin(t * 6.9 + phase(a.id)) * 0.022
@@ -121,11 +123,14 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     const stretchX = horizontal ? 1 + k : 1 - k * 0.5, stretchY = horizontal ? 1 - k * 0.5 : 1 + k
     const sx = a.s * a.sx * (flip ? -1 : 1) * (1 - breath * 0.5) * stretchX
     const sy = a.s * a.sy * (1 + breath) * stretchY
+    // 身體中心離腳底多高（已經壓扁／拉長過）：以中心轉就先移到這裡、轉完再移回來
+    const hc = a.size * 0.42 * Math.abs(sy)
+    const spin = a.rc ? ` translate(0 ${-hc}) rotate(${a.rc}) translate(0 ${hc})` : ''
     // 白色貼紙描邊＋軟陰影：emoji 看起來像一張張立體貼紙，不再平貼在背景上
     const filter = [a.tint, art === '3d' ? SOFT : STICKER, a.glow && `drop-shadow(0 0 ${2 + a.glow * 4}px #FFD400) brightness(${1 + a.glow * 0.6})`].filter(Boolean).join(' ')
     return (
       <g key={a.id} opacity={a.o}
-        transform={`translate(${a.x} ${base}) rotate(${a.r}) skewX(${-a.lean}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
+        transform={`translate(${a.x} ${base}) rotate(${rf})${spin} skewX(${-a.lean}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
         style={filter ? { filter } : undefined}>
         <Emoji char={a.emoji} size={a.size} art={art} />
       </g>

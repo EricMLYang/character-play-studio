@@ -26,6 +26,11 @@ export type Actor = {
   top?: boolean
   /** CSS filter，例如把熊染黑：brightness(.45) */
   tint?: string
+  /**
+   * 旋轉的支點。沒寫是腳底（站著的角色翻倒、側躺）；'center' 是自己的中心：
+   * 會滾的東西（雪球、球、輪子、陀螺）rotateTo／spin／tilt 都原地轉，不會繞著底部甩、也不會轉進地板。
+   */
+  pivot?: 'center'
 }
 
 /** 會留下結果的動作（位置、大小、角度、出場、退場、換造型）。 */
@@ -62,6 +67,8 @@ export type Move = {
   emoji?: string
   /** tint 換成的 CSS filter（空字串＝拿掉） */
   filter?: string
+  /** rotateTo／spin／tilt 這一次的支點，蓋過角色的 pivot：'center' 原地空中轉一圈、'feet' 從腳底翻倒 */
+  pivot?: 'center' | 'feet'
 }
 
 /** 一組筆畫組合出來：從某個角色（或某個點）飛過去，或從上面掉下來。 */
@@ -154,6 +161,8 @@ export type Clip = {
 export type ActorState = {
   id: string; emoji: string; size: number; flip: boolean; float: boolean; top: boolean; tint?: string
   x: number; y: number; s: number; sx: number; sy: number; r: number; o: number
+  /** r 裡面以自己中心為支點轉的那一部分（Actor／Move 的 pivot: 'center'）；其餘 r − rc 以腳底為支點 */
+  rc: number
   /** 身體往左右歪（度，正的是頭往右）：以腳底為支點的斜切，像果凍一樣上半身晚一點跟上；引擎自動加的 */
   lean: number
   visible: boolean; glow: number
@@ -224,7 +233,7 @@ function baseActor(clip: Clip, a: Actor, t: number): ActorState {
 function rawActor(clip: Clip, a: Actor, t: number): ActorState {
   const st: ActorState = {
     id: a.id, emoji: a.emoji, size: a.size, flip: !!a.flip, float: !!a.float, top: !!a.top, tint: a.tint,
-    x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
+    x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, rc: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
   }
   for (const m of sortedMoves(clip)) {
     if (t < m.at) break
@@ -240,6 +249,9 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
     const pull = ant ? ant * Math.sin(Math.PI * clamp(p / 0.22)) : 0
     // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
     if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
+    // 旋轉：r 是總角度，以中心為支點的那部分另外記在 rc，播放器分兩段轉
+    const centered = (m.pivot ?? (a.pivot === 'center' ? 'center' : 'feet')) === 'center'
+    const turn = (deg: number) => { st.r += deg; if (centered) st.rc += deg }
     switch (m.do) {
       case 'enter': {
         const from = m.from ?? { x: -15, y: st.y }
@@ -261,7 +273,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
         }
         break
       case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
-      case 'rotateTo': st.r += lerp(0, m.amount ?? 0, e); break
+      case 'rotateTo': turn(lerp(0, m.amount ?? 0, e)); break
       case 'swap': if (m.emoji) st.emoji = m.emoji; break
       case 'tint': st.tint = m.filter || undefined; break
       case 'flip': st.flip = !st.flip; break
@@ -272,8 +284,8 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
         if (m.do === 'bounce') st.y -= (amt ?? 5) * Math.abs(Math.sin(Math.PI * (m.times ?? 2) * p)) * (1 - p * 0.5)
         if (m.do === 'squash') { const k = Math.sin(Math.PI * p) * (amt ?? 0.35); st.sx *= 1 + k; st.sy *= 1 - k * 0.86 }
         if (m.do === 'shake') st.x += (amt ?? 1.5) * Math.sin(p * Math.PI * 12) * (1 - p)
-        if (m.do === 'spin') st.r += 360 * (m.times ?? 1) * e
-        if (m.do === 'tilt') st.r += (amt ?? 15) * Math.sin(Math.PI * p)
+        if (m.do === 'spin') turn(360 * (m.times ?? 1) * e)
+        if (m.do === 'tilt') turn((amt ?? 15) * Math.sin(Math.PI * p))
         if (m.do === 'flash') st.glow = Math.max(st.glow, Math.abs(Math.sin(Math.PI * 3 * p)))
       }
     }
@@ -462,7 +474,7 @@ export function lifeOf(clip: Clip): Map<string, Life> {
         const wobbly = m.ease === 'bounce' || m.ease === 'elastic'
         const speed = dist / d
         // 步伐
-        if (canStep(s0.emoji) && grounded && !carried && !jumpy && !wobbly && dist >= 6 && Math.abs(dy) <= 3 && Math.abs(s0.r) < 30) {
+        if (canStep(s0.emoji) && grounded && !carried && !jumpy && !wobbly && dist >= 6 && Math.abs(dy) <= 3 && Math.abs(s0.r - s0.rc) < 30) {
           const n = Math.min(Math.round(dist / (s0.size * 0.5)), Math.floor(d * 6.5))
           if (n >= 2) L.steps.push({ at: m.at, d, ease: m.ease, ant: !!m.anticipate, n, amp: s0.size * 0.055 * (speed > 140 ? 0.6 : 1) })
         }

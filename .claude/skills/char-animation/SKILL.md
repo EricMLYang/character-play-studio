@@ -242,13 +242,15 @@ ffmpeg -i 字-old.mp4 -i 字-new.mp4 -filter_complex hstack -c:v libx264 -pix_fm
 `night`（月亮＋星星，天空顏色要夠深）、`forest`（樹林剪影）、`track`（觀眾席＋跑道線）。故事發生在哪就選哪個，每批盡量不要都一樣。
 emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）。
 
-- **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter) }`。陣列順序＝繪製順序。
-- **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate? }`
+- **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter), pivot?('center'：旋轉以自己中心為支點) }`。陣列順序＝繪製順序。
+- **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate?, pivot? }`
   - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
   - `ease`（moveTo／enter／scaleTo／rotateTo）：`inOut`（預設）、`in`（加速）、`out`（煞車）、`linear`、`back`（衝過頭彈回）、`bounce`（落地彈）、`elastic`（晃到停）
   - `anticipate`（moveTo／enter）：出發前先往反方向縮這麼遠（舞台單位，3～6）
   - 做完回原狀：`hop`（負值是往下沉）、`bounce`、`squash`（正壓扁／負拉長）、`shake`、`spin`、`tilt`、`flash`
-  - 支點在腳底：壓扁、翻倒都從地板發生。轉 90°／180°（側躺、倒栽蔥）時角色會繞腳底轉，位置要自己用 `moveTo` 補，轉完要看一下有沒有陷進地板或飄在空中。
+  - 旋轉的支點預設在腳底：壓扁、翻倒都從地板發生，側躺（接近 90°）時引擎會自動把身體抬到剛好躺在地板上；倒栽蔥（180°）會繞腳底轉到原位上方，要的話自己用 `moveTo` 補位置。
+  - **會滾的東西（雪球、球、輪子、陀螺、一直轉圈的角色）在 actor 加 `pivot: 'center'`**：`rotateTo`／`spin`／`tilt` 都繞自己中心原地轉，不會繞著底部甩、也不會轉進地板；邊 `moveTo` 邊 `rotateTo`（往左滾用負角度，距離 ÷ 直徑 × 360 左右）就是滾動。
+  - 站著的角色偶爾要「原地空中轉一圈」：那一次的 `spin`／`rotateTo` 寫 `pivot: 'center'`（通常配 `hop`）；反過來 `pivot: 'feet'` 讓 center 的角色那一次從底部翻倒。位置、影子、步伐、擋字都不受支點影響。
   - emoji 的預設朝向依 Apple Color Emoji（很多動物、車子朝左）；要朝右就在 actor 加 `flip: true`，逐格看時確認方向對。
   - 頭上頂著東西時，主角壓扁要用 `pressStack(at, dur, amount, size, ids)`（`src/anim/helpers.ts`）讓上面那疊一起沉。
 - **builds**：`{ at, dur, strokes: [筆畫編號], from: 角色 id 或 {x,y}, style?: 'fly'|'drop', color }`；每一筆落定自動有「叮」聲。
