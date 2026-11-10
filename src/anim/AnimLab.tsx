@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { loadAllClips } from './clips'
 import type { Clip } from './clip'
 import AnimPlayer, { type Art } from './AnimPlayer'
@@ -7,6 +8,8 @@ import '../play/play.css'
 /**
  * /anim：動畫取代影片的原型試播頁。
  * 網址可帶 ?char=果&t=3.2 直接定格在某一秒（截圖驗證用）。
+ * 另外掛一個 window.__animSeek(t)：npm run anim:shot 在同一頁連續換秒數截圖，不必每格重新載入。
+ * 只有這個試播頁有（孩子端與 iPad 版都不打包 AnimLab）。
  */
 export default function AnimLab() {
   // 劇本是按需載入的，試播頁要全部列出來，先全部載入
@@ -23,6 +26,13 @@ function Lab({ clips: CLIPS }: { clips: Clip[] }) {
   const [run, setRun] = useState(0)
   const [art, setArt] = useState<Art>(() => (qs.get('art') === 'emoji' ? 'emoji' : '3d'))
   const clip = CLIPS.find((c) => c.char === char)!
+
+  // 給 anim:shot 用：同步畫好那一秒才回來（flushSync），截圖工具接著等圖片載完就能截
+  useEffect(() => {
+    const w = window as unknown as { __animSeek?: (t: number) => number }
+    w.__animSeek = (to) => { flushSync(() => { setPlaying(false); setT(to) }); return clip.duration }
+    return () => { delete w.__animSeek }
+  }, [clip])
 
   const pick = (c: string) => { setChar(c); setPlaying(false); setT(0) }
   const play = () => {
