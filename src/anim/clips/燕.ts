@@ -14,7 +14,8 @@ const clip: Clip = {
     { id: 'pebble', emoji: '🪨', x: 80, y: 74, size: 7, hidden: true },
     { id: 'crate', emoji: '📦', x: 80, y: 67, size: 8, hidden: true },
     { id: 'board', emoji: '🪵', x: 80, y: 60, size: 8, hidden: true },
-    { id: 'plank', emoji: '🟫', x: 80, y: 53, size: 8, hidden: true },
+    // 3D 版的 🟫 偏紫紅，染回木頭的咖啡色
+    { id: 'plank', emoji: '🟫', tint: 'sepia(1) saturate(2.4) hue-rotate(-14deg) brightness(.8)', x: 80, y: 53, size: 8, hidden: true },
     { id: 'seed', emoji: '🌰', x: 84, y: 47, size: 4, hidden: true },
     { id: 'mouse', emoji: 'hero:mouse/idle', x: 62, y: 71.5, size: 13, hidden: true, flip: true },
     { id: 'hay', emoji: '🌾', x: 132, y: 70, size: 13, hidden: true },

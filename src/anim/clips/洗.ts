@@ -8,7 +8,8 @@ const clip: Clip = {
   duration: 10,
   bg: { top: '#C8F1EE', bottom: '#E8FBF8', floor: '#9ED9D3', scenery: 'room' },
   actors: [
-    { id: 'shelf', emoji: '🟫', x: 140, y: 56, size: 12, float: true, tint: 'brightness(1.3) saturate(.6)' },
+    // 3D 版的 🟫 偏紫紅，先 sepia 拉回咖啡色再調淡
+    { id: 'shelf', emoji: '🟫', x: 140, y: 56, size: 12, float: true, tint: 'sepia(1) saturate(.9) brightness(1.15)' },
     { id: 'brush1', emoji: '🪥', x: 133, y: 46, size: 7, float: true },
     { id: 'soap', emoji: '🧼', x: 141, y: 45, size: 10, float: true },
     { id: 'brush2', emoji: '🪥', x: 149, y: 46, size: 7, float: true, flip: true },

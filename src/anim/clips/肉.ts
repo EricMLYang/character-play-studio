@@ -9,7 +9,8 @@ const clip: Clip = {
   duration: 10,
   bg: { top: '#24325F', bottom: '#4B5D94', floor: '#BFD8C9', scenery: 'night' },
   actors: [
-    { id: 'meat', emoji: '🧆', x: 146, y: 70, size: 8 },
+    // 3D 版的 🧆 是紫褐色、還有一顆切開是綠的，染成咖啡色才像肉丸
+    { id: 'meat', emoji: '🧆', tint: 'sepia(1) saturate(1.3) brightness(.8) contrast(1.2)', x: 146, y: 70, size: 8 },
     { id: 'engine', emoji: '🚒', x: 22, y: 69, size: 20, hidden: true, flip: true },
     { id: 'ninja', emoji: 'hero:ninja/hide', x: 18, y: 72, size: 12, flip: true },
   ],

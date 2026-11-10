@@ -10,7 +10,8 @@ const clip: Clip = {
   actors: [
     { id: 'stool', emoji: '🪑', x: 60, y: 73, size: 9 },
     { id: 'crate', emoji: '📦', x: 120, y: 72.8, size: 10 },
-    { id: 'lid', emoji: '🟫', x: 120, y: 66.5, size: 5 },
+    // 3D 版的 🟫 偏紫紅，染回木頭的咖啡色
+    { id: 'lid', emoji: '🟫', tint: 'sepia(1) saturate(2.4) hue-rotate(-14deg) brightness(.8)', x: 120, y: 66.5, size: 5 },
     { id: 'bean', emoji: '🫘', x: 120, y: 62.5, size: 5 },
     { id: 'bean2', emoji: '🫘', x: 120, y: 70, size: 5, hidden: true },
     { id: 'milk', emoji: '🥛', x: -12, y: 70, size: 8, float: true },

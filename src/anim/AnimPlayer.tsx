@@ -266,7 +266,10 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
             {f.emoji && (SPLAT[f.emoji]
               // 色塊方塊當成油漆／顏料點：畫成一顆有亮點的圓滴，不要一塊方形貼紙
               ? <g><circle r={f.size * 0.36} fill={SPLAT[f.emoji]} /><circle cx={-f.size * 0.12} cy={-f.size * 0.12} r={f.size * 0.1} fill="#fff" opacity=".7" /></g>
-              : <Emoji char={f.emoji} size={f.size} art={art} />)}
+              // 效果的 emoji 也是照 Apple 的朝向挑的：3D 版朝向相反的要翻回來
+              : art === '3d' && FLIP_3D.has(codeOf(f.emoji))
+                ? <g transform="scale(-1 1)"><Emoji char={f.emoji} size={f.size} art={art} /></g>
+                : <Emoji char={f.emoji} size={f.size} art={art} />)}
             {f.beam && <polygon points={f.beam.map((q) => `${q.x},${q.y}`).join(' ')} fill="#FFF27A" opacity=".45" />}
             {f.line && <>
               <line x1={f.line.from.x} y1={f.line.from.y} x2={f.line.to.x} y2={f.line.to.y} stroke={f.line.color}
