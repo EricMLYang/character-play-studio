@@ -3,8 +3,10 @@
 //   npm run anim:check            # 檢查全部
 //   npm run anim:check -- 果 雷   # 只檢查這幾個字
 //
-// 錯誤（exit 1）：唸字不是「字、字、語詞」、筆畫漏掉或重複、引用不存在的角色或主角姿勢、時間超出影片長度。
-// 警告：唸字會被下一句打斷（有音檔就用真實長度算）、國字完成後有角色擋住字或被鏡頭切掉、效果跑出畫面、沒有 meta。
+// 錯誤（exit 1）：唸字不是「字、字、語詞」、筆畫漏掉或重複、引用不存在的角色或主角姿勢、時間超出影片長度、
+//   國字拼好不到 0.8 秒就 park（讓位）、park 之後結尾 pulse 前沒有 home。
+// 警告：唸字會被下一句打斷（有音檔就用真實長度算）、國字完成後有角色擋住字或被鏡頭切掉（照國字當下的位置與大小）、效果跑出畫面、沒有 meta。
+// 只檢查正式劇本 src/anim/clips/；src/anim/clips-old/ 的舊版只給試播頁比較用，不檢查。
 import { createServer } from 'vite'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -38,7 +40,7 @@ try {
 }
 process.exit(failed ? 1 : 0)
 
-function check(clip, { actorsAt, fxAt, buildTiming, viewAt, GLYPH }) {
+function check(clip, { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlaceAt, glyphDoneAt }) {
   const errors = [], warnings = []
   const ids = new Set(clip.actors.map((a) => a.id))
   const end = clip.duration
@@ -91,11 +93,26 @@ function check(clip, { actorsAt, fxAt, buildTiming, viewAt, GLYPH }) {
   if (late.length) errors.push(`有 ${late.length} 個時間點超過影片長度 ${end}s`)
   if (!clip.meta) warnings.push('沒有 meta（主題、卡司、笑點），之後挑字時沒辦法避開重複')
 
-  // 國字完成後，角色不能擋住字的中間
+  // 國字讓位（park／home）：拼好後至少停 0.8 秒才 park，結尾 pulse 時要已經回到正中央原本的大小
+  const built = glyphDoneAt(clip)
+  const glyphOps = (clip.glyph ?? []).filter((g) => g.do === 'park' || g.do === 'home').sort((a, b) => a.at - b.at)
+  for (const g of glyphOps) {
+    if (g.do === 'park' && g.at < built + 0.8) errors.push(`國字 ${built.toFixed(2)}s 才拼好，${g.at}s 就 park：至少停 0.8 秒讓小孩看清楚整個字`)
+  }
+  if (glyphOps.length) {
+    const finalPulse = (clip.glyph ?? []).filter((g) => g.do === 'pulse' && g.at >= built).sort((a, b) => b.at - a.at)[0]
+    const tEnd = finalPulse ? finalPulse.at : end - 0.85
+    const home = glyphPlaceAt(clip, tEnd)
+    if (Math.abs(home.k - 1) > 0.01 || Math.abs(home.x - 80) > 0.5 || Math.abs(home.y - 45) > 0.5) {
+      errors.push(`國字 park 之後，${finalPulse ? `結尾 pulse（${tEnd}s）` : `結尾掃光（${tEnd}s）`}前沒有 home 回到正中央`)
+    }
+  }
+
+  // 國字完成後，角色不能擋住字的中間（照國字當下的位置與大小算：讓位後變小、在上方）
   const done = Math.max(...clip.builds.map((b) => b.at + b.dur)) + 0.2
-  const core = { x0: GLYPH.x + 6, x1: GLYPH.x + GLYPH.size - 6, y0: GLYPH.y + 6, y1: GLYPH.y + GLYPH.size - 8 }
   const blocking = new Map()
   for (let t = done; t <= end; t += 0.1) {
+    const core = glyphCore(clip, t)
     for (const a of actorsAt(clip, t)) {
       if (!a.visible || a.o < 0.3) continue
       const half = a.size * a.s * 0.4
@@ -112,7 +129,9 @@ function check(clip, { actorsAt, fxAt, buildTiming, viewAt, GLYPH }) {
   let cutGlyph = null
   for (let t = done; t <= end; t += 0.1) {
     const v = viewAt(clip, t)
-    const slack = 12
+    const core = glyphCore(clip, t)
+    // 國字縮小時，能被切掉的邊也跟著縮小
+    const slack = 12 * glyphPlaceAt(clip, t).k
     if (v.x0 > core.x0 + slack || v.x1 < core.x1 - slack || v.y0 > core.y0 + slack || v.y1 < core.y1 - slack) { cutGlyph ??= [t, t]; cutGlyph[1] = t }
   }
   if (cutGlyph) warnings.push(`國字完成後鏡頭把字切掉了 ${cutGlyph[0].toFixed(1)}–${cutGlyph[1].toFixed(1)}s（zoom／follow 推太近或中心偏掉）`)

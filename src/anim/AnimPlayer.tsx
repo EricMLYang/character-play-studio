@@ -5,7 +5,7 @@ import * as sfx from '../lib/sfx'
 import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
 import { FLIP_3D } from './flip3d'
-import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 import './anim.css'
 
 /**
@@ -186,7 +186,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
 
-        <g transform={`translate(${80 + g.dx} 45) rotate(${g.r}) scale(${g.s}) translate(-80 -45)`}
+        {/* 國字以中心為支點：讓位（park）時縮小移到上方，home 回到正中央 */}
+        <g transform={`translate(${g.x + g.dx} ${g.y}) rotate(${g.r}) scale(${g.s * g.k}) translate(${-GLYPH_MID.x} ${-GLYPH_MID.y})`}
           style={{ filter: 'drop-shadow(0 1.2px 0 rgba(0,0,0,.18))' }}>
           {strokes.map((s) => (
             <g key={s.index} opacity={s.o}

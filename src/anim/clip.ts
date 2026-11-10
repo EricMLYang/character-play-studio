@@ -3,7 +3,7 @@
  * 不靠 CSS 動畫或計時器，畫面完全由 t 決定，所以可以拖曳、定格、截圖驗證，
  * 劇本之後也能交給 AI 寫（就是一份 JSON），不必再生影片。
  *
- * 舞台座標：160 × 90（16:9），地板大約在 y = 74。國字固定置中，高 63（約七成畫面）。
+ * 舞台座標：160 × 90（16:9），地板大約在 y = 74。國字置中，高 63（約七成畫面）；劇本可以用 glyph 的 park 讓它縮小讓到上方、home 再回來。
  */
 
 export type Vec = { x: number; y: number }
@@ -79,7 +79,16 @@ export type Cue =
   | { at: number; sfx: 'crack' | 'boing' | 'clink' | 'gulp' | 'rumble' | 'bubble' | 'poof' | 'plop' | 'cheer' | 'tap'
       | 'bonk' | 'whoosh' | 'slide' | 'deflate' | 'splash' | 'hic' | 'blip' | 'laser' | 'achoo' }
 
-export type GlyphFx = { at: number; dur: number; do: 'wobble' | 'pulse' | 'shake' }
+/**
+ * 國字的效果。wobble／pulse／shake 做完就回原狀。
+ * 會留下結果的「讓位」：park 在 dur 內把國字縮到 amount 倍（預設 0.55）、移到 to（國字中心，預設畫面上方正中 {80, 21}），
+ * 把畫面中央讓給角色演語詞與回馬槍；home 在 dur 內回到正中央原本的大小（結尾 pulse 前一定要回來）。
+ * 國字拼好後至少停 0.8 秒才能 park（anim:check 會擋），讓小孩先看清楚整個字。
+ */
+export type GlyphFx =
+  | { at: number; dur: number; do: 'wobble' | 'pulse' | 'shake' }
+  | { at: number; dur: number; do: 'park'; to?: Vec; amount?: number; ease?: Ease }
+  | { at: number; dur: number; do: 'home'; ease?: Ease }
 
 /**
  * 漫畫效果：跟著角色的頭（或指定的點）走。
@@ -304,8 +313,15 @@ function castUp(st: ActorState, u: number) {
   st.y = lerp(y, feet - 0.42 * st.size, fall)
 }
 
-/** 國字的中間（anim:check 用同一個範圍檢查「國字完成後有沒有被擋住」） */
-export const glyphCore = () => ({ x0: GLYPH.x + 6, x1: GLYPH.x + GLYPH.size - 6, y0: GLYPH.y + 6, y1: GLYPH.y + GLYPH.size - 8 })
+/** 國字的中間（anim:check 用同一個範圍檢查「國字完成後有沒有被擋住」）；給 t 就照國字當下的位置與大小算（讓位後變小、在上方） */
+export const glyphCore = (clip?: Clip, t = 0) => {
+  const g = clip ? glyphPlaceAt(clip, t) : { x: GLYPH_MID.x, y: GLYPH_MID.y, k: 1 }
+  const at = (v: number, mid: number, c: number) => c + (v - mid) * g.k
+  return {
+    x0: at(GLYPH.x + 6, GLYPH_MID.x, g.x), x1: at(GLYPH.x + GLYPH.size - 6, GLYPH_MID.x, g.x),
+    y0: at(GLYPH.y + 6, GLYPH_MID.y, g.y), y1: at(GLYPH.y + GLYPH.size - 8, GLYPH_MID.y, g.y),
+  }
+}
 /** 頭上的效果最高冒到頭頂上面多少（照 fxAt 的畫法估；不在頭上、不是 emoji 的效果不用管） */
 const headroom = (f: Fx) => f.kind === 'burst' ? ((f.n ?? 0) > 1 ? 14.5 : 6.6) : ({ pop: 12, bubble: 16.5, dizzy: 7, sweat: 7, zzz: 17, fountain: 12 } as Partial<Record<Fx['kind'], number>>)[f.kind]
 
@@ -315,17 +331,16 @@ const castCache = new WeakMap<Clip, { n: number; u: number }>()
  * 放大以後，國字完成後會多擋到字、或頭上的效果會被畫面頂端切掉，就一階一階退回去，退到跟原本一樣為止。
  */
 export function castFactor(clip: Clip): number {
-  const sig = clip.moves.length * 1000 + clip.actors.length
+  const sig = clip.moves.length * 1000 + clip.actors.length + (clip.glyph?.length ?? 0) * 1e6
   const hit = castCache.get(clip)
   if (hit && hit.n === sig) return hit.u
   const done = Math.max(...clip.builds.map((b) => b.at + b.dur)) + 0.2
-  const core = glyphCore()
-  const samples: { t: number; post: boolean; raw: ActorState[] }[] = []
+  const samples: { t: number; post: boolean; raw: ActorState[]; core: ReturnType<typeof glyphCore> }[] = []
   // 跟 anim:check 取一樣的時間點：開頭起每 0.1 秒（看效果），國字完成後起每 0.1 秒（看擋字）
-  const sample = (t: number, post: boolean) => samples.push({ t, post, raw: clip.actors.map((a) => rawActor(clip, a, t)) })
+  const sample = (t: number, post: boolean) => samples.push({ t, post, raw: clip.actors.map((a) => rawActor(clip, a, t)), core: glyphCore(clip, t) })
   for (let t = 0; t <= clip.duration; t += 0.1) sample(t, false)
   for (let t = done; t <= clip.duration; t += 0.1) sample(t, true)
-  const blocks = (a: ActorState) => {
+  const blocks = (a: ActorState, core: ReturnType<typeof glyphCore>) => {
     const half = a.size * a.s * 0.4
     return a.visible && a.o >= 0.3 && a.x + half > core.x0 && a.x - half < core.x1 && a.y + half > core.y0 && a.y - half < core.y1
   }
@@ -333,12 +348,12 @@ export function castFactor(clip: Clip): number {
   // 跟 anim:check 同一條規則：同一個角色在國字完成後擋到字，頭尾超過 0.25 秒才算
   const blockedLong = (u: number) => {
     const span = new Map<string, [number, number]>()
-    for (const { t, post, raw } of samples) {
+    for (const { t, post, raw, core } of samples) {
       if (!post) continue
       for (const r of raw) {
         const s = { ...r }
         castUp(s, u)
-        if (!blocks(s)) continue
+        if (!blocks(s, core)) continue
         const sp = span.get(s.id)
         if (sp) sp[1] = t; else span.set(s.id, [t, t])
       }
@@ -659,9 +674,48 @@ export function landings(clip: Clip): { at: number; i: number; n: number; stroke
 /** 國字全部拼好的時間。 */
 export const glyphDoneAt = (clip: Clip) => Math.max(...clip.builds.map((b) => b.at + b.dur))
 
+/** 國字正中央（GLYPH 的中心）；讓位前後的位置都以這一點為準 */
+export const GLYPH_MID: Vec = { x: GLYPH.x + GLYPH.size / 2, y: GLYPH.y + GLYPH.size / 2 }
+/** park 沒寫 to／amount 時：縮到 0.55 倍、移到畫面上方正中（上緣離畫面頂約 4） */
+export const PARK = { x: 80, y: 21.5, k: 0.55 }
+
+type GlyphMove = Extract<GlyphFx, { do: 'park' | 'home' }>
+const isGlyphMove = (g: GlyphFx): g is GlyphMove => g.do === 'park' || g.do === 'home'
+
+/**
+ * 國字在 t 的位置與大小（讓位的結果）：x、y 是國字中心，k 是倍率。沒寫 park 的劇本永遠是正中央、1 倍。
+ * 每一個 park／home 從「上一個在它開始時的位置」漸變到自己的目標，跟 zoom 一樣只由 t 決定。
+ */
+export function glyphPlaceAt(clip: Clip, t: number) {
+  let x = GLYPH_MID.x, y = GLYPH_MID.y, k = 1
+  const ops = (clip.glyph ?? []).filter(isGlyphMove).sort((a, b) => a.at - b.at)
+  for (const g of ops) {
+    if (t < g.at) break
+    const p = easeBy(g.ease)(g.dur > 0 ? clamp((t - g.at) / g.dur) : 1)
+    const to = g.do === 'park'
+      ? { x: g.to?.x ?? PARK.x, y: g.to?.y ?? PARK.y, k: g.amount ?? PARK.k }
+      : { x: GLYPH_MID.x, y: GLYPH_MID.y, k: 1 }
+    x = lerp(x, to.x, p); y = lerp(y, to.y, p); k = lerp(k, to.k, p)
+  }
+  return { x, y, k }
+}
+
+/** 國字整個字在 t 佔的範圍（舞台座標）：自動取景與 anim:check 用 */
+export function glyphBoxAt(clip: Clip, t: number) {
+  const g = glyphPlaceAt(clip, t)
+  const h = (GLYPH.size / 2) * g.k
+  return { x0: g.x - h, x1: g.x + h, y0: g.y - h, y1: g.y + h, k: g.k }
+}
+
+/**
+ * 國字在 t 的樣子：x、y 是中心、k 是讓位的倍率（會留下結果），dx／s／r 是 wobble／pulse／shake（做完回原狀）。
+ * 播放器畫成 translate(x + dx, y) rotate(r) scale(s × k)，以國字中心為支點。
+ */
 export function glyphAt(clip: Clip, t: number) {
   let dx = 0, s = 1, r = 0
+  const { x, y, k } = glyphPlaceAt(clip, t)
   for (const fx of clip.glyph ?? []) {
+    if (isGlyphMove(fx)) continue
     if (t < fx.at || t > fx.at + fx.dur) continue
     const p = (t - fx.at) / fx.dur
     const k = Math.sin(Math.PI * p)
@@ -669,7 +723,7 @@ export function glyphAt(clip: Clip, t: number) {
     if (fx.do === 'wobble') r += 4 * Math.sin(p * Math.PI * 4) * (1 - p)
     if (fx.do === 'shake') dx += 1.2 * Math.sin(p * Math.PI * 14) * (1 - p)
   }
-  return { dx, s, r }
+  return { dx, s, r, x, y, k }
 }
 
 // ---------- 漫畫效果 ----------
@@ -886,12 +940,15 @@ const STAGE_MID = { x: 80, y: 45 }
 // 角色在全景裡只有畫面的 1/12，國字拼好之前的戲常常擠在角落。劇本沒有自己運鏡的時候，
 // 鏡頭自己推近到「正在演的角色」：取景範圍每 0.05 秒算一次、前後平滑（鏡頭會稍微先動，像攝影師預判），
 // 推近最多 1.6 倍；國字開始拼之前平順地退回全景。國字拼好以後，有人在演時鏡頭往他那邊靠一點、推近一點點（最多 1.2 倍），
-// 國字永遠整個留在畫面裡，結尾 pulse 前回到全景。劇本自己寫了 zoom／follow 的時段尊重劇本。
+// 國字永遠整個留在畫面裡（照國字當下的位置與大小：讓位 park 後變小在上方，鏡頭可以更靠向在演的角色），
+// 結尾 pulse 前回到全景。劇本自己寫了 zoom／follow 的時段尊重劇本。
 
 const CAM_DT = 0.05
 const CAM_MAX = 1.6
 /** 國字拼好以後最多推近多少（國字要整個留在畫面裡，而且不能偏離中間太多） */
 const POST_MAX = 1.2
+/** 國字讓位（park）以後最多推近多少：國字變小在上方，角色在中間演，國字仍要整個在畫面裡 */
+const PARKED_MAX = 1.5
 const camCache = new WeakMap<Clip, { n: number; iz: Float32Array; cx: Float32Array; cy: Float32Array }>()
 
 function autoCamAt(clip: Clip, t: number): CamState {
@@ -906,7 +963,7 @@ function autoCamAt(clip: Clip, t: number): CamState {
 
 /** 一支劇本的自動取景表（每支只算一次）。 */
 export function autoCamGrid(clip: Clip) {
-  const sig = clip.moves.length * 1000 + (clip.camera?.length ?? 0)
+  const sig = clip.moves.length * 1000 + (clip.camera?.length ?? 0) + (clip.glyph?.length ?? 0) * 1e6
   const hit = camCache.get(clip)
   if (hit && hit.n === sig) return hit
   const firstBuild = Math.min(...clip.builds.map((b) => b.at), clip.duration)
@@ -975,16 +1032,21 @@ export function autoCamGrid(clip: Clip) {
     if (Number.isNaN(grown[0][i])) continue
     let [x0, x1, y0, y1] = grown.map((g) => g[i])
     const post = postAt(i)
-    // 國字拼好以後，國字整個要留在畫面裡，而且不能偏離中間太多
-    if (post) {
-      x0 = Math.min(x0, GLYPH.x - 4); x1 = Math.max(x1, GLYPH.x + GLYPH.size + 4)
-      y0 = Math.min(y0, GLYPH.y - 4); y1 = Math.max(y1, GLYPH.y + GLYPH.size + 4)
+    // 國字拼好以後，國字整個要留在畫面裡（照國字當下的位置與大小：讓位後變小、在上方），而且在正中央時不能偏離中間太多
+    const gb = post ? glyphBoxAt(clip, i * CAM_DT) : null
+    if (gb) {
+      x0 = Math.min(x0, gb.x0 - 4); x1 = Math.max(x1, gb.x1 + 4)
+      y0 = Math.min(y0, gb.y0 - 4); y1 = Math.max(y1, gb.y1 + 4)
     }
+    // 國字讓位以後（縮小到 0.9 倍以下）：鏡頭可以推近到在演的角色，跟拼字前一樣最多 PARKED_MAX
+    const parked = !!gb && gb.k < 0.9
+    const max = !post ? CAM_MAX : parked ? PARKED_MAX : POST_MAX
     let c = { x: (x0 + x1) / 2, y: (y0 + y1) / 2 }
-    if (post) c = { x: clamp(c.x, STAGE_MID.x - 12, STAGE_MID.x + 12), y: c.y }
+    // 讓位以後放寬到 ±22（鏡頭可以靠向在演的角色，但不要整個甩到一邊，國字在畫面裡滑來滑去）
+    if (post) { const w = parked ? 22 : 12; c = { x: clamp(c.x, STAGE_MID.x - w, STAGE_MID.x + w), y: c.y } }
     // 中心被限制住時，視野要放寬到還是框得住
-    const hw = Math.max(c.x - x0, x1 - c.x, 80 / (post ? POST_MAX : CAM_MAX)), hh = Math.max(c.y - y0, y1 - c.y)
-    const z = clamp(Math.min(80 / hw, 45 / hh), 1, post ? POST_MAX : CAM_MAX)
+    const hw = Math.max(c.x - x0, x1 - c.x, 80 / max), hh = Math.max(c.y - y0, y1 - c.y)
+    const z = clamp(Math.min(80 / hw, 45 / hh), 1, max)
     // 視野不能跑出畫好的背景，往下最多到舞台底。遠景有視差（推近時只放大四成），所以左右上方要多留一點
     const zp = 1 + (z - 1) * 0.4
     iz[i] = 1 / z; cx[i] = clamp(c.x, PAINTED.x0 + 80 / zp, PAINTED.x1 - 80 / zp); cy[i] = clamp(c.y, PAINTED.y0 + 45 / zp, 90 - 45 / z)
@@ -1000,7 +1062,10 @@ export function autoCamGrid(clip: Clip) {
   for (let i = 0; i < n; i++) {
     if (Number.isNaN(box[0][i])) continue
     let [x0, x1, y0, y1] = box.map((b) => b[i])
-    if (postAt(i)) { x0 = Math.min(x0, GLYPH.x - 4); x1 = Math.max(x1, GLYPH.x + GLYPH.size + 4); y0 = Math.min(y0, GLYPH.y - 4); y1 = Math.max(y1, GLYPH.y + GLYPH.size + 4) }
+    if (postAt(i)) {
+      const gb = glyphBoxAt(clip, i * CAM_DT)
+      x0 = Math.min(x0, gb.x0 - 4); x1 = Math.max(x1, gb.x1 + 4); y0 = Math.min(y0, gb.y0 - 4); y1 = Math.max(y1, gb.y1 + 4)
+    }
     need[i] = Math.min(1, Math.max(cx[i] - x0, x1 - cx[i]) / 80, Math.max(cy[i] - y0, y1 - cy[i]) / 45)
   }
   const wide = new Float32Array(n)

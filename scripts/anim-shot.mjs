@@ -8,6 +8,7 @@
 //   npm run anim:shot -- 哭 --from 3 --to 5 --step 0.05   只細看一段
 //   npm run anim:shot -- 哭 --mp4            另外輸出一支 30fps 的無聲 mp4
 //   npm run anim:shot -- 哭 --tag before     檔名帶上 tag（改前／改後各輸出一份來比）
+//   npm run anim:shot -- 晚 --old --tag old  拍重做前的舊版（src/anim/clips-old/晚.ts，試播頁的 ?v=old）
 //
 // 其他參數：--out <資料夾>（預設 .anim-shots/，已 .gitignore）、--width <每格寬，預設 640>、
 // --cols <每列幾格，預設 3>、--rows <每張幾列，預設 5>、--fps <mp4 的格數，預設 30>、--mp4-width <預設 960>
@@ -30,13 +31,14 @@ const STAGE_W = 960
 
 // ── 參數 ──────────────────────────────────────────────
 const argv = process.argv.slice(2)
-const opts = { step: 0.25, from: 0, to: null, mp4: false, out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
+const opts = { step: 0.25, from: 0, to: null, mp4: false, old: false, out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
 const chars = []
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i]
   const val = () => { const v = argv[++i]; if (v === undefined) fail(`${a} 後面要接值`); return v }
   const num = () => { const v = Number(val()); if (!Number.isFinite(v)) fail(`${a} 要接數字`); return v }
   if (a === '--mp4') opts.mp4 = true
+  else if (a === '--old') opts.old = true
   else if (a === '--step') opts.step = num()
   else if (a === '--from') opts.from = num()
   else if (a === '--to') opts.to = num()
@@ -135,6 +137,7 @@ async function main() {
   for (const char of chars) {
     const started = Date.now()
     pageErrors.length = 0
+    if (opts.old && !fs.existsSync(path.join(ROOT, 'src/anim/clips-old', `${char}.ts`))) throw new Error(`${char}：沒有舊版（src/anim/clips-old/${char}.ts）`)
     const duration = await openClip(page, base, char)
     const from = Math.max(0, opts.from)
     const to = Math.min(duration, opts.to ?? duration)
@@ -187,7 +190,7 @@ async function main() {
 /** 開某個字的試播頁，等到筆順資料、掛鉤都好了，回傳劇本長度。 */
 async function openClip(page, base, char) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0` })
+    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0${opts.old ? '&v=old' : ''}` })
     // 剛導覽時舊頁面的環境可能還在、或正好被換掉，所以從 Node 這邊一次一次問
     let ok = null
     const until = Date.now() + 20000
