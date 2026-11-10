@@ -1,0 +1,115 @@
+import type { Clip } from '../clip'
+
+// 森（v8）：布忍者躲在比自己小很多的花盆後面，只想輕輕拍一下地上的三顆小種子，卻誇張地全力助跑——衝過頭、煙霧彈提早爆開，
+// 冒煙倒滑回來一屁股撞上花盆。他踮腳走過去用一根手指輕輕一點，三顆種子「蹦」地長成三棵小樹，排成「森」。最後一顆煙霧彈晚了才爆，他變成一叢小樹偽裝。森、森、森林
+const clip: Clip = {
+  char: '森',
+  meta: { theme: '忍者種樹', cast: '布忍者＋三顆種子＋花盆＋小松鼠', gags: ['躲在小花盆後面', '全力助跑衝過頭', '屁股撞花盆', '煙霧彈晚爆變樹叢'] },
+  duration: 10,
+  bg: { top: '#E7F5D8', bottom: '#F7FCF0', floor: '#9C7A54', scenery: 'hills' },
+  actors: [
+    { id: 's1', emoji: '🌱', x: 64, y: 72, size: 6, hidden: true },
+    { id: 's2', emoji: '🌱', x: 80, y: 72, size: 6, hidden: true },
+    { id: 's3', emoji: '🌱', x: 96, y: 72, size: 6, hidden: true },
+    { id: 'squirrel', emoji: '🐿️', x: 130, y: 72, size: 10, hidden: true },
+    { id: 'ninja', emoji: 'hero:ninja/hide', x: 24, y: 71.1, size: 14, flip: true },
+    { id: 'pot', emoji: '🪴', x: 26, y: 72.8, size: 10 },
+    { id: 'bush', emoji: '🌳', x: 24, y: 68.5, size: 16, hidden: true },
+  ],
+  moves: [
+    { at: 0.1, actor: 's1', do: 'pop', dur: 0.3 },
+    { at: 0.2, actor: 's2', do: 'pop', dur: 0.3 },
+    { at: 0.3, actor: 's3', do: 'pop', dur: 0.3 },
+    { at: 0.5, actor: 'ninja', do: 'hop', amount: 3, dur: 0.3 },
+    // 雙手風車蓄力
+    { at: 0.9, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
+    { at: 0.9, actor: 'ninja', do: 'spin', times: 3, dur: 0.8 },
+    { at: 1.7, actor: 'ninja', do: 'squash', amount: -0.3, dur: 0.25 },
+    // 全力衝刺——衝過頭、煙霧彈提早爆
+    { at: 1.95, actor: 'ninja', do: 'moveTo', to: { x: 190, y: 71.1 }, dur: 0.5, anticipate: 4, ease: 'in' },
+    { at: 2.2, actor: 's1', do: 'moveTo', to: { x: 60, y: 34 }, dur: 0.4, ease: 'out' },
+    { at: 2.2, actor: 's2', do: 'moveTo', to: { x: 82, y: 26 }, dur: 0.4, ease: 'out' },
+    { at: 2.2, actor: 's3', do: 'moveTo', to: { x: 102, y: 34 }, dur: 0.4, ease: 'out' },
+    { at: 2.2, actor: 's1', do: 'spin', times: 3, dur: 0.9 },
+    { at: 2.2, actor: 's2', do: 'spin', times: 3, dur: 0.9 },
+    { at: 2.2, actor: 's3', do: 'spin', times: 3, dur: 0.9 },
+    // 冒煙倒滑回來，一屁股撞上花盆
+    { at: 2.7, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 2.75, actor: 'ninja', do: 'moveTo', to: { x: 32, y: 71.1 }, dur: 0.55, ease: 'out' },
+    { at: 3.3, actor: 'ninja', do: 'squash', amount: 0.4, dur: 0.3 },
+    { at: 3.3, actor: 'pot', do: 'shake', amount: 1, dur: 0.4 },
+    { at: 3.4, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/dizzy' },
+    // 種子落回土裡，排成三角形
+    { at: 3.3, actor: 's1', do: 'moveTo', to: { x: 64, y: 72 }, dur: 0.4, ease: 'bounce' },
+    { at: 3.35, actor: 's2', do: 'moveTo', to: { x: 80, y: 70 }, dur: 0.4, ease: 'bounce' },
+    { at: 3.4, actor: 's3', do: 'moveTo', to: { x: 96, y: 72 }, dur: 0.4, ease: 'bounce' },
+    // 踮腳走過去，一根手指輕輕一點
+    { at: 4.0, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
+    { at: 4.0, actor: 'ninja', do: 'moveTo', to: { x: 53, y: 71.1 }, dur: 0.5, ease: 'linear' },
+    { at: 4.0, actor: 'ninja', do: 'bounce', amount: 1.2, times: 3, dur: 0.5 },
+    { at: 4.55, actor: 'ninja', do: 'tilt', amount: 14, dur: 0.3 },
+    { at: 4.7, actor: 's1', do: 'vanish', dur: 0.15 },
+    { at: 4.7, actor: 's2', do: 'vanish', dur: 0.15 },
+    { at: 4.7, actor: 's3', do: 'vanish', dur: 0.15 },
+    { at: 4.75, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 4.8, actor: 'ninja', do: 'moveTo', to: { x: 33, y: 71.1 }, dur: 0.35, ease: 'out' },
+    // 樹葉飄下來，小松鼠探頭
+    { at: 6.2, actor: 'squirrel', do: 'pop', dur: 0.35 },
+    { at: 6.6, actor: 'squirrel', do: 'tilt', amount: 15, dur: 0.5 },
+    { at: 6.0, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
+    // 回馬槍：最後一顆煙霧彈——不爆……晚了才爆，變成一叢小樹
+    { at: 7.2, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/throw' },
+    { at: 7.3, actor: 'ninja', do: 'shake', amount: 0.4, dur: 0.6 },
+    { at: 7.9, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 8.5, actor: 'bush', do: 'pop', dur: 0.3 },
+    { at: 8.5, actor: 'pot', do: 'vanish', dur: 0.2 },
+    { at: 8.5, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
+    { at: 8.5, actor: 'ninja', do: 'moveTo', to: { x: 24, y: 71.1 }, dur: 0.2 },
+    { at: 9.0, actor: 'bush', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
+  ],
+  builds: [
+    // 三顆種子同時蹦成三棵小樹：上面一棵、下面左右兩棵
+    { at: 4.7, dur: 0.6, strokes: [0, 1, 2, 3], from: 's2', color: '#2F9E44' },
+    { at: 4.75, dur: 0.6, strokes: [4, 5, 6, 7], from: 's1', color: '#37B24D' },
+    { at: 4.8, dur: 0.6, strokes: [8, 9, 10, 11], from: 's3', color: '#2B8A3E' },
+  ],
+  glyph: [{ at: 5.45, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.4, kind: 'pop', actor: 'ninja', emoji: '👀', dur: 0.5 },
+    { at: 1.1, kind: 'bubble', actor: 'ninja', emoji: '🌱', dur: 0.6 },
+    { at: 1.95, kind: 'puff', actor: 'ninja', dur: 0.4 },
+    { at: 2.15, kind: 'burst', x: 100, y: 62, emoji: '💨', n: 6, dur: 0.5 },
+    { at: 2.8, kind: 'puff', actor: 'ninja', dur: 0.6 },
+    { at: 3.3, kind: 'burst', actor: 'ninja', n: 1, dur: 0.3 },
+    { at: 3.4, kind: 'dizzy', actor: 'ninja', dur: 0.6 },
+    { at: 4.6, kind: 'pop', actor: 'ninja', emoji: '👆', dur: 0.3 },
+    { at: 6.2, dur: 1.4, kind: 'rain', actor: 'squirrel', emoji: '🍃', dy: -10 },
+    { at: 7.4, kind: 'pop', actor: 'ninja', emoji: '💣', dur: 0.5 },
+    { at: 7.9, kind: 'sweat', actor: 'ninja' },
+    { at: 8.4, kind: 'burst', actor: 'ninja', emoji: '💨', n: 6, dur: 0.5 },
+    { at: 8.4, dur: 0.9, kind: 'rain', actor: 'bush', emoji: '🍃' },
+    { at: 9.0, kind: 'pop', actor: 'bush', emoji: '👍', dur: 0.6 },
+  ],
+  camera: [
+    { at: 1.95, dur: 0.2, do: 'follow', actor: 'ninja', amount: 1.3 },
+    { at: 2.4, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 3.3, dur: 0.5, do: 'punch', amount: 0.18, to: { x: 30, y: 64 } },
+  ],
+  cues: [
+    { at: 0.9, sfx: 'whoosh' },
+    { at: 1.2, say: '森' },
+    { at: 1.95, sfx: 'whoosh' },
+    { at: 2.15, sfx: 'poof' },
+    { at: 2.75, sfx: 'slide' },
+    { at: 3.3, sfx: 'bonk' },
+    { at: 4.6, sfx: 'tap' },
+    { at: 4.7, sfx: 'boing' },
+    { at: 5.5, say: '森' },
+    { at: 6.35, say: '森林' },
+    { at: 7.4, sfx: 'blip' },
+    { at: 8.4, sfx: 'poof' },
+    { at: 9.5, sfx: 'cheer' },
+  ],
+}
+
+export default clip
