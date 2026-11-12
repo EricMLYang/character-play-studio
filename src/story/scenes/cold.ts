@@ -39,7 +39,7 @@ const scenes: Scenes = {
     ],
     camera: [{ at: 3.1, dur: 0.3, do: 'shake', amount: 1.2 }],
     cues: [
-      { at: 0.5, say: '下雪天，小豬好冷。' },
+      { at: 0.5, say: '下雪了，小豬好冷。' },
       { at: 3.1, sfx: 'achoo' },
     ],
   }),
@@ -74,7 +74,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.35, sfx: 'plop' },
       { at: 0.85, sfx: 'poof' },
-      { at: 2.0, say: '有火，不冷！' },
+      { at: 2.0, say: '有火了，不冷了！' },
       { at: 3.4, sfx: 'cheer' },
     ],
   }),
@@ -125,7 +125,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.55, sfx: 'whoosh' },
       { at: 1.0, sfx: 'bonk' },
-      { at: 1.9, say: '太冷！太冷！' },
+      { at: 1.9, say: '太冷了！太冷了！' },
       { at: 3.4, sfx: 'rumble' },
       { at: 4.0, sfx: 'poof' },
     ],
@@ -152,7 +152,7 @@ const scenes: Scenes = {
     ],
     cues: [
       { at: 0.9, sfx: 'rumble' },
-      { at: 1.3, say: '小豬要吃飯。' },
+      { at: 1.3, say: '小豬想吃飯了。' },
       { at: 1.9, sfx: 'rumble' },
     ],
   }),
@@ -193,7 +193,7 @@ const scenes: Scenes = {
       { at: 0.75, sfx: 'plop' },
       { at: 1.6, sfx: 'gulp' },
       { at: 2.25, sfx: 'gulp' },
-      { at: 2.6, say: '好吃！好吃！' },
+      { at: 2.6, say: '好好吃的餅！' },
     ],
   }),
 
@@ -244,7 +244,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.75, sfx: 'bonk' },
       { at: 1.82, sfx: 'crack' },
-      { at: 2.7, say: '石不可吃！' },
+      { at: 2.7, say: '石不能吃！' },
       { at: 4.4, sfx: 'whoosh' },
     ],
   }),
@@ -278,7 +278,7 @@ const scenes: Scenes = {
       { at: 2.6, dur: 0.3, do: 'shake', amount: 1 },
     ],
     cues: [
-      { at: 0.4, say: '小豬笑笑。他抱抱你！' },
+      { at: 0.4, say: '小豬笑了。他抱抱我！' },
       { at: 2.2, sfx: 'whoosh' },
       { at: 2.65, sfx: 'cheer' },
     ],

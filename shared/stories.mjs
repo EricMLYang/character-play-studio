@@ -5,7 +5,8 @@
  * 指讀小書是句型湊出來的句子（他要日出。），讀對讀錯故事都一樣。這裡的故事是一句一句手寫的：
  *
  * - **每個字都是字庫裡的字**（tests/stories.test.mjs 會擋）：他點任何一個字都聽得到、都有字卡可以看。
- *   字庫沒有「的、了、我」，所以句子短短的、像橋樑書的第一級；寫新故事時先跑測試看哪個字不在字庫。
+ *   句子短短的、像橋樑書的第一級（2026-11-12 字庫加了「的、了」、開放了「我」，句子才順得起來）；寫新故事時先跑測試看哪個字不在字庫。
+ *   故事裡的「我」是讀的人自己（機器人給我花）；主角一律用名字或「他」。
  * - **故事走到一半停下來讓他選**：選項只有字，沒有圖、也不唸。選了哪個字，那個字的意思就演出來：
  *   「給他火！」小豬烤火；「給他雪！」小豬被埋成雪人。選到幫不上忙的不是錯——是最好笑的那一段，演完再選一次。
  *   （魔法筆是「寫出來就變出來」，這裡是「讀出來就演出來」：獎勵就是那個字的意思。）
@@ -28,86 +29,86 @@ export const STORIES = [
   {
     id: 'cold', title: '小豬好冷', hero: 'pig', emoji: '❄️',
     pages: [
-      { id: 'snow', text: '下雪天，小豬好冷。' },
+      { id: 'snow', text: '下雪了，小豬好冷。' },
       { id: 'warm', ask: '給他＿！', options: [
-        { char: '火', emoji: '🔥', text: '有火，不冷！', ok: true },
-        { char: '雪', emoji: '⛄', text: '太冷！太冷！' },
+        { char: '火', emoji: '🔥', text: '有火了，不冷了！', ok: true },
+        { char: '雪', emoji: '⛄', text: '太冷了！太冷了！' },
       ] },
-      { id: 'hungry', text: '小豬要吃飯。' },
+      { id: 'hungry', text: '小豬想吃飯了。' },
       { id: 'food', ask: '給他＿！', options: [
-        { char: '餅', emoji: '🍪', text: '好吃！好吃！', ok: true },
-        { char: '石', emoji: '🪨', text: '石不可吃！' },
+        { char: '餅', emoji: '🍪', text: '好好吃的餅！', ok: true },
+        { char: '石', emoji: '🪨', text: '石不能吃！' },
       ] },
-      { id: 'hug', text: '小豬笑笑。他抱抱你！' },
+      { id: 'hug', text: '小豬笑了。他抱抱我！' },
     ],
   },
   {
     id: 'ball', title: '球在樹上', hero: 'yang', emoji: '⚽',
     pages: [
       { id: 'play', text: '楊捷睿在打球。' },
-      { id: 'fly', text: '球飛上天！' },
-      { id: 'tree', text: '球在樹上。他不高。' },
+      { id: 'fly', text: '球飛上天了！' },
+      { id: 'tree', text: '球在樹上了。他太矮了！' },
       { id: 'help', ask: '叫＿來！', options: [
-        { char: '象', emoji: '🐘', text: '象好高！象給他球！', ok: true },
-        { char: '龜', emoji: '🐢', text: '龜好慢！太慢！' },
-        { char: '猴', emoji: '🐵', text: '猴要玩球！他不給！' },
+        { char: '象', emoji: '🐘', text: '象好高！象把球給他了！', ok: true },
+        { char: '龜', emoji: '🐢', text: '龜好慢！太慢了！' },
+        { char: '猴', emoji: '🐵', text: '猴想玩他的球！不給他！' },
       ] },
-      { id: 'thanks', text: '楊捷睿笑笑。他抱抱象。' },
-      { id: 'again', ask: '象也要玩＿！', options: [
-        { char: '球', emoji: '🌙', text: '象打球！球飛上天！', ok: true },
-        { char: '水', emoji: '💦', text: '象給他水！好冷！', ok: true },
+      { id: 'thanks', text: '楊捷睿笑了。他抱抱象。' },
+      { id: 'again', ask: '象也想玩＿！', options: [
+        { char: '球', emoji: '🌙', text: '象打球！球飛上天了！', ok: true },
+        { char: '水', emoji: '💦', text: '象給他水！好冷的水！', ok: true },
       ] },
     ],
   },
   {
     id: 'robot', title: '機器人不走', hero: 'robot', emoji: '🔋',
     pages: [
-      { id: 'stuck', text: '機器人不走，也不叫。' },
-      { id: 'need', text: '他要電！' },
+      { id: 'stuck', text: '機器人不走了，也不說話了。' },
+      { id: 'need', text: '他沒有電了！' },
       { id: 'charge', ask: '給他＿！', options: [
-        { char: '電', emoji: '⚡', text: '有電！機器人笑笑。', ok: true },
-        { char: '水', emoji: '💧', text: '不可給水！' },
+        { char: '電', emoji: '⚡', text: '有電了！機器人笑了。', ok: true },
+        { char: '水', emoji: '💧', text: '不能給他水！' },
         { char: '飯', emoji: '🍚', text: '機器人不吃飯！' },
       ] },
-      { id: 'zoom', text: '機器人快跑！太快！太快！' },
+      { id: 'zoom', text: '機器人快跑！太快了！太快了！' },
       { id: 'slow', ask: '叫他＿！', options: [
-        { char: '慢', emoji: '🐌', text: '慢慢走，好乖。', ok: true },
-        { char: '快', emoji: '🚀', text: '太快！他飛上天！' },
-        { char: '跳', emoji: '☁️', text: '他跳好高！在雲上！' },
+        { char: '慢', emoji: '🐌', text: '慢慢走，真乖。', ok: true },
+        { char: '快', emoji: '🚀', text: '太快了！他飛上天了！' },
+        { char: '跳', emoji: '☁️', text: '他跳到雲上了！好高！' },
       ] },
-      { id: 'gift', text: '機器人給你花。他愛你。' },
+      { id: 'gift', text: '機器人給我花。他愛我。' },
     ],
   },
   {
     id: 'dragon', title: '小龍愛吃', hero: 'dino', emoji: '🍉',
     pages: [
-      { id: 'mouth', text: '小龍有大口。他愛吃！' },
+      { id: 'mouth', text: '小龍的嘴好大。他愛吃！' },
       { id: 'eat', ask: '他吃＿！', all: true, options: [
-        { char: '瓜', emoji: '🍉', text: '好甜！好甜！' },
-        { char: '辣', emoji: '🌶️', text: '好辣！口中有火！' },
-        { char: '蟲', emoji: '🐛', text: '蟲在口中跳！' },
+        { char: '瓜', emoji: '🍉', text: '好甜的瓜！' },
+        { char: '辣', emoji: '🌶️', text: '好辣！嘴裡有火了！' },
+        { char: '蟲', emoji: '🐛', text: '蟲在他的嘴裡跳！' },
       ] },
-      { id: 'full', text: '小龍肚大大。他好累。' },
-      { id: 'night', text: '夜晚，蟲在肚中叫。' },
+      { id: 'full', text: '小龍的肚子大大的。他累了。' },
+      { id: 'night', text: '夜晚，蟲在他的肚子裡叫。' },
     ],
   },
   {
     id: 'dark', title: '超人怕黑', hero: 'cape', emoji: '🌙',
     pages: [
-      { id: 'dark', text: '夜晚，天好黑。' },
+      { id: 'dark', text: '夜晚了，天好黑。' },
       { id: 'scared', text: '超人好怕！' },
       { id: 'light', ask: '給他＿！', options: [
-        { char: '燈', emoji: '💡', text: '有燈，不怕！', ok: true },
-        { char: '雷', emoji: '🌩️', text: '雷！太怕！太怕！' },
+        { char: '燈', emoji: '💡', text: '有燈了，不怕了！', ok: true },
+        { char: '雷', emoji: '🌩️', text: '打雷了！好怕！好怕！' },
         { char: '蛇', emoji: '🐍', text: '有蛇！快跑！' },
       ] },
-      { id: 'shadow', text: '牆上有大黑熊！' },
-      { id: 'kitten', text: '不是熊。是小貓！' },
+      { id: 'shadow', text: '牆上有大大的黑熊！' },
+      { id: 'kitten', text: '那不是熊。是小小的貓！' },
       { id: 'pet', ask: '小貓要＿！', options: [
-        { char: '抱', emoji: '💗', text: '超人抱小貓。不怕。', ok: true },
-        { char: '魚', emoji: '🐟', text: '小貓吃魚。超人也要！', ok: true },
+        { char: '抱', emoji: '💗', text: '超人抱抱小貓。不怕了。', ok: true },
+        { char: '魚', emoji: '🐟', text: '小貓吃魚。超人也想吃！', ok: true },
       ] },
-      { id: 'brave', text: '超人不怕黑。' },
+      { id: 'brave', text: '超人再也不怕黑了。' },
     ],
   },
 ]

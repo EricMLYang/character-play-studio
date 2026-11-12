@@ -54,7 +54,7 @@ const scenes: Scenes = {
       { at: 3.4, kind: 'sweat', actor: 'bird' },
     ],
     cues: [
-      { at: 0.5, say: '機器人不走，也不叫。' },
+      { at: 0.5, say: '機器人不走了，也不說話了。' },
       { at: 1.6, sfx: 'tap' },
       { at: 1.85, sfx: 'tap' },
       { at: 2.1, sfx: 'tap' },
@@ -63,7 +63,7 @@ const scenes: Scenes = {
     ],
   }),
 
-  // 他要電！——頭上冒出電池的泡泡，眼睛一閃一閃，又暗下去垮掉
+  // 他沒有電了！——頭上冒出電池的泡泡，眼睛一閃一閃，又暗下去垮掉
   need: scene({
     duration: 3.6,
     bg: BG,
@@ -86,7 +86,7 @@ const scenes: Scenes = {
       { at: 2.0, kind: 'puff', actor: 'robot', dur: 0.6 },
     ],
     cues: [
-      { at: 0.6, say: '他要電！' },
+      { at: 0.6, say: '他沒有電了！' },
       { at: 0.9, sfx: 'blip' },
       { at: 1.3, sfx: 'blip' },
       { at: 1.9, sfx: 'deflate' },
@@ -128,7 +128,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.2, sfx: 'poof' },
       { at: 0.93, sfx: 'crack' },
-      { at: 1.95, say: '有電！機器人笑笑。' },
+      { at: 1.95, say: '有電了！機器人笑了。' },
       { at: 3.3, sfx: 'cheer' },
     ],
   }),
@@ -187,7 +187,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.6, sfx: 'splash' },
       { at: 1.05, sfx: 'laser' },
-      { at: 1.3, say: '不可給水！' },
+      { at: 1.3, say: '不能給他水！' },
       { at: 3.05, sfx: 'bonk' },
       { at: 3.7, sfx: 'blip' },
       { at: 4.3, sfx: 'deflate' },
@@ -289,14 +289,14 @@ const scenes: Scenes = {
     camera: [{ at: 2.68, dur: 0.35, do: 'shake', amount: 1.8 }],
     cues: [
       { at: 0.7, sfx: 'whoosh' },
-      { at: 1.05, say: '機器人快跑！太快！太快！' },
+      { at: 1.05, say: '機器人快跑！太快了！太快了！' },
       { at: 1.5, sfx: 'whoosh' },
       { at: 2.68, sfx: 'bonk' },
       { at: 3.3, sfx: 'rumble' },
     ],
   }),
 
-  // 慢慢走，好乖。——一隻蝸牛從右邊慢慢爬進來，機器人看傻了停下來，跟在蝸牛後面一小步一小步走
+  // 慢慢走，真乖。——一隻蝸牛從右邊慢慢爬進來，機器人看傻了停下來，跟在蝸牛後面一小步一小步走
   'slow:慢': scene({
     duration: 5.6,
     bg: BG,
@@ -327,7 +327,7 @@ const scenes: Scenes = {
     ],
     cues: [
       { at: 0.2, sfx: 'slide' },
-      { at: 2.0, say: '慢慢走，好乖。' },
+      { at: 2.0, say: '慢慢走，真乖。' },
     ],
   }),
 
@@ -371,7 +371,7 @@ const scenes: Scenes = {
     camera: [{ at: 3.25, dur: 0.4, do: 'shake', amount: 2.2 }],
     cues: [
       { at: 0.65, sfx: 'whoosh' },
-      { at: 0.9, say: '太快！他飛上天！' },
+      { at: 0.9, say: '太快了！他飛上天了！' },
       { at: 1.15, sfx: 'blip' },
       { at: 2.85, sfx: 'whoosh' },
       { at: 3.25, sfx: 'bonk' },
@@ -418,7 +418,7 @@ const scenes: Scenes = {
     camera: [{ at: 3.8, dur: 0.4, do: 'shake', amount: 2 }],
     cues: [
       { at: 0.9, sfx: 'boing' },
-      { at: 1.4, say: '他跳好高！在雲上！' },
+      { at: 1.4, say: '他跳到雲上了！好高！' },
       { at: 1.9, sfx: 'boing' },
       { at: 2.6, sfx: 'boing' },
       { at: 3.4, sfx: 'poof' },
@@ -461,7 +461,7 @@ const scenes: Scenes = {
       { at: 2.4, dur: 0.3, do: 'shake', amount: 1 },
     ],
     cues: [
-      { at: 0.6, say: '機器人給你花。他愛你。' },
+      { at: 0.6, say: '機器人給我花。他愛我。' },
       { at: 1.9, sfx: 'whoosh' },
       { at: 2.45, sfx: 'cheer' },
     ],

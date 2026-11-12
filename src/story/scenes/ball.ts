@@ -85,7 +85,7 @@ const scenes: Scenes = {
     camera: [{ at: 0.75, dur: 0.3, do: 'shake', amount: 1 }],
     cues: [
       { at: 0.75, sfx: 'whoosh' },
-      { at: 0.9, say: '球飛上天！' },
+      { at: 0.9, say: '球飛上天了！' },
     ],
   }),
 
@@ -124,7 +124,7 @@ const scenes: Scenes = {
     camera: [{ at: 0.7, dur: 0.3, do: 'shake', amount: 0.8 }],
     cues: [
       { at: 0.7, sfx: 'plop' },
-      { at: 1.0, say: '球在樹上。他不高。' },
+      { at: 1.0, say: '球在樹上了。他太矮了！' },
       { at: 2.1, sfx: 'boing' },
       { at: 2.95, sfx: 'boing' },
       { at: 3.9, sfx: 'boing' },
@@ -168,7 +168,7 @@ const scenes: Scenes = {
     ],
     cues: [
       { at: 0.1, sfx: 'rumble' },
-      { at: 1.5, say: '象好高！象給他球！' },
+      { at: 1.5, say: '象好高！象把球給他了！' },
       { at: 2.0, sfx: 'tap' },
       { at: 3.05, sfx: 'whoosh' },
       { at: 3.55, sfx: 'clink' },
@@ -228,7 +228,7 @@ const scenes: Scenes = {
     camera: [{ at: 3.8, dur: 0.3, do: 'shake', amount: 0.8 }],
     cues: [
       { at: 0.2, sfx: 'slide' },
-      { at: 1.8, say: '龜好慢！太慢！' },
+      { at: 1.8, say: '龜好慢！太慢了！' },
       { at: 3.8, sfx: 'boing' },
       { at: 5.35, sfx: 'whoosh' },
     ],
@@ -288,7 +288,7 @@ const scenes: Scenes = {
     camera: [{ at: 5.7, dur: 0.3, do: 'shake', amount: 1.2 }],
     cues: [
       { at: 0.2, sfx: 'whoosh' },
-      { at: 1.4, say: '猴要玩球！他不給！' },
+      { at: 1.4, say: '猴想玩他的球！不給他！' },
       { at: 4.3, sfx: 'whoosh' },
       { at: 5.7, sfx: 'bonk' },
       { at: 6.25, sfx: 'plop' },
@@ -323,7 +323,7 @@ const scenes: Scenes = {
       { at: 2.5, kind: 'pop', actor: 'ele', emoji: '😊', dx: 2, dur: 1.6 },
     ],
     cues: [
-      { at: 0.4, say: '楊捷睿笑笑。他抱抱象。' },
+      { at: 0.4, say: '楊捷睿笑了。他抱抱象。' },
       { at: 2.3, sfx: 'cheer' },
     ],
   }),
@@ -370,7 +370,7 @@ const scenes: Scenes = {
     ],
     cues: [
       { at: 0.6, sfx: 'whoosh' },
-      { at: 0.8, say: '象打球！球飛上天！' },
+      { at: 0.8, say: '象打球！球飛上天了！' },
       { at: 2.4, sfx: 'blip' },
       { at: 3.2, sfx: 'cheer' },
     ],
@@ -417,7 +417,7 @@ const scenes: Scenes = {
     camera: [{ at: 3.95, dur: 0.3, do: 'shake', amount: 1 }],
     cues: [
       { at: 0.8, sfx: 'splash' },
-      { at: 1.2, say: '象給他水！好冷！' },
+      { at: 1.2, say: '象給他水！好冷的水！' },
       { at: 3.95, sfx: 'achoo' },
       { at: 5.0, sfx: 'splash' },
     ],

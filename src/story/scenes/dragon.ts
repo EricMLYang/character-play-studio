@@ -56,7 +56,7 @@ const scenes: Scenes = {
     camera: [{ at: 1.85, dur: 0.4, do: 'shake', amount: 1.2 }],
     cues: [
       { at: 1.85, sfx: 'rumble' },
-      { at: 2.0, say: '小龍有大口。他愛吃！' },
+      { at: 2.0, say: '小龍的嘴好大。他愛吃！' },
       { at: 3.4, sfx: 'rumble' },
     ],
   }),
@@ -99,12 +99,12 @@ const scenes: Scenes = {
     cues: [
       { at: 0.1, sfx: 'slide' },
       { at: 1.7, sfx: 'gulp' },
-      { at: 2.1, say: '好甜！好甜！' },
+      { at: 2.1, say: '好甜的瓜！' },
       { at: 3.0, sfx: 'cheer' },
     ],
   }),
 
-  // 好辣！口中有火！——辣椒掉下來吃掉，停一拍……整隻變紅冒汗，噴出一大道火把大樹燒焦，喘氣、變回綠色
+  // 好辣！嘴裡有火了！——辣椒掉下來吃掉，停一拍……整隻變紅冒汗，噴出一大道火把大樹燒焦，喘氣、變回綠色
   'eat:辣': scene({
     duration: 6.1,
     bg: BG,
@@ -168,14 +168,14 @@ const scenes: Scenes = {
     cues: [
       { at: 0.15, sfx: 'plop' },
       { at: 1.35, sfx: 'gulp' },
-      { at: 2.2, say: '好辣！口中有火！' },
+      { at: 2.2, say: '好辣！嘴裡有火了！' },
       { at: 2.95, sfx: 'whoosh' },
       { at: 3.3, sfx: 'poof' },
       { at: 5.1, sfx: 'boing' },
     ],
   }),
 
-  // 蟲在口中跳！——毛毛蟲一跳一跳衝進嘴裡，小龍被帶著上彈、左彈、右彈、空翻，蟲從嘴裡探頭揮手，被咕嚕吞下去……肚子又跳了一下
+  // 蟲在他的嘴裡跳！——毛毛蟲一跳一跳衝進嘴裡，小龍被帶著上彈、左彈、右彈、空翻，蟲從嘴裡探頭揮手，被咕嚕吞下去……肚子又跳了一下
   'eat:蟲': scene({
     duration: 6.6,
     bg: BG,
@@ -231,7 +231,7 @@ const scenes: Scenes = {
     cues: [
       { at: 1.45, sfx: 'gulp' },
       { at: 1.55, sfx: 'boing' },
-      { at: 1.7, say: '蟲在口中跳！' },
+      { at: 1.7, say: '蟲在他的嘴裡跳！' },
       { at: 1.9, sfx: 'boing' },
       { at: 2.3, sfx: 'boing' },
       { at: 2.9, sfx: 'boing' },
@@ -278,13 +278,13 @@ const scenes: Scenes = {
     cues: [
       { at: 0.5, sfx: 'boing' },
       { at: 0.95, sfx: 'boing' },
-      { at: 1.0, say: '小龍肚大大。他好累。' },
+      { at: 1.0, say: '小龍的肚子大大的。他累了。' },
       { at: 2.4, sfx: 'hic' },
       { at: 4.9, sfx: 'bonk' },
     ],
   }),
 
-  // 夜晚，蟲在肚中叫。——天黑了，小龍肚子朝天呼呼大睡；肚子一鼓一鼓發亮、冒出音符，整隻被頂得彈起來，
+  // 夜晚，蟲在他的肚子裡叫。——天黑了，小龍肚子朝天呼呼大睡；肚子一鼓一鼓發亮、冒出音符，整隻被頂得彈起來，
   // 吵醒了瞪著肚子……毛毛蟲從他嘴裡探出頭揮手唱歌，又縮回去。小龍無奈，繼續睡
   night: scene({
     duration: 7.6,
@@ -330,7 +330,7 @@ const scenes: Scenes = {
     camera: [BED_CAM, { at: 4.2, dur: 0.3, do: 'shake', amount: 0.8 }],
     lights: [{ at: 0, dur: 0.8, level: 0.5 }],
     cues: [
-      { at: 1.0, say: '夜晚，蟲在肚中叫。' },
+      { at: 1.0, say: '夜晚，蟲在他的肚子裡叫。' },
       { at: 2.2, sfx: 'blip' },
       { at: 2.8, sfx: 'blip' },
       { at: 3.4, sfx: 'blip' },

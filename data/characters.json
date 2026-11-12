@@ -3652,7 +3652,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "f6106b96-84ac-40fc-97bc-b16d642fc00c",
       "promptedAt": "2026-10-03T07:23:18.788Z",
       "needsRedo": false
@@ -3702,7 +3701,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "4acdc6f8-f265-4a93-b6ca-e7c6bf8839c0",
       "promptedAt": "2026-10-03T07:23:19.497Z",
       "needsRedo": false
@@ -3784,7 +3782,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "87602561-5dfc-46e5-b746-3891ec229cbb",
       "promptedAt": "2026-10-03T07:23:19.382Z",
       "needsRedo": false
@@ -3833,7 +3830,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "ec0f4f8b-7113-428a-9957-5d21c1d19e35",
       "promptedAt": "2026-10-03T07:23:18.478Z",
       "needsRedo": false
@@ -3882,7 +3878,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "690f2031-719a-40d7-8461-2ab3090de01b",
       "promptedAt": "2026-10-03T07:23:18.295Z",
       "needsRedo": false
@@ -3932,7 +3927,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "164ff07f-3c62-4e5f-bde0-c2b10337be85",
       "promptedAt": "2026-10-03T07:23:20.481Z",
       "needsRedo": false
@@ -4024,7 +4018,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "85ddd15e-3896-4812-bc13-cefaacd0039a",
       "promptedAt": "2026-10-03T07:23:19.761Z",
       "needsRedo": false
@@ -4074,7 +4067,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "d9d46c0d-e6e7-4d91-98e3-7fc72f82af34",
       "promptedAt": "2026-10-03T07:23:18.103Z",
       "needsRedo": false
@@ -4172,7 +4164,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "7c254903-cf76-483e-83cc-26628d2b68a2",
       "promptedAt": "2026-10-03T07:23:18.886Z",
       "needsRedo": false
@@ -4270,7 +4261,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "1a7b0cb6-6410-449f-bdf7-a83a8b746f09",
       "promptedAt": "2026-10-03T07:23:19.805Z",
       "needsRedo": false
@@ -4414,7 +4404,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "fb1744dd-79d3-42b4-900f-bbe4149a7c14",
       "promptedAt": "2026-10-03T07:23:17.918Z",
       "needsRedo": false
@@ -4712,7 +4701,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "bf993e52-7306-4f2b-b974-0bed627a8a43",
       "promptedAt": "2026-10-03T07:27:16.910Z",
       "needsRedo": false
@@ -4794,7 +4782,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "32373549-e378-4e07-9046-cc211403515a",
       "promptedAt": "2026-10-03T07:27:16.076Z",
       "needsRedo": false
@@ -6345,7 +6332,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "f703acaf-5834-418e-b0e4-4da01cd8a260",
       "promptedAt": "2026-10-03T07:23:19.474Z",
       "needsRedo": false
@@ -6435,7 +6421,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "c7477d78-f2c3-45c5-9ff6-1a74d3e42a12",
       "promptedAt": "2026-10-03T07:23:20.774Z",
       "needsRedo": false
@@ -6489,7 +6474,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "de008fd1-2793-47ae-a553-a1e7261f8225",
       "promptedAt": "2026-10-03T07:23:20.122Z",
       "needsRedo": false
@@ -6543,7 +6527,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "2784d639-423e-452c-828f-831cc2048b15",
       "promptedAt": "2026-10-03T07:23:19.738Z",
       "needsRedo": false
@@ -6597,7 +6580,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "8d94df3a-b59a-4391-a1cb-11247bef9253",
       "promptedAt": "2026-10-03T07:23:19.425Z",
       "needsRedo": false
@@ -6650,7 +6632,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "b2e21df8-b164-4dab-94f9-e7e5c38c54d9",
       "promptedAt": "2026-10-03T07:23:19.695Z",
       "needsRedo": false
@@ -6855,7 +6836,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9fc0ecd1-d503-4db7-934f-519d8efb55b4",
       "promptedAt": "2026-10-03T07:23:18.366Z",
       "needsRedo": false
@@ -6905,7 +6885,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "da2ad6b9-5e02-4b58-93f9-5f145d6c2046",
       "promptedAt": "2026-10-03T07:23:19.518Z",
       "needsRedo": false
@@ -6955,7 +6934,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "9577d973-91cc-4cef-9b2e-d6c13d523130",
       "promptedAt": "2026-10-03T07:23:18.277Z",
       "needsRedo": false
@@ -7005,7 +6983,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "dd937774-716b-437c-a475-563dc2a98a78",
       "promptedAt": "2026-10-03T07:23:19.090Z",
       "needsRedo": false
@@ -7952,7 +7929,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "e1aa159d-9cf7-4d77-be8f-4c5415e4b047",
       "promptedAt": "2026-10-03T07:23:19.193Z",
       "needsRedo": false
@@ -8066,7 +8042,6 @@
         }
       ],
       "feedback": [],
-      "hidden": true,
       "activePromptId": "af053636-9a0a-4c86-8120-ee2378f7732c",
       "promptedAt": "2026-10-03T07:23:18.121Z",
       "needsRedo": false
@@ -11238,6 +11213,1224 @@
       "feedback": [],
       "activePromptId": "3f692346-077c-45f5-bc23-effff6b8e4b8",
       "promptedAt": "2026-10-17T07:43:46.884Z"
+    },
+    {
+      "char": "的",
+      "zhuyin": "˙ㄉㄜ",
+      "meaning": "of; marks whose it is or what it is like",
+      "emoji": "🎀",
+      "words": [
+        {
+          "text": "我的",
+          "emoji": "🙋"
+        },
+        {
+          "text": "好吃的",
+          "emoji": "😋"
+        },
+        {
+          "text": "大大的",
+          "emoji": "🐘"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "的是一條小緞帶，把兩個詞綁在一起：我的球、紅色的車。"
+      },
+      "status": "seed",
+      "priority": 275,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "了",
+      "zhuyin": "˙ㄌㄜ",
+      "meaning": "done; already happened",
+      "emoji": "✅",
+      "words": [
+        {
+          "text": "好了",
+          "emoji": "🎉"
+        },
+        {
+          "text": "來了",
+          "emoji": "🏃"
+        },
+        {
+          "text": "下雨了",
+          "emoji": "🌧️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "事情做完，最後打一個勾：好了！"
+      },
+      "status": "seed",
+      "priority": 276,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "這",
+      "zhuyin": "ㄓㄜˋ",
+      "meaning": "this; here (near me)",
+      "emoji": "👇",
+      "words": [
+        {
+          "text": "這個",
+          "emoji": "👇"
+        },
+        {
+          "text": "這裡",
+          "emoji": "📍"
+        },
+        {
+          "text": "這是",
+          "emoji": "☝️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "這是手指往下指，指的就是我旁邊的東西：這個、這裡。"
+      },
+      "status": "seed",
+      "priority": 277,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "那",
+      "zhuyin": "ㄋㄚˋ",
+      "meaning": "that; there (far away)",
+      "emoji": "🔭",
+      "words": [
+        {
+          "text": "那個",
+          "emoji": "👉"
+        },
+        {
+          "text": "那裡",
+          "emoji": "🔭"
+        },
+        {
+          "text": "那天",
+          "emoji": "📅"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "那是很遠的地方，遠到要用望遠鏡看：那個、那裡。"
+      },
+      "status": "seed",
+      "priority": 278,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "們",
+      "zhuyin": "˙ㄇㄣ",
+      "meaning": "plural for people (we, you all, they)",
+      "emoji": "🐜",
+      "words": [
+        {
+          "text": "我們",
+          "emoji": "🙌"
+        },
+        {
+          "text": "你們",
+          "emoji": "👈"
+        },
+        {
+          "text": "他們",
+          "emoji": "👉"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "們把一個人變成一大群，像一大群螞蟻：我們、你們、他們。"
+      },
+      "status": "seed",
+      "priority": 279,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "子",
+      "zhuyin": "˙ㄗ",
+      "meaning": "seed; son",
+      "emoji": "🌰",
+      "words": [
+        {
+          "text": "兔子",
+          "emoji": "🐰"
+        },
+        {
+          "text": "肚子",
+          "emoji": "😋"
+        },
+        {
+          "text": "桌子",
+          "emoji": "🪑"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "子是跟在後面的小尾巴，像一顆小小的種子：兔子、肚子、桌子。"
+      },
+      "status": "seed",
+      "priority": 280,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "說",
+      "zhuyin": "ㄕㄨㄛ",
+      "meaning": "to say; to speak",
+      "emoji": "📣",
+      "words": [
+        {
+          "text": "說話",
+          "emoji": "👄"
+        },
+        {
+          "text": "說再見",
+          "emoji": "👋"
+        },
+        {
+          "text": "說對了",
+          "emoji": "⭕"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "說就是用嘴巴把話講出來，要大聲說就拿大聲公。"
+      },
+      "status": "seed",
+      "priority": 281,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "到",
+      "zhuyin": "ㄉㄠˋ",
+      "meaning": "to arrive; to reach",
+      "emoji": "🏁",
+      "words": [
+        {
+          "text": "到家",
+          "emoji": "🏠"
+        },
+        {
+          "text": "看到",
+          "emoji": "👀"
+        },
+        {
+          "text": "聽到",
+          "emoji": "👂"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "跑到終點的旗子那裡，就是到了！"
+      },
+      "status": "seed",
+      "priority": 282,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "和",
+      "zhuyin": "ㄏㄢˋ",
+      "meaning": "and; with",
+      "emoji": "🪢",
+      "words": [
+        {
+          "text": "你和我",
+          "emoji": "🤝"
+        },
+        {
+          "text": "我和他",
+          "emoji": "🙌"
+        },
+        {
+          "text": "牛和羊",
+          "emoji": "🐑"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "和像一個結，把兩邊連在一起：你和我、牛和羊。"
+      },
+      "status": "seed",
+      "priority": 283,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "就",
+      "zhuyin": "ㄐㄧㄡˋ",
+      "meaning": "then; right away; exactly",
+      "emoji": "🚀",
+      "words": [
+        {
+          "text": "就是",
+          "emoji": "💯"
+        },
+        {
+          "text": "就好",
+          "emoji": "👍"
+        },
+        {
+          "text": "就來了",
+          "emoji": "🏃"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "就是馬上，像火箭咻一下就飛了：我就來了！"
+      },
+      "status": "seed",
+      "priority": 284,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "沒",
+      "zhuyin": "ㄇㄟˊ",
+      "meaning": "not have; did not",
+      "emoji": "🫙",
+      "words": [
+        {
+          "text": "沒有",
+          "emoji": "🙅"
+        },
+        {
+          "text": "沒了",
+          "emoji": "💨"
+        },
+        {
+          "text": "還沒",
+          "emoji": "🤔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "罐子裡空空的，什麼都沒有。"
+      },
+      "status": "seed",
+      "priority": 285,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "想",
+      "zhuyin": "ㄒㄧㄤˇ",
+      "meaning": "to think; to want; to miss",
+      "emoji": "💭",
+      "words": [
+        {
+          "text": "想要",
+          "emoji": "🙋"
+        },
+        {
+          "text": "想一想",
+          "emoji": "🤔"
+        },
+        {
+          "text": "好想你",
+          "emoji": "🥺"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "想的時候，頭上會冒出一朵小雲，裡面是你心裡的事。"
+      },
+      "status": "seed",
+      "priority": 286,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "能",
+      "zhuyin": "ㄋㄥˊ",
+      "meaning": "can; be able to",
+      "emoji": "🔋",
+      "words": [
+        {
+          "text": "不能",
+          "emoji": "🚫"
+        },
+        {
+          "text": "可能",
+          "emoji": "🤔"
+        },
+        {
+          "text": "能不能",
+          "emoji": "🙏"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "電池有電，玩具就能動；能就是做得到。"
+      },
+      "status": "seed",
+      "priority": 287,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "多",
+      "zhuyin": "ㄉㄨㄛ",
+      "meaning": "many; much",
+      "emoji": "🍇",
+      "words": [
+        {
+          "text": "很多",
+          "emoji": "🎈"
+        },
+        {
+          "text": "好多",
+          "emoji": "😲"
+        },
+        {
+          "text": "多少",
+          "emoji": "🤔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "一串葡萄有好多好多顆，數也數不完。"
+      },
+      "status": "seed",
+      "priority": 288,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "少",
+      "zhuyin": "ㄕㄠˇ",
+      "meaning": "few; little",
+      "emoji": "🍂",
+      "words": [
+        {
+          "text": "很少",
+          "emoji": "🤏"
+        },
+        {
+          "text": "少一個",
+          "emoji": "☝️"
+        },
+        {
+          "text": "多少",
+          "emoji": "❓"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "樹上的葉子掉光了，只剩一片，好少。"
+      },
+      "status": "seed",
+      "priority": 289,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "裡",
+      "zhuyin": "ㄌㄧˇ",
+      "meaning": "inside",
+      "emoji": "📦",
+      "words": [
+        {
+          "text": "這裡",
+          "emoji": "📍"
+        },
+        {
+          "text": "家裡",
+          "emoji": "🏠"
+        },
+        {
+          "text": "水裡",
+          "emoji": "🐟"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "打開盒子，東西就在裡面：家裡、水裡。"
+      },
+      "status": "seed",
+      "priority": 290,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "外",
+      "zhuyin": "ㄨㄞˋ",
+      "meaning": "outside",
+      "emoji": "👽",
+      "words": [
+        {
+          "text": "外星人",
+          "emoji": "👽"
+        },
+        {
+          "text": "外婆",
+          "emoji": "👵"
+        },
+        {
+          "text": "門外",
+          "emoji": "🚪"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "外星人是從地球外面的天空飛來的。"
+      },
+      "status": "seed",
+      "priority": 291,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "前",
+      "zhuyin": "ㄑㄧㄢˊ",
+      "meaning": "front; before",
+      "emoji": "🚩",
+      "words": [
+        {
+          "text": "前後",
+          "emoji": "👀"
+        },
+        {
+          "text": "前天",
+          "emoji": "📅"
+        },
+        {
+          "text": "眼前",
+          "emoji": "👓"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "排隊的時候，拿旗子的人走在最前面。"
+      },
+      "status": "seed",
+      "priority": 292,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "後",
+      "zhuyin": "ㄏㄡˋ",
+      "meaning": "back; behind; after",
+      "emoji": "🐾",
+      "words": [
+        {
+          "text": "最後",
+          "emoji": "🏁"
+        },
+        {
+          "text": "後來",
+          "emoji": "📖"
+        },
+        {
+          "text": "背後",
+          "emoji": "🎒"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "小狗往前走，腳印留在後面。"
+      },
+      "status": "seed",
+      "priority": 293,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "對",
+      "zhuyin": "ㄉㄨㄟˋ",
+      "meaning": "right; correct",
+      "emoji": "⭕",
+      "words": [
+        {
+          "text": "對不對",
+          "emoji": "🤔"
+        },
+        {
+          "text": "不對",
+          "emoji": "❌"
+        },
+        {
+          "text": "對了",
+          "emoji": "⭕"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "答對了就畫一個圈圈：對！"
+      },
+      "status": "seed",
+      "priority": 294,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "起",
+      "zhuyin": "ㄑㄧˇ",
+      "meaning": "to rise; to get up",
+      "emoji": "🛏️",
+      "words": [
+        {
+          "text": "一起",
+          "emoji": "🤝"
+        },
+        {
+          "text": "早起",
+          "emoji": "🌅"
+        },
+        {
+          "text": "對不起",
+          "emoji": "🙏"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "早上從床上坐起來，就是起床。"
+      },
+      "status": "seed",
+      "priority": 295,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "開",
+      "zhuyin": "ㄎㄞ",
+      "meaning": "to open; to drive",
+      "emoji": "🔑",
+      "words": [
+        {
+          "text": "開心",
+          "emoji": "😊"
+        },
+        {
+          "text": "開車",
+          "emoji": "🚗"
+        },
+        {
+          "text": "開門",
+          "emoji": "🚪"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "用鑰匙一轉，門就打開了。"
+      },
+      "status": "seed",
+      "priority": 296,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "用",
+      "zhuyin": "ㄩㄥˋ",
+      "meaning": "to use",
+      "emoji": "🔨",
+      "words": [
+        {
+          "text": "用力",
+          "emoji": "💪"
+        },
+        {
+          "text": "用手",
+          "emoji": "✋"
+        },
+        {
+          "text": "不用",
+          "emoji": "🙅"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "用鐵鎚敲釘子，用就是拿東西來做事。"
+      },
+      "status": "seed",
+      "priority": 297,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "見",
+      "zhuyin": "ㄐㄧㄢˋ",
+      "meaning": "to see; to meet",
+      "emoji": "👋",
+      "words": [
+        {
+          "text": "再見",
+          "emoji": "👋"
+        },
+        {
+          "text": "看見",
+          "emoji": "👀"
+        },
+        {
+          "text": "不見了",
+          "emoji": "❓"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "見到朋友揮揮手，要走了也揮揮手說再見。"
+      },
+      "status": "seed",
+      "priority": 298,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "聽",
+      "zhuyin": "ㄊㄧㄥ",
+      "meaning": "to listen; to hear",
+      "emoji": "🎧",
+      "words": [
+        {
+          "text": "好聽",
+          "emoji": "🎵"
+        },
+        {
+          "text": "聽話",
+          "emoji": "😇"
+        },
+        {
+          "text": "聽見",
+          "emoji": "👂"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "戴上耳機，用耳朵聽好聽的歌。"
+      },
+      "status": "seed",
+      "priority": 299,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "回",
+      "zhuyin": "ㄏㄨㄟˊ",
+      "meaning": "to return; to go back",
+      "emoji": "🕊️",
+      "words": [
+        {
+          "text": "回家",
+          "emoji": "🏠"
+        },
+        {
+          "text": "回來",
+          "emoji": "🏃"
+        },
+        {
+          "text": "回去",
+          "emoji": "👋"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "鴿子飛得再遠，也會自己飛回家。"
+      },
+      "status": "seed",
+      "priority": 300,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "把",
+      "zhuyin": "ㄅㄚˇ",
+      "meaning": "handle; measure word for things you hold",
+      "emoji": "🧹",
+      "words": [
+        {
+          "text": "一把傘",
+          "emoji": "☂️"
+        },
+        {
+          "text": "火把",
+          "emoji": "🔥"
+        },
+        {
+          "text": "把手",
+          "emoji": "🚪"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "掃把有一根長長的把，手就握在那裡。"
+      },
+      "status": "seed",
+      "priority": 301,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "再",
+      "zhuyin": "ㄗㄞˋ",
+      "meaning": "again",
+      "emoji": "🔄",
+      "words": [
+        {
+          "text": "再見",
+          "emoji": "👋"
+        },
+        {
+          "text": "再來",
+          "emoji": "🙋"
+        },
+        {
+          "text": "再說",
+          "emoji": "💭"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "轉完一圈，再轉一圈：再一次！"
+      },
+      "status": "seed",
+      "priority": 302,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "還",
+      "zhuyin": "ㄏㄞˊ",
+      "meaning": "still; also; even more",
+      "emoji": "🧁",
+      "words": [
+        {
+          "text": "還有",
+          "emoji": "➕"
+        },
+        {
+          "text": "還要",
+          "emoji": "🙋"
+        },
+        {
+          "text": "還好",
+          "emoji": "😌"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "吃完一個蛋糕，盤子裡還有一個，我還要！"
+      },
+      "status": "seed",
+      "priority": 303,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "只",
+      "zhuyin": "ㄓˇ",
+      "meaning": "only",
+      "emoji": "1️⃣",
+      "words": [
+        {
+          "text": "只有",
+          "emoji": "☝️"
+        },
+        {
+          "text": "只要",
+          "emoji": "👍"
+        },
+        {
+          "text": "只能",
+          "emoji": "🤷"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "只有一個，沒有第二個。"
+      },
+      "status": "seed",
+      "priority": 304,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "從",
+      "zhuyin": "ㄘㄨㄥˊ",
+      "meaning": "from",
+      "emoji": "🚏",
+      "words": [
+        {
+          "text": "從前",
+          "emoji": "📖"
+        },
+        {
+          "text": "從頭",
+          "emoji": "🔄"
+        },
+        {
+          "text": "從這裡",
+          "emoji": "📍"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "公車從這一站開出去，開到下一站。"
+      },
+      "status": "seed",
+      "priority": 305,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "過",
+      "zhuyin": "ㄍㄨㄛˋ",
+      "meaning": "to pass; to cross; to spend (a holiday)",
+      "emoji": "🦘",
+      "words": [
+        {
+          "text": "過年",
+          "emoji": "🧧"
+        },
+        {
+          "text": "跳過",
+          "emoji": "🦘"
+        },
+        {
+          "text": "過來",
+          "emoji": "👋"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "袋鼠一跳，就跳過了大石頭。"
+      },
+      "status": "seed",
+      "priority": 306,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "什",
+      "zhuyin": "ㄕㄣˊ",
+      "meaning": "what (in 什麼)",
+      "emoji": "🔍",
+      "words": [
+        {
+          "text": "什麼",
+          "emoji": "🔍"
+        },
+        {
+          "text": "吃什麼",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "是什麼",
+          "emoji": "❓"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "那是什麼東西？拿放大鏡看看！什總是跟著麼一起出現。"
+      },
+      "status": "seed",
+      "priority": 307,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "麼",
+      "zhuyin": "˙ㄇㄜ",
+      "meaning": "question ending (in 什麼, 這麼)",
+      "emoji": "🤔",
+      "words": [
+        {
+          "text": "什麼",
+          "emoji": "❓"
+        },
+        {
+          "text": "這麼",
+          "emoji": "🤩"
+        },
+        {
+          "text": "那麼",
+          "emoji": "👉"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "想不通的時候歪著頭問：什麼？麼總是跟在別的字後面。"
+      },
+      "status": "seed",
+      "priority": 308,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "誰",
+      "zhuyin": "ㄕㄟˊ",
+      "meaning": "who",
+      "emoji": "🕵️",
+      "words": [
+        {
+          "text": "是誰",
+          "emoji": "🕵️"
+        },
+        {
+          "text": "誰的",
+          "emoji": "🎀"
+        },
+        {
+          "text": "有誰",
+          "emoji": "🙋"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "偵探拿著放大鏡在找：是誰做的？"
+      },
+      "status": "seed",
+      "priority": 309,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "幾",
+      "zhuyin": "ㄐㄧˇ",
+      "meaning": "how many; a few",
+      "emoji": "✌️",
+      "words": [
+        {
+          "text": "幾個",
+          "emoji": "🍡"
+        },
+        {
+          "text": "幾天",
+          "emoji": "📅"
+        },
+        {
+          "text": "幾分",
+          "emoji": "⏱️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "伸出手指問：這是幾？"
+      },
+      "status": "seed",
+      "priority": 310,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "最",
+      "zhuyin": "ㄗㄨㄟˋ",
+      "meaning": "most; -est",
+      "emoji": "🏆",
+      "words": [
+        {
+          "text": "最好",
+          "emoji": "👍"
+        },
+        {
+          "text": "最大",
+          "emoji": "🐘"
+        },
+        {
+          "text": "最愛",
+          "emoji": "💖"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "比賽第一名拿到獎盃，是最棒的！"
+      },
+      "status": "seed",
+      "priority": 311,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "真",
+      "zhuyin": "ㄓㄣ",
+      "meaning": "real; true; really",
+      "emoji": "💎",
+      "words": [
+        {
+          "text": "真的",
+          "emoji": "💯"
+        },
+        {
+          "text": "真好吃",
+          "emoji": "😋"
+        },
+        {
+          "text": "真心",
+          "emoji": "💖"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "真的寶石會閃閃發亮，不是假的。"
+      },
+      "status": "seed",
+      "priority": 312,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "知",
+      "zhuyin": "ㄓ",
+      "meaning": "to know",
+      "emoji": "🎓",
+      "words": [
+        {
+          "text": "知道",
+          "emoji": "💡"
+        },
+        {
+          "text": "不知道",
+          "emoji": "🤷"
+        },
+        {
+          "text": "知道了",
+          "emoji": "👍"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "讀了很多書，戴上博士帽，什麼都知道。"
+      },
+      "status": "seed",
+      "priority": 313,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "道",
+      "zhuyin": "ㄉㄠˋ",
+      "meaning": "road; path",
+      "emoji": "🚦",
+      "words": [
+        {
+          "text": "跑道",
+          "emoji": "🏃"
+        },
+        {
+          "text": "走道",
+          "emoji": "👣"
+        },
+        {
+          "text": "車道",
+          "emoji": "🚗"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "道就是路：車子走車道，看到紅燈要停下來。"
+      },
+      "status": "seed",
+      "priority": 314,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "話",
+      "zhuyin": "ㄏㄨㄚˋ",
+      "meaning": "words; speech",
+      "emoji": "🦜",
+      "words": [
+        {
+          "text": "說話",
+          "emoji": "👄"
+        },
+        {
+          "text": "聽話",
+          "emoji": "😇"
+        },
+        {
+          "text": "電話",
+          "emoji": "🔔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "鸚鵡會學人說話，你說一句，牠學一句。"
+      },
+      "status": "seed",
+      "priority": 315,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "個",
+      "zhuyin": "ㄍㄜˋ",
+      "meaning": "measure word for counting things",
+      "emoji": "🍡",
+      "words": [
+        {
+          "text": "一個",
+          "emoji": "☝️"
+        },
+        {
+          "text": "幾個",
+          "emoji": "🍡"
+        },
+        {
+          "text": "個子",
+          "emoji": "🦒"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "數東西的時候說個：一個、兩個、三個，像這串丸子一個一個數。"
+      },
+      "status": "seed",
+      "priority": 316,
+      "media": [],
+      "feedback": []
     }
   ],
   "production": {

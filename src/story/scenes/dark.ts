@@ -54,7 +54,7 @@ const scenes: Scenes = {
     lights: [{ at: 2.2, dur: 0.12, level: DARK }],
     cues: [
       { at: 2.2, sfx: 'tap' },
-      { at: 2.5, say: '夜晚，天好黑。' },
+      { at: 2.5, say: '夜晚了，天好黑。' },
     ],
   }),
 
@@ -118,7 +118,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.3, sfx: 'plop' },
       { at: 0.7, sfx: 'blip' },
-      { at: 1.4, say: '有燈，不怕！' },
+      { at: 1.4, say: '有燈了，不怕了！' },
       { at: 2.85, sfx: 'cheer' },
     ],
   }),
@@ -179,7 +179,7 @@ const scenes: Scenes = {
     cues: [
       { at: 0.2, sfx: 'rumble' },
       { at: 1.3, sfx: 'crack' },
-      { at: 1.5, say: '雷！太怕！太怕！' },
+      { at: 1.5, say: '打雷了！好怕！好怕！' },
       { at: 2.9, sfx: 'crack' },
       { at: 4.0, sfx: 'whoosh' },
     ],
@@ -272,7 +272,7 @@ const scenes: Scenes = {
     ],
     cues: [
       { at: 0.5, sfx: 'rumble' },
-      { at: 1.4, say: '牆上有大黑熊！' },
+      { at: 1.4, say: '牆上有大大的黑熊！' },
       { at: 2.6, sfx: 'rumble' },
     ],
   }),
@@ -317,7 +317,7 @@ const scenes: Scenes = {
     camera: [{ at: 0, dur: 0, do: 'zoom', amount: 1.02, to: { x: 80, y: 45 } }, { at: 1.1, dur: 0.6, do: 'zoom', amount: 1.35, to: { x: 84, y: 58 } }],
     cues: [
       { at: 0.3, sfx: 'deflate' },
-      { at: 1.4, say: '不是熊。是小貓！' },
+      { at: 1.4, say: '那不是熊。是小小的貓！' },
       { at: 1.2, sfx: 'crack' },
       { at: 3.2, sfx: 'boing' },
     ],
@@ -349,7 +349,7 @@ const scenes: Scenes = {
     lights: [stayLit],
     cues: [
       { at: 0.4, sfx: 'boing' },
-      { at: 1.0, say: '超人抱小貓。不怕。' },
+      { at: 1.0, say: '超人抱抱小貓。不怕了。' },
       { at: 2.6, sfx: 'cheer' },
     ],
   }),
@@ -412,7 +412,7 @@ const scenes: Scenes = {
     lights: [stayLit],
     cues: [
       { at: 0.2, sfx: 'plop' },
-      { at: 1.4, say: '小貓吃魚。超人也要！' },
+      { at: 1.4, say: '小貓吃魚。超人也想吃！' },
       { at: 2.6, sfx: 'gulp' },
       { at: 3.95, sfx: 'bonk' },
       { at: 4.6, sfx: 'gulp' },
@@ -448,7 +448,7 @@ const scenes: Scenes = {
     camera: [{ at: 0.2, dur: 0.6, do: 'zoom', amount: 1.3, to: { x: X + 4, y: 54 } }],
     cues: [
       { at: 1.2, sfx: 'tap' },
-      { at: 1.9, say: '超人不怕黑。' },
+      { at: 1.9, say: '超人再也不怕黑了。' },
       { at: 2.7, sfx: 'cheer' },
     ],
   }),
