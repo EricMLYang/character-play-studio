@@ -9,6 +9,8 @@
 //   npm run anim:shot -- 哭 --mp4            另外輸出一支 30fps 的無聲 mp4
 //   npm run anim:shot -- 哭 --tag before     檔名帶上 tag（改前／改後各輸出一份來比）
 //   npm run anim:shot -- 晚 --old --tag old  拍重做前的舊版（src/anim/clips-old/晚.ts，試播頁的 ?v=old）
+//   npm run anim:shot -- --story cold        故事屋的一本故事：每一段戲各出一張總覽（src/story/scenes/cold.ts）
+//   npm run anim:shot -- --story cold/warm:火  只拍其中一段
 //
 // 其他參數：--out <資料夾>（預設 .anim-shots/，已 .gitignore）、--width <每格寬，預設 640>、
 // --cols <每列幾格，預設 3>、--rows <每張幾列，預設 5>、--fps <mp4 的格數，預設 30>、--mp4-width <預設 960>
@@ -31,7 +33,7 @@ const STAGE_W = 960
 
 // ── 參數 ──────────────────────────────────────────────
 const argv = process.argv.slice(2)
-const opts = { step: 0.25, from: 0, to: null, mp4: false, old: false, out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
+const opts = { step: 0.25, from: 0, to: null, mp4: false, old: false, story: '', out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
 const chars = []
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i]
@@ -39,6 +41,7 @@ for (let i = 0; i < argv.length; i++) {
   const num = () => { const v = Number(val()); if (!Number.isFinite(v)) fail(`${a} 要接數字`); return v }
   if (a === '--mp4') opts.mp4 = true
   else if (a === '--old') opts.old = true
+  else if (a === '--story') opts.story = val()
   else if (a === '--step') opts.step = num()
   else if (a === '--from') opts.from = num()
   else if (a === '--to') opts.to = num()
@@ -51,6 +54,17 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--mp4-width') opts.mp4Width = num()
   else if (a.startsWith('--')) fail(`不認得的參數 ${a}`)
   else chars.push(...[...a].filter((c) => c.trim()))
+}
+// 故事的戲：要拍的「字」換成那本故事每一段戲的編號（讀的頁是頁 id，選項是「頁 id:字」）
+const [storyId, onlyBeat] = opts.story ? [opts.story.split('/')[0], opts.story.split('/').slice(1).join('/')] : ['', '']
+if (storyId) {
+  const { storyById, beatsOf } = await import('../shared/stories.mjs')
+  const story = storyById(storyId)
+  if (!story) fail(`沒有這本故事：${storyId}`)
+  const beats = beatsOf(story)
+  if (onlyBeat && !beats.includes(onlyBeat)) fail(`${storyId} 沒有這段戲：${onlyBeat}（有：${beats.join('、')}）`)
+  chars.length = 0
+  chars.push(...(onlyBeat ? [onlyBeat] : beats))
 }
 if (!chars.length) fail('要給字，例如：npm run anim:shot -- 哭')
 if (!(opts.step > 0)) fail('--step 要大於 0')
@@ -143,7 +157,7 @@ async function main() {
     const to = Math.min(duration, opts.to ?? duration)
     if (!(to >= from)) throw new Error(`${char}：--from/--to 範圍不對（劇本長 ${duration} 秒）`)
     const custom = opts.from !== 0 || opts.to !== null || opts.step !== 0.25
-    const name = `${char}${opts.tag ? `-${opts.tag}` : ''}${custom ? `-${fmt(from)}-${fmt(to)}s@${opts.step}` : ''}`
+    const name = `${storyId ? `${storyId}-` : ''}${char.replace(':', '-')}${opts.tag ? `-${opts.tag}` : ''}${custom ? `-${fmt(from)}-${fmt(to)}s@${opts.step}` : ''}`
 
     // 縮圖總覽
     const times = []
@@ -190,7 +204,7 @@ async function main() {
 /** 開某個字的試播頁，等到筆順資料、掛鉤都好了，回傳劇本長度。 */
 async function openClip(page, base, char) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0${opts.old ? '&v=old' : ''}` })
+    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0${opts.old ? '&v=old' : ''}${storyId ? `&story=${encodeURIComponent(storyId)}` : ''}` })
     // 剛導覽時舊頁面的環境可能還在、或正好被換掉，所以從 Node 這邊一次一次問
     let ok = null
     const until = Date.now() + 20000
@@ -198,7 +212,7 @@ async function openClip(page, base, char) {
       await new Promise((r) => setTimeout(r, 100))
       ok = await page.eval(`(() => {
         const svg = document.querySelector('svg.anim-stage')
-        return window.__animSeek && svg && svg.querySelector('clipPath') ? svg.getAttribute('aria-label') : null
+        return window.__animSeek && svg && svg.hasAttribute('data-ready') ? svg.getAttribute('aria-label') : null
       })()`).catch(() => null)
     }
     if (ok === null) continue // 第一次開常碰到 vite 在整理套件，重來一次

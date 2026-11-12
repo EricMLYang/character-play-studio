@@ -137,6 +137,22 @@ export function solvePuzzle(progress, word, char, ok, at = new Date().toISOStrin
   return { ...progress, puzzles: { ...progress.puzzles, [word]: entry } }
 }
 
+/**
+ * 故事屋：記下他看過哪幾種結果（一種一張貼紙）、讀完幾遍。
+ * beat 是「頁 id:字」（shared/stories.mjs 的 beatOf），第一次看到的時間留著；done 是讀完一遍。
+ */
+export function readStory(progress, id, beat, done, at = new Date().toISOString()) {
+  const previous = progress.stories?.[id]
+  const time = Date.parse(at)
+  const entry = {
+    first: previous && Date.parse(previous.first) < time ? previous.first : at,
+    last: !previous || Date.parse(previous.last) <= time ? at : previous.last,
+    count: (previous?.count || 0) + (done ? 1 : 0),
+    seen: { ...previous?.seen, ...(beat && !previous?.seen?.[beat] ? { [beat]: at } : {}) },
+  }
+  return { ...progress, stories: { ...progress.stories, [id]: entry } }
+}
+
 /** 指讀小書：text 是整句（含標點），char 是他要指出來的那個字（要在句子裡），ok 是第一下就指對 */
 export const validBook = (event) => typeof event.text === 'string' && [...event.text].length >= 3 && [...event.text].length <= 16 &&
   typeof event.char === 'string' && [...event.text].includes(event.char) && typeof event.ok === 'boolean' &&

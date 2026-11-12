@@ -53,6 +53,9 @@ export type Recall = { box: number; due: string; last: string; right: number; wr
 export type Puzzle = { char: string; first: string; last: string; count: number; right: number; lastOk?: boolean }
 export type BookLine = { char: string; first: string; last: string; count: number; right: number; mine?: boolean }
 
+/** 故事屋：一本故事讀完幾遍、看過哪幾種結果（頁 id:字 → 第一次看到的時間） */
+export type StoryLog = { first: string; last: string; count: number; seen: Record<string, string> }
+
 export type Progress = {
   /** 檔案格式版本，伺服器載入時自動升級（server/progress.mjs） */
   version?: number
@@ -68,6 +71,8 @@ export type Progress = {
   puzzles?: Record<string, Puzzle>
   /** 指讀小書：讀過的句子 → 指的是哪個字、讀了幾次、幾次第一下就指對 */
   books?: Record<string, BookLine>
+  /** 故事屋：哪一本（shared/stories.mjs 的 id）→ 讀完幾遍、看過哪幾種結果 */
+  stories?: Record<string, StoryLog>
   /** 部首家族：哪一家（shared/radicals.mjs 的 id）→ 他自己找到的家人 → 第一次找到的時間 */
   radicals?: Record<string, Record<string, string>>
   /** 魔法筆的合體：合出來的詞 → 最近一次合出來的時間（魔法世界裡一直住著它；三天內合過的先不再排、首頁站最近合的） */

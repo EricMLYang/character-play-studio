@@ -139,6 +139,7 @@ export type Camera =
 export type Light = { at: number; dur: number; level: number }
 
 export type Clip = {
+  /** 這支演的國字。故事屋的場景（src/story/scenes/）沒有國字：char 是空字串、builds 是空陣列，引擎就整支當成「國字還沒開始拼」 */
   char: string
   /**
    * 這支用了什麼卡司、主題、笑點套路。寫成一行，scripts/anim-candidates.mjs 會列出來，
@@ -346,7 +347,7 @@ export function castFactor(clip: Clip): number {
   const sig = clip.moves.length * 1000 + clip.actors.length + (clip.glyph?.length ?? 0) * 1e6
   const hit = castCache.get(clip)
   if (hit && hit.n === sig) return hit.u
-  const done = Math.max(...clip.builds.map((b) => b.at + b.dur)) + 0.2
+  const done = glyphDoneAt(clip) + 0.2
   const samples: { t: number; post: boolean; raw: ActorState[]; core: ReturnType<typeof glyphCore> }[] = []
   // 跟 anim:check 取一樣的時間點：開頭起每 0.1 秒（看效果），國字完成後起每 0.1 秒（看擋字）
   const sample = (t: number, post: boolean) => samples.push({ t, post, raw: clip.actors.map((a) => rawActor(clip, a, t)), core: glyphCore(clip, t) })
@@ -684,7 +685,9 @@ export function landings(clip: Clip): { at: number; i: number; n: number; stroke
 }
 
 /** 國字全部拼好的時間。 */
-export const glyphDoneAt = (clip: Clip) => Math.max(...clip.builds.map((b) => b.at + b.dur))
+/** 沒有國字的劇本（故事屋的場景）：整支都算「還沒拼好」 */
+export const hasGlyph = (clip: Clip) => clip.builds.length > 0
+export const glyphDoneAt = (clip: Clip) => (hasGlyph(clip) ? Math.max(...clip.builds.map((b) => b.at + b.dur)) : Infinity)
 
 /** 國字正中央（GLYPH 的中心）；讓位前後的位置都以這一點為準 */
 export const GLYPH_MID: Vec = { x: GLYPH.x + GLYPH.size / 2, y: GLYPH.y + GLYPH.size / 2 }
@@ -965,7 +968,8 @@ const camCache = new WeakMap<Clip, { n: number; iz: Float32Array; cx: Float32Arr
 
 function autoCamAt(clip: Clip, t: number): CamState {
   const g = autoCamGrid(clip)
-  const i = t / CAM_DT
+  // 故事屋的場景演完以後時間還在走（角色繼續呼吸、等他選）：鏡頭停在最後一格，不要跳回全景
+  const i = (hasGlyph(clip) ? t : Math.min(t, clip.duration)) / CAM_DT
   const i0 = Math.floor(i)
   if (i0 < 0 || i0 + 1 >= g.iz.length) return { z: 1, cx: STAGE_MID.x, cy: STAGE_MID.y }
   const f = i - i0
@@ -981,7 +985,9 @@ export function autoCamGrid(clip: Clip) {
   const firstBuild = Math.min(...clip.builds.map((b) => b.at), clip.duration)
   const done = glyphDoneAt(clip)
   // 結尾國字 pulse（或最後一秒）之前回到全景，國字最後一定是置中、完整、大大的
-  const finale = Math.min(clip.duration - 1, ...(clip.glyph ?? []).filter((g) => g.do === 'pulse' && g.at >= done).map((g) => g.at))
+  // 沒有國字的場景（故事屋）開頭結尾都不退回全景：鏡頭一直框著在演的角色，下一段從同樣的站位接著演，換頁時鏡頭才不會一遠一近
+  const glyphless = !hasGlyph(clip)
+  const finale = glyphless ? Infinity : Math.min(clip.duration - 1, ...(clip.glyph ?? []).filter((g) => g.do === 'pulse' && g.at >= done).map((g) => g.at))
   const n = Math.ceil(clip.duration / CAM_DT) + 2
   // 存的是 1/倍率（視野寬度的比例）：平滑、漸變都在這個空間做，框住國字的鏡頭混出來還是框得住
   const iz = new Float32Array(n).fill(1), cx = new Float32Array(n).fill(STAGE_MID.x), cy = new Float32Array(n).fill(STAGE_MID.y)
@@ -993,7 +999,7 @@ export function autoCamGrid(clip: Clip) {
   for (let i = 0; i < n; i++) {
     const t = i * CAM_DT
     // 開場先給一眼全景（看清楚誰在哪裡），再推近
-    if (t < 0.2 || (t >= firstBuild - 0.05 && t <= done + 0.3) || t >= finale) hard[i] = 1
+    if (!glyphless && (t < 0.2 || (t >= firstBuild - 0.05 && t <= done + 0.3) || t >= finale)) hard[i] = 1
     if (t > done && (clip.camera ?? []).some((c) => (c.do === 'punch' || c.do === 'shake') && t >= c.at - 0.05 && t <= c.at + c.dur)) hard[i] = 1
     if (lasting.length && scriptedCam(clip, lasting, t).z > 1.005) scripted[i] = 1
   }

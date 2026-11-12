@@ -5,6 +5,7 @@ import { nextPartner, partnerCount } from '../play/partners'
 import { deedsFor } from '../play/stars'
 import { browseCharacters } from '../../shared/selection.mjs'
 import { writeLevel, type WriteLevel } from '../play/wishes'
+import { shelfOf } from '../play/stories'
 
 /**
  * 家長看的學習小結：孩子端各個遊戲記下的東西，整理成大人一眼看得懂的幾個數字與清單。
@@ -57,6 +58,12 @@ export type Summary = {
   /** 魔法筆合體合出來過的詞（新的在前）：同一個字放進不同的詞裡，是詞素意識 */
   fused: string[]
   /**
+   * 故事屋（src/play/Story.tsx）：每一本讀完幾遍、貼紙拿到幾張（一種結果一張）、還要先認識哪幾個字才打得開。
+   * firstTry 是「選的頁第一次就選到幫得上忙的那個字」的比例（0–1，還沒選過是 null）——選項只有字，這是他自己讀出來的。
+   */
+  stories: { title: string; count: number; got: number; total: number; need: string[] }[]
+  storyFirstTry: number | null
+  /**
    * 只差一顆就集滿的字，跟缺的是哪一顆。
    * 家長最用得上的一條：孩子端那隻角色也會講這個，但這裡一次看得到全部，
    * 可以挑一個跟他說「我們去把『田』補完吧」。
@@ -80,7 +87,15 @@ export function summarize(progress: Progress, characters: CharEntry[], now = new
     const deeds = deedsFor(entry, new Set(visible.map((c) => c.char)))
     return { entry, got, deeds }
   })
+  // 故事屋裡選對的字記成小書紀錄（句子是填好的整句），從故事的選項認得出哪幾筆是故事來的
+  const shelf = shelfOf(visible, progress)
+  const picks = shelf.flatMap((b) => b.story.pages.flatMap((page) => ('options' in page
+    ? page.options.filter((o) => page.all || o.ok).map((o) => progress.books?.[page.ask.replace('＿', o.char)]) : [])))
+    .filter((line): line is NonNullable<typeof line> => Boolean(line))
+  const picked = picks.reduce((n, line) => n + line.count, 0)
   return {
+    stories: shelf.map((b) => ({ title: b.story.title, count: b.count, got: b.stickers.filter((x) => x.got).length, total: b.stickers.length, need: b.need })),
+    storyFirstTry: picked ? picks.reduce((n, line) => n + line.right, 0) / picked : null,
     watched: watched.length,
     watchedToday: watched.filter(([, w]) => taiwanDay(w.last) === today).length,
     known: recall.filter(([, r]) => r.box > 0).length,

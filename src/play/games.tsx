@@ -9,11 +9,12 @@ import Puzzle from './Puzzle'
 import Roots from './Roots'
 import Book from './Book'
 import Spell from './Spell'
+import Story from './Story'
 import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：魔法筆、故事屋、小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -85,6 +86,17 @@ export const GAMES: Game[] = [
       <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} focus={ctx.focus} path={ctx.path} onWalk={ctx.walk} onBack={ctx.back}
         onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })}
         onFused={(word) => ctx.record({ kind: 'fuse', char: word })} />
+    ),
+  },
+  {
+    // 2026-11-12：他讀的字，決定故事怎麼演（Story.tsx、shared/stories.mjs）。之前沒有「讀一段有意思的話、而且讀了有用」的地方
+    id: 'story', icon: '📚', title: '故事屋', fresh: true,
+    subtitle: (p) => { const n = Object.values(p.stories || {}).reduce((sum, s) => sum + Object.keys(s.seen || {}).length, 0); return n ? `${n} 張貼紙` : '你讀的字會演出來' },
+    render: (ctx) => (
+      <Story library={ctx.library} progress={ctx.progress} path={ctx.path} onWalk={ctx.walk} onPick={ctx.open} onBack={ctx.back}
+        onSticker={(story, beat) => ctx.record({ kind: 'story', char: story, beat })}
+        onDone={(story) => ctx.record({ kind: 'story', char: story, done: true })}
+        onRead={(text, char, ok) => ctx.record({ kind: 'book', char, text, ok })} />
     ),
   },
   {

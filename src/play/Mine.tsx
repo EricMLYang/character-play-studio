@@ -26,7 +26,8 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
     { id: 'town', icon: '🏡', label: '小鎮住了', n: Object.keys(progress.town || {}).length, unit: '個字' },
     { id: 'puzzle', icon: '📖', label: '詞語圖鑑收了', n: Object.keys(progress.puzzles || {}).length, unit: '個詞' },
     { id: 'roots', icon: '🏠', label: '部首家族找到', n: Object.values(progress.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0), unit: '個家人' },
-    { id: 'book', icon: '📖', label: '小書讀過', n: Object.keys(progress.books || {}).length, unit: '句' },
+    // 2026-11-12：原本這一格是「小書讀過幾句」。故事屋的貼紙是他真的在收集的東西（一種結果一張），換成這個
+    { id: 'story', icon: '📚', label: '故事貼紙收了', n: Object.values(progress.stories || {}).reduce((sum, s) => sum + Object.keys(s.seen || {}).length, 0), unit: '張' },
     { id: 'full', icon: '👑', label: '星星集滿的字', n: fullCount, unit: '個' },
   ]
   return (

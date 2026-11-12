@@ -82,6 +82,28 @@ export default function LearningSummary({ progress, characters, onPick }: {
         </section>
       )}
 
+      {s.stories.length > 0 && (
+        <section className="st-card st-stories">
+          <h4>📚 故事屋</h4>
+          <p className="st-dim">
+            他讀的字會決定故事怎麼演：走到一半停下來，選項<b>只有字</b>（沒有圖、不唸），選了哪個字，那個字的意思就演出來。
+            每一種結果一張貼紙，好笑的那幾種也算，所以他會回頭把每個字都選一遍。讀完過的故事再讀，會換他先讀、讀好了才演。
+            {s.storyFirstTry !== null && <> 第一次就選到幫得上忙的字：<b>{Math.round(s.storyFirstTry * 100)}%</b>。</>}
+          </p>
+          <ul className="st-story-list">
+            {s.stories.map((b) => (
+              <li key={b.title}>
+                <b>{b.title}</b>
+                {b.need.length > 0
+                  ? <span>🔒 還要先認識 {b.need.map((c) => <button key={c} className="st-learn-char" onClick={() => onPick(c)}>{c}</button>)}</span>
+                  : <span>{b.count > 0 ? `讀完 ${b.count} 遍` : '還沒讀'}　貼紙 {b.got} / {b.total}</span>}
+              </li>
+            ))}
+          </ul>
+          <p className="st-dim">陪讀的時候：到了選字那一頁先不要幫他唸，問他「你想讓它發生什麼事？」；選到好笑的那種就一起笑，再問「那哪一個字才幫得上忙？」</p>
+        </section>
+      )}
+
       {(s.notWritten.length > 0 || s.onlyOnce.length > 0) && (
         <section className="st-card st-practice-more">
           <h4>✏️ 看很多、寫很少</h4>

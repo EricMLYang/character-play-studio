@@ -85,6 +85,8 @@ export const FIXED_LINES = {
   pathWrite: '拿起魔法筆！寫什麼，就變什麼！',
   pathFamily: '看看今天的字住在哪一家！',
   pathRead: '用今天的字，讀一本小書！',
+  /** 讀一讀那一站有故事可以讀的時候（src/play/stories.ts）：去故事屋 */
+  pathStory: '去故事屋！你讀的字，會決定故事怎麼演！',
   pathHome: '回家囉！去小鎮看看！',
   pathAllDone: '今天的路走完了！好厲害！',
   /** 今日戰報（src/play/DayCard.tsx）：後面一個一個接今天的字 */

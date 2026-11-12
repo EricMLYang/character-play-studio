@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { loadAllClips } from './clips'
+import { loadScenes } from '../story/scenes'
 import type { Clip } from './clip'
 import AnimPlayer, { type Art } from './AnimPlayer'
 import '../play/play.css'
@@ -8,6 +9,7 @@ import '../play/play.css'
 /**
  * /anim：動畫取代影片的原型試播頁。
  * 網址可帶 ?char=果&t=3.2 直接定格在某一秒（截圖驗證用）；加 &v=old 看重做前的舊版（有留舊版的字才有）。
+ * 故事屋的戲也在這裡看：?story=cold 列出那本故事的每一段（src/story/scenes/cold.ts），&char=<戲的編號> 選其中一段。
  * 另外掛一個 window.__animSeek(t)：npm run anim:shot 在同一頁連續換秒數截圖，不必每格重新載入。
  * 只有這個試播頁有（孩子端與 iPad 版都不打包 AnimLab）。
  */
@@ -26,10 +28,15 @@ export default function AnimLab() {
   // 劇本是按需載入的，試播頁要全部列出來，先全部載入；?v=old 時有舊版的字換成舊版
   const [clips, setClips] = useState<Clip[] | null>(null)
   useEffect(() => {
-    const old = new URLSearchParams(location.search).get('v') === 'old'
+    const qs = new URLSearchParams(location.search)
+    const story = qs.get('story')
+    // 故事的戲沒有國字，試播頁用「戲的編號」當它的名字（上面那排按鈕、?char= 都認這個）
+    if (story) { loadScenes(story).then((scenes) => setClips(Object.entries(scenes ?? {}).map(([beat, clip]) => ({ ...clip, char: beat })))); return }
+    const old = qs.get('v') === 'old'
     Promise.all([loadAllClips(), old ? loadOldClips() : Promise.resolve(new Map<string, Clip>())])
       .then(([all, olds]) => setClips(all.map((c) => olds.get(c.char) ?? c)))
   }, [])
+  if (clips && !clips.length) return <div className="boot">沒有這本故事的戲</div>
   return clips ? <Lab clips={clips} /> : <div className="boot">載入動畫中…</div>
 }
 

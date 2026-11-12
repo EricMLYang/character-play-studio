@@ -204,6 +204,11 @@
 .st-learn-char:hover { background: #e6e1d8; }
 
 .st-chip-rows p { margin: 6px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+/* 學習小結的故事屋那一張：一本一行 */
+.st-story-list { list-style: none; margin: 10px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.st-story-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; }
+.st-story-list li b { min-width: 6em; font-size: 15px; }
+.st-story-list li span { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--dim); }
 .st-chip-rows b { font-size: 13px; margin-right: 4px; }
 
 /* 寫字等級卡片：他最近寫的字（自己的筆跡） */

@@ -1,4 +1,5 @@
-import { taiwanDay, completeWatch, addTrace, discover, fuseWord, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily, validBook, readBook } from './domain.mjs'
+import { taiwanDay, completeWatch, addTrace, discover, fuseWord, validStrokes, saveWord, validWord, recall, validPuzzle, solvePuzzle, validRadical, findFamily, validBook, readBook, readStory } from './domain.mjs'
+import { validStory } from './stories.mjs'
 import { COMBOS } from './spells.mjs'
 
 /**
@@ -29,6 +30,8 @@ export const PLAY_EVENTS = {
   radical: { error: '家族紀錄不正確', valid: validRadical, apply: (p, e) => findFamily(p, e.family, e.char, e.at, e.word) },
   // 指讀小書：text 是整句，char 是他指出來的字；mine 是最後一頁自己接的
   book: { error: '小書紀錄不正確', valid: validBook, apply: (p, e) => readBook(p, e.text, e.char, e.ok, e.at, e.mine === true) },
+  // 故事屋：char 是哪一本（shared/stories.mjs 的 id，不是字，所以不查字庫）；beat 是看到的那種結果，done 是讀完一遍
+  story: { error: '故事紀錄不正確', valid: validStory, chars: () => [], apply: (p, e) => readStory(p, e.char, e.beat, e.done === true, e.at) },
   // 魔法筆的合體：char 是合出來的詞（shared/spells.mjs 的 COMBOS 裡才收），兩個字都要在字庫裡
   fuse: { error: '合體紀錄不正確', valid: (e) => COMBOS.some((c) => c.word === e.char), chars: (e) => [...e.char],
     apply: (p, e) => fuseWord(p, e.char, e.at) },

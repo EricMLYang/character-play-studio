@@ -1,0 +1,162 @@
+/* ---------- 故事屋：他讀的字，決定故事怎麼演（Story.tsx） ---------- */
+.place-story { background: #E4E0FF; }
+.place-story .place-icon { animation-delay: -2.3s; }
+
+.story { position: relative; height: 100%; display: flex; flex-direction: column; }
+.story :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.story-empty { margin: auto; font-size: 20px; font-weight: 700; }
+.story-emoji { display: inline-block; width: 1em; height: 1em; line-height: 1; object-fit: contain; vertical-align: middle; }
+
+/* 書架：一本一張大封面，橫的一排（放不下就左右滑） */
+.story-shelf { flex: 1; min-height: 0; display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); padding: 8px clamp(16px, 4vw, 48px) calc(18px + env(safe-area-inset-bottom));
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.story-book { flex: none; display: flex; flex-direction: column; align-items: center; gap: 10px; scroll-snap-align: center; animation: cardIn .4s both; }
+.story-cover { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px;
+  width: clamp(160px, 24vh, 240px); height: clamp(210px, 46vh, 330px); padding: 12px 10px 14px; border-radius: 10px 26px 26px 10px;
+  background: linear-gradient(160deg, #FFFDF6, #FFE9B8); box-shadow: -8px 0 0 #E7B95C, 0 8px 0 rgba(0,0,0,.08), 0 18px 34px rgba(0,0,0,.14);
+  transition: transform .15s; }
+.story-cover:active { transform: translateY(3px) scale(.98); }
+.story-book:nth-child(5n+2) .story-cover { background: linear-gradient(160deg, #F4FBFF, #BFE6FF); box-shadow: -8px 0 0 #6DB9E8, 0 8px 0 rgba(0,0,0,.08), 0 18px 34px rgba(0,0,0,.14); }
+.story-book:nth-child(5n+3) .story-cover { background: linear-gradient(160deg, #F7FFF4, #C9F0C0); box-shadow: -8px 0 0 #76C46A, 0 8px 0 rgba(0,0,0,.08), 0 18px 34px rgba(0,0,0,.14); }
+.story-book:nth-child(5n+4) .story-cover { background: linear-gradient(160deg, #FFF6FA, #FFCFE0); box-shadow: -8px 0 0 #EE8FB1, 0 8px 0 rgba(0,0,0,.08), 0 18px 34px rgba(0,0,0,.14); }
+.story-book:nth-child(5n+5) .story-cover { background: linear-gradient(160deg, #F8F6FF, #D6CEFF); box-shadow: -8px 0 0 #9B8CFF, 0 8px 0 rgba(0,0,0,.08), 0 18px 34px rgba(0,0,0,.14); }
+.story-cover-art { position: relative; flex: 1; min-height: 0; width: 100%; display: grid; place-items: center; }
+.story-cover-art > img:first-child { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 4px 0 rgba(0,0,0,.1)); }
+.story-cover-emoji { position: absolute; right: 2px; top: 0; font-size: clamp(30px, 6vh, 46px); transform: rotate(12deg); }
+.story-cover-title { font-family: var(--kai); font-size: min(clamp(20px, 3.7vh, 31px), 6.6vw); line-height: 1.15; white-space: nowrap; }
+.story-cover-tag { padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.85); font-size: 14px; font-weight: 800; }
+.story-book.next .story-cover { animation: storyBob 1.6s ease-in-out infinite; }
+.story-book.next .story-cover-tag { background: var(--c4); color: #fff; }
+.story-book.locked .story-cover { filter: grayscale(.85) brightness(.97); }
+.story-book.locked .story-cover-art > img:first-child { opacity: .55; }
+@keyframes storyBob { 0%,100% { transform: translateY(0) rotate(-1.2deg) } 50% { transform: translateY(-8px) rotate(1.2deg) } }
+
+.story-stickers { display: flex; gap: 5px; }
+.story-dot { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(46,42,38,.1);
+  font-size: 17px; font-weight: 900; color: rgba(46,42,38,.35); }
+.story-dot.got { background: #fff; box-shadow: 0 2px 0 rgba(0,0,0,.08); font-size: 20px; }
+.story-need { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 800; }
+.story-need-char { width: 44px; height: 44px; border-radius: 14px; background: #fff; box-shadow: 0 3px 0 rgba(0,0,0,.1);
+  font-family: var(--kai); font-size: 28px; animation: breathe 1.6s ease-in-out infinite; }
+.story-need-char:active { transform: translateY(2px); box-shadow: none; }
+
+/* 一頁：上面舞台、下面一行字與按鈕 */
+.story-page { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(6px, 1.4vh, 14px);
+  padding: 0 16px calc(12px + env(safe-area-inset-bottom)); }
+/* 直放的時候舞台只有畫面寬的 9/16 高：外框不再往下撐，舞台跟下面那行字才會靠在一起、整組置中 */
+.story-frame { flex: 1 1 0; min-height: 0; max-height: calc((100vw - 32px) * 9 / 16 + 12px); width: 100%; display: grid; place-items: center; container-type: size; }
+.story-stage { position: relative; width: min(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9; border-radius: clamp(14px, 3cqh, 30px); overflow: hidden;
+  background: #DDEBF7; box-shadow: 0 0 0 6px #fff, 0 10px 0 rgba(0,0,0,.08), 0 22px 44px rgba(0,0,0,.16); animation: storyTurn .38s cubic-bezier(.2,.9,.3,1) both; }
+.story-stage .anim-stage { display: block; width: 100%; height: 100%; }
+.story-stage .anim-stage text { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; user-select: none; }
+@keyframes storyTurn { from { opacity: .2; transform: perspective(1200px) rotateY(-14deg) scale(.97); } to { opacity: 1; transform: none; } }
+.story-title-card { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2cqh;
+  background: linear-gradient(160deg, #FFFDF6, #FFE9B8); }
+.story-title-card img { height: 56%; object-fit: contain; animation: pop .45s cubic-bezier(.2,1.6,.4,1) both; }
+.story-title-card b { font-family: var(--kai); font-size: clamp(34px, 12cqh, 84px); line-height: 1.1; animation: pop .45s cubic-bezier(.2,1.6,.4,1) .12s both; }
+/* 換他先讀：舞台蓋一層，讀好了按一下才演 */
+.story-reveal { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(255,250,235,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: fade .3s both; }
+.story-reveal span { display: grid; place-items: center; width: clamp(64px, 22cqh, 110px); height: clamp(64px, 22cqh, 110px); border-radius: 50%; padding-left: .12em;
+  background: var(--c4); color: #fff; font-size: clamp(30px, 10cqh, 52px); box-shadow: 0 6px 0 rgba(0,0,0,.14); animation: breathe 1.4s ease-in-out infinite; }
+.story-reveal b { font-size: clamp(16px, 5cqh, 24px); }
+
+.story-panel { flex: none; width: 100%; min-height: clamp(150px, 27vh, 230px); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: clamp(6px, 1.4vh, 14px); }
+.story-line { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin: 0; padding: 4px 18px; border-radius: 22px;
+  background: rgba(255,255,255,.82); box-shadow: 0 4px 0 rgba(0,0,0,.05); }
+.story-char { font-family: var(--kai); font-size: clamp(34px, 6.4vh, 60px); line-height: 1.25; padding: 0 1px; border-radius: 12px; color: var(--ink);
+  transition: background .12s, transform .12s, color .12s; }
+.story-char.punct { color: rgba(46,42,38,.5); padding: 0; }
+.story-char.lit { background: #FFE27A; transform: translateY(-4px) scale(1.12); }
+.story-char.poked { background: #BFE6FF; animation: storyPoke .45s cubic-bezier(.2,1.6,.4,1); }
+.story-char.landed { color: #D9480F; animation: storyLand .5s cubic-bezier(.2,1.7,.4,1) both; }
+@keyframes storyPoke { 40% { transform: translateY(-8px) scale(1.2); } }
+@keyframes storyLand { from { transform: translateY(40px) scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+.story-blank { display: inline-block; width: clamp(40px, 7vh, 66px); height: clamp(40px, 7vh, 66px); margin: 0 4px; border-radius: 14px;
+  border: 4px dashed #FF8A4C; background: rgba(255,138,76,.12); animation: breathe 1.2s ease-in-out infinite; }
+.story-hint { margin: 0; font-size: clamp(15px, 2.4vh, 19px); font-weight: 800; opacity: .7; }
+
+/* 選項：只有字 */
+.story-options { display: flex; justify-content: center; gap: clamp(12px, 3vw, 30px); }
+.story-option { position: relative; display: grid; place-items: center; width: clamp(84px, 15vh, 128px); height: clamp(84px, 15vh, 128px); border-radius: 26px;
+  background: #fff; box-shadow: 0 7px 0 #FFB37A, 0 14px 26px rgba(0,0,0,.12); border: 4px solid #FF8A4C;
+  animation: storyOption .45s cubic-bezier(.2,1.6,.4,1) both; animation-delay: calc(var(--i) * 90ms); }
+.story-option:nth-child(2) { border-color: #4CC3FF; box-shadow: 0 7px 0 #A9DFFF, 0 14px 26px rgba(0,0,0,.12); }
+.story-option:nth-child(3) { border-color: #6BD37B; box-shadow: 0 7px 0 #B5E8BD, 0 14px 26px rgba(0,0,0,.12); }
+.story-option b { font-family: var(--kai); font-size: clamp(52px, 10vh, 84px); line-height: 1; }
+.story-option:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 2px 0 #FFB37A; }
+.story-option.used { opacity: .45; border-style: dashed; box-shadow: none; }
+/* 剛選的那張跳起來發亮，其他的退下去 */
+.story-option.mine { animation: storyMine .6s cubic-bezier(.2,1.7,.4,1) both; box-shadow: 0 0 0 8px #FFE27A, 0 14px 26px rgba(0,0,0,.14); }
+.story-option.gone { animation: none; opacity: .25; transform: scale(.86); transition: opacity .25s, transform .25s; }
+@keyframes storyMine { 0% { transform: none; } 45% { transform: translateY(-16px) scale(1.14) rotate(-4deg); } 100% { transform: translateY(-6px) scale(1.06); } }
+.story-option-was { position: absolute; right: -10px; top: -12px; font-size: clamp(26px, 5vh, 40px); }
+@keyframes storyOption { from { opacity: 0; transform: translateY(30px) scale(.7); } to { opacity: 1; transform: none; } }
+
+.story-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.story-btn { padding: 14px 24px; border-radius: 999px; background: #fff; font-size: clamp(17px, 2.6vh, 21px); font-weight: 800; box-shadow: 0 5px 0 rgba(0,0,0,.1); }
+.story-btn:active { transform: translateY(3px); box-shadow: none; }
+.story-btn.go { background: var(--c4); color: #fff; box-shadow: 0 5px 0 #D95C88; }
+.story-btn.pulse { animation: breathe 1.3s ease-in-out infinite; }
+
+/* 讀完：貼紙簿 */
+.story-done { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2.4vh, 22px);
+  padding: 8px 16px calc(14px + env(safe-area-inset-bottom)); overflow-y: auto; }
+.story-done-title { display: flex; align-items: center; gap: 12px; font-size: clamp(26px, 5vh, 42px); animation: pop .5s cubic-bezier(.2,1.7,.4,1) both; }
+.story-done-title img { height: clamp(70px, 16vh, 130px); animation: storyBob 1.4s ease-in-out infinite; }
+.story-album { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2vw, 20px); max-width: 880px; padding: clamp(12px, 2.4vh, 24px);
+  border-radius: 30px; background: rgba(255,255,255,.8); box-shadow: 0 6px 0 rgba(0,0,0,.06); }
+.story-sticker { display: flex; flex-direction: column; align-items: center; gap: 2px; width: clamp(70px, 12vh, 104px); padding: 0;
+  animation: cardIn .4s both; animation-delay: calc(var(--i) * 80ms); }
+.story-sticker-art { display: grid; place-items: center; width: clamp(62px, 11vh, 96px); height: clamp(62px, 11vh, 96px); border-radius: 50%;
+  background: rgba(46,42,38,.08); border: 4px dashed rgba(46,42,38,.18); font-size: clamp(30px, 5.5vh, 46px); font-weight: 900; color: rgba(46,42,38,.3); }
+.story-sticker.got .story-sticker-art { background: #fff; border: 5px solid #FFD24A; box-shadow: 0 5px 0 rgba(0,0,0,.08); font-size: clamp(38px, 7vh, 62px); transform: rotate(-4deg); }
+.story-sticker:nth-child(even).got .story-sticker-art { transform: rotate(5deg); }
+.story-sticker.fresh .story-sticker-art { animation: storyStick .7s cubic-bezier(.2,1.8,.4,1) both; animation-delay: calc(.5s + var(--i) * 120ms); }
+.story-sticker b { min-height: 1.2em; font-family: var(--kai); font-size: clamp(22px, 3.8vh, 32px); line-height: 1.2; }
+@keyframes storyStick { 0% { transform: scale(2.4) rotate(18deg); opacity: 0; } 60% { transform: scale(.9) rotate(-8deg); opacity: 1; } 100% { transform: rotate(-4deg); } }
+.story-done-note { margin: 0; font-size: clamp(16px, 2.6vh, 21px); font-weight: 800; text-align: center; }
+
+/* 手機直放：字小一點，選項不擠出去 */
+@media (max-width: 700px) {
+  .story-page { padding-left: 10px; padding-right: 10px; }
+  .story-char { font-size: clamp(30px, 8.6vw, 44px); }
+  .story-line { padding: 4px 10px; }
+  .story-blank { width: 40px; height: 40px; }
+  .story-cover { width: 44vw; }
+  /* 三個選項要排得下：一張最多 27vw */
+  .story-options { gap: 10px; }
+  .story-option { width: min(27vw, 128px); height: min(27vw, 128px); border-radius: 20px; }
+  .story-option b { font-size: min(17vw, 84px); }
+  /* 貼紙一多就會比畫面高：從上面排起、可以捲，按鈕不會被擠到外面 */
+  .story-done { justify-content: flex-start; gap: 10px; }
+  .story-album { gap: 8px; padding: 10px; }
+  .story-sticker { width: 62px; }
+  .story-sticker-art { width: 56px; height: 56px; }
+  .story-sticker.got .story-sticker-art { font-size: 36px; }
+  .story-sticker b { font-size: 22px; }
+  .story-done-title img { height: 64px; }
+  .story-btn { padding: 11px 18px; }
+}
+/* 手機橫放：舞台在左、字與選項在右 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .story-page { flex-direction: row; align-items: stretch; gap: 12px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+  .story-frame { flex: 1.5; width: auto; max-height: none; }
+  .story-panel { flex: 1; width: auto; min-width: 0; min-height: 0; justify-content: center; }
+  .story-char { font-size: clamp(26px, 9vh, 38px); }
+  .story-blank { width: 34px; height: 34px; border-width: 3px; }
+  .story-option { width: clamp(60px, 22vh, 84px); height: clamp(60px, 22vh, 84px); border-radius: 18px; }
+  .story-option b { font-size: clamp(36px, 13vh, 52px); }
+  .story-options { gap: 10px; }
+  .story-btn { padding: 9px 14px; font-size: 15px; }
+  .story-cover { height: 52vh; width: 30vh; }
+  .story-cover-title { font-size: 18px; }
+  .story-sticker { width: 62px; }
+  .story-sticker-art { width: 54px; height: 54px; }
+  .story-done { justify-content: flex-start; }
+  .story-done-title { font-size: 22px; }
+  .story-done-title img { height: 54px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-stage, .story-book.next .story-cover, .story-option, .story-sticker.fresh .story-sticker-art { animation-duration: .01ms; }
+}

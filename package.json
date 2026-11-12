@@ -18,6 +18,7 @@
     "anim": "node scripts/anim-candidates.mjs",
     "anim:check": "node scripts/anim-check.mjs",
     "anim:shot": "node scripts/anim-shot.mjs",
+    "story:check": "node scripts/story-check.mjs",
     "emoji3d": "node scripts/emoji3d.mjs",
     "voice": "node scripts/voice.mjs",
     "hero": "node scripts/hero.mjs"

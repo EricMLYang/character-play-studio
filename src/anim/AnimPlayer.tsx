@@ -5,7 +5,7 @@ import * as sfx from '../lib/sfx'
 import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
 import { FLIP_3D } from './flip3d'
-import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 import './anim.css'
 
 /**
@@ -27,7 +27,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   useEffect(() => {
     let alive = true
     setData(null)
-    loadChar(clip.char).then((d) => alive && setData(d)).catch(() => {})
+    // 故事屋的場景沒有國字，不用抓筆順
+    if (hasGlyph(clip)) loadChar(clip.char).then((d) => alive && setData(d)).catch(() => {})
     // 唸字音檔先抓好，cue 到的那一刻才不會慢半拍
     preloadVoice(clip.cues.map((c) => ('say' in c ? c.say : undefined)))
     return () => { alive = false }
@@ -138,7 +139,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
   }
 
   return (
-    <svg className="anim-stage" viewBox="0 0 160 90" style={{ filter: 'saturate(1.18) contrast(1.06)' }} role="img" aria-label={`${clip.char} 的動畫`}>
+    <svg className="anim-stage" viewBox="0 0 160 90" style={{ filter: 'saturate(1.18) contrast(1.06)' }} role="img" aria-label={`${clip.char} 的動畫`}
+      data-ready={data || !hasGlyph(clip) ? '' : undefined}>
       <defs>
         <linearGradient id={sky} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor={clip.bg.top} />

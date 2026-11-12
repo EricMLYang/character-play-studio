@@ -6,6 +6,7 @@ import { familiesIn, familyFor, foundIn } from './families'
 import { dueDishes } from './dishes'
 import { sleepersIn } from './naps'
 import { SPELLS } from '../../shared/spells.mjs'
+import { nextBook, opensWith, shelfOf, storyToday } from './stories'
 
 /**
  * 今天的路：打開就是這五站，走完就結束（10～15 分鐘）。
@@ -18,7 +19,7 @@ import { SPELLS } from '../../shared/spells.mjs'
  *   ② 新朋友  今天的新字：看 → 描 → 憑記憶寫 → 字卡
  *   ②' 寫一寫  把字寫出來，寫的字變成真的       → 魔法筆（2026-11-06：他幾乎不寫字，寫字要自己一站）
  *   ③ 牠的家  今天的字住哪一家               → 部首家族
- *   ④ 讀一讀  用今天的字組成的小書，指著字讀   → 指讀小書
+ *   ④ 讀一讀  讀一本故事，他選的字決定怎麼演   → 故事屋（一本都打不開才是指讀小書）
  *   ⑤ 回家    搬進小鎮、開寶箱               → 小鎮
  *
  * 全部從已經在記的紀錄算出來（哪一筆是今天做的看台灣日期），沒有新的進度欄位：
@@ -83,8 +84,11 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
 
   // ② 新朋友：還沒看過的字，優先挑能讓某一家湊起來的（集中識字），再照字庫順序
   const candidates = library.filter((c) => !watched[c.char] || newToday(watched[c.char], today))
+  // 故事屋：只差這一個字就能打開一本故事的字最優先（學新字有了「打開下一本」這個理由），再來才是能讓某一家湊起來的
+  const shelf = shelfOf(library, progress)
   const rank = (c: CharEntry) => {
     if (newToday(watched[c.char], today)) return 0
+    if (opensWith(c.char, shelf).length) return 0.5
     const family = familyOf(c.char)
     const kin = family ? Object.keys(family.members).filter((m) => m !== c.char && watched[m]).length : 0
     return kin > 0 ? 1 : 2
@@ -126,7 +130,13 @@ export function todayPath(library: CharEntry[], progress: Progress, today = taiw
   // ④ 讀一讀：今天的字組成的小書，一句算一句（最後一頁自己接的也算）
   const readNeed = enough ? READ_PER_DAY : 0
   const readToday = Object.values(progress.books || {}).filter((b) => taiwanDay(b.last) === today).length
-  if (readNeed) {
+  // 有打得開的故事就去故事屋（2026-11-12）：讀完一本這一站就算走完；一本都打不開才退回指讀小書
+  const tale = nextBook(shelf)
+  if (readNeed && tale) {
+    stops.push({ id: 'read', icon: '📚', title: '讀一讀', hint: `讀故事「${tale.story.title}」：你選的字會演出來`, hero: tale.story.hero, cta: '去故事屋 →',
+      say: FIXED_LINES.pathStory, chars: [], done: storyToday(progress, today) ? readNeed : 0, need: readNeed,
+      go: { kind: 'game', id: 'story' } })
+  } else if (readNeed) {
     stops.push({ id: 'read', icon: '📖', title: '讀一讀', hint: '用今天的字讀一本小書，指出那個字', hero: 'raccoon', cta: '翻開小書 →',
       say: FIXED_LINES.pathRead, chars: [], done: Math.min(readToday, readNeed), need: readNeed,
       go: { kind: 'game', id: 'book' } })
