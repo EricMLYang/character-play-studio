@@ -111,7 +111,7 @@ const clip: Clip = {
     { at: 0.3, actor: 'mouse', do: 'squash', amount: 0.25, dur: 0.25 },
     // 第 1 次：咻——嘰！回頭一看，蝸牛只爬了一點點……跺腳
     ...l1.moves,
-    { at: R1, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/angry' },
+    { at: R1, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/stomp' },
     { at: R1 + 0.05, actor: 'mouse', do: 'hop', amount: 3, dur: 0.18 },
     { at: R1 + 0.3, actor: 'mouse', do: 'hop', amount: 3, dur: 0.18 },
     { at: R1 + 0.55, actor: 'mouse', do: 'hop', amount: 3, dur: 0.18 },

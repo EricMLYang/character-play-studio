@@ -1,6 +1,6 @@
 {
   "name": "浣熊助手 花生",
-  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的抱一疊箱子、敬禮；D 表全身動作、E 表吃東西與身體反應跟豬探長同一套。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的抱一疊箱子、敬禮；D 表全身動作、E 表吃東西與身體反應、F 表身體狀況與反應跟豬探長同一套。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
   "ref": "idle",
   "sheets": {
     "A": {
@@ -22,6 +22,10 @@
     "E": {
       "file": "raccoon-E.png",
       "poses": ["sour", "spicy", "stinky", "full", "yawn", "sneeze", "drool", "giggle", "tired"]
+    },
+    "F": {
+      "file": "raccoon-F.png",
+      "poses": ["hold", "hungry", "hot", "doze", "know", "stomp", "bow", "duck", "slip"]
     }
   },
   "alias": { "think": "ponder" }

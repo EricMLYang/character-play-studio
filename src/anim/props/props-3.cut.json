@@ -1,0 +1,6 @@
+{
+  "about": "第三張道具表（2026-11，Codex 生圖，洋紅底 3×3）：急的廁所門（關著／打開看得到馬桶，同一扇門可以 swap）、馬桶、紅色「使用中」圓牌，還有石頭、木梯、彈簧床、裝滿水的水桶、捕蟲網。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-3.png",
+  "key": "#FF00FF",
+  "props": ["wc-door", "wc-open", "toilet", "busy", "rock", "ladder", "trampoline", "bucket", "net"]
+}
