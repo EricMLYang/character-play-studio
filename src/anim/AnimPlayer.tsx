@@ -5,7 +5,7 @@ import * as sfx from '../lib/sfx'
 import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
 import { FLIP_3D } from './flip3d'
-import { actorsAt, cameraAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import { actorsAt, askAt, askFxAt, cameraAt, emptyFrameAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, isV2, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 import './anim.css'
 
 /**
@@ -100,6 +100,14 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
     return past && past.visible ? [{ ...past, id: `${a.id}-ghost`, o: past.o * 0.16, glow: 0 }] : []
   })
   const dark = lightAt(clip, t)
+  // v2：空字框（還沒拼上去的筆畫的淡輪廓）、問他（ask）的黑幕與留在黑幕上面的角色
+  const frame = data ? emptyFrameAt(clip, t, data.strokes.length) : null
+  const ask = askAt(clip, t)
+  const kept = new Set(ask > 0 ? askFxAt(clip, t)?.keep ?? [] : [])
+  const lit = (a: { id: string; top: boolean }) => a.top || kept.has(a.id)
+  // 筆畫落定的星光要噴在國字當下的位置（v2 拼字時國字在上方、變小）
+  const v2 = isV2(clip)
+  const onGlyph = (c: Vec) => (v2 ? { x: g.x + (c.x - GLYPH_MID.x) * g.k, y: g.y + (c.y - GLYPH_MID.y) * g.k } : c)
   // 同一頁可能有兩個播放器（Studio 預覽），漸層 id 不能撞
   const uid = useId().replace(/:/g, '')
   const warm = `warm${uid}`
@@ -137,6 +145,45 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
       </g>
     )
   }
+
+  // 國字那一層：平常畫在角色後面；問他（ask）的時候畫在黑幕上面
+  // 以中心為支點：讓位（park）時縮小移到上方，home 回到正中央
+  const glyphLayer = (
+    <g transform={`translate(${g.x + g.dx} ${g.y}) rotate(${g.r}) scale(${g.s * g.k}) translate(${-GLYPH_MID.x} ${-GLYPH_MID.y})`}
+      style={{ filter: ask > 0 ? `drop-shadow(0 1.2px 0 rgba(0,0,0,.18)) drop-shadow(0 0 ${1 + 3 * ask}px rgba(255,236,160,${0.9 * ask}))` : 'drop-shadow(0 1.2px 0 rgba(0,0,0,.18))' }}>
+      {/* v2 的空字框：白色半透明的底＋深色虛線邊，淺色、深色背景上都看得到，又一看就知道是「空的」；唸字時亮一下 */}
+      {frame && data && <g transform={GLYPH_TRANSFORM}>
+        {frame.strokes.map((f) => (
+          <g key={`frame-${f.index}`} opacity={f.o}>
+            <path d={data.strokes[f.index]} fill="#fff" fillOpacity={0.38 + 0.4 * frame.glow}
+              stroke={frame.glow > 0 ? '#F5B400' : '#3A2E5C'} strokeOpacity={0.5 + 0.4 * frame.glow} strokeWidth={14 + 10 * frame.glow}
+              strokeDasharray="44 30" strokeLinejoin="round" strokeLinecap="round" />
+            {frame.glow > 0 && <path d={data.strokes[f.index]} fill="#FFE066" opacity={0.7 * frame.glow} />}
+          </g>
+        ))}
+      </g>}
+      {strokes.map((s) => (
+        <g key={s.index} opacity={s.o}
+          transform={`translate(${s.dx + s.cx} ${s.dy + s.cy}) rotate(${s.r}) scale(${s.s}) translate(${-s.cx} ${-s.cy})`}>
+          <g transform={GLYPH_TRANSFORM}>
+            {/* 底下一層深色往下錯開：像一塊厚厚的玩具積木 */}
+            <path d={data!.strokes[s.index]} fill={shade(s.color, 0.62)} transform="translate(0 -26)" />
+            <path d={data!.strokes[s.index]} fill={s.color} stroke="rgba(0,0,0,.2)" strokeWidth="12" strokeLinejoin="round" />
+            <path d={data!.strokes[s.index]} fill={`url(#${gloss})`} />
+          </g>
+        </g>
+      ))}
+      {/* 國字拼好、還有最後要結束時，各有一道光從左掃到右 */}
+      {data && [doneAt + 0.05, clip.duration - 0.85].map((at, i) => {
+        const p = (t - at) / 0.7
+        if (p < 0 || p > 1) return null
+        const x = 40 + p * 90
+        return <g key={i} clipPath={`url(#${glyphClip})`}>
+          <rect x={x - 10} y="8" width="20" height="76" fill={`url(#${shine})`} transform={`skewX(-18) translate(14 0)`} />
+        </g>
+      })}
+    </g>
+  )
 
   return (
     <svg className="anim-stage" viewBox="0 0 160 90" style={{ filter: 'saturate(1.18) contrast(1.06)' }} role="img" aria-label={`${clip.char} 的動畫`}
@@ -193,36 +240,14 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
 
-        {/* 國字以中心為支點：讓位（park）時縮小移到上方，home 回到正中央 */}
-        <g transform={`translate(${g.x + g.dx} ${g.y}) rotate(${g.r}) scale(${g.s * g.k}) translate(${-GLYPH_MID.x} ${-GLYPH_MID.y})`}
-          style={{ filter: 'drop-shadow(0 1.2px 0 rgba(0,0,0,.18))' }}>
-          {strokes.map((s) => (
-            <g key={s.index} opacity={s.o}
-              transform={`translate(${s.dx + s.cx} ${s.dy + s.cy}) rotate(${s.r}) scale(${s.s}) translate(${-s.cx} ${-s.cy})`}>
-              <g transform={GLYPH_TRANSFORM}>
-                {/* 底下一層深色往下錯開：像一塊厚厚的玩具積木 */}
-                <path d={data!.strokes[s.index]} fill={shade(s.color, 0.62)} transform="translate(0 -26)" />
-                <path d={data!.strokes[s.index]} fill={s.color} stroke="rgba(0,0,0,.2)" strokeWidth="12" strokeLinejoin="round" />
-                <path d={data!.strokes[s.index]} fill={`url(#${gloss})`} />
-              </g>
-            </g>
-          ))}
-          {/* 國字拼好、還有最後要結束時，各有一道光從左掃到右 */}
-          {data && [doneAt + 0.05, clip.duration - 0.85].map((at, i) => {
-            const p = (t - at) / 0.7
-            if (p < 0 || p > 1) return null
-            const x = 40 + p * 90
-            return <g key={i} clipPath={`url(#${glyphClip})`}>
-              <rect x={x - 10} y="8" width="20" height="76" fill={`url(#${shine})`} transform={`skewX(-18) translate(14 0)`} />
-            </g>
-          })}
-        </g>
+        {ask === 0 && glyphLayer}
 
         {/* 每一筆落定時噴一圈小星光 */}
         {ticks.map((k) => {
           const p = (t - k.at) / 0.4
-          const c = centers[k.stroke]
-          if (p < 0 || p > 1 || !c) return null
+          const c0 = centers[k.stroke]
+          if (p < 0 || p > 1 || !c0) return null
+          const c = onGlyph(c0)
           return <g key={`spark-${k.i}`} opacity={1 - p}>
             {[0, 1, 2, 3, 4].map((j) => {
               const ang = j * 1.2566 + k.i
@@ -250,13 +275,16 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
         })}
 
         {ghosts.map(renderActor)}
-        {visible.filter((a) => !a.top).map(renderActor)}
+        {visible.filter((a) => !lit(a)).map(renderActor)}
         <Foreground kind={clip.bg.scenery} t={t} floor={clip.bg.floor} sky={clip.bg.top} bottom={clip.bg.bottom} />
         {/* 關燈：黑幕蓋住整個舞台，只剩 top 的角色（發亮的眼睛）和漫畫效果 */}
         {dark > 0 && <rect x="-20" y="-20" width="200" height="130" fill="#120E24" opacity={dark * 0.94} />}
         {/* level 是負的：相機閃光燈，整個畫面一白 */}
         {dark < 0 && <rect x="-20" y="-20" width="200" height="130" fill="#fff" opacity={-dark} />}
-        {visible.filter((a) => a.top).map(renderActor)}
+        {/* 問他：畫面暗一半，國字和明星（keep）畫在上面亮著 */}
+        {ask > 0 && <rect x="-20" y="-20" width="200" height="130" fill="#120E24" opacity={ask * 0.52} />}
+        {ask > 0 && glyphLayer}
+        {visible.filter(lit).map(renderActor)}
 
         {fx.map((f) => (
           <g key={f.key} opacity={f.o} transform={`translate(${f.x} ${f.y}) rotate(${f.r}) scale(${f.s})`}>

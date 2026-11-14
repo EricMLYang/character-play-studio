@@ -7,6 +7,12 @@
 //   國字拼好不到 0.8 秒就 park（讓位）、park 之後結尾 pulse 前沒有 home。
 // 警告：唸字會被下一句打斷（有音檔就用真實長度算）、國字完成後有角色擋住字或被鏡頭切掉（照國字當下的位置與大小）、效果跑出畫面、沒有 meta。
 // 只檢查正式劇本 src/anim/clips/；src/anim/clips-old/ 的舊版只給試播頁比較用，不檢查。
+//
+// v2 片型（劇本寫 format: 2，docs/clip-v2-plan.md）換一套唸字與結構的規則（錯誤）：
+//   唸的順序是「字、字、語詞、這是什麼字？、字」（字至少 3 次）、問句唸完到回答之間至少安靜 1.5 秒（不能有任何聲音）、
+//   最後 1 秒只有國字（拼好、在正中央、沒有效果、畫面上看不到任何角色與道具、不在 ask 裡）、meta.gags 最多 2 條、
+//   卡司至少一個固定明星（pig／raccoon／mouse／sheriff／yang）、片長 12～15 秒。
+//   擋字、出界、鏡頭切字、會被打斷照舊；空字框階段還沒填的部分角色經過不算擋字，但已經填上去的筆畫被角色擋住 0.3 秒以上會提醒。
 import { createServer } from 'vite'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -18,6 +24,10 @@ const voiceDur = (text) => VOICE?.[text]?.dur
 // 常見多音字：語詞裡除了目標字以外不能有這些（系統朗讀會唸錯）。發現新的就加進來。
 const POLYPHONIC = new Set([...'長行樂重了得著數還都好為參落降度調傳種模地的乾色匙紅綠背空和看要會少中當差把只便覺分省'])
 const only = process.argv.slice(2).join('').replace(/\s/g, '')
+// v2 的問句與固定明星
+const { FIXED_LINES } = await import('../shared/voice-lines.mjs')
+const ASK = FIXED_LINES.clipAsk
+const STARS = ['pig', 'raccoon', 'mouse', 'sheriff', 'yang']
 
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true, hmr: false }, appType: 'custom' })
 let failed = false
@@ -40,14 +50,17 @@ try {
 }
 process.exit(failed ? 1 : 0)
 
-function check(clip, { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlaceAt, glyphDoneAt }) {
+function check(clip, engine) {
+  const { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlaceAt, glyphDoneAt } = engine
   const errors = [], warnings = []
   const ids = new Set(clip.actors.map((a) => a.id))
   const end = clip.duration
+  const v2 = clip.format === 2
 
-  // 唸字：字、字、語詞
+  // 唸字：v1 是「字、字、語詞」；v2 另外檢查（checkV2）
   const says = clip.cues.filter((c) => 'say' in c).sort((a, b) => a.at - b.at)
-  if (says.length !== 3) errors.push(`唸了 ${says.length} 句，應該是「字、字、語詞」三句`)
+  if (v2) checkV2(clip, engine, says, errors, warnings)
+  else if (says.length !== 3) errors.push(`唸了 ${says.length} 句，應該是「字、字、語詞」三句`)
   else {
     if (says[0].say !== clip.char || says[1].say !== clip.char) errors.push(`前兩句要唸「${clip.char}」，現在是「${says[0].say}」「${says[1].say}」`)
     if (!says[2].say.includes(clip.char) || says[2].say === clip.char) errors.push(`第三句「${says[2].say}」要是含「${clip.char}」的語詞`)
@@ -99,12 +112,12 @@ function check(clip, { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlac
   for (const g of glyphOps) {
     if (g.do === 'park' && g.at < built + 0.8) errors.push(`國字 ${built.toFixed(2)}s 才拼好，${g.at}s 就 park：至少停 0.8 秒讓小孩看清楚整個字`)
   }
-  if (glyphOps.length) {
+  if (glyphOps.length || v2) {
     const finalPulse = (clip.glyph ?? []).filter((g) => g.do === 'pulse' && g.at >= built).sort((a, b) => b.at - a.at)[0]
     const tEnd = finalPulse ? finalPulse.at : end - 0.85
     const home = glyphPlaceAt(clip, tEnd)
     if (Math.abs(home.k - 1) > 0.01 || Math.abs(home.x - 80) > 0.5 || Math.abs(home.y - 45) > 0.5) {
-      errors.push(`國字 park 之後，${finalPulse ? `結尾 pulse（${tEnd}s）` : `結尾掃光（${tEnd}s）`}前沒有 home 回到正中央`)
+      errors.push(`國字${v2 ? '（v2 一開始就在上方）' : ' park 之後'}，${finalPulse ? `結尾 pulse（${tEnd}s）` : `結尾掃光（${tEnd}s）`}前沒有 home 回到正中央`)
     }
   }
 
@@ -113,8 +126,11 @@ function check(clip, { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlac
   const blocking = new Map()
   for (let t = done; t <= end; t += 0.1) {
     const core = glyphCore(clip, t)
+    // 問他（ask）的時候國字畫在黑幕上面，只有也畫在上面的角色（top、keep）擋得到
+    const ask = engine.askAt(clip, t) > 0 ? engine.askFxAt(clip, t) : null
     for (const a of actorsAt(clip, t)) {
       if (!a.visible || a.o < 0.3) continue
+      if (ask && !a.top && !(ask.keep ?? []).includes(a.id)) continue
       const half = a.size * a.s * 0.4
       if (a.x + half > core.x0 && a.x - half < core.x1 && a.y + half > core.y0 && a.y - half < core.y1) {
         if (!blocking.has(a.id)) blocking.set(a.id, [t, t])
@@ -148,4 +164,101 @@ function check(clip, { actorsAt, fxAt, buildTiming, viewAt, glyphCore, glyphPlac
   if (cut.size) warnings.push(`效果被畫面切掉：${[...cut].slice(0, 4).join('、')}${cut.size > 4 ? '…' : ''}`)
   void buildTiming
   return { errors, warnings }
+}
+
+/** v2 片型的唸字與結構規則（docs/clip-v2-plan.md「規則」標 ✔ 的幾條） */
+function checkV2(clip, engine, says, errors, warnings) {
+  const { actorsAt, fxAt, glyphCore, glyphPlaceAt, glyphDoneAt, askAt } = engine
+  const end = clip.duration
+  const ch = clip.char
+  const words = says.filter((c) => c.say !== ch && c.say !== ASK)
+  const word = words[0]?.say
+  // 唸的順序：字、字、語詞、這是什麼字？、字（字可以多唸，但順序不能亂）
+  const seq = says.map((c) => (c.say === ch ? '字' : c.say === ASK ? '問' : '詞')).join('')
+  if (!/^字字+詞字*問字+$/.test(seq) || words.length !== 1) {
+    errors.push(`唸的順序要是「${ch}、${ch}、語詞、${ASK}、${ch}」，現在是「${says.map((c) => c.say).join('、')}」`)
+  }
+  if (says.filter((c) => c.say === ch).length < 3) errors.push(`「${ch}」至少要唸 3 次`)
+  if (word) {
+    if (!word.includes(ch)) errors.push(`語詞「${word}」要含「${ch}」`)
+    const poly = [...word].filter((c) => c !== ch && POLYPHONIC.has(c))
+    if (poly.length) errors.push(`語詞「${word}」裡的「${poly.join('、')}」是多音字，系統朗讀可能唸錯，換一個詞`)
+  }
+  if (says[0] && (says[0].at < 0.3 || says[0].at > 1.6)) warnings.push(`第一聲在 ${says[0].at}s，v2 要在 0–1.5s（明星抬頭看字框的時候）`)
+  // 每一句都要唸完才接下一句
+  for (let i = 1; i < says.length; i++) {
+    const dur = voiceDur(says[i - 1].say)
+    const gap = says[i].at - says[i - 1].at
+    if (dur !== undefined ? gap < dur + 0.15 : gap < 0.9) warnings.push(`「${says[i - 1].say}」${dur !== undefined ? `要唸 ${dur}s` : ''}，下一句 ${gap.toFixed(2)}s 後就來，會被打斷`)
+  }
+  const last = says.at(-1)
+  if (last && voiceDur(last.say) !== undefined && last.at + voiceDur(last.say) > end) warnings.push(`「${last.say}」${last.at}s 開始會唸到影片結束之後`)
+  for (const c of says) if (VOICE && voiceDur(c.say) === undefined) warnings.push(`「${c.say}」還沒有音檔（跑 npm run voice，或 dev server 開著就會自動補）`)
+  // 問句唸完到回答之間：至少安靜 1.5 秒（不能有唸字也不能有音效）
+  const qi = says.findIndex((c) => c.say === ASK)
+  if (qi >= 0) {
+    const q = says[qi]
+    const qEnd = q.at + (voiceDur(ASK) ?? 1.2)
+    const answer = says[qi + 1]
+    if (answer) {
+      if (answer.at - qEnd < 1.5) errors.push(`問句 ${q.at}s 開始、${qEnd.toFixed(2)}s 唸完，回答 ${answer.at}s 就來：中間要安靜至少 1.5 秒（現在 ${(answer.at - qEnd).toFixed(2)}s）`)
+      const noisy = clip.cues.filter((c) => c.at > q.at && c.at < answer.at && c !== answer && !('say' in c && c.say === ASK))
+      if (noisy.length) errors.push(`問句到回答之間要安靜，現在有聲音：${noisy.map((c) => `${'sfx' in c ? c.sfx : c.say}@${c.at}s`).join('、')}`)
+    }
+    // 問句要在 ask（畫面暗下來只剩國字）裡面
+    if (askAt(clip, q.at + 0.3) < 0.9) errors.push(`問句 ${q.at}s 時畫面沒有暗下來：glyph 要有 { at, dur, do: 'ask' } 蓋住問句`)
+  }
+  // 結尾至少 1 秒只有國字：拼好、在正中央、沒有效果、沒有角色擋字、不在 ask 裡
+  const tail = []
+  if (glyphDoneAt(clip) > end - 1) tail.push(`國字 ${glyphDoneAt(clip).toFixed(2)}s 才拼好`)
+  for (let t = end - 1; t <= end + 1e-6; t += 0.1) {
+    const at = `${t.toFixed(1)}s`
+    const g = glyphPlaceAt(clip, t)
+    if (Math.abs(g.k - 1) > 0.01 || Math.abs(g.x - 80) > 0.5 || Math.abs(g.y - 45) > 0.5) { tail.push(`${at} 國字不在正中央`); break }
+    if (askAt(clip, t) > 0.02) { tail.push(`${at} 還在 ask（畫面暗著）`); break }
+    const fx = fxAt(clip, t).filter((f) => f.o > 0.05)
+    if (fx.length) { tail.push(`${at} 還有效果 ${fx.map((f) => f.emoji ?? (f.line ? 'line' : f.bolt ? 'zap' : '效果')).slice(0, 3).join('')}`); break }
+    // 研究的重點是把圖拿掉、只留字：角色與道具都要退場（畫面外、消失、透明都算）
+    const seen = actorsAt(clip, t).find((a) => {
+      const half = a.size * a.s * 0.45
+      return a.visible && a.o > 0.05 && a.s > 0.05 && a.x + half > 0 && a.x - half < 160 && a.y + half > 0 && a.y - half < 90
+    })
+    if (seen) { tail.push(`${at}「${seen.id}」還在畫面上`); break }
+  }
+  if (tail.length) errors.push(`結尾最後 1 秒要只有國字：${tail.join('；')}`)
+  // 笑點：主笑點＋回馬槍
+  if ((clip.meta?.gags.length ?? 0) > 2) errors.push(`meta.gags 有 ${clip.meta.gags.length} 條，v2 最多 2 條（主笑點、回馬槍）`)
+  // 固定明星
+  const emojis = [...clip.actors.map((a) => a.emoji), ...clip.moves.map((m) => m.emoji ?? '')]
+  if (!emojis.some((e) => STARS.some((s) => e.startsWith(`hero:${s}/`)))) errors.push(`卡司裡要有固定明星（${STARS.join('／')}）`)
+  // 片長
+  if (end < 12 || end > 15) errors.push(`片長 ${end}s，v2 要 12～15 秒`)
+  // 角色、道具不要太多（規則沒有標 ✔，只提醒）
+  if (clip.actors.length > 5) warnings.push(`有 ${clip.actors.length} 個角色＋道具，v2 是角色最多 3 個、道具最多 2 個`)
+  // 空字框階段：還沒填的部分角色經過不算（筆畫本來就是從角色身上飛上去的）；
+  // 已經填上去的筆畫被角色擋住 0.3 秒以上要提醒（等於把小孩已經看到的部件遮掉）
+  const done = glyphDoneAt(clip)
+  const medians = JSON.parse(readFileSync(join(root, 'public/strokes', `${ch}.json`), 'utf8')).medians ?? []
+  const landed = new Map(engine.landings(clip).map((k) => [k.stroke, k.at]))
+  const span = new Map()
+  const report = (id, sp) => { if (sp.to - sp.from >= 0.3) warnings.push(`空字框階段「${id}」擋住已經填上去的部件 ${sp.from.toFixed(1)}–${sp.to.toFixed(1)}s`) }
+  for (let t = 0; t < done; t += 0.1) {
+    const g = glyphPlaceAt(clip, t)
+    const pts = []
+    for (const [i, at] of landed) {
+      if (at > t) continue
+      for (const [px, py] of medians[i] ?? []) {
+        const st = engine.toStage(px, py)
+        pts.push({ x: g.x + (st.x - 80) * g.k, y: g.y + (st.y - 45) * g.k })
+      }
+    }
+    for (const a of actorsAt(clip, t)) {
+      const half = a.size * a.s * 0.4
+      const on = a.visible && a.o >= 0.3 && pts.some((q) => Math.abs(q.x - a.x) < half && Math.abs(q.y - a.y) < half)
+      const sp = span.get(a.id)
+      if (on) { if (!sp || sp.closed) span.set(a.id, { from: t, to: t }); else sp.to = t }
+      else if (sp && !sp.closed) { sp.closed = true; report(a.id, sp) }
+    }
+  }
+  for (const [id, sp] of span) if (!sp.closed) report(id, sp)
 }

@@ -107,6 +107,8 @@ export const FIXED_LINES = {
   puzzleNew: '新的詞！',
   puzzlePicture: '哪一張圖是這個詞？',
   puzzlePerfect: '全部自己拼出來了！好厲害！',
+  /** 識字動畫 v2 的「問他」：畫面暗下來只剩國字，明星轉向觀眾問，安靜等他回答（src/anim/clip.ts 的 ask） */
+  clipAsk: '這是什麼字？',
 }
 
 /**

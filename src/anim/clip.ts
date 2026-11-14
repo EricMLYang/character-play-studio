@@ -91,11 +91,17 @@ export type Cue =
  * 會留下結果的「讓位」：park 在 dur 內把國字縮到 amount 倍（預設 0.55）、移到 to（國字中心，預設畫面上方正中 {80, 21}），
  * 把畫面中央讓給角色演語詞與回馬槍；home 在 dur 內回到正中央原本的大小（結尾 pulse 前一定要回來）。
  * 國字拼好後至少停 0.8 秒才能 park（anim:check 會擋），讓小孩先看清楚整個字。
+ *
+ * ask（問他，v2 片型）：dur 這段時間畫面暗下來（約五成），國字回到正中央原本的大小、畫在黑幕上面亮著、輕輕晃；
+ * 結束後回到原本的位置（要結尾留在正中央，就在 ask 裡面寫 home）。標了 top 的角色、keep 列的角色也畫在黑幕上面
+ * （明星轉向觀眾問「這是什麼字？」；用 keep 不用 top，是因為 top 的角色整支都沒有自動質感）。
+ * 明星要站到前面、變大時，to（國字中心）／amount（倍率）可以讓國字在 ask 時稍微偏一邊、縮一點，空出位置給明星。
  */
 export type GlyphFx =
   | { at: number; dur: number; do: 'wobble' | 'pulse' | 'shake' }
   | { at: number; dur: number; do: 'park'; to?: Vec; amount?: number; ease?: Ease }
   | { at: number; dur: number; do: 'home'; ease?: Ease }
+  | { at: number; dur: number; do: 'ask'; keep?: string[]; to?: Vec; amount?: number }
 
 /**
  * 漫畫效果：跟著角色的頭（或指定的點）走。
@@ -103,11 +109,12 @@ export type GlyphFx =
  * zzz 睡著、pop 頭上冒一個符號（❗❓💡❤️）、rain 往下灑、zap 從 actor 劈一道閃電到 target、fountain 從頭頂噴泉、
  * stink 綠色臭味線往上飄（錨點在角色中心）、line 從 actor 拉一條線到 target 或 to（蜘蛛絲、雷射光）、
  * beam 從 actor 往下打一道牽引光束到地板（飛碟）。
+ * blow 從 actor 的頭（加 dx／dy，例如嘴巴）往 target（或 to）吹一串 💨：哈欠、吹氣、噴嚏把人吹走。
  */
 export type Fx = {
   at: number
   dur?: number
-  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam'
+  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam' | 'blow'
   actor?: string
   /** zap／line 打到誰 */
   target?: string
@@ -123,6 +130,8 @@ export type Fx = {
   y?: number
   emoji?: string
   n?: number
+  /** 整個效果放大幾倍（以錨點為中心）：想法泡泡要看清楚裡面畫什麼時用，例如 1.8。沒寫是 1 */
+  scale?: number
 }
 
 /**
@@ -139,6 +148,12 @@ export type Camera =
 export type Light = { at: number; dur: number; level: number }
 
 export type Clip = {
+  /**
+   * 片型。沒寫是 v1（國字在後半段才在正中央拼起來）。2 是 v2「字是主角」（docs/clip-v2-plan.md）：
+   * 國字從第一格就以「空的字框」（淡淡的輪廓）停在畫面上方（等同 park），筆畫飛上去填進字框；
+   * 第一聲唸字時字框亮一下；填滿後劇本用 home 放大到正中央，之後照舊可 park／home；可以用 glyph 的 ask 問他。
+   */
+  format?: 2
   /** 這支演的國字。故事屋的場景（src/story/scenes/）沒有國字：char 是空字串、builds 是空陣列，引擎就整支當成「國字還沒開始拼」 */
   char: string
   /**
@@ -641,11 +656,15 @@ export type StrokeState = { index: number; color: string; o: number; dx: number;
 /** 每一筆在 t 時的位置；還沒輪到的筆畫不在清單裡。centers 是每一筆中心點（舞台座標）。 */
 export function strokesAt(clip: Clip, t: number, centers: Vec[]): StrokeState[] {
   const out: StrokeState[] = []
+  // 筆畫畫在國字那層（跟著國字的位置與大小）。v2 的國字在拼的時候是讓位的樣子，
+  // 起點（舞台座標）要換成國字那層的座標，筆畫才會從角色身上飛出來、落進字框當下的位置
+  const g = isV2(clip) ? glyphPlaceAt(clip, t) : null
+  const local = (p: Vec): Vec => (g ? { x: GLYPH_MID.x + (p.x - g.x) / g.k, y: GLYPH_MID.y + (p.y - g.y) / g.k } : p)
   for (const b of clip.builds) {
     const timing = buildTiming(b)
-    const src = typeof b.from === 'string'
+    const src = local(typeof b.from === 'string'
       ? (() => { const a = actorsAt(clip, b.at).find((x) => x.id === b.from); return a ? { x: a.x, y: a.y } : { x: 80, y: 45 } })()
-      : b.from
+      : b.from)
     b.strokes.forEach((index, i) => {
       const start = b.at + timing.stagger * i
       if (t < start) return
@@ -698,11 +717,66 @@ type GlyphMove = Extract<GlyphFx, { do: 'park' | 'home' }>
 const isGlyphMove = (g: GlyphFx): g is GlyphMove => g.do === 'park' || g.do === 'home'
 
 /**
+ * v2 的空字框：還沒拼上去的筆畫在 t 的淡淡輪廓（o 是這一筆輪廓的透明度：筆畫快落定時淡掉），
+ * glow 是字框亮一下的力道（拼好之前唸到這個字的那一刻）。v1 是 null。n 是這個字的筆畫數。
+ */
+export function emptyFrameAt(clip: Clip, t: number, n: number) {
+  if (!isV2(clip)) return null
+  const land = new Map(landings(clip).map((k) => [k.stroke, k.at]))
+  const strokes: { index: number; o: number }[] = []
+  for (let i = 0; i < n; i++) {
+    const at = land.get(i) ?? Infinity
+    const o = clamp((at - t) / 0.2)
+    if (o > 0) strokes.push({ index: i, o })
+  }
+  const done = glyphDoneAt(clip)
+  let glow = 0
+  for (const c of clip.cues) {
+    if (!('say' in c) || c.say !== clip.char || c.at >= done || t < c.at || t > c.at + 0.7) continue
+    glow = Math.max(glow, Math.sin((Math.PI * (t - c.at)) / 0.7))
+  }
+  return { strokes, glow }
+}
+
+/**
  * 國字在 t 的位置與大小（讓位的結果）：x、y 是國字中心，k 是倍率。沒寫 park 的劇本永遠是正中央、1 倍。
  * 每一個 park／home 從「上一個在它開始時的位置」漸變到自己的目標，跟 zoom 一樣只由 t 決定。
  */
 export function glyphPlaceAt(clip: Clip, t: number) {
+  const rest = glyphRestAt(clip, t)
+  // 問他（ask）的那段時間：國字回到正中央原本的大小，結束後回到原本的位置
+  const w = askAt(clip, t)
+  if (!w) return rest
+  const a = askFxAt(clip, t)
+  const to = { x: a?.to?.x ?? GLYPH_MID.x, y: a?.to?.y ?? GLYPH_MID.y, k: a?.amount ?? 1 }
+  return { x: lerp(rest.x, to.x, w), y: lerp(rest.y, to.y, w), k: lerp(rest.k, to.k, w) }
+}
+
+/** v2 片型（format: 2）：字從第一格就在 */
+export const isV2 = (clip: Clip) => clip.format === 2
+
+/** ask 進出各用多久漸變（暗下來、國字放大到正中央） */
+const ASK_RAMP = 0.35
+
+/** 問他（ask）在 t 的力道：0 沒有，1 完全暗下來、國字在正中央 */
+export function askAt(clip: Clip, t: number) {
+  let w = 0
+  for (const g of clip.glyph ?? []) {
+    if (g.do !== 'ask' || t < g.at || t > g.at + g.dur) continue
+    const r = Math.min(ASK_RAMP, g.dur / 3)
+    w = Math.max(w, easeInOut(clamp((t - g.at) / r)) * easeInOut(clamp((g.at + g.dur - t) / r)))
+  }
+  return w
+}
+
+/** t 正在進行的 ask（播放器用它的 keep 決定哪些角色畫在黑幕上面） */
+export const askFxAt = (clip: Clip, t: number) =>
+  (clip.glyph ?? []).find((g): g is Extract<GlyphFx, { do: 'ask' }> => g.do === 'ask' && t >= g.at && t <= g.at + g.dur)
+
+/** 讓位（park／home）的結果，不含 ask。v2 的國字一開始就在讓位的位置（畫面上方） */
+function glyphRestAt(clip: Clip, t: number) {
   let x = GLYPH_MID.x, y = GLYPH_MID.y, k = 1
+  if (isV2(clip)) { x = PARK.x; y = PARK.y; k = PARK.k }
   const ops = (clip.glyph ?? []).filter(isGlyphMove).sort((a, b) => a.at - b.at)
   for (const g of ops) {
     if (t < g.at) break
@@ -737,6 +811,8 @@ export function glyphAt(clip: Clip, t: number) {
     if (fx.do === 'pulse') s *= 1 + 0.06 * k
     if (fx.do === 'wobble') r += 4 * Math.sin(p * Math.PI * 4) * (1 - p)
     if (fx.do === 'shake') dx += 1.2 * Math.sin(p * Math.PI * 14) * (1 - p)
+    // 問他：在黑幕上輕輕左右晃，像在說「你看我」
+    if (fx.do === 'ask') r += 2.5 * Math.sin((t - fx.at) * Math.PI * 1.6) * askAt(clip, t)
   }
   return { dx, s, r, x, y, k }
 }
@@ -747,7 +823,7 @@ export const FLOOR = 74
 export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean;
   line?: { from: Vec; to: Vec; color: string; width: number }; beam?: Vec[]; x: number; y: number; size: number; o: number; s: number; r: number }
 
-const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1 }
+const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1, blow: 0.6 }
 
 export function fxAt(clip: Clip, t: number): FxItem[] {
   const out: FxItem[] = []
@@ -763,6 +839,7 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
     const fade = clamp(Math.min(p / 0.12, (1 - p) / 0.2))
     const n = f.n ?? 0
     const key = (i: number) => `${fi}-${i}`
+    const first = out.length
     switch (f.kind) {
       case 'burst': {
         if ((n || 1) === 1) {
@@ -878,6 +955,27 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
           out.push({ key: key(i), emoji: f.emoji ?? '💧', x: head.x - 10 + (i * 37 % 20), y: head.y + 4 + 30 * q * q, size: 4, o: 1 - q * 0.5, s: 1, r: 0 })
         }
         break
+      case 'blow': {
+        // 一串 💨 從嘴巴飛向對方，一個接一個、越飛越大
+        const b = f.target ? actors.get(f.target) : undefined
+        const end = b ? { x: b.x, y: b.y - b.size * 0.15 } : f.to
+        if (!end) break
+        const m = n || 4
+        for (let i = 0; i < m; i++) {
+          const q = clamp(p * 1.6 - (i / m) * 0.6)
+          if (q <= 0 || q >= 1) continue
+          const wob = Math.sin(q * Math.PI * 2 + i) * 2
+          out.push({ key: key(i), emoji: f.emoji ?? '💨', x: lerp(head.x, end.x, q), y: lerp(head.y, end.y, q) + wob, size: 5 + 4 * q, o: Math.min(1, Math.sin(Math.PI * q) * 1.4), s: 1, r: 0 })
+        }
+        break
+      }
+    }
+    // 放大整個效果（以錨點為中心）
+    if (f.scale !== undefined) {
+      for (let i = first; i < out.length; i++) {
+        const it = out[i]
+        it.x = head.x + (it.x - head.x) * f.scale; it.y = head.y + (it.y - head.y) * f.scale; it.s *= f.scale
+      }
     }
   })
   autoDust(clip, t, actors, out)
@@ -984,6 +1082,8 @@ export function autoCamGrid(clip: Clip) {
   if (hit && hit.n === sig) return hit
   const firstBuild = Math.min(...clip.builds.map((b) => b.at), clip.duration)
   const done = glyphDoneAt(clip)
+  // v2：國字從第一格就在畫面上方，整支都要整個留在畫面裡（跟 v1 國字拼好以後一樣）；拼字時也不用退回全景
+  const v2 = isV2(clip)
   // 結尾國字 pulse（或最後一秒）之前回到全景，國字最後一定是置中、完整、大大的
   // 沒有國字的場景（故事屋）開頭結尾都不退回全景：鏡頭一直框著在演的角色，下一段從同樣的站位接著演，換頁時鏡頭才不會一遠一近
   const glyphless = !hasGlyph(clip)
@@ -999,14 +1099,16 @@ export function autoCamGrid(clip: Clip) {
   for (let i = 0; i < n; i++) {
     const t = i * CAM_DT
     // 開場先給一眼全景（看清楚誰在哪裡），再推近
-    if (!glyphless && (t < 0.2 || (t >= firstBuild - 0.05 && t <= done + 0.3) || t >= finale)) hard[i] = 1
+    if (!glyphless && (t < 0.2 || (!v2 && t >= firstBuild - 0.05 && t <= done + 0.3) || t >= finale)) hard[i] = 1
+    // 問他（ask）：全景，國字在正中央
+    if (v2 && (clip.glyph ?? []).some((g) => g.do === 'ask' && t >= g.at - 0.3 && t <= g.at + g.dur + 0.1)) hard[i] = 1
     if (t > done && (clip.camera ?? []).some((c) => (c.do === 'punch' || c.do === 'shake') && t >= c.at - 0.05 && t <= c.at + c.dur)) hard[i] = 1
     if (lasting.length && scriptedCam(clip, lasting, t).z > 1.005) scripted[i] = 1
   }
   const banned = hard
   // 每一格要框住的範圍（左、右、上、下）；沒有要框的就是 NaN
   const box = [0, 1, 2, 3].map(() => new Float32Array(n).fill(NaN))
-  const postAt = (i: number) => i * CAM_DT > done
+  const postAt = (i: number) => v2 || i * CAM_DT > done
   for (let i = 0; i < n; i++) {
     if (banned[i]) continue
     const t = i * CAM_DT

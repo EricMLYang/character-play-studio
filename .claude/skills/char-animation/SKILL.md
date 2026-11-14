@@ -130,6 +130,32 @@ ffmpeg -i 字-old.mp4 -i 字-new.mp4 -filter_complex hstack -c:v libx264 -pix_fm
 使用者要 commit 時：
 直接 commit 到 main，**逐一 stage 自己改的檔案**，不要 `git add -A`；`data/characters.json` 常有家長在 Studio 的變更，不是你的就不要帶進去。
 
+## v2 片型（2026-11 起重做的劇本都用這個）
+
+規格、時間表、固定明星、流程都在 **`docs/clip-v2-plan.md`**，動手前先讀；樣板是 `src/anim/clips/貓.ts`。
+判準從「好不好笑」改成「看完認不認得這個字」：字從第一格就在、一個笑點做三次、最後停下來問他。下面「設計守則」的 10 秒結構是 v1 的，v2 照規格的時間表。
+
+- **`format: 2`**：劇本寫了才是 v2，沒寫的 v1 劇本畫面、檢查一格都不變。片長 12～15 秒。
+- **空字框**（引擎自動）：國字從 t=0 就以淡輪廓（白底＋深色虛線邊）停在讓位的位置（畫面上方，等同 park），
+  還沒拼上去的筆畫才畫輪廓、落定那一刻淡掉；拼好之前每唸一次這個字，字框亮一下（黃色）。
+  builds 的筆畫會落進字框**當下**的位置與大小，起點照舊是 `from` 的角色。字框填滿後劇本自己寫 `home` 放大到正中央，之後照舊 `park`／`home`。
+- **問他 `ask`**：glyph 加 `{ at, dur, do: 'ask', keep?: ['pig'], to?, amount? }`。這段時間畫面暗五成，國字回到正中央原本大小、畫在黑幕上面、輕輕晃；
+  這是整支最重要的兩秒：明星走到前面、`scaleTo` 放大（「貓」是 1.55 倍）面向觀眾，安靜時做「等你回答」的動作（往字那邊傾、側耳 👂、點頭），回答時跳起來指著字。
+  明星變大沒位置時，用 `to`（國字中心）／`amount`（倍率）讓國字在 ask 時稍微偏一邊、縮一點（「貓」是 `to: { x: 96, y: 43 }, amount: 0.82`，左前方給明星）；
+  `keep` 列的角色（明星）和 `top` 的角色也畫在上面。結束後國字回到原位，所以要結尾留在正中央就在 ask 裡面寫 `home`。鏡頭在 ask 時自動全景。
+  明星用 `keep` 不要用 `top`：`top` 的角色整支都沒有自動質感（步伐、小動作）。
+- **問句**是固定句 `FIXED_LINES.clipAsk`（「這是什麼字？」，`shared/voice-lines.mjs`）：劇本 `import { FIXED_LINES } from '../../../shared/voice-lines.mjs'`，
+  寫 `{ at, say: FIXED_LINES.clipAsk }`。音檔跟其他固定句一起做（`npm run voice`）。
+- **部件顏色 `src/anim/parts.ts`**：builds 的 color 寫 `partColor('豸')`；同一個部件每支同一個顏色、照表上的來歷（木＝樹上掉下來、氵＝水滴）。
+  組合部件（苗＝艹＋田）可以拆兩組或合成一組。表裡沒有的部件先登記（顏色要跟表裡的分得開、在淺色背景上夠深）再用。
+- **`anim:check` 對 v2 換一套錯誤**：唸的順序「字、字、語詞、這是什麼字？、字」（字至少 3 次）、問句唸完到回答之間安靜 ≥ 1.5 秒（不能有任何 cue）、
+  問句要在 ask 裡、最後 1 秒只有國字（拼好、在正中央、沒有效果、**畫面上看不到任何角色與道具**——回答後全部退場、不在 ask 裡）、`meta.gags` ≤ 2、卡司有固定明星（pig／raccoon／mouse／sheriff／yang）、片長 12～15 秒、
+  結尾國字要在正中央。擋字、出界、鏡頭切字、會被打斷照舊；ask 時只有 `keep`／`top` 的角色算擋字；空字框階段角色經過**還沒填**的部分不算，**已經填上去的部件**被角色擋住 0.3 秒以上會提醒（注意）：跳高、拋高的動作要讓角色整個在字框下方。
+- **明星是說故事的人，不要太小**：跟「這個字講的東西」比是「它比他大一點」（「貓」：大貓 size 34、豬探長 24）。
+  想法泡泡等效果可以加 `scale`（以錨點放大，「貓」的猜錯泡泡是 1.8），泡泡裡畫的東西要一眼看得出來；放大的泡泡要用 `dx` 避開字框。
+- **吹人用 `blow`**（fx）：`{ at, kind: 'blow', actor: 'cat', target: 'pig', dx, dy, n?, scale? }`，一串 💨 從 actor 頭上（加 dx／dy 對到嘴巴）飛向 target，哈欠、吹氣、噴嚏的因果才看得懂。
+- 片長變長，`anim:shot` 總覽用 `--rows 10`（15 秒 60 格）。
+
 ## 設計守則
 
 ### 結構（10 秒）
@@ -260,6 +286,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **fx**（跟著角色頭頂，可用 dx/dy 偏移）：`burst`（n=1 是 💥，n>1 是一圈 emoji）、`dizzy`、`bubble`（想法泡泡＋emoji）、
   `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`、
   `line`（從 actor 拉線到 target 或 to：蜘蛛絲白色細線、雷射紅色粗線，用 color／width）、`beam`（飛碟往下的牽引光束，n 是底部寬度）
+  、`blow`（從 actor 嘴巴往 target 或 to 吹一串 💨）；每個效果都可以加 `scale`（以錨點放大幾倍）
 - **camera**：做完就回原狀 `{ at, dur, do: 'punch'|'shake', amount?, to? }`；會留下結果（維持到下一個）：
   `{ do: 'zoom', amount?(倍率，1 = 全景), to? | actor? }`、`{ do: 'follow', actor, amount? }`（跟拍）。視野永遠不會推出背景外面。
 - **lights**：`{ at, dur, level }`，0 正常、1 全黑、負數是白色閃光（相機閃光燈：-0.9 再 0.3 秒回到 0）
@@ -268,6 +295,9 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   `anim:check`：國字拼好不到 0.8 秒就 park、park 之後結尾 pulse 時還沒 home，都是**錯誤**；「擋住國字」「鏡頭切掉國字」照國字當下的位置與大小算。
   讓位後國字變小在上方（核心範圍約 x 66–94、y 7.5–35），角色可以在中間跳、站上東西，但頭上的符號、往上飛的東西要避開那一塊。
   引擎函式：`glyphPlaceAt`（中心與倍率）、`glyphBoxAt`（整個字的範圍）、`glyphCore(clip, t)`（擋字檢查的範圍）。
+  v2 另有 `{ at, dur, do: 'ask', keep?, to?, amount? }`（問他：暗下來、國字到正中央亮著，見「v2 片型」）；v2 的國字一開始就在讓位的位置。
+  引擎函式：`askAt`（ask 的力道 0～1）、`emptyFrameAt`（空字框的輪廓與亮度）、`isV2`。
+- **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
 
