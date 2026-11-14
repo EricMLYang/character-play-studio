@@ -1,0 +1,7 @@
+{
+  "about": "第八張道具表（2026-11，Codex 生圖，洋紅底 3×3）：半月形水餃、咬一口露出餡的水餃（跟水餃同一個比例可以 swap）、一盤水餃、鍋裡滾著水餃的大鍋、筷子夾水餃、一碟醬油、一袋撒出來的麵粉、粉紅色大腦、藍色雙肩書包。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-8.png",
+  "key": "#FF00FF",
+  "props": ["dumpling", "dumpling-bite", "dumpling-plate", "dumpling-pot", "dumpling-chopsticks", "soy", "flour", "brain", "backpack"],
+  "together": [["dumpling", "dumpling-bite"]]
+}

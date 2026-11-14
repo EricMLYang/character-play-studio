@@ -1,197 +1,274 @@
-import type { Clip } from '../clip'
-import { pressStack } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 餃（重做）：廚房地上一顆會鼓氣的大水餃，豬探長伸手去拿——水餃鼓起來「呼」一口熱氣把他吹退；披風英雄飛過去撲——水餃鼓更大，像彈簧床把他彈飛。
-// 兩個一起從兩邊用力擠，水餃越擠越鼓「碰」地炸開變成「食」，裡面藏的小水餃飛上天落成「交」，最後一顆掉在豬探長頭上。國字讓到上方，英雄搬來一鍋熱水，水餃從豬探長頭上滑進鍋裡，「噗通」浮起變大（水餃）。
-// 回馬槍：兩個張大嘴撲上去，水餃鼓成超大顆「呼」——兩個被吹飛轉圈，鍋子翻過來扣在英雄頭上，水餃又跳回豬探長頭上。餃、餃、水餃
-const G = 66.9 // 豬探長、英雄（size 24）站在地上的 y
-const P = 57 // 豬探長頭頂上的小水餃
+// 餃（v2）：剛起鍋的一大鍋水餃還在冒煙，最快的忍者小老鼠等不及——每次夾起水餃就往嘴裡塞，「燙！」嘴巴噴出一團火、臉漲紅吐舌頭，
+// 整個人跳起來原地打轉，一次比一次誇張：塞一顆（跳一下轉一圈，飠從嘴裡噴出來）、一口塞兩顆（轉兩圈滾到畫面邊，交的頭）、
+// 先停一拍看著整盤……整盤倒進嘴裡（被燙上天，交的下半）。
+// 回馬槍：他學乖了，夾起一顆先用力吹涼——吹太大力，整鍋水餃被吹得噴上天，一顆一顆掉進他張大的嘴裡，燙到最大的一次。
+// 最後畫面暗下來只剩「餃」，小老鼠轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「餃！」，然後退場只留字。
+// 餃、餃、水餃、這是什麼字？、餃
+const P = 66.9 // 小老鼠（size 24）站在地上的 y
+/** 大鍋（prop:dumpling-pot）：畫面上最大、在中間偏右 */
+const PX = 120, PS = 46, PY = 77 - 0.42 * PS
+/** 小老鼠每次出發的地方 */
+const HOME = 36
+/** 每次都衝到同一個地方：鍋子左邊 */
+const GRAB = PX - 32
+/** 嘴巴的位置（小老鼠朝右，站在 GRAB） */
+const MX = GRAB + 6, MY = P - 11
+/** 燙到以後臉漲紅、抖著停多久，才跳起來 */
+const HOLD = 0.45
+
+/**
+ * 「啊嗚—燙！」：把水餃塞進嘴裡那一刻（at）換成辣到的臉（臉紅、吐舌頭、搧風、噴淚），嘴巴噴出一團 🔥＋鏡頭推近＋震＋白光＋同一個音效，
+ * 抖著停 HOLD 秒（臉看得清楚）。k 是第幾次（越後面越大）。跳起來、飛多遠由呼叫的地方寫。
+ */
+function burn(at: number, k: number) {
+  const moves: Move[] = [
+    { at, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/spicy' },
+    { at, actor: 'mouse', do: 'squash', amount: -0.18 - 0.04 * k, dur: 0.25 },
+    { at: at + 0.12, actor: 'mouse', do: 'shake', amount: 1.2 + 0.4 * k, dur: HOLD - 0.12 },
+    // 鍋子也跟著噗一下
+    { at, actor: 'pot', do: 'squash', amount: 0.12, dur: 0.25 },
+  ]
+  const fx: Fx[] = [
+    // 嘴巴噴出一團火（在臉的右前方，不蓋住臉），一次比一次大
+    { at, kind: 'burst', x: MX + 9, y: MY - 1, emoji: '🔥', n: 1, dur: HOLD, scale: 1.5 + 0.4 * k },
+    // 第 2 次起多噴一圈小火
+    ...(k >= 1 ? [{ at, kind: 'burst' as const, x: MX + 9, y: MY - 2, emoji: '🔥', n: 3 + 2 * k, dur: 0.45, scale: 0.8 + 0.2 * k }] : []),
+    { at: at + 0.05, kind: 'burst', x: MX - 2, y: MY - 12, emoji: '💦', n: 3 + k, dur: 0.35, scale: 0.8 + 0.15 * k },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.05 + 0.02 * k, to: { x: MX + 4, y: MY } },
+    { at, dur: 0.3, do: 'shake', amount: 0.8 + 0.45 * k },
+  ]
+  const cues: Cue[] = [{ at, sfx: 'poof' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'hic' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'bonk' })
+  return { moves, fx, camera, cues }
+}
+
+/** 衝到鍋子旁邊、水餃出現在手上、換張大嘴吃的姿勢塞進去（at 是塞進嘴裡、燙到的那一刻） */
+function stuff(at: number, items: { id: string; emoji: string; dx: number; dy: number }[]): Move[] {
+  return [
+    { at: at - 0.75, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: at - 0.75, actor: 'mouse', do: 'moveTo', to: { x: GRAB, y: P }, dur: 0.25, anticipate: 4, ease: 'in' },
+    { at: at - 0.5, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/drool' },
+    ...items.flatMap(({ id, emoji, dx, dy }, i): Move[] => [
+      // 從鍋裡撈出來，跳到手上
+      { at: at - 0.5 + 0.05 * i, actor: id, do: 'swap', emoji },
+      { at: at - 0.5 + 0.05 * i, actor: id, do: 'moveTo', to: { x: PX - 4, y: PY - 14 }, dur: 0.01 },
+      { at: at - 0.49 + 0.05 * i, actor: id, do: 'pop', dur: 0.1 },
+      { at: at - 0.47 + 0.05 * i, actor: id, do: 'moveTo', to: { x: MX + dx, y: MY + dy }, arc: 6, dur: 0.2, ease: 'out' },
+      // 一口塞進去
+      { at: at - 0.12, actor: id, do: 'moveTo', to: { x: MX + 1, y: MY + 1 }, dur: 0.1, ease: 'in' },
+      { at: at - 0.03, actor: id, do: 'vanish', dur: 0.04 },
+    ]),
+    { at: at - 0.14, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/eat' },
+  ]
+}
+
+const H1 = 1.75, H2 = 3.55, H3 = 6.05, H4 = 10.0
+const b1 = burn(H1, 0)
+const b2 = burn(H2, 1)
+const b3 = burn(H3, 2)
+const b4 = burn(H4, 3)
+/** 燙完跳起來的時刻 */
+const R1 = H1 + HOLD, R2 = H2 + HOLD, R3 = H3 + HOLD, R4 = H4 + HOLD
+/** 語詞那一刻：鍋裡跳出一顆水餃到筷子上 */
+const WORD = 8.4
+/** 第 4 次：用力吹的時刻 */
+const BLOW = 9.0
 
 const clip: Clip = {
+  format: 2,
   char: '餃',
-  meta: { theme: '會鼓氣的大水餃', cast: '豬探長＋披風英雄＋會鼓氣吹熱氣的大水餃＋小水餃＋一鍋熱水', gags: ['伸手拿被熱氣吹退', '飛撲被鼓起的水餃彈飛', '兩邊一起擠炸開變成字', '小水餃掉在頭上', '張嘴撲上去被吹飛鍋子扣頭上'] },
-  duration: 10,
-  bg: { top: '#D3F9D8', bottom: '#F4FCE3', floor: '#E9C38F', scenery: 'room' },
+  meta: { theme: '忍者小老鼠等不及吃剛起鍋的水餃', cast: '小老鼠＋一大鍋水餃＋夾起來的水餃', gags: ['最快的小老鼠等不及，每次夾起剛起鍋的水餃就往嘴裡塞，燙到嘴巴噴火、跳起來原地打轉，一次比一次多（一顆→兩顆→整盤）、一次比一次飛得遠；回馬槍是他學乖了先用力吹涼，吹太大力把整鍋水餃吹上天，一顆顆掉進他嘴裡，燙到最大的一次'] },
+  duration: 15,
+  bg: { top: '#FFE3C2', bottom: '#FFF6E8', floor: '#D9B48A', scenery: 'room' },
   actors: [
-    { id: 'd5', emoji: '🥟', x: 80, y: 66, size: 9, hidden: true, pivot: 'center' },
-    { id: 'pot', emoji: '🍲', x: 149, y: 71.1, size: 14, pivot: 'center' },
-    { id: 'dump', emoji: '🥟', x: 80, y: 68.6, size: 20, pivot: 'center' },
-    { id: 'd1', emoji: '🥟', x: 80, y: 66, size: 7, hidden: true, pivot: 'center' },
-    { id: 'd2', emoji: '🥟', x: 80, y: 66, size: 7, hidden: true, pivot: 'center' },
-    { id: 'd3', emoji: '🥟', x: 80, y: 66, size: 7, hidden: true, pivot: 'center' },
-    { id: 'd4', emoji: '🥟', x: 80, y: 66, size: 7, hidden: true, pivot: 'center' },
-    { id: 'pig', emoji: 'hero:pig/idle', x: 28, y: G, size: 24, hidden: true, flip: true },
-    { id: 'hero', emoji: 'hero:cape/idle', x: 128, y: G, size: 24, hidden: true },
+    { id: 'pot', emoji: 'prop:dumpling-pot', x: PX, y: PY, size: PS },
+    // 夾起來的水餃：每次換成那一次塞的東西（筷子夾一顆／一顆水餃／整盤）
+    { id: 'a', emoji: 'prop:dumpling-chopsticks', x: MX + 8, y: MY + 2, size: 15, hidden: true, pivot: 'center' },
+    { id: 'b', emoji: 'prop:dumpling', x: MX + 8, y: MY + 6, size: 11, hidden: true, pivot: 'center' },
+    // 姿勢圖朝左，翻過來面向右邊的鍋子
+    { id: 'mouse', emoji: 'hero:mouse/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
-    // 兩個從兩邊進場，都看到地上那顆大水餃
-    { at: 0, actor: 'pig', do: 'enter', from: { x: -15, y: G }, dur: 0.5, ease: 'out' },
-    { at: 0.05, actor: 'hero', do: 'enter', from: { x: 175, y: G }, dur: 0.5, ease: 'out' },
-    { at: 0.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
-    { at: 0.6, actor: 'dump', do: 'tilt', amount: 10, dur: 0.4 },
-    // 豬探長先走過去伸手
-    { at: 1.0, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
-    { at: 1.0, actor: 'pig', do: 'moveTo', to: { x: 60, y: G }, dur: 0.55 },
-    { at: 1.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
-    { at: 1.6, actor: 'pig', do: 'squash', amount: -0.15, dur: 0.3 },
-    // 水餃鼓起來，「呼」一口熱氣把他吹退
-    { at: 1.65, actor: 'dump', do: 'scaleTo', amount: 1.45, dur: 0.3, ease: 'back' },
-    { at: 1.95, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    { at: 1.95, actor: 'pig', do: 'moveTo', to: { x: 24, y: G }, dur: 0.45, ease: 'out' },
-    { at: 1.95, actor: 'pig', do: 'tilt', amount: -14, dur: 0.45 },
-    { at: 2.05, actor: 'dump', do: 'scaleTo', amount: 1 / 1.45, dur: 0.35, ease: 'out' },
-    { at: 2.3, actor: 'hero', do: 'bounce', amount: 1.5, times: 2, dur: 0.4 },
-    // 英雄擺姿勢、蹲下蓄力、飛撲
-    { at: 2.6, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
-    { at: 2.75, actor: 'hero', do: 'squash', amount: 0.25, dur: 0.2 },
-    { at: 2.95, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
-    { at: 2.95, actor: 'hero', do: 'moveTo', to: { x: 100, y: 62 }, dur: 0.3, ease: 'in', anticipate: 4 },
-    // 水餃一鼓，像彈簧床把他彈飛
-    { at: 3.12, actor: 'dump', do: 'scaleTo', amount: 1.6, dur: 0.12, ease: 'out' },
-    { at: 3.25, actor: 'dump', do: 'squash', amount: 0.3, dur: 0.3 },
-    { at: 3.25, actor: 'hero', do: 'moveTo', to: { x: 136, y: G }, arc: 20, dur: 0.6, ease: 'out' },
-    { at: 3.25, actor: 'hero', do: 'spin', times: -1, dur: 0.6, pivot: 'center' },
-    { at: 3.6, actor: 'dump', do: 'scaleTo', amount: 1 / 1.6, dur: 0.3 },
-    { at: 3.85, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
-    { at: 3.5, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    // 兩個互看一眼：一起來！
-    { at: 4.15, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
-    { at: 4.15, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
-    { at: 4.45, actor: 'pig', do: 'moveTo', to: { x: 62, y: G }, dur: 0.3, ease: 'in', anticipate: 4 },
-    { at: 4.45, actor: 'hero', do: 'moveTo', to: { x: 98, y: G }, dur: 0.3, ease: 'in', anticipate: 4 },
-    // 從兩邊用力擠，水餃越擠越鼓
-    { at: 4.75, actor: 'dump', do: 'scaleTo', amount: 1.9, dur: 0.35, ease: 'out' },
-    { at: 4.75, actor: 'dump', do: 'shake', amount: 1, dur: 0.35 },
-    { at: 4.75, actor: 'pig', do: 'squash', amount: 0.2, dur: 0.35 },
-    { at: 4.75, actor: 'hero', do: 'squash', amount: 0.2, dur: 0.35 },
-    // 「碰」！炸開，兩個被炸飛，裡面的小水餃飛上天
-    { at: 5.1, actor: 'dump', do: 'vanish', dur: 0.08 },
-    { at: 5.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    { at: 5.1, actor: 'pig', do: 'moveTo', to: { x: 20, y: G }, arc: 10, dur: 0.5, ease: 'out' },
-    { at: 5.1, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
-    { at: 5.1, actor: 'hero', do: 'moveTo', to: { x: 128, y: G }, arc: 10, dur: 0.5, ease: 'out' },
-    ...(['d1', 'd2', 'd3', 'd4', 'd5'] as const).map((actor) => ({ at: 5.1, actor, do: 'pop' as const, dur: 0.12 })),
-    { at: 5.1, actor: 'd1', do: 'moveTo', to: { x: 64, y: 16 }, dur: 0.35, ease: 'out' },
-    { at: 5.1, actor: 'd2', do: 'moveTo', to: { x: 78, y: 9 }, dur: 0.35, ease: 'out' },
-    { at: 5.1, actor: 'd3', do: 'moveTo', to: { x: 92, y: 12 }, dur: 0.35, ease: 'out' },
-    { at: 5.1, actor: 'd4', do: 'moveTo', to: { x: 104, y: 19 }, dur: 0.35, ease: 'out' },
-    { at: 5.1, actor: 'd5', do: 'moveTo', to: { x: 36, y: 10 }, dur: 0.35, ease: 'out' },
-    ...(['d1', 'd2', 'd3', 'd4', 'd5'] as const).map((actor, i) => ({ at: 5.1, actor, do: 'spin' as const, times: i % 2 ? -2 : 2, dur: 0.5 })),
-    // 四顆小水餃落下來變成「交」
-    ...(['d1', 'd2', 'd3', 'd4'] as const).map((actor) => ({ at: 5.5, actor, do: 'vanish' as const, dur: 0.12 })),
-    // 最後一顆掉在豬探長頭上
-    { at: 5.5, actor: 'd5', do: 'moveTo', to: { x: 20, y: P }, dur: 0.4, ease: 'in' },
-    { at: 5.9, actor: 'pig', do: 'squash', amount: 0.2, dur: 0.25 },
-    ...pressStack(5.9, 0.25, 0.2, 24, ['d5']),
-    { at: 5.65, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
-    { at: 6.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    { at: 6.45, actor: 'pig', do: 'hop', amount: 3, dur: 0.3 },
-    { at: 6.45, actor: 'd5', do: 'hop', amount: 3, dur: 0.3 },
-    { at: 6.5, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
-    // 國字讓位：英雄去搬那鍋熱水，豬探長頂著水餃走到中間
-    { at: 6.95, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
-    { at: 6.95, actor: 'hero', do: 'moveTo', to: { x: 140, y: G }, dur: 0.25 },
-    { at: 7.25, actor: 'pot', do: 'moveTo', to: { x: 90, y: 64 }, dur: 0.45 },
-    { at: 7.25, actor: 'hero', do: 'moveTo', to: { x: 106, y: G }, dur: 0.45 },
-    { at: 7.7, actor: 'pot', do: 'moveTo', to: { x: 84, y: 71.1 }, dur: 0.15, ease: 'in' },
-    { at: 6.95, actor: 'pig', do: 'moveTo', to: { x: 60, y: G }, dur: 0.6 },
-    { at: 6.95, actor: 'd5', do: 'moveTo', to: { x: 60, y: P }, dur: 0.6 },
-    // 歪頭，水餃從頭上滑進鍋裡——「噗通」浮起來變大
-    { at: 7.75, actor: 'pig', do: 'tilt', amount: 22, dur: 0.45 },
-    { at: 7.8, actor: 'd5', do: 'moveTo', to: { x: 84, y: 66 }, arc: 8, dur: 0.3, ease: 'in' },
-    { at: 7.8, actor: 'd5', do: 'spin', times: 1, dur: 0.3 },
-    { at: 8.1, actor: 'pot', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 8.15, actor: 'd5', do: 'moveTo', to: { x: 84, y: 58 }, dur: 0.3, ease: 'back' },
-    { at: 8.15, actor: 'd5', do: 'scaleTo', amount: 2.1, dur: 0.3, ease: 'back' },
-    { at: 8.2, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    { at: 8.2, actor: 'pig', do: 'hop', amount: 5, dur: 0.3 },
-    { at: 8.2, actor: 'hero', do: 'swap', emoji: 'hero:cape/happy' },
-    { at: 8.2, actor: 'hero', do: 'hop', amount: 5, dur: 0.3 },
-    // 回馬槍：兩個張大嘴撲上去，水餃鼓成超大顆「呼」——全部吹飛
-    { at: 8.5, actor: 'pig', do: 'moveTo', to: { x: 68, y: G }, dur: 0.18, ease: 'in' },
-    { at: 8.5, actor: 'hero', do: 'moveTo', to: { x: 99, y: G }, dur: 0.18, ease: 'in' },
-    { at: 8.6, actor: 'd5', do: 'scaleTo', amount: 1.25, dur: 0.15, ease: 'back' },
-    { at: 8.8, actor: 'pig', do: 'swap', emoji: 'hero:pig/dizzy' },
-    { at: 8.8, actor: 'pig', do: 'moveTo', to: { x: 22, y: G }, arc: 16, dur: 0.55, ease: 'out' },
-    { at: 8.8, actor: 'pig', do: 'spin', times: -1, dur: 0.55, pivot: 'center' },
-    { at: 8.8, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
-    { at: 8.8, actor: 'hero', do: 'moveTo', to: { x: 134, y: G }, arc: 22, dur: 0.6, ease: 'out' },
-    { at: 8.8, actor: 'hero', do: 'spin', times: 1, dur: 0.6, pivot: 'center' },
-    // 鍋子翻過來飛上天，扣在英雄頭上
-    { at: 8.8, actor: 'pot', do: 'moveTo', to: { x: 134, y: 57.5 }, arc: 26, dur: 0.65, ease: 'out' },
-    { at: 8.8, actor: 'pot', do: 'rotateTo', amount: 180, dur: 0.65 },
-    // 水餃消了氣，又跳回豬探長頭上
-    { at: 8.9, actor: 'd5', do: 'scaleTo', amount: 1 / 2.625, dur: 0.3 },
-    { at: 9.0, actor: 'd5', do: 'moveTo', to: { x: 22, y: P }, arc: 18, dur: 0.6, ease: 'inOut' },
-    { at: 9.0, actor: 'd5', do: 'spin', times: -1, dur: 0.6 },
-    { at: 9.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    { at: 9.6, actor: 'pig', do: 'squash', amount: 0.15, dur: 0.25 },
-    ...pressStack(9.6, 0.25, 0.15, 24, ['d5']),
-    { at: 9.45, actor: 'hero', do: 'squash', amount: 0.2, dur: 0.25 },
-    ...pressStack(9.45, 0.25, 0.2, 24, ['pot']),
+    // 小老鼠衝進來、煞車，看到一大鍋冒煙的水餃：眼睛發亮流口水
+    { at: 0, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: 0, actor: 'mouse', do: 'enter', from: { x: -25, y: P }, dur: 0.4, ease: 'back' },
+    { at: 0.45, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/drool' },
+    { at: 0.5, actor: 'pot', do: 'shake', amount: 0.6, dur: 0.5 },
+    // 第 1 次：夾一顆塞進嘴——燙！跳起來轉一圈，落回原地
+    ...stuff(H1, [{ id: 'a', emoji: 'prop:dumpling-chopsticks', dx: 7, dy: 2 }]),
+    ...b1.moves,
+    { at: R1, actor: 'mouse', do: 'hop', amount: 9, dur: 0.45 },
+    { at: R1, actor: 'mouse', do: 'spin', times: 1, dur: 0.45, pivot: 'center' },
+    { at: R1 + 0.45, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/hot' },
+    { at: R1 + 0.5, actor: 'mouse', do: 'moveTo', to: { x: HOME, y: P }, dur: 0.3 },
+    { at: R1 + 0.8, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/drool' },
+    // 第 2 次：一口塞兩顆——更燙！跳更高轉兩圈，滾到畫面邊
+    ...stuff(H2, [{ id: 'a', emoji: 'prop:dumpling', dx: 7, dy: -1 }, { id: 'b', emoji: 'prop:dumpling', dx: 8, dy: 6 }]),
+    ...b2.moves,
+    { at: R2, actor: 'mouse', do: 'moveTo', to: { x: 16, y: P }, arc: 20, dur: 0.5, ease: 'out' },
+    { at: R2, actor: 'mouse', do: 'spin', times: -3, dur: 0.5, pivot: 'center' },
+    { at: R2 + 0.5, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dizzy' },
+    // 第 3 次：走回來，捧起一整盤——先停一拍：看著盤子想一想（觀眾知道又要來了）……整盤倒進嘴裡！
+    { at: 4.85, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/walk' },
+    { at: 4.85, actor: 'mouse', do: 'moveTo', to: { x: HOME + 8, y: P }, dur: 0.35 },
+    { at: 5.2, actor: 'a', do: 'swap', emoji: 'prop:dumpling-plate' },
+    { at: 5.2, actor: 'a', do: 'moveTo', to: { x: HOME + 8 + 10, y: P - 6 }, dur: 0.01 },
+    { at: 5.21, actor: 'a', do: 'pop', dur: 0.15 },
+    { at: 5.21, actor: 'a', do: 'scaleTo', amount: 18 / 15, dur: 0.15 },
+    { at: 5.2, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/ponder' },
+    { at: 5.2, actor: 'mouse', do: 'tilt', amount: -8, dur: 0.3 },
+    { at: 5.45, actor: 'a', do: 'tilt', amount: 6, dur: 0.25 },
+    { at: 5.55, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/drool' },
+    // 捧著盤子衝到老地方，盤子翻過來倒進嘴裡
+    { at: 5.6, actor: 'mouse', do: 'moveTo', to: { x: GRAB, y: P }, dur: 0.22, anticipate: 3, ease: 'in' },
+    { at: 5.6, actor: 'a', do: 'moveTo', to: { x: MX + 8, y: MY - 5 }, dur: 0.22, ease: 'in' },
+    { at: H3 - 0.2, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/eat' },
+    { at: H3 - 0.2, actor: 'a', do: 'rotateTo', amount: -70, dur: 0.18, ease: 'in' },
+    ...b3.moves,
+    // 燙上天（往右上飛出畫面，盤子跟著飛走），過一會兒才掉回來
+    { at: R3, actor: 'mouse', do: 'moveTo', to: { x: 185, y: -15 }, dur: 0.35, ease: 'out' },
+    { at: R3, actor: 'mouse', do: 'spin', times: 2, dur: 0.35, pivot: 'center' },
+    { at: R3, actor: 'a', do: 'moveTo', to: { x: 200, y: 0 }, dur: 0.45, ease: 'out' },
+    { at: R3, actor: 'a', do: 'rotateTo', amount: 70 + 720, dur: 0.45 },
+    // 這次連整鍋都被噴上天（鍋子在國字放大時不在畫面上），國字讓位時才「咚」地掉回原地
+    { at: R3 + 0.05, actor: 'pot', do: 'moveTo', to: { x: PX + 40, y: -45 }, dur: 0.4, ease: 'out' },
+    { at: R3 + 0.05, actor: 'pot', do: 'rotateTo', amount: 200, dur: 0.4, pivot: 'center' },
+    { at: 6.95, actor: 'mouse', do: 'moveTo', to: { x: 30, y: -45 }, dur: 0.01 },
+    { at: 7.0, actor: 'mouse', do: 'moveTo', to: { x: 30, y: P }, dur: 0.3, ease: 'in' },
+    { at: 7.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dizzy' },
+    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓回上方，他回到鍋子旁邊，鍋裡跳出一顆水餃落在筷子上
+    { at: 8.0, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: 8.0, actor: 'mouse', do: 'moveTo', to: { x: GRAB, y: P }, dur: 0.3 },
+    { at: 8.05, actor: 'pot', do: 'rotateTo', amount: -200, dur: 0.01, pivot: 'center' },
+    { at: 8.05, actor: 'pot', do: 'moveTo', to: { x: PX, y: -30 }, dur: 0.01 },
+    { at: 8.07, actor: 'pot', do: 'moveTo', to: { x: PX, y: PY }, dur: 0.28, ease: 'in' },
+    { at: 8.35, actor: 'mouse', do: 'hop', amount: 3, dur: 0.2 },
+    { at: WORD - 0.05, actor: 'a', do: 'rotateTo', amount: -790, dur: 0.01 },
+    { at: WORD - 0.05, actor: 'a', do: 'swap', emoji: 'prop:dumpling-chopsticks' },
+    { at: WORD - 0.05, actor: 'a', do: 'moveTo', to: { x: PX - 2, y: PY - 16 }, dur: 0.01 },
+    { at: WORD, actor: 'a', do: 'pop', dur: 0.12 },
+    { at: WORD, actor: 'a', do: 'moveTo', to: { x: MX + 9, y: MY + 1 }, arc: 10, dur: 0.3, ease: 'out' },
+        { at: WORD + 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/happy' },
+    // 回馬槍（第 4 次）：他學乖了——先用力吹涼……吹太大力！整鍋水餃噴上天，一顆掉進他張大的嘴
+    { at: BLOW, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/blow' },
+    { at: BLOW, actor: 'mouse', do: 'squash', amount: -0.12, dur: 0.3 },
+    { at: BLOW + 0.25, actor: 'a', do: 'moveTo', to: { x: 175, y: 30 }, dur: 0.4, ease: 'in' },
+    { at: BLOW + 0.25, actor: 'a', do: 'spin', times: 2, dur: 0.4, pivot: 'center' },
+    { at: BLOW + 0.3, actor: 'pot', do: 'shake', amount: 1.5, dur: 0.35 },
+    { at: BLOW + 0.6, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/smug' },
+    { at: BLOW + 0.65, actor: 'pot', do: 'squash', amount: 0.25, dur: 0.3 },
+    { at: BLOW + 0.65, actor: 'b', do: 'moveTo', to: { x: PX - 4, y: PY - 14 }, dur: 0.01 },
+    { at: BLOW + 0.66, actor: 'b', do: 'pop', dur: 0.1 },
+    { at: BLOW + 0.66, actor: 'b', do: 'moveTo', to: { x: MX + 16, y: 22 }, dur: 0.35, ease: 'out' },
+    { at: BLOW + 0.66, actor: 'b', do: 'spin', times: 1, dur: 0.6, pivot: 'center' },
+    { at: H4 - 0.4, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/surprised' },
+    { at: H4 - 0.3, actor: 'b', do: 'moveTo', to: { x: MX + 1, y: MY + 1 }, dur: 0.27, ease: 'in' },
+    { at: H4 - 0.03, actor: 'b', do: 'vanish', dur: 0.04 },
+    ...b4.moves,
+    // 燙上天（往左上），最遠的一次
+    { at: R4, actor: 'mouse', do: 'moveTo', to: { x: -40, y: 20 }, arc: 14, dur: 0.4, ease: 'out' },
+    // 鍋子也被噴飛出畫面（右邊），問他之前畫面清乾淨
+    { at: R4 + 0.05, actor: 'pot', do: 'moveTo', to: { x: PX + 75, y: 10 }, dur: 0.4, ease: 'out' },
+    { at: R4 + 0.05, actor: 'pot', do: 'rotateTo', amount: 160, dur: 0.4, pivot: 'center' },
+    { at: R4, actor: 'mouse', do: 'spin', times: -3, dur: 0.4, pivot: 'center' },
+    // 問他：小老鼠掉回左前方、變大，轉向觀眾
+    { at: 10.75, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: 10.75, actor: 'mouse', do: 'moveTo', to: { x: 32, y: -50 }, dur: 0.01 },
+    { at: 10.77, actor: 'mouse', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.22, ease: 'in' },
+    { at: 11.0, actor: 'mouse', do: 'scaleTo', amount: 1.55, dur: 0.3, ease: 'back' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.95, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/listen' },
+    { at: 11.95, actor: 'mouse', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.5, actor: 'mouse', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.0, actor: 'mouse', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.45, actor: 'mouse', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.45, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/point' },
+    { at: 13.45, actor: 'mouse', do: 'hop', amount: 6, dur: 0.25 },
+    // 退場（衝刺），畫面只留下字
+    { at: 13.72, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: 13.72, actor: 'mouse', do: 'flip' },
+    { at: 13.75, actor: 'mouse', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 大水餃炸開 → 食；小水餃落下來 → 交
-    { at: 5.1, dur: 0.6, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'dump', color: '#F59F00' },
-    { at: 5.5, dur: 0.55, strokes: [8, 9, 10, 11, 12, 13], from: 'd2', style: 'drop', color: '#E8590C' },
+    // 第 1 次：塞進嘴裡那一口——飠（吃的東西）從嘴裡噴出來
+    { at: H1 + 0.05, dur: 0.6, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'mouse', color: partColor('飠') },
+    // 第 2、3 次：燙到兩腳一交叉跳起來時甩出來——交
+    { at: H2 + 0.05, dur: 0.6, strokes: [8, 9], from: 'mouse', color: partColor('交') },
+    { at: H3 + 0.05, dur: 0.6, strokes: [10, 11, 12, 13], from: 'mouse', color: partColor('交') },
   ],
   glyph: [
-    { at: 6.1, dur: 0.4, do: 'wobble' },
-    { at: 6.9, dur: 0.45, do: 'park' },
-    { at: 9.1, dur: 0.4, do: 'home' },
-    { at: 9.55, dur: 0.45, do: 'pulse' },
+    { at: 7.0, dur: 0.45, do: 'home', ease: 'back' },
+    { at: 8.0, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的小老鼠
+    { at: 10.65, dur: 3.3, do: 'ask', keep: ['mouse'], to: { x: 96, y: 43 }, amount: 0.82 },
+    { at: 10.75, dur: 0.4, do: 'home' },
+    { at: 13.45, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.1, kind: 'zzz', actor: 'dump', emoji: '♨️', dur: 1.5 },
-    { at: 0.6, kind: 'pop', actor: 'pig', emoji: '👀', dur: 0.5 },
-    { at: 0.7, kind: 'pop', actor: 'hero', emoji: '🤤', dur: 0.5 },
-    { at: 1.95, kind: 'burst', actor: 'dump', emoji: '💨', n: 5, dx: -6, dur: 0.45 },
-    { at: 2.1, kind: 'sweat', actor: 'pig' },
-    { at: 2.3, kind: 'pop', actor: 'hero', emoji: '😆', dur: 0.45 },
-    { at: 2.6, kind: 'pop', actor: 'hero', emoji: '💪', dur: 0.4 },
-    { at: 3.25, kind: 'burst', actor: 'dump', n: 1, dx: 8, dy: -2, dur: 0.3 },
-    { at: 3.55, kind: 'pop', actor: 'pig', emoji: '😆', dur: 0.45 },
-    { at: 3.85, kind: 'dizzy', actor: 'hero', dur: 0.4 },
-    { at: 4.15, kind: 'pop', actor: 'pig', emoji: '😤', dur: 0.35 },
-    { at: 4.15, kind: 'pop', actor: 'hero', emoji: '😤', dur: 0.35 },
-    { at: 4.8, kind: 'sweat', actor: 'dump' },
-    { at: 5.1, kind: 'burst', actor: 'dump', n: 1, dur: 0.35 },
-    { at: 5.5, kind: 'burst', x: 84, y: 24, emoji: '✨', n: 5, dur: 0.4 },
-    { at: 5.9, kind: 'burst', actor: 'd5', n: 1, dy: 2, dur: 0.25 },
-    { at: 5.95, kind: 'pop', actor: 'pig', emoji: '❓', dx: 12, dur: 0.4 },
-    { at: 5.65, kind: 'dizzy', actor: 'hero', dur: 0.8 },
-    { at: 6.5, kind: 'pop', actor: 'hero', emoji: '😲', dx: 6, dur: 0.4 },
-    { at: 8.1, kind: 'burst', actor: 'pot', emoji: '💦', n: 6, dur: 0.45 },
-    { at: 8.35, kind: 'zzz', actor: 'd5', emoji: '♨️', dx: 13, dur: 0.6 },
-    { at: 8.5, kind: 'pop', actor: 'pig', emoji: '😋', dx: -10, dy: 4, dur: 0.3 },
-    { at: 8.8, kind: 'burst', actor: 'd5', emoji: '💨', n: 8, dur: 0.5 },
-    { at: 9.5, kind: 'dizzy', actor: 'hero', dy: -6, dur: 0.5 },
+    // 開場：他口水流下來
+    { at: 0.5, kind: 'pop', actor: 'mouse', emoji: '❗', dx: 6, dur: 0.5 },
+    ...b1.fx,
+    ...b2.fx,
+    { at: R2 + 0.5, kind: 'dizzy', actor: 'mouse', dur: 0.45 },
+    ...b3.fx,
+    { at: 7.3, kind: 'dizzy', actor: 'mouse', dur: 0.6 },
+    // 語詞那一刻：鍋裡跳出水餃，閃一下
+    { at: 8.35, kind: 'burst', x: PX, y: PY - 12, emoji: '💦', n: 6, dur: 0.4 },
+    { at: WORD, kind: 'burst', x: PX - 2, y: PY - 14, emoji: '✨', n: 6, dur: 0.5 },
+    // 第 4 次：用力吹（一大串風吹向鍋子），整鍋水餃噴上天
+    { at: BLOW + 0.05, kind: 'blow', actor: 'mouse', to: { x: PX, y: PY - 6 }, dx: 6, dy: 9, n: 6, dur: 0.6, scale: 1.8 },
+    { at: BLOW + 0.65, kind: 'fountain', actor: 'pot', emoji: 'prop:dumpling', n: 7, dy: 4, dur: 0.9, scale: 1.6 },
+    ...b4.fx,
+    { at: 13.45, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 5.1, dur: 0.35, do: 'shake', amount: 1.8 },
-    { at: 8.8, dur: 0.3, do: 'shake', amount: 1.3 },
+    ...b1.camera,
+    ...b2.camera,
+    // 第 3 次：飛上天之前自己框住地上（自動取景會預先往上看），飛走後再交回自動取景
+    { at: 5.6, dur: 0.3, do: 'zoom', amount: 1.2, to: { x: 80, y: 52 } },
+    ...b3.camera,
+    { at: 6.75, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 7.3, dur: 0.35, do: 'shake', amount: 1.5 },
+    { at: 8.35, dur: 0.3, do: 'shake', amount: 1.2 },
+    // 第 4 次要看得到整鍋水餃噴上天：全景
+    { at: BLOW, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...b4.camera,
+    { at: 10.5, dur: 0.2, do: 'zoom', amount: 1 },
   ],
   lights: [
-    // 大水餃炸開：白光一閃
-    { at: 5.1, dur: 0.04, level: -0.5 },
-    { at: 5.14, dur: 0.3, level: 0 },
+    // 每次燙到白光一閃
+    ...[H1, H2, H3, H4].flatMap((at, k) => [{ at, dur: 0.04, level: -0.25 - 0.08 * k }, { at: at + 0.04, dur: 0.25, level: 0 }]),
+    { at: 7.0, dur: 0.05, level: -0.35 },
+    { at: 7.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0, sfx: 'slide' },
-    { at: 0.8, say: '餃' },
-    { at: 1.65, sfx: 'bubble' },
-    { at: 1.95, sfx: 'whoosh' },
-    { at: 2.95, sfx: 'whoosh' },
-    { at: 3.25, sfx: 'boing' },
-    { at: 4.75, sfx: 'bubble' },
-    { at: 5.1, sfx: 'poof' },
-    { at: 5.9, sfx: 'bonk' },
-    { at: 6.1, say: '餃' },
-    { at: 8.1, sfx: 'splash' },
-    { at: 8.15, say: '水餃' },
-    { at: 8.8, sfx: 'whoosh' },
-    { at: 9.45, sfx: 'clink' },
-    { at: 9.55, sfx: 'cheer' },
+    { at: 0.55, say: '餃' },
+    ...[H1, H2].map((at): Cue => ({ at: at - 0.75, sfx: 'whoosh' })),
+    { at: 5.6, sfx: 'whoosh' },
+    ...b1.cues,
+    ...b2.cues,
+    ...b3.cues,
+    ...[R1, R2, R3].map((at): Cue => ({ at, sfx: 'boing' })),
+    { at: 7.3, sfx: 'plop' },
+    { at: 7.15, say: '餃' },
+    { at: WORD, sfx: 'splash' },
+    { at: WORD + 0.15, say: '水餃' },
+    { at: BLOW + 0.05, sfx: 'whoosh' },
+    { at: BLOW + 0.65, sfx: 'splash' },
+    ...b4.cues,
+    { at: R4, sfx: 'boing' },
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.45, say: '餃' },
+    { at: 13.5, sfx: 'cheer' },
   ],
 }
 
