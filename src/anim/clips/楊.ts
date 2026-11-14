@@ -50,7 +50,9 @@ function bonk(at: number, k: number) {
     { at, actor: 'yang', do: 'squash', amount: 0.3 + 0.1 * k, dur: 0.3 },
   ]
   if (!giant) moves.push(
-    { at: j, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
+    // 跳起來雙手往上搆（D 表的 jump），落地前換回伸手、等著被砸
+    { at: j + 0.1, actor: 'yang', do: 'swap', emoji: 'hero:yang/jump' },
+    { at: j + 0.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     // 樹冠頂端冒出一顆楊桃，直直掉到他頭上
     { at: at - 0.38, actor: 'nut', do: 'moveTo', to: TOP, dur: 0.01 },
     { at: at - 0.37, actor: 'nut', do: 'pop', dur: 0.08 },
@@ -226,8 +228,9 @@ const clip: Clip = {
     { at: 13.65, kind: 'burst', x: 62, y: 38, emoji: '🌟', n: 10, dur: 0.32 },
   ],
   camera: [
-    // 前三次同一個鏡位：樹和他都在畫面裡（自動取景會跟著搖動的大樹往上推，把壓扁的他切掉）
-    { at: 1.1, dur: 0.4, do: 'zoom', amount: 1.15, to: { x: 100, y: 52 } },
+    // 前三次同一個鏡位：樹和他都在畫面裡（自動取景會跟著搖動的大樹往上推，把壓扁的他切掉）。
+    // 只推一點點（1.04）：國字在上方要整個留著，鏡頭能推的空間有限，留給每次砸頭的 punch
+    { at: 1.1, dur: 0.4, do: 'zoom', amount: 1.04, to: { x: 100, y: 52 } },
     { at: 6.75, dur: 0.4, do: 'zoom', amount: 1 },
     ...b1.camera,
     ...b2.camera,

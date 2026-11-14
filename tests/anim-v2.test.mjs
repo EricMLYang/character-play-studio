@@ -163,3 +163,52 @@ test('swoosh：一段弧往 target 那一側甩過去；sweep 大就從另一邊
   const lowEnd = tip(clip({ low: true }), 1.3)
   assert.ok(lowEnd.x < cat.x - 11 && Math.abs(lowEnd.y - anchorY) < 0.5, JSON.stringify(lowEnd))
 })
+
+// ---------- v2：鏡頭永遠把國字的外框留在畫面裡（#295） ----------
+const { glyphBoxAt, viewAt } = E
+/** 國字外框在 t 被畫面切掉多少（舞台單位；0 以下是沒切到） */
+const cutOf = (clip, t) => {
+  const v = viewAt(clip, t), g = glyphBoxAt(clip, t)
+  return Math.max(v.x0 - g.x0, g.x1 - v.x1, v.y0 - g.y0, g.y1 - v.y1)
+}
+const worstCut = (clip, from = 0, to = clip.duration) => {
+  let worst = -Infinity
+  for (let t = from; t <= to + 1e-9; t += 0.05) worst = Math.max(worst, cutOf(clip, t))
+  return worst
+}
+/** 笑點那一下：往地上的腳 punch 推近＋震動（v2 劇本最常見的寫法） */
+const gagCam = [
+  { at: 1.5, dur: 0.45, do: 'punch', amount: 0.25, to: { x: 40, y: 66 } },
+  { at: 1.5, dur: 0.3, do: 'shake', amount: 2.5 },
+  { at: 7.5, dur: 0.45, do: 'punch', amount: 0.3, to: { x: 120, y: 70 } },
+  { at: 7.5, dur: 0.3, do: 'shake', amount: 2.5 },
+]
+const busyMoves = [
+  { at: 0.3, dur: 1.2, actor: 'pig', do: 'moveTo', to: { x: 40, y: 68 } },
+  { at: 1.5, dur: 0.4, actor: 'pig', do: 'hop', amount: 6 },
+  { at: 7, dur: 0.8, actor: 'pig', do: 'moveTo', to: { x: 120, y: 68 } },
+]
+
+test('v2：劇本往地上 punch／shake 時，空字框與讓位後的國字都不會被切掉（震動最多擦出去 1 單位）', () => {
+  const clip = clipOf({ moves: busyMoves, camera: gagCam, glyph: [{ at: 6, dur: 0.4, do: 'home' }, { at: 6.9, dur: 0.4, do: 'park' }, { at: 9, dur: 3, do: 'ask', keep: ['pig'] }] })
+  assert.ok(worstCut(clip) <= 1 + 1e-6, `切到 ${worstCut(clip)}`)
+  // 不含震動時留著邊
+  const still = { ...clip, camera: gagCam.filter((c) => c.do === 'punch') }
+  assert.ok(worstCut(still) <= -2 + 1e-6, `沒留邊 ${worstCut(still)}`)
+  // 還是有推近（只是少推一點），不是整個退回全景
+  assert.ok(cameraAt(still, 1.6).z > 1.05, `punch 不見了 ${cameraAt(still, 1.6).z}`)
+})
+
+test('v2：劇本自己的 zoom／follow 推太近也一樣收回來', () => {
+  const clip = clipOf({ moves: busyMoves, camera: [{ at: 0.5, dur: 0.5, do: 'zoom', amount: 2.2, to: { x: 40, y: 66 } }, { at: 4, dur: 0.5, do: 'zoom', amount: 1 }, { at: 6.9, dur: 0.3, do: 'follow', actor: 'pig', amount: 2 }, { at: 8.5, dur: 0.3, do: 'zoom', amount: 1 }] })
+  assert.ok(worstCut(clip) <= 1e-6, `切到 ${worstCut(clip)}`)
+})
+
+test('v1 的鏡頭不受這條限制（一格都不變）', () => {
+  const v1 = { ...clipOf({ moves: busyMoves, camera: gagCam }), format: undefined, glyph: [] }
+  const c = cameraAt(v1, 1.6)
+  // 照原本的算法：punch 以 to 為定點整整推近 1.25 倍（加上整支慢慢推近的一點），沒有被收回來
+  assert.ok(c.z > 1.25 && c.px === 0 && c.py === 0, JSON.stringify(c))
+  // 同一支改成 v2（國字一開始就在上方）：同一下 punch 不會切到字
+  assert.ok(cutOf({ ...v1, format: 2 }, 1.6) <= 1 + 1e-6)
+})

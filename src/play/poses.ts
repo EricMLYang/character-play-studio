@@ -18,18 +18,18 @@ export const POSES: Record<string, string[]> = {
   dino: ['dizzy', 'happy', 'idle', 'reach', 'roar', 'surprised'],
   firefighter: ['dizzy', 'happy', 'hose', 'idle', 'ladder', 'surprised'],
   monster: ['dizzy', 'happy', 'idle', 'oops', 'roar', 'sleep', 'stuffed', 'surprised'],
-  mouse: ['angry', 'back', 'cheese', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'stance', 'surprised', 'think', 'wait', 'walk', 'wave'],
+  mouse: ['angry', 'back', 'blow', 'cheese', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'flee', 'happy', 'hug', 'idle', 'jump', 'kick', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'stance', 'surprised', 'think', 'throw', 'wait', 'walk', 'wave'],
   ninja: ['dizzy', 'happy', 'hide', 'idle', 'surprised', 'throw'],
   // 五個明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長）：從綠幕姿勢表切（npm run hero:cut -- <主角>，assets/hero-sheets/）。
-  // 都有同一套 27 個姿勢＋各自兩個招牌姿勢；沒有放大鏡的 think 跟托下巴的 ponder 同一張，警長舊的 run 跟 dash 同一張
-  pig: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'doubt', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
+  // 都有同一套 34 個共用姿勢（A～D 四張表）＋各自兩個招牌姿勢；沒有放大鏡的 think 跟托下巴的 ponder 同一張，警長舊的 run 跟 dash 同一張
+  pig: ['angry', 'back', 'blow', 'cold', 'cry', 'dash', 'dizzy', 'doubt', 'eat', 'fall', 'flat', 'flee', 'happy', 'hug', 'idle', 'jump', 'kick', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'throw', 'wait', 'walk', 'wave'],
   pirate: ['dizzy', 'happy', 'idle', 'surprised', 'telescope', 'treasure'],
-  raccoon: ['angry', 'back', 'carry', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
+  raccoon: ['angry', 'back', 'blow', 'carry', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'flee', 'happy', 'hug', 'idle', 'jump', 'kick', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'throw', 'wait', 'walk', 'wave'],
   robot: ['broken', 'dizzy', 'fly', 'happy', 'idle', 'surprised'],
   shark: ['chomp', 'dizzy', 'happy', 'idle', 'spin', 'surprised'],
-  sheriff: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'run', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave', 'whistle'],
+  sheriff: ['angry', 'back', 'blow', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'flee', 'happy', 'hug', 'idle', 'jump', 'kick', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'run', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'throw', 'wait', 'walk', 'wave', 'whistle'],
   warrior: ['dizzy', 'happy', 'idle', 'shield', 'surprised', 'swing'],
-  yang: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'drive', 'eat', 'fall', 'flat', 'happy', 'helmet', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
+  yang: ['angry', 'back', 'blow', 'cold', 'cry', 'dash', 'dizzy', 'drive', 'eat', 'fall', 'flat', 'flee', 'happy', 'helmet', 'hug', 'idle', 'jump', 'kick', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'throw', 'wait', 'walk', 'wave'],
 }
 
 /**

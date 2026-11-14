@@ -1,6 +1,6 @@
 {
   "name": "楊捷睿（賽車手）",
-  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的握方向盤坐著（只有方向盤沒有車，坐車用）、戴紅色安全帽比讚。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的握方向盤坐著（只有方向盤沒有車，坐車用）、戴紅色安全帽比讚；D 表全身動作跟豬探長同一套。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
   "ref": "idle",
   "sheets": {
     "A": {
@@ -14,6 +14,10 @@
     "C": {
       "file": "yang-C.png",
       "poses": ["drive", "helmet", "sleep", "eat", "dash", "fall", "wave", "push", "cold"]
+    },
+    "D": {
+      "file": "yang-D.png",
+      "poses": ["kick", "throw", "pull", "lift", "jump", "hug", "blow", "peek", "flee"]
     }
   },
   "alias": {

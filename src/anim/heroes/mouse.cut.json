@@ -1,6 +1,6 @@
 {
   "name": "小老鼠",
-  "about": "Codex 生圖畫的綠幕姿勢表（3×3）。造型改成爸爸影片裡的紅頭巾忍者小老鼠，畫風跟豬探長的表統一。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的抱起司、忍者架式。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3）。造型改成爸爸影片裡的紅頭巾忍者小老鼠，畫風跟豬探長的表統一。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的抱起司、忍者架式；D 表全身動作跟豬探長同一套。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
   "ref": "idle",
   "sheets": {
     "A": {
@@ -14,6 +14,10 @@
     "C": {
       "file": "mouse-C.png",
       "poses": ["cheese", "stance", "sleep", "eat", "dash", "fall", "wave", "push", "cold"]
+    },
+    "D": {
+      "file": "mouse-D.png",
+      "poses": ["kick", "throw", "pull", "lift", "jump", "hug", "blow", "peek", "flee"]
     }
   },
   "alias": { "think": "ponder" }

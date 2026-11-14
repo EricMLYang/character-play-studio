@@ -13,6 +13,7 @@
 //   最後 1 秒只有國字（拼好、在正中央、沒有效果、畫面上看不到任何角色與道具、不在 ask 裡）、meta.gags 只有 1 條（主軸笑點，回馬槍寫在同一條）、
 //   卡司至少一個固定明星（pig／raccoon／mouse／sheriff／yang）、片長 12～15 秒。
 //   擋字、出界、鏡頭切字、會被打斷照舊；空字框階段還沒填的部分角色經過不算擋字，但已經填上去的筆畫被角色擋住 0.3 秒以上會提醒。
+//   v2 的字從頭到尾都在：任何時刻（含空字框階段）國字外框被鏡頭切到超過 1 單位就提醒，印出秒數。
 import { createServer } from 'vite'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -267,4 +268,16 @@ function checkV2(clip, engine, says, errors, warnings) {
     }
   }
   for (const [id, sp] of span) if (!sp.closed) report(id, sp)
+  // 字從頭到尾都在：任何時刻國字當下的整個外框都要在畫面裡（震動可以擦出去 1 單位，再多就報）。
+  // 引擎會把劇本的 punch／zoom／follow 收回來（clip.ts 的 keepGlyphInView），這條是防引擎或之後的改動漏掉
+  const cuts = []
+  for (let i = 0; i * 0.05 <= end + 1e-9; i++) {
+    const t = i * 0.05
+    const v = engine.viewAt(clip, t), g = engine.glyphBoxAt(clip, t)
+    const over = Math.max(v.x0 - g.x0, g.x1 - v.x1, v.y0 - g.y0, g.y1 - v.y1)
+    if (over <= 1.05) continue
+    const last = cuts.at(-1)
+    if (last && t - last.to < 0.06) { last.to = t; last.max = Math.max(last.max, over) } else cuts.push({ from: t, to: t, max: over })
+  }
+  if (cuts.length) warnings.push(`鏡頭把國字的外框切掉了：${cuts.map((c) => `${c.from.toFixed(2)}${c.to > c.from ? `–${c.to.toFixed(2)}` : ''}s（${c.max.toFixed(1)}）`).join('、')}`)
 }

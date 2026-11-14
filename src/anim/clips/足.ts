@@ -7,6 +7,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 回馬槍：他助跑一腳，球真的進了球門！他得意——球網一彈，球原路射回來，把他壓扁。
 // 最後畫面暗下來只剩「足」，豬探長轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「足！」，然後退場只留字。
 // 足、足、足球、這是什麼字？、足
+// 踢的那一下用 D 表的 kick 姿勢（以前沒有，用 walk 代替）。
 const P = 66.9 // 豬探長（size 24）站在地上的 y
 /** 大足球（size 34）滾在地上的 y */
 const BS = 34
@@ -36,21 +37,23 @@ const SHOE = '#5A3A22'
  * 第 4 次（bounce: false）球真的被踢飛了，他沒有被彈。
  */
 function kick(at: number, k: number, x = KICK, bounce = true) {
-  const foot = { x: x + 11, y: 71 }
+  // 踢的姿勢（kick）翻成朝右以後，腳尖在他右邊 11、地上 7 的高度，剛好碰到球的左緣
+  const foot = { x: x + 11, y: 67 }
   const moves: Move[] = [
-    // 預備：身體往後縮、往後仰，腳抬起來
+    // 預備：邁開腳（walk）、身體往後縮、往後仰
     { at: at - WIND, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
     { at: at - WIND, actor: 'pig', do: 'squash', amount: -0.2, dur: WIND },
     { at: at - WIND, actor: 'pig', do: 'rotateTo', amount: -14, dur: WIND * 0.6 },
-    // 踢！身體往前一甩
-    { at: at - 0.06, actor: 'pig', do: 'rotateTo', amount: 22, dur: 0.08, ease: 'in' },
-    { at: at + 0.12, actor: 'pig', do: 'rotateTo', amount: -8, dur: 0.15 },
+    // 踢！換成一腳踢高的姿勢（圖本身已經往後仰），身體往前一甩
+    { at: at - 0.06, actor: 'pig', do: 'swap', emoji: 'hero:pig/kick' },
+    { at: at - 0.06, actor: 'pig', do: 'rotateTo', amount: 20, dur: 0.08, ease: 'in' },
+    { at: at + 0.12, actor: 'pig', do: 'rotateTo', amount: -6, dur: 0.15 },
     // 球被踢扁
     { at, actor: 'ball', do: 'squash', amount: 0.22 + 0.06 * k, dur: 0.22 },
   ]
   if (bounce) moves.push(
-    // 啵！球彈回原狀，把他彈開：傻眼
-    { at: at + 0.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    // 啵！球彈回原狀，把他彈開：腳還踢著停一下（看得到踢中），才換傻眼
+    { at: at + 0.22, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
     { at: at + 0.1, actor: 'pig', do: 'squash', amount: 0.2 + 0.08 * k, dur: 0.25 },
     { at: at + 0.1, actor: 'ball', do: 'bounce', amount: 1.5 + 0.5 * k, times: 1, dur: 0.3 },
   )
@@ -58,8 +61,8 @@ function kick(at: number, k: number, x = KICK, bounce = true) {
     // 腳甩過去的弧（從屁股往前下方甩到腳尖）
     { at: at - 0.2, kind: 'swoosh', actor: 'pig', to: { x: x + 30, y: 74 }, dx: 3, dy: 13, n: 9, sweep: 110, windup: 0.08, dur: 0.32,
       scale: 1 + 0.1 * k, color: SHOE, width: 4.5, low: true },
-    // 💥 每次都在腳尖踢中的同一個位置，一次比一次大
-    { at, kind: 'burst', x: foot.x + 3, y: foot.y - 3, n: 1, dur: 0.35, scale: 1.4 + 0.3 * k },
+    // 💥 每次都在腳尖踢中的同一個位置（球的左緣，略偏右才看得到鞋子），一次比一次大
+    { at, kind: 'burst', x: foot.x + 6, y: foot.y - 1, n: 1, dur: 0.35, scale: 1.4 + 0.3 * k },
   ]
   const camera: Camera[] = [
     { at, dur: 0.45, do: 'punch', amount: 0.1 + 0.05 * k, to: { x: foot.x, y: k >= 3 ? 40 : P - 6 } },
@@ -209,7 +212,7 @@ const clip: Clip = {
     // 第 3 次前停一拍：他看一眼球
     { at: 5.25, kind: 'pop', actor: 'pig', emoji: '👀', dx: -12, dur: 0.5, scale: 1.5 },
     ...s3.fx,
-    { at: H3, kind: 'burst', x: s3.foot.x + 3, y: s3.foot.y - 3, emoji: '⭐', n: 6, dur: 0.35 },
+    { at: H3, kind: 'burst', x: s3.foot.x + 6, y: s3.foot.y - 1, emoji: '⭐', n: 6, dur: 0.35 },
     { at: 7.3, kind: 'dizzy', actor: 'pig', dur: 0.6 },
     ...s4.fx,
     // 進了！

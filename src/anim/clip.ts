@@ -1088,8 +1088,55 @@ export function cameraAt(clip: Clip, t: number, actors: ActorState[] = actorsAt(
   // 劇本的鏡頭是「以 (cx, cy) 為定點推近」。自動取景是「把畫面中心對到某一點」，疊在劇本鏡頭底下：
   // 先自動取景、再套劇本的鏡頭，換算成同一個定點加一段平移 (px, py)
   const a = autoCamAt(clip, t)
-  if (a.z === 1 && a.cx === STAGE_MID.x && a.cy === STAGE_MID.y) return { z, cx, cy, dx, dy, px: 0, py: 0 }
-  return { z: z * a.z, cx: a.cx, cy: a.cy, dx, dy, px: z * (STAGE_MID.x - cx) + cx - a.cx, py: z * (STAGE_MID.y - cy) + cy - a.cy }
+  const cam = a.z === 1 && a.cx === STAGE_MID.x && a.cy === STAGE_MID.y
+    ? { z, cx, cy, dx, dy, px: 0, py: 0 }
+    : { z: z * a.z, cx: a.cx, cy: a.cy, dx, dy, px: z * (STAGE_MID.x - cx) + cx - a.cx, py: z * (STAGE_MID.y - cy) + cy - a.cy }
+  return isV2(clip) ? keepGlyphInView(clip, t, cam) : cam
+}
+
+/** v2：鏡頭四周要留給國字的邊 */
+const GLYPH_MARGIN = 2
+/** v2：鏡頭為了國字收回來時，原本視野左右至少要保住多少比例（以中心算） */
+const KEEP_VIEW = 0.9
+/** v2：震動（shake）可以讓國字的邊出畫面多少（舞台單位） */
+const SHAKE_SLACK = 1
+
+/**
+ * v2 的字從頭到尾都在畫面上，所以鏡頭在任何時刻都要把國字當下的整個外框（加一點邊）留在畫面裡。
+ * 自動取景本來就框著國字；切到字的是疊在上面的劇本鏡頭（punch、zoom、follow）與整支慢慢推近的那一點：
+ * 它們以自己的定點推近，不知道國字在哪。這裡在最後把整個視野收回來——
+ * 視野放寬到「原本的視野」和「國字的外框」都框得住（推近要看的東西一樣看得到，只是推得少一點、中心往國字那邊偏；
+ * 左右兩邊可以切掉一成，下面只切地板線以下那條空地），
+ * 震動另外限制在國字的外框外 SHAKE_SLACK 以內。v1 不經過這裡，畫面一格都不變。
+ */
+function keepGlyphInView(clip: Clip, t: number, cam: { z: number; cx: number; cy: number; dx: number; dy: number; px: number; py: number }) {
+  const g = glyphBoxAt(clip, t)
+  // 留邊，但不超出舞台（全景一定框得住）
+  const b = { x0: Math.max(0, g.x0 - GLYPH_MARGIN), x1: Math.min(160, g.x1 + GLYPH_MARGIN), y0: Math.max(0, g.y0 - GLYPH_MARGIN), y1: Math.min(90, g.y1 + GLYPH_MARGIN) }
+  let { z, cx, cy, px, py, dx, dy } = cam
+  // 不含震動的視野：中心 (mx, my)，半寬 80 / z、半高 45 / z
+  let mx = cx + (STAGE_MID.x - cx - px) / z, my = cy + (STAGE_MID.y - cy - py) / z
+  let hw = 80 / z, hh = 45 / z
+  if (mx - hw > b.x0 || mx + hw < b.x1 || my - hh > b.y0 || my + hh < b.y1) {
+    // 原本的視野（推近要看的東西）與國字外框的聯集，再撐成 16:9；最多到全景。
+    // 左右兩邊可以切掉一點；下面只切腳底下那條空地板（站在地上的角色一定整個留著），推近的力道才不會整個不見
+    const kw = hw * KEEP_VIEW
+    const u = { x0: Math.min(mx - kw, b.x0), x1: Math.max(mx + kw, b.x1), y0: Math.min(my - hh, b.y0), y1: Math.max(Math.min(my + hh, FLOOR + 4), b.y1) }
+    // 只會推得比原本少，不會比劇本寫的更近
+    hw = Math.min(80, Math.max(hw, (u.x1 - u.x0) / 2, ((u.y1 - u.y0) / 2) * (16 / 9)))
+    hh = hw * (9 / 16)
+    // 多出來的空間：中心盡量留在原本的地方，但不能跑出畫好的背景，往下最多到舞台底
+    mx = clamp(clamp(mx, u.x1 - hw, u.x0 + hw), PAINTED.x0 + hw, PAINTED.x1 - hw)
+    my = clamp(clamp(my, u.y1 - hh, u.y0 + hh), PAINTED.y0 + hh, 90 - hh)
+    z = 80 / hw
+    // 換成「以視野中心為定點推近、不再平移」的寫法（播放器只看 z 與視野中心，畫出來一樣）
+    cx = mx; cy = my; px = STAGE_MID.x - mx; py = STAGE_MID.y - my
+  }
+  // 震動把視野平移 (dx, dy) / z：國字的外框最多出畫面 SHAKE_SLACK
+  const sx = (GLYPH_MARGIN + SHAKE_SLACK) * z
+  dx = clamp(dx, (mx - hw - b.x0) * z - sx, (mx + hw - b.x1) * z + sx)
+  dy = clamp(dy, (my - hh - b.y0) * z - sx, (my + hh - b.y1) * z + sx)
+  return { z, cx, cy, dx, dy, px, py }
 }
 
 const lastingOps = (clip: Clip) => (clip.camera ?? []).filter((c): c is CamLasting => c.do === 'zoom' || c.do === 'follow').sort((a, b) => a.at - b.at)

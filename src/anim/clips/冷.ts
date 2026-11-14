@@ -46,8 +46,8 @@ function freeze(at: number, k: number, x: number, hug = true) {
     { at, actor: 'ice', do: 'squash', amount: 0.12, dur: 0.2 },
   ]
   if (hug) moves.push(
-    // 伸手撲過去抱
-    { at: at - 0.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/reach' },
+    // 張開雙手撲過去抱（D 表的 hug）
+    { at: at - 0.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hug' },
     { at: at - 0.3, actor: 'raccoon', do: 'squash', amount: -0.18, dur: 0.25 },
     { at: at - 0.3, actor: 'raccoon', do: 'tilt', amount: 10, dur: 0.3 },
   )
