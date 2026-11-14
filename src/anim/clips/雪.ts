@@ -1,206 +1,304 @@
-import type { Clip, Move } from '../clip'
-import { pressStack } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 雪（重做）：拉布拉多警長丟雪球，豬探長一蹲躲過還偷笑——雪球打中樹，樹上的一大坨雪掉在他頭上。豬探長氣得推來越滾越大的大雪球，
-// 警長吹哨叫停，大雪球急煞、豬探長臉撞上去，雪球「碰」地炸成雨字頭，他甩掉頭上的雪變成彐。國字讓到上方，兩個在中間滾雪球疊成雪人（雪人）；回馬槍：雪人打大噴嚏把兩個噴成白白的冰棒。雪、雪、雪人
-const G = 68.2 // size 21 的主角站在地上的 y
-const HAT = -15 // 頭上那坨雪相對豬探長的高度
+// 雪（v2）：下雪天，浣熊花生熱心地要堆雪人——每次把雪球滾大一點、站起來得意，頭上的雪雲就「噗」地倒下一大坨雪，把他埋住，一次比一次深：
+// 埋到胸口（雨字頭的上半從天上落下來）、只剩耳朵（雨的四點）、先停一拍再整個埋掉、只露出一隻手揮（彐）——碰！連人帶雪球被炸上天。
+// 語詞：雪球掉回來變成雪人（雪人）。回馬槍：他學乖了，撐傘站在雪人旁邊；雲只掉一片小雪花在傘上，他得意地收起傘——最大的一坨雪「噗」地把他整個埋掉，只剩收好的傘露在外面。
+// 最後畫面暗下來只剩「雪」，花生轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再指著字說「雪！」，然後退場只留字。
+// 雪、雪、雪人、這是什麼字？、雪
+const P = 66.9 // 花生（size 24）站在地上的 y
+/** 花生每次站的地方：雪雲正下方（雲在國字字框的右邊） */
+const X = 116
+/** 雪雲（🌨️）在他頭上 */
+const CLOUD = { x: 120, y: 14 }
+/** 雪球：右緣貼著他推的手，越滾越大、往左長 */
+const BALL_R = 104
+const BALL = 20
+/** 雪球每一次滾完多大（size）：一次比一次大 */
+const BALLS = [20, 24, 29, 34]
+/** 雪堆（☁️ 染白）每一次多大（size）：一次比一次深 */
+const PILE = [20, 28, 40, 46]
+/** 雪堆的基本 size（actor 寫的），每次 pop 都從這個大小算 */
+const PILE0 = 20
+/** 埋住以後傻眼停多久，才鑽出來 */
+const HOLD = 0.5
+/** 語詞那一刻起他放大多少 */
+const BIG = 1.15
+/** 白白的雪（⚪、☁️ 染成白色） */
+const WHITE = 'grayscale(1) brightness(1.3)'
 
-// 頭上那坨雪跟著豬探長走：移動抄一份，壓扁時一起往下沉
-const withHat = (ms: Move[]): Move[] => ms.flatMap((m): Move[] => {
-  if (m.do === 'moveTo' && m.to) return [m, { ...m, actor: 'clump', to: { x: m.to.x, y: m.to.y + HAT } }]
-  if (m.do === 'squash') return [m, ...pressStack(m.at, m.dur ?? 0.3, m.amount ?? 0.2, 21, ['clump'])]
-  if (m.do === 'shake' || m.do === 'hop') return [m, { ...m, actor: 'clump' }]
-  return [m]
-})
+const ballX = (size: number) => BALL_R - 0.45 * size
+const floorY = (size: number) => 77 - 0.42 * size
+
+/**
+ * 「噗」埋住：花生推雪球（push、雪球轉著變大）→ 站起來得意 → 雪雲抖一下（預備）→ 一坨雪從雲裡掉下來砸在他身上，
+ * 落地那一刻雪堆長到這一次的大小＋❄️ 一圈＋💥＋白光＋鏡頭推近＋震＋同一個音效，他傻眼停 HOLD 秒。
+ * k 是第幾次（雪堆越後面越大、埋得越深）。roll: false 是第 4 次（不推雪球，撐傘的那段另外寫）。
+ * lead：推雪球提早多少秒（第 3 次推完先停一拍、抬頭看雲）。
+ */
+function bury(at: number, k: number, roll = true, lead = 0, x = X) {
+  const size = PILE[k] * (k >= 3 ? BIG : 1)
+  const moves: Move[] = []
+  if (roll) {
+    const from = BALLS[k - 1] ?? BALL, to = BALLS[k]
+    moves.push(
+      // 推雪球：雪球原地轉、變大（往左長，右緣一直貼著他的手）
+      { at: at - 1.05 - lead, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/push' },
+      { at: at - 1.0 - lead, actor: 'ball', do: 'rotateTo', amount: -150, dur: 0.55, ease: 'out' },
+      { at: at - 1.0 - lead, actor: 'ball', do: 'scaleTo', amount: to / from, dur: 0.55, ease: 'out' },
+      { at: at - 1.0 - lead, actor: 'ball', do: 'moveTo', to: { x: ballX(to), y: floorY(to) }, dur: 0.55, ease: 'out' },
+      { at: at - 1.0 - lead, actor: 'raccoon', do: 'shake', amount: 0.8, dur: 0.5 },
+      // 滾好了！站起來得意
+      { at: at - 0.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+      { at: at - 0.45, actor: 'raccoon', do: 'hop', amount: 2.5, dur: 0.22 },
+    )
+  }
+  moves.push(
+    // 雪雲抖一下（預備），一坨雪從雲裡掉下來
+    { at: at - 0.42, actor: 'cloud', do: 'shake', amount: 1.2 + 0.4 * k, dur: 0.25 },
+    { at: at - 0.42, actor: 'cloud', do: 'squash', amount: 0.15 + 0.05 * k, dur: 0.3 },
+    { at: at - 0.3, actor: 'snow', do: 'swap', emoji: '⚪' },
+    { at: at - 0.3, actor: 'snow', do: 'moveTo', to: { x: CLOUD.x, y: CLOUD.y + 8 }, dur: 0.01 },
+    { at: at - 0.29, actor: 'snow', do: 'pop', dur: 0.08 },
+    { at: at - 0.28, actor: 'snow', do: 'moveTo', to: { x, y: floorY(PILE0) }, dur: 0.28, ease: 'in' },
+    // 噗！落地變成一大堆雪，埋住他
+    { at, actor: 'snow', do: 'swap', emoji: '☁️' },
+    { at, actor: 'snow', do: 'scaleTo', amount: size / PILE0, dur: 0.14, ease: 'back' },
+    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    { at, actor: 'raccoon', do: 'squash', amount: 0.2 + 0.05 * k, dur: 0.22 },
+  )
+  const fx: Fx[] = [
+    // ❄️ 從雪堆底下往外噴（不蓋住他的臉）
+    { at, kind: 'burst', x, y: 72, emoji: '❄️', n: 8, dur: 0.4, scale: 1.2 + 0.3 * k },
+    // 💥 在雪堆頂上（不蓋住他的臉），一次比一次大
+    { at, kind: 'burst', x: x + 10, y: 74 - size * 0.55, n: 1, dur: 0.4, scale: 1.4 + 0.35 * k },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.06 + 0.03 * k, to: { x, y: P - 8 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.9 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at: at - 0.28, sfx: 'whoosh' }, { at, sfx: 'poof' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'plop' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'bonk' })
+  return { moves, fx, camera, cues }
+}
+
+/** 鑽出來：雪堆炸開成一片雪花，他抖掉身上的雪 */
+function dig(at: number, k: number, x = X) {
+  const size = PILE[k]
+  const moves: Move[] = [
+    { at, actor: 'snow', do: 'vanish', dur: 0.15 },
+    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/cold' },
+    { at, actor: 'raccoon', do: 'shake', amount: 1.4 + 0.2 * k, dur: 0.45 },
+  ]
+  const fx: Fx[] = [{ at, kind: 'burst', x, y: 74 - size * 0.35, emoji: '❄️', n: 6 + 2 * k, dur: 0.45, scale: 1 + 0.25 * k }]
+  const cues: Cue[] = [{ at, sfx: 'poof' }]
+  return { moves, fx, cues }
+}
+
+const H1 = 2.0, H2 = 3.85, H3 = 6.15
+/** 第 3 次推完先停一拍 */
+const LEAD3 = 0.4
+const b1 = bury(H1, 0)
+const b2 = bury(H2, 1)
+const b3 = bury(H3, 2, true, LEAD3)
+const C1 = H1 + HOLD, C2 = H2 + HOLD
+const d1 = dig(C1, 0)
+const d2 = dig(C2, 1)
+/** 第 3 次：埋到只剩一隻手揮，然後碰！連人帶雪球炸上天 */
+const C3 = H3 + HOLD + 0.1
+/** 語詞：雪球從天上掉回來變成雪人（正中間；國字讓到左上方，雪雲在右上方） */
+const SNOWMAN = { x: 80, size: 38 }
+/** 回馬槍：撐傘 → 一片小雪花 → 收傘 → 噗 */
+const UMB = 8.95, FLAKE = 9.3, CLOSE = 9.65, H4 = 10.05
+const b4 = bury(H4, 3, false)
+const C4 = H4 + HOLD + 0.05
 
 const clip: Clip = {
+  format: 2,
   char: '雪',
-  meta: { theme: '打雪仗滾雪球', cast: '拉布拉多警長＋豬探長＋雪球＋大雪球＋樹＋雪人', gags: ['蹲下躲過偷笑雪從樹上掉頭上', '吹哨急煞臉撞大雪球', '大雪球炸成字', '甩掉頭上的雪', '雪人打噴嚏噴成冰棒'] },
-  duration: 10,
-  bg: { top: '#CFE6FF', bottom: '#F2F8FF', floor: '#F4F8FC', scenery: 'snow' },
+  meta: { theme: '下雪天堆雪人', cast: '浣熊花生＋雪雲＋雪球（雪人）', gags: ['花生熱心堆雪人，每次雪球滾好、站起來得意，頭上的雪雲就噗地倒下一大坨雪把他埋住，一次比一次深（胸口、只剩耳朵、只剩一隻手）；回馬槍是他學乖撐傘，雲只掉一片雪花，他得意收傘，最大的一坨雪噗地把他整個埋掉、只剩傘露在外面'] },
+  duration: 15,
+  bg: { top: '#9FC6EC', bottom: '#E2EEFA', floor: '#F2F7FC', scenery: 'snow' },
   actors: [
-    { id: 'tree', emoji: '🌲', x: 145, y: 64, size: 26 },
-    { id: 'clump', emoji: '⚪', x: 142, y: 51, size: 11, float: true, tint: 'grayscale(1) brightness(1.25)' },
-    { id: 'big', emoji: '⚪', x: 108, y: 73.5, size: 8, hidden: true, tint: 'grayscale(1) brightness(1.25)' },
-    { id: 'ballL', emoji: '⚪', x: 44, y: 73.5, size: 8, hidden: true, tint: 'grayscale(1) brightness(1.25)' },
-    { id: 'ballR', emoji: '⚪', x: 116, y: 74.5, size: 6, hidden: true, tint: 'grayscale(1) brightness(1.25)' },
-    { id: 'sheriff', emoji: 'hero:sheriff/idle', x: 30, y: G, size: 21, flip: true },
-    { id: 'pig', emoji: 'hero:pig/idle', x: 126, y: G, size: 21 },
-    { id: 'ball', emoji: '⚪', x: 40, y: 64, size: 7, hidden: true, float: true, tint: 'grayscale(1) brightness(1.25)' },
+    { id: 'cloud', emoji: '🌨️', x: CLOUD.x, y: CLOUD.y, size: 32, float: true, tint: 'brightness(.92) saturate(1.3)' },
+    // 雪球（⚪ 染白，會滾）：語詞那一刻換成雪人
+    { id: 'ball', emoji: '⚪', x: ballX(BALL), y: floorY(BALL), size: BALL, hidden: true, tint: WHITE, pivot: 'center' },
+    // 姿勢圖朝左：他在雪球右邊往左推，不用翻
+    { id: 'raccoon', emoji: 'hero:raccoon/idle', x: X, y: P, size: 24, hidden: true },
+    // 掉下來的那坨雪＝埋住他的雪堆（畫在他前面）
+    { id: 'snow', emoji: '⚪', x: CLOUD.x, y: CLOUD.y + 8, size: PILE0, hidden: true, tint: WHITE },
+    // 傘（第 4 次）：舉在他頭上；畫在雪堆前面，被埋時收好的傘插在雪堆上
+    { id: 'umb', emoji: '☂️', x: X + 1, y: 44, size: 22, hidden: true, float: true },
   ],
   moves: [
-    // 警長捏雪球，豬探長扭屁股挑釁
-    { at: 0, actor: 'sheriff', do: 'squash', amount: 0.3, dur: 0.35 },
-    { at: 0.3, actor: 'ball', do: 'pop' },
-    { at: 0.5, actor: 'pig', do: 'tilt', amount: 14, dur: 0.25 },
-    { at: 0.75, actor: 'pig', do: 'tilt', amount: -14, dur: 0.25 },
-    // 往後拉——丟！
-    { at: 1.0, actor: 'sheriff', do: 'squash', amount: -0.3, dur: 0.3 },
-    { at: 1.0, actor: 'sheriff', do: 'tilt', amount: -18, dur: 0.3 },
-    { at: 1.0, actor: 'ball', do: 'moveTo', to: { x: 32, y: 58 }, dur: 0.3 },
-    { at: 1.3, actor: 'ball', do: 'moveTo', to: { x: 142, y: 54 }, arc: 10, dur: 0.45, ease: 'linear' },
-    { at: 1.3, actor: 'ball', do: 'spin', times: 2, dur: 0.45 },
-    // 豬探長一蹲躲過
-    { at: 1.35, actor: 'pig', do: 'squash', amount: 0.5, dur: 0.45 },
-    // 打中樹
-    { at: 1.75, actor: 'ball', do: 'vanish', dur: 0.08 },
-    { at: 1.75, actor: 'tree', do: 'shake', amount: 1.5, dur: 0.4 },
-    { at: 1.75, actor: 'clump', do: 'shake', amount: 1.5, dur: 0.4 },
-    // 豬探長偷笑
-    { at: 1.9, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    { at: 1.9, actor: 'pig', do: 'bounce', amount: 2, times: 2, dur: 0.45 },
-    { at: 2.0, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    // 樹上那一大坨雪滑下來——咚，正好掉在他頭上
-    { at: 2.25, actor: 'clump', do: 'moveTo', to: { x: 126, y: G + HAT }, arc: 3, dur: 0.3, ease: 'in' },
-    { at: 2.55, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    ...withHat([{ at: 2.55, actor: 'pig', do: 'squash', amount: 0.35, dur: 0.3 }]),
-    // 換警長笑
-    { at: 2.75, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
-    { at: 2.75, actor: 'sheriff', do: 'bounce', amount: 2.5, times: 2, dur: 0.5 },
-    // 豬探長氣呼呼，蹲下捏一個雪球，推著越滾越大
-    { at: 3.05, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
-    ...withHat([{ at: 3.05, actor: 'pig', do: 'squash', amount: 0.3, dur: 0.3 }]),
-    { at: 3.2, actor: 'big', do: 'pop' },
-    { at: 3.4, actor: 'big', do: 'moveTo', to: { x: 80, y: 71 }, dur: 0.75, ease: 'in' },
-    { at: 3.4, actor: 'big', do: 'scaleTo', amount: 3.1, dur: 0.75, ease: 'in' },
-    ...withHat([{ at: 3.4, actor: 'pig', do: 'moveTo', to: { x: 104, y: G }, dur: 0.75, ease: 'in' }]),
-    { at: 3.55, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    // 警長吹哨：停！大雪球急煞，豬探長停不下來臉撞上去
-    { at: 3.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/whistle' },
-    { at: 3.9, actor: 'sheriff', do: 'squash', amount: -0.2, dur: 0.25 },
-    ...withHat([{ at: 4.15, actor: 'pig', do: 'moveTo', to: { x: 99, y: G }, dur: 0.08, ease: 'in' }]),
-    { at: 4.23, actor: 'pig', do: 'swap', emoji: 'hero:pig/dizzy' },
-    ...withHat([{ at: 4.23, actor: 'pig', do: 'squash', amount: -0.25, dur: 0.25 }]),
-    // 大雪球晃啊晃……
-    { at: 4.25, actor: 'big', do: 'shake', amount: 1.5, dur: 0.45 },
-    { at: 4.25, actor: 'big', do: 'scaleTo', amount: 1.15, dur: 0.45, ease: 'in' },
-    { at: 4.25, actor: 'big', do: 'moveTo', to: { x: 80, y: 70 }, dur: 0.45, ease: 'in' },
-    // 碰！炸開，兩個都被炸回兩邊
-    { at: 4.7, actor: 'big', do: 'vanish', dur: 0.08 },
-    ...withHat([{ at: 4.7, actor: 'pig', do: 'moveTo', to: { x: 132, y: G }, arc: 10, dur: 0.45, ease: 'out' }]),
-    { at: 4.7, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dizzy' },
-    { at: 4.7, actor: 'sheriff', do: 'moveTo', to: { x: 26, y: G }, arc: 8, dur: 0.45, ease: 'out' },
-    { at: 4.7, actor: 'sheriff', do: 'spin', times: 1, dur: 0.45 },
-    // 豬探長甩頭，頭上的雪甩出去變成彐
-    ...withHat([{ at: 5.3, actor: 'pig', do: 'shake', amount: 1.8, dur: 0.3 }]),
-    { at: 5.55, actor: 'clump', do: 'vanish', dur: 0.08 },
-    { at: 5.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    { at: 5.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    // 有了！來堆雪人
-    { at: 6.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
-    { at: 6.55, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
-    { at: 6.55, actor: 'pig', do: 'hop', amount: 4, dur: 0.3 },
-    // 國字讓位後兩個各滾一顆雪球到中間
-    { at: 6.95, actor: 'sheriff', do: 'squash', amount: 0.3, dur: 0.25 },
-    { at: 7.0, actor: 'ballL', do: 'pop' },
-    { at: 7.15, actor: 'ballL', do: 'moveTo', to: { x: 80, y: 71 }, dur: 0.6, ease: 'out' },
-    { at: 7.15, actor: 'ballL', do: 'scaleTo', amount: 2.7, dur: 0.6, ease: 'out' },
-    { at: 7.15, actor: 'sheriff', do: 'moveTo', to: { x: 56, y: G }, dur: 0.6, ease: 'out' },
-    { at: 6.95, actor: 'pig', do: 'squash', amount: 0.3, dur: 0.25 },
-    { at: 7.0, actor: 'ballR', do: 'pop' },
-    { at: 7.15, actor: 'ballR', do: 'moveTo', to: { x: 104, y: 70.5 }, dur: 0.45, ease: 'out' },
-    { at: 7.15, actor: 'ballR', do: 'scaleTo', amount: 2, dur: 0.45, ease: 'out' },
-    { at: 7.15, actor: 'pig', do: 'moveTo', to: { x: 116, y: G }, dur: 0.45, ease: 'out' },
-    // 豬探長把小雪球抱起來往上一丟，疊上去——變成雪人！
-    { at: 7.65, actor: 'pig', do: 'squash', amount: -0.25, dur: 0.25 },
-    { at: 7.7, actor: 'ballR', do: 'moveTo', to: { x: 80, y: 58 }, arc: 8, dur: 0.3, ease: 'out' },
-    { at: 8.0, actor: 'ballR', do: 'vanish', dur: 0.06 },
-    { at: 8.0, actor: 'ballL', do: 'swap', emoji: '⛄' },
-    { at: 8.0, actor: 'ballL', do: 'tint', filter: '' },
-    { at: 8.0, actor: 'ballL', do: 'scaleTo', amount: 1.1, dur: 0.25, ease: 'back' },
-    { at: 7.8, actor: 'pig', do: 'moveTo', to: { x: 106, y: G }, dur: 0.25, ease: 'out' },
-    { at: 8.05, actor: 'sheriff', do: 'hop', amount: 5, dur: 0.35 },
-    { at: 8.1, actor: 'pig', do: 'hop', amount: 5, dur: 0.35 },
-    // 回馬槍：雪人鼻子癢，吸——
-    { at: 8.35, actor: 'ballL', do: 'tilt', amount: -20, dur: 0.4 },
-    { at: 8.5, actor: 'ballL', do: 'shake', amount: 0.7, dur: 0.25 },
-    { at: 8.45, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    { at: 8.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    // 哈啾！雪人自己噴散，兩個被噴飛到兩邊、全身白白結冰
-    { at: 8.75, actor: 'ballL', do: 'vanish', dur: 0.1 },
-    { at: 8.75, actor: 'sheriff', do: 'moveTo', to: { x: 24, y: G }, arc: 6, dur: 0.35, ease: 'out' },
-    { at: 8.75, actor: 'pig', do: 'moveTo', to: { x: 136, y: G }, arc: 6, dur: 0.35, ease: 'out' },
-    { at: 8.8, actor: 'sheriff', do: 'tint', filter: 'grayscale(1) brightness(1.75)' },
-    { at: 8.8, actor: 'pig', do: 'tint', filter: 'grayscale(1) brightness(1.75)' },
-    { at: 9.15, actor: 'sheriff', do: 'shake', amount: 0.8, dur: 0.35 },
-    { at: 9.15, actor: 'pig', do: 'shake', amount: 0.8, dur: 0.35 },
-    // 抖一抖，雪掉光，一起笑
-    { at: 9.55, actor: 'sheriff', do: 'tint', filter: '' },
-    { at: 9.55, actor: 'pig', do: 'tint', filter: '' },
-    { at: 9.55, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
-    { at: 9.55, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
+    // 花生跑進來，看到下雪好開心，指著天上：雪！
+    { at: 0, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 0, actor: 'raccoon', do: 'enter', from: { x: 185, y: P }, dur: 0.45, ease: 'out' },
+    { at: 0.55, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
+    { at: 0.55, actor: 'raccoon', do: 'hop', amount: 4, dur: 0.25 },
+    // 捏一顆小雪球放在地上：要堆雪人！
+    { at: 0.85, actor: 'ball', do: 'pop', dur: 0.25 },
+    ...b1.moves,
+    ...d1.moves,
+    // 第 2 次：再推大一點
+    ...b2.moves,
+    ...d2.moves,
+    { at: C2 + 0.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    // 第 3 次：推完——先停一拍：他抬頭偷看雲（雲安安靜靜）……
+    ...b3.moves,
+    { at: H3 - 0.85, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/back' },
+    { at: H3 - 0.85, actor: 'raccoon', do: 'tilt', amount: -6, dur: 0.35 },
+    // 碰！雪堆炸開，連人帶雪球被炸上天
+    { at: C3, actor: 'snow', do: 'vanish', dur: 0.12 },
+    { at: C3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    { at: C3, actor: 'raccoon', do: 'moveTo', to: { x: 150, y: -50 }, dur: 0.4, ease: 'out' },
+    { at: C3, actor: 'raccoon', do: 'spin', times: 2, dur: 0.4, pivot: 'center' },
+    { at: C3, actor: 'ball', do: 'moveTo', to: { x: 50, y: -50 }, dur: 0.45, ease: 'out' },
+    { at: C3, actor: 'ball', do: 'rotateTo', amount: -360, dur: 0.45 },
+    // 語詞那一刻：雪球從天上掉回正中間——變成雪人！他也掉回來，好開心
+    { at: 7.95, actor: 'ball', do: 'swap', emoji: 'prop:snowman' },
+    { at: 7.95, actor: 'ball', do: 'tint', filter: '' },
+    // 滾過的角度全部轉回來，雪人站得直直的
+    { at: 7.95, actor: 'ball', do: 'rotateTo', amount: 150 * 3 + 360, dur: 0.01 },
+    { at: 7.95, actor: 'ball', do: 'scaleTo', amount: SNOWMAN.size / BALLS[2], dur: 0.01 },
+    { at: 7.95, actor: 'ball', do: 'moveTo', to: { x: SNOWMAN.x, y: -40 }, dur: 0.01 },
+    { at: 8.0, actor: 'ball', do: 'moveTo', to: { x: SNOWMAN.x, y: floorY(SNOWMAN.size) }, dur: 0.3, ease: 'in' },
+    { at: 8.3, actor: 'ball', do: 'squash', amount: 0.2, dur: 0.25 },
+    { at: 8.2, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    { at: 8.2, actor: 'raccoon', do: 'scaleTo', amount: BIG, dur: 0.01 },
+    { at: 8.2, actor: 'raccoon', do: 'moveTo', to: { x: X, y: -50 }, dur: 0.01 },
+    { at: 8.25, actor: 'raccoon', do: 'moveTo', to: { x: X, y: P }, dur: 0.3, ease: 'in' },
+    { at: 8.6, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hug' },
+    { at: 8.6, actor: 'raccoon', do: 'hop', amount: 4, dur: 0.3 },
+    // 回馬槍（第 4 次）：他學乖了——抬頭看雲，撐起傘
+    { at: UMB, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/lift' },
+    { at: UMB, actor: 'umb', do: 'pop', dur: 0.25 },
+    // 雲一抖……只掉下一片小雪花，咚在傘上
+    { at: FLAKE - 0.2, actor: 'cloud', do: 'shake', amount: 0.8, dur: 0.2 },
+    { at: FLAKE + 0.2, actor: 'umb', do: 'hop', amount: -1.2, dur: 0.15 },
+    // 哼哼，沒事！得意地收起傘
+    { at: CLOSE, actor: 'umb', do: 'swap', emoji: '🌂' },
+    { at: CLOSE, actor: 'umb', do: 'moveTo', to: { x: X - 14, y: 60 }, dur: 0.15 },
+    { at: CLOSE, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/smug' },
+    { at: CLOSE + 0.05, actor: 'raccoon', do: 'hop', amount: 2, dur: 0.2 },
+    // 噗！最大的一坨，整個埋掉；收好的傘插在雪堆上
+    ...b4.moves,
+    { at: H4, actor: 'umb', do: 'moveTo', to: { x: X - 6, y: 40 }, dur: 0.12, ease: 'out' },
+    { at: H4, actor: 'umb', do: 'rotateTo', amount: 25, dur: 0.12 },
+    { at: H4 + 0.12, actor: 'umb', do: 'shake', amount: 1.2, dur: 0.4 },
+    // 鑽出來
+    { at: C4, actor: 'snow', do: 'vanish', dur: 0.15 },
+    { at: C4, actor: 'umb', do: 'vanish', dur: 0.15 },
+    { at: C4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    { at: C4, actor: 'raccoon', do: 'shake', amount: 1.8, dur: 0.4 },
+    // 問他：他走到左前方、變大，轉向觀眾（字在右邊）
+    { at: 10.72, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    { at: 10.72, actor: 'raccoon', do: 'flip' },
+    { at: 10.72, actor: 'raccoon', do: 'scaleTo', amount: 1.5 / BIG, dur: 0.3, ease: 'back' },
+    { at: 10.72, actor: 'raccoon', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.9, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/listen' },
+    { at: 11.9, actor: 'raccoon', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.45, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 12.95, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.4, actor: 'raccoon', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
+    { at: 13.4, actor: 'raccoon', do: 'hop', amount: 6, dur: 0.25 },
+    // 退場：他抱著雪人跑走，雪雲也飄走，畫面只留下字
+    { at: 13.7, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 13.7, actor: 'raccoon', do: 'flip' },
+    { at: 13.72, actor: 'raccoon', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
+    { at: 13.72, actor: 'ball', do: 'moveTo', to: { x: -40, y: floorY(SNOWMAN.size) }, dur: 0.28, ease: 'in' },
+    { at: 13.7, actor: 'cloud', do: 'moveTo', to: { x: 200, y: CLOUD.y }, dur: 0.3, ease: 'in' },
   ],
   builds: [
-    // 大雪球炸開，碎雪落成雨字頭
-    { at: 4.7, dur: 0.75, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'big', color: '#1C7ED6' },
-    // 頭上那坨雪甩出去：彐
-    { at: 5.55, dur: 0.4, strokes: [8, 9, 10], from: 'clump', color: '#0B5394' },
+    // 第 1、2 次：雪從天上落下來——雨字頭（上半、四點）
+    { at: H1 + 0.05, dur: 0.55, strokes: [0, 1, 2, 3], from: 'cloud', style: 'drop', color: partColor('雨') },
+    { at: H2 + 0.05, dur: 0.55, strokes: [4, 5, 6, 7], from: 'cloud', style: 'drop', color: partColor('雨') },
+    // 第 3 次：雪堆裡只露出一隻手揮——彐（手）從手上飛出來
+    { at: H3 + 0.25, dur: 0.5, strokes: [8, 9, 10], from: { x: X + 2, y: 46 }, color: partColor('彐') },
   ],
   glyph: [
-    { at: 6.0, dur: 0.4, do: 'wobble' },
-    { at: 6.8, dur: 0.45, do: 'park' },
-    { at: 9.05, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: 7.05, dur: 0.45, do: 'home', ease: 'back' },
+    // 讓到左上方：正中間給雪人，右上方是雪雲
+    { at: 7.85, dur: 0.45, do: 'park', to: { x: 38, y: 21 }, amount: 0.52 },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的花生
+    { at: 10.65, dur: 3.3, do: 'ask', keep: ['raccoon'], to: { x: 98, y: 43 }, amount: 0.82 },
+    { at: 10.7, dur: 0.4, do: 'home' },
+    { at: 13.4, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.55, kind: 'pop', actor: 'pig', emoji: '😜', dur: 0.5 },
-    { at: 0.6, kind: 'pop', actor: 'sheriff', emoji: '😤', dur: 0.4 },
-    { at: 1.75, kind: 'burst', actor: 'tree', emoji: '❄️', n: 5, dx: -4, dy: 4, dur: 0.45 },
-    { at: 1.95, kind: 'pop', actor: 'pig', emoji: '😆', dy: 6, dur: 0.35 },
-    { at: 2.55, kind: 'burst', actor: 'pig', emoji: '❄️', n: 6, dy: 2, dur: 0.4 },
-    { at: 2.7, kind: 'sweat', actor: 'pig', dx: -8 },
-    { at: 2.8, kind: 'pop', actor: 'sheriff', emoji: '😆', dur: 0.4 },
-    { at: 3.1, kind: 'pop', actor: 'pig', emoji: '😤', dx: -10, dy: -4, dur: 0.4 },
-    { at: 3.4, kind: 'puff', actor: 'big', dur: 0.6 },
-    { at: 3.6, kind: 'sweat', actor: 'sheriff' },
-    { at: 3.95, kind: 'zzz', actor: 'sheriff', emoji: '🎵', dx: 6, dur: 0.5 },
-    { at: 4.23, kind: 'burst', x: 92, y: 60, n: 1, dur: 0.35 },
-    { at: 4.4, kind: 'sweat', actor: 'pig' },
-    { at: 4.7, kind: 'burst', actor: 'big', emoji: '❄️', n: 10, dur: 0.6 },
-    { at: 5.0, kind: 'dizzy', actor: 'sheriff', dur: 1.0 },
-    { at: 5.55, kind: 'burst', actor: 'pig', emoji: '❄️', n: 5, dx: -4, dur: 0.4 },
-    { at: 6.0, kind: 'pop', actor: 'sheriff', emoji: '😲', dur: 0.4 },
-    { at: 6.4, kind: 'bubble', actor: 'sheriff', emoji: '⛄', dx: -2, dur: 0.6 },
-    { at: 7.15, kind: 'puff', actor: 'ballL', dur: 0.5 },
-    { at: 7.15, kind: 'puff', actor: 'ballR', dur: 0.4 },
-    { at: 8.0, kind: 'burst', actor: 'ballL', emoji: '✨', n: 8, dur: 0.55 },
-    { at: 8.45, kind: 'pop', actor: 'sheriff', emoji: '❗', dx: -6, dur: 0.35 },
-    { at: 8.45, kind: 'pop', actor: 'pig', emoji: '❗', dx: 6, dur: 0.35 },
-    { at: 8.75, kind: 'burst', x: 80, y: 62, emoji: '❄️', n: 12, dur: 0.6 },
-    { at: 8.75, kind: 'puff', x: 80, y: 70, dur: 0.6 },
-    { at: 9.15, kind: 'pop', actor: 'sheriff', emoji: '🥶', dur: 0.4 },
-    { at: 9.2, kind: 'pop', actor: 'pig', emoji: '🥶', dur: 0.4 },
-    { at: 9.55, kind: 'burst', actor: 'sheriff', emoji: '❄️', n: 5, dur: 0.4 },
-    { at: 9.55, kind: 'burst', actor: 'pig', emoji: '❄️', n: 5, dur: 0.4 },
+    { at: 0.6, kind: 'burst', x: 100, y: 30, emoji: '❄️', n: 6, dur: 0.5 },
+    ...b1.fx,
+    ...d1.fx,
+    ...b2.fx,
+    ...d2.fx,
+    // 第 3 次前停一拍：他抬頭偷看雲
+    { at: H3 - 0.85, kind: 'pop', actor: 'raccoon', emoji: '👀', dx: -12, dur: 0.45, scale: 1.8 },
+    ...b3.fx,
+    // 埋到只剩一隻手在外面揮
+    { at: H3 + 0.12, kind: 'pop', x: X - 4, y: 50, emoji: '✋', dur: C3 - H3 - 0.12, scale: 1.7 },
+    { at: C3, kind: 'burst', x: X, y: 56, emoji: '❄️', n: 12, dur: 0.55, scale: 1.8 },
+    { at: C3, kind: 'burst', x: X, y: 56, n: 1, dur: 0.4, scale: 2.6 },
+    // 雪人！
+    { at: 8.3, kind: 'burst', x: SNOWMAN.x, y: 52, emoji: '✨', n: 8, dur: 0.5, scale: 1.4 },
+    // 一片小雪花掉在傘上
+    { at: FLAKE - 0.05, kind: 'pop', x: X - 4, y: 30, emoji: '❄️', dur: 0.35, scale: 1.5 },
+    { at: CLOSE + 0.1, kind: 'pop', actor: 'raccoon', emoji: '😎', dx: -14, dur: 0.35, scale: 1.5 },
+    ...b4.fx,
+    { at: C4, kind: 'burst', x: X, y: 52, emoji: '❄️', n: 12, dur: 0.55, scale: 1.8 },
+    { at: C4 + 0.1, kind: 'dizzy', actor: 'raccoon', dur: 0.4 },
+    { at: 13.4, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 4.23, dur: 0.25, do: 'shake', amount: 1.0 },
-    { at: 4.7, dur: 0.4, do: 'shake', amount: 1.8 },
-    { at: 8.0, dur: 0.4, do: 'punch', amount: 0.1, to: { x: 80, y: 56 } },
-    { at: 8.75, dur: 0.35, do: 'shake', amount: 1.6 },
+    // 自動取景會推近到他、把頭上的雪雲切掉——劇本自己「推近」一點點（幾乎是全景），雲、雪球、他都在
+    { at: 0.2, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...b1.camera,
+    ...b2.camera,
+    ...b3.camera,
+    { at: C3, dur: 0.35, do: 'shake', amount: 2.2 },
+    { at: 6.85, dur: 0.3, do: 'zoom', amount: 1 },
+    // 回馬槍：國字拼好後自動取景會靠向他、切掉雪雲——這段也幾乎全景
+    { at: 8.9, dur: 0.25, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...b4.camera,
+    { at: H4 + 0.05, dur: 0.4, do: 'shake', amount: 2.4 },
+    { at: 10.5, dur: 0.2, do: 'zoom', amount: 1 },
   ],
   lights: [
-    { at: 4.7, dur: 0.04, level: -0.7 },
-    { at: 4.74, dur: 0.3, level: 0 },
+    // 每次被埋白光一閃
+    ...[H1, H2, H3, H4].flatMap((at, k) => [{ at, dur: 0.04, level: -0.25 - 0.08 * k }, { at: at + 0.04, dur: 0.25, level: 0 }]),
+    { at: 7.05, dur: 0.05, level: -0.35 },
+    { at: 7.1, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.3, sfx: 'tap' },
-    { at: 1.0, say: '雪' },
-    { at: 1.3, sfx: 'whoosh' },
-    { at: 1.75, sfx: 'plop' },
-    { at: 2.55, sfx: 'bonk' },
-    { at: 3.4, sfx: 'rumble' },
-    { at: 3.9, sfx: 'blip' },
-    { at: 4.23, sfx: 'bonk' },
-    { at: 4.7, sfx: 'poof' },
-    { at: 5.3, sfx: 'boing' },
-    { at: 6.0, say: '雪' },
-    { at: 7.15, sfx: 'slide' },
-    { at: 8.0, say: '雪人' },
-    { at: 8.4, sfx: 'bubble' },
-    { at: 8.75, sfx: 'achoo' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.6, say: '雪' },
+    { at: 0.9, sfx: 'tap' },
+    ...[H1, H2, H3 - LEAD3].map((at): Cue => ({ at: at - 1.0, sfx: 'slide' })),
+    ...b1.cues,
+    ...d1.cues,
+    ...b2.cues,
+    ...d2.cues,
+    ...b3.cues,
+    { at: C3, sfx: 'poof' },
+    { at: C3 + 0.05, sfx: 'whoosh' },
+    { at: 7.15, say: '雪' },
+    { at: 8.3, sfx: 'plop' },
+    { at: 8.4, say: '雪人' },
+    { at: UMB, sfx: 'blip' },
+    { at: FLAKE + 0.15, sfx: 'tap' },
+    { at: CLOSE, sfx: 'blip' },
+    ...b4.cues,
+    { at: H4 + 0.12, sfx: 'rumble' },
+    { at: C4, sfx: 'poof' },
+    { at: 10.85, say: FIXED_LINES.clipAsk },
+    { at: 13.4, say: '雪' },
+    { at: 13.45, sfx: 'cheer' },
+    { at: 13.75, sfx: 'whoosh' },
   ],
 }
 
