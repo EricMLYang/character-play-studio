@@ -67,6 +67,8 @@ export const PARTS = {
   亠: { color: '#3A5BA0', from: '疊到最高的那一層、蓋在最上面的屋頂' },
   // 刍是急的上半（⺈＋彐，也是芻、雛、皺的聲音）：靛紫，比雨（#6466D8）深、比疌（#4A2C8F）亮、比月（#7B2FBE）偏藍
   刍: { color: '#5B4BDB', from: '急著往前衝、一頭撞上去被彈回來時甩出來的' },
+  // 曼是慢、饅、漫、蔓的聲音：蝸牛殼的卡其褐，比木（#6B4423）淺、比土（#B07A12）灰、比酉（#7A5C00）不偏黃
+  曼: { color: '#988058', from: '慢吞吞的蝸牛：從蝸牛殼上一塊一塊震下來的' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
