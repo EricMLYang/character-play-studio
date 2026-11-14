@@ -312,7 +312,8 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **自製道具圖 `prop:<名字>`**：emoji 寫 `'prop:starfruit'` 就畫 `public/props/starfruit.png`（actors、swap、fx 的 emoji 都能用）。
   圖是 512×512、長邊撐滿、底部對齊，所以 `size` 跟 emoji 一樣是道具的長邊，站在地上一樣 `y ≈ 77 − 0.42 × size`；描邊、影子、tint、flip、swap 都照常。
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
-  自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車。見下面「自製道具圖」一節。
+  自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
+  動物（`bear`、`bear-roar`、`panda`、`frog`）跟 🐻🐼🐸 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），`bear-sleep`、`frog-jump` 算角色但跟 🐌 一樣不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -445,6 +446,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `trampoline` | 圓形彈簧床（藍床面、黑邊、短腳；寬扁） | 還沒用 |
 | `bucket` | 裝滿水的藍色水桶 | 還沒用 |
 | `net` | 捕蟲網（綠網在右上、木柄往左下斜） | 還沒用 |
+| `bear` | 圓滾滾的棕色大熊，兩腳站著微笑（朝左前方；算動物，會踩步伐）。**熊三張同一個比例**：同 size、同 x 直接 swap 就對齊；站姿只佔畫布高的 0.86（趴著睡的那張撐滿寬），size 要寫大一點 | 熊 |
+| `bear-sleep` | 同一隻熊趴著睡（閉眼、寬扁，頭在左） | 熊 |
+| `bear-roar` | 同一隻熊站起來張嘴吼、雙手舉高（兇但可愛） | 熊 |
+| `panda` | 坐著抱竹子啃的熊貓（朝左前方；算動物） | 熊（語詞「熊貓」） |
+| `frog` | 蹲坐的綠色青蛙、大眼睛微笑（朝左；算動物）。**跟 `frog-jump` 同一個比例**，只佔畫布的 0.72，size 要寫大一點 | 還沒用 |
+| `frog-jump` | 同一隻青蛙跳在半空（前腳往左前伸、後腿伸直；圖一樣底部對齊，要配 `hop`／`moveTo` 才離地） | 還沒用 |
+| `honey` | 打開的蜂蜜陶罐（蜂蜜從罐口流下、插一根木頭蜂蜜棒） | 熊 |
+| `hive` | 掛在樹枝上的黃色蜂窩（樹枝橫在上面、蜂窩有一個洞） | 還沒用 |
+| `snowman` | 雪人（紅蘿蔔鼻子、紅圍巾、樹枝手） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

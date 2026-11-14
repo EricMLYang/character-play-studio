@@ -42,9 +42,14 @@ test('道具圖、範圍表（src/anim/props.ts）、切圖設定三邊對得上
     const cfg = JSON.parse(readFileSync(join(cfgDir, f), 'utf8'))
     assert.ok(existsSync(join(root, 'assets/prop-sheets', cfg.file)), `道具表 ${cfg.file} 要放在 assets/prop-sheets/`)
   }
-  for (const [name, [l, t, r, b]] of Object.entries(PROP_BOX)) {
+  // together 的一組（同一隻動物的幾個狀態）共用一個比例：組裡最大的那張撐滿就好
+  const groups = readdirSync(cfgDir).filter((f) => f.endsWith('.cut.json'))
+    .flatMap((f) => JSON.parse(readFileSync(join(cfgDir, f), 'utf8')).together ?? [])
+  const long = (name) => { const [l, t, r, b] = PROP_BOX[name]; return Math.max(r - l, b - t) }
+  for (const [name, [, , , b]] of Object.entries(PROP_BOX)) {
     // 長邊撐滿（留 4%）、底部對齊
-    assert.ok(Math.max(r - l, b - t) > 0.9, `${name} 的長邊要撐滿`)
+    const group = groups.find((g) => g.includes(name)) ?? [name]
+    assert.ok(Math.max(...group.map(long)) > 0.9, `${name} 的長邊要撐滿`)
     assert.ok(Math.abs(b - 0.96) < 0.01, `${name} 要底部對齊`)
   }
 })
@@ -87,4 +92,25 @@ test('prop: 是道具不是角色：走過去不踩步伐；捷運（metro）跟
   const still = clipOf({ actors: [{ id: 'x', emoji: 'prop:gift', x: 120, y: 62, size: 34 }] })
   assert.equal(lifeOf(still).get('x').beats.length, 0)
   assert.equal(actorsAt(still, 3).find((a) => a.id === 'x').x, 120)
+})
+
+test('prop: 的動物（熊、熊貓、青蛙）跟 🐻🐼🐸 一樣算角色；趴著睡、跳在半空的不踩步伐', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  for (const [name, emoji] of [['bear', '🐻'], ['bear-roar', '🐻'], ['panda', '🐼'], ['frog', '🐸']]) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk(emoji)).get('x'), name)
+    assert.ok(lifeOf(walk(`prop:${name}`)).get('x').steps.length > 0, `${name} 走過去要踩步伐`)
+  }
+  // 跟 🐌 一樣：會歪、會做小動作，但不踩步伐
+  for (const name of ['bear-sleep', 'frog-jump']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🐌')).get('x'), name)
+    assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0)
+  }
+  // 站著不動的熊會做小動作（跟 🐻 一樣），一般道具不會
+  const still = (emoji) => lifeOf(clipOf({ actors: [{ id: 'x', emoji, x: 120, y: 62, size: 34 }] })).get('x')
+  assert.ok(still('prop:bear').beats.length > 0)
+  assert.deepEqual(still('prop:bear'), still('🐻'))
+  assert.equal(still('prop:honey').beats.length, 0)
 })

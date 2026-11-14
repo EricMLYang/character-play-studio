@@ -1,0 +1,7 @@
+{
+  "about": "第四張道具表（2026-11，Codex 生圖，洋紅底 3×3）：熊的三個狀態（站著／趴著睡／站起來吼，同一隻、同一個比例可以 swap）、坐著啃竹子的熊貓、青蛙（蹲坐／跳在半空）、打開的蜂蜜罐、掛在樹枝上的蜂窩、雪人。動物都朝左。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-4.png",
+  "key": "#FF00FF",
+  "props": ["bear", "bear-sleep", "bear-roar", "panda", "frog", "frog-jump", "honey", "hive", "snowman"],
+  "together": [["bear", "bear-sleep", "bear-roar"], ["frog", "frog-jump"]]
+}

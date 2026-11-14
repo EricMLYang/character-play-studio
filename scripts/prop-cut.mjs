@@ -8,7 +8,8 @@
 //
 // 設定 src/anim/props/<表>.cut.json：
 //   file（道具表檔名）、key（背景色，預設 #FF00FF 洋紅）、grid [欄, 列]（預設 3×3）、
-//   props（照「左到右、上到下」每格的名字，null 跳過）、flip（要左右翻的名字）、speck（比這小的零星色塊當雜點清掉，預設 40 像素）
+//   props（照「左到右、上到下」每格的名字，null 跳過）、flip（要左右翻的名字）、speck（比這小的零星色塊當雜點清掉，預設 40 像素）、
+//   together（同一隻動物的幾個狀態，例如 [["bear", "bear-sleep", "bear-roar"]]：一組共用一個放大倍數，swap 時大小才一致）
 // 切完會重新產生 src/anim/props.ts（每張道具圖的內容範圍，引擎算擋字、頭頂、影子用），
 // public/props/ 裡設定已經沒有的圖會清掉。
 // 道具表怎麼來、版面規則、生圖的 prompt：assets/prop-sheets/README.md。

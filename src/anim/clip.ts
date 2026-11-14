@@ -430,10 +430,14 @@ type Kind = 'creature' | 'vehicle' | 'prop'
 /**
  * 自製道具圖：劇本寫 emoji: 'prop:<名字>'，圖在 public/props/<名字>.png（npm run prop:cut 從道具表切出來，512×512、長邊撐滿、底部對齊）。
  * size 的意義跟 emoji 一樣（道具的長邊），站在地上的 y 跟主角一樣算。自動質感照「道具」那一邊（跟 🎁⭐🌳 一樣：不踩步伐、不點頭、不做小動作），
- * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）。
+ * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）；
+ * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸 一樣），
+ * 其中趴著睡、跳在半空的那幾張（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
  */
 export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
+const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump'])
+const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 
 /**
@@ -473,6 +477,7 @@ const NO_STEPS = new Set([...'🐌🐍🐛🪱🐟🐠🐡🐬🐳🐋🐙🦑�
 function kindOf(emoji: string): Kind {
   if (isVehicle(emoji)) return 'vehicle'
   if (emoji.startsWith('hero:')) return 'creature'
+  if (emoji.startsWith(PROP_PREFIX)) return PROP_ANIMALS.has(propName(emoji)) ? 'creature' : 'prop'
   const c = emoji.codePointAt(0) ?? 0
   const inR = (a: number, b: number) => c >= a && c <= b
   if (inR(0x1f400, 0x1f43d) || c === 0x1f43f || inR(0x1f980, 0x1f9ae) || inR(0x1fab0, 0x1fabd) || inR(0x1face, 0x1facf)
@@ -482,7 +487,7 @@ function kindOf(emoji: string): Kind {
   return 'prop'
 }
 const canStep = (emoji: string) => kindOf(emoji) === 'creature' && !emoji.startsWith('hero:shark/') && !emoji.endsWith('/drive')
-  && !NO_STEPS.has(emoji.codePointAt(0) ?? 0)
+  && !NO_STEPS.has(emoji.codePointAt(0) ?? 0) && !PROP_NO_STEPS.has(propName(emoji))
 
 /** 一段在地上走過去：步數 n 跟距離走，最後一步剛好踩在終點 */
 type Step = { at: number; d: number; ease?: Ease; ant: boolean; n: number; amp: number }
