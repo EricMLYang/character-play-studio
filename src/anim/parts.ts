@@ -36,6 +36,8 @@ export const PARTS = {
   足: { color: '#1B3A66', from: '踩下去的腳' },
   豸: { color: '#D0561A', from: '長背的野獸（貓、豹），從牠身上跳出來' },
   疌: { color: '#4A2C8F', from: '咻地開走的捷運（快到只剩一陣風），從它剛剛停的地方飛起來' },
+  // 「睿」的上半部（卜冖八八那一塊）沒有通用的單字名，先用這個名字登記
+  睿頭: { color: '#9B2D7F', from: '被撞得彈一下的大禮物，包裝上的一塊彈出來' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
