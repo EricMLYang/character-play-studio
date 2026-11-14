@@ -10,11 +10,12 @@ import Roots from './Roots'
 import Book from './Book'
 import Spell from './Spell'
 import Story from './Story'
+import Names from './Names'
 import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：魔法筆、故事屋、小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方：魔法筆、故事屋、主角館、小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
  *
  * 加一個新遊戲：
@@ -97,6 +98,15 @@ export const GAMES: Game[] = [
         onSticker={(story, beat) => ctx.record({ kind: 'story', char: story, beat })}
         onDone={(story) => ctx.record({ kind: 'story', char: story, done: true })}
         onRead={(text, char, ok) => ctx.record({ kind: 'book', char, text, ok })} />
+    ),
+  },
+  {
+    // 2026-11-14：把喜歡的角色的名字一個字一個字拼出來，那個主角就出場演一段（Names.tsx、shared/names.mjs）
+    id: 'names', icon: '🦸', title: '主角館', fresh: true,
+    subtitle: (p) => { const n = Object.keys(p.names || {}).length; return n ? `${n} 張貼紙` : '拼出名字，主角就出來' },
+    render: (ctx) => (
+      <Names library={ctx.library} progress={ctx.progress} onBack={ctx.back}
+        onDone={(id) => ctx.record({ kind: 'name', char: id, done: true })} />
     ),
   },
   {

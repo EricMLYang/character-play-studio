@@ -12431,6 +12431,1782 @@
       "priority": 316,
       "media": [],
       "feedback": []
+    },
+    {
+      "char": "偷",
+      "zhuyin": "ㄊㄡ",
+      "meaning": "to steal; sneakily",
+      "emoji": "🥷",
+      "words": [
+        {
+          "text": "小偷",
+          "emoji": "🥷"
+        },
+        {
+          "text": "麵包小偷",
+          "emoji": "🍞"
+        },
+        {
+          "text": "偷吃",
+          "emoji": "🤫"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "偷是躡手躡腳、不讓人看見：麵包小偷偷偷把麵包拿走了。"
+      },
+      "status": "seed",
+      "priority": 317,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "蘋",
+      "zhuyin": "ㄆㄧㄥˊ",
+      "meaning": "apple (in 蘋果)",
+      "emoji": "🍎",
+      "words": [
+        {
+          "text": "蘋果",
+          "emoji": "🍎"
+        },
+        {
+          "text": "紅蘋果",
+          "emoji": "🔴"
+        },
+        {
+          "text": "吃蘋果",
+          "emoji": "😋"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "蘋跟果在一起就是蘋果，紅紅的、甜甜的。"
+      },
+      "status": "seed",
+      "priority": 318,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "假",
+      "zhuyin": "ㄐㄧㄚˇ",
+      "meaning": "fake; pretend",
+      "emoji": "🥸",
+      "words": [
+        {
+          "text": "假面",
+          "emoji": "🥸"
+        },
+        {
+          "text": "假的",
+          "emoji": "🙅"
+        },
+        {
+          "text": "真假",
+          "emoji": "🤔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "戴上假眼鏡、假鬍子，就認不出來了：假的不是真的。"
+      },
+      "status": "seed",
+      "priority": 319,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "面",
+      "zhuyin": "ㄇㄧㄢˋ",
+      "meaning": "face; side",
+      "emoji": "🪞",
+      "words": [
+        {
+          "text": "假面",
+          "emoji": "🥸"
+        },
+        {
+          "text": "前面",
+          "emoji": "👉"
+        },
+        {
+          "text": "後面",
+          "emoji": "👈"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "面就是臉，照鏡子看到的就是你的面；臉對著的那邊叫前面。"
+      },
+      "status": "seed",
+      "priority": 320,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "糰",
+      "zhuyin": "ㄊㄨㄢˊ",
+      "meaning": "rice ball; dough ball",
+      "emoji": "🍙",
+      "words": [
+        {
+          "text": "飯糰",
+          "emoji": "🍙"
+        },
+        {
+          "text": "飯糰男孩",
+          "emoji": "🧢"
+        },
+        {
+          "text": "吃飯糰",
+          "emoji": "😋"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "把飯捏成圓圓的一球，就是飯糰。"
+      },
+      "status": "seed",
+      "priority": 321,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "孩",
+      "zhuyin": "ㄏㄞˊ",
+      "meaning": "child",
+      "emoji": "🪁",
+      "words": [
+        {
+          "text": "小孩",
+          "emoji": "🎒"
+        },
+        {
+          "text": "男孩",
+          "emoji": "🧢"
+        },
+        {
+          "text": "孩子",
+          "emoji": "🧸"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "愛放風箏、愛玩的就是小孩，你就是一個男孩。"
+      },
+      "status": "seed",
+      "priority": 322,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "哆",
+      "zhuyin": "ㄉㄨㄛ",
+      "meaning": "sound character (in 哆啦)",
+      "emoji": "🔔",
+      "words": [
+        {
+          "text": "哆啦",
+          "emoji": "🔔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "哆是哆啦Ａ夢的哆，他的脖子上掛著一個小鈴鐺。"
+      },
+      "status": "seed",
+      "priority": 323,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "啦",
+      "zhuyin": "˙ㄌㄚ",
+      "meaning": "sentence-ending particle",
+      "emoji": "🎶",
+      "words": [
+        {
+          "text": "好啦",
+          "emoji": "👍"
+        },
+        {
+          "text": "來啦",
+          "emoji": "🏃"
+        },
+        {
+          "text": "哆啦",
+          "emoji": "🔔"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "啦是說話最後面輕輕的尾巴：好啦、來啦！"
+      },
+      "status": "seed",
+      "priority": 324,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "夢",
+      "zhuyin": "ㄇㄥˋ",
+      "meaning": "dream",
+      "emoji": "😪",
+      "words": [
+        {
+          "text": "夢見",
+          "emoji": "💭"
+        },
+        {
+          "text": "好夢",
+          "emoji": "🌙"
+        },
+        {
+          "text": "夢到",
+          "emoji": "😪"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "睡著以後在腦子裡看到的故事，就是夢。"
+      },
+      "status": "seed",
+      "priority": 325,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "布",
+      "zhuyin": "ㄅㄨˋ",
+      "meaning": "cloth",
+      "emoji": "🧵",
+      "words": [
+        {
+          "text": "拉布拉多",
+          "emoji": "🐕"
+        },
+        {
+          "text": "桌布",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "紅布",
+          "emoji": "🧣"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "用線織出來的就是布；拉布拉多是一種大狗的名字。"
+      },
+      "status": "seed",
+      "priority": 326,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "警",
+      "zhuyin": "ㄐㄧㄥˇ",
+      "meaning": "police; to warn",
+      "emoji": "🚨",
+      "words": [
+        {
+          "text": "警長",
+          "emoji": "👮"
+        },
+        {
+          "text": "警車",
+          "emoji": "🚨"
+        },
+        {
+          "text": "警犬",
+          "emoji": "🐕"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "警車上的燈一閃一閃，警長來抓小偷了！"
+      },
+      "status": "seed",
+      "priority": 327,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "探",
+      "zhuyin": "ㄊㄢˋ",
+      "meaning": "to search; detective",
+      "emoji": "🧐",
+      "words": [
+        {
+          "text": "偵探",
+          "emoji": "🕵️"
+        },
+        {
+          "text": "探長",
+          "emoji": "🧐"
+        },
+        {
+          "text": "豬探長",
+          "emoji": "🐷"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "探就是到處仔細看、找線索，豬探長最會找。"
+      },
+      "status": "seed",
+      "priority": 328,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "生",
+      "zhuyin": "ㄕㄥ",
+      "meaning": "to be born; to grow; raw",
+      "emoji": "🥜",
+      "words": [
+        {
+          "text": "花生",
+          "emoji": "🥜"
+        },
+        {
+          "text": "生日",
+          "emoji": "🎂"
+        },
+        {
+          "text": "生蛋",
+          "emoji": "🥚"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "花生是長在土裡的；你出生的那一天叫生日。"
+      },
+      "status": "seed",
+      "priority": 329,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "屁",
+      "zhuyin": "ㄆㄧˋ",
+      "meaning": "fart; bottom",
+      "emoji": "💨",
+      "words": [
+        {
+          "text": "屁屁",
+          "emoji": "🩲"
+        },
+        {
+          "text": "小屁屁",
+          "emoji": "🐣"
+        },
+        {
+          "text": "屁屁偵探",
+          "emoji": "🕵️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "噗！放了一個屁。屁屁就是屁股。"
+      },
+      "status": "seed",
+      "priority": 330,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "偵",
+      "zhuyin": "ㄓㄣ",
+      "meaning": "to investigate",
+      "emoji": "👣",
+      "words": [
+        {
+          "text": "偵探",
+          "emoji": "🕵️"
+        },
+        {
+          "text": "小偵探",
+          "emoji": "🔍"
+        },
+        {
+          "text": "屁屁偵探",
+          "emoji": "🩲"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "跟著腳印一路查，把壞人找出來，就是偵探。"
+      },
+      "status": "seed",
+      "priority": 331,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "野",
+      "zhuyin": "ㄧㄝˇ",
+      "meaning": "wild",
+      "emoji": "⛺",
+      "words": [
+        {
+          "text": "野貓",
+          "emoji": "🐈"
+        },
+        {
+          "text": "大野狼",
+          "emoji": "🐺"
+        },
+        {
+          "text": "野草",
+          "emoji": "🌿"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "沒有人養、住在外面的，就是野的：野貓、大野狼。"
+      },
+      "status": "seed",
+      "priority": 332,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "軍",
+      "zhuyin": "ㄐㄩㄣ",
+      "meaning": "army",
+      "emoji": "🪖",
+      "words": [
+        {
+          "text": "軍團",
+          "emoji": "🪖"
+        },
+        {
+          "text": "野貓軍團",
+          "emoji": "🐈"
+        },
+        {
+          "text": "海軍",
+          "emoji": "🚢"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "戴著鋼盔的一大群，就是軍團。"
+      },
+      "status": "seed",
+      "priority": 333,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "團",
+      "zhuyin": "ㄊㄨㄢˊ",
+      "meaning": "group; ball",
+      "emoji": "🧶",
+      "words": [
+        {
+          "text": "軍團",
+          "emoji": "🪖"
+        },
+        {
+          "text": "一團",
+          "emoji": "🧶"
+        },
+        {
+          "text": "團長",
+          "emoji": "🎩"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "捲成圓圓一球叫一團；一大群在一起也叫團。"
+      },
+      "status": "seed",
+      "priority": 334,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "隻",
+      "zhuyin": "ㄓ",
+      "meaning": "measure word for animals",
+      "emoji": "🐥",
+      "words": [
+        {
+          "text": "一隻",
+          "emoji": "🐥"
+        },
+        {
+          "text": "幾隻",
+          "emoji": "🐾"
+        },
+        {
+          "text": "三隻小豬",
+          "emoji": "🐷"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "數動物的時候說隻：一隻貓、三隻小豬。"
+      },
+      "status": "seed",
+      "priority": 335,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "帽",
+      "zhuyin": "ㄇㄠˋ",
+      "meaning": "hat",
+      "emoji": "🧢",
+      "words": [
+        {
+          "text": "帽子",
+          "emoji": "🧢"
+        },
+        {
+          "text": "小紅帽",
+          "emoji": "👒"
+        },
+        {
+          "text": "草帽",
+          "emoji": "🌾"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "戴在頭上的就是帽子。"
+      },
+      "status": "seed",
+      "priority": 336,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "恐",
+      "zhuyin": "ㄎㄨㄥˇ",
+      "meaning": "fear; (in 恐龍 dinosaur)",
+      "emoji": "🦖",
+      "words": [
+        {
+          "text": "恐龍",
+          "emoji": "🦖"
+        },
+        {
+          "text": "小恐龍",
+          "emoji": "🦎"
+        },
+        {
+          "text": "恐龍蛋",
+          "emoji": "🥚"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "恐是很可怕的意思，恐龍就是很可怕的大龍。吼！"
+      },
+      "status": "seed",
+      "priority": 337,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "餓",
+      "zhuyin": "ㄜˋ",
+      "meaning": "hungry",
+      "emoji": "🤤",
+      "words": [
+        {
+          "text": "好餓",
+          "emoji": "😫"
+        },
+        {
+          "text": "餓了",
+          "emoji": "🍽️"
+        },
+        {
+          "text": "肚子餓",
+          "emoji": "🍚"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "肚子咕嚕咕嚕叫，看到吃的就流口水，好餓！"
+      },
+      "status": "seed",
+      "priority": 338,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "毛",
+      "zhuyin": "ㄇㄠˊ",
+      "meaning": "fur; hair",
+      "emoji": "🪶",
+      "words": [
+        {
+          "text": "毛毛蟲",
+          "emoji": "🐛"
+        },
+        {
+          "text": "羊毛",
+          "emoji": "🐑"
+        },
+        {
+          "text": "毛筆",
+          "emoji": "🖌️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "動物身上軟軟的就是毛，毛毛蟲全身都是毛。"
+      },
+      "status": "seed",
+      "priority": 339,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "怪",
+      "zhuyin": "ㄍㄨㄞˋ",
+      "meaning": "strange; monster",
+      "emoji": "👾",
+      "words": [
+        {
+          "text": "怪獸",
+          "emoji": "👾"
+        },
+        {
+          "text": "奇怪",
+          "emoji": "🤨"
+        },
+        {
+          "text": "大怪獸",
+          "emoji": "🐲"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "長得跟大家都不一樣，就是怪：怪獸來了！"
+      },
+      "status": "seed",
+      "priority": 340,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "獸",
+      "zhuyin": "ㄕㄡˋ",
+      "meaning": "beast",
+      "emoji": "🦍",
+      "words": [
+        {
+          "text": "怪獸",
+          "emoji": "👾"
+        },
+        {
+          "text": "野獸",
+          "emoji": "🦁"
+        },
+        {
+          "text": "小怪獸",
+          "emoji": "🦎"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "獸是又大又有力的動物：野獸、怪獸。"
+      },
+      "status": "seed",
+      "priority": 341,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "消",
+      "zhuyin": "ㄒㄧㄠ",
+      "meaning": "to put out; to vanish",
+      "emoji": "🚒",
+      "words": [
+        {
+          "text": "消防車",
+          "emoji": "🚒"
+        },
+        {
+          "text": "消防隊",
+          "emoji": "⛑️"
+        },
+        {
+          "text": "消防",
+          "emoji": "🔥"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "消就是讓它不見：把火消掉的車叫消防車。"
+      },
+      "status": "seed",
+      "priority": 342,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "防",
+      "zhuyin": "ㄈㄤˊ",
+      "meaning": "to guard against",
+      "emoji": "🛡️",
+      "words": [
+        {
+          "text": "消防車",
+          "emoji": "🚒"
+        },
+        {
+          "text": "消防隊",
+          "emoji": "⛑️"
+        },
+        {
+          "text": "防水",
+          "emoji": "☂️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "防就是先擋住，不讓壞事發生，像盾牌一樣。"
+      },
+      "status": "seed",
+      "priority": 343,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "汪",
+      "zhuyin": "ㄨㄤ",
+      "meaning": "woof",
+      "emoji": "🐕",
+      "words": [
+        {
+          "text": "汪汪",
+          "emoji": "🐶"
+        },
+        {
+          "text": "汪汪隊",
+          "emoji": "🐾"
+        },
+        {
+          "text": "汪汪叫",
+          "emoji": "🐕"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "小狗的叫聲：汪！汪！"
+      },
+      "status": "seed",
+      "priority": 344,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "隊",
+      "zhuyin": "ㄉㄨㄟˋ",
+      "meaning": "team",
+      "emoji": "🎺",
+      "words": [
+        {
+          "text": "隊長",
+          "emoji": "🥇"
+        },
+        {
+          "text": "汪汪隊",
+          "emoji": "🐾"
+        },
+        {
+          "text": "戰隊",
+          "emoji": "🤖"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "喇叭一吹，大家排成一隊，一起出任務！"
+      },
+      "status": "seed",
+      "priority": 345,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "寶",
+      "zhuyin": "ㄅㄠˇ",
+      "meaning": "treasure",
+      "emoji": "🪙",
+      "words": [
+        {
+          "text": "寶石",
+          "emoji": "💎"
+        },
+        {
+          "text": "寶寶",
+          "emoji": "🧸"
+        },
+        {
+          "text": "寶可夢",
+          "emoji": "⚡"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "閃亮亮的金幣和寶石，最珍貴的東西就是寶。"
+      },
+      "status": "seed",
+      "priority": 346,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "皮",
+      "zhuyin": "ㄆㄧˊ",
+      "meaning": "skin; peel",
+      "emoji": "🍌",
+      "words": [
+        {
+          "text": "皮卡丘",
+          "emoji": "⚡"
+        },
+        {
+          "text": "皮球",
+          "emoji": "⚽"
+        },
+        {
+          "text": "果皮",
+          "emoji": "🍌"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "包在外面那一層就是皮：香蕉要剝皮才能吃。"
+      },
+      "status": "seed",
+      "priority": 347,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "卡",
+      "zhuyin": "ㄎㄚˇ",
+      "meaning": "card; truck",
+      "emoji": "🚚",
+      "words": [
+        {
+          "text": "卡車",
+          "emoji": "🚚"
+        },
+        {
+          "text": "皮卡丘",
+          "emoji": "⚡"
+        },
+        {
+          "text": "生日卡",
+          "emoji": "🎂"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "載很多東西的大車叫卡車；一張硬硬的紙叫卡。"
+      },
+      "status": "seed",
+      "priority": 348,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "丘",
+      "zhuyin": "ㄑㄧㄡ",
+      "meaning": "small hill",
+      "emoji": "🐫",
+      "words": [
+        {
+          "text": "山丘",
+          "emoji": "⛰️"
+        },
+        {
+          "text": "沙丘",
+          "emoji": "🏖️"
+        },
+        {
+          "text": "皮卡丘",
+          "emoji": "⚡"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "駱駝背上圓圓鼓鼓的，就像一座小山丘。"
+      },
+      "status": "seed",
+      "priority": 349,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "神",
+      "zhuyin": "ㄕㄣˊ",
+      "meaning": "god; magical",
+      "emoji": "🪄",
+      "words": [
+        {
+          "text": "神奇",
+          "emoji": "🪄"
+        },
+        {
+          "text": "神明",
+          "emoji": "🙏"
+        },
+        {
+          "text": "神龍",
+          "emoji": "🐉"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "揮一下魔法棒就變出來，好神奇！"
+      },
+      "status": "seed",
+      "priority": 350,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "奇",
+      "zhuyin": "ㄑㄧˊ",
+      "meaning": "strange; wonderful",
+      "emoji": "🔮",
+      "words": [
+        {
+          "text": "神奇",
+          "emoji": "🪄"
+        },
+        {
+          "text": "奇怪",
+          "emoji": "🤨"
+        },
+        {
+          "text": "好奇",
+          "emoji": "🧐"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "水晶球裡看得到沒看過的東西，好奇怪、好神奇！"
+      },
+      "status": "seed",
+      "priority": 351,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "巧",
+      "zhuyin": "ㄑㄧㄠˇ",
+      "meaning": "clever; skillful",
+      "emoji": "🧩",
+      "words": [
+        {
+          "text": "巧虎",
+          "emoji": "🐯"
+        },
+        {
+          "text": "手巧",
+          "emoji": "✂️"
+        },
+        {
+          "text": "好巧",
+          "emoji": "😲"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "手很巧，一下就把拼圖拼好了。"
+      },
+      "status": "seed",
+      "priority": 352,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "蠟",
+      "zhuyin": "ㄌㄚˋ",
+      "meaning": "wax",
+      "emoji": "🕯️",
+      "words": [
+        {
+          "text": "蠟筆",
+          "emoji": "✏️"
+        },
+        {
+          "text": "蠟筆小新",
+          "emoji": "🖌️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "蠟燭是蠟做的，蠟筆也是，所以畫起來滑滑的。"
+      },
+      "status": "seed",
+      "priority": 353,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "綿",
+      "zhuyin": "ㄇㄧㄢˊ",
+      "meaning": "soft; cotton-like",
+      "emoji": "🧽",
+      "words": [
+        {
+          "text": "海綿",
+          "emoji": "🧽"
+        },
+        {
+          "text": "綿羊",
+          "emoji": "🐑"
+        },
+        {
+          "text": "海綿寶寶",
+          "emoji": "🫧"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "軟軟的、一捏就扁的就是綿：海綿、綿羊。"
+      },
+      "status": "seed",
+      "priority": 354,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "兵",
+      "zhuyin": "ㄅㄧㄥ",
+      "meaning": "soldier",
+      "emoji": "🏹",
+      "words": [
+        {
+          "text": "小兵",
+          "emoji": "🪖"
+        },
+        {
+          "text": "士兵",
+          "emoji": "⚔️"
+        },
+        {
+          "text": "小小兵",
+          "emoji": "👓"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "拿著弓箭排排站的就是兵。"
+      },
+      "status": "seed",
+      "priority": 355,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "佩",
+      "zhuyin": "ㄆㄟˋ",
+      "meaning": "to wear; to admire",
+      "emoji": "🐷",
+      "words": [
+        {
+          "text": "佩佩豬",
+          "emoji": "🐷"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "佩是佩佩豬的佩，小豬最愛跳泥巴坑。"
+      },
+      "status": "seed",
+      "priority": 356,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "蜘",
+      "zhuyin": "ㄓ",
+      "meaning": "spider (in 蜘蛛)",
+      "emoji": "🕷️",
+      "words": [
+        {
+          "text": "蜘蛛",
+          "emoji": "🕷️"
+        },
+        {
+          "text": "蜘蛛人",
+          "emoji": "🦸"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "蜘跟蛛永遠在一起：蜘蛛有八隻腳。"
+      },
+      "status": "seed",
+      "priority": 357,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "蛛",
+      "zhuyin": "ㄓㄨ",
+      "meaning": "spider (in 蜘蛛)",
+      "emoji": "🪰",
+      "words": [
+        {
+          "text": "蜘蛛",
+          "emoji": "🕷️"
+        },
+        {
+          "text": "小蜘蛛",
+          "emoji": "🤏"
+        },
+        {
+          "text": "大蜘蛛",
+          "emoji": "😱"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "蜘蛛織了網，等小蟲飛過來。"
+      },
+      "status": "seed",
+      "priority": 358,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "鋼",
+      "zhuyin": "ㄍㄤ",
+      "meaning": "steel",
+      "emoji": "🔩",
+      "words": [
+        {
+          "text": "鋼鐵",
+          "emoji": "🔩"
+        },
+        {
+          "text": "鋼鐵人",
+          "emoji": "🤖"
+        },
+        {
+          "text": "鋼筆",
+          "emoji": "✏️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "鋼比鐵還硬，螺絲就是鋼做的。"
+      },
+      "status": "seed",
+      "priority": 359,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "鐵",
+      "zhuyin": "ㄊㄧㄝˇ",
+      "meaning": "iron",
+      "emoji": "⛏️",
+      "words": [
+        {
+          "text": "鋼鐵",
+          "emoji": "🔩"
+        },
+        {
+          "text": "鐵門",
+          "emoji": "🚪"
+        },
+        {
+          "text": "鐵板",
+          "emoji": "🍳"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "鐵又硬又重，鏟子的頭就是鐵做的。"
+      },
+      "status": "seed",
+      "priority": 360,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "鼠",
+      "zhuyin": "ㄕㄨˇ",
+      "meaning": "mouse; rat",
+      "emoji": "🐁",
+      "words": [
+        {
+          "text": "老鼠",
+          "emoji": "🐁"
+        },
+        {
+          "text": "米老鼠",
+          "emoji": "🐭"
+        },
+        {
+          "text": "小老鼠",
+          "emoji": "🐹"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "吱吱吱！愛偷吃米的就是老鼠。"
+      },
+      "status": "seed",
+      "priority": 361,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "瑪",
+      "zhuyin": "ㄇㄚˇ",
+      "meaning": "name character (in 瑪利歐)",
+      "emoji": "🍄",
+      "words": [
+        {
+          "text": "瑪利歐",
+          "emoji": "🍄"
+        },
+        {
+          "text": "湯瑪士",
+          "emoji": "🚃"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "瑪常常出現在名字裡：瑪利歐、湯瑪士。"
+      },
+      "status": "seed",
+      "priority": 362,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "利",
+      "zhuyin": "ㄌㄧˋ",
+      "meaning": "sharp; benefit",
+      "emoji": "🔪",
+      "words": [
+        {
+          "text": "瑪利歐",
+          "emoji": "🍄"
+        },
+        {
+          "text": "利用",
+          "emoji": "🔨"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "刀子很利，一切就開。"
+      },
+      "status": "seed",
+      "priority": 363,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "歐",
+      "zhuyin": "ㄡ",
+      "meaning": "Europe; name character",
+      "emoji": "🌏",
+      "words": [
+        {
+          "text": "瑪利歐",
+          "emoji": "🍄"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "歐是瑪利歐的歐，也是很遠的歐洲的歐。"
+      },
+      "status": "seed",
+      "priority": 364,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "噴",
+      "zhuyin": "ㄆㄣ",
+      "meaning": "to spray; to spout",
+      "emoji": "🚿",
+      "words": [
+        {
+          "text": "噴火",
+          "emoji": "🔥"
+        },
+        {
+          "text": "噴水",
+          "emoji": "💦"
+        },
+        {
+          "text": "噴火龍",
+          "emoji": "🐲"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "水嘩地衝出來就是噴：噴水、噴火！"
+      },
+      "status": "seed",
+      "priority": 365,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "霸",
+      "zhuyin": "ㄅㄚˋ",
+      "meaning": "overlord; mighty",
+      "emoji": "👑",
+      "words": [
+        {
+          "text": "霸王",
+          "emoji": "👑"
+        },
+        {
+          "text": "霸王龍",
+          "emoji": "🦖"
+        },
+        {
+          "text": "小霸王",
+          "emoji": "😤"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "最強、誰都不怕的就是霸王。"
+      },
+      "status": "seed",
+      "priority": 366,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "變",
+      "zhuyin": "ㄅㄧㄢˋ",
+      "meaning": "to change",
+      "emoji": "🦋",
+      "words": [
+        {
+          "text": "變形",
+          "emoji": "🤖"
+        },
+        {
+          "text": "變大",
+          "emoji": "🐘"
+        },
+        {
+          "text": "變小",
+          "emoji": "🐜"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "毛毛蟲變成蝴蝶，就是變！"
+      },
+      "status": "seed",
+      "priority": 367,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "形",
+      "zhuyin": "ㄒㄧㄥˊ",
+      "meaning": "shape",
+      "emoji": "🔲",
+      "words": [
+        {
+          "text": "變形",
+          "emoji": "🤖"
+        },
+        {
+          "text": "星形",
+          "emoji": "⭐"
+        },
+        {
+          "text": "變形金剛",
+          "emoji": "🚚"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "形就是樣子：方形、星形。"
+      },
+      "status": "seed",
+      "priority": 368,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "剛",
+      "zhuyin": "ㄍㄤ",
+      "meaning": "hard; just now",
+      "emoji": "💪",
+      "words": [
+        {
+          "text": "金剛",
+          "emoji": "🦍"
+        },
+        {
+          "text": "剛好",
+          "emoji": "👍"
+        },
+        {
+          "text": "變形金剛",
+          "emoji": "🤖"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "剛就是硬邦邦、很有力。"
+      },
+      "status": "seed",
+      "priority": 369,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "傑",
+      "zhuyin": "ㄐㄧㄝˊ",
+      "meaning": "outstanding person",
+      "emoji": "🦊",
+      "words": [
+        {
+          "text": "怪傑",
+          "emoji": "🦊"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "很厲害、很特別的人叫傑：怪傑佐羅力。"
+      },
+      "status": "seed",
+      "priority": 370,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "佐",
+      "zhuyin": "ㄗㄨㄛˇ",
+      "meaning": "to assist; name character",
+      "emoji": "🗡️",
+      "words": [
+        {
+          "text": "佐羅力",
+          "emoji": "🦊"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "佐是佐羅力的佐，他是愛惡作劇的狐狸。"
+      },
+      "status": "seed",
+      "priority": 371,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "羅",
+      "zhuyin": "ㄌㄨㄛˊ",
+      "meaning": "net; name character",
+      "emoji": "🥅",
+      "words": [
+        {
+          "text": "佐羅力",
+          "emoji": "🦊"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "羅本來是抓鳥的網子，也常出現在名字裡。"
+      },
+      "status": "seed",
+      "priority": 372,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "名",
+      "zhuyin": "ㄇㄧㄥˊ",
+      "meaning": "name; famous",
+      "emoji": "🥇",
+      "words": [
+        {
+          "text": "有名",
+          "emoji": "⭐"
+        },
+        {
+          "text": "名偵探",
+          "emoji": "🕵️"
+        },
+        {
+          "text": "名人",
+          "emoji": "😎"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "每個人都有名字；大家都知道的叫有名。"
+      },
+      "status": "seed",
+      "priority": 373,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "柯",
+      "zhuyin": "ㄎㄜ",
+      "meaning": "name character (in 柯南)",
+      "emoji": "🪵",
+      "words": [
+        {
+          "text": "柯南",
+          "emoji": "🕵️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "柯是柯南的柯，本來是樹枝的意思。"
+      },
+      "status": "seed",
+      "priority": 374,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "南",
+      "zhuyin": "ㄋㄢˊ",
+      "meaning": "south",
+      "emoji": "🎃",
+      "words": [
+        {
+          "text": "南瓜",
+          "emoji": "🎃"
+        },
+        {
+          "text": "柯南",
+          "emoji": "🕵️"
+        },
+        {
+          "text": "南瓜湯",
+          "emoji": "🥣"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "南是一個方向；圓圓橘橘的是南瓜。"
+      },
+      "status": "seed",
+      "priority": 375,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "士",
+      "zhuyin": "ㄕˋ",
+      "meaning": "warrior; person",
+      "emoji": "⚔️",
+      "words": [
+        {
+          "text": "戰士",
+          "emoji": "⚔️"
+        },
+        {
+          "text": "士兵",
+          "emoji": "🪖"
+        },
+        {
+          "text": "湯瑪士",
+          "emoji": "🚃"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "拿劍保護大家的叫戰士。"
+      },
+      "status": "seed",
+      "priority": 376,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "角",
+      "zhuyin": "ㄐㄧㄠˇ",
+      "meaning": "horn; corner",
+      "emoji": "🐐",
+      "words": [
+        {
+          "text": "牛角",
+          "emoji": "🐄"
+        },
+        {
+          "text": "角落",
+          "emoji": "🧸"
+        },
+        {
+          "text": "三角",
+          "emoji": "🍙"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "羊頭上尖尖的是角；房間尖尖的地方是角落。"
+      },
+      "status": "seed",
+      "priority": 377,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "落",
+      "zhuyin": "ㄌㄨㄛˋ",
+      "meaning": "to fall",
+      "emoji": "🍁",
+      "words": [
+        {
+          "text": "角落",
+          "emoji": "🧸"
+        },
+        {
+          "text": "日落",
+          "emoji": "🌅"
+        },
+        {
+          "text": "落葉",
+          "emoji": "🍂"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "葉子從樹上掉下來，就是落。"
+      },
+      "status": "seed",
+      "priority": 378,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "夥",
+      "zhuyin": "ㄏㄨㄛˇ",
+      "meaning": "companion; partner",
+      "emoji": "🤝",
+      "words": [
+        {
+          "text": "夥伴",
+          "emoji": "🤝"
+        },
+        {
+          "text": "小夥伴",
+          "emoji": "🧸"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "一起玩、一起做事的朋友叫夥伴。"
+      },
+      "status": "seed",
+      "priority": 379,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "伴",
+      "zhuyin": "ㄅㄢˋ",
+      "meaning": "companion",
+      "emoji": "🧸",
+      "words": [
+        {
+          "text": "夥伴",
+          "emoji": "🤝"
+        },
+        {
+          "text": "玩伴",
+          "emoji": "🪁"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "小熊陪著你，就是你的伴。"
+      },
+      "status": "seed",
+      "priority": 380,
+      "media": [],
+      "feedback": []
     }
   ],
   "production": {

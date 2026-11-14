@@ -1,0 +1,109 @@
+/**
+ * 主角館：他把名字一個字一個字拼出來，那個主角就出場演一段。
+ *
+ * 6～7 歲的男孩最想讀的字，常常就是他喜歡的角色的名字（皮卡丘、恐龍、消防車）。
+ * 這裡把那些名字當成「詞」來拼：字塊打散，他照順序點，拼完那個主角就出場——拼字的獎勵就是看到他。
+ *
+ * - **名字只是詞，動畫演的是這幾個字的字面意思，不是原作角色的長相**（所有權規則在
+ *   .claude/skills/name-scenes/SKILL.md，每一支動畫都要守）：皮卡丘是「一顆皮球坐卡車上山丘」，
+ *   哆啦Ａ夢是「鈴鐺哆啦哆啦響、主角睡著做夢」。
+ * - **名字裡每個國字都要在字庫、而且開放**（tests/names.test.mjs 會擋）：他點的每一塊字都唸得出來、都有字卡。
+ *   不是國字的（哆啦Ａ夢的「Ａ」）先填好，不用拼。
+ * - 有動畫的名字才上牆（src/names/scenes/<id>.ts）；資料先建好，動畫一支一支補。
+ *
+ * 一個名字：{ id, text, emoji, note? }
+ *   id     動畫檔名與紀錄用（progress.names[id]）
+ *   text   名字本身（畫面上、唸的都是它，動畫裡那一句 say 要一字不差）
+ *   emoji  貼紙（要有 3D 圖，public/emoji3d/）
+ *   note   還沒寫動畫的：字面上可以怎麼演（給寫劇本的人的建議，不是規定）；寫好了就是「演的是什麼」
+ */
+export const NAMES = [
+  { id: 'bread', text: '麵包小偷', emoji: '🍞', note: '小忍者踮腳把一條麵包抱走（不是披著麵包的老鼠）' },
+  { id: 'apple', text: '蘋果假面超人', emoji: '🍎', note: '超人拿一顆蘋果擋在臉前當面具，看不到路撞到樹；不要做成食物做的圓臉' },
+  { id: 'riceball', text: '飯糰男孩', emoji: '🍙', note: '楊捷睿捏飯糰，越捏越大把自己壓扁' },
+  { id: 'dora', text: '哆啦Ａ夢', emoji: '🔔', note: '鈴鐺「哆啦哆啦」響，主角睡著做了一個夢（夢裡冒出好吃的）；不要藍色圓貓、口袋、竹蜻蜓、任意門' },
+  { id: 'labrador', text: '拉布拉多警長', emoji: '🚨', note: '狗狗頭上頂著警燈，追著搶錢的浣熊跑，一把抓住' },
+  { id: 'pigsleuth', text: '豬探長', emoji: '🔍', note: '小豬拿放大鏡找腳印，犯人一直躲在他後面' },
+  { id: 'peanut', text: '花生', emoji: '🥜', note: '一顆花生埋進土裡，「生」出一朵花' },
+  { id: 'butt', text: '屁屁偵探', emoji: '💨', note: '偵探拿放大鏡找線索，噗一聲把壞人吹跑；不要把臉做成屁股形狀' },
+  { id: 'catarmy', text: '野貓軍團', emoji: '🐈', note: '一排貓咪列隊踏步，一條魚丟過來隊伍全亂' },
+  { id: 'threepigs', text: '三隻小豬', emoji: '🐷', note: '三隻小豬疊羅漢搆東西（老童話，沒有原作的問題）' },
+  { id: 'redhood', text: '小紅帽', emoji: '👒', note: '一頂紅帽子被風吹走，追著帽子跑' },
+  { id: 'wolf', text: '大野狼', emoji: '🐺', note: '大野狼吹氣，吹到自己飛走' },
+  { id: 'caterpillar', text: '毛毛蟲', emoji: '🐛', note: '毛毛蟲一伸一縮爬上葉子打噴嚏；不要演吃一洞一洞的水果、變蝴蝶' },
+  { id: 'pika', text: '皮卡丘', emoji: '⚡', note: '一顆「皮」球坐「卡」車上山「丘」，山頂一道閃電把球嚇得彈起來；不要黃色老鼠、閃電尾巴、紅臉頰' },
+  { id: 'pocket', text: '寶可夢', emoji: '💎', note: '寶（寶石）可以夢到：主角睡著，夢裡冒出一堆寶石；不要紅白球' },
+  { id: 'woof', text: '汪汪隊', emoji: '🐶', note: '一隊狗狗排隊汪汪叫，最小的那隻叫最大聲；不要徽章、每隻狗一台車' },
+  { id: 'tiger', text: '巧虎', emoji: '🐯', note: '老虎想拿樹上的東西，用一個巧妙的辦法（疊箱子、用尾巴勾）拿到' },
+  { id: 'dino', text: '恐龍', emoji: '🦖', note: '蛋裂開跑出小恐龍，吼得震天，結果被一隻小老鼠嚇到（恐）' },
+  { id: 'monster', text: '大怪獸', emoji: '👾', note: '自家的大怪獸（hero:monster）打嗝把自己噴上天' },
+  { id: 'firetruck', text: '消防車', emoji: '🚒', note: '消防車噴水滅火，噴到自己' },
+  { id: 'robot', text: '機器人', emoji: '🤖', note: '自家的機器人（hero:robot）跳舞跳到冒煙' },
+  { id: 'alien', text: '外星人', emoji: '👽', note: '自家的外星人（hero:alien）用飛碟光束吸東西吸錯' },
+  { id: 'dragon', text: '神龍', emoji: '🐉', note: '一條龍從雲裡出來噴火烤棉花糖；不要七顆球、許願' },
+  { id: 'truck', text: '卡車', emoji: '🚚', note: '卡車載太多東西卡在橋下（卡）' },
+  // 2026-11-14 第二批：台灣小朋友喜歡的角色（一樣只演字面意思）
+  { id: 'crayon', text: '蠟筆小新', emoji: '✏️', note: '一支全「新」的小蠟筆在牆上亂畫，畫出來的東西活過來追著它跑；不要粗眉毛小孩、露屁股' },
+  { id: 'sponge', text: '海綿寶寶', emoji: '🧽', note: '海裡一塊小海綿吸水吸太飽變超大，一擠全噴出來；海綿不要有臉、不要穿褲子、不要鳳梨屋與抓水母' },
+  { id: 'minion', text: '小小兵', emoji: '🪖', note: '很小很小的兵（螞蟻那麼小）合力扛一個大東西；不要黃色膠囊身體、護目鏡、吊帶褲、香蕉' },
+  { id: 'peppa', text: '佩佩豬', emoji: '🐖', note: '小豬把獎牌、項鍊一個一個「佩」戴上身，重到走不動；不要側臉粉紅豬穿紅裙、不要跳泥巴坑' },
+  { id: 'spider', text: '蜘蛛人', emoji: '🕷️', note: '一個人（自家主角）跟蜘蛛比賽織網，把自己纏成一團；不要紅藍緊身衣、手腕噴絲、盪大樓、倒吊' },
+  { id: 'ironman', text: '鋼鐵人', emoji: '🔩', note: '全身鋼鐵的人（自家機器人或戰士）被大磁鐵吸著跑，鍋子湯匙全黏上來；不要紅金盔甲、胸口發光的圓、手掌光束' },
+  { id: 'mouse', text: '米老鼠', emoji: '🐁', note: '老鼠偷米，米袋破了一路漏（可用 hero:mouse）；不要黑色圓耳朵、紅褲子、白手套' },
+  { id: 'mario', text: '瑪利歐', emoji: '🏃', note: '名字沒有字面意思，演「愛跳的人」：自家主角一路跳過雲朵，跳太高卡在月亮上；不要紅帽子鬍子吊帶褲、水管、問號磚、蘑菇、烏龜殼、撞磚出金幣' },
+  { id: 'anpan', text: '麵包超人', emoji: '🥖', note: '自家超人（hero:cape）飛去搶救快烤焦的麵包；不要圓臉紅鼻子紅臉頰、不要把臉掰給人吃、不要細菌人' },
+  { id: 'fartman', text: '屁屁超人', emoji: '🦸', note: '自家超人（hero:cape）飛不起來，噗一聲才衝上天；不要番薯、校長等原作情節' },
+  { id: 'totoro', text: '龍貓', emoji: '🐈‍⬛', note: '一條龍和一隻貓：貓把龍的尾巴當逗貓棒；不要灰色大肚子、葉子傘、貓巴士、公車站' },
+  { id: 'firedragon', text: '小火龍', emoji: '🔥', note: '小小的龍只噴得出小小的火，連蠟燭都點不著，最後一打嗝噴出大火；不要尾巴有火的橘色蜥蜴' },
+  { id: 'spitfire', text: '噴火龍', emoji: '🐲', note: '龍感冒了，一打噴嚏就噴火，把晾的衣服烤焦；不要橘色有翅膀的原作造型，也不要「被蚊子叮才噴火」' },
+  { id: 'snowman', text: '雪寶', emoji: '⛄', note: '雪做的寶寶：小雪人怕太陽，躲進冰箱；不要三根頭髮、樹枝手、想過夏天' },
+  { id: 'ultra', text: '超人力霸王', emoji: '💪', note: '超人比力氣想當霸王：拔河、舉重，輸給一隻小螞蟻；不要銀紅色巨人、胸口計時燈、十字光線、在城市打怪獸' },
+  { id: 'transformer', text: '變形金剛', emoji: '🦍', note: '金剛（大猩猩）捏黏土變形狀，越變越怪；不要車子變機器人、陣營標誌' },
+  { id: 'zorori', text: '怪傑佐羅力', emoji: '🎩', note: '愛惡作劇的怪傢伙（自家忍者或海盜）設陷阱，結果自己掉進去；不要戴面具披風的狐狸、野豬雙胞胎' },
+  { id: 'conan', text: '名偵探柯南', emoji: '🥇', note: '太有「名」的偵探：粉絲追著要簽名，沒空辦案；不要戴大眼鏡的小孩、蝴蝶結變聲器、麻醉針（跟 butt、pigsleuth 兩支偵探套路要不同）' },
+  { id: 'thomas', text: '湯瑪士小火車', emoji: '🚃', note: '小火車載一大鍋「湯」，一煞車湯全潑出來；不要藍色車頭上有臉、編號 1' },
+  { id: 'corner', text: '角落小夥伴', emoji: '🧸', note: '一群小夥伴都想擠進同一個角落；不要白熊、企鵝、炸豬排、貓那一組造型' },
+]
+
+export const nameById = (id) => NAMES.find((n) => n.id === id)
+
+/** 這個字要不要拼：國字才拼，其他（Ａ、標點）先填好 */
+export const isHan = (c) => /\p{Script=Han}/u.test(c)
+
+/** 名字裡要拼的字（照順序，重複的字照樣出現兩次：屁屁、汪汪、毛毛） */
+export const spellChars = (name) => [...name.text].filter(isHan)
+
+/** 名字用到哪幾個國字（不重複）：都要在字庫裡 */
+export const nameChars = (name) => [...new Set(spellChars(name))]
+
+/** 他點開一張卡片時唸的那一句 */
+export const askLine = (name) => `${name.text}！把他的名字拼出來！`
+
+/**
+ * 只唸不顯示的固定句子（他讀不到畫面上的說明，要唸出來）。
+ * 名字本身與 askLine 也會先做成音檔（nameLines）。
+ */
+export const NAME_FIXED = {
+  nameHello: '歡迎來到主角館！點一張卡片，把名字拼出來，主角就會出來！',
+  nameAgain: '再找找看！下一個字在哪裡？',
+  nameDone: '拼好了！主角出來囉！',
+  nameSticker: '你拿到新的貼紙了！',
+  nameSeen: '好厲害！又拼對了！',
+  nameNew: '有新的字喔！點一下字塊，聽聽看它是什麼字。',
+  /** 拼過的卡片再點：兩個大按鈕（圖示＋唸出來，他讀不到按鈕上的字） */
+  nameChoose: '要看動畫，還是再拼一次？',
+  nameWatch: '看動畫！',
+  nameRespell: '再拼一次！',
+  /** 演完停在亮相那一格：點主角就再演一次 */
+  nameTapHero: '點一下主角，他會再演一次！',
+}
+
+/** 要先做成音檔的句子：固定句、每個名字、每個名字的「把他的名字拼出來」 */
+export function nameLines() {
+  const out = new Set(Object.values(NAME_FIXED))
+  for (const name of NAMES) { out.add(name.text); out.add(askLine(name)) }
+  return [...out]
+}
+
+/** 主角紀錄收不收：char 是名字的 id，done 是拼完、看完那一段 */
+export const validName = (event) => Boolean(nameById(event?.char)) && event.done === true

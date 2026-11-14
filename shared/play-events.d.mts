@@ -17,6 +17,8 @@ export type PlayEvent =
   | { kind: 'book'; char: string; id: string; at: string; text: string; ok: boolean; mine?: boolean }
   /** 故事屋：char 是哪一本故事的 id；beat 是看到的那種結果（頁 id:字），done 是讀完一遍 */
   | { kind: 'story'; char: string; id: string; at: string; beat?: string; done?: true }
+  /** 主角館：char 是名字的 id（shared/names.mjs），done 是拼完、看完那一段 */
+  | { kind: 'name'; char: string; id: string; at: string; done: true }
   /** 魔法筆的合體：char 是合出來的詞（shared/spells.mjs 的 COMBOS） */
   | { kind: 'fuse'; char: string; id: string; at: string }
 export type PlayEventKind = NonNullable<PlayEvent['kind']>

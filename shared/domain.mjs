@@ -153,6 +153,21 @@ export function readStory(progress, id, beat, done, at = new Date().toISOString(
   return { ...progress, stories: { ...progress.stories, [id]: entry } }
 }
 
+/**
+ * 主角館：他把這個名字拼完、看完那一段（shared/names.mjs 的 id）。記第一次、最後一次、拼了幾次。
+ * 離線補送的舊紀錄：次數照算，第一次換成比較早的、最後一次留給比較新的。
+ */
+export function spellName(progress, id, at = new Date().toISOString()) {
+  const previous = progress.names?.[id]
+  const time = Date.parse(at)
+  const entry = {
+    first: previous && Date.parse(previous.first) < time ? previous.first : at,
+    last: !previous || Date.parse(previous.last) <= time ? at : previous.last,
+    count: (previous?.count || 0) + 1,
+  }
+  return { ...progress, names: { ...progress.names, [id]: entry } }
+}
+
 /** 指讀小書：text 是整句（含標點），char 是他要指出來的那個字（要在句子裡），ok 是第一下就指對 */
 export const validBook = (event) => typeof event.text === 'string' && [...event.text].length >= 3 && [...event.text].length <= 16 &&
   typeof event.char === 'string' && [...event.text].includes(event.char) && typeof event.ok === 'boolean' &&

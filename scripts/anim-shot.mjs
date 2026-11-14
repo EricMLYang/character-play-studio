@@ -11,6 +11,7 @@
 //   npm run anim:shot -- 晚 --old --tag old  拍重做前的舊版（src/anim/clips-old/晚.ts，試播頁的 ?v=old）
 //   npm run anim:shot -- --story cold        故事屋的一本故事：每一段戲各出一張總覽（src/story/scenes/cold.ts）
 //   npm run anim:shot -- --story cold/warm:火  只拍其中一段
+//   npm run anim:shot -- --name pika         主角館的一個名字（src/names/scenes/pika.ts）；--name pika,dino 一次好幾個、--name all 全部
 //
 // 其他參數：--out <資料夾>（預設 .anim-shots/，已 .gitignore）、--width <每格寬，預設 640>、
 // --cols <每列幾格，預設 3>、--rows <每張幾列，預設 5>、--fps <mp4 的格數，預設 30>、--mp4-width <預設 960>
@@ -33,7 +34,7 @@ const STAGE_W = 960
 
 // ── 參數 ──────────────────────────────────────────────
 const argv = process.argv.slice(2)
-const opts = { step: 0.25, from: 0, to: null, mp4: false, old: false, story: '', out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
+const opts = { step: 0.25, from: 0, to: null, mp4: false, old: false, story: '', name: '', out: path.join(ROOT, '.anim-shots'), tag: '', width: 640, cols: 3, rows: 5, fps: 30, mp4Width: 960 }
 const chars = []
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i]
@@ -42,6 +43,7 @@ for (let i = 0; i < argv.length; i++) {
   if (a === '--mp4') opts.mp4 = true
   else if (a === '--old') opts.old = true
   else if (a === '--story') opts.story = val()
+  else if (a === '--name') opts.name = val()
   else if (a === '--step') opts.step = num()
   else if (a === '--from') opts.from = num()
   else if (a === '--to') opts.to = num()
@@ -65,6 +67,15 @@ if (storyId) {
   if (onlyBeat && !beats.includes(onlyBeat)) fail(`${storyId} 沒有這段戲：${onlyBeat}（有：${beats.join('、')}）`)
   chars.length = 0
   chars.push(...(onlyBeat ? [onlyBeat] : beats))
+}
+// 主角館：要拍的「字」換成名字的 id（試播頁 ?name=<id>）
+if (opts.name) {
+  const { NAMES, nameById } = await import('../shared/names.mjs')
+  const has = (id) => fs.existsSync(path.join(ROOT, 'src/names/scenes', `${id}.ts`))
+  const ids = opts.name === 'all' ? NAMES.map((n) => n.id).filter(has) : opts.name.split(',')
+  for (const id of ids) { if (!nameById(id)) fail(`沒有這個名字：${id}`); if (!has(id)) fail(`${id} 還沒有動畫（src/names/scenes/${id}.ts）`) }
+  chars.length = 0
+  chars.push(...ids)
 }
 if (!chars.length) fail('要給字，例如：npm run anim:shot -- 哭')
 if (!(opts.step > 0)) fail('--step 要大於 0')
@@ -157,7 +168,7 @@ async function main() {
     const to = Math.min(duration, opts.to ?? duration)
     if (!(to >= from)) throw new Error(`${char}：--from/--to 範圍不對（劇本長 ${duration} 秒）`)
     const custom = opts.from !== 0 || opts.to !== null || opts.step !== 0.25
-    const name = `${storyId ? `${storyId}-` : ''}${char.replace(':', '-')}${opts.tag ? `-${opts.tag}` : ''}${custom ? `-${fmt(from)}-${fmt(to)}s@${opts.step}` : ''}`
+    const name = `${opts.name ? 'name-' : ''}${storyId ? `${storyId}-` : ''}${char.replace(':', '-')}${opts.tag ? `-${opts.tag}` : ''}${custom ? `-${fmt(from)}-${fmt(to)}s@${opts.step}` : ''}`
 
     // 縮圖總覽
     const times = []
@@ -204,7 +215,7 @@ async function main() {
 /** 開某個字的試播頁，等到筆順資料、掛鉤都好了，回傳劇本長度。 */
 async function openClip(page, base, char) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0${opts.old ? '&v=old' : ''}${storyId ? `&story=${encodeURIComponent(storyId)}` : ''}` })
+    await page.send('Page.navigate', { url: `${base}/anim?char=${encodeURIComponent(char)}&t=0${opts.old ? '&v=old' : ''}${storyId ? `&story=${encodeURIComponent(storyId)}` : ''}${opts.name ? `&name=${encodeURIComponent(char)}` : ''}` })
     // 剛導覽時舊頁面的環境可能還在、或正好被換掉，所以從 Node 這邊一次一次問
     let ok = null
     const until = Date.now() + 20000
