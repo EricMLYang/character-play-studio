@@ -1,201 +1,235 @@
-import type { Clip, Move } from '../clip'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 甜（重做）：大怪獸和發條鯊魚為了一個杯子蛋糕，拿巨大棒棒糖當劍決鬥。第一劍糖黏在一起拔不開，一拔開兩個都彈飛坐倒；
-// 再全速衝過去對砍——兩支棒棒糖「碰」地碎成「甜」，蛋糕被震上天。國字讓到上方，蛋糕變成超大的掉回中間（甜點），
-// 回馬槍：兩個同時撲上去咬，頭撞頭彈開，蛋糕彈進鯊魚嘴裡整個吞下去，撐成圓球，打嗝噴出櫻桃落到怪獸頭上。甜、甜、甜點
-const M = 67.8 // 大怪獸（size 22）站在地上的 y
-const S = 68.2 // 鯊魚（size 21）
-const LY = -10 // 棒棒糖握在手上（相對角色的 y）
+// 甜（v2）：一本正經的狗狗警長來「檢查」一個大蛋糕——每次只舔一小口，就甜到「咕嚕」一聲跳起來、滿身愛心飄上去，一次比一次飄得高：
+// 飄一下就落地（舌的上半從舌頭彈出來）、飄到半空轉一圈（舌的下半）、先停一拍再舔，甜到直接飛出畫面（甘從蛋糕噴出來）。
+// 回馬槍：他學乖了，伸手比「不吃！」——蛋糕上的櫻桃自己一彈飛進他嘴裡，甜到連整個蛋糕都跟他一起飄走。
+// 最後畫面暗下來只剩「甜」，警長掉回來、轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再指著字說「甜！」，然後退場只留字。
+// 甜、甜、甜點、這是什麼字？、甜
+const P = 66.9 // 警長（size 24）站在地上的 y
+const C = 62.7 // 大蛋糕（size 34）
+/** 大蛋糕平常在的地方（畫面中間） */
+const CX = 88
+/** 警長每次出發的地方 */
+const HOME = 36
+/** 前三次都走到同一個地方：蛋糕的左邊，彎腰就舔得到 */
+const REACH = 64
+/** 舔到以後傻眼停多久，才飄起來 */
+const HOLD = 0.45
+/** 每一次飄多高（腳離地多少）；第三次飄出畫面，另外寫 */
+const RISE = [9, 24]
+/** 甜到臉紅：粉粉的 */
+const PINK = 'sepia(.45) saturate(2.4) hue-rotate(-38deg) brightness(1.04)'
+/** 語詞那一刻：蛋糕到正中間變大、警長也變大 */
+const MID = 86
+const CAKE_BIG = 1.3
+const BIG = 1.25
+/** 第四次他站的地方（蛋糕左邊） */
+const STAND = 54
 
-// 角色的移動抄一份給手上的棒棒糖（dx 是在角色前面多遠）
-const hold = (ms: Move[], lolly: string, dx: number): Move[] => ms.flatMap((m) => [
-  m,
-  ...(m.do === 'moveTo' || m.do === 'enter'
-    ? [{ ...m, actor: lolly, to: m.to && { x: m.to.x + dx, y: m.to.y + LY }, from: m.from && { x: m.from.x + dx, y: m.from.y + LY } }]
-    : []),
-])
+/**
+ * 「咕嚕—咻」：蛋糕閃一下、彈一下（預備：好香）→ 警長伸手、彎腰舔一口 → 舔到那一刻傻眼＋臉紅＋💕 一圈＋白光＋鏡頭推近＋震＋同一個音效，
+ * 傻眼停 HOLD 秒（看得見臉），才滿身愛心飄起來。k 是第幾次（越後面越大），x 是他站的地方。
+ * 第 4 次（lick: false）他沒有舔：伸手比「不吃」，櫻桃自己飛進他嘴裡。
+ */
+function sweet(at: number, k: number, x: number, lick = true) {
+  const moves: Move[] = [
+    // 預備：蛋糕彈一下（好香～）
+    { at: at - 0.6, actor: 'cake', do: 'bounce', amount: 1.6 + 0.3 * k, times: 1, dur: 0.3 },
+    // 舔到！傻眼、臉紅
+    { at, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at, actor: 'sheriff', do: 'tint', filter: PINK },
+    { at, actor: 'sheriff', do: 'squash', amount: 0.18, dur: 0.22 },
+    { at, actor: 'cake', do: 'squash', amount: 0.1, dur: 0.2 },
+    // 甜到飄起來
+    { at: at + HOLD, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
+  ]
+  if (lick) moves.push(
+    // 伸手、彎腰舔一小口
+    { at: at - 0.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/reach' },
+    { at: at - 0.4, actor: 'sheriff', do: 'tilt', amount: 10, dur: 0.4 },
+    { at: at - 0.18, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/eat' },
+    { at: at - 0.18, actor: 'sheriff', do: 'squash', amount: -0.12, dur: 0.18 },
+  )
+  const fx: Fx[] = [
+    // 好香：蛋糕閃一下
+    { at: at - 0.6, kind: 'burst', actor: 'cake', emoji: '✨', n: 5, dur: 0.45, dy: 4 },
+    // 甜到爆：💕 一圈，一次比一次大
+    { at, kind: 'burst', actor: 'sheriff', emoji: '💕', n: 8, dur: 0.5, scale: 1.3 + 0.3 * k, dy: -6 },
+    // 飄起來的時候頭上一直冒愛心
+    { at: at + HOLD, kind: 'zzz', actor: 'sheriff', emoji: '💗', dur: k >= 2 ? 0.3 : 0.9 + 0.1 * k, scale: 1.5 + 0.2 * k },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.08 + 0.05 * k, to: { x, y: k >= 3 ? 40 : P - 12 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.8 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at, sfx: 'gulp' }, { at: at + HOLD, sfx: 'bubble' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'boing' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'blip' })
+  return { moves, fx, camera, cues }
+}
+
+const H1 = 1.75, H2 = 3.6, H3 = 6.05, H4 = 9.85
+const s1 = sweet(H1, 0, REACH)
+const s2 = sweet(H2, 1, REACH)
+const s3 = sweet(H3, 2, REACH)
+const s4 = sweet(H4, 3, STAND, false)
+/** 飄起來的時刻 */
+const F1 = H1 + HOLD, F2 = H2 + HOLD, F3 = H3 + HOLD, F4 = H4 + HOLD
 
 const clip: Clip = {
+  format: 2,
   char: '甜',
-  meta: { theme: '搶杯子蛋糕的糖果劍決鬥', cast: '大怪獸＋發條鯊魚＋棒棒糖劍＋杯子蛋糕＋櫻桃', gags: ['偷舔自己的劍', '糖黏住拔不開彈飛坐倒', '對砍糖劍碎成字', '頭撞頭蛋糕彈進鯊魚嘴', '整個吞下撐成球打嗝噴櫻桃'] },
-  duration: 10,
-  bg: { top: '#FFD9E8', bottom: '#FFF4F8', floor: '#F3C6D6', scenery: 'hills' },
+  meta: { theme: '警長檢查大蛋糕', cast: '狗狗警長＋大蛋糕', gags: ['一本正經的警長每次只舔一小口蛋糕「檢查」，就甜到臉紅、滿身愛心飄起來，一次比一次飄得高；回馬槍是他伸手比不吃，櫻桃自己飛進他嘴裡，甜到連整個蛋糕一起飄走'] },
+  duration: 15,
+  bg: { top: '#FFD9E8', bottom: '#FFF4F8', floor: '#F3C6D6', scenery: 'room' },
   actors: [
-    { id: 'cake', emoji: '🧁', x: 80, y: 72, size: 12 },
-    { id: 'mon', emoji: 'hero:monster/idle', x: 30, y: M, size: 22, flip: true },
-    { id: 'lm', emoji: '🍭', x: 40, y: M + LY, size: 12, float: true },
-    { id: 'shark', emoji: 'hero:shark/idle', x: 130, y: S, size: 21 },
-    { id: 'ls', emoji: '🍭', x: 120, y: S + LY, size: 12, float: true, flip: true },
-    { id: 'cherry', emoji: '🍒', x: 124, y: 60, size: 8, hidden: true, float: true },
+    { id: 'cake', emoji: '🎂', x: CX, y: C, size: 34 },
+    // 姿勢圖朝左，翻過來面向右邊的蛋糕（問他時也面向右邊的字）
+    { id: 'sheriff', emoji: 'hero:sheriff/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
+    // 蛋糕頂上的櫻桃（第四次自己飛進他嘴裡）
+    { id: 'cherry', emoji: '🍒', x: MID, y: 36, size: 10, hidden: true, float: true },
   ],
   moves: [
-    // 兩邊進場，看到中間的杯子蛋糕
-    ...hold([{ at: 0, actor: 'mon', do: 'enter', from: { x: 2, y: M }, dur: 0.45, ease: 'out' }], 'lm', 10),
-    ...hold([{ at: 0, actor: 'shark', do: 'enter', from: { x: 158, y: S }, dur: 0.45, ease: 'out' }], 'ls', -10),
-    { at: 0.5, actor: 'cake', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
-    // 怪獸忍不住先舔一口自己的劍
-    { at: 0.9, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 0.9, actor: 'lm', do: 'moveTo', to: { x: 36, y: M - 12 }, dur: 0.2 },
-    { at: 1.0, actor: 'lm', do: 'shake', amount: 0.6, dur: 0.4 },
-    { at: 1.45, actor: 'lm', do: 'moveTo', to: { x: 40, y: M + LY }, dur: 0.15 },
-    { at: 1.05, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 1.05, actor: 'shark', do: 'shake', amount: 0.8, dur: 0.4 },
-    // 第一劍：衝到中間，糖劍「叮」地碰在一起
-    { at: 1.6, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    ...hold([{ at: 1.6, actor: 'mon', do: 'moveTo', to: { x: 62, y: M }, dur: 0.4, anticipate: 3, ease: 'in' }], 'lm', 11),
-    ...hold([{ at: 1.6, actor: 'shark', do: 'moveTo', to: { x: 98, y: S }, dur: 0.4, anticipate: 3, ease: 'in' }], 'ls', -11),
-    { at: 2.0, actor: 'lm', do: 'shake', amount: 0.8, dur: 0.2 },
-    { at: 2.0, actor: 'ls', do: 'shake', amount: 0.8, dur: 0.2 },
-    // 黏住了！兩邊往後拔，劍拔不開
-    { at: 2.3, actor: 'mon', do: 'swap', emoji: 'hero:monster/oops' },
-    { at: 2.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/surprised' },
-    { at: 2.35, actor: 'mon', do: 'moveTo', to: { x: 57, y: M }, dur: 0.5, ease: 'out' },
-    { at: 2.35, actor: 'shark', do: 'moveTo', to: { x: 103, y: S }, dur: 0.5, ease: 'out' },
-    { at: 2.35, actor: 'mon', do: 'tilt', amount: -12, dur: 0.85 },
-    { at: 2.35, actor: 'shark', do: 'tilt', amount: 12, dur: 0.85 },
-    { at: 2.4, actor: 'mon', do: 'shake', amount: 0.7, dur: 0.8 },
-    { at: 2.4, actor: 'shark', do: 'shake', amount: 0.7, dur: 0.8 },
-    // 用力一拔——啵！兩個一起彈飛坐倒
-    ...hold([{ at: 3.2, actor: 'mon', do: 'moveTo', to: { x: 28, y: M }, arc: 10, dur: 0.45, ease: 'out' }], 'lm', 10),
-    ...hold([{ at: 3.2, actor: 'shark', do: 'moveTo', to: { x: 132, y: S }, arc: 10, dur: 0.45, ease: 'out' }], 'ls', -10),
-    { at: 3.2, actor: 'mon', do: 'spin', times: -1, dur: 0.45 },
-    { at: 3.2, actor: 'shark', do: 'spin', times: 1, dur: 0.45 },
-    { at: 3.2, actor: 'mon', do: 'swap', emoji: 'hero:monster/dizzy' },
-    { at: 3.2, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
-    // 氣炸了，蓄力
-    { at: 3.95, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 3.95, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 4.0, actor: 'mon', do: 'squash', amount: -0.35, dur: 0.3 },
-    { at: 4.0, actor: 'shark', do: 'squash', amount: -0.35, dur: 0.3 },
-    // 全速衝過去對砍——兩支糖劍碎掉，蛋糕被震上天
-    ...hold([{ at: 4.3, actor: 'mon', do: 'moveTo', to: { x: 63, y: M }, dur: 0.35, anticipate: 5, ease: 'in' }], 'lm', 11),
-    ...hold([{ at: 4.3, actor: 'shark', do: 'moveTo', to: { x: 97, y: S }, dur: 0.35, anticipate: 5, ease: 'in' }], 'ls', -11),
-    { at: 4.65, actor: 'lm', do: 'vanish', dur: 0.08 },
-    { at: 4.65, actor: 'ls', do: 'vanish', dur: 0.08 },
-    { at: 4.65, actor: 'cake', do: 'moveTo', to: { x: 80, y: -24 }, dur: 0.4, ease: 'out' },
-    { at: 4.65, actor: 'cake', do: 'spin', times: 2, dur: 0.4 },
-    { at: 4.68, actor: 'mon', do: 'moveTo', to: { x: 30, y: M }, arc: 8, dur: 0.45, ease: 'out' },
-    { at: 4.68, actor: 'shark', do: 'moveTo', to: { x: 130, y: S }, arc: 8, dur: 0.45, ease: 'out' },
-    { at: 4.68, actor: 'mon', do: 'swap', emoji: 'hero:monster/dizzy' },
-    { at: 4.68, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
-    // 劍呢？手上空空的
-    { at: 5.75, actor: 'mon', do: 'swap', emoji: 'hero:monster/surprised' },
-    { at: 5.75, actor: 'shark', do: 'swap', emoji: 'hero:shark/surprised' },
-    { at: 6.25, actor: 'mon', do: 'tilt', amount: -10, dur: 0.4 },
-    { at: 6.25, actor: 'shark', do: 'tilt', amount: 10, dur: 0.4 },
-    // 蛋糕從天上掉回來——變成超大的！兩個衝去接
-    { at: 6.9, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 6.9, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
-    { at: 6.95, actor: 'mon', do: 'moveTo', to: { x: 56, y: M }, dur: 0.4, ease: 'out' },
-    { at: 6.95, actor: 'shark', do: 'moveTo', to: { x: 104, y: S }, dur: 0.4, ease: 'out' },
-    { at: 6.95, actor: 'cake', do: 'moveTo', to: { x: 80, y: 66.9 }, dur: 0.4, ease: 'in' },
-    { at: 6.95, actor: 'cake', do: 'scaleTo', amount: 2, dur: 0.4 },
-    { at: 7.35, actor: 'cake', do: 'squash', amount: 0.25, dur: 0.3 },
-    { at: 7.45, actor: 'mon', do: 'hop', amount: 5, dur: 0.35 },
-    { at: 7.5, actor: 'shark', do: 'hop', amount: 5, dur: 0.35 },
-    // 回馬槍：兩個同時撲上去咬——蛋糕彈起來，頭撞頭
-    { at: 7.95, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 7.95, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 8.0, actor: 'mon', do: 'moveTo', to: { x: 70, y: M }, dur: 0.2, anticipate: 4, ease: 'in' },
-    { at: 8.0, actor: 'shark', do: 'moveTo', to: { x: 90, y: S }, dur: 0.2, anticipate: 4, ease: 'in' },
-    { at: 8.0, actor: 'cake', do: 'hop', amount: 20, dur: 0.5 },
-    { at: 8.2, actor: 'mon', do: 'moveTo', to: { x: 30, y: M }, arc: 12, dur: 0.45, ease: 'out' },
-    { at: 8.2, actor: 'shark', do: 'moveTo', to: { x: 128, y: S }, arc: 12, dur: 0.45, ease: 'out' },
-    { at: 8.2, actor: 'mon', do: 'spin', times: -1, dur: 0.45 },
-    { at: 8.2, actor: 'shark', do: 'spin', times: 1, dur: 0.45 },
-    { at: 8.2, actor: 'mon', do: 'swap', emoji: 'hero:monster/dizzy' },
-    { at: 8.2, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
-    // 蛋糕落地再彈一下，直接彈進鯊魚張開的嘴
-    { at: 8.5, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 8.45, actor: 'cake', do: 'moveTo', to: { x: 120, y: 60 }, arc: 10, dur: 0.3, ease: 'in' },
-    { at: 8.75, actor: 'cake', do: 'scaleTo', amount: 0.2, dur: 0.12 },
-    { at: 8.75, actor: 'cake', do: 'vanish', dur: 0.12 },
-    { at: 8.75, actor: 'shark', do: 'squash', amount: -0.2, dur: 0.15 },
-    // 整個吞下去，撐成圓球
-    { at: 8.85, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
-    { at: 8.85, actor: 'shark', do: 'scaleTo', amount: 1.45, dur: 0.25, ease: 'back' },
-    { at: 8.85, actor: 'shark', do: 'moveTo', to: { x: 130, y: S - 4.5 }, dur: 0.25, ease: 'back' },
-    { at: 8.8, actor: 'mon', do: 'swap', emoji: 'hero:monster/surprised' },
-    // 打嗝，櫻桃噴出來落到怪獸頭上
-    { at: 9.0, actor: 'shark', do: 'squash', amount: 0.3, dur: 0.25 },
-    { at: 9.0, actor: 'cherry', do: 'pop', dur: 0.1 },
-    { at: 9.0, actor: 'cherry', do: 'moveTo', to: { x: 30, y: M - 15 }, arc: 12, dur: 0.35, ease: 'linear' },
-    { at: 9.35, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 9.35, actor: 'mon', do: 'squash', amount: 0.15, dur: 0.15 },
+    // 警長吹著哨子登場：指著上面的字框，敬禮——我來檢查！
+    { at: 0, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/whistle' },
+    { at: 0, actor: 'sheriff', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
+    { at: 0.55, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/point' },
+    { at: 0.95, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/salute' },
+    { at: 1.1, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 1.1, actor: 'sheriff', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.3 },
+    // 第 1 次：舔一小口——咕嚕！傻眼，飄起來一點點，再落地
+    ...s1.moves,
+    { at: F1, actor: 'sheriff', do: 'moveTo', to: { x: REACH - 8, y: P - RISE[0] }, dur: 0.45, ease: 'out' },
+    { at: F1 + 0.55, actor: 'sheriff', do: 'moveTo', to: { x: HOME, y: P }, dur: 0.35, ease: 'in' },
+    { at: F1 + 0.9, actor: 'sheriff', do: 'tint', filter: '' },
+    { at: F1 + 0.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/salute' },
+    // 第 2 次：再走過去，正經地再舔一口——咕嚕！飄到半空轉一圈
+    { at: 3.05, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 3.05, actor: 'sheriff', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.3 },
+    ...s2.moves,
+    { at: F2, actor: 'sheriff', do: 'moveTo', to: { x: REACH - 18, y: P - RISE[1] }, dur: 0.6, ease: 'out' },
+    { at: F2 + 0.1, actor: 'sheriff', do: 'spin', times: -1, dur: 0.6, pivot: 'center' },
+    { at: F2 + 0.75, actor: 'sheriff', do: 'moveTo', to: { x: HOME, y: P }, dur: 0.35, ease: 'in' },
+    { at: F2 + 1.1, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    // 第 3 次：退紅，走回同一個地方——先停一拍：托下巴看蛋糕、蛋糕閃一閃……舔！
+    { at: 5.1, actor: 'sheriff', do: 'tint', filter: '' },
+    { at: 5.1, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 5.1, actor: 'sheriff', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.3 },
+    { at: 5.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/ponder' },
+    { at: 5.4, actor: 'sheriff', do: 'tilt', amount: -6, dur: 0.3 },
+    ...s3.moves,
+    // 甜到直接飛出畫面（往左上），過一會兒才掉回來
+    { at: F3, actor: 'sheriff', do: 'moveTo', to: { x: 22, y: -45 }, dur: 0.45, ease: 'in' },
+    { at: F3, actor: 'sheriff', do: 'spin', times: -2, dur: 0.45, pivot: 'center' },
+    { at: 7.05, actor: 'sheriff', do: 'tint', filter: '' },
+    { at: 7.05, actor: 'sheriff', do: 'moveTo', to: { x: 30, y: -45 }, dur: 0.01 },
+    { at: 7.1, actor: 'sheriff', do: 'moveTo', to: { x: 30, y: P }, dur: 0.3, ease: 'in' },
+    { at: 7.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    // 他摔下來「碰」一聲，蛋糕嚇得跳到右邊（讓出中間給國字）
+    { at: 7.4, actor: 'cake', do: 'moveTo', to: { x: 132, y: C }, arc: 6, dur: 0.3, ease: 'out' },
+    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓到右上方，蛋糕到正中間、變大，警長也走過來
+    { at: 8.3, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 8.3, actor: 'sheriff', do: 'moveTo', to: { x: STAND, y: P }, dur: 0.35 },
+    { at: 8.3, actor: 'sheriff', do: 'scaleTo', amount: BIG, dur: 0.35, ease: 'back' },
+    { at: 8.35, actor: 'cake', do: 'moveTo', to: { x: MID, y: C }, arc: 6, dur: 0.35 },
+    { at: 8.35, actor: 'cake', do: 'scaleTo', amount: CAKE_BIG, dur: 0.35, ease: 'back' },
+    { at: 8.7, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
+    // 回馬槍（第 4 次）：他學乖了，伸手比「不吃！」，得意地閉眼……
+    { at: 9.05, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/wait' },
+    { at: 9.05, actor: 'sheriff', do: 'hop', amount: 2, dur: 0.2 },
+    { at: 9.35, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/smug' },
+    // ……蛋糕一彈，櫻桃自己飛進他嘴裡
+    { at: H4 - 0.38, actor: 'cherry', do: 'pop', dur: 0.08 },
+    { at: H4 - 0.32, actor: 'cherry', do: 'moveTo', to: { x: STAND + 4, y: P - 20 }, arc: 10, dur: 0.32, ease: 'in' },
+    { at: H4, actor: 'cherry', do: 'vanish', dur: 0.05 },
+    ...s4.moves,
+    // 甜到連整個蛋糕都跟他一起飄走（往上飛出畫面）
+    { at: F4, actor: 'sheriff', do: 'moveTo', to: { x: 40, y: -50 }, dur: 0.42, ease: 'in' },
+    { at: F4, actor: 'sheriff', do: 'spin', times: -2, dur: 0.42, pivot: 'center' },
+    { at: F4, actor: 'cake', do: 'moveTo', to: { x: MID + 6, y: -60 }, dur: 0.42, ease: 'in' },
+    { at: F4, actor: 'cake', do: 'tilt', amount: 10, dur: 0.42 },
+    // 問他：警長從天上掉回左前方、變大，轉向觀眾
+    { at: 10.75, actor: 'sheriff', do: 'tint', filter: '' },
+    { at: 10.75, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/idle' },
+    { at: 10.75, actor: 'sheriff', do: 'moveTo', to: { x: 32, y: -45 }, dur: 0.01 },
+    { at: 10.75, actor: 'sheriff', do: 'scaleTo', amount: 1.55 / BIG, dur: 0.01 },
+    { at: 10.8, actor: 'sheriff', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.3, ease: 'in' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 12.0, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/listen' },
+    { at: 12.0, actor: 'sheriff', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.55, actor: 'sheriff', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.05, actor: 'sheriff', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.5, actor: 'sheriff', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.5, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/point' },
+    { at: 13.5, actor: 'sheriff', do: 'hop', amount: 6, dur: 0.25 },
+    // 退場（敬個禮，跑走），畫面只留下字
+    { at: 13.75, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dash' },
+    { at: 13.75, actor: 'sheriff', do: 'flip' },
+    { at: 13.78, actor: 'sheriff', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 怪獸的粉紅糖劍碎片 → 舌；鯊魚的橘色糖劍碎片 → 甘
-    { at: 4.65, dur: 0.7, strokes: [0, 1, 2, 3, 4, 5], from: 'lm', color: '#E64980' },
-    { at: 4.85, dur: 0.7, strokes: [6, 7, 8, 9, 10], from: 'ls', color: '#F76707' },
+    // 第 1、2 次：舔的那一口，舌從他的舌頭彈出來（上半、下半）
+    { at: H1 + 0.05, dur: 0.55, strokes: [0, 1, 2], from: 'sheriff', color: partColor('舌') },
+    { at: H2 + 0.05, dur: 0.55, strokes: [3, 4, 5], from: 'sheriff', color: partColor('舌') },
+    // 第 3 次：甜到爆，甘從蛋糕噴出來
+    { at: H3 + 0.05, dur: 0.6, strokes: [6, 7, 8, 9, 10], from: 'cake', color: partColor('甘') },
   ],
   glyph: [
-    { at: 5.6, dur: 0.4, do: 'wobble' },
-    { at: 6.45, dur: 0.45, do: 'park' },
-    { at: 9.3, dur: 0.35, do: 'home' },
-    { at: 9.65, dur: 0.35, do: 'pulse' },
+    { at: 7.45, dur: 0.45, do: 'home', ease: 'back' },
+    // 讓到右上方，中間給蛋糕和警長
+    { at: 8.3, dur: 0.45, do: 'park', to: { x: 128, y: 20 }, amount: 0.5 },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的警長
+    { at: 10.75, dur: 3.15, do: 'ask', keep: ['sheriff'], to: { x: 98, y: 43 }, amount: 0.82 },
+    { at: 10.8, dur: 0.4, do: 'home' },
+    { at: 13.5, dur: 0.35, do: 'pulse' },
+    { at: 14.15, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.5, kind: 'burst', actor: 'cake', emoji: '✨', n: 5, dur: 0.5 },
-    { at: 0.55, kind: 'pop', actor: 'mon', emoji: '❗', dur: 0.35 },
-    { at: 0.55, kind: 'pop', actor: 'shark', emoji: '❗', dur: 0.35 },
-    { at: 1.0, kind: 'pop', actor: 'mon', emoji: '👅', dx: 6, dur: 0.5 },
-    { at: 1.1, kind: 'pop', actor: 'shark', emoji: '😤', dur: 0.4 },
-    { at: 2.0, kind: 'burst', x: 80, y: 56, emoji: '✨', n: 6, dur: 0.4 },
-    // 糖黏住：中間拉出黏黏的糖絲
-    { at: 2.3, dur: 0.9, kind: 'line', actor: 'lm', target: 'ls', color: '#F783AC', width: 2 },
-    { at: 2.4, kind: 'sweat', actor: 'mon' },
-    { at: 2.4, kind: 'sweat', actor: 'shark' },
-    { at: 2.5, kind: 'pop', actor: 'lm', emoji: '❗', dy: -2, dur: 0.4 },
-    { at: 3.2, kind: 'burst', x: 80, y: 56, n: 1, dur: 0.3 },
-    { at: 3.65, kind: 'dizzy', actor: 'mon', dur: 0.5 },
-    { at: 3.65, kind: 'dizzy', actor: 'shark', dur: 0.5 },
-    { at: 4.0, kind: 'puff', actor: 'mon', dur: 0.4 },
-    { at: 4.0, kind: 'puff', actor: 'shark', dur: 0.4 },
-    { at: 4.0, kind: 'pop', actor: 'mon', emoji: '😤', dur: 0.35 },
-    { at: 4.65, kind: 'burst', x: 80, y: 54, n: 1, dur: 0.4 },
-    { at: 4.65, kind: 'burst', x: 80, y: 54, emoji: '🍬', n: 8, dur: 0.6 },
-    { at: 5.15, kind: 'dizzy', actor: 'mon', dur: 0.6 },
-    { at: 5.15, kind: 'dizzy', actor: 'shark', dur: 0.6 },
-    { at: 5.8, kind: 'pop', actor: 'mon', emoji: '❓', dur: 0.45 },
-    { at: 5.85, kind: 'pop', actor: 'shark', emoji: '❓', dur: 0.45 },
-    { at: 6.35, kind: 'pop', actor: 'mon', emoji: '😭', dur: 0.45 },
-    { at: 6.4, kind: 'pop', actor: 'shark', emoji: '😭', dur: 0.45 },
-    { at: 7.35, kind: 'burst', actor: 'cake', emoji: '✨', n: 8, dur: 0.6 },
-    { at: 7.5, kind: 'pop', actor: 'mon', emoji: '😋', dx: -6, dur: 0.45 },
-    { at: 7.55, kind: 'pop', actor: 'shark', emoji: '😋', dx: 6, dur: 0.45 },
-    { at: 8.2, kind: 'burst', x: 80, y: 66, n: 1, dur: 0.3 },
-    { at: 8.65, kind: 'dizzy', actor: 'mon', dur: 0.4 },
-    { at: 8.85, kind: 'burst', actor: 'shark', emoji: '💕', n: 5, dur: 0.5 },
-    { at: 8.85, kind: 'pop', actor: 'mon', emoji: '😱', dur: 0.4 },
-    { at: 9.4, kind: 'pop', actor: 'mon', emoji: '😋', dx: 12, dy: 4, dur: 0.5 },
+    ...s1.fx,
+    ...s2.fx,
+    { at: F2 + 1.1, kind: 'dizzy', actor: 'sheriff', dur: 0.45 },
+    // 第 3 次前停一拍：他盯著蛋糕、冒汗
+    { at: 5.45, kind: 'sweat', actor: 'sheriff' },
+    ...s3.fx,
+    { at: H3, kind: 'burst', actor: 'cake', emoji: '🍬', n: 8, dur: 0.5, scale: 1.4 },
+    { at: 7.4, kind: 'dizzy', actor: 'sheriff', dur: 0.6 },
+    ...s4.fx,
+    { at: H4 + 0.1, kind: 'burst', x: STAND + 2, y: 32, emoji: '💗', n: 12, dur: 0.6, scale: 1.8 },
+    { at: 13.5, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 2.0, dur: 0.2, do: 'shake', amount: 0.6 },
-    { at: 4.65, dur: 0.35, do: 'shake', amount: 1.8 },
-    { at: 7.35, dur: 0.25, do: 'shake', amount: 1 },
-    { at: 8.2, dur: 0.3, do: 'shake', amount: 1.4 },
+    ...s1.camera,
+    ...s2.camera,
+    ...s3.camera,
+    { at: 7.4, dur: 0.35, do: 'shake', amount: 1.5 },
+    ...s4.camera,
   ],
   lights: [
-    // 糖劍碎掉：白光一閃
-    { at: 4.65, dur: 0.04, level: -0.8 },
-    { at: 4.69, dur: 0.3, level: 0 },
+    // 每次舔到白光一閃
+    ...[H1, H2, H3, H4].flatMap((at, k) => [{ at, dur: 0.04, level: -0.25 - 0.08 * k }, { at: at + 0.04, dur: 0.25, level: 0 }]),
+    { at: 7.45, dur: 0.05, level: -0.35 },
+    { at: 7.5, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.5, sfx: 'blip' },
-    { at: 1.0, say: '甜' },
-    { at: 2.0, sfx: 'clink' },
-    { at: 2.4, sfx: 'slide' },
-    { at: 3.2, sfx: 'boing' },
-    { at: 4.3, sfx: 'whoosh' },
-    { at: 4.65, sfx: 'crack' },
-    { at: 5.6, say: '甜' },
-    { at: 6.95, sfx: 'whoosh' },
-    { at: 7.35, say: '甜點' },
-    { at: 8.2, sfx: 'bonk' },
-    { at: 8.75, sfx: 'gulp' },
-    { at: 9.0, sfx: 'hic' },
-    { at: 9.35, sfx: 'plop' },
-    { at: 9.65, sfx: 'cheer' },
+    { at: 0.05, sfx: 'blip' },
+    { at: 0.6, say: '甜' },
+    ...s1.cues,
+    ...s2.cues,
+    ...s3.cues,
+    { at: F3, sfx: 'whoosh' },
+    { at: 7.4, sfx: 'plop' },
+    { at: 7.55, say: '甜' },
+    { at: 8.75, say: '甜點' },
+    { at: H4 - 0.3, sfx: 'boing' },
+    ...s4.cues,
+    { at: F4, sfx: 'whoosh' },
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.5, say: '甜' },
+    { at: 13.55, sfx: 'cheer' },
   ],
 }
 

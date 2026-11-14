@@ -45,6 +45,10 @@ export const PARTS = {
   虫: { color: '#566B1F', from: '小蟲、蝦子這類小動物身上蹦出來的' },
   // 叚是蝦、霞、假的聲音：煮熟的蝦殼紅
   叚: { color: '#E2470F', from: '蝦子尾巴「咻」地一彈、往後跳開時甩出來的' },
+  // 舌是舌頭：珊瑚紅，比令（#E05263）偏橘、比火亮
+  舌: { color: '#F25C54', from: '伸出來舔一口的舌頭' },
+  // 甘是甜（甜、柑、甘蔗）：糖果的桃紅，比女、心都鮮
+  甘: { color: '#D81B9C', from: '甜甜的東西（蛋糕、糖果、蜂蜜）上噴出來的' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
