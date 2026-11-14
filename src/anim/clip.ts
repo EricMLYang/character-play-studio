@@ -6,6 +6,9 @@
  * 舞台座標：160 × 90（16:9），地板大約在 y = 74。國字置中，高 63（約七成畫面）；劇本可以用 glyph 的 park 讓它縮小讓到上方、home 再回來。
  */
 
+import { PROP_BOX } from './props'
+export { PROP_BOX }
+
 export type Vec = { x: number; y: number }
 
 export type Scenery = 'hills' | 'city' | 'ocean' | 'space' | 'snow' | 'desert' | 'room' | 'night' | 'forest' | 'track' | 'sea'
@@ -376,10 +379,10 @@ export function castFactor(clip: Clip): number {
   for (let t = 0; t <= clip.duration; t += 0.1) sample(t, false)
   for (let t = done; t <= clip.duration; t += 0.1) sample(t, true)
   const blocks = (a: ActorState, core: ReturnType<typeof glyphCore>) => {
-    const half = a.size * a.s * 0.4
-    return a.visible && a.o >= 0.3 && a.x + half > core.x0 && a.x - half < core.x1 && a.y + half > core.y0 && a.y - half < core.y1
+    const b = bodyBox(a, 0.4)
+    return a.visible && a.o >= 0.3 && b.x1 > core.x0 && b.x0 < core.x1 && b.y1 > core.y0 && b.y0 < core.y1
   }
-  const headTop = (a: ActorState, room: number) => a.y - a.size * 0.45 * a.s * a.sy - room
+  const headTop = (a: ActorState, room: number) => headY(a) - room
   // 跟 anim:check 同一條規則：同一個角色在國字完成後擋到字，頭尾超過 0.25 秒才算
   const blockedLong = (u: number) => {
     const span = new Map<string, [number, number]>()
@@ -422,9 +425,40 @@ export function castFactor(clip: Clip): number {
 
 type Kind = 'creature' | 'vehicle' | 'prop'
 
+/**
+ * 自製道具圖：劇本寫 emoji: 'prop:<名字>'，圖在 public/props/<名字>.png（npm run prop:cut 從道具表切出來，512×512、長邊撐滿、底部對齊）。
+ * size 的意義跟 emoji 一樣（道具的長邊），站在地上的 y 跟主角一樣算。自動質感照「道具」那一邊（跟 🎁⭐🌳 一樣：不踩步伐、不點頭、不做小動作），
+ * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）。
+ */
+export const PROP_PREFIX = 'prop:'
+const PROP_VEHICLES = new Set(['metro'])
+const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
+
+/**
+ * 角色畫出來的範圍（舞台座標），擋字、頭頂、自動取景用。
+ * 一般 emoji 與主角照舊當成正方形：中心 (x, y)、半邊 half × size × s（各處用的 half 照以前的數字）；
+ * prop: 照 src/anim/props.ts 量好的內容範圍（往內縮一成，跟 emoji 的估法一樣寬鬆），寬扁的捷運、細高的樹才不會被當成大正方形。
+ */
+export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean }, half: number) {
+  const b = PROP_BOX[propName(a.emoji)]
+  if (!b) { const h = a.size * a.s * half; return { x0: a.x - h, x1: a.x + h, y0: a.y - h, y1: a.y + h } }
+  // 跟播放器同一個畫法：以腳底（y + 0.42 size）為準縮放，畫布 (u, v) ∈ [0, 1]
+  const sz = a.size * a.s, sy = sz * (a.sy ?? 1), feet = a.y + a.size * 0.42
+  const pad = (b[2] - b[0]) * 0.05, padY = (b[3] - b[1]) * 0.05
+  const u0 = b[0] + pad - 0.5, u1 = b[2] - pad - 0.5
+  const [l, r] = a.flip ? [-u1, -u0] : [u0, u1]
+  return { x0: a.x + l * sz, x1: a.x + r * sz, y0: feet + (b[1] + padY - 0.92) * sy, y1: feet + (b[3] - padY - 0.92) * sy }
+}
+/** 頭頂（頭上的效果冒出來的地方）：一般照舊 y − 0.45 size；prop: 是內容的最上緣 */
+export function headY(a: { emoji: string; y: number; size: number; s: number; sy: number }) {
+  const b = PROP_BOX[propName(a.emoji)]
+  return b ? a.y + a.size * 0.42 + (b[1] - 0.92) * a.size * a.s * a.sy : a.y - a.size * 0.45 * a.s * a.sy
+}
+
 /** 有輪子、有引擎的東西：不會踩步伐，煞車時只微微點頭 */
 function isVehicle(emoji: string) {
   if (emoji.startsWith('hero:car/')) return true
+  if (emoji.startsWith(PROP_PREFIX)) return PROP_VEHICLES.has(propName(emoji))
   const c = emoji.codePointAt(0) ?? 0
   return (c >= 0x1f680 && c <= 0x1f6a4) || c === 0x1f6b2 || (c >= 0x1f6e0 && c <= 0x1f6fc) || c === 0x1f3ce || c === 0x1f3cd
     || c === 0x2708 || c === 0x26f5 || c === 0x1f9bc || c === 0x1f9bd
@@ -841,7 +875,7 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
     const p = (t - f.at) / d
     const a = f.actor ? actors.get(f.actor) : undefined
     // 錨點：角色頭頂；腳底給 puff 用
-    const head = a ? { x: a.x + (f.dx ?? 0), y: a.y - a.size * 0.45 * a.s * a.sy + (f.dy ?? 0) } : { x: f.x ?? 80, y: f.y ?? 45 }
+    const head = a ? { x: a.x + (f.dx ?? 0), y: headY(a) + (f.dy ?? 0) } : { x: f.x ?? 80, y: f.y ?? 45 }
     const feet = a ? { x: a.x, y: a.y + a.size * 0.42 } : head
     const fade = clamp(Math.min(p / 0.12, (1 - p) / 0.2))
     const n = f.n ?? 0
@@ -1157,9 +1191,11 @@ export function autoCamGrid(clip: Clip) {
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
     const add = (a: ActorState) => {
       const r = a.size * a.s
-      x0 = Math.min(x0, a.x - r * 0.5 - 4); x1 = Math.max(x1, a.x + r * 0.5 + 4)
+      // prop: 照內容範圍（寬扁的捷運不要框進一大片天空）
+      const b = a.emoji.startsWith(PROP_PREFIX) ? bodyBox({ ...a, sy: 1 }, 0.5) : null
+      x0 = Math.min(x0, (b ? b.x0 : a.x - r * 0.5) - 4); x1 = Math.max(x1, (b ? b.x1 : a.x + r * 0.5) + 4)
       // 頭上要留位置給冒出來的符號、想法泡泡
-      y0 = Math.min(y0, a.y - r * 0.45 - 12); y1 = Math.max(y1, a.y + r * 0.5 + 3)
+      y0 = Math.min(y0, (b ? b.y0 : a.y - r * 0.45) - 12); y1 = Math.max(y1, (b ? b.y1 : a.y + r * 0.5) + 3)
     }
     pick.forEach(add)
     // 沒在演、但已經有一半進到畫面裡的（旁邊的道具、等著的人）整個框進來，不要切一半

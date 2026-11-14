@@ -4,7 +4,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
 // 冷（v2）：大熱天，浣熊花生熱到冒汗——每次跑去抱大冰塊，冰塊一抖，他就「喀」地被凍成一塊冰，一次比一次大塊：
 // 剛好包住他（裂開，冰的兩點 冫 噴出來）、大一號連人帶冰滑到畫面邊（令的上半）、先停一拍再凍成超大一塊、裂開把他炸上天（令的下半）。
-// 回馬槍：他學乖了，站得遠遠的不碰，只吹冰塊吹過來的冷氣（冷氣）——冰塊一抖，冷風一吹，他還是被凍成最大的一塊，連冰塊一起碎掉。
+// 回馬槍：他學乖了，站得遠遠的不碰，只吹冷氣機吹過來的冷氣（冷氣）——冰塊一抖，冷風一吹，他還是被凍成最大的一塊，連冰塊一起碎掉。
 // 最後畫面暗下來只剩「冷」，花生轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再指著字說「冷！」，然後退場只留字。
 // 冷、冷、冷氣、這是什麼字？、冷
 const P = 66.9 // 花生（size 24）站在地上的 y
@@ -87,6 +87,8 @@ const C1 = H1 + HOLD, C2 = H2 + HOLD + 0.45, C3 = H3 + HOLD, C4 = H4 + HOLD + 0.
 const k1 = crack(C1, 0, REACH)
 const k2 = crack(C2, 1, EDGE)
 const k3 = crack(C3, 2, REACH)
+/** 語詞「冷氣」那一刻：冷氣機（自製道具圖）掛在他右上方，往他吹冷風 */
+const AC = { x: 95, y: 30 }
 /** 語詞那一刻他放大多少 */
 const BIG = 1.45
 
@@ -97,7 +99,8 @@ const clip: Clip = {
   duration: 15,
   bg: { top: '#FFD39A', bottom: '#FFF2DC', floor: '#EDC98A', scenery: 'desert' },
   actors: [
-    { id: 'ice', emoji: '🧊', x: IX, y: I, size: 34 },
+    { id: 'ice', emoji: 'prop:ice', x: IX, y: I, size: 34 },
+    { id: 'ac', emoji: 'prop:aircon', x: AC.x, y: AC.y, size: 36, hidden: true, float: true },
     // 姿勢圖朝左，翻過來面向右邊的大冰塊（問他時也面向右邊的字）
     { id: 'raccoon', emoji: 'hero:raccoon/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
     // 包住花生的冰殼（畫在他前面、半透明）
@@ -141,9 +144,11 @@ const clip: Clip = {
     { at: 8.0, actor: 'raccoon', do: 'moveTo', to: { x: FAR, y: -45 }, dur: 0.01 },
     { at: 8.0, actor: 'raccoon', do: 'scaleTo', amount: BIG, dur: 0.01 },
     { at: 8.05, actor: 'raccoon', do: 'moveTo', to: { x: FAR, y: P }, dur: 0.3, ease: 'in' },
-    // 語詞那一刻：他不敢再碰了，站得遠遠的；冰塊吹冷氣過來，好涼～
+    // 語詞那一刻：他不敢再碰了，站得遠遠的；冷氣機冒出來，吹冷氣過來，好涼～
     { at: 8.65, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
-    { at: 8.7, actor: 'ice', do: 'squash', amount: -0.12, dur: 0.4 },
+    { at: 8.55, actor: 'ac', do: 'pop', dur: 0.2 },
+    { at: 8.7, actor: 'ac', do: 'shake', amount: 0.5, dur: 0.4 },
+    { at: 9.3, actor: 'ac', do: 'vanish', dur: 0.15 },
     { at: 8.85, actor: 'raccoon', do: 'tilt', amount: -8, dur: 0.6 },
     // 回馬槍（第 4 次）：冰塊又抖了——這次不用抱，冷風一吹，喀！凍成最大的一塊
     ...f4.moves,
@@ -205,8 +210,8 @@ const clip: Clip = {
     ...f3.fx,
     ...k3.fx,
     { at: 8.4, kind: 'sweat', actor: 'raccoon' },
-    // 冷氣：冰塊吹一陣涼涼的風過來
-    { at: 8.7, kind: 'blow', actor: 'ice', to: { x: FAR + 6, y: P - 8 }, emoji: '❄️', n: 5, dur: 0.8, scale: 1.4 },
+    // 冷氣：冷氣機吹一陣涼涼的風過來（從出風口吹向他）
+    { at: 8.7, kind: 'blow', actor: 'ac', dx: -6, dy: 16, to: { x: FAR + 6, y: P - 8 }, emoji: '❄️', n: 5, dur: 0.6, scale: 1.4 },
     { at: 9.0, kind: 'pop', actor: 'raccoon', emoji: '😌', dx: -16, dur: 0.4, scale: 1.5 },
     ...f4.fx,
     { at: C4, kind: 'burst', x: 96, y: 45, emoji: '🧊', n: 12, dur: 0.55, scale: 1.8 },

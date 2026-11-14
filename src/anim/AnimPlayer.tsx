@@ -4,8 +4,9 @@ import { preloadVoice, say } from '../lib/audio'
 import * as sfx from '../lib/sfx'
 import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
+import { PROP_BOX } from './props'
 import { FLIP_3D } from './flip3d'
-import { actorsAt, askAt, askFxAt, cameraAt, emptyFrameAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, isV2, lightAt, landings, strokesAt, toStage, FLOOR, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import { actorsAt, askAt, askFxAt, cameraAt, emptyFrameAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, isV2, lightAt, landings, strokesAt, toStage, FLOOR, PROP_PREFIX, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 import './anim.css'
 
 /**
@@ -236,7 +237,10 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
           const h = Math.max(0, FLOOR - feet)
           const k = 1 - Math.min(1, h / 40)
           // 站在比較前面的地上（腳在地平線下面）的角色，影子跟著畫在腳下
-          return <ellipse key={`sh-${a.id}`} cx={a.x} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * 0.34 * a.s * a.sx * (0.4 + 0.6 * k)}
+          // prop: 的影子照內容的寬度（細高的楊桃、樹不要拖一大片影子）
+          const body = PROP_BOX[a.emoji.startsWith(PROP_PREFIX) ? a.emoji.slice(PROP_PREFIX.length) : '']
+          const wide = body ? (body[2] - body[0]) * 0.37 : 0.34
+          return <ellipse key={`sh-${a.id}`} cx={a.x} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * wide * a.s * a.sx * (0.4 + 0.6 * k)}
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
 
@@ -371,6 +375,10 @@ export const HERO_PREFIX = 'hero:'
 function Emoji({ char, size, art }: { char: string; size: number; art: Art }) {
   if (char.startsWith(HERO_PREFIX)) {
     return <image href={`/hero/${char.slice(HERO_PREFIX.length)}.png`} x={-size / 2} y={-size / 2} width={size} height={size} />
+  }
+  // 自製道具圖（沒有合適 emoji 的東西）：跟主角圖一樣是 512×512、四周留 4%、底部對齊，emoji 與 3D 模式都畫同一張
+  if (char.startsWith(PROP_PREFIX)) {
+    return <image href={`/props/${char.slice(PROP_PREFIX.length)}.png`} x={-size / 2} y={-size / 2} width={size} height={size} />
   }
   const code = art === '3d' ? codeOf(char) : ''
   if (code && EMOJI_3D.has(code)) {

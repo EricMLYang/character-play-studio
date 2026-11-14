@@ -75,6 +75,8 @@ const BIG = 1.4
 const OPEN = 9.25
 /** 一頭栽進盒子：倒過來、腳在盒子上面 */
 const STUCK = { x: BX - 2, y: 46 }
+/** 彈飛的蝴蝶結染成跟禮物（prop:gift）一樣的黃色 */
+const BOW = 'sepia(1) saturate(5) hue-rotate(5deg) brightness(1.15)'
 
 const clip: Clip = {
   format: 2,
@@ -85,9 +87,9 @@ const clip: Clip = {
   actors: [
     // 大猩猩畫在禮物後面：第四次才能一頭栽「進」盒子裡
     { id: 'ape', emoji: '🦍', x: HOME, y: G, size: 28, pivot: 'center', flip: true },
-    { id: 'gift', emoji: '🎁', x: BX, y: BOX, size: 34 },
+    { id: 'gift', emoji: 'prop:gift', x: BX, y: BOX, size: 34 },
     // 被拉開的蝴蝶結（打開那一刻從盒子上彈飛）
-    { id: 'bow', emoji: '🎀', x: BX, y: 44, size: 14, hidden: true, float: true },
+    { id: 'bow', emoji: '🎀', x: BX, y: 44, size: 14, hidden: true, float: true, tint: BOW },
     // 姿勢圖朝左，翻過來面向右邊的大猩猩和禮物（問他時也面向右邊的字）
     { id: 'yang', emoji: 'hero:yang/idle', x: YX, y: P, size: 24, hidden: true, flip: true },
   ],
@@ -129,7 +131,7 @@ const clip: Clip = {
     { at: 9.1, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     { at: 9.1, actor: 'yang', do: 'tilt', amount: -8, dur: 0.3 },
     { at: OPEN, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
-    { at: OPEN, actor: 'gift', do: 'swap', emoji: '📦' },
+    { at: OPEN, actor: 'gift', do: 'swap', emoji: 'prop:gift-open' },
     { at: OPEN, actor: 'gift', do: 'squash', amount: -0.25, dur: 0.3 },
     { at: OPEN, actor: 'bow', do: 'pop' },
     { at: OPEN, actor: 'bow', do: 'moveTo', to: { x: 150, y: -20 }, dur: 0.5, ease: 'out' },

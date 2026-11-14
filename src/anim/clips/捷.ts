@@ -8,7 +8,9 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 最後畫面暗下來只剩「捷」，他轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著它說「捷！」，然後退場只留字。
 // 捷、捷、捷運、這是什麼字？、捷
 const P = 66.9 // 楊捷睿（size 24）站在地上的 y
-const T = 54.3 // 捷運（size 54）
+/** 捷運：三節車廂的自製道具圖（車頭朝右，往右開走）。size 是車身全長，比人高一點、橫跨大半個畫面 */
+const TS = 112
+const T = 77 - 0.42 * TS
 /** 捷運停的地方（畫面正中間） */
 const TX = 96
 /** 前三次都跑到同一個地方：捷運最左邊的車門口 */
@@ -18,7 +20,7 @@ const HOME = 30
 /** 第四次：捷運停的地方、他站在車頂的位置與高度 */
 const TX4 = 70
 const ROOF_X = 60
-const ROOF_Y = 36
+const ROOF_Y = 45.5 // 他站在車頂的 y（引擎放大角色時離地的高度也跟著放大，實際腳底剛好踩在車頂）
 /** 捷運開走以後傻眼停多久，才被風捲走 */
 const HOLD = 0.45
 /** 捷運先抖一下（預備）到開走之間多久 */
@@ -70,7 +72,7 @@ const clip: Clip = {
   duration: 15,
   bg: { top: '#CFE8FF', bottom: '#F2F8FF', floor: '#B9C0C8', scenery: 'city' },
   actors: [
-    { id: 'train', emoji: '🚈', x: TX, y: T, size: 54, flip: true },
+    { id: 'train', emoji: 'prop:metro', x: TX, y: T, size: TS },
     // 姿勢圖朝左，翻過來面向右邊的捷運（問他時也面向右邊的字）
     { id: 'yang', emoji: 'hero:yang/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
   ],

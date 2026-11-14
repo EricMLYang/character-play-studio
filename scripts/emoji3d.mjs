@@ -20,7 +20,7 @@ const used = new Set(['💥', '✨', '💫', '❓', '💦', '💨', '💤', '❗
 // 識字動畫的劇本，加上故事屋的場景（src/story/scenes/）與故事的貼紙（shared/stories.mjs）、主角館的動畫（src/names/scenes/）與貼紙（shared/names.mjs）
 for (const clipDir of [join(root, 'src/anim/clips'), join(root, 'src/story/scenes'), join(root, 'src/names/scenes')]) {
   for (const f of readdirSync(clipDir).filter((f) => f.endsWith('.ts') && f !== 'index.ts')) {
-    for (const m of readFileSync(join(clipDir, f), 'utf8').matchAll(/emoji: '([^']+)'/g)) if (!m[1].startsWith('hero:')) used.add(m[1])
+    for (const m of readFileSync(join(clipDir, f), 'utf8').matchAll(/emoji: '([^']+)'/g)) if (!/^(hero|prop):/.test(m[1])) used.add(m[1])
   }
 }
 for (const file of ['shared/stories.mjs', 'shared/names.mjs']) for (const m of readFileSync(join(root, file), 'utf8').matchAll(/emoji: '([^']+)'/g)) used.add(m[1])

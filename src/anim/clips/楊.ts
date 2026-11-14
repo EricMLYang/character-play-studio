@@ -9,7 +9,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 楊、楊、楊桃、這是什麼字？、楊
 const P = 66.9 // 楊捷睿（size 24）站在地上的 y
 /** 楊桃樹（size 56）：畫面上最大的東西，站在右邊——國字拼好放大到正中央時才不會被樹擋住 */
-const TX = 128
+const TX = 130
 const TS = 56
 const TY = 77 - 0.42 * TS
 /** 他每次都站在同一個地方：樹冠左下、他要的那顆楊桃底下 */
@@ -24,10 +24,10 @@ const BIG = 3.4
 const HEAD_BIG = { x: X, y: 50 }
 /** 砸到以後傻眼停多久 */
 const HOLD = 0.45
-/** 楊桃：星星形狀的水果，⭐ 稍微偏黃綠 */
-const FRUIT = 'hue-rotate(14deg) saturate(1.15)'
+/** 楊桃：自製道具圖（emoji 沒有楊桃，以前用 ⭐ 會讓他以為楊桃＝星星） */
+const FRUIT = 'prop:starfruit'
 /** 語詞那一刻：楊桃到正中間變大 */
-const MID = { x: 86, y: 47 }
+const MID = { x: 86, y: 55 }
 const WORD_BIG = 2.4
 
 /**
@@ -100,11 +100,11 @@ const clip: Clip = {
   duration: 15,
   bg: { top: '#BEE6FF', bottom: '#F4FBFF', floor: '#A3D97E', scenery: 'hills' },
   actors: [
-    { id: 'tree', emoji: '🌳', x: TX, y: TY, size: TS },
+    { id: 'tree', emoji: 'prop:starfruit-tree', x: TX, y: TY, size: TS },
     // 他要的那顆最大的楊桃
-    { id: 'goal', emoji: '⭐', x: GOAL.x, y: GOAL.y, size: 11, float: true, pivot: 'center', tint: FRUIT },
+    { id: 'goal', emoji: FRUIT, x: GOAL.x, y: GOAL.y, size: 11, float: true, pivot: 'center' },
     // 每次從樹上掉下來砸他的那顆
-    { id: 'nut', emoji: '⭐', x: TOP.x, y: TOP.y, size: 11, float: true, hidden: true, pivot: 'center', tint: FRUIT },
+    { id: 'nut', emoji: FRUIT, x: TOP.x, y: TOP.y, size: 11, float: true, hidden: true, pivot: 'center' },
     // 姿勢圖朝左；登場時翻過來面向右邊，走到樹下再轉回來面向他要的那顆
     { id: 'yang', emoji: 'hero:yang/idle', x: 80, y: P, size: 24, hidden: true, flip: true },
   ],
@@ -147,6 +147,8 @@ const clip: Clip = {
     { at: 8.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
     { at: 8.45, actor: 'yang', do: 'hop', amount: 4, dur: 0.3 },
     { at: 8.5, actor: 'nut', do: 'tilt', amount: 10, dur: 0.4 },
+    // 切開：橫切面是星星（楊桃的樣子），他一口吃掉
+    { at: 8.8, actor: 'nut', do: 'swap', emoji: 'prop:starfruit-slice' },
     // 一口吃掉
     { at: 9.0, actor: 'yang', do: 'swap', emoji: 'hero:yang/eat' },
     { at: 9.0, actor: 'nut', do: 'moveTo', to: { x: 70, y: 56 }, dur: 0.15, ease: 'in' },
@@ -202,14 +204,14 @@ const clip: Clip = {
     { at: H1 + 0.3, kind: 'sweat', actor: 'yang' },
     ...b2.fx,
     // 一串：旁邊還掉下好幾顆
-    { at: H2 - 0.3, kind: 'rain', x: X + 4, y: 26, emoji: '⭐', n: 5, scale: 1.6, dur: 0.65 },
+    { at: H2 - 0.3, kind: 'rain', x: X + 4, y: 26, emoji: FRUIT, n: 5, scale: 1.6, dur: 0.65 },
     { at: H2 + HOLD + 0.1, kind: 'dizzy', actor: 'yang', dur: 0.45 },
     // 第 3 次前停一拍
     { at: 5.15, kind: 'pop', actor: 'yang', emoji: '❓', dx: -8, dur: 0.5, scale: 1.3 },
     ...b3.fx,
     // 整棵樹下楊桃雨
-    { at: H3 - 0.35, kind: 'rain', x: TX, y: 18, emoji: '⭐', n: 18, scale: 2.6, dur: 1.0 },
-    { at: H3, kind: 'burst', x: X - 2, y: P - 6, emoji: '⭐', n: 8, dur: 0.5, scale: 1.4 },
+    { at: H3 - 0.35, kind: 'rain', x: TX, y: 18, emoji: FRUIT, n: 18, scale: 2.6, dur: 1.0 },
+    { at: H3, kind: 'burst', x: X - 2, y: P - 6, emoji: FRUIT, n: 8, dur: 0.5, scale: 1.4 },
     { at: H3 + 0.5, kind: 'dizzy', actor: 'yang', dur: 0.7 },
     // 語詞那一刻：楊桃閃亮
     { at: 8.6, kind: 'burst', x: MID.x, y: MID.y, emoji: '✨', n: 6, dur: 0.5, scale: 1.4 },

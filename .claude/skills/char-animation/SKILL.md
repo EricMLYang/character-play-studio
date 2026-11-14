@@ -304,6 +304,10 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎函式：`glyphPlaceAt`（中心與倍率）、`glyphBoxAt`（整個字的範圍）、`glyphCore(clip, t)`（擋字檢查的範圍）。
   v2 另有 `{ at, dur, do: 'ask', keep?, to?, amount? }`（問他：暗下來、國字到正中央亮著，見「v2 片型」）；v2 的國字一開始就在讓位的位置。
   引擎函式：`askAt`（ask 的力道 0～1）、`emptyFrameAt`（空字框的輪廓與亮度）、`isV2`。
+- **自製道具圖 `prop:<名字>`**：emoji 寫 `'prop:starfruit'` 就畫 `public/props/starfruit.png`（actors、swap、fx 的 emoji 都能用）。
+  圖是 512×512、長邊撐滿、底部對齊，所以 `size` 跟 emoji 一樣是道具的長邊，站在地上一樣 `y ≈ 77 − 0.42 × size`；描邊、影子、tint、flip、swap 都照常。
+  引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
+  自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -371,6 +375,28 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 還沒換的主角（舊做法）：改／新增 `src/anim/heroes/<主角>.json`（look 是長相、poses 是每個姿勢一句英文），跑 `npm run hero`
 （需要 `uv tool install mflux` 與 `uv tool install 'rembg[cpu,cli]'`，Z-Image Turbo 模型第一次會下載）。
 只會補缺的姿勢；想重畫某個姿勢：`npm run hero -- yang dizzy`，不滿意就改 seed 再跑。看成品：`/anim?char=楊&t=4`。
+
+## 自製道具圖（沒有合適 emoji 的東西）
+
+emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊桃＝星星；📦 看起來是封著的，不是打開的禮物），**不要硬湊 emoji**：
+
+1. 先查 `public/props/`（下表），有就寫 `emoji: 'prop:<名字>'`。
+2. 沒有就先用最接近的東西頂著，在回報裡列出需要的道具（一句話描述長相、朝向、要不要附帶效果），由監督者請 Codex 畫道具表。
+3. 新道具表放進 `assets/prop-sheets/`、寫 `src/anim/props/<表>.cut.json`、跑 `npm run prop:cut`（版面規則、prompt 範本在 `assets/prop-sheets/README.md`）。
+
+| 名字 | 是什麼 | 用在 |
+|---|---|---|
+| `starfruit` | 一整顆楊桃（直立） | 楊 |
+| `starfruit-slice` | 楊桃切片（五角星形的橫切面） | 楊（語詞那一刻切開） |
+| `starfruit-tree` | 結滿楊桃的樹 | 楊 |
+| `gift` | 紅盒黃緞帶、大蝴蝶結、蓋著的禮物 | 睿 |
+| `gift-open` | 同一款禮物打開了（蓋子掀在左邊、裡面空的） | 睿（swap） |
+| `aircon` | 白色壁掛冷氣機，下面吹出三道淺藍冷風和雪花 | 冷 |
+| `metro` | 三節車廂的捷運（側面，**車頭朝右**，不用 flip；跟 🚈 一樣算車） | 捷 |
+| `metro-door` | 打開的捷運雙開車門（看得到黃色扶手） | 還沒用 |
+| `ice` | 大冰塊（淺藍、有裂痕） | 冷 |
+
+注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 
 ## 3D 角色（原型，孩子端還沒用）
 

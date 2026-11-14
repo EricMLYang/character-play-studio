@@ -23,7 +23,8 @@
     "emoji3d": "node scripts/emoji3d.mjs",
     "voice": "node scripts/voice.mjs",
     "hero": "node scripts/hero.mjs",
-    "hero:cut": "node scripts/hero-cut.mjs"
+    "hero:cut": "node scripts/hero-cut.mjs",
+    "prop:cut": "node scripts/prop-cut.mjs"
   },
   "dependencies": {
     "hanzi-writer": "^3.7.3",

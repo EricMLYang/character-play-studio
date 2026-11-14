@@ -99,6 +99,12 @@ function check(clip, engine) {
   // 主角圖要真的存在（npm run hero 產生）
   const heroes = [...clip.actors.map((a) => a.emoji), ...clip.moves.map((m) => m.emoji ?? '')].filter((e) => e.startsWith('hero:'))
   for (const h of new Set(heroes)) if (!existsSync(join(root, 'public/hero', `${h.slice(5)}.png`))) errors.push(`沒有主角圖「${h}」（public/hero/${h.slice(5)}.png；跑 npm run hero）`)
+  // 道具圖（prop:<名字>）也要真的存在、量過範圍（npm run prop:cut 產生）；效果裡的 emoji 也可以是道具圖
+  const props = [...clip.actors.map((a) => a.emoji), ...clip.moves.map((m) => m.emoji ?? ''), ...(clip.fx ?? []).map((f) => f.emoji ?? '')].filter((e) => e.startsWith('prop:'))
+  for (const p of new Set(props)) {
+    const name = p.slice(5)
+    if (!existsSync(join(root, 'public/props', `${name}.png`)) || !engine.PROP_BOX[name]) errors.push(`沒有道具圖「${p}」（public/props/${name}.png；沒有就列出來請生圖模型畫，見 assets/prop-sheets/README.md）`)
+  }
 
   // 時間
   const times = [...clip.moves.map((m) => m.at), ...clip.cues.map((c) => c.at), ...clip.builds.map((b) => b.at + b.dur), ...(clip.fx ?? []).map((f) => f.at)]
@@ -131,8 +137,8 @@ function check(clip, engine) {
     for (const a of actorsAt(clip, t)) {
       if (!a.visible || a.o < 0.3) continue
       if (ask && !a.top && !(ask.keep ?? []).includes(a.id)) continue
-      const half = a.size * a.s * 0.4
-      if (a.x + half > core.x0 && a.x - half < core.x1 && a.y + half > core.y0 && a.y - half < core.y1) {
+      const b = engine.bodyBox(a, 0.4)
+      if (b.x1 > core.x0 && b.x0 < core.x1 && b.y1 > core.y0 && b.y0 < core.y1) {
         if (!blocking.has(a.id)) blocking.set(a.id, [t, t])
         blocking.get(a.id)[1] = t
       }
@@ -220,8 +226,8 @@ function checkV2(clip, engine, says, errors, warnings) {
     if (fx.length) { tail.push(`${at} 還有效果 ${fx.map((f) => f.emoji ?? (f.line ? 'line' : f.bolt ? 'zap' : '效果')).slice(0, 3).join('')}`); break }
     // 研究的重點是把圖拿掉、只留字：角色與道具都要退場（畫面外、消失、透明都算）
     const seen = actorsAt(clip, t).find((a) => {
-      const half = a.size * a.s * 0.45
-      return a.visible && a.o > 0.05 && a.s > 0.05 && a.x + half > 0 && a.x - half < 160 && a.y + half > 0 && a.y - half < 90
+      const b = engine.bodyBox(a, 0.45)
+      return a.visible && a.o > 0.05 && a.s > 0.05 && b.x1 > 0 && b.x0 < 160 && b.y1 > 0 && b.y0 < 90
     })
     if (seen) { tail.push(`${at}「${seen.id}」還在畫面上`); break }
   }
@@ -253,8 +259,8 @@ function checkV2(clip, engine, says, errors, warnings) {
       }
     }
     for (const a of actorsAt(clip, t)) {
-      const half = a.size * a.s * 0.4
-      const on = a.visible && a.o >= 0.3 && pts.some((q) => Math.abs(q.x - a.x) < half && Math.abs(q.y - a.y) < half)
+      const b = engine.bodyBox(a, 0.4)
+      const on = a.visible && a.o >= 0.3 && pts.some((q) => q.x > b.x0 && q.x < b.x1 && q.y > b.y0 && q.y < b.y1)
       const sp = span.get(a.id)
       if (on) { if (!sp || sp.closed) span.set(a.id, { from: t, to: t }); else sp.to = t }
       else if (sp && !sp.closed) { sp.closed = true; report(a.id, sp) }

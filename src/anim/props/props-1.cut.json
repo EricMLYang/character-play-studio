@@ -1,0 +1,6 @@
+{
+  "about": "第一張道具表（2026-11，Codex 生圖，洋紅底 3×3）：楊、睿、冷、捷的 v2 動畫要用、emoji 沒有合適的東西。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-1.png",
+  "key": "#FF00FF",
+  "props": ["starfruit", "starfruit-slice", "starfruit-tree", "gift-open", "gift", "aircon", "metro", "metro-door", "ice"]
+}
