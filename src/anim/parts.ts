@@ -35,6 +35,7 @@ export const PARTS = {
   扌: { color: '#8A3A12', from: '伸出來的手' },
   足: { color: '#1B3A66', from: '踩下去的腳' },
   豸: { color: '#D0561A', from: '長背的野獸（貓、豹），從牠身上跳出來' },
+  疌: { color: '#4A2C8F', from: '咻地開走的捷運（快到只剩一陣風），從它剛剛停的地方飛起來' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS

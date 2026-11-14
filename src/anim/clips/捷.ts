@@ -1,177 +1,195 @@
-import type { Clip, Move } from '../clip'
-import { ride } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 捷（重做）：楊捷睿開賽車跟獵豹比賽。旗子一揮，獵豹咻地跑掉，他的輪子卻原地空轉冒煙——獵豹已經繞一圈從後面跑回來笑他。
-// 他氣到狂催油門，一衝快到留下閃電尾巴（扌），整台撞進輪胎堆，輪胎飛上天掉成右邊，「捷」站好了。
-// 國字讓到上方，捷運滑進站（捷運），他跳上捷運；獵豹不服氣先跑，捷運一下就繞地球一圈從另一邊回來，獵豹最後才喘著跑回來。捷、捷、捷運
-const C = 67.3 // 賽車（size 23）在地上的 y
-const B = C - 0.5 // 楊捷睿坐在車上的 y
-const K = 67.8 // 獵豹（size 22）
-const T = 61 // 捷運（size 38）
-const W = -8 // 楊捷睿趴在捷運車頂上
+// 捷（v2）：楊捷睿要搭捷運——每次他跑到車門口、手一伸，捷運就「咻」地開走，那陣風把他捲得一次比一次遠：
+// 原地轉一圈（扌從他伸出去的手飛出來）、滾到畫面邊、先停一拍再被捲上天（右邊從捷運剛停的地方飛起來）。
+// 回馬槍：捷運再進站，這次他搶先跳上車頂比 ✌️——捷運「咻」地從他腳底下開走，他懸在半空傻眼，才掉下來。
+// 最後畫面暗下來只剩「捷」，他轉向觀眾問「這是什麼字？」，等他回答，再跳起來指著它說「捷！」，然後退場只留字。
+// 捷、捷、捷運、這是什麼字？、捷
+const P = 66.9 // 楊捷睿（size 24）站在地上的 y
+const T = 54.3 // 捷運（size 54）
+/** 捷運停的地方（畫面正中間） */
+const TX = 96
+/** 前三次都跑到同一個地方：捷運最左邊的車門口 */
+const DOOR = 68
+/** 他每次出發的地方 */
+const HOME = 30
+/** 第四次：捷運停的地方、他站在車頂的位置與高度 */
+const TX4 = 70
+const ROOF_X = 60
+const ROOF_Y = 36
+/** 捷運開走以後傻眼停多久，才被風捲走 */
+const HOLD = 0.45
+/** 捷運先抖一下（預備）到開走之間多久 */
+const WIND = 0.3
 
-// 捷運的動作抄一份給車頂上的楊捷睿（只從他上車之後）
-const onTrain = (ms: Move[]): Move[] => ms.flatMap((m) => [
-  m,
-  { ...m, actor: 'boy', to: m.to && { x: m.to.x + 2, y: m.to.y + W }, from: m.from && { x: m.from.x + 2, y: m.from.y + W } },
-])
+/**
+ * 「咻」：捷運先抖一下、往後縮（預備）→ 咻地往右開走 → 同一刻 💨 捲到他身上＋鏡頭推近＋震＋同一個音效，
+ * 他手還伸著、傻眼停 HOLD 秒（看得見臉）才被捲走。k 是第幾次（越後面越大），x、y 是他當下的位置。
+ */
+function zip(at: number, k: number, x = DOOR, y = P, tx = TX) {
+  const moves: Move[] = [
+    { at: at - WIND, actor: 'train', do: 'shake', amount: 0.8 + 0.3 * k, dur: 0.22 },
+    { at: at - 0.1, actor: 'train', do: 'moveTo', to: { x: 240, y: T }, dur: 0.3, anticipate: 4, ease: 'in' },
+    { at, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
+    { at, actor: 'yang', do: 'squash', amount: 0.2 + 0.08 * k, dur: 0.25 },
+  ]
+  const fx: Fx[] = [
+    // 💨 每次都捲在他身上同一個位置，一次比一次大
+    { at, kind: 'burst', x: x + 6, y: y + (k >= 3 ? 4 : -6), emoji: '💨', n: 4 + k, dur: 0.5, scale: 1.8 + 0.4 * k },
+    { at, kind: 'puff', x: tx, y: 70, dur: 0.4 },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.1 + 0.06 * k, to: { x, y: k >= 3 ? 40 : y - 8 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.8 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at: at - WIND, sfx: 'rumble' }, { at: at - 0.05, sfx: 'whoosh' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'slide' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'boing' })
+  return { moves, fx, camera, cues }
+}
+
+/** 捷運「繞一圈」從左邊開回來，停在站上 */
+const back = (at: number, x = TX): Move[] => [
+  { at: at - 0.02, actor: 'train', do: 'moveTo', to: { x, y: T }, dur: 0.01 },
+  { at, actor: 'train', do: 'enter', from: { x: -70, y: T }, dur: 0.5, ease: 'back' },
+]
+
+const H1 = 1.6, H2 = 3.55, H3 = 6.0, H4 = 10.2
+const z1 = zip(H1, 0)
+const z2 = zip(H2, 1)
+const z3 = zip(H3, 2)
+const z4 = zip(H4, 3, ROOF_X, ROOF_Y, TX4)
 
 const clip: Clip = {
+  format: 2,
   char: '捷',
-  meta: { theme: '賽車場跟獵豹比快', cast: '楊捷睿＋賽車＋獵豹＋輪胎堆＋捷運', gags: ['輪子原地空轉', '獵豹繞一圈從後面回來', '快到撞進輪胎堆', '捷運繞地球一圈獵豹最後到'] },
-  duration: 10,
-  bg: { top: '#9FD4FF', bottom: '#EEF7FF', floor: '#A7B0BA', scenery: 'track' },
+  meta: { theme: '楊捷睿趕捷運', cast: '楊捷睿＋捷運', gags: ['楊捷睿每次跑到車門口要上車，捷運就咻地開走、風把他捲得一次比一次遠；回馬槍是他搶先跳上車頂，捷運咻地從他腳底下開走'] },
+  duration: 15,
+  bg: { top: '#CFE8FF', bottom: '#F2F8FF', floor: '#B9C0C8', scenery: 'city' },
   actors: [
-    { id: 'flag', emoji: '🏁', x: 84, y: 30, size: 12, hidden: true, float: true },
-    { id: 'train', emoji: '🚈', x: 74, y: T, size: 38, hidden: true, flip: true },
-    { id: 'tire1', emoji: '🛞', x: 145, y: 71, size: 11 },
-    { id: 'tire2', emoji: '🛞', x: 145, y: 62, size: 11 },
-    { id: 'car', emoji: '🏎️', x: 40, y: C, size: 23, hidden: true, flip: true },
-    { id: 'boy', emoji: 'hero:yang/drive', x: 40, y: B, size: 14, hidden: true },
-    { id: 'cheetah', emoji: '🐆', x: 76, y: K, size: 22, hidden: true, flip: true },
+    { id: 'train', emoji: '🚈', x: TX, y: T, size: 54, flip: true },
+    { id: 'yang', emoji: 'hero:yang/idle', x: HOME, y: P, size: 24, hidden: true },
   ],
   moves: [
-    // 獵豹從右邊走到起跑線，一臉得意
-    { at: 0, actor: 'cheetah', do: 'enter', from: { x: 185, y: K }, dur: 0.55, ease: 'out' },
-    { at: 0.6, actor: 'cheetah', do: 'tilt', amount: -12, dur: 0.35 },
-    // 旗子掉下來，一揮——開始！
-    { at: 0.85, actor: 'flag', do: 'drop', dur: 0.35 },
-    { at: 1.2, actor: 'flag', do: 'tilt', amount: 30, dur: 0.25 },
-    { at: 1.2, actor: 'cheetah', do: 'squash', amount: -0.25, dur: 0.15 },
-    { at: 1.35, actor: 'cheetah', do: 'moveTo', to: { x: 190, y: K }, dur: 0.35, anticipate: 3, ease: 'in' },
-    // 獵豹的風把旗子吹走
-    { at: 1.5, actor: 'flag', do: 'moveTo', to: { x: 185, y: 4 }, dur: 0.4, ease: 'in' },
-    { at: 1.5, actor: 'flag', do: 'spin', times: 2, dur: 0.4 },
-    // 獵豹已經繞一圈，從後面跑回來，停在他前面回頭笑
-    { at: 2.15, actor: 'cheetah', do: 'vanish', dur: 0.01 },
-    { at: 2.18, actor: 'cheetah', do: 'moveTo', to: { x: 76, y: K }, dur: 0.01 },
-    { at: 2.25, actor: 'cheetah', do: 'enter', from: { x: -30, y: K }, dur: 0.4, ease: 'back' },
-    { at: 2.7, actor: 'cheetah', do: 'flip' },
-    { at: 2.8, actor: 'cheetah', do: 'bounce', amount: 2.5, times: 3, dur: 0.6 },
-    // 第二次：從車子前面跳開，躲到左邊
-    { at: 3.8, actor: 'cheetah', do: 'hop', amount: 3, dur: 0.2 },
-    { at: 4.15, actor: 'cheetah', do: 'moveTo', to: { x: 22, y: K }, arc: 26, dur: 0.55, ease: 'out' },
-    { at: 4.15, actor: 'cheetah', do: 'spin', times: -1, dur: 0.55 },
-    { at: 4.75, actor: 'cheetah', do: 'flip' },
-    { at: 5.9, actor: 'cheetah', do: 'hop', amount: 4, dur: 0.3 },
-    // 撞飛的輪胎
-    { at: 4.5, actor: 'tire1', do: 'moveTo', to: { x: 108, y: 12 }, dur: 0.35, ease: 'out' },
-    { at: 4.5, actor: 'tire1', do: 'spin', times: 2, dur: 0.4 },
-    { at: 4.5, actor: 'tire2', do: 'moveTo', to: { x: 138, y: 8 }, dur: 0.4, ease: 'out' },
-    { at: 4.5, actor: 'tire2', do: 'spin', times: -2, dur: 0.45 },
-    { at: 4.85, actor: 'tire1', do: 'vanish', dur: 0.2 },
-    { at: 5.3, actor: 'tire2', do: 'vanish', dur: 0.2 },
-    ...ride([
-      { at: 0, actor: 'car', do: 'enter', from: { x: -25, y: C }, dur: 0.5, ease: 'out' },
-      // 催油門
-      { at: 0.65, actor: 'car', do: 'shake', amount: 0.8, dur: 0.4 },
-      // 開始！輪子卻原地空轉
-      { at: 1.35, actor: 'car', do: 'shake', amount: 1.6, dur: 0.8 },
-      { at: 1.35, actor: 'car', do: 'squash', amount: -0.12, dur: 0.3 },
-      // 氣到狂催油門：往後壓、抖
-      { at: 3.15, actor: 'car', do: 'squash', amount: -0.3, dur: 0.55 },
-      { at: 3.2, actor: 'car', do: 'shake', amount: 1.4, dur: 0.95 },
-      // 咻——快到停不下來，撞進輪胎堆
-      { at: 4.15, actor: 'car', do: 'moveTo', to: { x: 128, y: C }, dur: 0.35, anticipate: 6, ease: 'in' },
-      { at: 4.5, actor: 'car', do: 'squash', amount: 0.45, dur: 0.4 },
-      { at: 4.5, actor: 'car', do: 'shake', amount: 1.5, dur: 0.5 },
-      { at: 5.9, actor: 'car', do: 'hop', amount: 4, dur: 0.3 },
-    ], 'boy', B - C, 23),
-    { at: 1.9, actor: 'boy', do: 'swap', emoji: 'hero:yang/surprised' },
-    { at: 3.1, actor: 'boy', do: 'swap', emoji: 'hero:yang/drive' },
-    { at: 4.5, actor: 'boy', do: 'swap', emoji: 'hero:yang/dizzy' },
-    { at: 5.9, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
-    // 國字讓位：捷運滑進站
-    { at: 6.95, actor: 'train', do: 'enter', from: { x: -50, y: T }, dur: 0.5, ease: 'back' },
-    { at: 7.45, actor: 'train', do: 'squash', amount: 0.1, dur: 0.25 },
-    { at: 7.0, actor: 'boy', do: 'swap', emoji: 'hero:yang/surprised' },
-    // 跳上捷運車頂
-    { at: 7.75, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
-    { at: 7.75, actor: 'boy', do: 'moveTo', to: { x: 76, y: T + W }, arc: 4, dur: 0.4, ease: 'out' },
-    // 獵豹不服氣，先跑
-    { at: 8.0, actor: 'cheetah', do: 'squash', amount: -0.3, dur: 0.2 },
-    { at: 8.15, actor: 'cheetah', do: 'moveTo', to: { x: 195, y: K }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 8.3, actor: 'boy', do: 'swap', emoji: 'hero:yang/surprised' },
-    { at: 9.0, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
-    // 捷運咻地開走，一下就繞一圈從左邊回來
-    ...onTrain([
-      { at: 8.3, actor: 'train', do: 'moveTo', to: { x: 200, y: T }, dur: 0.25, anticipate: 3, ease: 'in' },
-      { at: 8.56, actor: 'train', do: 'vanish', dur: 0.01 },
-      { at: 8.58, actor: 'train', do: 'moveTo', to: { x: 34, y: T }, dur: 0.01 },
-      { at: 8.6, actor: 'train', do: 'enter', from: { x: -50, y: T }, dur: 0.4, ease: 'back' },
-    ]),
-    // 空車被捷運的風吹得打轉
-    { at: 8.4, actor: 'car', do: 'spin', times: 1, dur: 0.5 },
-    { at: 8.4, actor: 'car', do: 'moveTo', to: { x: 146, y: C }, dur: 0.5, ease: 'out' },
-    // 獵豹最後才喘著跑回來
-    { at: 9.0, actor: 'cheetah', do: 'vanish', dur: 0.01 },
-    { at: 9.03, actor: 'cheetah', do: 'moveTo', to: { x: 122, y: K }, dur: 0.01 },
-    { at: 9.03, actor: 'cheetah', do: 'flip' },
-    { at: 9.1, actor: 'cheetah', do: 'enter', from: { x: 195, y: K }, dur: 0.5, ease: 'out' },
-    { at: 9.6, actor: 'cheetah', do: 'squash', amount: 0.3, dur: 0.4 },
-    { at: 9.5, actor: 'boy', do: 'hop', amount: 4, dur: 0.3 },
+    // 楊捷睿登場，抬頭看字框，看到捷運：要坐！
+    { at: 0, actor: 'yang', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
+    { at: 0.5, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    // 第 1 次：跑到車門口、手一伸——咻，傻眼，原地轉一圈退回去
+    { at: 1.0, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.4 },
+    { at: 1.35, actor: 'yang', do: 'tilt', amount: -12, dur: 0.3 },
+    ...z1.moves,
+    { at: H1 + HOLD, actor: 'yang', do: 'moveTo', to: { x: HOME, y: P }, arc: 6, dur: 0.35, ease: 'out' },
+    { at: H1 + HOLD, actor: 'yang', do: 'spin', times: -1, dur: 0.35, pivot: 'center' },
+    ...back(2.45),
+    // 第 2 次：再跑過去——咻，傻眼，整個人滾到畫面邊
+    { at: 2.5, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 2.95, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.4, ease: 'in' },
+    { at: 3.3, actor: 'yang', do: 'tilt', amount: -12, dur: 0.3 },
+    ...z2.moves,
+    { at: H2 + HOLD, actor: 'yang', do: 'moveTo', to: { x: 14, y: P }, dur: 0.45, ease: 'out' },
+    { at: H2 + HOLD, actor: 'yang', do: 'spin', times: -3, dur: 0.45, pivot: 'center' },
+    { at: 4.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/dizzy' },
+    ...back(4.45),
+    // 第 3 次：走回車門口——先停一拍：看一眼捷運、捷運抖一下……咻！傻眼，被捲上天，過一會兒才掉回來
+    { at: 4.95, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 4.95, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.5 },
+    { at: 5.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/think' },
+    { at: 5.5, actor: 'yang', do: 'tilt', amount: -8, dur: 0.4 },
+    { at: 5.4, actor: 'train', do: 'shake', amount: 0.5, dur: 0.2 },
+    ...z3.moves,
+    { at: H3 + HOLD, actor: 'yang', do: 'moveTo', to: { x: 200, y: 30 }, dur: 0.4, ease: 'in' },
+    { at: H3 + HOLD, actor: 'yang', do: 'spin', times: 2, dur: 0.4, pivot: 'center' },
+    // 在天上（畫面外）飄回左邊，掉下來
+    { at: 6.95, actor: 'yang', do: 'moveTo', to: { x: 36, y: -45 }, dur: 0.01 },
+    { at: 7.0, actor: 'yang', do: 'moveTo', to: { x: 36, y: P }, dur: 0.3, ease: 'in' },
+    { at: 7.3, actor: 'yang', do: 'swap', emoji: 'hero:yang/dizzy' },
+    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓回上方，捷運又進站
+    { at: 8.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    ...back(8.95, TX4),
+    // 回馬槍（第 4 次）：這次他搶先跳上車頂，比 ✌️——捷運咻地從他腳底下開走，他懸在半空傻眼，才掉下來
+    { at: 9.55, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 9.55, actor: 'yang', do: 'moveTo', to: { x: ROOF_X, y: ROOF_Y }, arc: 10, dur: 0.4, ease: 'out' },
+    ...z4.moves,
+    { at: H4 + 0.55, actor: 'yang', do: 'moveTo', to: { x: ROOF_X, y: P }, dur: 0.25, ease: 'in' },
+    { at: H4 + 0.8, actor: 'yang', do: 'swap', emoji: 'hero:yang/dizzy' },
+    // 問他：他變大、走到左前方，轉向觀眾
+    { at: 11.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 11.15, actor: 'yang', do: 'scaleTo', amount: 1.5, dur: 0.3, ease: 'back' },
+    { at: 11.15, actor: 'yang', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
+    // 安靜等他回答：身體往字那邊傾、點兩下頭
+    { at: 12.15, actor: 'yang', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.65, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.15, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來
+    { at: 13.6, actor: 'yang', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.6, actor: 'yang', do: 'hop', amount: 6, dur: 0.2 },
+    // 退場，畫面只留下字
+    { at: 13.78, actor: 'yang', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.2, ease: 'in' },
   ],
   builds: [
-    // 衝過去留下的閃電尾巴 → 扌；飛上天的輪胎掉下來 → 右邊
-    { at: 4.2, dur: 0.45, strokes: [0, 1, 2], from: 'car', color: '#F03E3E' },
-    { at: 4.85, dur: 0.45, strokes: [3, 4, 5, 6], from: 'tire1', style: 'drop', color: '#F59F00' },
-    { at: 5.3, dur: 0.5, strokes: [7, 8, 9, 10], from: 'tire2', style: 'drop', color: '#FAB005' },
+    // 第 1 次：扌從他伸出去的手飛出來
+    { at: H1 + 0.05, dur: 0.55, strokes: [0, 1, 2], from: 'yang', color: partColor('扌') },
+    // 第 2、3 次：捷運咻地開走，右邊從它剛剛停的地方飛起來
+    { at: H2 + 0.05, dur: 0.55, strokes: [3, 4, 5, 6], from: { x: TX, y: 58 }, color: partColor('疌') },
+    { at: H3 + 0.05, dur: 0.6, strokes: [7, 8, 9, 10], from: { x: TX, y: 58 }, color: partColor('疌') },
   ],
   glyph: [
-    { at: 5.85, dur: 0.4, do: 'wobble' },
-    { at: 6.7, dur: 0.45, do: 'park' },
-    { at: 9.05, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: 7.85, dur: 0.45, do: 'home', ease: 'back' },
+    // 讓到右上方，中間給捷運和車頂上的他
+    { at: 8.65, dur: 0.45, do: 'park', to: { x: 118, y: 19.5 } },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的楊捷睿
+    { at: 11.1, dur: 2.88, do: 'ask', keep: ['yang'], to: { x: 100, y: 43 }, amount: 0.82 },
+    { at: 11.15, dur: 0.4, do: 'home' },
+    { at: 13.6, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.6, kind: 'pop', actor: 'cheetah', emoji: '😏', dur: 0.45 },
-    { at: 0.65, kind: 'puff', actor: 'car', dx: -12, dy: 12, dur: 0.4 },
-    { at: 0.7, kind: 'pop', actor: 'boy', emoji: '😤', dur: 0.4 },
-    { at: 1.35, kind: 'puff', actor: 'car', dx: -10, dy: 12, dur: 0.85 },
-    { at: 1.6, kind: 'puff', actor: 'car', dx: -14, dy: 10, dur: 0.6 },
-    { at: 1.5, kind: 'burst', actor: 'car', emoji: '💨', n: 4, dx: -12, dy: 10, dur: 0.7 },
-    { at: 1.95, kind: 'pop', actor: 'boy', emoji: '❓', dur: 0.4 },
-    { at: 2.0, kind: 'sweat', actor: 'boy' },
-    { at: 2.75, kind: 'pop', actor: 'cheetah', emoji: '😆', dur: 0.55 },
-    { at: 3.1, kind: 'pop', actor: 'boy', emoji: '💢', dur: 0.4 },
-    { at: 3.2, kind: 'puff', actor: 'car', dx: -12, dy: 12, dur: 0.9 },
-    { at: 3.6, kind: 'burst', actor: 'car', emoji: '⚡', n: 6, dur: 0.55 },
-    { at: 3.75, kind: 'pop', actor: 'cheetah', emoji: '😨', dur: 0.4 },
-    { at: 4.5, kind: 'burst', actor: 'car', n: 1, dx: 10, dy: 6, dur: 0.45 },
-    { at: 4.85, kind: 'dizzy', actor: 'boy', dur: 1.0 },
-    { at: 5.0, kind: 'pop', actor: 'cheetah', emoji: '😲', dur: 0.45 },
-    { at: 7.45, kind: 'burst', actor: 'train', emoji: '✨', n: 8, dur: 0.6 },
-    { at: 7.4, kind: 'pop', actor: 'boy', emoji: '😍', dx: -8, dur: 0.4 },
-    { at: 8.0, kind: 'pop', actor: 'cheetah', emoji: '😤', dur: 0.35 },
-    { at: 8.4, kind: 'dizzy', actor: 'car', dur: 0.6 },
-    { at: 9.05, kind: 'pop', actor: 'boy', emoji: '✌️', dx: -8, dur: 0.5 },
-    { at: 9.6, kind: 'sweat', actor: 'cheetah' },
-    { at: 9.65, kind: 'pop', actor: 'cheetah', emoji: '😵', dur: 0.4 },
+    { at: 0.45, kind: 'pop', actor: 'yang', emoji: '❗', dx: -2, dur: 0.5, scale: 1.4 },
+    ...z1.fx,
+    { at: H1 + 0.25, kind: 'sweat', actor: 'yang' },
+    ...z2.fx,
+    { at: 4.15, kind: 'dizzy', actor: 'yang', dur: 0.5 },
+    // 第 3 次前停一拍：他看一眼捷運
+    { at: 5.45, kind: 'pop', actor: 'yang', emoji: '👀', dx: -10, dur: 0.5, scale: 1.3 },
+    ...z3.fx,
+    { at: 7.3, kind: 'dizzy', actor: 'yang', dur: 0.6 },
+    { at: 9.4, kind: 'burst', actor: 'train', emoji: '✨', n: 6, dur: 0.5 },
+    { at: 9.95, kind: 'pop', actor: 'yang', emoji: '✌️', dx: 13, dy: 9, dur: 0.35, scale: 1.2 },
+    ...z4.fx,
+    { at: H4 + 0.1, kind: 'pop', actor: 'yang', emoji: '❗', dx: 13, dy: 9, dur: 0.45, scale: 1.3 },
+    { at: 12.2, kind: 'pop', actor: 'yang', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
+    { at: 13.6, kind: 'burst', x: 100, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 4.5, dur: 0.35, do: 'shake', amount: 1.8 },
+    ...z1.camera,
+    ...z2.camera,
+    ...z3.camera,
+    { at: 7.3, dur: 0.35, do: 'shake', amount: 1.5 },
+    ...z4.camera,
+    { at: H4 + 0.8, dur: 0.3, do: 'shake', amount: 1.5 },
   ],
   lights: [
-    // 撞上輪胎堆：白光一閃
-    { at: 4.5, dur: 0.04, level: -0.6 },
-    { at: 4.54, dur: 0.25, level: 0 },
+    { at: 7.85, dur: 0.05, level: -0.35 },
+    { at: 7.9, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.65, sfx: 'rumble' },
-    { at: 1.2, say: '捷' },
-    { at: 1.35, sfx: 'whoosh' },
-    { at: 1.4, sfx: 'slide' },
-    { at: 2.25, sfx: 'whoosh' },
-    { at: 3.15, sfx: 'rumble' },
-    { at: 4.15, sfx: 'whoosh' },
-    { at: 4.5, sfx: 'bonk' },
-    { at: 5.85, say: '捷' },
-    { at: 6.95, sfx: 'whoosh' },
-    { at: 7.45, say: '捷運' },
-    { at: 7.75, sfx: 'boing' },
-    { at: 8.3, sfx: 'whoosh' },
-    { at: 8.6, sfx: 'whoosh' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.6, say: '捷' },
+    ...z1.cues,
+    ...z2.cues,
+    ...z3.cues,
+    { at: 7.3, sfx: 'plop' },
+    { at: 7.95, say: '捷' },
+    { at: 9.4, say: '捷運' },
+    { at: 9.55, sfx: 'boing' },
+    ...z4.cues,
+    { at: H4 + 0.8, sfx: 'plop' },
+    { at: 11.1, say: FIXED_LINES.clipAsk },
+    { at: 13.6, say: '捷' },
+    { at: 13.65, sfx: 'cheer' },
   ],
 }
 
