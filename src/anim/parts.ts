@@ -61,6 +61,10 @@ export const PARTS = {
   酉: { color: '#7A5C00', from: '酸東西（檸檬、醋、酸梅）裡噴出來的酸汁；酉是釀酒、釀醋的罈子' },
   // 夋是酸、俊、梭的聲音：檸檬皮的青綠，比田（#6A8A00）亮、比艹（#2B9348）黃
   夋: { color: '#5A9E00', from: '酸到縮成一團、整個人彈出去時甩出來的' },
+  // 冂是高樓的外框（高、同、周、冋）：深梅紫，比言（#5C6170）偏紅、比豕（#C75B7A）暗得多
+  冂: { color: '#6D3F5B', from: '疊起來的高樓、箱子的外框（最底下那一層）' },
+  // 亠是蓋在最上面的屋頂（高、京、亮、六的頭）：鋼藍，比氵（#1C6FD0）灰、比足（#1B3A66）亮
+  亠: { color: '#3A5BA0', from: '疊到最高的那一層、蓋在最上面的屋頂' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
