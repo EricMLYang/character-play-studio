@@ -1,0 +1,7 @@
+{
+  "about": "第六張道具表（2026-11，Codex 生圖，洋紅底 3×3）：白山羊的三個狀態（站著四分之三臉看得到兩支角／低頭角朝左要頂人／後腳站起來，同一隻、同一個比例可以 swap）、張翅的蝴蝶、毛毛蟲、掛在樹枝下的蛹、蜜蜂兩個狀態（飛／生氣尾針翹起，同一個比例）、荷葉。動物都朝左。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-6.png",
+  "key": "#FF00FF",
+  "props": ["goat", "goat-butt", "goat-rear", "butterfly", "caterpillar", "chrysalis", "bee", "bee-sting", "lilypad"],
+  "together": [["goat", "goat-butt", "goat-rear"], ["bee", "bee-sting"]]
+}

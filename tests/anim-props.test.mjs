@@ -94,18 +94,19 @@ test('prop: 是道具不是角色：走過去不踩步伐；捷運（metro）跟
   assert.equal(actorsAt(still, 3).find((a) => a.id === 'x').x, 120)
 })
 
-test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子）跟 🐻🐼🐸🦀🐢🐒 一樣算角色；趴著睡、跳在半空、夾東西、縮殼、吊樹枝的不踩步伐', () => {
+test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山羊、蝴蝶、蜜蜂、毛毛蟲）跟 🐻🐼🐸🦀🐢🐒🐐🦋🐝🐛 一樣算角色；趴著睡、跳在半空、夾東西、縮殼、吊樹枝、站起來、在地上爬的不踩步伐', () => {
   const walk = (emoji) => clipOf({
     actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
     moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
   })
   for (const [name, emoji] of [['bear', '🐻'], ['bear-roar', '🐻'], ['panda', '🐼'], ['frog', '🐸'],
-    ['crab', '🦀'], ['crab-walk', '🦀'], ['turtle', '🐢'], ['monkey', '🐒']]) {
+    ['crab', '🦀'], ['crab-walk', '🦀'], ['turtle', '🐢'], ['monkey', '🐒'],
+    ['goat', '🐐'], ['goat-butt', '🐐'], ['butterfly', '🦋'], ['bee', '🐝'], ['bee-sting', '🐝']]) {
     assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk(emoji)).get('x'), name)
     assert.ok(lifeOf(walk(`prop:${name}`)).get('x').steps.length > 0, `${name} 走過去要踩步伐`)
   }
   // 跟 🐌 一樣：會歪、會做小動作，但不踩步伐
-  for (const name of ['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang']) {
+  for (const name of ['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear']) {
     assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🐌')).get('x'), name)
     assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0)
   }
@@ -114,6 +115,12 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子）跟 �
   assert.ok(still('prop:bear').beats.length > 0)
   assert.deepEqual(still('prop:bear'), still('🐻'))
   assert.equal(still('prop:honey').beats.length, 0)
+  // 毛毛蟲跟 🐛 一樣：在地上爬、不踩步伐
+  assert.deepEqual(lifeOf(walk('prop:caterpillar')).get('x'), lifeOf(walk('🐛')).get('x'))
+  assert.equal(lifeOf(walk('prop:caterpillar')).get('x').steps.length, 0)
+  // 蛹、荷葉是道具：不做小動作
+  assert.equal(still('prop:chrysalis').beats.length, 0)
+  assert.equal(still('prop:lilypad').beats.length, 0)
   // 香蕉、雪球是道具：不做小動作
   assert.equal(still('prop:banana').beats.length, 0)
   assert.equal(still('prop:snowball').beats.length, 0)

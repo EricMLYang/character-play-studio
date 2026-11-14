@@ -314,7 +314,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang` 算角色但跟 🐌 一樣不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -465,6 +465,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `monkey-hang` | 同一隻猴子一手吊在橫的樹枝上、一手拿剝開的香蕉（樹枝在圖的最上面；算動物、不踩步伐） | 還沒用 |
 | `banana` | 一串黃色香蕉（五根，寬扁） | 還沒用 |
 | `snowball` | 圓圓的大雪球（白色、淡藍陰影、深色描邊，雪地上看得見）；會滾就加 `pivot: 'center'`，當雪堆就用 `scaleTo` 壓扁 | 雪（滾的雪球、從雲上倒下來的雪、把他埋住的雪堆） |
+| `goat` | 白山羊四隻腳站著、身體朝左、臉轉四分之三，**看得到一左一右兩支角**（算動物，會踩步伐）。**山羊三張同一個比例**，`goat` 只佔畫布寬 0.77、高 0.83，size 要寫大一點（44 ≈ 🐐 36）。size 44 時左角中段在 x − 6.5、y − 13.8，右角在 x + 0.3、y − 13 | 羊（兩點從兩支角飛出來） |
+| `goat-butt` | 同一隻山羊低頭、後腳蹬地、兇兇地要頂人（角往上往後彎，頂到人的是額頭與角根）。**跟 `goat` 同 size swap，x 往左移 0.07 × size**（屁股、尾巴對齊）；額頭在（照畫出來的 x）x − 0.32 × size、y + 0.1 × size | 羊（衝過去頂人那一下） |
+| `goat-rear` | 同一隻山羊用後腳站起來、前腳舉高（算動物、不踩步伐）。**跟 `goat` 同 size swap，x 往右移 0.074 × size** | 羊（頂人前的預備） |
+| `butterfly` | 張開翅膀的蝴蝶（正面、橘藍花紋；跟 🦋 一樣算角色，飛要加 `float`） | 還沒用 |
+| `caterpillar` | 綠色毛毛蟲（側面朝左、微笑；跟 🐛 一樣算角色、不踩步伐） | 還沒用 |
+| `chrysalis` | 掛在樹枝下的咖啡色蛹（樹枝在圖的最上面） | 還沒用 |
+| `bee` | 黃黑蜜蜂在飛（側面朝左、微笑；跟 🐝 一樣算角色，飛要加 `float`）。**跟 `bee-sting` 同一個比例**，同 size、同 x swap | 還沒用 |
+| `bee-sting` | 同一隻蜜蜂生氣、皺眉、尾針翹起朝左下 | 還沒用 |
+| `lilypad` | 綠色圓荷葉（有一道缺口、浮在一小圈藍色水上；寬扁） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 
