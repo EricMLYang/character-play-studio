@@ -20,7 +20,8 @@ export const POSES: Record<string, string[]> = {
   monster: ['dizzy', 'happy', 'idle', 'oops', 'roar', 'sleep', 'stuffed', 'surprised'],
   mouse: ['cheese', 'dizzy', 'happy', 'idle', 'sneak', 'surprised'],
   ninja: ['dizzy', 'happy', 'hide', 'idle', 'surprised', 'throw'],
-  pig: ['dizzy', 'happy', 'idle', 'point', 'surprised', 'think'],
+  // 豬探長：從綠幕姿勢表切（npm run hero:cut -- pig，assets/hero-sheets/pig-A/B/C.png）
+  pig: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'doubt', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
   pirate: ['dizzy', 'happy', 'idle', 'surprised', 'telescope', 'treasure'],
   raccoon: ['carry', 'dizzy', 'happy', 'idle', 'salute', 'surprised'],
   robot: ['broken', 'dizzy', 'fly', 'happy', 'idle', 'surprised'],

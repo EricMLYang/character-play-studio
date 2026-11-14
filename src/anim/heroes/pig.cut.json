@@ -1,0 +1,19 @@
+{
+  "name": "豬探長",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，參考圖取自爸爸 FamilyCreation 的豬探長影片）。A 表情、B 動作、C 道具與生活動作；朝左。比例以 A 表的 idle（站好微笑）身高為準。來源與版面規則見 assets/hero-sheets/README.md。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "pig-A.png",
+      "poses": ["idle", "happy", "laugh", "surprised", "dizzy", "angry", "cry", "scared", "smug"]
+    },
+    "B": {
+      "file": "pig-B.png",
+      "poses": ["reach", "point", "listen", "ponder", "walk", "sneak", "flat", "wait", "back"]
+    },
+    "C": {
+      "file": "pig-C.png",
+      "poses": ["think", "doubt", "sleep", "eat", "dash", "fall", "wave", "push", "cold"]
+    }
+  }
+}

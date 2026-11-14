@@ -37,7 +37,15 @@ if (!existsSync(join(MODEL, 'transformer'))) {
   execFileSync('mflux-save', ['--model', 'z-image-turbo', '--quantize', '4', '--path', MODEL], { stdio: ['ignore', 'ignore', 'inherit'] })
 }
 
-const heroes = readdirSync(heroDir).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5))
+// <主角>.cut.json 是「從綠幕姿勢表切」的設定（npm run hero:cut）。有這份的主角（例如豬探長）圖已經改從姿勢表切，
+// 這裡整個跳過——不然會用舊畫風重畫、還會把姿勢表多出來的姿勢當成「設定裡拿掉的」刪掉。<主角>.json 只留著備查。
+const files = readdirSync(heroDir)
+const heroes = files.filter((f) => f.endsWith('.json') && !f.endsWith('.cut.json')).map((f) => f.slice(0, -5))
+  .filter((h) => {
+    if (!files.includes(`${h}.cut.json`)) return true
+    if (onlyHero === h) console.log(`${h}：圖改從姿勢表切（src/anim/heroes/${h}.cut.json），用 npm run hero:cut -- ${h}`)
+    return false
+  })
 for (const hero of heroes) {
   if (onlyHero && hero !== onlyHero) continue
   const cfg = JSON.parse(readFileSync(join(heroDir, `${hero}.json`), 'utf8'))

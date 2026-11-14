@@ -27,10 +27,11 @@ const WIND = 0.2
 function swat(at: number, k: number, sweep = 110, x = REACH) {
   const moves: Move[] = [
     { at: at - WIND - 0.15, actor: 'cat', do: 'shake', amount: 1 + 0.25 * k, dur: 0.2 },
-    { at, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    // 打中那一下被拍扁；第 4 次扁得最久（在原地被打扁、傻眼，才飛出去）
+    // 打中那一下傻眼；第 4 次直接被拍扁在地上（flat），扁得最久，起來傻眼才飛出去
+    { at, actor: 'pig', do: 'swap', emoji: k >= 3 ? 'hero:pig/flat' : 'hero:pig/surprised' },
     { at, actor: 'pig', do: 'squash', amount: 0.25 + 0.1 * k, dur: k >= 3 ? HOLD : 0.25 },
   ]
+  if (k >= 3) moves.push({ at: at + HOLD, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' })
   const fx: Fx[] = [
     { at: at - WIND - 0.135, kind: 'swoosh', actor: 'cat', target: 'pig', dx: -14, dy: 10, n: 15, sweep, windup: WIND, dur: WIND + 0.27,
       scale: 1 + 0.12 * k, color: TAIL, width: 4.2 },
@@ -66,13 +67,15 @@ const clip: Clip = {
     { id: 'bush', emoji: '🌿', x: 14, y: B, size: 14 },
     { id: 'field', emoji: '🌾', x: 32, y: B, size: 14 },
     { id: 'cat', emoji: '🐈', x: 124, y: C, size: 34, flip: true },
-    { id: 'pig', emoji: 'hero:pig/idle', x: 84, y: P, size: 24, hidden: true },
+    // 新的豬探長圖朝左，翻過來朝右：伸手（reach）才是伸向右邊的大貓，最後也是朝右指著字
+    { id: 'pig', emoji: 'hero:pig/idle', x: 84, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
     // 豬探長登場：好可愛的貓，想摸！
     { at: 0, actor: 'pig', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
     // 第 1 次：伸手——啪，傻眼，轉一圈退回去
     { at: 0.8, actor: 'pig', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.4 },
+    { at: 1.2, actor: 'pig', do: 'swap', emoji: 'hero:pig/reach' },
     { at: 1.2, actor: 'pig', do: 'tilt', amount: 12, dur: 0.3 },
     ...s1.moves,
     { at: H1 + HOLD, actor: 'pig', do: 'moveTo', to: { x: 84, y: P }, arc: 6, dur: 0.3, ease: 'out' },
@@ -81,6 +84,7 @@ const clip: Clip = {
     { at: 2.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
     { at: 2.5, actor: 'pig', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.5, ease: 'inOut' },
     ...[2.52, 2.69, 2.86].map((at): Move => ({ at, actor: 'pig', do: 'hop', amount: 1.5, dur: 0.16 })),
+    { at: 3.0, actor: 'pig', do: 'swap', emoji: 'hero:pig/reach' },
     { at: 3.0, actor: 'pig', do: 'tilt', amount: 12, dur: 0.3 },
     ...s2.moves,
     { at: H2 + HOLD, actor: 'pig', do: 'moveTo', to: { x: 18, y: P }, dur: 0.45, ease: 'out' },
@@ -91,7 +95,7 @@ const clip: Clip = {
     // 第 3 次：走回同一個地方，舉起手——先停一拍：看一眼尾巴、尾巴抖一下、翹起來……啪！傻眼，飛上天，過一會兒才掉進稻田
     { at: 4.7, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
     { at: 4.7, actor: 'pig', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.5 },
-    { at: 5.25, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
+    { at: 5.25, actor: 'pig', do: 'swap', emoji: 'hero:pig/reach' },
     { at: 5.3, actor: 'pig', do: 'tilt', amount: -8, dur: 0.45 },
     { at: 5.3, actor: 'cat', do: 'shake', amount: 0.6, dur: 0.25 },
     ...s3.moves,
@@ -113,6 +117,7 @@ const clip: Clip = {
     { at: 9.05, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
     { at: 9.1, actor: 'cat', do: 'tilt', amount: -10, dur: 0.35 },
     // 回馬槍（第 4 次）：得意地伸手，摸到了——尾巴從另一邊繞過來啪！先被打扁、傻眼，再飛上天
+    { at: 9.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/reach' },
     { at: 9.4, actor: 'pig', do: 'tilt', amount: 12, dur: 0.3 },
     ...s4.moves,
     { at: H4 + HOLD, actor: 'pig', do: 'moveTo', to: { x: 22, y: -50 }, dur: 0.3, ease: 'out' },
@@ -125,14 +130,14 @@ const clip: Clip = {
     { at: 10.7, actor: 'pig', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.25, ease: 'in' },
     { at: 10.95, actor: 'pig', do: 'squash', amount: 0.35, dur: 0.25 },
     { at: 10.95, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
-    // 安靜等他回答：身體往字那邊傾、側耳聽，點兩下頭
+    // 安靜等他回答：手放耳邊、身體前傾聽（listen），點兩下頭
+    { at: 11.95, actor: 'pig', do: 'swap', emoji: 'hero:pig/listen' },
     { at: 11.95, actor: 'pig', do: 'rotateTo', amount: 10, dur: 0.3 },
     { at: 12.5, actor: 'pig', do: 'hop', amount: 1.5, dur: 0.3 },
     { at: 13.0, actor: 'pig', do: 'hop', amount: 1.5, dur: 0.3 },
     // 回答：跳起來指著字
     { at: 13.45, actor: 'pig', do: 'rotateTo', amount: -10, dur: 0.12 },
     { at: 13.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
-    { at: 13.45, actor: 'pig', do: 'flip' },
     { at: 13.45, actor: 'pig', do: 'hop', amount: 8, dur: 0.3 },
     // 退場，畫面只留下字
     { at: 13.72, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
@@ -173,7 +178,6 @@ const clip: Clip = {
     { at: 9.45, kind: 'pop', actor: 'pig', emoji: '😊', dx: -14, dur: 0.25, scale: 1.2 },
     ...s4.fx,
     { at: H4, kind: 'burst', x: REACH4, y: P - 13, emoji: '⭐', n: 8, dur: 0.4 },
-    { at: 12.0, kind: 'pop', actor: 'pig', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
     { at: 13.45, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
