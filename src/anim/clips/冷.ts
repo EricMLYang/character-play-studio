@@ -1,170 +1,250 @@
-import type { Clip } from '../clip'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 冷（重做）：大太陽底下，小恐龍熱到冒汗。企鵝推來一大塊冰坐在上面納涼；恐龍衝過去抱冰——冷到變藍發抖，放開又熱回來；
-// 乾脆整隻撲上去，冰太滑一路滑下去屁股撞仙人掌。氣得噴火燒冰，冰「碰」地炸開變成「冷」，還把他炸回仙人掌上。
-// 國字讓到上方，企鵝走到中間吹一口冷氣給他（冷氣）；回馬槍：吹太大力，恐龍整隻被吹成雪人滑走。冷、冷、冷氣
-const D = 67.8 // 恐龍（size 22）站在地上的 y
-const P = 70.3 // 企鵝（size 16）
-const HOT = 'sepia(.7) saturate(3.2) hue-rotate(-45deg) brightness(1.02)'
-const COLD = 'hue-rotate(115deg) saturate(.85) brightness(1.12)'
+// 冷（v2）：大熱天，浣熊花生熱到冒汗——每次跑去抱大冰塊，冰塊一抖，他就「喀」地被凍成一塊冰，一次比一次大塊：
+// 剛好包住他（裂開，冰的兩點 冫 噴出來）、大一號連人帶冰滑到畫面邊（令的上半）、先停一拍再凍成超大一塊、裂開把他炸上天（令的下半）。
+// 回馬槍：他學乖了，站得遠遠的不碰，只吹冰塊吹過來的冷氣（冷氣）——冰塊一抖，冷風一吹，他還是被凍成最大的一塊，連冰塊一起碎掉。
+// 最後畫面暗下來只剩「冷」，花生轉向觀眾問「這是什麼字？」，等他回答，再敬禮說「冷！」，然後退場只留字。
+// 冷、冷、冷氣、這是什麼字？、冷
+const P = 66.9 // 花生（size 24）站在地上的 y
+const I = 62.7 // 大冰塊（size 34）
+const S = 64.4 // 冰殼（size 30）
+/** 大冰塊在右邊 */
+const IX = 130
+/** 花生每次出發的地方 */
+const HOME = 56
+/** 前三次都跑到同一個地方：抱住冰塊的左邊 */
+const REACH = 106
+/** 第四次：站得遠遠的（畫面中間偏左），只吹冷氣 */
+const FAR = 70
+/** 凍住以後傻眼停多久，才裂開 */
+const HOLD = 0.5
+/** 冰殼每一次多大（倍率）：一次比一次大塊 */
+const SHELL = [1, 1.3, 1.65, 2.1]
+/** 凍成冰：藍藍的 */
+const COLD = 'sepia(1) saturate(4) hue-rotate(165deg) brightness(1.02)'
+/** 冰殼：半透明，看得見裡面傻眼的臉 */
+const GLASS = 'opacity(.6)'
+
+/**
+ * 「喀」凍住：冰塊抖一下（預備）、花生張開手靠過去 → 凍住那一刻冰殼「喀」地長出來包住他＋❄️ 一圈＋白光＋鏡頭推近＋震＋同一個音效，
+ * 他變藍、傻眼停 HOLD 秒（看得見臉、旁邊 🥶）。k 是第幾次（冰殼越後面越大），x 是他站的地方。
+ * 第 4 次（hug: false）他沒有靠過去：冰塊一抖，吹一大口冷風過來。
+ */
+function freeze(at: number, k: number, x: number, hug = true) {
+  const size = 30 * SHELL[k]
+  const moves: Move[] = [
+    { at: at - 0.4, actor: 'ice', do: 'shake', amount: 1 + 0.3 * k, dur: 0.25 },
+    // 冰殼先搬到他身上（還看不到），凍住那一刻長出來
+    { at: at - 0.05, actor: 'shell', do: 'moveTo', to: { x, y: S }, dur: 0.01 },
+    { at, actor: 'shell', do: 'pop', dur: 0.12 },
+    { at, actor: 'shell', do: 'scaleTo', amount: SHELL[k], dur: 0.18, ease: 'back' },
+    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    { at, actor: 'raccoon', do: 'tint', filter: COLD },
+    { at, actor: 'raccoon', do: 'squash', amount: 0.15, dur: 0.2 },
+    { at, actor: 'ice', do: 'squash', amount: 0.12, dur: 0.2 },
+  ]
+  if (hug) moves.push(
+    // 張開手撲過去抱
+    { at: at - 0.3, actor: 'raccoon', do: 'squash', amount: -0.18, dur: 0.25 },
+    { at: at - 0.3, actor: 'raccoon', do: 'tilt', amount: 10, dur: 0.3 },
+  )
+  const fx: Fx[] = [
+    { at, kind: 'burst', x, y: 74 - size * 0.55, emoji: '❄️', n: 8, dur: 0.45, scale: 1.3 + 0.3 * k },
+    // 🥶 停在冰殼旁邊（傻眼的那 HOLD 秒），一次比一次大
+    { at: at + 0.08, kind: 'pop', x: k >= 3 ? x - size * 0.42 - 4 : x + size * 0.42 + 4, y: k >= 3 ? 46 : 74 - size * 0.8, emoji: '🥶', dur: HOLD, scale: 1.8 + 0.25 * k },
+  ]
+  if (!hug) fx.unshift({ at: at - 0.3, kind: 'blow', actor: 'ice', to: { x, y: P - 6 }, emoji: '❄️', n: 7, dur: 0.35, scale: 1.8 })
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: k >= 3 ? 0.12 : 0.1 + 0.06 * k, to: k >= 3 ? { x: 100, y: 36 } : { x, y: P - 10 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.8 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at, sfx: 'crack' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'clink' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'bonk' })
+  return { moves, fx, camera, cues }
+}
+
+/** 冰殼裂開：碎冰噴出來 */
+function crack(at: number, k: number, x: number, y = 74 - 30 * SHELL[k] * 0.55) {
+  const moves: Move[] = [{ at, actor: 'shell', do: 'vanish', dur: 0.15 }]
+  const fx: Fx[] = [{ at, kind: 'burst', x, y, emoji: '🧊', n: 6 + 2 * k, dur: 0.45, scale: 1 + 0.25 * k }]
+  const cues: Cue[] = [{ at, sfx: 'poof' }]
+  return { moves, fx, cues }
+}
+
+const H1 = 1.45, H2 = 3.2, H3 = 5.9, H4 = 9.75
+const f1 = freeze(H1, 0, REACH)
+const f2 = freeze(H2, 1, REACH)
+const f3 = freeze(H3, 2, REACH)
+const f4 = freeze(H4, 3, FAR, false)
+/** 第 2 次連人帶冰滑到左邊這裡才裂開 */
+const EDGE = 26
+const C1 = H1 + HOLD, C2 = H2 + HOLD + 0.45, C3 = H3 + HOLD, C4 = H4 + HOLD + 0.05
+const k1 = crack(C1, 0, REACH)
+const k2 = crack(C2, 1, EDGE)
+const k3 = crack(C3, 2, REACH)
+/** 語詞那一刻他放大多少 */
+const BIG = 1.45
 
 const clip: Clip = {
+  format: 2,
   char: '冷',
-  meta: { theme: '大熱天搶冰塊', cast: '小恐龍＋企鵝＋大冰塊＋仙人掌＋太陽', gags: ['抱冰太冷放開又太熱', '撲上冰塊滑下去撞仙人掌', '噴火燒冰炸回仙人掌', '冷氣吹太大力變雪人'] },
-  duration: 10,
-  bg: { top: '#FFD8A8', bottom: '#FFF4E6', floor: '#F5D9A6', scenery: 'desert' },
+  meta: { theme: '大熱天抱冰塊', cast: '浣熊花生＋大冰塊', gags: ['花生熱到冒汗，每次抱大冰塊就喀地被凍成一塊冰，一次比一次大塊；回馬槍是他學乖了站得遠遠的只吹冷氣，冰塊一抖冷風吹過來，還是被凍成最大的一塊'] },
+  duration: 15,
+  bg: { top: '#FFD39A', bottom: '#FFF2DC', floor: '#EDC98A', scenery: 'desert' },
   actors: [
-    { id: 'sun', emoji: '☀️', x: 24, y: 17, size: 13, float: true },
-    { id: 'cactus', emoji: '🌵', x: 149, y: 70.3, size: 16 },
-    { id: 'ice', emoji: '🧊', x: 90, y: D, size: 22, hidden: true },
-    { id: 'peng', emoji: '🐧', x: 112, y: P, size: 16, hidden: true },
-    { id: 'dino', emoji: 'hero:dino/idle', x: 30, y: D, size: 22, flip: true, tint: HOT },
+    { id: 'ice', emoji: '🧊', x: IX, y: I, size: 34 },
+    { id: 'raccoon', emoji: 'hero:raccoon/idle', x: HOME, y: P, size: 24, hidden: true },
+    // 包住花生的冰殼（畫在他前面、半透明）
+    { id: 'shell', emoji: '🧊', x: REACH, y: S, size: 30, hidden: true, tint: GLASS },
   ],
   moves: [
-    // 熱到喘氣；企鵝推著一大塊冰進來，跳上去坐著納涼
-    { at: 0, actor: 'dino', do: 'shake', amount: 0.6, dur: 0.8 },
-    { at: 0, actor: 'sun', do: 'bounce', amount: 2, times: 2, dur: 0.8 },
-    { at: 0, actor: 'ice', do: 'enter', from: { x: 190, y: D }, dur: 0.8, ease: 'out' },
-    { at: 0, actor: 'peng', do: 'enter', from: { x: 212, y: P }, dur: 0.8, ease: 'out' },
-    { at: 0.85, actor: 'peng', do: 'moveTo', to: { x: 90, y: 52 }, arc: 8, dur: 0.4, ease: 'out' },
-    // 看到冰：衝過去抱住——好冷！變藍發抖
-    { at: 0.9, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 1.3, actor: 'dino', do: 'swap', emoji: 'hero:dino/happy' },
-    { at: 1.3, actor: 'dino', do: 'moveTo', to: { x: 70, y: D }, dur: 0.35, anticipate: 3, ease: 'in' },
-    { at: 1.65, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 1.65, actor: 'dino', do: 'tint', filter: COLD, dur: 0.12 },
-    { at: 1.65, actor: 'dino', do: 'shake', amount: 1.3, dur: 0.6 },
-    { at: 1.65, actor: 'ice', do: 'squash', amount: 0.1, dur: 0.2 },
-    // 跳開——又熱回來
-    { at: 2.3, actor: 'dino', do: 'moveTo', to: { x: 40, y: D }, arc: 6, dur: 0.35, ease: 'out' },
-    { at: 2.65, actor: 'dino', do: 'tint', filter: HOT, dur: 0.35 },
-    { at: 2.65, actor: 'dino', do: 'swap', emoji: 'hero:dino/idle' },
-    { at: 2.65, actor: 'sun', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
-    { at: 2.7, actor: 'peng', do: 'tilt', amount: 12, dur: 0.4 },
-    // 乾脆整隻撲上去：企鵝跳起來躲開，恐龍在冰上一路滑下去，屁股撞仙人掌
-    { at: 3.0, actor: 'dino', do: 'squash', amount: -0.35, dur: 0.3 },
-    { at: 3.3, actor: 'dino', do: 'moveTo', to: { x: 90, y: 54 }, arc: 14, dur: 0.35, anticipate: 4, ease: 'in' },
-    { at: 3.35, actor: 'peng', do: 'hop', amount: 18, dur: 0.55 },
-    { at: 3.65, actor: 'dino', do: 'moveTo', to: { x: 134, y: D }, dur: 0.3, ease: 'in' },
-    { at: 3.95, actor: 'cactus', do: 'shake', amount: 1.2, dur: 0.3 },
-    { at: 3.95, actor: 'dino', do: 'swap', emoji: 'hero:dino/dizzy' },
-    { at: 3.95, actor: 'dino', do: 'moveTo', to: { x: 124, y: D }, dur: 0.3, ease: 'out' },
-    { at: 3.95, actor: 'dino', do: 'hop', amount: 7, dur: 0.4 },
-    { at: 4.1, actor: 'peng', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
-    // 氣到噴火燒冰
-    { at: 4.35, actor: 'dino', do: 'flip' },
-    { at: 4.4, actor: 'dino', do: 'swap', emoji: 'hero:dino/roar' },
-    { at: 4.45, actor: 'dino', do: 'squash', amount: -0.3, dur: 0.3 },
-    { at: 4.75, actor: 'dino', do: 'shake', amount: 0.8, dur: 0.45 },
-    { at: 4.8, actor: 'peng', do: 'moveTo', to: { x: 34, y: P }, arc: 12, dur: 0.45, ease: 'out' },
-    { at: 4.9, actor: 'ice', do: 'shake', amount: 1.2, dur: 0.3 },
-    { at: 4.9, actor: 'ice', do: 'scaleTo', amount: 1.15, dur: 0.3, ease: 'in' },
-    // 碰！冰炸開，把恐龍炸回仙人掌上
-    { at: 5.2, actor: 'ice', do: 'vanish', dur: 0.08 },
-    { at: 5.2, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 5.2, actor: 'dino', do: 'moveTo', to: { x: 134, y: D }, dur: 0.2, ease: 'out' },
-    { at: 5.4, actor: 'cactus', do: 'shake', amount: 1.2, dur: 0.3 },
-    { at: 5.4, actor: 'dino', do: 'hop', amount: 7, dur: 0.4 },
-    { at: 5.4, actor: 'dino', do: 'moveTo', to: { x: 128, y: D }, dur: 0.3, ease: 'out' },
-    // 冰沒了，又熱回來
-    { at: 6.05, actor: 'dino', do: 'swap', emoji: 'hero:dino/dizzy' },
-    { at: 6.1, actor: 'sun', do: 'bounce', amount: 2, times: 2, dur: 0.6 },
-    // 國字讓位：企鵝走到中間，吸一大口氣——呼！冷氣
-    { at: 6.9, actor: 'peng', do: 'flip' },
-    { at: 6.9, actor: 'peng', do: 'moveTo', to: { x: 60, y: P }, dur: 0.5 },
-    { at: 6.9, actor: 'dino', do: 'swap', emoji: 'hero:dino/idle' },
-    { at: 6.9, actor: 'dino', do: 'moveTo', to: { x: 98, y: D }, dur: 0.5 },
-    { at: 7.3, actor: 'peng', do: 'squash', amount: -0.35, dur: 0.3 },
-    { at: 7.6, actor: 'peng', do: 'squash', amount: 0.2, dur: 0.25 },
-    { at: 7.65, actor: 'dino', do: 'tint', filter: COLD, dur: 0.25 },
-    { at: 7.7, actor: 'dino', do: 'swap', emoji: 'hero:dino/happy' },
-    { at: 7.75, actor: 'dino', do: 'hop', amount: 4, dur: 0.3 },
-    // 回馬槍：再來一口，這次吸到整隻鼓起來——吹太大力，恐龍變成雪人滑走
-    { at: 8.1, actor: 'peng', do: 'scaleTo', amount: 1.35, dur: 0.35, ease: 'in' },
-    { at: 8.45, actor: 'peng', do: 'scaleTo', amount: 1 / 1.35, dur: 0.2, ease: 'out' },
-    { at: 8.5, actor: 'dino', do: 'tint', filter: '', dur: 0.05 },
-    { at: 8.5, actor: 'dino', do: 'swap', emoji: '⛄' },
-    { at: 8.5, actor: 'dino', do: 'moveTo', to: { x: 128, y: D }, dur: 0.45, ease: 'out' },
-    { at: 8.5, actor: 'dino', do: 'scaleTo', amount: 1.25, dur: 0.2, ease: 'back' },
-    { at: 9.5, actor: 'dino', do: 'scaleTo', amount: 0.8, dur: 0.15, ease: 'out' },
-    { at: 8.75, actor: 'peng', do: 'flip' },
-    { at: 8.75, actor: 'peng', do: 'moveTo', to: { x: 34, y: P }, dur: 0.4 },
-    { at: 9.2, actor: 'peng', do: 'flip' },
-    // 雪人打個噴嚏，變回藍藍的恐龍
-    { at: 9.15, actor: 'dino', do: 'shake', amount: 0.8, dur: 0.3 },
-    { at: 9.5, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 9.5, actor: 'dino', do: 'tint', filter: COLD, dur: 0.05 },
-    { at: 9.5, actor: 'dino', do: 'hop', amount: 5, dur: 0.35 },
+    // 花生熱到冒汗登場：看到大冰塊，跑過去抱
+    { at: 0, actor: 'raccoon', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
+    { at: 0.7, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 0.7, actor: 'raccoon', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.4, ease: 'in' },
+    // 第 1 次：抱上去——喀！凍住，傻眼；裂開，抖著跳回去
+    ...f1.moves,
+    ...k1.moves,
+    { at: C1, actor: 'raccoon', do: 'shake', amount: 1.4, dur: 0.5 },
+    { at: C1 + 0.1, actor: 'raccoon', do: 'moveTo', to: { x: HOME, y: P }, arc: 5, dur: 0.35, ease: 'out' },
+    // 退冰，又熱起來了
+    { at: 2.5, actor: 'raccoon', do: 'tint', filter: '' },
+    { at: 2.5, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    // 第 2 次：再跑過去抱——喀！大一號，連人帶冰滑到畫面邊，才裂開
+    { at: 2.45, actor: 'raccoon', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.4, ease: 'in' },
+    ...f2.moves,
+    { at: H2 + HOLD, actor: 'raccoon', do: 'moveTo', to: { x: EDGE, y: P }, arc: 0.5, dur: 0.45, ease: 'out' },
+    { at: H2 + HOLD, actor: 'shell', do: 'moveTo', to: { x: EDGE, y: S }, arc: 0.5, dur: 0.45, ease: 'out' },
+    ...k2.moves,
+    { at: C2, actor: 'raccoon', do: 'shake', amount: 1.6, dur: 0.6 },
+    { at: C2 + 0.1, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    // 第 3 次：退冰，走回同一個地方——先停一拍：張開手、看一眼冰塊、冰塊抖一下……抱！
+    { at: 4.45, actor: 'raccoon', do: 'tint', filter: '' },
+    { at: 4.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    { at: 4.5, actor: 'raccoon', do: 'moveTo', to: { x: REACH, y: P }, dur: 0.6 },
+    { at: 5.15, actor: 'raccoon', do: 'tilt', amount: -6, dur: 0.4 },
+    { at: 5.2, actor: 'ice', do: 'shake', amount: 0.6, dur: 0.25 },
+    ...f3.moves,
+    // 裂開「碰」地把他炸上天
+    ...k3.moves,
+    { at: C3, actor: 'raccoon', do: 'moveTo', to: { x: 140, y: -45 }, dur: 0.35, ease: 'out' },
+    { at: C3, actor: 'raccoon', do: 'spin', times: 2, dur: 0.35, pivot: 'center' },
+    // 國字拼好（home 到正中央）、讓到右上方；他從天上掉回中間，變大
+    { at: 8.0, actor: 'raccoon', do: 'tint', filter: '' },
+    { at: 8.0, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    { at: 8.0, actor: 'raccoon', do: 'moveTo', to: { x: FAR, y: -45 }, dur: 0.01 },
+    { at: 8.0, actor: 'raccoon', do: 'scaleTo', amount: BIG, dur: 0.01 },
+    { at: 8.05, actor: 'raccoon', do: 'moveTo', to: { x: FAR, y: P }, dur: 0.3, ease: 'in' },
+    // 語詞那一刻：他不敢再碰了，站得遠遠的；冰塊吹冷氣過來，好涼～
+    { at: 8.65, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 8.7, actor: 'ice', do: 'squash', amount: -0.12, dur: 0.4 },
+    { at: 8.85, actor: 'raccoon', do: 'tilt', amount: -8, dur: 0.6 },
+    // 回馬槍（第 4 次）：冰塊又抖了——這次不用抱，冷風一吹，喀！凍成最大的一塊
+    ...f4.moves,
+    // 碰！冰殼裂開，連大冰塊一起碎掉
+    { at: C4, actor: 'shell', do: 'vanish', dur: 0.15 },
+    { at: C4, actor: 'ice', do: 'vanish', dur: 0.15 },
+    { at: C4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    { at: C4, actor: 'raccoon', do: 'shake', amount: 1.8, dur: 0.5 },
+    // 問他：他退冰、走到左前方、變大，轉向觀眾
+    { at: 10.65, actor: 'raccoon', do: 'tint', filter: '' },
+    { at: 10.65, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    { at: 10.65, actor: 'raccoon', do: 'scaleTo', amount: 1.5 / BIG, dur: 0.3, ease: 'back' },
+    { at: 10.65, actor: 'raccoon', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
+    // 安靜等他回答：身體往字那邊傾、點兩下頭
+    { at: 11.8, actor: 'raccoon', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.35, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 12.85, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來敬禮
+    { at: 13.3, actor: 'raccoon', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/salute' },
+    { at: 13.3, actor: 'raccoon', do: 'hop', amount: 6, dur: 0.25 },
+    // 退場，畫面只留下字
+    { at: 13.6, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 13.62, actor: 'raccoon', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 炸開的冰：大塊 → 令，兩小塊 → 冫
-    { at: 5.2, dur: 0.55, strokes: [2, 3, 4, 5, 6], from: 'ice', color: '#1C7ED6' },
-    { at: 5.35, dur: 0.4, strokes: [0, 1], from: 'ice', color: '#74C0FC' },
+    // 第 1 次：冰殼裂開，冰的兩點（冫）噴出來
+    { at: C1 + 0.03, dur: 0.55, strokes: [0, 1], from: 'shell', color: partColor('冫') },
+    // 第 2 次：令的上半
+    { at: C2 + 0.03, dur: 0.55, strokes: [2, 3, 4], from: 'shell', color: partColor('令') },
+    // 第 3 次：令的下半
+    { at: C3 + 0.03, dur: 0.55, strokes: [5, 6], from: 'shell', color: partColor('令') },
   ],
   glyph: [
-    { at: 5.85, dur: 0.4, do: 'wobble' },
-    { at: 6.7, dur: 0.45, do: 'park' },
-    { at: 9.0, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: 6.95, dur: 0.45, do: 'home', ease: 'back' },
+    // 讓到右上方（大冰塊上面），中間給花生
+    { at: 7.85, dur: 0.45, do: 'park', to: { x: IX, y: 18 }, amount: 0.5 },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的花生
+    { at: 10.6, dur: 3.3, do: 'ask', keep: ['raccoon'], to: { x: 98, y: 43 }, amount: 0.82 },
+    { at: 10.65, dur: 0.4, do: 'home' },
+    { at: 13.3, dur: 0.35, do: 'pulse' },
+    { at: 14.05, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.1, kind: 'sweat', actor: 'dino' },
-    { at: 0.9, kind: 'pop', actor: 'dino', emoji: '❗', dur: 0.4 },
-    { at: 1.25, kind: 'pop', actor: 'peng', emoji: '😎', dur: 0.6 },
-    { at: 1.65, kind: 'burst', actor: 'dino', emoji: '❄️', n: 6, dur: 0.5 },
-    { at: 1.75, kind: 'pop', actor: 'dino', emoji: '🥶', dur: 0.55 },
-    { at: 2.7, kind: 'sweat', actor: 'dino' },
-    { at: 2.75, kind: 'pop', actor: 'dino', emoji: '😩', dur: 0.4 },
-    { at: 3.95, kind: 'burst', actor: 'cactus', n: 1, dx: -6, dy: 8, dur: 0.35 },
-    { at: 4.05, kind: 'pop', actor: 'dino', emoji: '😣', dur: 0.35 },
-    { at: 4.1, kind: 'pop', actor: 'peng', emoji: '😆', dur: 0.5 },
-    { at: 4.75, dur: 0.45, kind: 'line', actor: 'dino', to: { x: 96, y: 64 }, color: '#FF6B00', width: 4, dx: -9, dy: -8 },
-    { at: 4.85, kind: 'burst', actor: 'ice', emoji: '🔥', n: 6, dy: 10, dur: 0.4 },
-    { at: 4.85, kind: 'pop', actor: 'peng', emoji: '😱', dur: 0.4 },
-    { at: 5.2, kind: 'burst', actor: 'ice', n: 1, dy: 8, dur: 0.4 },
-    { at: 5.4, kind: 'burst', actor: 'cactus', n: 1, dx: -6, dy: 8, dur: 0.3 },
-    { at: 5.5, kind: 'dizzy', actor: 'dino', dur: 0.9 },
-    { at: 6.1, kind: 'sweat', actor: 'dino' },
-    { at: 6.3, kind: 'pop', actor: 'dino', emoji: '😭', dur: 0.5 },
-    { at: 6.35, kind: 'pop', actor: 'peng', emoji: '💡', dur: 0.45 },
-    // 冷氣：企鵝吹過去一道白白的冷風
-    { at: 7.6, dur: 0.6, kind: 'line', actor: 'peng', target: 'dino', color: '#D0EBFF', width: 6, dx: 5, dy: -3 },
-    { at: 7.65, kind: 'burst', actor: 'dino', emoji: '❄️', n: 8, dy: 10, dur: 0.6 },
-    { at: 7.95, kind: 'pop', actor: 'dino', emoji: '😌', dx: 8, dur: 0.45 },
-    { at: 8.1, kind: 'pop', actor: 'peng', emoji: '😤', dur: 0.35 },
-    { at: 8.45, dur: 0.35, kind: 'line', actor: 'peng', target: 'dino', color: '#E7F5FF', width: 8, dx: 5, dy: -3 },
-    { at: 8.5, kind: 'burst', actor: 'dino', emoji: '❄️', n: 12, dy: 10, dur: 0.7 },
-    { at: 8.8, kind: 'pop', actor: 'peng', emoji: '😬', dur: 0.4 },
-    { at: 9.5, kind: 'burst', actor: 'dino', emoji: '❄️', n: 8, dy: 6, dur: 0.5 },
-    { at: 9.6, kind: 'pop', actor: 'dino', emoji: '🥶', dx: 6, dur: 0.4 },
-    { at: 9.65, kind: 'pop', actor: 'peng', emoji: '😆', dur: 0.35 },
+    // 好熱
+    { at: 0.15, kind: 'sweat', actor: 'raccoon' },
+    { at: 0.4, kind: 'pop', actor: 'raccoon', emoji: '🥵', dx: -14, dur: 0.4, scale: 1.5 },
+    ...f1.fx,
+    ...k1.fx,
+    { at: 2.3, kind: 'sweat', actor: 'raccoon' },
+    ...f2.fx,
+    ...k2.fx,
+    { at: C2 + 0.1, kind: 'dizzy', actor: 'raccoon', dur: 0.4 },
+    { at: 4.4, kind: 'sweat', actor: 'raccoon' },
+    // 第 3 次前停一拍：他看一眼冰塊
+    { at: 5.15, kind: 'pop', actor: 'raccoon', emoji: '👀', dx: -12, dur: 0.6, scale: 1.9 },
+    ...f3.fx,
+    ...k3.fx,
+    { at: 8.4, kind: 'sweat', actor: 'raccoon' },
+    // 冷氣：冰塊吹一陣涼涼的風過來
+    { at: 8.7, kind: 'blow', actor: 'ice', to: { x: FAR + 6, y: P - 8 }, emoji: '❄️', n: 5, dur: 0.8, scale: 1.4 },
+    { at: 9.0, kind: 'pop', actor: 'raccoon', emoji: '😌', dx: -16, dur: 0.4, scale: 1.5 },
+    ...f4.fx,
+    { at: C4, kind: 'burst', x: 96, y: 45, emoji: '🧊', n: 12, dur: 0.55, scale: 1.8 },
+    { at: C4, kind: 'burst', x: 96, y: 45, n: 1, dur: 0.4, scale: 3 },
+    { at: 11.8, kind: 'pop', actor: 'raccoon', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
+    { at: 13.3, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 3.95, dur: 0.3, do: 'shake', amount: 1.2 },
-    { at: 5.2, dur: 0.35, do: 'shake', amount: 1.8 },
-    { at: 7.65, dur: 0.5, do: 'punch', amount: 0.12, to: { x: 80, y: 56 } },
-    { at: 8.5, dur: 0.3, do: 'shake', amount: 1.2 },
+    ...f1.camera,
+    ...f2.camera,
+    { at: C2 - 0.05, dur: 0.3, do: 'shake', amount: 1.2 },
+    ...f3.camera,
+    { at: C3, dur: 0.35, do: 'shake', amount: 2 },
+    ...f4.camera,
+    { at: C4, dur: 0.4, do: 'shake', amount: 2.4 },
   ],
   lights: [
-    // 冰炸開：白光一閃
-    { at: 5.2, dur: 0.04, level: -0.7 },
-    { at: 5.24, dur: 0.3, level: 0 },
+    // 每次凍住白光一閃
+    ...[H1, H2, H3, H4].flatMap((at, k) => [{ at, dur: 0.04, level: -0.25 - 0.08 * k }, { at: at + 0.04, dur: 0.25, level: 0 }]),
+    { at: 6.95, dur: 0.05, level: -0.35 },
+    { at: 7.0, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.85, sfx: 'boing' },
-    { at: 1.3, sfx: 'whoosh' },
-    { at: 1.65, say: '冷' },
-    { at: 3.3, sfx: 'whoosh' },
-    { at: 3.65, sfx: 'slide' },
-    { at: 3.95, sfx: 'bonk' },
-    { at: 4.75, sfx: 'laser' },
-    { at: 5.2, sfx: 'crack' },
-    { at: 5.4, sfx: 'bonk' },
-    { at: 5.85, say: '冷' },
-    { at: 7.6, say: '冷氣' },
-    { at: 8.45, sfx: 'whoosh' },
-    { at: 9.45, sfx: 'achoo' },
-    { at: 9.7, sfx: 'cheer' },
+    { at: 0.7, sfx: 'whoosh' },
+    ...f1.cues,
+    { at: H1 + 0.05, say: '冷' },
+    ...k1.cues,
+    { at: 2.45, sfx: 'whoosh' },
+    ...f2.cues,
+    { at: H2 + HOLD, sfx: 'slide' },
+    ...k2.cues,
+    ...f3.cues,
+    ...k3.cues,
+    { at: C3 + 0.05, sfx: 'whoosh' },
+    { at: 7.05, say: '冷' },
+    { at: 8.35, sfx: 'plop' },
+    { at: 8.75, say: '冷氣' },
+    ...f4.cues,
+    { at: C4, sfx: 'poof' },
+    { at: 10.75, say: FIXED_LINES.clipAsk },
+    { at: 13.3, say: '冷' },
+    { at: 13.35, sfx: 'cheer' },
   ],
 }
 

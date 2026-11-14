@@ -38,6 +38,9 @@ export const PARTS = {
   疌: { color: '#4A2C8F', from: '咻地開走的捷運（快到只剩一陣風），從它剛剛停的地方飛起來' },
   // 「睿」的上半部（卜冖八八那一塊）沒有通用的單字名，先用這個名字登記
   睿頭: { color: '#9B2D7F', from: '被撞得彈一下的大禮物，包裝上的一塊彈出來' },
+  // 冫是「冰」的兩點：冰藍，但要比水（氵）亮、在淺色背景上還看得清楚
+  冫: { color: '#2196E0', from: '冰塊裂開噴出來的碎冰（冰的兩點）' },
+  令: { color: '#E05263', from: '凍住的冰殼「喀」地裂開時蹦出來的（令是冷、鈴、零的聲音）' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
