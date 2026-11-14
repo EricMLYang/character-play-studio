@@ -5,7 +5,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 捷（v2）：楊捷睿要搭捷運——每次他跑到車門口、手一伸，捷運就「咻」地開走，那陣風把他捲得一次比一次遠：
 // 原地轉一圈（扌從他伸出去的手飛出來）、滾到畫面邊、先停一拍再被捲上天（右邊從捷運剛停的地方飛起來）。
 // 回馬槍：捷運再進站，這次他搶先跳上車頂比 ✌️——捷運「咻」地從他腳底下開走，他懸在半空傻眼，才掉下來。
-// 最後畫面暗下來只剩「捷」，他轉向觀眾問「這是什麼字？」，等他回答，再跳起來指著它說「捷！」，然後退場只留字。
+// 最後畫面暗下來只剩「捷」，他轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著它說「捷！」，然後退場只留字。
 // 捷、捷、捷運、這是什麼字？、捷
 const P = 66.9 // 楊捷睿（size 24）站在地上的 y
 const T = 54.3 // 捷運（size 54）
@@ -71,7 +71,8 @@ const clip: Clip = {
   bg: { top: '#CFE8FF', bottom: '#F2F8FF', floor: '#B9C0C8', scenery: 'city' },
   actors: [
     { id: 'train', emoji: '🚈', x: TX, y: T, size: 54, flip: true },
-    { id: 'yang', emoji: 'hero:yang/idle', x: HOME, y: P, size: 24, hidden: true },
+    // 姿勢圖朝左，翻過來面向右邊的捷運（問他時也面向右邊的字）
+    { id: 'yang', emoji: 'hero:yang/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
     // 楊捷睿登場，抬頭看字框，看到捷運：要坐！
@@ -79,6 +80,7 @@ const clip: Clip = {
     { at: 0.5, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
     // 第 1 次：跑到車門口、手一伸——咻，傻眼，原地轉一圈退回去
     { at: 1.0, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.4 },
+    { at: 1.35, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     { at: 1.35, actor: 'yang', do: 'tilt', amount: -12, dur: 0.3 },
     ...z1.moves,
     { at: H1 + HOLD, actor: 'yang', do: 'moveTo', to: { x: HOME, y: P }, arc: 6, dur: 0.35, ease: 'out' },
@@ -87,6 +89,7 @@ const clip: Clip = {
     // 第 2 次：再跑過去——咻，傻眼，整個人滾到畫面邊
     { at: 2.5, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: 2.95, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.4, ease: 'in' },
+    { at: 3.3, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     { at: 3.3, actor: 'yang', do: 'tilt', amount: -12, dur: 0.3 },
     ...z2.moves,
     { at: H2 + HOLD, actor: 'yang', do: 'moveTo', to: { x: 14, y: P }, dur: 0.45, ease: 'out' },
@@ -98,6 +101,7 @@ const clip: Clip = {
     { at: 4.95, actor: 'yang', do: 'moveTo', to: { x: DOOR, y: P }, dur: 0.5 },
     { at: 5.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/think' },
     { at: 5.5, actor: 'yang', do: 'tilt', amount: -8, dur: 0.4 },
+    { at: H3 - 0.25, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     { at: 5.4, actor: 'train', do: 'shake', amount: 0.5, dur: 0.2 },
     ...z3.moves,
     { at: H3 + HOLD, actor: 'yang', do: 'moveTo', to: { x: 200, y: 30 }, dur: 0.4, ease: 'in' },
@@ -114,20 +118,23 @@ const clip: Clip = {
     { at: 9.55, actor: 'yang', do: 'moveTo', to: { x: ROOF_X, y: ROOF_Y }, arc: 10, dur: 0.4, ease: 'out' },
     ...z4.moves,
     { at: H4 + 0.55, actor: 'yang', do: 'moveTo', to: { x: ROOF_X, y: P }, dur: 0.25, ease: 'in' },
-    { at: H4 + 0.8, actor: 'yang', do: 'swap', emoji: 'hero:yang/dizzy' },
+    { at: H4 + 0.8, actor: 'yang', do: 'swap', emoji: 'hero:yang/flat' },
     // 問他：他變大、走到左前方，轉向觀眾
     { at: 11.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: 11.15, actor: 'yang', do: 'scaleTo', amount: 1.5, dur: 0.3, ease: 'back' },
     { at: 11.15, actor: 'yang', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
     // 安靜等他回答：身體往字那邊傾、點兩下頭
+    { at: 12.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/listen' },
     { at: 12.15, actor: 'yang', do: 'rotateTo', amount: 10, dur: 0.3 },
     { at: 12.65, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
     { at: 13.15, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
     // 回答：跳起來
     { at: 13.6, actor: 'yang', do: 'rotateTo', amount: -10, dur: 0.12 },
-    { at: 13.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
     { at: 13.6, actor: 'yang', do: 'hop', amount: 6, dur: 0.2 },
     // 退場，畫面只留下字
+    { at: 13.78, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.78, actor: 'yang', do: 'flip' },
     { at: 13.78, actor: 'yang', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.2, ease: 'in' },
   ],
   builds: [
@@ -161,7 +168,6 @@ const clip: Clip = {
     { at: 9.95, kind: 'pop', actor: 'yang', emoji: '✌️', dx: 13, dy: 9, dur: 0.35, scale: 1.2 },
     ...z4.fx,
     { at: H4 + 0.1, kind: 'pop', actor: 'yang', emoji: '❗', dx: 13, dy: 9, dur: 0.45, scale: 1.3 },
-    { at: 12.2, kind: 'pop', actor: 'yang', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
     { at: 13.6, kind: 'burst', x: 100, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [

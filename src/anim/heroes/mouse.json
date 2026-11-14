@@ -1,4 +1,5 @@
 {
+  "retired": "2026-11 起小老鼠的圖改從 Codex 畫的綠幕姿勢表切（src/anim/heroes/mouse.cut.json、npm run hero:cut -- mouse），造型也改成爸爸影片裡的紅頭巾忍者小老鼠，npm run hero 看到有 mouse.cut.json 就跳過小老鼠，這份只留著備查舊畫風的設定。",
   "name": "傑利鼠（原創小老鼠）",
   "look": "A cute cheeky cartoon mouse, small and round, light brown fur with a cream belly, big round ears with pink insides, big shiny black eyes, a tiny pink nose with whiskers, a long thin tail, standing on two legs like a cartoon character, chibi proportions",
   "style": "simple flat vector illustration style with thick dark outlines and soft cel shading, like a children's picture book sticker, plain solid white background, no shadow, no text",

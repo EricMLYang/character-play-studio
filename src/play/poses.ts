@@ -4,7 +4,7 @@
  * 好的幼兒 App 裡，角色是陪你玩的人：一直在呼吸、會看你的手指、你答對他跳起來、
  * 你點錯他歪頭想一下（不是生氣）。這裡只放資料與純函式，畫面在 Buddy.tsx。
  *
- * 每位主角有幾張姿勢圖（idle、happy、surprised、dizzy…，`npm run hero` 產生的），
+ * 每位主角有幾張姿勢圖（idle、happy、surprised、dizzy…，`npm run hero` 或 `npm run hero:cut` 產生的），
  * 但不是每位都有同一組：反應要換姿勢時，先找這位有沒有那張，沒有就退回 idle，只靠動作演。
  */
 
@@ -18,17 +18,18 @@ export const POSES: Record<string, string[]> = {
   dino: ['dizzy', 'happy', 'idle', 'reach', 'roar', 'surprised'],
   firefighter: ['dizzy', 'happy', 'hose', 'idle', 'ladder', 'surprised'],
   monster: ['dizzy', 'happy', 'idle', 'oops', 'roar', 'sleep', 'stuffed', 'surprised'],
-  mouse: ['cheese', 'dizzy', 'happy', 'idle', 'sneak', 'surprised'],
+  mouse: ['angry', 'back', 'cheese', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'stance', 'surprised', 'think', 'wait', 'walk', 'wave'],
   ninja: ['dizzy', 'happy', 'hide', 'idle', 'surprised', 'throw'],
-  // 豬探長：從綠幕姿勢表切（npm run hero:cut -- pig，assets/hero-sheets/pig-A/B/C.png）
+  // 五個明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長）：從綠幕姿勢表切（npm run hero:cut -- <主角>，assets/hero-sheets/）。
+  // 都有同一套 27 個姿勢＋各自兩個招牌姿勢；沒有放大鏡的 think 跟托下巴的 ponder 同一張，警長舊的 run 跟 dash 同一張
   pig: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'doubt', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
   pirate: ['dizzy', 'happy', 'idle', 'surprised', 'telescope', 'treasure'],
-  raccoon: ['carry', 'dizzy', 'happy', 'idle', 'salute', 'surprised'],
+  raccoon: ['angry', 'back', 'carry', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
   robot: ['broken', 'dizzy', 'fly', 'happy', 'idle', 'surprised'],
   shark: ['chomp', 'dizzy', 'happy', 'idle', 'spin', 'surprised'],
-  sheriff: ['dizzy', 'happy', 'idle', 'run', 'surprised', 'whistle'],
+  sheriff: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'eat', 'fall', 'flat', 'happy', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'run', 'salute', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave', 'whistle'],
   warrior: ['dizzy', 'happy', 'idle', 'shield', 'surprised', 'swing'],
-  yang: ['dizzy', 'drive', 'happy', 'idle', 'surprised', 'think'],
+  yang: ['angry', 'back', 'cold', 'cry', 'dash', 'dizzy', 'drive', 'eat', 'fall', 'flat', 'happy', 'helmet', 'idle', 'laugh', 'listen', 'point', 'ponder', 'push', 'reach', 'scared', 'sleep', 'smug', 'sneak', 'surprised', 'think', 'wait', 'walk', 'wave'],
 }
 
 /**

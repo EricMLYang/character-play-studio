@@ -147,6 +147,12 @@ for pose, (im, s) in crops.items():
     sheet.save(out / f'{pose}.png', optimize=True)
     print(f'  {pose}：{im.width}×{im.height} → {w}×{h}')
 
+# 同一張圖兩個名字（例如花生、小老鼠沒有放大鏡，think 就是托下巴的 ponder），劇本兩個都能寫
+for pose, same in cfg.get('alias', {}).items():
+    if same in crops:
+        shutil.copyfile(out / f'{same}.png', out / f'{pose}.png')
+        print(f'  {pose}：跟 {same} 同一張')
+
 # 還沒生出來的姿勢先借別張頂著（例如 think 要等 C 表的「拿放大鏡」，先用 B 表的托下巴）
 for pose, stand_in in cfg.get('fallback', {}).items():
     if pose not in crops and stand_in in crops:

@@ -5,7 +5,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 冷（v2）：大熱天，浣熊花生熱到冒汗——每次跑去抱大冰塊，冰塊一抖，他就「喀」地被凍成一塊冰，一次比一次大塊：
 // 剛好包住他（裂開，冰的兩點 冫 噴出來）、大一號連人帶冰滑到畫面邊（令的上半）、先停一拍再凍成超大一塊、裂開把他炸上天（令的下半）。
 // 回馬槍：他學乖了，站得遠遠的不碰，只吹冰塊吹過來的冷氣（冷氣）——冰塊一抖，冷風一吹，他還是被凍成最大的一塊，連冰塊一起碎掉。
-// 最後畫面暗下來只剩「冷」，花生轉向觀眾問「這是什麼字？」，等他回答，再敬禮說「冷！」，然後退場只留字。
+// 最後畫面暗下來只剩「冷」，花生轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再指著字說「冷！」，然後退場只留字。
 // 冷、冷、冷氣、這是什麼字？、冷
 const P = 66.9 // 花生（size 24）站在地上的 y
 const I = 62.7 // 大冰塊（size 34）
@@ -40,13 +40,14 @@ function freeze(at: number, k: number, x: number, hug = true) {
     { at: at - 0.05, actor: 'shell', do: 'moveTo', to: { x, y: S }, dur: 0.01 },
     { at, actor: 'shell', do: 'pop', dur: 0.12 },
     { at, actor: 'shell', do: 'scaleTo', amount: SHELL[k], dur: 0.18, ease: 'back' },
-    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/cold' },
     { at, actor: 'raccoon', do: 'tint', filter: COLD },
     { at, actor: 'raccoon', do: 'squash', amount: 0.15, dur: 0.2 },
     { at, actor: 'ice', do: 'squash', amount: 0.12, dur: 0.2 },
   ]
   if (hug) moves.push(
-    // 張開手撲過去抱
+    // 伸手撲過去抱
+    { at: at - 0.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/reach' },
     { at: at - 0.3, actor: 'raccoon', do: 'squash', amount: -0.18, dur: 0.25 },
     { at: at - 0.3, actor: 'raccoon', do: 'tilt', amount: 10, dur: 0.3 },
   )
@@ -97,7 +98,8 @@ const clip: Clip = {
   bg: { top: '#FFD39A', bottom: '#FFF2DC', floor: '#EDC98A', scenery: 'desert' },
   actors: [
     { id: 'ice', emoji: '🧊', x: IX, y: I, size: 34 },
-    { id: 'raccoon', emoji: 'hero:raccoon/idle', x: HOME, y: P, size: 24, hidden: true },
+    // 姿勢圖朝左，翻過來面向右邊的大冰塊（問他時也面向右邊的字）
+    { id: 'raccoon', emoji: 'hero:raccoon/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
     // 包住花生的冰殼（畫在他前面、半透明）
     { id: 'shell', emoji: '🧊', x: REACH, y: S, size: 30, hidden: true, tint: GLASS },
   ],
@@ -155,16 +157,18 @@ const clip: Clip = {
     { at: 10.65, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
     { at: 10.65, actor: 'raccoon', do: 'scaleTo', amount: 1.5 / BIG, dur: 0.3, ease: 'back' },
     { at: 10.65, actor: 'raccoon', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
-    // 安靜等他回答：身體往字那邊傾、點兩下頭
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.8, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/listen' },
     { at: 11.8, actor: 'raccoon', do: 'rotateTo', amount: 10, dur: 0.3 },
     { at: 12.35, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
     { at: 12.85, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
-    // 回答：跳起來敬禮
+    // 回答：跳起來指著字
     { at: 13.3, actor: 'raccoon', do: 'rotateTo', amount: -10, dur: 0.12 },
-    { at: 13.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/salute' },
+    { at: 13.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
     { at: 13.3, actor: 'raccoon', do: 'hop', amount: 6, dur: 0.25 },
     // 退場，畫面只留下字
     { at: 13.6, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 13.6, actor: 'raccoon', do: 'flip' },
     { at: 13.62, actor: 'raccoon', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
@@ -207,7 +211,6 @@ const clip: Clip = {
     ...f4.fx,
     { at: C4, kind: 'burst', x: 96, y: 45, emoji: '🧊', n: 12, dur: 0.55, scale: 1.8 },
     { at: C4, kind: 'burst', x: 96, y: 45, n: 1, dur: 0.4, scale: 3 },
-    { at: 11.8, kind: 'pop', actor: 'raccoon', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
     { at: 13.3, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [

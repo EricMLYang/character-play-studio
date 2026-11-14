@@ -12,6 +12,7 @@
 //   sheets.<名字>：file（姿勢表檔名）、grid [欄, 列]（預設 3×3）、poses（照「左到右、上到下」每格的姿勢名，null 跳過）、
 //     scale（這張表裡角色相對 ref 那張的大小，預設 1）、optional（還沒生出來也沒關係：先跳過並列出缺哪幾個）、flip
 //   fallback：{ 姿勢: 頂替的姿勢 }，optional 的表還沒到時先借別張頂著，劇本才不會指到不存在的圖
+//   alias：{ 姿勢: 同一張的姿勢 }，同一張圖再多一個名字（花生、小老鼠沒有放大鏡，think 就用托下巴的 ponder），各主角的姿勢名才一致
 // 姿勢表怎麼來、版面規則、生圖的 prompt：assets/hero-sheets/README.md。
 // 中間不產生暫存檔；需要 uv tool install 'rembg[cpu,cli]'（只借它的 Python 環境：numpy、Pillow）。
 import { execFileSync, spawnSync } from 'node:child_process'
@@ -49,7 +50,7 @@ if (spawnSync('which', ['uv']).status !== 0) fail(`找不到 uv。先裝：uv to
 const out = outDir ? resolve(outDir) : join(root, 'public/hero', hero)
 execFileSync('uv', ['tool', 'run', '--from', 'rembg[cpu,cli]', 'python', join(root, 'scripts/hero-cut.py'), cfgPath, srcRoot, out], { stdio: 'inherit' })
 // 清掉設定裡已經沒有的姿勢（例如舊畫風留下的圖）
-const names = new Set([...Object.values(cfg.sheets).flatMap((s) => s.poses.filter(Boolean)), ...Object.keys(cfg.fallback ?? {})])
+const names = new Set([...Object.values(cfg.sheets).flatMap((s) => s.poses.filter(Boolean)), ...Object.keys(cfg.fallback ?? {}), ...Object.keys(cfg.alias ?? {})])
 for (const f of readdirSync(out)) if (f.endsWith('.png') && !names.has(f.slice(0, -4))) rmSync(join(out, f))
 const made = readdirSync(out).filter((f) => f.endsWith('.png')).length
 const shown = relative(root, out).startsWith('..') ? out : relative(root, out)

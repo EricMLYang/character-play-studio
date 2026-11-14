@@ -5,7 +5,7 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 // 睿（v2）：大猩猩想把大禮物撞開——每次搥胸、衝過去用肚子撞，禮物都「啵ㄧㄛ」一下把他彈回去，一次比一次遠：
 // 彈回原地（睿的上半部從禮物彈出來）、滾到畫面邊（再一塊）、先停一拍再被彈上天（傻眼睜大的眼睛變成「目」）。
 // 回馬槍：他第四次衝過來時，楊捷睿只是輕輕一拉緞帶，包裝紙「碰」地散開（睿智）——大猩猩撲了個空，一頭栽進盒子裡，只剩兩隻腳在外面踢。
-// 最後畫面暗下來只剩「睿」，楊捷睿轉向觀眾問「這是什麼字？」，等他回答，再跳起來說「睿！」，然後退場只留字。
+// 最後畫面暗下來只剩「睿」，楊捷睿轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「睿！」，然後退場只留字。
 // 睿、睿、睿智、這是什麼字？、睿
 const P = 66.9 // 楊捷睿（size 24）站在地上的 y
 const G = 65.2 // 大猩猩（size 28）
@@ -88,7 +88,8 @@ const clip: Clip = {
     { id: 'gift', emoji: '🎁', x: BX, y: BOX, size: 34 },
     // 被拉開的蝴蝶結（打開那一刻從盒子上彈飛）
     { id: 'bow', emoji: '🎀', x: BX, y: 44, size: 14, hidden: true, float: true },
-    { id: 'yang', emoji: 'hero:yang/idle', x: YX, y: P, size: 24, hidden: true },
+    // 姿勢圖朝左，翻過來面向右邊的大猩猩和禮物（問他時也面向右邊的字）
+    { id: 'yang', emoji: 'hero:yang/idle', x: YX, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
     // 楊捷睿登場，抬頭看字框
@@ -119,10 +120,13 @@ const clip: Clip = {
     { at: 8.5, actor: 'yang', do: 'scaleTo', amount: BIG, dur: 0.3, ease: 'back' },
     { at: 8.5, actor: 'ape', do: 'moveTo', to: { x: HOME4, y: -45 }, dur: 0.01 },
     { at: 8.55, actor: 'ape', do: 'moveTo', to: { x: HOME4, y: G }, dur: 0.3, ease: 'in' },
-    // 他對大猩猩比「等一下」
-    { at: 8.85, actor: 'yang', do: 'swap', emoji: 'hero:yang/think' },
+    // 他轉向左邊的大猩猩比「等一下」
+    { at: 8.85, actor: 'yang', do: 'flip' },
+    { at: 8.85, actor: 'yang', do: 'swap', emoji: 'hero:yang/wait' },
     { at: 8.85, actor: 'yang', do: 'tilt', amount: -6, dur: 0.3 },
     // 輕輕拉蝴蝶結——啵！打開了，氣球冒出來（睿智）
+    { at: 9.1, actor: 'yang', do: 'flip' },
+    { at: 9.1, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     { at: 9.1, actor: 'yang', do: 'tilt', amount: -8, dur: 0.3 },
     { at: OPEN, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
     { at: OPEN, actor: 'gift', do: 'swap', emoji: '📦' },
@@ -146,15 +150,18 @@ const clip: Clip = {
     { at: 11.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: 11.15, actor: 'yang', do: 'scaleTo', amount: 1.5 / BIG, dur: 0.3, ease: 'back' },
     { at: 11.15, actor: 'yang', do: 'moveTo', to: { x: 34, y: P + 4 }, dur: 0.3 },
-    // 安靜等他回答：身體往字那邊傾、點兩下頭
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 12.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/listen' },
     { at: 12.15, actor: 'yang', do: 'rotateTo', amount: 10, dur: 0.3 },
     { at: 12.65, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
     { at: 13.15, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
-    // 回答：跳起來
+    // 回答：跳起來指著字
     { at: 13.6, actor: 'yang', do: 'rotateTo', amount: -10, dur: 0.12 },
-    { at: 13.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
     { at: 13.6, actor: 'yang', do: 'hop', amount: 6, dur: 0.2 },
     // 退場，畫面只留下字
+    { at: 13.78, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.78, actor: 'yang', do: 'flip' },
     { at: 13.78, actor: 'yang', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.2, ease: 'in' },
   ],
   builds: [
@@ -184,7 +191,6 @@ const clip: Clip = {
     ...c3.fx,
     { at: 8.85, kind: 'dizzy', actor: 'ape', dur: 0.45 },
     // 「等一下」
-    { at: 8.85, kind: 'pop', actor: 'yang', emoji: '✋', dx: -14, dy: 6, dur: 0.45, scale: 1.8 },
     // 手邊短短一段緞帶：輕輕一拉
     { at: 9.05, dur: OPEN - 9.05 + 0.03, kind: 'line', actor: 'gift', to: { x: BY + 9, y: 54 }, color: '#F5B700', width: 2.6, dy: 2 },
     // 啵！打開了：氣球、✨ 一圈冒出來
@@ -194,7 +200,6 @@ const clip: Clip = {
     { at: H4 + 0.3, kind: 'burst', x: STUCK.x, y: 44, n: 1, dur: 0.4, scale: 2.8 },
     { at: H4 + 0.35, kind: 'pop', x: STUCK.x - 24, y: 44, emoji: '😳', dur: 0.65, scale: 2.2 },
     { at: H4 + 0.35, kind: 'burst', actor: 'yang', emoji: '⭐', n: 6, dur: 0.5 },
-    { at: 12.2, kind: 'pop', actor: 'yang', emoji: '👂', dx: 6, dy: 6, dur: 1.3, scale: 1.3 },
     { at: 13.6, kind: 'burst', x: 100, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
