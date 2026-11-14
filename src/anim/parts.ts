@@ -82,6 +82,11 @@ export const PARTS = {
   // 「黑」的上半部（下面四點是火 灬，上面本來是煙囪口 囪，楷書寫成像「里」又不是「里」）沒有通用的單字名，先用這個名字登記：
   // 煤灰的炭黑色，偏一點藍紫，跟能（#3E2A1E 偏棕）、言（#5C6170 灰而淺）分得開
   黑頭: { color: '#26262E', from: '火燒出來的黑煙，把煙囪口燻黑：從噴出來的那團黑煙裡飛出來' },
+  // 糸是絞絲（給、紅、細、線、紙、結）：本來是一束絲線、繩子。用海藍色，比氵（#1C6FD0）深而偏綠、比亠（#3A5BA0）鮮、比目（#0A86A8）深
+  糸: { color: '#0369A1', from: '線、繩子、綁禮物的緞帶：禮物一打開，緞帶彈開飛出來' },
+  // 亼是「合」的上半（人＋一，合、會、今、食的頭）：本來是蓋子，蓋在下面的口上就是「合」。
+  // 深酒紅色，比冂（#6D3F5B）紅而深、比宀（#9E1B32）暗得多、跟下面的口（#C2185B）一眼分得開
+  亼: { color: '#5F0F40', from: '蓋子（合＝蓋子蓋在口上）：禮物盒的蓋子被裡面的東西頂飛出來' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
@@ -100,6 +105,8 @@ export const PART_ALIASES = {
  */
 export const PART_COMBOS = {
   苗: ['艹', '田'],
+  // 合＝亼（蓋子）＋口：蓋子蓋在盒口上（給、拿、答、蛤）
+  合: ['亼', '口'],
 } as const satisfies Record<string, readonly PartName[]>
 
 type Name = PartName | keyof typeof PART_ALIASES | keyof typeof PART_COMBOS
