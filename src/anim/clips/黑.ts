@@ -1,176 +1,264 @@
-import type { Clip } from '../clip'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 黑（重做）：大怪獸偷偷走到橡膠恐龍背後「吼」——恐龍笑他好可愛；再用力吼一次，恐龍打呵欠。牠想到辦法：一頭跳進墨水桶，
-// 墨水噴上天落成「黑」的上半部，爬出來全身黑漆漆，像小狗一樣甩出四滴墨變成四點。國字讓到上方，黑漆漆的牠在中間舉手大吼，恐龍嚇到彈上天（黑熊）。
-// 回馬槍：牠笑到往後倒，一屁股栽回墨水桶，墨水噴了恐龍一身——全黑的恐龍反過來大吼，把牠嚇得從桶子裡跳出來。黑、黑、黑熊
-const G = 66.9 // 大怪獸（size 24）站在地上的 y
-const D = 67.8 // 恐龍（size 22）
-const T = 67 // 墨水桶（size 24）
-const IN = 63 // 怪獸縮小躲在桶子裡的 y
-const TOP = 48 // 怪獸站在桶子邊上的 y
-const X = 24 // 墨水桶的 x
-const INK = 'brightness(.32) contrast(1.3)'
+// 黑（v2）：愛現的忍者小老鼠要表演「把營火吹得旺旺的」——每次他鼓起臉往火裡用力一吹，火就「轟」地噴出一大團黑煙撲到他臉上，
+// 煙散開他被燻得一次比一次黑：灰灰的（火裡蹦出四點火星 灬）、黑黑的被噴退一屁股坐地（上面那塊被燻黑的煙囪口）、
+// 先停一拍再吹，黑到整隻看不見、只剩兩顆眼睛眨呀眨（上面那塊的下半）。這就是「黑」的本義：火燒出來的黑煙把東西燻黑。
+// 回馬槍：他學乖了，一吹完就忍者跳閃開——黑煙從他腳下穿過去，撲到偷偷跑來看表演的大熊臉上（黑熊），黑熊氣得大吼，把他連火一起吼飛。
+// 最後畫面暗下來只剩「黑」，小老鼠轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「黑！」，然後退場只留字。
+// 黑、黑、黑熊、這是什麼字？、黑
+const P = 66.9 // 小老鼠（size 24）站在地上的 y
+/** 營火（🔥，size 24）在右邊 */
+const FX = 116
+const FY = 77 - 0.42 * 24
+/** 小老鼠每次都站到同一個地方吹火：營火的左邊 */
+const BLOW = 92
+/** 大熊（prop:bear／bear-roar，同一個比例）：回馬槍時偷偷跑到他背後看 */
+const BEAR = 52
+const BY = 77 - 0.42 * BEAR
+const BX = 58
+/** 黑煙撲到大熊臉上的地方 */
+const BEAR_FACE = { x: BX - 4, y: BY - 10 }
+/** 黑煙每一次多大：一次比一次大團 */
+const SMOKE = [26, 34, 44, 46]
+/** 被燻黑：一次比一次深（第 3 次黑到只剩眼睛） */
+const SOOT = ['grayscale(.6) brightness(.5)', 'grayscale(.8) brightness(.26)', 'grayscale(1) brightness(.08)']
+/** 黑熊：看得出是熊、眼睛還分辨得出來 */
+const BLACK_BEAR = 'grayscale(1) brightness(.42) contrast(1.9)'
+/** 黑煙：白雲染成深灰黑 */
+const SMOKE_TINT = 'grayscale(1) brightness(.22)'
+/** 第 3 次黑到只剩眼睛：眼睛疊在他臉上的位置 */
+const EYES = { x: 34, y: P - 2 }
+/** 被燻黑以後傻眼停多久 */
+const HOLD = 0.5
+
+/** 第 k 次被燻到時他站的地方（第 2、3 次被黑煙噴退） */
+const HIT = [BLOW, BLOW - 14, 34]
+
+/**
+ * 「呼—轟」：他鼓起臉往火裡吹（blow 姿勢＋一串 💨）→ 火抖一下、猛地變大（預備），他傻眼（還沒黑）→
+ * 那一刻火噴出一大團黑煙撲到他臉上＋💥＋⚫ 煤灰飛散＋鏡頭推近＋震＋同一個音效 → 煙散開，他被燻黑、傻眼停 HOLD 秒。
+ * k 是第幾次（煙越後面越大、越黑、噴得越遠）。第 4 次（dodge）他吹完就跳開，黑煙撲到後面的大熊臉上。
+ */
+function blast(at: number, k: number, dodge = false) {
+  const smoke = 'smoke'
+  // 同一團煙重複用：上一次散開時放大了 1.3 倍，這次先調回這一次的大小
+  const was = k === 0 ? SMOKE[0] : SMOKE[k - 1] * 1.3
+  const to = dodge ? BEAR_FACE : { x: HIT[k] + 2, y: P - 6 }
+  const moves: Move[] = [
+    // 預備：鼓起臉吸一口氣、往火裡吹
+    { at: at - 0.8, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/blow' },
+    { at: at - 0.8, actor: 'mouse', do: 'squash', amount: -0.16 - 0.04 * k, dur: 0.3 },
+    // 火抖一下、猛地變大
+    { at: at - 0.35, actor: 'fire', do: 'shake', amount: 1 + 0.3 * k, dur: 0.3 },
+    { at: at - 0.3, actor: 'fire', do: 'scaleTo', amount: 1.4, dur: 0.22, ease: 'back' },
+    { at: at + 0.35, actor: 'fire', do: 'scaleTo', amount: 1 / 1.4, dur: 0.3 },
+    // 轟！黑煙從火裡噴出來，撲到臉上
+    { at: at - 0.05, actor: smoke, do: 'moveTo', to: { x: FX - 4, y: FY - 6 }, dur: 0.01 },
+    { at: at - 0.05, actor: smoke, do: 'scaleTo', amount: SMOKE[k] / was, dur: 0.01 },
+    { at, actor: smoke, do: 'pop', dur: 0.08 },
+    { at, actor: smoke, do: 'moveTo', to, dur: 0.14, ease: 'out' },
+    { at: at + 0.36, actor: smoke, do: 'scaleTo', amount: 1.3, dur: 0.2, ease: 'out' },
+    { at: at + 0.38, actor: smoke, do: 'vanish', dur: 0.18 },
+    { at: at + 0.1, actor: 'fire', do: 'squash', amount: 0.2, dur: 0.2 },
+  ]
+  if (!dodge) moves.push(
+    // 火一變大，他傻眼（臉還是乾淨的）
+    { at: at - 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/surprised' },
+    // 煙蓋住他那一刻變黑
+    { at: at + 0.1, actor: 'mouse', do: 'tint', filter: SOOT[k] },
+    { at, actor: 'mouse', do: 'squash', amount: 0.18 + 0.05 * k, dur: 0.25 },
+  )
+  if (!dodge && HIT[k] !== BLOW) moves.push(
+    // 被黑煙噴退
+    { at: at + 0.03, actor: 'mouse', do: 'moveTo', to: { x: HIT[k], y: P }, dur: 0.28 + 0.06 * k, ease: 'out' },
+  )
+  const fx: Fx[] = [
+    { at: at - 0.55, kind: 'blow', actor: 'mouse', dx: 9, dy: 8, to: { x: FX - 6, y: FY - 2 }, n: 3, dur: 0.35, scale: 1.2 },
+    // 💥 在煙跟火之間
+    { at, kind: 'burst', x: FX - 14, y: dodge ? FY : FY - 10, n: 1, dur: 0.3, scale: 1.5 + 0.4 * k },
+    // 煤灰四散，一次比一次多
+    { at: at + 0.12, kind: 'burst', x: to.x, y: to.y, emoji: '⚫', n: 5 + 2 * k, dur: 0.45, scale: 0.8 + 0.2 * k },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.05 + 0.02 * k, to: { x: (to.x + FX) / 2, y: P - 10 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.9 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at: at - 0.55, sfx: 'whoosh' }, { at, sfx: 'poof' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'rumble' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'bonk' })
+  return { moves, fx, camera, cues }
+}
+
+/** 拍掉煤灰：抖一抖、⚫ 飛掉，變回乾淨的 */
+function dust(at: number, k: number) {
+  const moves: Move[] = [
+    { at, actor: 'mouse', do: 'shake', amount: 2, dur: 0.3 },
+    { at: at + 0.15, actor: 'mouse', do: 'tint', filter: '' },
+  ]
+  const fx: Fx[] = [{ at: at + 0.1, kind: 'burst', actor: 'mouse', dy: 10, emoji: '⚫', n: 5 + k, dur: 0.35, scale: 0.8 }]
+  const cues: Cue[] = [{ at: at + 0.1, sfx: 'poof' }]
+  return { moves, fx, cues }
+}
+
+const H1 = 1.65, H2 = 3.6, H3 = 6.0, H4 = 9.1
+const b1 = blast(H1, 0)
+const b2 = blast(H2, 1)
+const b3 = blast(H3, 2)
+const b4 = blast(H4, 3, true)
+/** 煙散開、看到被燻黑的他 */
+const R = (at: number) => at + 0.45
+const d1 = dust(R(H1) + HOLD + 0.1, 0)
+const d2 = dust(R(H2) + HOLD + 0.35, 1)
+/** 第 3 次黑到只剩眼睛，等國字讓位、大熊進場時才拍掉 */
+const d3 = dust(7.85, 2)
+/** 黑熊吼的那一刻 */
+const ROAR = 10.0
 
 const clip: Clip = {
+  format: 2,
   char: '黑',
-  meta: { theme: '嚇人要先變黑', cast: '大怪獸＋橡膠恐龍＋墨水桶', gags: ['吼人被笑可愛', '用力吼對方打呵欠', '跳進墨水桶噴成字', '甩墨像小狗甩水', '笑到栽回桶子墨水噴得對方全黑反被吼'] },
-  duration: 10,
-  bg: { top: '#E6F0FF', bottom: '#F6FAFF', floor: '#D9CBB0', scenery: 'room' },
+  meta: { theme: '忍者小老鼠表演吹營火', cast: '小老鼠＋大熊＋營火', gags: ['愛現的小老鼠每次往營火裡用力一吹，火就轟地噴出一大團黑煙撲到他臉上，他被燻得一次比一次黑（灰灰的、黑黑的被噴退、黑到只剩兩顆眼睛）；回馬槍是他一吹完就忍者跳閃開，黑煙撲到後面偷看的大熊臉上變成黑熊，黑熊氣得把他吼飛'] },
+  duration: 15,
+  bg: { top: '#BFE8FF', bottom: '#F4FBFF', floor: '#CFE6A8', scenery: 'hills' },
   actors: [
-    { id: 'dino', emoji: 'hero:dino/happy', x: 128, y: D, size: 22 },
-    { id: 'mon', emoji: 'hero:monster/idle', x: 52, y: G, size: 24, hidden: true, flip: true },
-    { id: 'tub', emoji: '🪣', x: X, y: T, size: 24, tint: 'brightness(.35) contrast(1.4)' },
-    ...[0, 1, 2].map((i) => ({ id: `ink${i}`, emoji: '⚫', x: X, y: 56, size: 9, hidden: true, float: true })),
+    { id: 'bear', emoji: 'prop:bear', x: -40, y: BY, size: BEAR, hidden: true },
+    { id: 'fire', emoji: '🔥', x: FX, y: FY, size: 24 },
+    // 姿勢圖朝左，翻過來面向右邊的營火（問他時也面向右邊的字）
+    { id: 'mouse', emoji: 'hero:mouse/idle', x: BLOW, y: P, size: 24, hidden: true, flip: true },
+    // 黑煙：畫在最上面（撲到臉上那一刻蓋住他）
+    { id: 'smoke', emoji: '☁️', x: FX, y: FY, size: SMOKE[0], hidden: true, float: true, tint: SMOKE_TINT },
   ],
   moves: [
-    // 怪獸跑進來，看到恐龍背對著牠在哼歌：嘿嘿，嚇牠一下
-    { at: 0, actor: 'mon', do: 'enter', from: { x: -20, y: G }, dur: 0.5, ease: 'out' },
-    { at: 0, actor: 'dino', do: 'bounce', amount: 1.5, times: 2, dur: 0.8 },
-    { at: 0.65, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 0.8, actor: 'mon', do: 'moveTo', to: { x: 96, y: G }, dur: 0.6, ease: 'inOut' },
-    // 第一吼：恐龍轉過來，笑牠好可愛
-    { at: 1.4, actor: 'mon', do: 'squash', amount: -0.3, dur: 0.2 },
-    { at: 1.6, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 1.6, actor: 'mon', do: 'shake', amount: 0.8, dur: 0.3 },
-    { at: 1.75, actor: 'dino', do: 'swap', emoji: 'hero:dino/happy' },
-    { at: 1.75, actor: 'dino', do: 'flip' },
-    { at: 1.85, actor: 'dino', do: 'bounce', amount: 2, times: 3, dur: 0.6 },
-    { at: 2.2, actor: 'mon', do: 'swap', emoji: 'hero:monster/oops' },
-    // 第二吼：退一步、深吸一口氣、整隻鼓起來——恐龍打呵欠
-    { at: 2.45, actor: 'mon', do: 'moveTo', to: { x: 86, y: G }, dur: 0.3, ease: 'out' },
-    { at: 2.6, actor: 'mon', do: 'squash', amount: -0.45, dur: 0.35 },
-    { at: 2.95, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 2.95, actor: 'mon', do: 'scaleTo', amount: 1.18, dur: 0.15, ease: 'back' },
-    { at: 2.95, actor: 'mon', do: 'shake', amount: 1.6, dur: 0.45 },
-    { at: 3.1, actor: 'dino', do: 'swap', emoji: 'hero:dino/idle' },
-    { at: 3.1, actor: 'dino', do: 'flip' },
-    { at: 3.15, actor: 'dino', do: 'tilt', amount: -10, dur: 0.5 },
-    { at: 3.45, actor: 'mon', do: 'scaleTo', amount: 1 / 1.18, dur: 0.3, ease: 'out' },
-    { at: 3.45, actor: 'mon', do: 'swap', emoji: 'hero:monster/idle' },
-    // 💡 看到墨水桶：變黑就可怕了！轉身衝過去
-    { at: 3.75, actor: 'mon', do: 'flip' },
-    { at: 3.8, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 3.85, actor: 'mon', do: 'moveTo', to: { x: 50, y: G }, dur: 0.3, anticipate: 3, ease: 'in' },
-    { at: 4.15, actor: 'mon', do: 'squash', amount: -0.4, dur: 0.15 },
-    // 一頭跳進桶子
-    { at: 4.25, actor: 'mon', do: 'moveTo', to: { x: X, y: 60 }, arc: 22, dur: 0.35, ease: 'in' },
-    { at: 4.25, actor: 'mon', do: 'spin', times: 1, dur: 0.35 },
-    { at: 4.4, actor: 'mon', do: 'scaleTo', amount: 0.5, dur: 0.2, ease: 'in' },
-    { at: 4.6, actor: 'mon', do: 'moveTo', to: { x: X, y: IN }, dur: 0.08, ease: 'in' },
-    { at: 4.6, actor: 'tub', do: 'squash', amount: 0.35, dur: 0.35 },
-    { at: 4.6, actor: 'tub', do: 'shake', amount: 1, dur: 0.4 },
-    { at: 4.65, actor: 'mon', do: 'tint', filter: INK },
-    { at: 4.7, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 4.7, actor: 'dino', do: 'hop', amount: 4, dur: 0.3 },
-    // 爬出來站在桶子邊上：全身黑漆漆，像小狗一樣甩甩甩
-    { at: 5.15, actor: 'mon', do: 'moveTo', to: { x: X, y: TOP }, dur: 0.3, ease: 'back' },
-    { at: 5.15, actor: 'mon', do: 'scaleTo', amount: 2, dur: 0.3, ease: 'back' },
-    { at: 5.5, actor: 'mon', do: 'shake', amount: 2.2, dur: 0.6 },
-    { at: 6.15, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 6.2, actor: 'mon', do: 'hop', amount: 3, dur: 0.3 },
-    { at: 6.3, actor: 'dino', do: 'swap', emoji: 'hero:dino/idle' },
-    { at: 6.5, actor: 'mon', do: 'tilt', amount: 10, dur: 0.4 },
-    // 國字讓位：黑漆漆的怪獸踮腳走到中間
-    { at: 6.9, actor: 'mon', do: 'flip' },
-    { at: 6.95, actor: 'mon', do: 'moveTo', to: { x: 80, y: G }, arc: 8, dur: 0.55, ease: 'inOut' },
-    // 舉起雙手、整隻變大：吼——黑熊！
-    { at: 7.5, actor: 'mon', do: 'squash', amount: -0.4, dur: 0.2 },
-    { at: 7.7, actor: 'mon', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 7.7, actor: 'mon', do: 'scaleTo', amount: 1.3, dur: 0.2, ease: 'back' },
-    { at: 7.7, actor: 'mon', do: 'shake', amount: 1.4, dur: 0.4 },
-    { at: 7.72, actor: 'dino', do: 'swap', emoji: 'hero:dino/surprised' },
-    { at: 7.72, actor: 'dino', do: 'hop', amount: 16, dur: 0.5 },
-    { at: 8.22, actor: 'dino', do: 'shake', amount: 1.2, dur: 0.5 },
-    // 笑到往後倒……
-    { at: 8.15, actor: 'mon', do: 'scaleTo', amount: 1 / 1.3, dur: 0.2, ease: 'out' },
-    { at: 8.15, actor: 'mon', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 8.15, actor: 'mon', do: 'bounce', amount: 2, times: 2, dur: 0.35 },
-    { at: 8.4, actor: 'mon', do: 'moveTo', to: { x: 42, y: G }, dur: 0.35, ease: 'out' },
-    { at: 8.4, actor: 'mon', do: 'rotateTo', amount: -25, dur: 0.35 },
-    // ……一屁股栽回墨水桶
-    { at: 8.75, actor: 'mon', do: 'swap', emoji: 'hero:monster/surprised' },
-    { at: 8.75, actor: 'mon', do: 'moveTo', to: { x: X, y: IN }, dur: 0.18, ease: 'in' },
-    { at: 8.75, actor: 'mon', do: 'scaleTo', amount: 0.5, dur: 0.18, ease: 'in' },
-    { at: 8.75, actor: 'mon', do: 'rotateTo', amount: 25, dur: 0.18 },
-    { at: 8.93, actor: 'tub', do: 'squash', amount: 0.4, dur: 0.35 },
-    // 墨水噴過整個房間，打中恐龍
-    ...[0, 1, 2].flatMap((i) => [
-      { at: 8.93, actor: `ink${i}`, do: 'pop' as const, dur: 0.08 },
-      { at: 8.93, actor: `ink${i}`, do: 'moveTo' as const, to: { x: 122 + i * 4, y: 58 + i * 4 }, arc: 18 + i * 5, dur: 0.32, ease: 'linear' as const },
-      { at: 9.25, actor: `ink${i}`, do: 'vanish' as const, dur: 0.05 },
-    ]),
-    { at: 9.25, actor: 'dino', do: 'tint', filter: INK },
-    { at: 9.25, actor: 'dino', do: 'squash', amount: 0.25, dur: 0.25 },
-    // 全黑的恐龍反過來大吼——怪獸嚇得從桶子裡跳出來
-    { at: 9.4, actor: 'dino', do: 'swap', emoji: 'hero:dino/roar' },
-    { at: 9.4, actor: 'dino', do: 'scaleTo', amount: 1.2, dur: 0.2, ease: 'back' },
-    { at: 9.4, actor: 'dino', do: 'shake', amount: 1.2, dur: 0.4 },
-    { at: 9.45, actor: 'mon', do: 'moveTo', to: { x: X, y: TOP }, arc: 14, dur: 0.35, ease: 'out' },
-    { at: 9.45, actor: 'mon', do: 'scaleTo', amount: 2, dur: 0.2, ease: 'back' },
-    { at: 9.8, actor: 'mon', do: 'shake', amount: 1.2, dur: 0.2 },
+    // 小老鼠衝進來，擺忍者架式，抬頭看字框：看我把火吹得旺旺的！
+    { at: 0, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: 0, actor: 'mouse', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'back' },
+    { at: 0.5, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/stance' },
+    { at: 0.5, actor: 'mouse', do: 'tilt', amount: -8, dur: 0.35 },
+    // 第 1 次：呼——轟！被燻成灰灰的
+    ...b1.moves,
+    ...d1.moves,
+    { at: d1.moves[0].at + 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/stomp' },
+    { at: d1.moves[0].at + 0.3, actor: 'mouse', do: 'hop', amount: 2, dur: 0.2 },
+    // 第 2 次：吹更用力——轟！黑黑的，被噴退一屁股坐地
+    ...b2.moves,
+    { at: R(H2) + 0.25, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/fall' },
+    ...d2.moves,
+    { at: d2.moves[0].at + 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: d2.moves[0].at + 0.3, actor: 'mouse', do: 'moveTo', to: { x: BLOW, y: P }, dur: 0.35 },
+    // 第 3 次：先停一拍——托下巴看火，火晃一晃……深吸一大口氣
+    { at: 5.0, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/ponder' },
+    { at: 5.0, actor: 'mouse', do: 'tilt', amount: -8, dur: 0.3 },
+    { at: 5.05, actor: 'fire', do: 'tilt', amount: 8, dur: 0.3 },
+    ...b3.moves,
+    ...d3.moves,
+    // 國字讓位；大熊聽到聲音，偷偷跑到他背後看表演
+    { at: 8.0, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/stance' },
+    { at: 8.05, actor: 'mouse', do: 'moveTo', to: { x: BLOW, y: P }, dur: 0.4 },
+    { at: 8.0, actor: 'bear', do: 'pop', dur: 0.01 },
+    { at: 7.95, actor: 'bear', do: 'moveTo', to: { x: BX, y: BY }, dur: 1.05, ease: 'linear' },
+    // 回馬槍（第 4 次）：吹完就忍者跳閃開——黑煙從他腳下穿過去
+    ...b4.moves,
+    { at: H4 - 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/jump' },
+    { at: H4 - 0.3, actor: 'mouse', do: 'moveTo', to: { x: BLOW + 6, y: P - 22 }, dur: 0.25, ease: 'out' },
+    { at: H4, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/smug' },
+    { at: H4 + 0.25, actor: 'mouse', do: 'moveTo', to: { x: BLOW + 6, y: P }, dur: 0.25, ease: 'in' },
+    // 撲到大熊臉上：黑熊
+    { at: H4 + 0.12, actor: 'bear', do: 'tint', filter: BLACK_BEAR },
+    { at: H4 + 0.1, actor: 'bear', do: 'squash', amount: 0.15, dur: 0.25 },
+    // 黑熊氣得大吼：把他連火一起吼飛
+    { at: ROAR - 0.3, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/back' },
+    { at: ROAR - 0.25, actor: 'bear', do: 'squash', amount: -0.12, dur: 0.25 },
+    { at: ROAR, actor: 'bear', do: 'swap', emoji: 'prop:bear-roar' },
+    { at: ROAR, actor: 'bear', do: 'shake', amount: 1.2, dur: 0.5 },
+    { at: ROAR, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/surprised' },
+    { at: ROAR + 0.15, actor: 'mouse', do: 'moveTo', to: { x: 175, y: 10 }, dur: 0.4, ease: 'out' },
+    { at: ROAR + 0.15, actor: 'mouse', do: 'spin', times: 2, dur: 0.4, pivot: 'center' },
+    { at: ROAR + 0.2, actor: 'fire', do: 'vanish', dur: 0.15 },
+    // 大熊氣呼呼地走掉（往左走出畫面，小老鼠掉回來之前）
+    { at: 10.3, actor: 'bear', do: 'swap', emoji: 'prop:bear' },
+    { at: 10.35, actor: 'bear', do: 'moveTo', to: { x: -45, y: BY }, dur: 0.6, ease: 'in' },
+    // 問他：小老鼠掉回左前方、變大，轉向觀眾
+    { at: 10.65, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: 10.65, actor: 'mouse', do: 'moveTo', to: { x: 32, y: -50 }, dur: 0.01 },
+    { at: 10.92, actor: 'mouse', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.25, ease: 'in' },
+    { at: 11.2, actor: 'mouse', do: 'scaleTo', amount: 1.55, dur: 0.3, ease: 'back' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.95, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/listen' },
+    { at: 11.95, actor: 'mouse', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.5, actor: 'mouse', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.0, actor: 'mouse', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.45, actor: 'mouse', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.45, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/point' },
+    { at: 13.45, actor: 'mouse', do: 'hop', amount: 6, dur: 0.25 },
+    // 退場（衝刺），畫面只留下字
+    { at: 13.72, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: 13.72, actor: 'mouse', do: 'flip' },
+    { at: 13.75, actor: 'mouse', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 跳進桶子噴上天的墨水 → 上半部；甩掉的四滴墨 → 四點
-    { at: 4.6, dur: 0.6, strokes: [0, 1, 2, 3, 4, 5, 6, 7], from: 'tub', color: '#22222E' },
-    { at: 5.5, dur: 0.25, strokes: [8], from: 'mon', color: '#343A40' },
-    { at: 5.62, dur: 0.25, strokes: [9], from: 'mon', color: '#343A40' },
-    { at: 5.74, dur: 0.25, strokes: [10], from: 'mon', color: '#343A40' },
-    { at: 5.86, dur: 0.25, strokes: [11], from: 'mon', color: '#343A40' },
+    // 第 1 次：火裡蹦出四點火星——灬（火）
+    { at: H1 + 0.05, dur: 0.6, strokes: [8, 9, 10, 11], from: 'fire', color: partColor('灬') },
+    // 第 2、3 次：黑煙裡飛出來——上面那塊被燻黑的煙囪口
+    { at: H2 + 0.1, dur: 0.6, strokes: [0, 1, 2, 3], from: 'smoke', color: partColor('黑頭') },
+    { at: H3 + 0.1, dur: 0.6, strokes: [4, 5, 6, 7], from: 'smoke', color: partColor('黑頭') },
   ],
   glyph: [
-    { at: 6.12, dur: 0.4, do: 'wobble' },
-    { at: 6.95, dur: 0.45, do: 'park' },
-    { at: 9.05, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: 7.0, dur: 0.45, do: 'home', ease: 'back' },
+    { at: 7.9, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的小老鼠
+    { at: 10.55, dur: 3.4, do: 'ask', keep: ['mouse'], to: { x: 96, y: 43 }, amount: 0.82 },
+    { at: 10.6, dur: 0.4, do: 'home' },
+    { at: 13.45, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.1, kind: 'zzz', actor: 'dino', emoji: '🎵', dur: 1.4 },
-    { at: 0.6, kind: 'pop', actor: 'mon', emoji: '😈', dur: 0.5 },
-    { at: 1.6, kind: 'pop', actor: 'mon', emoji: '❗', dx: 6, dur: 0.35 },
-    { at: 1.85, kind: 'pop', actor: 'dino', emoji: '😆', dur: 0.6 },
-    { at: 2.2, kind: 'sweat', actor: 'mon' },
-    { at: 2.6, kind: 'puff', actor: 'mon', dur: 0.4 },
-    { at: 3.2, kind: 'pop', actor: 'dino', emoji: '🥱', dur: 0.6 },
-    { at: 3.5, kind: 'sweat', actor: 'mon' },
-    { at: 3.7, kind: 'pop', actor: 'mon', emoji: '💡', dur: 0.4 },
-    { at: 4.6, kind: 'fountain', actor: 'tub', emoji: '⚫', n: 9, dur: 0.7 },
-    { at: 4.75, kind: 'pop', actor: 'dino', emoji: '😲', dur: 0.5 },
-    { at: 5.35, kind: 'pop', actor: 'mon', emoji: '👀', dur: 0.35 },
-    { at: 6.4, kind: 'pop', actor: 'dino', emoji: '❓', dur: 0.5 },
-    { at: 6.5, kind: 'pop', actor: 'mon', emoji: '😏', dur: 0.45 },
-    { at: 7.75, kind: 'bubble', actor: 'dino', emoji: '🐻', dur: 0.8, dx: -6 },
-    { at: 7.7, kind: 'pop', actor: 'mon', emoji: '🐻', dx: -26, dy: 8, dur: 0.5 },
-    { at: 8.25, kind: 'sweat', actor: 'dino' },
-    { at: 8.2, kind: 'pop', actor: 'mon', emoji: '😆', dx: -20, dur: 0.45 },
-    { at: 8.93, kind: 'fountain', actor: 'tub', emoji: '⚫', n: 10, dur: 0.6 },
-    { at: 9.4, kind: 'pop', actor: 'dino', emoji: '💢', dx: -8, dur: 0.5 },
-    { at: 9.5, kind: 'pop', actor: 'mon', emoji: '😱', dx: 14, dy: 6, dur: 0.5 },
+    ...b1.fx,
+    ...d1.fx,
+    ...b2.fx,
+    ...d2.fx,
+    { at: 5.0, kind: 'sweat', actor: 'mouse' },
+    ...b3.fx,
+    // 黑到整隻看不見，只剩兩顆眼睛眨呀眨（閉一下眼＝眼睛消失一格）
+    ...[[R(H3) - 0.05, 0.6], [R(H3) + 0.62, 0.4], [R(H3) + 1.1, d3.moves[0].at - R(H3) - 1.1]].map(([at, dur]): Fx => (
+      { at, kind: 'pop', x: EYES.x - 6, y: EYES.y + 6, emoji: '👀', dur, scale: 1.5 })),
+    ...d3.fx,
+    ...b4.fx,
+    { at: H4 + 0.5, kind: 'pop', actor: 'bear', emoji: '💢', dx: -22, dy: 14, dur: 0.9, scale: 1.6 },
+    { at: ROAR, kind: 'blow', actor: 'bear', dx: -2, dy: 12, to: { x: BLOW + 20, y: P - 10 }, n: 5, dur: 0.4, scale: 1.6 },
+    { at: ROAR + 0.2, kind: 'burst', x: FX, y: FY - 4, emoji: '⚫', n: 6, dur: 0.4 },
+    { at: 13.45, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 2.95, dur: 0.3, do: 'shake', amount: 0.8 },
-    { at: 4.6, dur: 0.35, do: 'shake', amount: 1.8 },
-    { at: 7.7, dur: 0.5, do: 'punch', amount: 0.12, to: { x: 80, y: 52 } },
-    { at: 8.93, dur: 0.3, do: 'shake', amount: 1.2 },
+    ...b1.camera,
+    ...b2.camera,
+    ...b3.camera,
+    ...b4.camera,
+    { at: ROAR, dur: 0.4, do: 'shake', amount: 2.4 },
   ],
   lights: [
-    // 跳進墨水桶：白光一閃
-    { at: 4.6, dur: 0.04, level: -0.35 },
-    { at: 4.64, dur: 0.3, level: 0 },
+    { at: 7.0, dur: 0.05, level: -0.35 },
+    { at: 7.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.8, sfx: 'tap' },
-    { at: 1.6, say: '黑' },
-    { at: 2.95, sfx: 'rumble' },
-    { at: 3.7, sfx: 'blip' },
-    { at: 3.85, sfx: 'whoosh' },
-    { at: 4.6, sfx: 'splash' },
-    { at: 5.15, sfx: 'plop' },
-    { at: 6.12, say: '黑' },
-    { at: 7.7, say: '黑熊' },
-    { at: 8.75, sfx: 'slide' },
-    { at: 8.93, sfx: 'splash' },
-    { at: 9.4, sfx: 'rumble' },
-    { at: 9.55, sfx: 'cheer' },
+    { at: 0.55, say: '黑' },
+    ...b1.cues,
+    ...d1.cues,
+    ...b2.cues,
+    ...d2.cues,
+    ...b3.cues,
+    ...d3.cues,
+    { at: 7.1, say: '黑' },
+    ...b4.cues,
+    { at: H4 + 0.45, say: '黑熊' },
+    { at: ROAR, sfx: 'rumble' },
+    { at: ROAR + 0.15, sfx: 'boing' },
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.45, say: '黑' },
+    { at: 13.5, sfx: 'cheer' },
   ],
 }
 
