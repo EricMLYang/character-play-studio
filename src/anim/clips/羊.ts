@@ -1,194 +1,251 @@
-import type { Clip } from '../clip'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 羊（重做）：布忍者拿片葉子躲在紙箱後面，腳都露出來；積木隊長疊成撞門槌衝過去，半路自己垮掉。再疊更高、拉遠全速衝——忍者「噗」一聲替身術跳上紙箱，
-// 換一隻山羊站出來一頭頂回去，積木飛上天落成三橫一豎、羊角甩出兩點變成「羊」。國字讓到上方，忍者到中間變成大石頭，山羊跳上石頭擺姿勢（山羊）；回馬槍：山羊在石頭上猛跳，石頭變回壓扁的忍者，被一頭頂進紙箱只剩腳在外面。羊、羊、山羊
-const C = 68.6 // 積木隊長（size 20）站在地上的 y
-const N = 68.6 // 布忍者（size 20）
-const GY = 67.8 // 山羊（size 22）
-const BY = 72 // 積木（size 12）
-const S = 10.5 // 積木一塊的高度
-const R = 55 // 山羊站在石頭上的 y
+// 羊（v2）：一本正經的狗狗警長要大山羊排好隊——每次他「嗶」地吹哨子，山羊就前腳一抬往後仰、後腳刨地、低頭衝過來，「咚」地用角把他頂飛，一次比一次遠：
+// 往後摔坐（兩支羊角變成上面兩點）、轉兩圈摔扁在畫面邊（羊的臉頂出兩橫）、先停一拍：他舉著哨子不敢吹、山羊刨地刨個不停……嗶——被頂上天（羊的身體頂出長橫和一豎）。
+// 字拼好時山羊在國字旁邊停一拍：角對著兩點，長得一樣。
+// 回馬槍：他學乖了，伸手比「等一下」，山羊真的乖乖站好——他得意得吹哨子慶祝，嗶——被頂得最遠。
+// 最後畫面暗下來只剩「羊」，警長從天上掉到前面、轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「羊！」，然後退場只留字。
+// 羊、羊、山羊、這是什麼字？、羊
+const P = 66.9 // 警長（size 24）站在地上的 y
+const GS = 36 // 大山羊的 size（畫面上最大）
+const G = 77 - 0.42 * GS // 大山羊站在地上的 y
+/** 大山羊平常站的地方：字框正下方（角在字框兩點的正下面） */
+const GX = 84
+/** 警長每次站的地方（面向右邊的山羊） */
+const SX = 44
+/** 山羊頂到他的時候站的地方（鼻子碰到警長） */
+const HIT = 71
+/** 語詞那一刻山羊變大一點 */
+const BIG = 1.12
+/** 預備：前腳抬起、整隻往後仰（山羊頂人前會先立起來） */
+const REAR = 16
+/** 衝過去時低頭（頭朝左下），用角頂 */
+const DIP = -10
+/** 頂到以後傻眼停多久，才飛出去 */
+const HOLD = 0.4
+/** 吹哨子到頂到的時間：吹哨 → 低頭刨地 → 往後縮、衝 → 咚 */
+const PRE = 0.85
+
+/**
+ * 「嗶—咚」：警長吹哨子（🎵＋嗶）→ 山羊往後仰、後腳刨地揚塵（預備）→ 往後一縮、低頭衝過去 → 用角頂到那一刻 💥＋白光＋鏡頭推近＋震＋同一個音效，
+ * 警長傻眼停 HOLD 秒（看得見臉）才飛出去；山羊抬頭退回原位。at 是頂到的那一刻，k 是第幾次（越後面越大），
+ * hit 是山羊頂到時站的地方，home 是牠退回去的地方（null：不退，劇本自己寫）。飛多遠、怎麼落地每次不同，寫在劇本裡；這裡只管那一下長得一樣。
+ */
+function butt(at: number, k: number, hit = HIT, home: number | null = GX) {
+  const w = at - PRE
+  const moves: Move[] = [
+    // 吹哨子：一本正經地踮一下
+    { at: w, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/whistle' },
+    { at: w, actor: 'sheriff', do: 'hop', amount: 1.5, dur: 0.2 },
+    // 山羊往後仰、後腳刨地（抖兩下）
+    { at: w + 0.25, actor: 'goat', do: 'rotateTo', amount: REAR, dur: 0.15 },
+    { at: w + 0.3, actor: 'goat', do: 'shake', amount: 0.8 + 0.2 * k, dur: 0.25 },
+    // 往後一縮助跑、衝過去（往後仰的頭甩下來）
+    { at: at - 0.25, actor: 'goat', do: 'moveTo', to: { x: hit, y: G }, dur: 0.25, anticipate: 5, ease: 'in' },
+    // 衝的時候低頭，角朝前
+    { at: at - 0.25, actor: 'goat', do: 'rotateTo', amount: DIP - REAR, dur: 0.15 },
+    // 咚！傻眼
+    { at, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at, actor: 'sheriff', do: 'squash', amount: 0.25 + 0.08 * k, dur: 0.25 },
+    { at: at + 0.12, actor: 'sheriff', do: 'shake', amount: 0.8 + 0.2 * k, dur: HOLD - 0.12 },
+    { at, actor: 'goat', do: 'squash', amount: 0.15, dur: 0.2 },
+    // 山羊抬頭、退回原位
+    { at: at + 0.2, actor: 'goat', do: 'rotateTo', amount: -DIP, dur: 0.2 },
+  ]
+  if (home !== null) moves.push({ at: at + 0.25, actor: 'goat', do: 'moveTo', to: { x: home, y: G }, dur: 0.35, ease: 'out' })
+  const fx: Fx[] = [
+    // 哨子聲（一次比一次大）
+    { at: w, kind: 'pop', actor: 'sheriff', emoji: '🎵', dx: 9, dy: 3, dur: 0.45, scale: 1.3 + 0.15 * k },
+    // 刨地揚塵
+    { at: w + 0.3, kind: 'puff', actor: 'goat', dur: 0.4, scale: 1.6 },
+    // 咚：💥 在角頂到的地方（警長臉的右邊，不蓋住臉），一次比一次大
+    { at, kind: 'burst', x: hit - 11, y: P - 17, n: 1, dur: 0.4, scale: 1.5 + 0.35 * k },
+    { at, kind: 'burst', x: hit - 11, y: P - 17, emoji: '⭐', n: 4 + 2 * k, dur: 0.4 },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: 0.1 + 0.05 * k, to: { x: hit - 10, y: P - 10 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.9 + 0.45 * k },
+  ]
+  // 同一個音效（哨子「嗶」、頂到「咚」），一次比一次多疊一個
+  const cues: Cue[] = [{ at: w, sfx: 'blip' }, { at: w + 0.3, sfx: 'tap' }, { at: at - 0.25, sfx: 'whoosh' }, { at, sfx: 'bonk' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'boing' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'crack' })
+  return { moves, fx, camera, cues }
+}
+
+const H1 = 1.5, H2 = 3.7, H3 = 6.3, H4 = 10.05
+const b1 = butt(H1, 0)
+const b2 = butt(H2, 1)
+const b3 = butt(H3, 2)
+// 回馬槍：語詞那一刻山羊在正中間、變大了，頂到的地方往右一點
+const b4 = butt(H4, 3, HIT + 2, null)
+/** 頂完飛出去的時刻 */
+const F1 = H1 + HOLD, F2 = H2 + HOLD, F3 = H3 + HOLD, F4 = H4 + HOLD
+/** 國字拼好、放大到正中央 */
+const HOME = 7.35
+/** 讓位 */
+const PARK = 8.2
 
 const clip: Clip = {
+  format: 2,
   char: '羊',
-  meta: { theme: '積木撞門槌抓忍者', cast: '積木隊長＋積木小隊＋布忍者＋山羊＋紙箱', gags: ['疊高半路自己垮', '替身術換成山羊一頭頂回去', '羊角甩出兩點', '忍者變石頭被山羊當山爬', '在石頭上猛跳壓扁忍者頂進紙箱露腳'] },
-  duration: 10,
-  bg: { top: '#FFF4DC', bottom: '#FDEBC8', floor: '#BFE8D4', scenery: 'room' },
+  meta: { theme: '警長要山羊排好隊', cast: '狗狗警長＋大山羊', gags: ['一本正經的警長每次吹哨子要山羊排好，山羊就低頭、後腳刨地、助跑用角把他頂飛，一次比一次遠；回馬槍是他比等一下、山羊真的乖乖站好，他得意得吹哨子慶祝，被頂得最遠'] },
+  duration: 15,
+  bg: { top: '#D8F0FF', bottom: '#F4FBFF', floor: '#A9D67E', scenery: 'hills' },
   actors: [
-    { id: 'ninja', emoji: 'hero:ninja/hide', x: 141, y: N, size: 20 },
-    { id: 'box', emoji: '📦', x: 132, y: 70.3, size: 16 },
-    { id: 'goat', emoji: '🐐', x: 122, y: GY, size: 22, hidden: true },
-    { id: 'b1', emoji: '🧱', x: -14, y: BY, size: 12 },
-    { id: 'b2', emoji: '🧱', x: -14, y: BY, size: 12 },
-    { id: 'b3', emoji: '🧱', x: -14, y: BY, size: 12 },
-    { id: 'cap', emoji: 'hero:brick/march', x: -16, y: C, size: 20, flip: true },
+    // 大山羊圖朝左（面向左邊的警長），站在字框正下方
+    { id: 'goat', emoji: '🐐', x: GX, y: G, size: GS },
+    // 姿勢圖朝左，翻過來面向右邊的山羊
+    { id: 'sheriff', emoji: 'hero:sheriff/walk', x: SX, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
-    // 積木小隊進場，一塊一塊跳上去疊成塔，隊長在後面
-    { at: 0, actor: 'b1', do: 'moveTo', to: { x: 44, y: BY }, dur: 0.55, ease: 'out' },
-    { at: 0.15, actor: 'b2', do: 'moveTo', to: { x: 44, y: BY - S }, arc: 10, dur: 0.55, ease: 'out' },
-    { at: 0.3, actor: 'b3', do: 'moveTo', to: { x: 44, y: BY - 2 * S }, arc: 12, dur: 0.55, ease: 'out' },
-    { at: 0.1, actor: 'cap', do: 'moveTo', to: { x: 22, y: C }, dur: 0.7, ease: 'out' },
-    // 隊長看到紙箱後面露出來的腳：就是那裡！
-    { at: 0.95, actor: 'cap', do: 'swap', emoji: 'hero:brick/surprised' },
-    { at: 0.95, actor: 'cap', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 1.05, actor: 'ninja', do: 'shake', amount: 0.6, dur: 0.4 },
-    // 第一次衝：推著塔衝過去，上面兩塊半路垮掉
-    { at: 1.3, actor: 'cap', do: 'swap', emoji: 'hero:brick/march' },
-    { at: 1.35, actor: 'cap', do: 'moveTo', to: { x: 58, y: C }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 1.35, actor: 'b1', do: 'moveTo', to: { x: 80, y: BY }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 1.35, actor: 'b2', do: 'moveTo', to: { x: 80, y: BY - S }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 1.35, actor: 'b3', do: 'moveTo', to: { x: 80, y: BY - 2 * S }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 1.8, actor: 'b3', do: 'moveTo', to: { x: 104, y: BY }, arc: 6, dur: 0.4, ease: 'bounce' },
-    { at: 1.8, actor: 'b3', do: 'rotateTo', amount: 90, dur: 0.4 },
-    { at: 1.85, actor: 'b2', do: 'moveTo', to: { x: 93, y: BY }, arc: 4, dur: 0.35, ease: 'bounce' },
-    { at: 1.85, actor: 'b2', do: 'rotateTo', amount: 70, dur: 0.35 },
-    { at: 1.85, actor: 'b1', do: 'tilt', amount: 18, dur: 0.3 },
-    { at: 1.85, actor: 'cap', do: 'swap', emoji: 'hero:brick/surprised' },
-    { at: 1.85, actor: 'cap', do: 'squash', amount: 0.3, dur: 0.3 },
-    // 忍者在葉子後面偷笑
-    { at: 2.25, actor: 'ninja', do: 'hop', amount: 2, dur: 0.2 },
-    { at: 2.45, actor: 'ninja', do: 'hop', amount: 2, dur: 0.2 },
-    // 再疊一次，這次隊長自己也站上去，變成四層高
-    { at: 2.65, actor: 'b1', do: 'moveTo', to: { x: 36, y: BY }, arc: 5, dur: 0.35 },
-    { at: 2.65, actor: 'b2', do: 'rotateTo', amount: -70, dur: 0.3 },
-    { at: 2.7, actor: 'b2', do: 'moveTo', to: { x: 36, y: BY - S }, arc: 12, dur: 0.4 },
-    { at: 2.65, actor: 'b3', do: 'rotateTo', amount: -90, dur: 0.3 },
-    { at: 2.75, actor: 'b3', do: 'moveTo', to: { x: 36, y: BY - 2 * S }, arc: 14, dur: 0.4 },
-    { at: 2.75, actor: 'cap', do: 'swap', emoji: 'hero:brick/march' },
-    { at: 2.85, actor: 'cap', do: 'moveTo', to: { x: 36, y: BY - 2 * S - 15 }, arc: 12, dur: 0.4, ease: 'back' },
-    // 往後拉到最遠，抖著蓄力
-    { at: 3.35, actor: 'b1', do: 'moveTo', to: { x: 16, y: BY }, dur: 0.3, ease: 'out' },
-    { at: 3.35, actor: 'b2', do: 'moveTo', to: { x: 15, y: BY - S }, dur: 0.3, ease: 'out' },
-    { at: 3.35, actor: 'b3', do: 'moveTo', to: { x: 14, y: BY - 2 * S }, dur: 0.3, ease: 'out' },
-    { at: 3.35, actor: 'cap', do: 'moveTo', to: { x: 13, y: BY - 2 * S - 15 }, dur: 0.3, ease: 'out' },
-    { at: 3.65, actor: 'b1', do: 'shake', amount: 0.6, dur: 0.25 },
-    { at: 3.65, actor: 'b2', do: 'shake', amount: 0.6, dur: 0.25 },
-    { at: 3.65, actor: 'b3', do: 'shake', amount: 0.6, dur: 0.25 },
-    { at: 3.65, actor: 'cap', do: 'shake', amount: 0.6, dur: 0.25 },
-    // 全速衝！
-    { at: 3.9, actor: 'b1', do: 'moveTo', to: { x: 100, y: BY }, dur: 0.3, ease: 'in' },
-    { at: 3.9, actor: 'b2', do: 'moveTo', to: { x: 101, y: BY - S }, dur: 0.3, ease: 'in' },
-    { at: 3.9, actor: 'b3', do: 'moveTo', to: { x: 102, y: BY - 2 * S }, dur: 0.3, ease: 'in' },
-    { at: 3.9, actor: 'cap', do: 'moveTo', to: { x: 103, y: BY - 2 * S - 15 }, dur: 0.3, ease: 'in' },
-    // 忍者：噗！替身術——自己跳上紙箱，換一隻山羊站出來
-    { at: 3.95, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
-    { at: 3.97, actor: 'ninja', do: 'moveTo', to: { x: 132, y: 54 }, arc: 8, dur: 0.3, ease: 'out' },
-    { at: 3.97, actor: 'goat', do: 'pop', dur: 0.15 },
-    { at: 4.05, actor: 'goat', do: 'squash', amount: -0.25, dur: 0.12 },
-    { at: 4.14, actor: 'goat', do: 'moveTo', to: { x: 116, y: GY }, dur: 0.07, ease: 'out' },
-    // 砰！山羊一頭頂回去，積木飛上天，隊長被彈回左邊
-    { at: 4.2, actor: 'b1', do: 'moveTo', to: { x: 64, y: 8 }, dur: 0.45, ease: 'out' },
-    { at: 4.2, actor: 'b1', do: 'spin', times: 2, dur: 0.45 },
-    { at: 4.2, actor: 'b2', do: 'moveTo', to: { x: 98, y: 5 }, dur: 0.5, ease: 'out' },
-    { at: 4.2, actor: 'b2', do: 'spin', times: -2, dur: 0.5 },
-    { at: 4.2, actor: 'b3', do: 'moveTo', to: { x: 80, y: 2 }, dur: 0.55, ease: 'out' },
-    { at: 4.2, actor: 'b3', do: 'spin', times: 3, dur: 0.55 },
-    { at: 4.2, actor: 'cap', do: 'swap', emoji: 'hero:brick/dizzy' },
-    { at: 4.2, actor: 'cap', do: 'moveTo', to: { x: 17, y: C }, arc: 22, dur: 0.7, ease: 'out' },
-    { at: 4.2, actor: 'cap', do: 'spin', times: -2, dur: 0.7 },
-    { at: 4.21, actor: 'goat', do: 'moveTo', to: { x: 122, y: GY }, dur: 0.3, ease: 'out' },
-    { at: 4.27, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
-    // 積木變成筆畫
-    { at: 4.68, actor: 'b1', do: 'vanish', dur: 0.12 },
-    { at: 4.9, actor: 'b2', do: 'vanish', dur: 0.12 },
-    { at: 5.1, actor: 'b3', do: 'vanish', dur: 0.12 },
-    // 山羊甩頭，羊角甩出兩點
-    { at: 5.4, actor: 'goat', do: 'shake', amount: 1.4, dur: 0.35 },
-    { at: 5.85, actor: 'goat', do: 'hop', amount: 5, dur: 0.35 },
-    // 忍者坐在紙箱上笑隊長，隊長爬起來
-    { at: 5.6, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
-    { at: 6.1, actor: 'cap', do: 'swap', emoji: 'hero:brick/idle' },
-    { at: 6.1, actor: 'cap', do: 'shake', amount: 0.8, dur: 0.3 },
-    // 國字讓位：忍者跳到中間，噗——變成一顆大石頭躲起來
-    { at: 6.95, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
-    { at: 6.95, actor: 'ninja', do: 'moveTo', to: { x: 80, y: N }, arc: 10, dur: 0.4, ease: 'out' },
-    { at: 7.4, actor: 'ninja', do: 'swap', emoji: '🪨' },
-    // 山羊看到一座「山」，蹲下、一躍跳上去
-    { at: 7.55, actor: 'goat', do: 'squash', amount: 0.25, dur: 0.15 },
-    { at: 7.65, actor: 'goat', do: 'moveTo', to: { x: 80, y: R }, arc: 16, dur: 0.4, ease: 'out' },
-    { at: 8.05, actor: 'ninja', do: 'squash', amount: 0.25, dur: 0.3 },
-    { at: 8.05, actor: 'cap', do: 'swap', emoji: 'hero:brick/happy' },
-    { at: 8.05, actor: 'cap', do: 'hop', amount: 4, dur: 0.3 },
-    // 回馬槍：山羊在石頭上猛跳——石頭變回壓扁的忍者
-    { at: 8.3, actor: 'goat', do: 'hop', amount: 12, dur: 0.35 },
-    { at: 8.65, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/dizzy' },
-    { at: 8.65, actor: 'ninja', do: 'squash', amount: 0.6, dur: 0.4 },
-    { at: 8.65, actor: 'goat', do: 'flip' },
-    { at: 8.65, actor: 'goat', do: 'moveTo', to: { x: 60, y: GY }, arc: 8, dur: 0.25, ease: 'out' },
-    { at: 8.65, actor: 'cap', do: 'swap', emoji: 'hero:brick/surprised' },
-    // 一頭頂進紙箱，只剩腳在外面
-    { at: 8.9, actor: 'goat', do: 'squash', amount: -0.25, dur: 0.1 },
-    { at: 8.98, actor: 'goat', do: 'moveTo', to: { x: 68, y: GY }, dur: 0.06, ease: 'out' },
-    { at: 9.0, actor: 'ninja', do: 'moveTo', to: { x: 132, y: 50 }, arc: 22, dur: 0.4, ease: 'in' },
-    { at: 9.0, actor: 'ninja', do: 'rotateTo', amount: 180, dur: 0.4 },
-    { at: 9.05, actor: 'goat', do: 'moveTo', to: { x: 43, y: GY }, dur: 0.3, ease: 'out' },
-    { at: 9.4, actor: 'box', do: 'squash', amount: 0.3, dur: 0.3 },
-    { at: 9.55, actor: 'ninja', do: 'shake', amount: 1, dur: 0.4 },
-    { at: 9.55, actor: 'cap', do: 'swap', emoji: 'hero:brick/happy' },
-    { at: 9.55, actor: 'goat', do: 'bounce', amount: 2, times: 2, dur: 0.4 },
+    // 警長登場，指著上面的字框：羊！
+    { at: 0, actor: 'sheriff', do: 'enter', from: { x: -25, y: P }, dur: 0.35, ease: 'out' },
+    { at: 0.3, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/point' },
+    // 第 1 次：嗶——咚！往後摔坐
+    ...b1.moves,
+    { at: F1, actor: 'sheriff', do: 'moveTo', to: { x: 20, y: P }, arc: 10, dur: 0.4, ease: 'out' },
+    { at: F1, actor: 'sheriff', do: 'spin', times: -1, dur: 0.4, pivot: 'center' },
+    { at: F1 + 0.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/fall' },
+    // 山羊得意地甩頭：兩支羊角飛上去變成兩點
+    { at: 2.15, actor: 'goat', do: 'tilt', amount: 8, dur: 0.3 },
+    // 爬起來，一本正經地走回去
+    { at: 2.5, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 2.5, actor: 'sheriff', do: 'moveTo', to: { x: SX, y: P }, dur: 0.3 },
+    // 第 2 次：嗶——咚！轉兩圈飛到畫面邊、摔扁
+    ...b2.moves,
+    { at: F2, actor: 'sheriff', do: 'moveTo', to: { x: 12, y: P }, arc: 20, dur: 0.5, ease: 'out' },
+    { at: F2, actor: 'sheriff', do: 'spin', times: -2, dur: 0.5, pivot: 'center' },
+    { at: F2 + 0.5, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/flat' },
+    { at: 4.35, actor: 'goat', do: 'tilt', amount: 8, dur: 0.3 },
+    { at: 4.85, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 4.85, actor: 'sheriff', do: 'moveTo', to: { x: SX, y: P }, dur: 0.35 },
+    // 第 3 次前停一拍：他舉起哨子、不敢吹，偷看山羊；山羊已經低頭刨地刨個不停
+    { at: 5.2, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/peek' },
+    { at: 5.2, actor: 'goat', do: 'shake', amount: 0.8, dur: 0.22 },
+    { at: 5.35, actor: 'sheriff', do: 'tilt', amount: -6, dur: 0.3 },
+    ...b3.moves,
+    // ……嗶——咚！直接被頂上天
+    { at: F3, actor: 'sheriff', do: 'squash', amount: -0.2, dur: 0.12 },
+    { at: F3, actor: 'sheriff', do: 'moveTo', to: { x: SX - 4, y: -55 }, dur: 0.35, ease: 'out' },
+    { at: F3, actor: 'sheriff', do: 'spin', times: -2, dur: 0.35, pivot: 'center' },
+    // 字拼好前山羊走到國字右邊；國字放大時牠在旁邊停一拍：角對著兩點，長得一樣
+    { at: 6.95, actor: 'goat', do: 'moveTo', to: { x: 132, y: G }, dur: 0.4 },
+    { at: 7.8, actor: 'goat', do: 'hop', amount: 4, dur: 0.3 },
+    // 警長從天上掉回左邊，摔扁
+    { at: 7.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
+    { at: 7.4, actor: 'sheriff', do: 'moveTo', to: { x: 20, y: -50 }, dur: 0.01 },
+    { at: 7.45, actor: 'sheriff', do: 'moveTo', to: { x: 20, y: P }, dur: 0.3, ease: 'in' },
+    { at: 7.75, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/flat' },
+    // 語詞那一刻：國字讓回上方，山羊走到正中間、變大，抬頭挺胸（山羊）；警長爬起來走回去
+    { at: 8.25, actor: 'goat', do: 'moveTo', to: { x: GX, y: G }, dur: 0.4 },
+    { at: 8.25, actor: 'goat', do: 'scaleTo', amount: BIG, dur: 0.4, ease: 'back' },
+    { at: 8.7, actor: 'goat', do: 'hop', amount: 5, dur: 0.35 },
+    { at: 8.25, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/walk' },
+    { at: 8.25, actor: 'sheriff', do: 'moveTo', to: { x: SX, y: P }, dur: 0.3 },
+    // 回馬槍（第 4 次）：他伸手比「等一下」，山羊真的乖乖站好——得意……吹哨子慶祝
+    { at: 8.55, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/wait' },
+    { at: 8.8, actor: 'goat', do: 'squash', amount: 0.12, dur: 0.25 },
+    { at: 8.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/smug' },
+    { at: 8.95, actor: 'sheriff', do: 'hop', amount: 2, dur: 0.25 },
+    ...b4.moves,
+    // ……咚！被頂得最遠，飛出畫面
+    { at: F4, actor: 'sheriff', do: 'moveTo', to: { x: -10, y: -55 }, dur: 0.35, ease: 'out' },
+    { at: F4, actor: 'sheriff', do: 'spin', times: -3, dur: 0.35, pivot: 'center' },
+    // 山羊心滿意足走出右邊
+    { at: 10.3, actor: 'goat', do: 'flip' },
+    { at: 10.3, actor: 'goat', do: 'moveTo', to: { x: 200, y: G }, dur: 0.3, ease: 'linear' },
+    // 問他：警長從天上掉到左前方、變大，轉向觀眾
+    { at: 10.6, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/idle' },
+    { at: 10.6, actor: 'sheriff', do: 'moveTo', to: { x: 32, y: -50 }, dur: 0.01 },
+    { at: 10.6, actor: 'sheriff', do: 'scaleTo', amount: 1.55, dur: 0.01 },
+    { at: 10.65, actor: 'sheriff', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.25, ease: 'in' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.9, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/listen' },
+    { at: 11.9, actor: 'sheriff', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.45, actor: 'sheriff', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 12.95, actor: 'sheriff', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.45, actor: 'sheriff', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.45, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/point' },
+    { at: 13.45, actor: 'sheriff', do: 'hop', amount: 8, dur: 0.3 },
+    // 退場（跑走），畫面只留下字
+    { at: 13.72, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dash' },
+    { at: 13.72, actor: 'sheriff', do: 'flip' },
+    { at: 13.75, actor: 'sheriff', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 三塊積木從天上落成三橫一豎，羊角甩出上面兩點
-    { at: 4.68, dur: 0.4, strokes: [2, 3], from: 'b1', style: 'drop', color: '#F76707' },
-    { at: 4.9, dur: 0.35, strokes: [4], from: 'b2', style: 'drop', color: '#F76707' },
-    { at: 5.1, dur: 0.35, strokes: [5], from: 'b3', style: 'drop', color: '#E8590C' },
-    { at: 5.45, dur: 0.4, strokes: [0, 1], from: 'goat', color: '#8D5524' },
+    // 第 1 次：兩支羊角（一左一右）飛上去，變成上面兩點
+    { at: 2.15, dur: 0.55, strokes: [0], from: { x: GX - 8, y: G - 12 }, color: partColor('羊') },
+    { at: 2.15, dur: 0.55, strokes: [1], from: { x: GX, y: G - 13 }, color: partColor('羊') },
+    // 第 2 次：羊的臉頂出兩橫
+    { at: 4.35, dur: 0.5, strokes: [2, 3], from: { x: GX - 11, y: G - 6 }, color: partColor('羊') },
+    // 第 3 次：羊的身體頂出長橫和一豎
+    { at: F3, dur: 0.55, strokes: [4, 5], from: 'goat', color: partColor('羊') },
   ],
   glyph: [
-    { at: 5.9, dur: 0.4, do: 'wobble' },
-    { at: 6.7, dur: 0.45, do: 'park' },
-    { at: 9.1, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: HOME, dur: 0.45, do: 'home', ease: 'back' },
+    { at: PARK, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的警長
+    { at: 10.5, dur: 3.45, do: 'ask', keep: ['sheriff'], to: { x: 98, y: 43 }, amount: 0.82 },
+    { at: 10.55, dur: 0.4, do: 'home' },
+    { at: 13.45, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.95, kind: 'pop', actor: 'cap', emoji: '❗', dur: 0.6 },
-    { at: 1.0, kind: 'pop', actor: 'ninja', emoji: '👣', dx: -4, dy: 22, dur: 0.7 },
-    { at: 1.85, kind: 'puff', actor: 'b2', dur: 0.45 },
-    { at: 2.2, kind: 'bubble', actor: 'cap', emoji: '😑', dur: 0.45 },
-    { at: 2.25, kind: 'pop', actor: 'ninja', emoji: '😆', dur: 0.45 },
-    { at: 3.55, kind: 'pop', actor: 'ninja', emoji: '❗', dur: 0.35 },
-    { at: 3.95, kind: 'burst', actor: 'ninja', emoji: '💨', n: 6, dur: 0.45 },
-    { at: 4.2, kind: 'burst', x: 108, y: 56, n: 1, dur: 0.4 },
-    { at: 4.95, kind: 'dizzy', actor: 'cap', dur: 1.1 },
-    { at: 5.85, kind: 'burst', actor: 'goat', emoji: '✨', n: 5, dur: 0.5 },
-    { at: 6.3, kind: 'pop', actor: 'ninja', emoji: '😆', dur: 0.4 },
-    { at: 7.4, kind: 'burst', actor: 'ninja', emoji: '💨', n: 6, dur: 0.45 },
-    { at: 7.45, kind: 'pop', actor: 'goat', emoji: '❗', dx: 6, dur: 0.4 },
-    { at: 8.05, kind: 'burst', x: 80, y: 62, emoji: '✨', n: 6, dur: 0.5 },
-    { at: 8.1, kind: 'sweat', actor: 'ninja' },
-    { at: 8.1, kind: 'pop', actor: 'cap', emoji: '👏', dur: 0.45 },
-    { at: 8.65, kind: 'burst', actor: 'ninja', emoji: '💨', n: 6, dur: 0.4 },
-    { at: 8.7, kind: 'dizzy', actor: 'ninja', dur: 0.5 },
-    { at: 8.98, kind: 'burst', x: 76, y: 60, n: 1, dur: 0.3 },
-    { at: 9.4, kind: 'puff', actor: 'box', dur: 0.4 },
+    ...b1.fx,
+    // 羊角一閃，飛上去
+    { at: 2.1, kind: 'burst', x: GX - 4, y: G - 14, emoji: '✨', n: 1, dur: 0.4, scale: 1.2 },
+    { at: F1 + 0.45, kind: 'dizzy', actor: 'sheriff', dur: 0.45 },
+    ...b2.fx,
+    { at: F2 + 0.5, kind: 'dizzy', actor: 'sheriff', dur: 0.4 },
+    // 第 3 次前停一拍：偷看山羊、冒汗；山羊一直刨地
+    { at: 5.25, kind: 'pop', actor: 'sheriff', emoji: '👀', dx: 8, dy: 2, dur: 0.55, scale: 1.6 },
+    { at: 5.3, kind: 'sweat', actor: 'sheriff' },
+    { at: 5.2, kind: 'puff', actor: 'goat', dur: 0.35, scale: 1.6 },
+    ...b3.fx,
+    // 國字放大：山羊在旁邊，角對著兩點——一起閃一下
+    { at: 7.85, kind: 'burst', x: 132 - 6, y: G - 14, emoji: '✨', n: 1, dur: 0.5, scale: 1.3 },
+    { at: 7.85, kind: 'burst', x: 73, y: 18, emoji: '✨', n: 1, dur: 0.5, scale: 1.1 },
+    { at: 7.85, kind: 'burst', x: 87, y: 17, emoji: '✨', n: 1, dur: 0.5, scale: 1.1 },
+    { at: 7.8, kind: 'dizzy', actor: 'sheriff', dur: 0.4 },
+    ...b4.fx,
+    { at: 13.45, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 4.2, dur: 0.4, do: 'shake', amount: 2 },
+    // 字拼好之前鏡頭固定在全景：警長每次都被頂到畫面邊、頂上天，自動取景會追著他把山羊切掉
+    { at: 0.2, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...b1.camera,
+    ...b2.camera,
+    { at: F2 + 0.5, dur: 0.25, do: 'shake', amount: 1.2 },
+    ...b3.camera,
+    { at: 7.15, dur: 0.3, do: 'zoom', amount: 1 },
+    { at: 7.75, dur: 0.3, do: 'shake', amount: 1.2 },
+    ...b4.camera,
   ],
   lights: [
-    { at: 4.2, dur: 0.04, level: -0.4 },
-    { at: 4.24, dur: 0.2, level: 0 },
+    // 每次頂到白光一閃
+    ...[H1, H2, H3, H4].flatMap((at, k) => [{ at, dur: 0.04, level: -0.25 - 0.08 * k }, { at: at + 0.04, dur: 0.25, level: 0 }]),
+    { at: HOME, dur: 0.05, level: -0.35 },
+    { at: HOME + 0.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.1, sfx: 'tap' },
-    { at: 0.4, sfx: 'clink' },
-    { at: 0.6, sfx: 'clink' },
-    { at: 1.0, say: '羊' },
-    { at: 1.35, sfx: 'whoosh' },
-    { at: 1.85, sfx: 'crack' },
-    { at: 2.8, sfx: 'clink' },
-    { at: 3.9, sfx: 'whoosh' },
-    { at: 3.95, sfx: 'poof' },
-    { at: 4.2, sfx: 'bonk' },
-    { at: 5.45, sfx: 'boing' },
-    { at: 5.9, say: '羊' },
-    { at: 7.4, sfx: 'poof' },
-    { at: 8.05, say: '山羊' },
-    { at: 8.65, sfx: 'poof' },
-    { at: 8.98, sfx: 'bonk' },
-    { at: 9.4, sfx: 'plop' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.3, say: '羊' },
+    ...b1.cues,
+    { at: 2.15, sfx: 'clink' },
+    { at: F1 + 0.4, sfx: 'plop' },
+    ...b2.cues,
+    { at: F2 + 0.5, sfx: 'plop' },
+    ...b3.cues,
+    { at: 7.75, sfx: 'plop' },
+    { at: HOME + 0.1, say: '羊' },
+    { at: 8.6, say: '山羊' },
+    ...b4.cues,
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.45, say: '羊' },
+    { at: 13.5, sfx: 'cheer' },
   ],
 }
 
