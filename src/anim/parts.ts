@@ -41,6 +41,10 @@ export const PARTS = {
   // 冫是「冰」的兩點：冰藍，但要比水（氵）亮、在淺色背景上還看得清楚
   冫: { color: '#2196E0', from: '冰塊裂開噴出來的碎冰（冰的兩點）' },
   令: { color: '#E05263', from: '凍住的冰殼「喀」地裂開時蹦出來的（令是冷、鈴、零的聲音）' },
+  // 虫是蟲、蝦、蛙、蝶這類小動物：深橄欖綠（小蟲的顏色），跟田、山、艹分得開
+  虫: { color: '#566B1F', from: '小蟲、蝦子這類小動物身上蹦出來的' },
+  // 叚是蝦、霞、假的聲音：煮熟的蝦殼紅
+  叚: { color: '#E2470F', from: '蝦子尾巴「咻」地一彈、往後跳開時甩出來的' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
