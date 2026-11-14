@@ -55,6 +55,8 @@ export const PARTS = {
   宀: { color: '#9E1B32', from: '房子的屋頂，被撞得一震掉下來' },
   // 豕是豬（家、象的下半）：豬的粉紅，比心（#F2559A）暗、比口（#C2185B）灰
   豕: { color: '#C75B7A', from: '豬（豕就是豬）；「家」是屋頂下面養豬，所以從屋裡被震出來' },
+  // 白是怕、拍、伯、百的聲音：真的白色在淺色背景上看不到，用銀灰藍（比言 #5C6170 淺、比氵 #1C6FD0 灰）
+  白: { color: '#8090A8', from: '嚇得臉色發白（白白的東西）；「怕」是心裡一嚇、臉都白了，所以從嚇白的臉上彈出來' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
