@@ -71,6 +71,8 @@ export const PARTS = {
   曼: { color: '#988058', from: '慢吞吞的蝸牛：從蝸牛殼上一塊一塊震下來的' },
   // 能是熊的上半（熊、態、罷）：「能」本來就是一隻熊的樣子，用熊毛最深的深棕色，比木（#6B4423）暗得多、比冂（#6D3F5B）不偏紫
   能: { color: '#3E2A1E', from: '大熊（能本來就是熊的樣子）：熊翻身壓下來那一下，從牠身上震出來的' },
+  // 解是蟹、懈、邂的聲音（用刀把牛角剖開：角＋刀＋牛，可以拆兩組、同一個顏色）：灰紫，跟 3D 螃蟹的桃紅分得開，比睿頭（#9B2D7F）灰、比月（#7B2FBE）淺
+  解: { color: '#8E5A9E', from: '大螃蟹的大螯「喀」地一夾，從螯上彈出來的' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
