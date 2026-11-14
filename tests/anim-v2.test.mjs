@@ -135,3 +135,27 @@ test('blow：一串 💨 從 actor 往 target 飛過去', () => {
   assert.ok(Math.min(...late.map((f) => f.x)) < Math.min(...early.map((f) => f.x)))
   assert.equal(E.fxAt(clip, 1.7).length, 0)
 })
+
+test('swoosh：一段弧往 target 那一側甩過去；sweep 大就從另一邊繞過來；windup 時先翹起來停住；color／width 有預設', () => {
+  const clip = (extra = {}) => clipOf({
+    actors: [{ id: 'cat', emoji: '🐈', x: 100, y: 62, size: 30 }, { id: 'pig', emoji: 'hero:pig/idle', x: 60, y: 68, size: 18 }],
+    fx: [{ at: 1, kind: 'swoosh', actor: 'cat', target: 'pig', n: 12, dur: 0.4, ...extra }],
+  })
+  const tip = (c, t) => E.fxAt(c, t)[0].swoosh.pts.at(-1)
+  const cat = E.actorsAt(clip(), 1.3)[0]
+  const anchorY = cat.y - cat.size * 0.45 * cat.s * cat.sy
+  // 甩完停在 pig 那一側（左邊）、跟中心一樣高
+  const end = tip(clip(), 1.3)
+  assert.ok(end.x < cat.x - 11 && Math.abs(end.y - anchorY) < 0.5, JSON.stringify(end))
+  // 剛開始在上面
+  assert.ok(tip(clip(), 1.01).y < anchorY - 6)
+  // sweep 230：起點在對面（右邊）
+  assert.ok(tip(clip({ sweep: 230 }), 1.01).x > cat.x)
+  // windup：前 0.2 秒翹在後面（右上）停住，不往 pig 那邊動
+  const w = clip({ windup: 0.2, dur: 0.6 })
+  for (const t of [1.1, 1.18]) { const q = tip(w, t); assert.ok(q.x > cat.x && q.y < anchorY, JSON.stringify(q)) }
+  assert.ok(tip(w, 1.45).x < cat.x - 11)
+  assert.deepEqual([E.fxAt(clip(), 1.2)[0].swoosh.color, E.fxAt(clip(), 1.2)[0].swoosh.width], ['#fff', 2.6])
+  assert.deepEqual([E.fxAt(clip({ color: '#F08A2C', width: 4 }), 1.2)[0].swoosh.color, E.fxAt(clip({ color: '#F08A2C', width: 4 }), 1.2)[0].swoosh.width], ['#F08A2C', 4])
+  assert.equal(E.fxAt(clip(), 1.45).length, 0)
+})

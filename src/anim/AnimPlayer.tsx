@@ -308,6 +308,18 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
                 strokeWidth={f.line.width} strokeLinecap="round" />
             </>}
             {f.wave && <path d="M0,4 q-2,-2 0,-4 q2,-2 0,-4" fill="none" stroke="#7BC74D" strokeWidth="1" strokeLinecap="round" />}
+            {/* 弧線（尾巴、揮棒）：深色描邊＋本色，尾端細、前端粗而圓頭（像一條甩過去的尾巴）；預設白色細線 */}
+            {f.swoosh && (() => {
+              const { pts, color, width } = f.swoosh
+              const line = (ps: Vec[]) => ps.map((p) => `${p.x},${p.y}`).join(' ')
+              const front = pts.slice(Math.floor(pts.length * 0.45))
+              return <>
+                <polyline points={line(pts)} fill="none" stroke="#3A2E5C" strokeWidth={width * 0.7 + 1.4} strokeLinejoin="round" strokeLinecap="round" opacity=".35" />
+                <polyline points={line(front)} fill="none" stroke="#3A2E5C" strokeWidth={width + 1.4} strokeLinejoin="round" strokeLinecap="round" opacity=".35" />
+                <polyline points={line(pts)} fill="none" stroke={color} strokeWidth={width * 0.7} strokeLinejoin="round" strokeLinecap="round" />
+                <polyline points={line(front)} fill="none" stroke={color} strokeWidth={width} strokeLinejoin="round" strokeLinecap="round" />
+              </>
+            })()}
             {f.bolt && <>
               <polyline points={f.bolt.map((p) => `${p.x},${p.y}`).join(' ')} fill="none" stroke="#FFE14D" strokeWidth="3.2"
                 strokeLinejoin="round" strokeLinecap="round" opacity=".55" />

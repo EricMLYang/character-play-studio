@@ -110,11 +110,14 @@ export type GlyphFx =
  * stink 綠色臭味線往上飄（錨點在角色中心）、line 從 actor 拉一條線到 target 或 to（蜘蛛絲、雷射光）、
  * beam 從 actor 往下打一道牽引光束到地板（飛碟）。
  * blow 從 actor 的頭（加 dx／dy，例如嘴巴）往 target（或 to）吹一串 💨：哈欠、吹氣、噴嚏把人吹走。
+ * swoosh 以 actor 的頭（加 dx／dy，例如尾巴根）為中心、半徑 n（預設 12），一段弧往 target（或 to）那一側掃過去：
+ * 尾巴拍人、揮棒、甩鞭。color／width 是顏色與粗細（預設白色細線，像風切）；寫成跟角色同色、粗一點，看起來就是那條尾巴。
+ * windup（秒）：先往反方向翹起來停這麼久（預備動作），再甩過去。同一個笑點每次用同一個 swoosh，「又來了」才看得出來。
  */
 export type Fx = {
   at: number
   dur?: number
-  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam' | 'blow'
+  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam' | 'blow' | 'swoosh'
   actor?: string
   /** zap／line 打到誰 */
   target?: string
@@ -132,6 +135,10 @@ export type Fx = {
   n?: number
   /** 整個效果放大幾倍（以錨點為中心）：想法泡泡要看清楚裡面畫什麼時用，例如 1.8。沒寫是 1 */
   scale?: number
+  /** swoosh 掃過幾度（預設 110：從頭頂掃到對方那一側）；200 以上就是從另一邊繞過頭頂掃過來 */
+  sweep?: number
+  /** swoosh 甩之前先往反方向翹起來停幾秒（預備動作，0.15～0.2 在 0.25 秒一格的總覽上就看得到）；dur 要把它算進去 */
+  windup?: number
 }
 
 /**
@@ -820,10 +827,10 @@ export function glyphAt(clip: Clip, t: number) {
 // ---------- 漫畫效果 ----------
 export const FLOOR = 74
 
-export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean;
+export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean; swoosh?: { pts: Vec[]; color: string; width: number };
   line?: { from: Vec; to: Vec; color: string; width: number }; beam?: Vec[]; x: number; y: number; size: number; o: number; s: number; r: number }
 
-const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1, blow: 0.6 }
+const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1, blow: 0.6, swoosh: 0.35 }
 
 export function fxAt(clip: Clip, t: number): FxItem[] {
   const out: FxItem[] = []
@@ -969,11 +976,38 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
         }
         break
       }
+      case 'swoosh': {
+        // 一段固定長度的弧（像一條尾巴）：預備時往反方向翹起來停住、微微抖，然後在剩下時間的前一半甩到對方那一側，停一下淡掉
+        const b = f.target ? actors.get(f.target) : undefined
+        const end = b ? { x: b.x, y: b.y } : f.to
+        const dir = end && end.x < head.x ? -1 : 1
+        const r = (n || 12) * (f.scale ?? 1)
+        const deg = Math.PI / 180
+        const to = dir > 0 ? 0 : Math.PI
+        const from = to - dir * (f.sweep ?? 110) * deg
+        const len = 55 * deg
+        const wind = Math.min(f.windup ?? 0, d * 0.8)
+        const tt = t - f.at
+        // 翹起來的位置：起點再往後 25°
+        const cock = from - dir * 25 * deg
+        let a: number
+        if (tt < wind) a = lerp(from, cock, easeBy('out')(clamp(tt / Math.min(0.08, wind)))) + Math.sin(tt * 60) * 2 * deg
+        else a = lerp(cock, to, 1 - (1 - clamp((tt - wind) / ((d - wind) * 0.5))) ** 3)
+        const pts: Vec[] = []
+        for (let i = 0; i <= 12; i++) {
+          const ai = a - dir * len * (1 - i / 12)
+          pts.push({ x: head.x + Math.cos(ai) * r, y: head.y + Math.sin(ai) * r })
+        }
+        const fade = clamp((d - tt) / Math.max(0.05, (d - wind) * 0.35))
+        out.push({ key: key(0), swoosh: { pts, color: f.color ?? '#fff', width: f.width ?? 2.6 }, x: 0, y: 0, size: 0, o: Math.min(fade, clamp(tt / 0.04)), s: 1, r: 0 })
+        break
+      }
     }
-    // 放大整個效果（以錨點為中心）
+    // 放大整個效果（以錨點為中心）；線條類的效果（閃電、線、光束、弧線）自己處理或不放大
     if (f.scale !== undefined) {
       for (let i = first; i < out.length; i++) {
         const it = out[i]
+        if (it.swoosh || it.bolt || it.line || it.beam) continue
         it.x = head.x + (it.x - head.x) * f.scale; it.y = head.y + (it.y - head.y) * f.scale; it.s *= f.scale
       }
     }

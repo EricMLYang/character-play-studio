@@ -10,7 +10,7 @@
 //
 // v2 片型（劇本寫 format: 2，docs/clip-v2-plan.md）換一套唸字與結構的規則（錯誤）：
 //   唸的順序是「字、字、語詞、這是什麼字？、字」（字至少 3 次）、問句唸完到回答之間至少安靜 1.5 秒（不能有任何聲音）、
-//   最後 1 秒只有國字（拼好、在正中央、沒有效果、畫面上看不到任何角色與道具、不在 ask 裡）、meta.gags 最多 2 條、
+//   最後 1 秒只有國字（拼好、在正中央、沒有效果、畫面上看不到任何角色與道具、不在 ask 裡）、meta.gags 只有 1 條（主軸笑點，回馬槍寫在同一條）、
 //   卡司至少一個固定明星（pig／raccoon／mouse／sheriff／yang）、片長 12～15 秒。
 //   擋字、出界、鏡頭切字、會被打斷照舊；空字框階段還沒填的部分角色經過不算擋字，但已經填上去的筆畫被角色擋住 0.3 秒以上會提醒。
 import { createServer } from 'vite'
@@ -226,8 +226,8 @@ function checkV2(clip, engine, says, errors, warnings) {
     if (seen) { tail.push(`${at}「${seen.id}」還在畫面上`); break }
   }
   if (tail.length) errors.push(`結尾最後 1 秒要只有國字：${tail.join('；')}`)
-  // 笑點：主笑點＋回馬槍
-  if ((clip.meta?.gags.length ?? 0) > 2) errors.push(`meta.gags 有 ${clip.meta.gags.length} 條，v2 最多 2 條（主笑點、回馬槍）`)
+  // 笑點：只有一個主軸笑點（同一個動作／原因／音效做四次，第四次就是回馬槍，寫在同一條裡）
+  if ((clip.meta?.gags.length ?? 0) !== 1) errors.push(`meta.gags 有 ${clip.meta?.gags.length ?? 0} 條，v2 只寫 1 條主軸笑點（回馬槍是它的第四次，寫在同一條裡）`)
   // 固定明星
   const emojis = [...clip.actors.map((a) => a.emoji), ...clip.moves.map((m) => m.emoji ?? '')]
   if (!emojis.some((e) => STARS.some((s) => e.startsWith(`hero:${s}/`)))) errors.push(`卡司裡要有固定明星（${STARS.join('／')}）`)
