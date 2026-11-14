@@ -1,164 +1,277 @@
-import type { Clip, Move } from '../clip'
-import { ride } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 喝（重做）：小外星人坐飛碟來到農場想喝一大杯牛奶，光束一吸——杯子咻地飛上來「咚」砸在飛碟底，牛奶潑他一臉；光束開到最大，吸上來的卻是隔壁的乳牛，牛一頭撞翻飛碟。
-// 乳牛從天上砸下來「碰」震出「喝」，牛奶杯剛好飛進他手裡；他在中間咕嚕咕嚕喝牛奶。回馬槍：乳牛跳進飛碟，反過來用光束把他倒吊吸上去。喝、喝、喝牛奶
-const G = 68.6 // 外星人、乳牛（size 20）站在地上的 y
-const M = 71.5 // 牛奶杯（size 13）放在地上的 y
+// 喝（v2）：大太陽底下，浣熊花生熱得吐舌頭、好渴——每次把吸管插進去「咕嚕咕嚕」一吸，水就一口氣被喝光，他的肚子「啵」地鼓大一圈，
+// 可是還是好渴，換更大的：一杯水（張開喝水的嘴巴變成「口」）→ 一整桶水（曷的上半）→ 先停一拍，看著一整缸洗澡水和裡面的小鴨子⋯⋯
+// 吸！連鴨子都被吸過來黏在嘴巴上（曷的下半）。他圓得像一顆球，一路滾到旁邊。
+// 回馬槍：他圓滾滾的還是渴，最後一杯水「喝水」——吸一口，肚子裝不下了：「嗝！」水全部從吸管噴回去，他像洩了氣的氣球滿天亂飛，掉下來又變回瘦瘦的、還是好渴。
+// 最後畫面暗下來只剩「喝」，花生轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「喝！」，然後退場只留字。
+// 喝、喝、喝水、這是什麼字？、喝
+const RS = 30 // 花生的 size（不擋字的前提下大一點）
+const P = 77 - 0.42 * RS // 花生站在地上的 y
+/** 每次都站在同一個地方喝（左邊，翻過來朝右） */
+const RX = 50
+/** 喝的東西每次都放在同一個地方（右邊） */
+const DX = 104
+/** 喝的東西（同一個角色）原始 size 是一杯水；水桶、浴缸用 scaleTo 放大（以底部為準） */
+const CUP = 20
+const DY = 77 - 0.42 * CUP
+type Drink = { emoji: string; size: number; /** 吸管插進去的地方（從底部往上幾成） */ dip: number }
+const DRINKS: Drink[] = [
+  { emoji: 'prop:water', size: CUP, dip: 0.55 },
+  { emoji: 'prop:bucket', size: 30, dip: 0.72 },
+  { emoji: '🛁', size: 48, dip: 0.55 },
+]
+/** 肚子一次比一次圓：每喝一次整個人大一點（scaleTo）、再撐寬一點（stretchTo），都會累乘；寬 1.21 倍、高只多 4% */
+const GROW = 1.12, WID = 1.08
+/** 喝了 k 次以後的寬、高倍率 */
+const SX = (k: number) => (GROW * WID) ** k
+const SY = (k: number) => (GROW / WID) ** k
+/** 嘴巴（吸管口）的位置：花生朝右；肚子撐寬、長大時（以腳底為準）嘴巴跟著往前、往上 */
+const SZ = RS * 1.06 // 引擎放大後的實際 size（估）
+const mouth = (k: number, x = RX) => ({ x: x + 0.2 * SZ * SX(k), y: P + 0.42 * SZ - 0.62 * SZ * SY(k) })
+/** 吸管插進去的那一點 */
+const dip = (d: Drink) => ({ x: DX - 2, y: DY + 0.42 * CUP - d.dip * d.size })
+/** 被喝光以後傻眼停多久 */
+const HOLD = 0.45
+const DUCK = 13
 
-// 牛奶杯拿在外星人手上：跟著他走
-const carry = (moves: Move[]): Move[] => moves.flatMap((m): Move[] => [m, { ...m, actor: 'milk', to: m.to && { x: m.to.x + 9, y: m.to.y - 5 } }])
+/**
+ * 「咕嚕咕嚕」：吸管插進去（一條紅色吸管從嘴巴拉到水裡）→ 鼓起臉頰一吸，水珠一顆一顆沿著吸管飛進嘴裡、杯子一邊抖一邊縮 →
+ * 喝光了：東西「啵」地不見，他的肚子「咚」地鼓大一圈（鏡頭推近肚子＋震＋💥＋同一個音效）→ 傻眼看肚子，停 HOLD 秒 → 吐舌頭搧風：還是好渴。
+ * k 是第幾次（越後面吸越久、水珠越多、💥 越大）。
+ */
+function sip(at: number, k: number) {
+  const d = DRINKS[k]
+  const suck = 0.5 + 0.12 * k
+  const gone = at + suck
+  const m = mouth(k)
+  const moves: Move[] = [
+    // 預備：眼睛發亮流口水
+    { at: at - 0.35, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/drool' },
+    { at: at - 0.35, actor: 'raccoon', do: 'hop', amount: 2, dur: 0.2 },
+    // 吸！鼓起臉頰
+    { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/blow' },
+    { at, actor: 'raccoon', do: 'shake', amount: 0.4 + 0.2 * k, dur: suck },
+    { at, actor: 'drink', do: 'shake', amount: 0.6 + 0.4 * k, dur: suck },
+    { at, actor: 'drink', do: 'scaleTo', amount: 0.55, dur: suck, ease: 'in' },
+    // 喝光了：東西不見，肚子鼓大一圈
+    { at: gone, actor: 'drink', do: 'vanish', dur: 0.08 },
+    { at: gone, actor: 'raccoon', do: 'stretchTo', amount: WID, dur: 0.25, ease: 'back' },
+    { at: gone, actor: 'raccoon', do: 'scaleTo', amount: GROW, dur: 0.25, ease: 'back' },
+    { at: gone + 0.02, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    // 還是好渴
+    { at: gone + HOLD, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hot' },
+  ]
+  const belly = { x: RX + 1, y: P + 2 }
+  const fx: Fx[] = [
+    // 吸管：從嘴巴拉到水裡（同一根紅吸管）
+    { at: at - 0.05, kind: 'line', actor: 'raccoon', dx: m.x - RX, dy: m.y - P, to: dip(d), color: '#E53935', width: 1.4, dur: suck + 0.1 },
+    // 水珠沿著吸管飛進嘴裡（吹氣反過來：從杯子吹向嘴巴）
+    { at, kind: 'blow', x: dip(d).x, y: dip(d).y, to: m, emoji: '💧', n: 5 + 2 * k, dur: suck },
+    // 肚子「咚」：💥 在肚子前面，一次比一次大
+    { at: gone, kind: 'burst', x: belly.x + 10, y: belly.y - 4, n: 1, dur: 0.4, scale: 1.6 + 0.4 * k },
+    { at: gone, kind: 'burst', x: DX - 2, y: DY - 4, emoji: '💦', n: 5 + 2 * k, dur: 0.4 },
+    { at: gone + HOLD + 0.05, kind: 'sweat', actor: 'raccoon' },
+  ]
+  const camera: Camera[] = [
+    { at: gone, dur: 0.45, do: 'punch', amount: 0.06 + 0.04 * k, to: belly },
+    { at: gone, dur: 0.3, do: 'shake', amount: 0.9 + 0.5 * k },
+  ]
+  // 同一個音效（咕嚕咕嚕＋啵），一次比一次多疊一個
+  const cues: Cue[] = [{ at: at + 0.05, sfx: 'gulp' }, { at: at + 0.3, sfx: 'gulp' }, { at: gone, sfx: 'boing' }]
+  if (k >= 1) cues.push({ at: gone + 0.04, sfx: 'bubble' })
+  if (k >= 2) cues.push({ at: gone + 0.08, sfx: 'rumble' })
+  return { moves, fx, camera, cues, gone }
+}
+
+/**
+ * 下一個喝的東西從天上掉下來（同一個 drink 角色：先搬到天上、換圖、放大到這一次的大小，再掉到同一個地方）
+ */
+function serve(at: number, k: number): Move[] {
+  const d = DRINKS[k]
+  return [
+    { at, actor: 'drink', do: 'moveTo', to: { x: DX, y: -40 }, dur: 0.01 },
+    { at, actor: 'drink', do: 'swap', emoji: d.emoji },
+    { at, actor: 'drink', do: 'pop', dur: 0.02 },
+    { at: at + 0.02, actor: 'drink', do: 'scaleTo', amount: d.size / CUP, dur: 0.01 },
+    { at: at + 0.03, actor: 'drink', do: 'moveTo', to: { x: DX, y: DY }, dur: 0.3, ease: 'in' },
+  ]
+}
+
+/** 喝的時刻 */
+const S1 = 1.5, S2 = 3.65, S3 = 6.0
+const s1 = sip(S1, 0)
+const s2 = sip(S2, 1)
+const s3 = sip(S3, 2)
+/** 第 3 次喝光後，圓滾滾的他被肚子彈得滾到左邊 */
+const ROLL = s3.gone + HOLD
+const SIDE = 24
+/** 字框填滿、國字到正中央 */
+const HOME = ROLL + 0.5
+const PARK = HOME + 1.0
+/** 語詞那一刻：最後一杯水，他吸一口 */
+const S4 = 9.25
+/** 回馬槍：嗝！ */
+const BURP = S4 + 0.5
+const MID = 70
 
 const clip: Clip = {
+  format: 2,
   char: '喝',
-  meta: { theme: '外星人吸牛奶吸到乳牛', cast: '小外星人＋飛碟＋一大杯牛奶＋乳牛', gags: ['光束吸杯子砸飛碟潑一臉', '光束開最大吸錯成乳牛撞翻飛碟', '乳牛砸下來震出字杯子飛進手裡', '乳牛開飛碟把外星人倒吊吸走'] },
-  duration: 10,
-  bg: { top: '#CDEBFF', bottom: '#EEF8FF', floor: '#BFE3A0', scenery: 'hills' },
+  meta: { theme: '浣熊花生好熱好渴', cast: '浣熊花生＋一杯水（水桶、浴缸）＋小鴨子', gags: ['好渴的花生每次用吸管咕嚕咕嚕一吸，水就整個被喝光、他的肚子鼓大一圈，可是還是渴，換更大的（一杯水→一整桶→整缸洗澡水連小鴨子都吸過來黏在嘴上）；回馬槍是他圓滾滾的再喝最後一杯，肚子裝不下打了一個超大的嗝，水全部噴回去，他像洩氣的氣球滿天亂飛，掉下來又瘦回去、還是渴'] },
+  duration: 15,
+  bg: { top: '#FFD98A', bottom: '#FFF3D6', floor: '#E9C27D', scenery: 'desert' },
   actors: [
-    { id: 'cow', emoji: '🐄', x: 138, y: G, size: 20, pivot: 'center' },
-    { id: 'saucer', emoji: '🛸', x: 118, y: 31, size: 16, hidden: true, float: true, pivot: 'center' },
-    { id: 'alien', emoji: 'hero:alien/saucer', x: 40, y: 28, size: 20, hidden: true, flip: true, pivot: 'center' },
-    { id: 'milk', emoji: '🥛', x: 98, y: M, size: 13, pivot: 'center' },
+    // 喝的東西（一杯水 → 水桶 → 浴缸 → 一杯水）
+    { id: 'drink', emoji: 'prop:water', x: DX, y: DY, size: CUP },
+    // 小鴨子：坐在浴缸的水上
+    { id: 'duck', emoji: '🦆', x: DX - 4, y: DY - 26, size: DUCK, hidden: true, pivot: 'center' },
+    // 花生的圖朝左，翻過來朝右：面向右邊的水
+    { id: 'raccoon', emoji: 'hero:raccoon/walk', x: RX, y: P, size: RS, hidden: true, flip: true },
   ],
   moves: [
-    // 坐飛碟飄進來，看到那杯牛奶
-    { at: 0, actor: 'alien', do: 'enter', from: { x: 4, y: 20 }, dur: 0.7, ease: 'out' },
-    { at: 0.95, actor: 'alien', do: 'moveTo', to: { x: 98, y: 24 }, dur: 0.45, ease: 'inOut' },
-    // 光束一吸：杯子慢慢浮起來，然後咻地砸在飛碟底
-    { at: 1.55, actor: 'milk', do: 'moveTo', to: { x: 98, y: 56 }, dur: 0.45, ease: 'out' },
-    { at: 1.55, actor: 'milk', do: 'shake', amount: 0.8, dur: 0.45 },
-    { at: 2.0, actor: 'milk', do: 'moveTo', to: { x: 98, y: 41 }, dur: 0.1, ease: 'in' },
-    { at: 2.1, actor: 'alien', do: 'hop', amount: 4, dur: 0.25 },
-    { at: 2.1, actor: 'alien', do: 'tilt', amount: 14, dur: 0.35 },
-    { at: 2.15, actor: 'milk', do: 'moveTo', to: { x: 98, y: M }, dur: 0.35, ease: 'in' },
-    { at: 2.15, actor: 'milk', do: 'spin', times: 1, dur: 0.35 },
-    // 不服氣：光束開到最大
-    { at: 2.85, actor: 'alien', do: 'moveTo', to: { x: 120, y: 24 }, dur: 0.35 },
-    { at: 3.2, actor: 'alien', do: 'squash', amount: -0.25, dur: 0.3 },
-    { at: 3.4, actor: 'alien', do: 'shake', amount: 1.4, dur: 0.6 },
-    // 吸上來的是乳牛！
-    { at: 3.55, actor: 'cow', do: 'moveTo', to: { x: 124, y: 50 }, dur: 0.35, ease: 'out' },
-    { at: 3.55, actor: 'cow', do: 'shake', amount: 1.5, dur: 0.35 },
-    { at: 3.9, actor: 'cow', do: 'moveTo', to: { x: 121, y: 38 }, dur: 0.12, ease: 'in' },
-    // 牛一頭撞翻飛碟：外星人摔出來，飛碟翻過去飛到左上角
-    { at: 4.02, actor: 'alien', do: 'swap', emoji: 'hero:alien/surprised' },
-    { at: 4.02, actor: 'alien', do: 'moveTo', to: { x: 24, y: G }, arc: 18, dur: 0.55, ease: 'inOut' },
-    { at: 4.02, actor: 'alien', do: 'spin', times: -1, dur: 0.55 },
-    { at: 4.02, actor: 'saucer', do: 'pop', dur: 0.08 },
-    { at: 4.02, actor: 'saucer', do: 'moveTo', to: { x: 22, y: 12 }, arc: 10, dur: 0.6, ease: 'out' },
-    { at: 4.02, actor: 'saucer', do: 'rotateTo', amount: 180, dur: 0.6, ease: 'out' },
-    // 牛彈上天，再從正中間砸下來
-    { at: 4.04, actor: 'cow', do: 'moveTo', to: { x: 82, y: 16 }, dur: 0.38, ease: 'out' },
-    { at: 4.04, actor: 'cow', do: 'rotateTo', amount: 360, dur: 0.6 },
-    { at: 4.42, actor: 'cow', do: 'moveTo', to: { x: 82, y: G }, dur: 0.28, ease: 'in' },
-    { at: 4.6, actor: 'alien', do: 'swap', emoji: 'hero:alien/dizzy' },
-    { at: 4.7, actor: 'cow', do: 'squash', amount: 0.5, dur: 0.35 },
-    // 震得牛奶杯彈起來，剛好飛進外星人手裡
-    { at: 4.72, actor: 'milk', do: 'moveTo', to: { x: 34, y: 63 }, arc: 24, dur: 0.6, ease: 'inOut' },
-    { at: 4.72, actor: 'milk', do: 'spin', times: -2, dur: 0.6 },
-    // 牛頭昏眼花滾到右邊
-    { at: 5.0, actor: 'cow', do: 'moveTo', to: { x: 140, y: G }, dur: 0.5, ease: 'out' },
-    { at: 5.0, actor: 'cow', do: 'rotateTo', amount: -360, dur: 0.5, ease: 'out' },
-    { at: 5.32, actor: 'alien', do: 'swap', emoji: 'hero:alien/happy' },
-    { at: 5.32, actor: 'alien', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 6.0, actor: 'alien', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 6.0, actor: 'milk', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 6.3, actor: 'cow', do: 'shake', amount: 1, dur: 0.35 },
-    // 國字讓位：走到中間，乳牛也湊過來
-    ...carry([{ at: 6.8, actor: 'alien', do: 'moveTo', to: { x: 90, y: G }, dur: 0.45 }]),
-    { at: 6.8, actor: 'cow', do: 'moveTo', to: { x: 120, y: G }, dur: 0.5 },
-    // 喝牛奶！仰頭咕嚕咕嚕
-    { at: 7.25, actor: 'milk', do: 'moveTo', to: { x: 97, y: 62 }, dur: 0.15, ease: 'out' },
-    { at: 7.25, actor: 'milk', do: 'rotateTo', amount: -110, dur: 0.15, ease: 'out' },
-    { at: 7.25, actor: 'milk', do: 'scaleTo', amount: 1.3, dur: 0.15, ease: 'back' },
-    { at: 7.25, actor: 'alien', do: 'rotateTo', amount: -18, dur: 0.15 },
-    { at: 7.45, actor: 'alien', do: 'squash', amount: 0.15, dur: 0.2 },
-    { at: 7.7, actor: 'alien', do: 'squash', amount: 0.2, dur: 0.2 },
-    { at: 7.95, actor: 'alien', do: 'squash', amount: 0.25, dur: 0.2 },
-    { at: 7.45, actor: 'cow', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
-    // 回馬槍：飛碟翻正、降到乳牛旁邊，乳牛一跳坐進去
-    { at: 7.55, actor: 'saucer', do: 'rotateTo', amount: -180, dur: 0.3 },
-    { at: 7.55, actor: 'saucer', do: 'moveTo', to: { x: 30, y: 46 }, dur: 0.3, ease: 'inOut' },
-    { at: 7.85, actor: 'saucer', do: 'moveTo', to: { x: 130, y: 56 }, dur: 0.4, ease: 'inOut' },
-    { at: 8.2, actor: 'cow', do: 'moveTo', to: { x: 130, y: 48 }, arc: 8, dur: 0.25 },
-    ...ride([
-      { at: 8.45, actor: 'saucer', do: 'moveTo', to: { x: 130, y: 40 }, dur: 0.25, ease: 'out' },
-    ], 'cow', -8, 16),
-    // 光束一開：外星人被吸過去、倒吊上來，還在喝
-    { at: 8.72, actor: 'alien', do: 'swap', emoji: 'hero:alien/surprised' },
-    ...carry([{ at: 8.75, actor: 'alien', do: 'moveTo', to: { x: 130, y: 60 }, dur: 0.3, ease: 'in' }]),
-    { at: 8.75, actor: 'alien', do: 'rotateTo', amount: 198, dur: 0.4 },
-    { at: 9.3, actor: 'alien', do: 'swap', emoji: 'hero:alien/happy' },
-    { at: 9.2, actor: 'milk', do: 'moveTo', to: { x: 131, y: M }, dur: 0.2, ease: 'in' },
-    { at: 9.2, actor: 'milk', do: 'rotateTo', amount: 110, dur: 0.2 },
-    { at: 9.3, actor: 'alien', do: 'moveTo', to: { x: 130, y: 56 }, dur: 0.6, ease: 'out' },
-    { at: 9.5, actor: 'alien', do: 'tilt', amount: 10, dur: 0.5 },
-    { at: 9.5, actor: 'saucer', do: 'bounce', amount: 1.5, times: 2, dur: 0.5 },
-    { at: 9.5, actor: 'cow', do: 'bounce', amount: 1.5, times: 2, dur: 0.5 },
+    // 花生熱得走進來，吐舌頭搧風：好渴
+    { at: 0, actor: 'raccoon', do: 'enter', from: { x: -20, y: P }, dur: 0.5, ease: 'out' },
+    { at: 0.5, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hot' },
+    { at: 0.6, actor: 'drink', do: 'hop', amount: 2, dur: 0.25 },
+    // 第 1 次：一杯水
+    ...s1.moves,
+    // 第 2 次：一整桶
+    ...serve(S2 - 0.75, 1),
+    ...s2.moves,
+    // 第 3 次前停一拍：一整缸洗澡水掉下來，小鴨子坐在上面；他托著下巴看一看……鴨子發抖
+    ...serve(5.0, 2),
+    { at: 5.0, actor: 'duck', do: 'moveTo', to: { x: DX - 4, y: -66 }, dur: 0.01 },
+    { at: 5.0, actor: 'duck', do: 'pop', dur: 0.02 },
+    { at: 5.03, actor: 'duck', do: 'moveTo', to: { x: DX - 4, y: DY - 26 }, dur: 0.3, ease: 'in' },
+    { at: 5.35, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/ponder' },
+    { at: 5.4, actor: 'duck', do: 'shake', amount: 0.8, dur: 0.5 },
+    ...s3.moves,
+    // 連鴨子都被吸過來，啵地黏在嘴巴上
+    { at: S3 + 0.25, actor: 'duck', do: 'moveTo', to: { x: mouth(2).x + 4, y: mouth(2).y }, dur: 0.3, ease: 'in' },
+    { at: S3 + 0.25, actor: 'duck', do: 'spin', times: 1, dur: 0.3 },
+    // 圓得像一顆球：被肚子彈得滾到左邊（國字要到正中央）
+    { at: ROLL, actor: 'raccoon', do: 'moveTo', to: { x: SIDE, y: P }, dur: 0.4, ease: 'out' },
+    { at: ROLL, actor: 'raccoon', do: 'rotateTo', amount: -360, dur: 0.4, pivot: 'center' },
+    { at: ROLL, actor: 'duck', do: 'moveTo', to: { x: mouth(3, SIDE).x + 4, y: mouth(3, SIDE).y }, dur: 0.4, ease: 'out' },
+    { at: ROLL, actor: 'duck', do: 'rotateTo', amount: -360, dur: 0.4 },
+    { at: ROLL, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/full' },
+    { at: HOME + 0.3, actor: 'duck', do: 'shake', amount: 1, dur: 0.6 },
+    // 國字讓位：鴨子啵地拔下來、氣呼呼地走到右邊；他還是渴，滾回中間
+    { at: PARK, actor: 'duck', do: 'moveTo', to: { x: 128, y: 77 - 0.42 * DUCK }, arc: 10, dur: 0.4, ease: 'out' },
+    { at: PARK, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hot' },
+    { at: PARK + 0.1, actor: 'raccoon', do: 'moveTo', to: { x: MID, y: P }, dur: 0.4 },
+    { at: PARK + 0.1, actor: 'raccoon', do: 'rotateTo', amount: 360, dur: 0.4, pivot: 'center' },
+    // 語詞那一刻：最後一杯水掉在他面前，咕嚕——
+    ...serve(S4 - 0.4, 0).map((m): Move => (m.to && m.to.x === DX ? { ...m, to: { x: MID + 26, y: m.to.y } } : m)),
+    { at: S4 - 0.3, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/drool' },
+    { at: S4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/blow' },
+    { at: S4, actor: 'raccoon', do: 'shake', amount: 1, dur: 0.5 },
+    // 回馬槍：肚子裝不下——嗝！水全部從吸管噴回去，他像洩氣的氣球滿天亂飛
+    { at: BURP - 0.1, actor: 'raccoon', do: 'stretchTo', amount: 1.12, dur: 0.1 },
+    { at: BURP, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
+    { at: BURP, actor: 'drink', do: 'moveTo', to: { x: 190, y: 20 }, arc: 10, dur: 0.4, ease: 'out' },
+    { at: BURP, actor: 'drink', do: 'spin', times: 2, dur: 0.4 },
+    { at: BURP + 0.1, actor: 'raccoon', do: 'moveTo', to: { x: 128, y: 44 }, dur: 0.22, ease: 'linear' },
+    { at: BURP + 0.32, actor: 'raccoon', do: 'moveTo', to: { x: 40, y: 48 }, dur: 0.25, ease: 'linear' },
+    { at: BURP + 0.57, actor: 'raccoon', do: 'moveTo', to: { x: 32, y: P }, dur: 0.2, ease: 'in' },
+    { at: BURP + 0.1, actor: 'raccoon', do: 'rotateTo', amount: 720, dur: 0.67, pivot: 'center', ease: 'linear' },
+    { at: BURP + 0.1, actor: 'raccoon', do: 'stretchTo', amount: 1 / (WID ** 3 * 1.12), dur: 0.67 },
+    { at: BURP + 0.1, actor: 'raccoon', do: 'scaleTo', amount: 1 / GROW ** 3, dur: 0.67 },
+    { at: BURP + 0.8, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
+    // 鴨子笑著走掉
+    { at: BURP + 0.5, actor: 'duck', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 10.55, actor: 'duck', do: 'moveTo', to: { x: 190, y: 77 - 0.42 * DUCK }, dur: 0.28, ease: 'in' },
+    // 問他：花生爬起來（瘦回來了，還是渴），變大、轉向觀眾
+    { at: 10.85, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hot' },
+    { at: 10.9, actor: 'raccoon', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.25 },
+    { at: 11.0, actor: 'raccoon', do: 'scaleTo', amount: 1.4, dur: 0.3, ease: 'back' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 12.05, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/listen' },
+    { at: 12.05, actor: 'raccoon', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.5, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.0, actor: 'raccoon', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.45, actor: 'raccoon', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
+    { at: 13.45, actor: 'raccoon', do: 'hop', amount: 7, dur: 0.28 },
+    // 退場，畫面只留下字
+    { at: 13.72, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    { at: 13.75, actor: 'raccoon', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 牛奶杯飛起來甩出口；乳牛砸地震出右邊
-    { at: 4.75, dur: 0.4, strokes: [0, 1, 2], from: 'milk', color: '#2F6FDE' },
-    { at: 4.95, dur: 0.45, strokes: [3, 4, 5, 6], from: { x: 82, y: 62 }, color: '#7A4A21' },
-    { at: 5.3, dur: 0.55, strokes: [7, 8, 9, 10, 11], from: { x: 82, y: 66 }, color: '#7A4A21' },
+    // 第 1 次：張開喝水的嘴巴（口）
+    { at: s1.gone + 0.02, dur: 0.6, strokes: [0, 1, 2], from: 'raccoon', color: partColor('口') },
+    // 第 2 次：被喝光的水桶裡飛出曷的上半（日）；第 3 次：浴缸裡飛出曷的下半
+    { at: s2.gone + 0.02, dur: 0.6, strokes: [3, 4, 5, 6], from: { x: DX, y: DY - 6 }, color: partColor('曷') },
+    { at: s3.gone + 0.02, dur: 0.65, strokes: [7, 8, 9, 10, 11], from: { x: DX, y: DY - 10 }, color: partColor('曷') },
   ],
   glyph: [
-    { at: 5.9, dur: 0.4, do: 'wobble' },
-    { at: 6.7, dur: 0.45, do: 'park' },
-    { at: 9.0, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: HOME, dur: 0.45, do: 'home', ease: 'back' },
+    { at: PARK, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的花生
+    { at: 10.85, dur: 3.1, do: 'ask', keep: ['raccoon'], to: { x: 96, y: 43 }, amount: 0.82 },
+    { at: 10.9, dur: 0.4, do: 'home' },
+    { at: 13.45, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.6, kind: 'bubble', actor: 'alien', emoji: '🥛', dur: 0.8, dx: 8 },
-    { at: 1.45, kind: 'beam', actor: 'alien', n: 14, dur: 0.6 },
-    { at: 2.1, kind: 'burst', x: 98, y: 40, n: 1, dur: 0.3 },
-    { at: 2.12, kind: 'rain', actor: 'alien', dy: -4, n: 7, dur: 0.6 },
-    { at: 2.45, kind: 'pop', actor: 'alien', emoji: '😑', dx: 8, dur: 0.5 },
-    { at: 2.5, kind: 'sweat', actor: 'alien' },
-    { at: 3.05, kind: 'pop', actor: 'alien', emoji: '😤', dx: -8, dur: 0.4 },
-    { at: 3.45, kind: 'beam', actor: 'alien', n: 34, dur: 0.55 },
-    { at: 3.6, kind: 'pop', actor: 'cow', emoji: '❗', dx: -8, dur: 0.4 },
-    { at: 4.02, kind: 'burst', x: 121, y: 32, n: 1, dur: 0.35 },
-    { at: 4.7, kind: 'burst', x: 82, y: 64, emoji: '💥', n: 6, dur: 0.5 },
-    { at: 4.7, kind: 'puff', actor: 'cow', dur: 0.45 },
-    { at: 4.65, kind: 'dizzy', actor: 'alien', dur: 0.7 },
-    { at: 5.5, kind: 'dizzy', actor: 'cow', dur: 0.9 },
-    { at: 5.35, kind: 'pop', actor: 'alien', emoji: '😋', dx: -6, dur: 0.6 },
-    { at: 7.3, kind: 'zzz', actor: 'alien', emoji: '🫧', dx: -8, dy: 4, dur: 0.8 },
-    { at: 7.5, kind: 'pop', actor: 'cow', emoji: '💕', dx: 8, dy: 4, dur: 0.6 },
-    { at: 8.2, kind: 'pop', actor: 'cow', emoji: '😏', dx: 10, dy: 4, dur: 0.4 },
-    { at: 8.68, kind: 'beam', actor: 'saucer', n: 26, dur: 1.32 },
-    { at: 8.75, kind: 'pop', actor: 'alien', emoji: '😲', dx: -14, dy: 10, dur: 0.45 },
-    { at: 9.55, kind: 'pop', actor: 'cow', emoji: '😆', dx: -12, dy: 2, dur: 0.45 },
+    { at: 0.5, kind: 'sweat', actor: 'raccoon' },
+    ...s1.fx,
+    ...s2.fx,
+    // 第 3 次前停一拍：鴨子嚇得冒汗
+    { at: 5.45, kind: 'sweat', actor: 'duck' },
+    { at: 5.4, kind: 'pop', actor: 'raccoon', emoji: '👀', dx: 4, dur: 0.5, scale: 1.2 },
+    ...s3.fx,
+    { at: ROLL + 0.45, kind: 'dizzy', actor: 'raccoon', dur: 0.8 },
+    // 最後一杯：吸管、水珠
+    { at: S4 - 0.05, kind: 'line', actor: 'raccoon', dx: mouth(3).x - RX, dy: mouth(3).y - P, to: { x: MID + 24, y: DY + 0.42 * CUP - 0.55 * CUP }, color: '#E53935', width: 1.4, dur: 0.55 },
+    { at: S4, kind: 'blow', x: MID + 24, y: DY + 0.42 * CUP - 0.55 * CUP, to: mouth(3, MID), emoji: '💧', n: 4, dur: 0.5 },
+    // 嗝！水從嘴巴噴回去、一大團
+    { at: BURP, kind: 'burst', x: MID + 12, y: P - 14, n: 1, dur: 0.45, scale: 2.8 },
+    { at: BURP, kind: 'fountain', actor: 'raccoon', emoji: '💧', n: 12, dur: 1.0, scale: 1.4 },
+    { at: BURP, kind: 'burst', x: MID + 6, y: P - 6, emoji: '💦', n: 10, dur: 0.6, scale: 1.3 },
+    { at: BURP + 0.1, kind: 'zzz', actor: 'raccoon', emoji: '💨', dx: -6, dy: 8, dur: 0.6, scale: 1.4 },
+    { at: BURP + 0.9, kind: 'dizzy', actor: 'raccoon', dur: 0.7 },
+    { at: BURP + 0.4, kind: 'pop', actor: 'duck', emoji: '😆', dx: -6, dur: 0.45 },
+    { at: 13.45, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 4.02, dur: 0.3, do: 'shake', amount: 1.2 },
-    { at: 4.7, dur: 0.4, do: 'shake', amount: 2 },
-    { at: 7.3, dur: 0.6, do: 'punch', amount: 0.12, to: { x: 94, y: 58 } },
+    ...s1.camera,
+    ...s2.camera,
+    // 第 3 次：浴缸很大、鴨子要被吸過來，固定全景
+    { at: 5.0, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...s3.camera,
+    { at: HOME - 0.3, dur: 0.3, do: 'zoom', amount: 1 },
+    { at: BURP, dur: 0.45, do: 'punch', amount: 0.2, to: { x: MID + 6, y: P - 8 } },
+    { at: BURP, dur: 0.4, do: 'shake', amount: 2.6 },
   ],
   lights: [
-    // 乳牛砸地：白光一閃
-    { at: 4.7, dur: 0.04, level: -0.45 },
-    { at: 4.74, dur: 0.3, level: 0 },
+    { at: HOME, dur: 0.05, level: -0.35 },
+    { at: HOME + 0.05, dur: 0.35, level: 0 },
+    { at: BURP, dur: 0.04, level: -0.4 },
+    { at: BURP + 0.04, dur: 0.3, level: 0 },
   ],
   cues: [
-    { at: 0, sfx: 'whoosh' },
-    { at: 1.4, say: '喝' },
-    { at: 1.45, sfx: 'laser' },
-    { at: 2.1, sfx: 'bonk' },
-    { at: 2.15, sfx: 'splash' },
-    { at: 3.45, sfx: 'laser' },
-    { at: 3.6, sfx: 'boing' },
-    { at: 4.02, sfx: 'bonk' },
-    { at: 4.42, sfx: 'whoosh' },
-    { at: 4.7, sfx: 'rumble' },
-    { at: 5.35, sfx: 'clink' },
-    { at: 5.9, say: '喝' },
-    { at: 7.25, say: '喝牛奶' },
-    { at: 7.7, sfx: 'gulp' },
-    { at: 7.95, sfx: 'gulp' },
-    { at: 8.68, sfx: 'laser' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.75, say: '喝' },
+    ...s1.cues,
+    { at: S2 - 0.45, sfx: 'plop' },
+    ...s2.cues,
+    { at: 5.3, sfx: 'splash' },
+    ...s3.cues,
+    { at: S3 + 0.55, sfx: 'tap' },
+    { at: ROLL, sfx: 'whoosh' },
+    { at: HOME + 0.1, say: '喝' },
+    { at: PARK, sfx: 'poof' },
+    { at: S4 - 0.05, say: '喝水' },
+    { at: BURP, sfx: 'hic' },
+    { at: BURP + 0.04, sfx: 'splash' },
+    { at: BURP + 0.1, sfx: 'deflate' },
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.45, say: '喝' },
+    { at: 13.5, sfx: 'cheer' },
   ],
 }
 
