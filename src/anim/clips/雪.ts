@@ -4,8 +4,10 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
 // 雪（v2）：下雪天，浣熊花生熱心地要堆雪人——每次把雪球滾大一點、站起來得意，頭上的雪雲就「噗」地倒下一大坨雪，把他埋住，一次比一次深：
 // 埋到胸口（雨字頭的上半從天上落下來）、只剩耳朵（雨的四點）、先停一拍再整個埋掉、只露出一隻手揮（彐）——碰！連人帶雪球被炸上天。
-// 語詞：雪球掉回來變成雪人（雪人）。回馬槍：他學乖了，撐傘站在雪人旁邊；雲只掉一片小雪花在傘上，他得意地收起傘——最大的一坨雪「噗」地把他整個埋掉，只剩收好的傘露在外面。
+// 語詞：雪球掉回來變成雪人（雪人）。回馬槍：他學乖了，撐傘站在雪人旁邊；雲只掉一片小雪花在傘上，他得意地收起傘——最大的一坨雪「噗」地連人帶雪人一起埋掉，只剩收好的傘露在外面；
+// 他鑽出來，雪人已經被壓垮不見了，倒空的雪雲飄走。
 // 最後畫面暗下來只剩「雪」，花生轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再指著字說「雪！」，然後退場只留字。
+// 雪球、掉下來的雪、埋住他的雪堆都是 prop:snowball（白色帶淡藍陰影與深色描邊，雪地上看得見）：雪堆是同一顆雪球落地時 stretchTo 壓成寬扁的一坨。
 // 雪、雪、雪人、這是什麼字？、雪
 const P = 66.9 // 花生（size 24）站在地上的 y
 /** 花生每次站的地方：雪雲正下方（雲在國字字框的右邊） */
@@ -17,16 +19,24 @@ const BALL_R = 104
 const BALL = 20
 /** 雪球每一次滾完多大（size）：一次比一次大 */
 const BALLS = [20, 24, 29, 34]
-/** 雪堆（☁️ 染白）每一次多大（size）：一次比一次深 */
-const PILE = [20, 28, 40, 46]
+/**
+ * 雪堆每一次：size（落地後的大小）、w（壓成多寬：寬 ×w、高 ÷w）、x（落在哪裡）。一次比一次深：
+ * 埋到肩膀只露出頭（頂在 y≈66）、只剩耳朵（≈60）、整個埋掉只剩一隻手（≈50）、第 4 次連旁邊的雪人一起埋（≈40，寬到蓋住雪人和他）。
+ */
+const PILE = [
+  { size: 20.4, w: 1.7, x: X },
+  { size: 28.5, w: 1.5, x: X },
+  { size: 36.5, w: 1.19, x: X },
+  { size: 53, w: 1.27, x: 97 },
+]
 /** 雪堆的基本 size（actor 寫的），每次 pop 都從這個大小算 */
 const PILE0 = 20
+/** 從雲裡掉下來時是一顆圓雪球，大小是雪堆的這麼多倍；落地那一下放大、壓扁成雪堆 */
+const FALL = 0.8
 /** 埋住以後傻眼停多久，才鑽出來 */
 const HOLD = 0.5
 /** 語詞那一刻起他放大多少 */
 const BIG = 1.15
-/** 白白的雪（⚪、☁️ 染成白色） */
-const WHITE = 'grayscale(1) brightness(1.3)'
 
 const ballX = (size: number) => BALL_R - 0.45 * size
 const floorY = (size: number) => 77 - 0.42 * size
@@ -37,8 +47,10 @@ const floorY = (size: number) => 77 - 0.42 * size
  * k 是第幾次（雪堆越後面越大、埋得越深）。roll: false 是第 4 次（不推雪球，撐傘的那段另外寫）。
  * lead：推雪球提早多少秒（第 3 次推完先停一拍、抬頭看雲）。
  */
-function bury(at: number, k: number, roll = true, lead = 0, x = X) {
-  const size = PILE[k] * (k >= 3 ? BIG : 1)
+function bury(at: number, k: number, roll = true, lead = 0) {
+  const { size, w, x } = PILE[k]
+  /** 雪堆的高度（頂端約在 77 − 0.88 × h） */
+  const h = size / w
   const moves: Move[] = []
   if (roll) {
     const from = BALLS[k - 1] ?? BALL, to = BALLS[k]
@@ -47,7 +59,8 @@ function bury(at: number, k: number, roll = true, lead = 0, x = X) {
       { at: at - 1.05 - lead, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/push' },
       { at: at - 1.0 - lead, actor: 'ball', do: 'rotateTo', amount: -150, dur: 0.55, ease: 'out' },
       { at: at - 1.0 - lead, actor: 'ball', do: 'scaleTo', amount: to / from, dur: 0.55, ease: 'out' },
-      { at: at - 1.0 - lead, actor: 'ball', do: 'moveTo', to: { x: ballX(to), y: floorY(to) }, dur: 0.55, ease: 'out' },
+      // 雪球放大是以腳底為準，y 不用動（一直站在地上）
+      { at: at - 1.0 - lead, actor: 'ball', do: 'moveTo', to: { x: ballX(to), y: floorY(BALL) }, dur: 0.55, ease: 'out' },
       { at: at - 1.0 - lead, actor: 'raccoon', do: 'shake', amount: 0.8, dur: 0.5 },
       // 滾好了！站起來得意
       { at: at - 0.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
@@ -58,21 +71,21 @@ function bury(at: number, k: number, roll = true, lead = 0, x = X) {
     // 雪雲抖一下（預備），一坨雪從雲裡掉下來
     { at: at - 0.42, actor: 'cloud', do: 'shake', amount: 1.2 + 0.4 * k, dur: 0.25 },
     { at: at - 0.42, actor: 'cloud', do: 'squash', amount: 0.15 + 0.05 * k, dur: 0.3 },
-    { at: at - 0.3, actor: 'snow', do: 'swap', emoji: '⚪' },
     { at: at - 0.3, actor: 'snow', do: 'moveTo', to: { x: CLOUD.x, y: CLOUD.y + 8 }, dur: 0.01 },
     { at: at - 0.29, actor: 'snow', do: 'pop', dur: 0.08 },
+    { at: at - 0.28, actor: 'snow', do: 'scaleTo', amount: (FALL * size) / PILE0, dur: 0.01 },
     { at: at - 0.28, actor: 'snow', do: 'moveTo', to: { x, y: floorY(PILE0) }, dur: 0.28, ease: 'in' },
-    // 噗！落地變成一大堆雪，埋住他
-    { at, actor: 'snow', do: 'swap', emoji: '☁️' },
-    { at, actor: 'snow', do: 'scaleTo', amount: size / PILE0, dur: 0.14, ease: 'back' },
+    // 噗！落地壓成寬扁的一大坨雪，埋住他
+    { at, actor: 'snow', do: 'scaleTo', amount: 1 / FALL, dur: 0.14, ease: 'back' },
+    { at, actor: 'snow', do: 'stretchTo', amount: w, dur: 0.14, ease: 'back' },
     { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/surprised' },
     { at, actor: 'raccoon', do: 'squash', amount: 0.2 + 0.05 * k, dur: 0.22 },
   )
   const fx: Fx[] = [
     // ❄️ 從雪堆底下往外噴（不蓋住他的臉）
     { at, kind: 'burst', x, y: 72, emoji: '❄️', n: 8, dur: 0.4, scale: 1.2 + 0.3 * k },
-    // 💥 在雪堆頂上（不蓋住他的臉），一次比一次大
-    { at, kind: 'burst', x: x + 10, y: 74 - size * 0.55, n: 1, dur: 0.4, scale: 1.4 + 0.35 * k },
+    // 💥 在雪堆頂上的右邊（不蓋住他露出來的地方），一次比一次大
+    { at, kind: 'burst', x: x + 12, y: 77 - 0.88 * h, n: 1, dur: 0.35, scale: 1.2 + 0.3 * k },
   ]
   const camera: Camera[] = [
     { at, dur: 0.45, do: 'punch', amount: 0.06 + 0.03 * k, to: { x, y: P - 8 } },
@@ -86,14 +99,14 @@ function bury(at: number, k: number, roll = true, lead = 0, x = X) {
 }
 
 /** 鑽出來：雪堆炸開成一片雪花，他抖掉身上的雪 */
-function dig(at: number, k: number, x = X) {
-  const size = PILE[k]
+function dig(at: number, k: number) {
+  const { size, w, x } = PILE[k]
   const moves: Move[] = [
     { at, actor: 'snow', do: 'vanish', dur: 0.15 },
     { at, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/cold' },
     { at, actor: 'raccoon', do: 'shake', amount: 1.4 + 0.2 * k, dur: 0.45 },
   ]
-  const fx: Fx[] = [{ at, kind: 'burst', x, y: 74 - size * 0.35, emoji: '❄️', n: 6 + 2 * k, dur: 0.45, scale: 1 + 0.25 * k }]
+  const fx: Fx[] = [{ at, kind: 'burst', x, y: 77 - 0.5 * (size / w), emoji: '❄️', n: 6 + 2 * k, dur: 0.45, scale: 1 + 0.25 * k }]
   const cues: Cue[] = [{ at, sfx: 'poof' }]
   return { moves, fx, cues }
 }
@@ -119,17 +132,17 @@ const C4 = H4 + HOLD + 0.05
 const clip: Clip = {
   format: 2,
   char: '雪',
-  meta: { theme: '下雪天堆雪人', cast: '浣熊花生＋雪雲＋雪球（雪人）', gags: ['花生熱心堆雪人，每次雪球滾好、站起來得意，頭上的雪雲就噗地倒下一大坨雪把他埋住，一次比一次深（胸口、只剩耳朵、只剩一隻手）；回馬槍是他學乖撐傘，雲只掉一片雪花，他得意收傘，最大的一坨雪噗地把他整個埋掉、只剩傘露在外面'] },
+  meta: { theme: '下雪天堆雪人', cast: '浣熊花生＋雪雲＋雪球（雪人）', gags: ['花生熱心堆雪人，每次雪球滾好、站起來得意，頭上的雪雲就噗地倒下一大坨雪把他埋住，一次比一次深（胸口、只剩耳朵、只剩一隻手）；回馬槍是他學乖撐傘，雲只掉一片雪花，他得意收傘，最大的一坨雪噗地連人帶雪人整個埋掉、只剩傘露在外面'] },
   duration: 15,
   bg: { top: '#9FC6EC', bottom: '#E2EEFA', floor: '#F2F7FC', scenery: 'snow' },
   actors: [
     { id: 'cloud', emoji: '🌨️', x: CLOUD.x, y: CLOUD.y, size: 32, float: true, tint: 'brightness(.92) saturate(1.3)' },
-    // 雪球（⚪ 染白，會滾）：語詞那一刻換成雪人
-    { id: 'ball', emoji: '⚪', x: ballX(BALL), y: floorY(BALL), size: BALL, hidden: true, tint: WHITE, pivot: 'center' },
+    // 雪球（會滾）：語詞那一刻換成雪人
+    { id: 'ball', emoji: 'prop:snowball', x: ballX(BALL), y: floorY(BALL), size: BALL, hidden: true, pivot: 'center' },
     // 姿勢圖朝左：他在雪球右邊往左推，不用翻
     { id: 'raccoon', emoji: 'hero:raccoon/idle', x: X, y: P, size: 24, hidden: true },
-    // 掉下來的那坨雪＝埋住他的雪堆（畫在他前面）
-    { id: 'snow', emoji: '⚪', x: CLOUD.x, y: CLOUD.y + 8, size: PILE0, hidden: true, tint: WHITE },
+    // 掉下來的那坨雪＝埋住他的雪堆（同一顆雪球落地壓扁；畫在他和雪人前面）
+    { id: 'snow', emoji: 'prop:snowball', x: CLOUD.x, y: CLOUD.y + 8, size: PILE0, hidden: true },
     // 傘（第 4 次）：舉在他頭上；畫在雪堆前面，被埋時收好的傘插在雪堆上
     { id: 'umb', emoji: '☂️', x: X + 1, y: 44, size: 22, hidden: true, float: true },
   ],
@@ -160,12 +173,11 @@ const clip: Clip = {
     { at: C3, actor: 'ball', do: 'rotateTo', amount: -360, dur: 0.45 },
     // 語詞那一刻：雪球從天上掉回正中間——變成雪人！他也掉回來，好開心
     { at: 7.95, actor: 'ball', do: 'swap', emoji: 'prop:snowman' },
-    { at: 7.95, actor: 'ball', do: 'tint', filter: '' },
     // 滾過的角度全部轉回來，雪人站得直直的
     { at: 7.95, actor: 'ball', do: 'rotateTo', amount: 150 * 3 + 360, dur: 0.01 },
     { at: 7.95, actor: 'ball', do: 'scaleTo', amount: SNOWMAN.size / BALLS[2], dur: 0.01 },
     { at: 7.95, actor: 'ball', do: 'moveTo', to: { x: SNOWMAN.x, y: -40 }, dur: 0.01 },
-    { at: 8.0, actor: 'ball', do: 'moveTo', to: { x: SNOWMAN.x, y: floorY(SNOWMAN.size) }, dur: 0.3, ease: 'in' },
+    { at: 8.0, actor: 'ball', do: 'moveTo', to: { x: SNOWMAN.x, y: floorY(BALL) }, dur: 0.3, ease: 'in' },
     { at: 8.3, actor: 'ball', do: 'squash', amount: 0.2, dur: 0.25 },
     { at: 8.2, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
     { at: 8.2, actor: 'raccoon', do: 'scaleTo', amount: BIG, dur: 0.01 },
@@ -184,14 +196,18 @@ const clip: Clip = {
     { at: CLOSE, actor: 'umb', do: 'moveTo', to: { x: X - 14, y: 60 }, dur: 0.15 },
     { at: CLOSE, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/smug' },
     { at: CLOSE + 0.05, actor: 'raccoon', do: 'hop', amount: 2, dur: 0.2 },
-    // 噗！最大的一坨，整個埋掉；收好的傘插在雪堆上
+    // 噗！最大的一坨，連人帶雪人整個埋掉；收好的傘插在雪堆上
     ...b4.moves,
-    { at: H4, actor: 'umb', do: 'moveTo', to: { x: X - 6, y: 40 }, dur: 0.12, ease: 'out' },
+    // 雪雲倒光了，輕飄飄地飄走（問他之前就出畫面）
+    { at: H4 + 0.15, actor: 'cloud', do: 'moveTo', to: { x: 200, y: CLOUD.y - 4 }, dur: 0.4, ease: 'in' },
+    { at: H4, actor: 'umb', do: 'moveTo', to: { x: X - 6, y: 31 }, dur: 0.12, ease: 'out' },
     { at: H4, actor: 'umb', do: 'rotateTo', amount: 25, dur: 0.12 },
     { at: H4 + 0.12, actor: 'umb', do: 'shake', amount: 1.2, dur: 0.4 },
-    // 鑽出來
+    // 鑽出來——雪堆一散，雪人也被壓垮、跟著散掉了（問他的時候畫面上只剩他和字）
     { at: C4, actor: 'snow', do: 'vanish', dur: 0.15 },
+    { at: C4, actor: 'ball', do: 'vanish', dur: 0.15 },
     { at: C4, actor: 'umb', do: 'vanish', dur: 0.15 },
+
     { at: C4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dizzy' },
     { at: C4, actor: 'raccoon', do: 'shake', amount: 1.8, dur: 0.4 },
     // 問他：他走到左前方、變大，轉向觀眾（字在右邊）
@@ -208,12 +224,10 @@ const clip: Clip = {
     { at: 13.4, actor: 'raccoon', do: 'rotateTo', amount: -10, dur: 0.12 },
     { at: 13.4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
     { at: 13.4, actor: 'raccoon', do: 'hop', amount: 6, dur: 0.25 },
-    // 退場：他抱著雪人跑走，雪雲也飄走，畫面只留下字
+    // 退場：他開心地跑走，畫面只留下字
     { at: 13.7, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
     { at: 13.7, actor: 'raccoon', do: 'flip' },
     { at: 13.72, actor: 'raccoon', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
-    { at: 13.72, actor: 'ball', do: 'moveTo', to: { x: -40, y: floorY(SNOWMAN.size) }, dur: 0.28, ease: 'in' },
-    { at: 13.7, actor: 'cloud', do: 'moveTo', to: { x: 200, y: CLOUD.y }, dur: 0.3, ease: 'in' },
   ],
   builds: [
     // 第 1、2 次：雪從天上落下來——雨字頭（上半、四點）

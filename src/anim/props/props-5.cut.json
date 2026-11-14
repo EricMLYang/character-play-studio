@@ -1,0 +1,7 @@
+{
+  "about": "第五張道具表（2026-11，Codex 生圖，洋紅底 3×3）：紅螃蟹的三個狀態（雙螯張開舉高／左螯往左伸長夾緊／橫著走，同一隻、同一個比例可以 swap）、烏龜（側面伸出頭腳／縮進殼裡只露眼睛，同一個比例）、小猴子（站著抓頭壞笑／一手吊樹枝一手拿香蕉）、一串香蕉、大雪球。動物都朝左。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-5.png",
+  "key": "#FF00FF",
+  "props": ["crab", "crab-pinch", "crab-walk", "turtle", "turtle-shell", "monkey", "monkey-hang", "banana", "snowball"],
+  "together": [["crab", "crab-pinch", "crab-walk"], ["turtle", "turtle-shell"]]
+}

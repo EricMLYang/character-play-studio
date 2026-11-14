@@ -2,15 +2,24 @@ import type { Camera, Clip, Cue, Fx, Move } from '../clip'
 import { partColor } from '../parts'
 import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 蟹（v2）：豬探長拿放大鏡湊近要查大螃蟹——每次他把臉湊過去，螃蟹就「喀喀」敲兩下大螯、橫著一滑衝過來，「喀」地夾住他的鼻子，
-// 一次比一次甩得遠：甩回原地（解的左半 角 從螯上彈出來）、甩到畫面邊（解的右半 刀牛）、先停一拍（他抱胸斜眼、螃蟹慢慢敲一下）再湊過去，被甩上天（虫）。
-// 回馬槍：他學聰明了，螃蟹一衝過來他就蹲下抱頭——大螯「喀」地夾空！他得意地站起來轉身……螃蟹橫著一滑，「喀」！夾住屁股，把他彈得最高。
+// 蟹（v2）：豬探長拿放大鏡湊近要查大螃蟹——每次他把臉湊過去，螃蟹就「喀喀」把大螯伸出來空夾兩下、橫著一滑衝過來，伸長的左螯「喀」地夾住他的鼻子，
+// 把他的臉拉過去一下，他傻眼，再被甩出去，一次比一次遠：甩回原地（解的左半 角 從螃蟹身上彈出來）、甩到畫面邊（解的右半 刀牛）、
+// 先停一拍（他抱胸斜眼、螃蟹慢慢空夾一下）再湊過去，被甩上天（虫）。
+// 回馬槍：他學聰明了，螃蟹一衝過來他就跳起來——大螯「喀」地從他腳底下夾空！他得意地轉身、走開兩步鞠躬……螃蟹橫著一滑，「喀」！夾住翹起來的屁股，把他彈得最高。
 // 最後畫面暗下來只剩「蟹」，豬探長轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「蟹！」，然後退場只留字。
 // 蟹、蟹、螃蟹、這是什麼字？、蟹
 const P = 66.9 // 豬探長（size 24）站在地上的 y
-/** 大螃蟹：畫面上最大的東西 */
-const CRAB = 44
+/** 大螃蟹（prop:crab 三張同一個比例）：畫面上最大的東西 */
+const CRAB = 56
 const K = 77 - 0.42 * CRAB
+/** prop:crab-pinch 的左螯伸出去，身體在圖裡往右偏：swap 成它時 x 要往左移這麼多，身體才不動（assets/prop-sheets/README.md） */
+const SHIFT = 0.074 * CRAB
+/** 夾緊的左螯尖端在螃蟹（crab 的 x）左邊多遠；高度是 K + 0.14 × CRAB（約 61.3） */
+const REACH = 0.52 * CRAB
+/** 豬探長（放大後約 28.5）翻過來面向右邊時，傻眼（surprised）的鼻子在他 x 右邊多遠、y 約 62 */
+const NOSE = 2.6
+/** 鞠躬（bow，沒翻、面向左）時翹起來的屁股在他 x 右邊多遠、y 約 65 */
+const BUTT = 8.5
 /** 大螃蟹平常待的地方（畫面中間偏右） */
 const SX = 106
 /** 第 3 次以後退到右邊：國字 home 到正中央時不擋字 */
@@ -18,49 +27,62 @@ const FAR = 127
 /** 豬探長出發的地方、每次湊過去看的地方 */
 const HOME = 34
 const LOOK = 62
-/** 螃蟹橫著一滑，停在這裡：左邊的大螯剛好夾到他的鼻子 */
-const PINCH = LOOK + 31
-/** 語詞那一刻螃蟹到畫面中間、變大（國字讓到左上） */
+/** 螃蟹橫著一滑，停在這裡：伸長的左螯尖端剛好在他的鼻子上 */
+const PINCH = LOOK + NOSE + REACH
+/** 語詞那一刻螃蟹到畫面中間（國字讓到左上） */
 const MID = 100
-const BIG = 1.12
-/** 第四次：他站的地方（螃蟹在 MID） */
+/** 第四次：他湊過去看的地方、跳起來躲過以後走到這裡鞠躬 */
 const LOOK4 = 60
+const BOW = 48
 /** 夾住以後傻眼停多久，才被甩走 */
 const HOLD = 0.45
-/** 夾的那一下螃蟹整隻往他那邊歪幾度（大螯在頭頂兩側，歪下來才碰得到他的臉） */
-const LEAN = 26
+/** 夾住時把他的臉（屁股）往螃蟹那邊拉多遠 */
+const PULL = 3
 
-/** 橫著走：一邊滑、一邊腳一顛一顛（螃蟹不會自動踩步伐） */
-function scuttle(at: number, dur: number, x: number, scale = 1): Move[] {
+const crabPose = (at: number, pose: 'crab' | 'crab-pinch' | 'crab-walk', x: number): Move[] => [
+  { at, actor: 'crab', do: 'swap', emoji: `prop:${pose}` },
+  { at, actor: 'crab', do: 'moveTo', to: { x: pose === 'crab-pinch' ? x - SHIFT : x, y: K }, dur: 0.01 },
+]
+/** 空夾一下：伸出大螯夾一下再縮回來（螃蟹站在 x） */
+const snap = (at: number, x: number, dur = 0.14): Move[] => [...crabPose(at, 'crab-pinch', x), ...crabPose(at + dur, 'crab', x)]
+
+/** 橫著走：換成橫著走的樣子，一邊滑、一邊腳一顛一顛（劇本自己寫 hop，引擎就不再加步伐） */
+function scuttle(at: number, dur: number, from: number, x: number, stop = true): Move[] {
   const n = Math.max(2, Math.round(dur / 0.11))
   return [
-    { at, actor: 'crab', do: 'moveTo', to: { x, y: K + (scale - 1) * -0.42 * CRAB }, dur, ease: 'linear' },
+    ...crabPose(at, 'crab-walk', from),
+    { at: at + 0.01, actor: 'crab', do: 'moveTo', to: { x, y: K }, dur: dur - 0.01, ease: 'linear' },
     ...Array.from({ length: n }, (_, i): Move => ({ at: at + (i * dur) / n, actor: 'crab', do: 'hop', amount: 1.6, dur: dur / n })),
+    ...(stop ? crabPose(at + dur, 'crab', x) : []),
   ]
 }
 
 /**
- * 「喀」：螃蟹敲兩下大螯（預備，喀喀）→ 橫著一滑衝過去 → 大螯一揮（桃紅色弧線）「喀」地夾住 →
- * 那一刻 💥＋鏡頭推近＋震＋同一個音效，他傻眼、兩個一起抖 HOLD 秒（夾著不放）。k 是第幾次（越後面越大）。
- * hit 是夾到的地方（鼻子或屁股），to 是螃蟹滑到的地方。
+ * 「喀」：螃蟹空夾兩下（預備，喀喀）→ 橫著一滑衝過去 → 換成伸長的左螯「喀」地夾住（螯尖剛好在 hit 上）→
+ * 那一刻 💥＋鏡頭推近＋震＋同一個音效；夾著往後一拉（他的臉被拉過去），兩個一起抖 hold 秒，最後螯鬆開縮回來。k 是第幾次（越後面越大）。
+ * from 是螃蟹出發的地方，to 是滑到的地方（crab 的 x），pig 是他那時候站的 x。
  */
-function pinch(at: number, k: number, opt: { to?: number; hit?: { x: number; y: number }; scale?: number; prep?: boolean } = {}) {
-  const { to = PINCH, hit = { x: LOOK + 9, y: P - 9 }, scale = 1, prep = true } = opt
+function pinch(at: number, k: number, opt: { from?: number; to?: number; pig?: number; hit?: { x: number; y: number }; prep?: boolean; hold?: number; react?: boolean } = {}) {
+  const { from = SX, to = PINCH, pig = LOOK, hit = { x: LOOK + NOSE, y: K + 0.14 * CRAB }, prep = true, hold = HOLD, react = true } = opt
   const moves: Move[] = [
-    // 預備：喀喀敲兩下大螯（抖兩下）；第 4 次剛剛夾空時已經敲過了
-    ...(prep ? [at - 0.62, at - 0.45].map((t): Move => ({ at: t, actor: 'crab', do: 'shake', amount: 1 + 0.3 * k, dur: 0.12 })) : []),
+    // 預備：喀喀空夾兩下；第 4 次剛剛夾空時已經夾過了
+    ...(prep ? [at - 0.72, at - 0.47].flatMap((t) => snap(t, from)) : []),
     // 橫著一滑衝過去
-    ...scuttle(at - 0.25, 0.25, to, scale),
-    // 喀！整隻往他那邊一歪，左邊的大螯壓下來夾住；甩出去那一刻再歪回來
-    { at: at - 0.08, actor: 'crab', do: 'rotateTo', amount: -LEAN, dur: 0.08, ease: 'in' },
-    { at: at + HOLD, actor: 'crab', do: 'rotateTo', amount: LEAN, dur: 0.18, ease: 'back' },
-    { at, actor: 'crab', do: 'shake', amount: 0.8 + 0.3 * k, dur: HOLD },
-    { at, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
-    { at, actor: 'pig', do: 'shake', amount: 1 + 0.4 * k, dur: HOLD },
+    ...scuttle(at - 0.25, 0.25, from, to, false),
+    // 喀！伸長的左螯夾住；夾著往後一拉，他被拉過去
+    ...crabPose(at, 'crab-pinch', to),
+    { at: at + 0.06, actor: 'crab', do: 'moveTo', to: { x: to - SHIFT + PULL, y: K }, dur: 0.18, ease: 'out' },
+    { at: at + 0.06, actor: 'pig', do: 'moveTo', to: { x: pig + PULL, y: P }, dur: 0.18, ease: 'out' },
+    { at: at + 0.24, actor: 'crab', do: 'shake', amount: 0.5 + 0.2 * k, dur: hold - 0.24 },
+    // 傻眼（第 4 次夾屁股：那一刻還彎著腰，回頭嚇一跳另外寫）
+    ...(react ? [{ at, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' } as Move] : []),
+    { at: at + 0.24, actor: 'pig', do: 'shake', amount: 0.8 + 0.3 * k, dur: hold - 0.24 },
+    // 甩出去那一刻鬆開，螯縮回來
+    ...crabPose(at + hold, 'crab', to + PULL),
   ]
   const fx: Fx[] = [
-    // 💥 在夾到的地方，一次比一次大
-    { at, kind: 'burst', x: hit.x, y: hit.y, n: 1, dur: 0.35, scale: Math.min(1.6 + 0.45 * k, 2.5) },
+    // 💥 在夾到的地方右上方（不蓋住螯尖和他的臉），一次比一次大
+    { at, kind: 'burst', x: hit.x + 5, y: hit.y - 12, n: 1, dur: 0.3, scale: Math.min(1 + 0.3 * k, 1.9) },
   ]
   const camera: Camera[] = [
     { at, dur: 0.45, do: 'punch', amount: 0.06 + 0.03 * k, to: { x: hit.x, y: hit.y } },
@@ -68,7 +90,7 @@ function pinch(at: number, k: number, opt: { to?: number; hit?: { x: number; y: 
   ]
   // 同一個音效：滑過去（slide）＋喀（crack），一次比一次多疊一個
   const cues: Cue[] = [
-    ...(prep ? [at - 0.62, at - 0.45].map((t): Cue => ({ at: t, sfx: 'tap' })) : []),
+    ...(prep ? [at - 0.72, at - 0.47].map((t): Cue => ({ at: t, sfx: 'tap' })) : []),
     { at: at - 0.25, sfx: 'slide' }, { at, sfx: 'crack' },
   ]
   if (k >= 1) cues.push({ at: at + 0.04, sfx: 'bonk' })
@@ -87,9 +109,12 @@ const H1 = 1.65, H2 = 3.5, H3 = 6.0
 const p1 = pinch(H1, 0)
 const p2 = pinch(H2, 1)
 const p3 = pinch(H3, 2)
-/** 回馬槍：他蹲下、大螯夾空（MISS），站起來得意地轉身，螃蟹再滑一小步夾住屁股（H4） */
-const MISS = 9.55, H4 = 9.95
-const p4 = pinch(H4, 3, { to: MID - 4, hit: { x: LOOK4 + 14, y: P - 2 }, scale: BIG, prep: false })
+/** 回馬槍：他跳起來、大螯從腳底下夾空（MISS），落地得意地轉身走開、鞠躬，螃蟹再滑一小步夾住翹起來的屁股（H4） */
+const MISS = 9.45, H4 = 10.0
+/** 夾空時螃蟹站的地方（螯尖在他原本鼻子的位置）、夾屁股時站的地方 */
+const MISS_X = LOOK4 + NOSE + REACH
+const BUTT_X = BOW + BUTT + REACH
+const p4 = pinch(H4, 3, { from: MISS_X, to: BUTT_X, pig: BOW, hit: { x: BOW + BUTT, y: K + 0.14 * CRAB }, prep: false, hold: 0.3, react: false })
 /** 夾住傻眼完，被甩走的時刻 */
 const R1 = H1 + HOLD, R2 = H2 + HOLD, R3 = H3 + HOLD, R4 = H4 + 0.3
 const ASK = 10.6
@@ -97,18 +122,18 @@ const ASK = 10.6
 const clip: Clip = {
   format: 2,
   char: '蟹',
-  meta: { theme: '豬探長查大螃蟹', cast: '豬探長＋大螃蟹', gags: ['豬探長每次拿放大鏡湊近看大螃蟹，螃蟹就橫著一滑、大螯喀地夾住他的鼻子把他甩出去，一次比一次甩得遠；回馬槍是他蹲下躲過、大螯夾空，他得意地轉身，螃蟹再橫著一滑喀地夾住他的屁股，彈得最高'] },
+  meta: { theme: '豬探長查大螃蟹', cast: '豬探長＋大螃蟹', gags: ['豬探長每次拿放大鏡湊近看大螃蟹，螃蟹就橫著一滑、伸長的大螯喀地夾住他的鼻子把他甩出去，一次比一次甩得遠；回馬槍是他跳起來躲過、大螯從腳底下夾空，他得意地轉身鞠躬，螃蟹再橫著一滑喀地夾住翹起來的屁股，彈得最高'] },
   duration: 15,
   bg: { top: '#9ED8F0', bottom: '#E6F6FB', floor: '#F2DDB0', scenery: 'ocean' },
   actors: [
     // 姿勢圖朝左，翻過來面向右邊的螃蟹（問他時也面向右邊的字）
     { id: 'pig', emoji: 'hero:pig/walk', x: HOME, y: P, size: 24, hidden: true, flip: true },
     // 螃蟹畫在他前面：大螯夾住他的鼻子
-    { id: 'crab', emoji: '🦀', x: 190, y: K, size: CRAB },
+    { id: 'crab', emoji: 'prop:crab-walk', x: 190, y: K, size: CRAB },
   ],
   moves: [
     // 螃蟹橫著走進來；豬探長大步走進來，指著上面的字框
-    ...scuttle(0, 0.6, SX),
+    ...scuttle(0, 0.6, 190, SX),
     { at: 0, actor: 'pig', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
     { at: 0.5, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
     // 第 1 次：拿放大鏡湊過去——喀喀、唰、喀！夾鼻子，甩回原地
@@ -116,20 +141,20 @@ const clip: Clip = {
     ...p1.moves,
     { at: R1, actor: 'pig', do: 'moveTo', to: { x: HOME, y: P }, arc: 8, dur: 0.35, ease: 'out' },
     { at: R1, actor: 'pig', do: 'spin', times: -1, dur: 0.35, pivot: 'center' },
-    ...scuttle(R1 + 0.05, 0.3, SX),
+    ...scuttle(R1 + 0.05, 0.3, PINCH + PULL, SX),
     { at: R1 + 0.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/angry' },
     // 第 2 次：再湊過去——喀！甩得更遠，滾到畫面邊
     ...look(2.6),
     ...p2.moves,
     { at: R2, actor: 'pig', do: 'moveTo', to: { x: 14, y: P }, arc: 16, dur: 0.45, ease: 'out' },
     { at: R2, actor: 'pig', do: 'spin', times: -3, dur: 0.45, pivot: 'center' },
-    ...scuttle(R2 + 0.05, 0.3, SX),
+    ...scuttle(R2 + 0.05, 0.3, PINCH + PULL, SX),
     { at: R2 + 0.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/dizzy' },
-    // 第 3 次：走回同一個地方——先停一拍：他抱胸斜眼看螃蟹、螃蟹慢慢敲一下大螯……他還是湊過去
+    // 第 3 次：走回同一個地方——先停一拍：螃蟹慢慢空夾一下，他抱胸斜眼看螃蟹……他還是湊過去
     { at: 4.7, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
     { at: 4.7, actor: 'pig', do: 'moveTo', to: { x: LOOK, y: P }, dur: 0.4 },
+    ...snap(4.85, SX, 0.3),
     { at: 5.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/doubt' },
-    { at: 5.25, actor: 'crab', do: 'tilt', amount: 6, dur: 0.25 },
     { at: 5.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
     { at: 5.45, actor: 'pig', do: 'tilt', amount: 10, dur: 0.35 },
     ...p3.moves,
@@ -137,41 +162,46 @@ const clip: Clip = {
     { at: R3, actor: 'pig', do: 'moveTo', to: { x: -30, y: -50 }, dur: 0.35, ease: 'out' },
     { at: R3, actor: 'pig', do: 'spin', times: -2, dur: 0.35, pivot: 'center' },
     // 螃蟹橫著退到右邊（國字拼好到正中央時不擋字）
-    ...scuttle(R3 + 0.05, 0.4, FAR),
+    ...scuttle(R3 + 0.05, 0.4, PINCH + PULL, FAR),
     { at: 6.95, actor: 'pig', do: 'moveTo', to: { x: 28, y: -45 }, dur: 0.01 },
     { at: 7.0, actor: 'pig', do: 'moveTo', to: { x: 28, y: P }, dur: 0.3, ease: 'in' },
     { at: 7.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/dizzy' },
-    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓到左上，螃蟹橫著走到中間、變大，左右滑來滑去
+    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓到左上，螃蟹橫著走到中間，左右滑來滑去
     { at: 8.0, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
     { at: 8.0, actor: 'pig', do: 'moveTo', to: { x: 46, y: P }, dur: 0.35 },
-    { at: 8.05, actor: 'crab', do: 'scaleTo', amount: BIG, dur: 0.35, ease: 'back' },
-    ...scuttle(8.05, 0.35, MID + 10, BIG),
-    ...scuttle(8.45, 0.25, MID - 6, BIG),
-    ...scuttle(8.7, 0.25, MID + 6, BIG),
-    ...scuttle(8.95, 0.2, MID, BIG),
+    ...scuttle(8.05, 0.35, FAR, MID + 10, false),
+    { at: 8.45, actor: 'crab', do: 'moveTo', to: { x: MID - 6, y: K }, dur: 0.25, ease: 'linear' },
+    { at: 8.7, actor: 'crab', do: 'moveTo', to: { x: MID + 6, y: K }, dur: 0.25, ease: 'linear' },
+    ...[8.45, 8.58, 8.7, 8.83].map((at): Move => ({ at, actor: 'crab', do: 'hop', amount: 1.6, dur: 0.12 })),
+    ...scuttle(8.95, 0.2, MID + 6, MID),
     { at: 8.35, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
-    // 回馬槍（第 4 次）：他又拿放大鏡湊過去，螃蟹喀喀敲大螯——他學聰明了，蹲下抱頭！大螯「喀」地夾空
-    ...look(9.0, LOOK4),
-    ...[9.0, 9.15].map((at): Move => ({ at, actor: 'crab', do: 'shake', amount: 1.6, dur: 0.12 })),
-    { at: 9.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/duck' },
-    ...scuttle(9.33, 0.22, MID - 4, BIG),
-    { at: MISS - 0.08, actor: 'crab', do: 'rotateTo', amount: -LEAN, dur: 0.08, ease: 'in' },
-    { at: MISS + 0.1, actor: 'crab', do: 'rotateTo', amount: LEAN, dur: 0.15 },
-    // 夾空了！他得意地站起來、轉身背對螃蟹……
-    { at: 9.68, actor: 'pig', do: 'swap', emoji: 'hero:pig/smug' },
-    { at: 9.68, actor: 'pig', do: 'flip' },
-    ...scuttle(9.6, 0.1, MID + 8, BIG),
-    // ……螃蟹再橫著一滑，喀！夾住屁股，把他彈得最高
+    // 回馬槍（第 4 次）：他又拿放大鏡湊過去，螃蟹喀喀空夾兩下——他學聰明了，跳起來！大螯「喀」地從他腳底下夾空
+    ...look(8.95, LOOK4),
+    ...snap(9.0, MID, 0.1),
+    ...snap(9.12, MID, 0.1),
+    { at: 9.2, actor: 'pig', do: 'swap', emoji: 'hero:pig/jump' },
+    { at: 9.2, actor: 'pig', do: 'hop', amount: 18, dur: 0.5 },
+    ...scuttle(9.25, 0.2, MID, MISS_X, false),
+    ...crabPose(MISS, 'crab-pinch', MISS_X),
+    ...crabPose(MISS + 0.13, 'crab', MISS_X),
+    // 夾空了！他落地，得意地轉身背對螃蟹、走開兩步鞠躬（屁股翹起來）……
+    { at: 9.7, actor: 'pig', do: 'swap', emoji: 'hero:pig/smug' },
+    { at: 9.7, actor: 'pig', do: 'flip' },
+    { at: 9.7, actor: 'pig', do: 'moveTo', to: { x: BOW, y: P }, dur: 0.18 },
+    { at: 9.87, actor: 'pig', do: 'swap', emoji: 'hero:pig/bow' },
+    // ……螃蟹再橫著一滑，喀！夾住屁股，他回頭嚇一跳，把他彈得最高
     ...p4.moves,
-    { at: R4, actor: 'pig', do: 'moveTo', to: { x: LOOK4 + 10, y: 22 }, dur: 0.25, ease: 'out' },
-    { at: R4, actor: 'pig', do: 'spin', times: 1, dur: 0.45, pivot: 'center' },
-    { at: R4 + 0.25, actor: 'pig', do: 'moveTo', to: { x: LOOK4 + 4, y: P }, dur: 0.2, ease: 'in' },
+    { at: H4 + 0.12, actor: 'pig', do: 'swap', emoji: 'hero:pig/flee' },
+    { at: H4 + 0.12, actor: 'pig', do: 'flip' },
+    // 往上彈（國字在左上，往右上一點彈，不擋字）
+    { at: R4, actor: 'pig', do: 'moveTo', to: { x: 72, y: 26 }, dur: 0.25, ease: 'out' },
+    { at: R4, actor: 'pig', do: 'spin', times: -1, dur: 0.45, pivot: 'center' },
+    { at: R4 + 0.25, actor: 'pig', do: 'moveTo', to: { x: 60, y: P }, dur: 0.2, ease: 'in' },
     { at: R4 + 0.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/flat' },
     // 螃蟹橫著走掉（問他的時候畫面上只剩他和字）
-    ...scuttle(R4 + 0.2, 0.5, 200, BIG),
-    // 問他：豬探長爬起來、走到左前方、變大，轉向觀眾
+    ...scuttle(R4 + 0.15, 0.5, BUTT_X + PULL, 200, false),
+    // 問他：豬探長爬起來、走到左前方、變大，面向右邊的字
     { at: 10.95, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
-    { at: 10.95, actor: 'pig', do: 'flip' },
     { at: 10.95, actor: 'pig', do: 'scaleTo', amount: 1.55, dur: 0.3, ease: 'back' },
     { at: 10.95, actor: 'pig', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.3 },
     // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
@@ -211,12 +241,12 @@ const clip: Clip = {
     ...p2.fx,
     { at: R2 + 0.45, kind: 'dizzy', actor: 'pig', dur: 0.45 },
     ...p3.fx,
-    { at: H3, kind: 'burst', x: LOOK + 9, y: P - 9, emoji: '⭐', n: 6, dur: 0.35 },
+    { at: H3, kind: 'burst', x: LOOK + NOSE, y: K + 0.14 * CRAB - 4, emoji: '⭐', n: 6, dur: 0.35 },
     { at: 7.3, kind: 'dizzy', actor: 'pig', dur: 0.6 },
     // 大螯夾空
-    { at: MISS, kind: 'pop', actor: 'crab', emoji: '❓', dx: 6, dur: 0.4, scale: 1.4 },
+    { at: MISS + 0.05, kind: 'pop', actor: 'crab', emoji: '❓', dx: 8, dur: 0.4, scale: 1.4 },
     ...p4.fx,
-    { at: H4, kind: 'burst', x: LOOK4 + 14, y: P - 2, emoji: '⭐', n: 8, dur: 0.45 },
+    { at: H4, kind: 'burst', x: BOW + BUTT, y: K + 0.14 * CRAB - 4, emoji: '⭐', n: 8, dur: 0.45 },
     { at: 13.5, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
@@ -244,15 +274,16 @@ const clip: Clip = {
     ...p1.cues,
     ...[R1, R2].map((at): Cue => ({ at, sfx: 'whoosh' })),
     ...p2.cues,
-    { at: 5.25, sfx: 'tap' },
+    { at: 4.85, sfx: 'tap' },
     ...p3.cues,
     { at: R3, sfx: 'whoosh' },
     { at: 7.3, sfx: 'plop' },
     { at: 7.4, say: '蟹' },
     { at: 8.4, say: '螃蟹' },
     { at: 9.0, sfx: 'tap' },
-    { at: 9.15, sfx: 'tap' },
-    { at: 9.33, sfx: 'slide' },
+    { at: 9.12, sfx: 'tap' },
+    { at: 9.2, sfx: 'boing' },
+    { at: 9.25, sfx: 'slide' },
     { at: MISS, sfx: 'crack' },
     ...p4.cues,
     { at: R4, sfx: 'boing' },

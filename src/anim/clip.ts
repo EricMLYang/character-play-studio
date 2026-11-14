@@ -37,7 +37,7 @@ export type Actor = {
 }
 
 /** 會留下結果的動作（位置、大小、角度、出場、退場、換造型）。 */
-type Lasting = 'enter' | 'pop' | 'drop' | 'vanish' | 'moveTo' | 'scaleTo' | 'rotateTo' | 'swap' | 'flip' | 'tint'
+type Lasting = 'enter' | 'pop' | 'drop' | 'vanish' | 'moveTo' | 'scaleTo' | 'stretchTo' | 'rotateTo' | 'swap' | 'flip' | 'tint'
 /** 做完就回原狀的動作。 */
 type Passing = 'hop' | 'bounce' | 'squash' | 'shake' | 'spin' | 'tilt' | 'flash'
 
@@ -52,7 +52,7 @@ export type Move = {
   dur?: number
   actor: string
   do: Lasting | Passing
-  /** moveTo／enter／scaleTo／rotateTo 的緩動方式 */
+  /** moveTo／enter／scaleTo／stretchTo／rotateTo 的緩動方式 */
   ease?: Ease
   /** moveTo／enter：出發前先往反方向縮這麼遠再衝出去（預備動作），單位是舞台距離，3～6 就很明顯 */
   anticipate?: number
@@ -62,7 +62,8 @@ export type Move = {
   from?: Vec
   /** moveTo／enter 中途往上拋多高 */
   arc?: number
-  /** hop／bounce 的高度、shake 的幅度、tilt／rotateTo 的角度、scaleTo 的倍率、squash 的力道（負的是拉長） */
+  /** hop／bounce 的高度、shake 的幅度、tilt／rotateTo 的角度、scaleTo 的倍率、squash 的力道（負的是拉長）、
+   *  stretchTo 的寬度倍率（高度同時變成 1／amount：2 是壓成寬扁的一堆、0.5 是拉成細高；以腳底為準、會累乘、留下結果） */
   amount?: number
   /** bounce／spin 的次數 */
   times?: number
@@ -216,7 +217,7 @@ const EASES: Record<Ease, (p: number) => number> = {
 export const easeBy = (e?: Ease) => EASES[e ?? 'inOut']
 
 const DEFAULT_DUR: Record<Move['do'], number> = {
-  enter: 0.6, pop: 0.35, drop: 0.6, vanish: 0.25, moveTo: 0.5, scaleTo: 0.4, rotateTo: 0.25, swap: 0,
+  enter: 0.6, pop: 0.35, drop: 0.6, vanish: 0.25, moveTo: 0.5, scaleTo: 0.4, stretchTo: 0.4, rotateTo: 0.25, swap: 0,
   flip: 0, tint: 0,
   hop: 0.4, bounce: 0.8, squash: 0.25, shake: 0.5, spin: 0.5, tilt: 0.35, flash: 0.6,
 }
@@ -263,6 +264,8 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
     id: a.id, emoji: a.emoji, size: a.size, flip: !!a.flip, float: !!a.float, top: !!a.top, tint: a.tint,
     x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, rc: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
   }
+  // stretchTo 留下的寬扁（寬 ×w、高 ÷w），最後才乘進 sx／sy；沒寫 stretchTo 的劇本一格都不變
+  let w = 1
   for (const m of sortedMoves(clip)) {
     if (t < m.at) break
     if (m.actor !== a.id) continue
@@ -276,7 +279,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
     const arcUp = (m.arc ?? 0) * Math.sin(Math.PI * pm)
     const pull = ant ? ant * Math.sin(Math.PI * clamp(p / 0.22)) : 0
     // 消失過的角色重新出場：大小與透明度從頭算，不然會被 vanish 留下的 0 卡住
-    if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1 }
+    if ((m.do === 'enter' || m.do === 'pop' || m.do === 'drop') && !st.visible) { st.s = 1; st.o = 1; w = 1 }
     // 旋轉：r 是總角度，以中心為支點的那部分另外記在 rc，播放器分兩段轉
     const centered = (m.pivot ?? (a.pivot === 'center' ? 'center' : 'feet')) === 'center'
     const turn = (deg: number) => { st.r += deg; if (centered) st.rc += deg }
@@ -301,6 +304,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
         }
         break
       case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
+      case 'stretchTo': w *= lerp(1, m.amount ?? 1, e); break
       case 'rotateTo': turn(lerp(0, m.amount ?? 0, e)); break
       case 'swap': if (m.emoji) st.emoji = m.emoji; break
       case 'tint': st.tint = m.filter || undefined; break
@@ -318,6 +322,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
       }
     }
   }
+  if (w !== 1) { st.sx *= w; st.sy /= w }
   return st
 }
 
@@ -431,13 +436,14 @@ type Kind = 'creature' | 'vehicle' | 'prop'
  * 自製道具圖：劇本寫 emoji: 'prop:<名字>'，圖在 public/props/<名字>.png（npm run prop:cut 從道具表切出來，512×512、長邊撐滿、底部對齊）。
  * size 的意義跟 emoji 一樣（道具的長邊），站在地上的 y 跟主角一樣算。自動質感照「道具」那一邊（跟 🎁⭐🌳 一樣：不踩步伐、不點頭、不做小動作），
  * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）；
- * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸 一樣），
- * 其中趴著睡、跳在半空的那幾張（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
+ * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸🦀🐢🐒 一樣），
+ * 其中趴著睡、跳在半空、伸螯夾東西、縮進殼裡、吊在樹枝上的那幾張（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
  */
 export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
-const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump'])
-const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump'])
+const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump',
+  'crab', 'crab-pinch', 'crab-walk', 'turtle', 'turtle-shell', 'monkey', 'monkey-hang'])
+const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 
 /**
