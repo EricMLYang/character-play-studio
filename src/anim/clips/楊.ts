@@ -223,8 +223,8 @@ const clip: Clip = {
     // 樹搖了……什麼都沒掉？
     { at: H4 - 0.8, kind: 'pop', actor: 'yang', emoji: '❓', dx: -8, dur: 0.4 },
     ...b4.fx,
-    // 安全帽被砸飛
-    { at: H4 + 0.05, kind: 'pop', actor: 'yang', emoji: '⛑️', dx: -16, dy: -2, dur: 0.6, scale: 2 },
+    // 安全帽被砸飛（跟 helmet 姿勢同一頂紅色工地帽；⛑️ 是白十字救護帽，對不上）
+    { at: H4 + 0.05, kind: 'pop', actor: 'yang', emoji: 'prop:hardhat', dx: -16, dy: -2, dur: 0.6, scale: 2 },
     { at: 13.65, kind: 'burst', x: 62, y: 38, emoji: '🌟', n: 10, dur: 0.32 },
   ],
   camera: [

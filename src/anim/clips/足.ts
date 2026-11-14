@@ -94,7 +94,8 @@ const clip: Clip = {
   duration: 15,
   bg: { top: '#CDEBFF', bottom: '#F2FAFF', floor: '#8CCB6E', scenery: 'track' },
   actors: [
-    { id: 'goal', emoji: '🥅', x: GX, y: 77 - 0.42 * 26, size: 26 },
+    // 球門用道具圖（白框白網、正面；🥅 的 3D 圖是粉紅色側面，不像球門）
+    { id: 'goal', emoji: 'prop:goal', x: GX, y: 77 - 0.42 * 32, size: 32 },
     // 新的豬探長圖朝左，翻過來朝右：面向右邊的球（問他時也面向右邊的字）
     { id: 'pig', emoji: 'hero:pig/idle', x: HOME, y: P, size: 24, hidden: true, flip: true },
     // 大足球畫在他前面：第四次壓在他身上
@@ -167,7 +168,7 @@ const clip: Clip = {
     // 球從他身上彈走，滾出右邊
     { at: SQ + 0.3, actor: 'ball', do: 'moveTo', to: { x: 210, y: BY }, arc: 16, dur: 0.4, ease: 'in' },
     { at: SQ + 0.3, actor: 'ball', do: 'spin', times: 2, dur: 0.4 },
-    { at: SQ + 0.3, actor: 'goal', do: 'moveTo', to: { x: 210, y: 77 - 0.42 * 26 }, dur: 0.01 },
+    { at: SQ + 0.3, actor: 'goal', do: 'moveTo', to: { x: 210, y: 77 - 0.42 * 32 }, dur: 0.01 },
     // 問他：豬探長撐起來、走到左前方、變大，轉向觀眾
     { at: 10.75, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
     { at: 10.75, actor: 'pig', do: 'scaleTo', amount: 1.55, dur: 0.3, ease: 'back' },

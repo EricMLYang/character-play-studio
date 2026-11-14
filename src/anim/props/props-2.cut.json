@@ -1,0 +1,6 @@
+{
+  "about": "第二張道具表（2026-11，Codex 生圖，洋紅底 3×3）：酸的檸檬三階段（整顆→咬一口→剩一半，缺口在左上）、檸檬片、酸梅湯、酸梅，足的球門，蜘蛛網（白色，只適合深色背景），紅色安全帽。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-2.png",
+  "key": "#FF00FF",
+  "props": ["lemon", "lemon-bite", "lemon-half", "lemon-slice", "plum-drink", "plum", "goal", "web", "hardhat"]
+}

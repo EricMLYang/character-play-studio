@@ -29,7 +29,7 @@ const BIG = 1.25
 const STAND = 54
 
 /**
- * 「咕嚕—咻」：蛋糕閃一下、彈一下（預備：好香）→ 警長伸手、彎腰舔一口 → 舔到那一刻傻眼＋臉紅＋💕 一圈＋白光＋鏡頭推近＋震＋同一個音效，
+ * 「咕嚕—咻」：蛋糕閃一下、彈一下（預備：好香）→ 警長眼睛發亮流口水、彎腰舔一口 → 舔到那一刻傻眼＋臉紅＋💕 一圈＋白光＋鏡頭推近＋震＋同一個音效，
  * 傻眼停 HOLD 秒（看得見臉），才滿身愛心飄起來。k 是第幾次（越後面越大），x 是他站的地方。
  * 第 4 次（lick: false）他沒有舔：伸手比「不吃」，櫻桃自己飛進他嘴裡。
  */
@@ -46,8 +46,8 @@ function sweet(at: number, k: number, x: number, lick = true) {
     { at: at + HOLD, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
   ]
   if (lick) moves.push(
-    // 伸手、彎腰舔一小口
-    { at: at - 0.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/reach' },
+    // 好想吃（眼睛發亮、流口水）、彎腰舔一小口
+    { at: at - 0.4, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/drool' },
     { at: at - 0.4, actor: 'sheriff', do: 'tilt', amount: 10, dur: 0.4 },
     { at: at - 0.18, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/eat' },
     { at: at - 0.18, actor: 'sheriff', do: 'squash', amount: -0.12, dur: 0.18 },

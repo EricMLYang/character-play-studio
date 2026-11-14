@@ -1,6 +1,6 @@
 {
   "name": "豬探長",
-  "about": "Codex 生圖畫的綠幕姿勢表（3×3，參考圖取自爸爸 FamilyCreation 的豬探長影片）。A 表情、B 動作、C 道具與生活動作、D 全身動作（踢、丟、拉、舉、跳、抱、吹、偷看、逃）；朝左。比例以 A 表的 idle（站好微笑）身高為準。來源與版面規則見 assets/hero-sheets/README.md。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，參考圖取自爸爸 FamilyCreation 的豬探長影片）。A 表情、B 動作、C 道具與生活動作、D 全身動作（踢、丟、拉、舉、跳、抱、吹、偷看、逃）、E 吃東西與身體反應（酸、辣、臭、飽、哈欠、噴嚏、流口水、偷笑、累）；朝左。比例以 A 表的 idle（站好微笑）身高為準。來源與版面規則見 assets/hero-sheets/README.md。",
   "ref": "idle",
   "sheets": {
     "A": {
@@ -18,6 +18,10 @@
     "D": {
       "file": "pig-D.png",
       "poses": ["kick", "throw", "pull", "lift", "jump", "hug", "blow", "peek", "flee"]
+    },
+    "E": {
+      "file": "pig-E.png",
+      "poses": ["sour", "spicy", "stinky", "full", "yawn", "sneeze", "drool", "giggle", "tired"]
     }
   }
 }
