@@ -1,0 +1,7 @@
+{
+  "about": "第七張道具表（2026-11，Codex 生圖，洋紅底 3×3）：大樹（沒有果子）、結滿紅蘋果的蘋果樹（跟大樹同一個比例可以 swap）、一顆包子、一盤冒熱氣的包子、鍋裡滾著包子的大鍋、大紅辣椒、麻辣火鍋、一杯水加吸管、立鏡。prompt 要的是餃子，畫出來是頂上打摺的包子，照實命名。來源、版面規則、prompt 見 assets/prop-sheets/README.md。",
+  "file": "props-7.png",
+  "key": "#FF00FF",
+  "props": ["tree", "apple-tree", "bao", "bao-plate", "bao-pot", "chili", "hotpot", "water", "mirror"],
+  "together": [["tree", "apple-tree"]]
+}
