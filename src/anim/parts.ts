@@ -86,9 +86,12 @@ export const PARTS = {
 
 export type PartName = keyof typeof PARTS
 
-/** 同一個部件的別的寫法：顏色、來歷跟本尊一樣 */
+/**
+ * 同一個部件的別的寫法：顏色、來歷跟本尊一樣。
+ * 𠂇、又都是「一隻手」的樣子（有、左、右、友、取）：跟扌一樣是伸出來的手。
+ */
 export const PART_ALIASES = {
-  手: '扌', 水: '氵', 人: '亻', 犭: '豸', 忄: '心', 灬: '火', 罒: '目',
+  手: '扌', 水: '氵', 人: '亻', 犭: '豸', 忄: '心', 灬: '火', 罒: '目', 𠂇: '扌', 又: '扌',
 } as const satisfies Record<string, PartName>
 
 /**
