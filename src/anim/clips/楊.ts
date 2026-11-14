@@ -1,179 +1,256 @@
-import type { Clip, Move } from '../clip'
-import { pressStack } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 楊（重做）：楊捷睿提著水桶來澆一棵小樹苗，想讓它長成大樹。澆一點點——只長一點點；整桶倒下去——樹苗「轟」地長成超級大樹，把他頂上樹頂、水桶飛上天。
-// 樹葉落成「木」、被樹頂撞到的太陽變成「日」、樹枝拼成右下，大樹縮回樹苗，他從半空掉下來。國字讓到上方，他輕輕親一下樹苗，長成一棵剛剛好的楊樹（楊樹）。
-// 回馬槍：水桶從天上掉下來扣在他頭上、淋得一身濕——他頭上也長出一棵樹，頂著樹走掉。楊、楊、楊樹
-const B = 67.8 // 楊捷睿（size 22）站在地上的 y
-const T = 73.6 // 樹苗（size 8）站在地上的 y
-const BK = -1 // 水桶提在手上（相對他的 y）
-const BX = 10 // 水桶在他右手邊（相對他的 x）
+// 楊（v2）：楊捷睿想摘楊桃樹上最大的那顆楊桃——每次他跳起來搆，樹一搖，掉下來的楊桃就「咚」地砸在他頭上，一次比一次多：
+// 一顆（木從樹上飛出來）、一串把他砸得跌坐（昜的上半從楊桃飛出來）、先停一拍再跳，整棵樹下楊桃雨把他壓扁（昜的下半）。
+// 回馬槍：他戴好安全帽再跳一次——什麼都沒掉，正得意，他要的那顆最大的楊桃掉下來、變成超大一顆把他連人帶安全帽壓扁。
+// 最後畫面暗下來只剩「楊」，他轉向觀眾問「這是什麼字？」，手放耳邊等他回答，再跳起來指著字說「楊！」，然後退場只留字。
+// 楊、楊、楊桃、這是什麼字？、楊
+const P = 66.9 // 楊捷睿（size 24）站在地上的 y
+/** 楊桃樹（size 56）：畫面上最大的東西，站在右邊——國字拼好放大到正中央時才不會被樹擋住 */
+const TX = 128
+const TS = 56
+const TY = 77 - 0.42 * TS
+/** 他每次都站在同一個地方：樹冠左下、他要的那顆楊桃底下 */
+const X = 116
+/** 他要的那顆（最大的）楊桃，掛在樹冠左邊，跳起來還差一點點搆不到 */
+const GOAL = { x: 110, y: 36 }
+/** 掉下來的楊桃從樹冠頂端冒出來、砸到他頭上的位置 */
+const TOP = { x: 120, y: 30 }
+const HEAD = { x: X, y: 51 }
+/** 第四次那顆變超大，砸下來的位置與倍率 */
+const BIG = 3.4
+const HEAD_BIG = { x: X, y: 50 }
+/** 砸到以後傻眼停多久 */
+const HOLD = 0.45
+/** 楊桃：星星形狀的水果，⭐ 稍微偏黃綠 */
+const FRUIT = 'hue-rotate(14deg) saturate(1.15)'
+/** 語詞那一刻：楊桃到正中間變大 */
+const MID = { x: 86, y: 47 }
+const WORD_BIG = 2.4
 
-// 楊捷睿的移動抄一份給手上／頭上的東西（dx、dy 是相對他的位置）
-const follow = (ms: Move[], ids: [string, number, number][]): Move[] => ms.flatMap((m) => [
-  m,
-  ...ids.map(([actor, dx, dy]) => ({
-    ...m, actor,
-    to: m.to && { x: m.to.x + dx, y: m.to.y + dy },
-    from: m.from && { x: m.from.x + dx, y: m.from.y + dy },
-  })),
-])
+/**
+ * 「跳—搖—咚」：他蹲一下、跳起來搆楊桃（預備）→ 碰到樹枝、整棵樹一搖（同一個音）→ 樹冠上掉下楊桃，「咚」砸在他頭上那一刻
+ * 傻眼（第三次起直接壓扁）＋💥＋鏡頭推近＋震＋同一個音效，一次比一次多疊一個音。k 是第幾次（越後面越大）。
+ * 第 4 次（goal）：他戴著安全帽跳，樹搖了卻什麼都沒掉——等了一拍，他要的那顆才掉下來、一邊掉一邊變超大。
+ */
+function bonk(at: number, k: number) {
+  const giant = k >= 3
+  const j = at - (giant ? 1.35 : 0.85)
+  const moves: Move[] = [
+    // 蹲一下、跳起來搆
+    { at: j, actor: 'yang', do: 'squash', amount: -0.25, dur: 0.15 },
+    { at: j + 0.12, actor: 'yang', do: 'hop', amount: 12, dur: 0.38 },
+    // 碰到樹枝：整棵樹一搖，他要的那顆晃一晃（就是不掉）
+    { at: j + 0.3, actor: 'tree', do: 'shake', amount: 0.8 + 0.4 * k, dur: 0.5 },
+    { at: j + 0.3, actor: 'goal', do: 'shake', amount: 1.4, dur: 0.5 },
+    // 咚！
+    { at, actor: 'yang', do: 'swap', emoji: k >= 2 ? 'hero:yang/flat' : 'hero:yang/surprised' },
+    { at, actor: 'yang', do: 'squash', amount: 0.3 + 0.1 * k, dur: 0.3 },
+  ]
+  if (!giant) moves.push(
+    { at: j, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
+    // 樹冠頂端冒出一顆楊桃，直直掉到他頭上
+    { at: at - 0.38, actor: 'nut', do: 'moveTo', to: TOP, dur: 0.01 },
+    { at: at - 0.37, actor: 'nut', do: 'pop', dur: 0.08 },
+    { at: at - 0.3, actor: 'nut', do: 'moveTo', to: HEAD, dur: 0.3, ease: 'in' },
+  )
+  else moves.push(
+    // 等了一拍：他要的那顆先抖一下，掉下來、一邊掉一邊變超大
+    { at: at - 0.6, actor: 'goal', do: 'shake', amount: 1.6, dur: 0.22 },
+    { at: at - 0.38, actor: 'goal', do: 'moveTo', to: HEAD_BIG, dur: 0.38, ease: 'in' },
+    { at: at - 0.38, actor: 'goal', do: 'scaleTo', amount: BIG, dur: 0.38, ease: 'in' },
+    { at, actor: 'goal', do: 'squash', amount: 0.25, dur: 0.3 },
+  )
+  const fx: Fx[] = [
+    // 樹一搖：葉子沙沙
+    { at: j + 0.3, kind: 'burst', x: TX - 6, y: TY - 14, emoji: '🍃', n: 4 + 2 * k, dur: 0.5, scale: 1 + 0.2 * k },
+    // 💥 每次都在他頭上同一個位置，一次比一次大
+    { at, kind: 'burst', x: X - 2, y: k >= 2 ? P - 10 : P - 15, n: 1, dur: 0.35, scale: 1.6 + 0.4 * k },
+  ]
+  const camera: Camera[] = [
+    { at, dur: 0.45, do: 'punch', amount: k === 2 ? 0.08 : 0.08 + 0.04 * k, to: { x: X - 6, y: k >= 2 ? 70 : 52 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.8 + 0.45 * k },
+  ]
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at: j + 0.3, sfx: 'rumble' }, { at, sfx: 'bonk' }]
+  if (k >= 1) cues.push({ at: at + 0.04, sfx: 'boing' })
+  if (k >= 2) cues.push({ at: at + 0.08, sfx: 'crack' })
+  return { moves, fx, camera, cues }
+}
+
+/** 楊桃從他頭上彈開，飛出畫面右邊（之後收起來，下一次再從樹冠冒出來） */
+const away = (at: number): Move[] => [
+  { at, actor: 'nut', do: 'moveTo', to: { x: 178, y: 58 }, arc: 12, dur: 0.45, ease: 'out' },
+  { at, actor: 'nut', do: 'spin', times: 1, dur: 0.45, pivot: 'center' },
+  { at: at + 0.5, actor: 'nut', do: 'vanish', dur: 0.01 },
+]
+
+const H1 = 2.2, H2 = 3.95, H3 = 6.45, H4 = 10.6
+const b1 = bonk(H1, 0)
+const b2 = bonk(H2, 1)
+const b3 = bonk(H3, 2)
+const b4 = bonk(H4, 3)
 
 const clip: Clip = {
+  format: 2,
   char: '楊',
-  meta: { theme: '澆樹苗澆過頭', cast: '楊捷睿＋小樹苗（楊樹）＋水桶＋太陽＋小松鼠', gags: ['澆一點只長一點點', '整桶倒下去樹爆長頂上天', '大樹縮回樹苗掉下來', '輕輕一親就長好', '水桶扣頭上頭頂長出樹'] },
-  duration: 10,
-  bg: { top: '#A8DCFF', bottom: '#EAF7FF', floor: '#A7DB7F', scenery: 'hills' },
+  meta: { theme: '楊捷睿摘楊桃', cast: '楊捷睿＋楊桃樹＋楊桃', gags: ['楊捷睿每次跳起來搆樹上的楊桃，樹一搖，掉下來的楊桃就咚地砸在他頭上、一次比一次多（一顆、一串、整棵樹下楊桃雨）；回馬槍是他戴好安全帽再跳，什麼都沒掉，正得意，他要的那顆變成超大一顆掉下來把他壓扁'] },
+  duration: 15,
+  bg: { top: '#BEE6FF', bottom: '#F4FBFF', floor: '#A3D97E', scenery: 'hills' },
   actors: [
-    { id: 'sun', emoji: '☀️', x: 132, y: 19, size: 13, float: true },
-    { id: 'chip', emoji: '🐿️', x: 14, y: 72, size: 12 },
-    { id: 'tree', emoji: '🌱', x: 128, y: T, size: 8 },
-    { id: 'boy', emoji: 'hero:yang/idle', x: 2, y: B, size: 22 },
-    { id: 'bucket', emoji: '🪣', x: 2 + BX, y: B + BK, size: 10, float: true },
-    { id: 'htree', emoji: '🌱', x: 104, y: 47.5, size: 8, hidden: true, float: true },
+    { id: 'tree', emoji: '🌳', x: TX, y: TY, size: TS },
+    // 他要的那顆最大的楊桃
+    { id: 'goal', emoji: '⭐', x: GOAL.x, y: GOAL.y, size: 11, float: true, pivot: 'center', tint: FRUIT },
+    // 每次從樹上掉下來砸他的那顆
+    { id: 'nut', emoji: '⭐', x: TOP.x, y: TOP.y, size: 11, float: true, hidden: true, pivot: 'center', tint: FRUIT },
+    // 姿勢圖朝左；登場時翻過來面向右邊，走到樹下再轉回來面向他要的那顆
+    { id: 'yang', emoji: 'hero:yang/idle', x: 80, y: P, size: 24, hidden: true, flip: true },
   ],
   moves: [
-    // 提著水桶跑進來
-    ...follow([
-      { at: 0, actor: 'boy', do: 'moveTo', to: { x: 104, y: B }, dur: 0.85, ease: 'out' },
-    ], [['bucket', BX, BK]]),
-    // 看到小樹苗：要讓它長成大樹！
-    { at: 0.95, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
-    { at: 0.95, actor: 'boy', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 0.95, actor: 'bucket', do: 'hop', amount: 4, dur: 0.3 },
-    // 第一次：澆一點點
-    { at: 1.4, actor: 'bucket', do: 'rotateTo', amount: 65, dur: 0.25 },
-    { at: 1.95, actor: 'tree', do: 'scaleTo', amount: 1.3, dur: 0.25, ease: 'back' },
-    { at: 2.1, actor: 'bucket', do: 'rotateTo', amount: -65, dur: 0.2 },
-    { at: 2.2, actor: 'boy', do: 'swap', emoji: 'hero:yang/idle' },
-    // 第二次：整桶舉高高——倒下去
-    { at: 2.55, actor: 'boy', do: 'squash', amount: -0.3, dur: 0.35 },
-    { at: 2.55, actor: 'bucket', do: 'moveTo', to: { x: 108, y: 47 }, dur: 0.3, ease: 'out' },
-    { at: 2.95, actor: 'bucket', do: 'rotateTo', amount: 150, dur: 0.15 },
-    { at: 2.95, actor: 'bucket', do: 'moveTo', to: { x: 116, y: 50 }, dur: 0.15 },
-    { at: 2.95, actor: 'boy', do: 'squash', amount: 0.2, dur: 0.25 },
-    // 沒反應……湊過去看
-    { at: 3.3, actor: 'bucket', do: 'rotateTo', amount: -150, dur: 0.2 },
-    { at: 3.3, actor: 'bucket', do: 'moveTo', to: { x: 108 + BX, y: B + BK }, dur: 0.2 },
-    { at: 3.3, actor: 'boy', do: 'moveTo', to: { x: 108, y: B }, dur: 0.25 },
-    { at: 3.35, actor: 'tree', do: 'shake', amount: 0.8, dur: 0.4 },
-    // 轟！樹苗爆長成超級大樹，把他頂上樹頂、水桶飛上天、樹頂撞到太陽
-    { at: 3.75, actor: 'tree', do: 'swap', emoji: '🌳' },
-    { at: 3.75, actor: 'tree', do: 'scaleTo', amount: 5, dur: 0.3, ease: 'back' },
-    { at: 3.75, actor: 'boy', do: 'swap', emoji: 'hero:yang/surprised' },
-    { at: 3.75, actor: 'boy', do: 'moveTo', to: { x: 124, y: 36 }, arc: 10, dur: 0.35, ease: 'out' },
-    { at: 3.75, actor: 'bucket', do: 'moveTo', to: { x: 104, y: -25 }, dur: 0.45, ease: 'out' },
-    { at: 3.75, actor: 'bucket', do: 'spin', times: 2, dur: 0.45 },
-    { at: 3.95, actor: 'sun', do: 'moveTo', to: { x: 146, y: 12 }, dur: 0.3, ease: 'out' },
-    { at: 3.95, actor: 'sun', do: 'spin', times: 1, dur: 0.4 },
-    // 卡在樹頂手腳亂揮
-    { at: 4.15, actor: 'boy', do: 'shake', amount: 1.2, dur: 0.5 },
-    { at: 4.1, actor: 'chip', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
-    // 樹葉被他搖下來 → 木；大樹一邊縮
-    { at: 4.55, actor: 'tree', do: 'shake', amount: 1.5, dur: 0.5 },
-    { at: 4.6, actor: 'tree', do: 'scaleTo', amount: 0.75, dur: 0.6 },
-    { at: 4.6, actor: 'boy', do: 'moveTo', to: { x: 124, y: 44 }, dur: 0.6 },
-    { at: 5.1, actor: 'sun', do: 'shake', amount: 1, dur: 0.4 },
-    // 樹枝也飛走，大樹縮回樹苗，他懸在半空——掉下來
-    { at: 5.5, actor: 'tree', do: 'scaleTo', amount: 0.27, dur: 0.4, ease: 'in' },
-    { at: 5.9, actor: 'tree', do: 'swap', emoji: '🌱' },
-    { at: 5.9, actor: 'boy', do: 'swap', emoji: 'hero:yang/dizzy' },
-    { at: 5.95, actor: 'boy', do: 'moveTo', to: { x: 134, y: B }, dur: 0.25, ease: 'in' },
-    // 爬起來，走到樹苗旁邊（國字已經讓位）
-    { at: 6.9, actor: 'boy', do: 'swap', emoji: 'hero:yang/idle' },
-    { at: 6.9, actor: 'boy', do: 'shake', amount: 0.8, dur: 0.3 },
-    { at: 7.0, actor: 'boy', do: 'flip' },
-    { at: 7.05, actor: 'boy', do: 'moveTo', to: { x: 104, y: B }, dur: 0.4, ease: 'out' },
-    { at: 7.45, actor: 'boy', do: 'flip' },
-    // 輕輕親一下：長成剛剛好的楊樹
-    { at: 7.5, actor: 'boy', do: 'squash', amount: 0.2, dur: 0.3 },
-    { at: 7.7, actor: 'tree', do: 'swap', emoji: '🌳' },
-    { at: 7.7, actor: 'tree', do: 'scaleTo', amount: 3.4, dur: 0.45, ease: 'elastic' },
-    { at: 7.8, actor: 'boy', do: 'swap', emoji: 'hero:yang/happy' },
-    { at: 7.85, actor: 'boy', do: 'hop', amount: 8, dur: 0.4 },
-    { at: 7.8, actor: 'chip', do: 'hop', amount: 4, dur: 0.3 },
-    // 回馬槍：水桶從天上掉下來，扣在他頭上
-    { at: 8.05, actor: 'bucket', do: 'moveTo', to: { x: 104, y: 55 }, dur: 0.4, ease: 'in' },
-    { at: 8.05, actor: 'bucket', do: 'spin', times: -1, dur: 0.4 },
-    { at: 8.45, actor: 'boy', do: 'squash', amount: 0.35, dur: 0.35 },
-    ...pressStack(8.45, 0.35, 0.35, 22, ['bucket']),
-    { at: 8.45, actor: 'boy', do: 'swap', emoji: 'hero:yang/surprised' },
-    // 淋得一身濕——頭上長出一棵樹
-    { at: 8.75, actor: 'htree', do: 'pop' },
-    { at: 8.95, actor: 'htree', do: 'swap', emoji: '🌳' },
-    { at: 8.95, actor: 'htree', do: 'scaleTo', amount: 2.8, dur: 0.35, ease: 'elastic' },
-    { at: 8.95, actor: 'boy', do: 'hop', amount: 3, dur: 0.25 },
-    { at: 8.95, actor: 'bucket', do: 'hop', amount: 3, dur: 0.25 },
-    { at: 8.95, actor: 'htree', do: 'hop', amount: 3, dur: 0.25 },
-    // 頂著頭上的樹走到左邊
-    ...follow([
-      { at: 9.1, actor: 'boy', do: 'moveTo', to: { x: 40, y: B }, dur: 0.45, ease: 'out' },
-    ], [['bucket', 0, 55 - B], ['htree', 0, 47.5 - B]]),
-    { at: 9.65, actor: 'chip', do: 'bounce', amount: 2, times: 2, dur: 0.35 },
-    // 頭上的樹太重，整疊晃一晃
-    ...['boy', 'bucket', 'htree'].map((actor) => ({ at: 9.6, actor, do: 'shake' as const, amount: 0.8, dur: 0.4 })),
+    // 楊捷睿登場，抬頭看字框
+    { at: 0, actor: 'yang', do: 'enter', from: { x: -25, y: P }, dur: 0.5, ease: 'out' },
+    // 看到樹上那顆大楊桃：就是它！
+    { at: 0.75, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
+    { at: 0.75, actor: 'goal', do: 'bounce', amount: 1.5, times: 1, dur: 0.3 },
+    { at: 1.0, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 1.0, actor: 'yang', do: 'moveTo', to: { x: X, y: P }, dur: 0.3 },
+    { at: 1.3, actor: 'yang', do: 'flip' },
+    // 第 1 次：跳起來搆——樹一搖，一顆楊桃咚！傻眼
+    ...b1.moves,
+    ...away(H1 + 0.05),
+    { at: H1 + HOLD + 0.2, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    // 第 2 次：再跳——一串楊桃咚咚咚！被砸得跌坐、滑到旁邊
+    ...b2.moves,
+    ...away(H2 + 0.05),
+    { at: H2 + HOLD, actor: 'yang', do: 'swap', emoji: 'hero:yang/fall' },
+    { at: H2 + HOLD, actor: 'yang', do: 'moveTo', to: { x: X - 12, y: P }, dur: 0.3, ease: 'out' },
+    { at: 4.85, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 4.9, actor: 'yang', do: 'moveTo', to: { x: X, y: P }, dur: 0.25 },
+    // 第 3 次前停一拍：托下巴抬頭看那顆、樹抖一抖……跳！
+    { at: 5.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/ponder' },
+    { at: 5.15, actor: 'yang', do: 'tilt', amount: 8, dur: 0.35 },
+    { at: 5.3, actor: 'tree', do: 'shake', amount: 0.5, dur: 0.25 },
+    // 整棵樹下楊桃雨：壓扁
+    ...b3.moves,
+    // 最後那顆彈到樹下，躺著
+    { at: H3 + 0.05, actor: 'nut', do: 'moveTo', to: { x: 142, y: 72.4 }, arc: 8, dur: 0.35, ease: 'out' },
+    { at: H3 + 0.05, actor: 'nut', do: 'spin', times: 1, dur: 0.35, pivot: 'center' },
+    // 字框填滿（國字 home 到正中央）；語詞那一刻：國字讓回上方，他爬起來，楊桃跳到正中間、變大
+    { at: 7.85, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 7.85, actor: 'yang', do: 'shake', amount: 0.8, dur: 0.25 },
+    { at: 8.05, actor: 'yang', do: 'moveTo', to: { x: 62, y: P }, dur: 0.4 },
+    { at: 8.3, actor: 'nut', do: 'moveTo', to: MID, arc: 12, dur: 0.35, ease: 'out' },
+    { at: 8.3, actor: 'nut', do: 'scaleTo', amount: WORD_BIG, dur: 0.35, ease: 'back' },
+    { at: 8.45, actor: 'yang', do: 'flip' },
+    { at: 8.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 8.45, actor: 'yang', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 8.5, actor: 'nut', do: 'tilt', amount: 10, dur: 0.4 },
+    // 一口吃掉
+    { at: 9.0, actor: 'yang', do: 'swap', emoji: 'hero:yang/eat' },
+    { at: 9.0, actor: 'nut', do: 'moveTo', to: { x: 70, y: 56 }, dur: 0.15, ease: 'in' },
+    { at: 9.0, actor: 'nut', do: 'scaleTo', amount: 1 / WORD_BIG, dur: 0.15, ease: 'in' },
+    { at: 9.15, actor: 'nut', do: 'vanish', dur: 0.06 },
+    { at: 9.1, actor: 'yang', do: 'squash', amount: 0.15, dur: 0.2 },
+    // 回馬槍（第 4 次）：戴好安全帽、比讚，走回樹下再跳一次
+    { at: 9.3, actor: 'yang', do: 'swap', emoji: 'hero:yang/helmet' },
+    { at: 9.3, actor: 'yang', do: 'moveTo', to: { x: X, y: P }, dur: 0.35 },
+    { at: 9.65, actor: 'yang', do: 'flip' },
+    ...b4.moves,
+    // 超大楊桃從他身上彈開，滾出畫面右邊
+    { at: H4 + 0.35, actor: 'goal', do: 'moveTo', to: { x: 200, y: 56 }, arc: 10, dur: 0.4, ease: 'in' },
+    { at: H4 + 0.35, actor: 'goal', do: 'spin', times: 1, dur: 0.4, pivot: 'center' },
+    // 問他：他爬起來、變大，站在右前方面向字；樹在暗處收起來
+    { at: 11.1, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: 11.1, actor: 'yang', do: 'scaleTo', amount: 1.5, dur: 0.3, ease: 'back' },
+    { at: 11.1, actor: 'yang', do: 'moveTo', to: { x: 124, y: P + 4 }, dur: 0.3 },
+    { at: 11.4, actor: 'tree', do: 'vanish', dur: 0.3 },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 12.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/listen' },
+    { at: 12.15, actor: 'yang', do: 'rotateTo', amount: -10, dur: 0.3 },
+    { at: 12.65, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.15, actor: 'yang', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字
+    { at: 13.65, actor: 'yang', do: 'rotateTo', amount: 10, dur: 0.12 },
+    { at: 13.65, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
+    { at: 13.65, actor: 'yang', do: 'hop', amount: 6, dur: 0.2 },
+    // 退場，畫面只留下字
+    { at: 13.82, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
+    { at: 13.82, actor: 'yang', do: 'flip' },
+    { at: 13.82, actor: 'yang', do: 'moveTo', to: { x: 205, y: P + 4 }, dur: 0.18, ease: 'in' },
   ],
   builds: [
-    // 搖下來的樹葉 → 木；被樹頂撞到的太陽 → 日；樹枝 → 右下
-    { at: 4.6, dur: 0.55, strokes: [0, 1, 2, 3], from: 'tree', color: '#2F9E44' },
-    { at: 5.1, dur: 0.4, strokes: [4, 5, 6, 7], from: 'sun', color: '#FF9F1C' },
-    { at: 5.5, dur: 0.45, strokes: [8, 9, 10, 11, 12], from: 'tree', color: '#A0522D' },
+    // 第 1 次：木從樹上飛出來
+    { at: H1 + 0.05, dur: 0.55, strokes: [0, 1, 2, 3], from: 'tree', color: partColor('木') },
+    // 第 2、3 次：昜從砸下來的楊桃飛出來
+    { at: H2 + 0.05, dur: 0.55, strokes: [4, 5, 6, 7], from: 'nut', color: partColor('昜') },
+    { at: H3 + 0.05, dur: 0.6, strokes: [8, 9, 10, 11, 12], from: { x: X, y: 58 }, color: partColor('昜') },
   ],
   glyph: [
-    { at: 6.0, dur: 0.4, do: 'wobble' },
-    { at: 6.8, dur: 0.45, do: 'park' },
-    { at: 9.15, dur: 0.4, do: 'home' },
-    { at: 9.6, dur: 0.4, do: 'pulse' },
+    { at: 7.15, dur: 0.45, do: 'home', ease: 'back' },
+    { at: 7.95, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏左、縮一點，右前方讓給變大的楊捷睿
+    { at: 11.05, dur: 2.93, do: 'ask', keep: ['yang'], to: { x: 62, y: 43 }, amount: 0.82 },
+    { at: 11.1, dur: 0.4, do: 'home' },
+    { at: 13.65, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.95, kind: 'bubble', actor: 'boy', emoji: '🌳', dur: 0.8 },
-    { at: 1.5, kind: 'rain', actor: 'bucket', dx: 8, n: 4, dur: 0.5 },
-    { at: 2.2, kind: 'pop', actor: 'boy', emoji: '😑', dur: 0.45 },
-    { at: 2.6, kind: 'sweat', actor: 'boy' },
-    { at: 3.0, kind: 'rain', actor: 'bucket', dx: 10, n: 10, dur: 0.45 },
-    { at: 3.2, kind: 'burst', x: 128, y: 70, emoji: '💦', n: 5, dur: 0.4 },
-    { at: 3.4, kind: 'bubble', actor: 'boy', emoji: '❓', dur: 0.35 },
-    { at: 3.75, kind: 'burst', x: 128, y: 48, emoji: '🍃', n: 8, dur: 0.6 },
-    { at: 3.95, kind: 'burst', x: 140, y: 18, n: 1, dur: 0.35 },
-    { at: 4.15, kind: 'sweat', actor: 'boy' },
-    { at: 4.2, kind: 'pop', actor: 'chip', emoji: '😆', dur: 0.6 },
-    { at: 5.15, kind: 'dizzy', actor: 'sun', dur: 0.6 },
-    { at: 6.2, kind: 'dizzy', actor: 'boy', dur: 0.65 },
-    { at: 7.55, kind: 'pop', actor: 'boy', emoji: '💕', dx: 6, dy: 8, dur: 0.4 },
-    { at: 7.75, kind: 'burst', x: 128, y: 50, emoji: '✨', n: 6, dur: 0.6 },
-    { at: 7.9, kind: 'pop', actor: 'chip', emoji: '👏', dur: 0.45 },
-    { at: 8.2, kind: 'pop', actor: 'boy', emoji: '❗', dx: 10, dur: 0.3 },
-    { at: 8.45, kind: 'burst', actor: 'boy', emoji: '💦', n: 6, dur: 0.45 },
-    { at: 8.5, kind: 'pop', actor: 'chip', emoji: '😆', dur: 0.5 },
-    { at: 9.7, kind: 'pop', actor: 'chip', emoji: '🤣', dur: 0.3 },
+    { at: 0.75, kind: 'pop', actor: 'yang', emoji: '❗', dx: 4, dur: 0.5, scale: 1.4 },
+    ...b1.fx,
+    { at: H1 + 0.3, kind: 'sweat', actor: 'yang' },
+    ...b2.fx,
+    // 一串：旁邊還掉下好幾顆
+    { at: H2 - 0.3, kind: 'rain', x: X + 4, y: 26, emoji: '⭐', n: 5, scale: 1.6, dur: 0.65 },
+    { at: H2 + HOLD + 0.1, kind: 'dizzy', actor: 'yang', dur: 0.45 },
+    // 第 3 次前停一拍
+    { at: 5.15, kind: 'pop', actor: 'yang', emoji: '❓', dx: -8, dur: 0.5, scale: 1.3 },
+    ...b3.fx,
+    // 整棵樹下楊桃雨
+    { at: H3 - 0.35, kind: 'rain', x: TX, y: 18, emoji: '⭐', n: 18, scale: 2.6, dur: 1.0 },
+    { at: H3, kind: 'burst', x: X - 2, y: P - 6, emoji: '⭐', n: 8, dur: 0.5, scale: 1.4 },
+    { at: H3 + 0.5, kind: 'dizzy', actor: 'yang', dur: 0.7 },
+    // 語詞那一刻：楊桃閃亮
+    { at: 8.6, kind: 'burst', x: MID.x, y: MID.y, emoji: '✨', n: 6, dur: 0.5, scale: 1.4 },
+    { at: 9.12, kind: 'pop', actor: 'yang', emoji: '😋', dx: 10, dur: 0.4 },
+    // 戴好安全帽：這次不怕了
+    { at: 9.35, kind: 'pop', actor: 'yang', emoji: '👍', dx: -10, dy: 8, dur: 0.4 },
+    // 樹搖了……什麼都沒掉？
+    { at: H4 - 0.8, kind: 'pop', actor: 'yang', emoji: '❓', dx: -8, dur: 0.4 },
+    ...b4.fx,
+    // 安全帽被砸飛
+    { at: H4 + 0.05, kind: 'pop', actor: 'yang', emoji: '⛑️', dx: -16, dy: -2, dur: 0.6, scale: 2 },
+    { at: 13.65, kind: 'burst', x: 62, y: 38, emoji: '🌟', n: 10, dur: 0.32 },
   ],
   camera: [
-    { at: 3.75, dur: 0.35, do: 'shake', amount: 1.8 },
-    { at: 7.7, dur: 0.6, do: 'punch', amount: 0.12, to: { x: 112, y: 50 } },
-    { at: 8.45, dur: 0.3, do: 'shake', amount: 1.2 },
+    // 前三次同一個鏡位：樹和他都在畫面裡（自動取景會跟著搖動的大樹往上推，把壓扁的他切掉）
+    { at: 1.1, dur: 0.4, do: 'zoom', amount: 1.15, to: { x: 100, y: 52 } },
+    { at: 6.75, dur: 0.4, do: 'zoom', amount: 1 },
+    ...b1.camera,
+    ...b2.camera,
+    ...b3.camera,
+    ...b4.camera,
   ],
   lights: [
-    { at: 3.75, dur: 0.04, level: -0.7 },
-    { at: 3.79, dur: 0.3, level: 0 },
+    { at: 7.15, dur: 0.05, level: -0.35 },
+    { at: 7.2, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0, sfx: 'slide' },
-    { at: 1.0, say: '楊' },
-    { at: 1.5, sfx: 'splash' },
-    { at: 1.95, sfx: 'blip' },
-    { at: 3.0, sfx: 'splash' },
-    { at: 3.35, sfx: 'rumble' },
-    { at: 3.75, sfx: 'boing' },
-    { at: 3.95, sfx: 'bonk' },
-    { at: 5.95, sfx: 'whoosh' },
-    { at: 6.05, say: '楊' },
-    { at: 6.2, sfx: 'plop' },
-    { at: 7.7, say: '楊樹' },
-    { at: 8.05, sfx: 'whoosh' },
-    { at: 8.45, sfx: 'bonk' },
-    { at: 8.5, sfx: 'splash' },
-    { at: 8.95, sfx: 'boing' },
-    { at: 9.6, sfx: 'cheer' },
+    { at: 0.55, say: '楊' },
+    { at: 0.75, sfx: 'blip' },
+    ...b1.cues,
+    ...b2.cues,
+    ...b3.cues,
+    { at: 7.25, say: '楊' },
+    { at: 8.3, sfx: 'boing' },
+    { at: 8.5, say: '楊桃' },
+    { at: 9.1, sfx: 'gulp' },
+    { at: 9.35, sfx: 'clink' },
+    ...b4.cues,
+    { at: 11.15, say: FIXED_LINES.clipAsk },
+    { at: 13.65, say: '楊' },
+    { at: 13.7, sfx: 'cheer' },
   ],
 }
 

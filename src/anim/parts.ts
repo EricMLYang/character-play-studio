@@ -49,6 +49,8 @@ export const PARTS = {
   舌: { color: '#F25C54', from: '伸出來舔一口的舌頭' },
   // 甘是甜（甜、柑、甘蔗）：糖果的桃紅，比女、心都鮮
   甘: { color: '#D81B9C', from: '甜甜的東西（蛋糕、糖果、蜂蜜）上噴出來的' },
+  // 昜是楊、陽、湯、場的聲音：楊桃的黃綠金色，比土（#B07A12）偏黃綠、比田（#6A8A00）偏金
+  昜: { color: '#A38C00', from: '樹上「咚」地掉下來的楊桃' },
 } as const satisfies Record<string, Part>
 
 export type PartName = keyof typeof PARTS
