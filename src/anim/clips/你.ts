@@ -1,152 +1,260 @@
-import type { Clip } from '../clip'
+import type { Camera, Clip, Cue, Fx, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 你（重做）：調皮小老鼠想拿門頂上的大起司，跳上去只抓到門板一半、滑下來；退到底助跑全速撞門，扁成一張餅，門頂的紅書藍書飛上天落成「你」。
-// 起司也被震飛，剛好掉在衝進來的警長頭上。國字讓到上方，警長在中間把起司交給小老鼠，小老鼠鞠躬再飛撲抱住他（謝謝你）；
-// 回馬槍：警長開心到尾巴狂搖，整隻轉成直升機飛起來，把小老鼠甩到另一邊。你、你、謝謝你
-const M = 68.6 // 小老鼠（size 20）站在地上的 y
-const S = 67.3 // 警長（size 23）
-const C = -14 // 起司頂在警長頭上（相對他的 y）
+// 你（v2）：盤子上的蛋糕不見了，豬探長拿放大鏡辦案——每次很有自信地轉身一指「就是你！」，被指的人嚇一跳、亮出不是他的證據，
+// 豬探長「呃⋯⋯」。同一個笑點四次，只有指得越來越用力、糗得越來越大：轉一圈指花生（手上空空的，他冒汗；亻從被指的花生身上彈出來）→
+// 轉身指睡覺的小老鼠（她被吵醒打哈欠，他一屁股跌坐）→ 先停一拍（他看看這個、看看那個）跳起來轉三圈再指花生（花生又攤手，他直挺挺倒下）。
+// 尔是「你」的老寫法：每一次都從被指著的那個人身上彈出來。花生把他拉起來，他鞠躬「謝謝你」。
+// 回馬槍：他再轉一圈要指——花生跟小老鼠先一起指回他，他鼻子上沾著奶油：蛋糕是他自己吃掉的。他舔掉奶油、不好意思地偷笑。
+// 最後畫面暗下來只剩「你」，豬探長轉向觀眾問「這是什麼字？」，等他回答，再跳起來指著字說「你！」，然後退場只留字。
+// 你、你、謝謝你、這是什麼字？、你
+const fy = (size: number) => 77 - 0.42 * size
+const PIG_SIZE = 32
+const P = fy(PIG_SIZE) // 豬探長站在地上的 y
+const R = fy(29) // 花生
+const M = fy(27) // 小老鼠
+/** 豬探長每次都站在同一個地方指（盤子左邊） */
+const PIG = 33
+/** 花生站在右邊、小老鼠睡在左邊：一個轉身指右邊、一個轉身指左邊 */
+const RAC = 122
+const MOU = 15
+/** 空盤子（案發現場） */
+const PLATE = { x: 47, size: 10 }
+/** 語詞那一刻與回馬槍：豬探長被拉到畫面中間 */
+const MID = 68
+const RAC2 = 98
+const MOU2 = 36
+/** 被指到以後傻眼停多久 */
+const HOLD = 0.45
+
+/**
+ * 「就是你！」：豬探長舉手「我知道了！」（know，蓄力）→ 跳起來轉圈 → 落地那一刻換 point、整個人往前傾指過去，
+ * 被指的人同一刻傻眼、頭上 💥＋鏡頭推近他＋震＋同一個音效。k 是第幾次（跳得越高、轉越多圈、💥 越大），
+ * target 是被指的人，aim 是往前傾幾度（指右邊正、指左邊負），flip 是轉圈的時候順便轉向。
+ */
+function accuse(at: number, k: number, target: string, aim: number, flip = false) {
+  const spin = k === 2 ? 0.55 : 0.3
+  const start = at - spin
+  const moves: Move[] = [
+    { at: start - 0.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/know' },
+    { at: start - 0.25, actor: 'pig', do: 'squash', amount: -0.15 - 0.05 * k, dur: 0.22 },
+    { at: start, actor: 'pig', do: 'hop', amount: [4, 5, 14, 5][k], dur: spin },
+    { at: start, actor: 'pig', do: 'spin', times: k === 2 ? 3 : 1, dur: spin, pivot: 'center' },
+    ...(flip ? [{ at: start + spin / 2, actor: 'pig', do: 'flip' } as Move] : []),
+    // 就是你！
+    { at, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
+    { at, actor: 'pig', do: 'rotateTo', amount: aim, dur: 0.08, pivot: 'center' },
+  ]
+  if (k < 3) {
+    moves.push(
+      { at, actor: target, do: 'swap', emoji: `hero:${target}/surprised` },
+      { at, actor: target, do: 'squash', amount: 0.2 + 0.1 * k, dur: 0.25 },
+    )
+  }
+  const fx: Fx[] = k < 3 ? [
+    { at, kind: 'burst', actor: target, dx: target === 'mouse' ? 6 : 0, dy: 4, n: 1, dur: 0.4, scale: 1.5 + 0.4 * k },
+    { at, kind: 'burst', actor: target, dx: target === 'mouse' ? 8 : 0, dy: 8, emoji: '⭐', n: 5 + 2 * k, dur: 0.4 },
+  ] : []
+  const camera: Camera[] = k < 3 ? [
+    { at, dur: 0.45, do: 'punch', amount: 0.1 + 0.06 * k, to: { x: target === 'mouse' ? 30 : 100, y: 52 } },
+    { at, dur: 0.3, do: 'shake', amount: 0.9 + 0.5 * k },
+  ] : []
+  // 同一個音效，一次比一次多疊一個
+  const cues: Cue[] = [{ at: start, sfx: 'whoosh' }]
+  if (k < 3) {
+    cues.push({ at, sfx: 'bonk' })
+    if (k >= 1) cues.push({ at: at + 0.04, sfx: 'boing' })
+    if (k >= 2) cues.push({ at: at + 0.08, sfx: 'crack' })
+  }
+  return { moves, fx, camera, cues }
+}
+
+const H1 = 1.25, H2 = 3.35, H3 = 6.0, H4 = 9.55
+const a1 = accuse(H1, 0, 'raccoon', 20)
+const a2 = accuse(H2, 1, 'mouse', -30, true)
+const a3 = accuse(H3, 2, 'raccoon', 20)
+const a4 = accuse(H4, 3, 'raccoon', 20)
+/** 回馬槍：大家指回他，他才發現（💥 換打在他身上、奶油冒出來） */
+const GOTCHA = H4 + 0.25
+/** 字框填滿、國字到正中央（第三次還指著不動，第二聲「你」） */
+const HOME = 6.6
+const PARK = 7.85
+const THANKS = 8.7
 
 const clip: Clip = {
+  format: 2,
   char: '你',
-  meta: { theme: '小老鼠撞門搶起司', cast: '調皮小老鼠＋拉布拉多警長＋門＋大起司＋紅書藍書', gags: ['跳上門只抓到一半滑下來', '助跑撞門扁成一張餅', '起司掉在警長頭上', '鞠躬再飛撲抱住', '尾巴搖成直升機把小老鼠甩飛'] },
-  duration: 10,
-  bg: { top: '#D8F5E8', bottom: '#F1FBF6', floor: '#C9A27A', scenery: 'room' },
+  meta: { theme: '豬探長找偷吃蛋糕的人', cast: '豬探長＋浣熊花生＋小老鼠＋空盤子＋奶油', gags: ['蛋糕不見了，豬探長每次很有自信地轉身一指「就是你！」，被指的人亮出不是他的證據（手上空空、在睡覺、又攤手），他一次比一次指得用力、糗得越大（冒汗→跌坐→直挺挺倒下）；回馬槍是他再轉身要指，大家先一起指回他：他鼻子上沾著奶油'] },
+  duration: 15,
+  bg: { top: '#FFF0D6', bottom: '#FFFAF1', floor: '#C9A27A', scenery: 'room' },
   actors: [
-    { id: 'door', emoji: '🚪', x: 136, y: 62.5, size: 34 },
-    { id: 'book1', emoji: '📕', x: 127, y: 49, size: 9, pivot: 'center' },
-    { id: 'book2', emoji: '📘', x: 146, y: 49, size: 9, pivot: 'center' },
-    { id: 'cheese', emoji: '🧀', x: 137, y: 47.5, size: 12, pivot: 'center' },
-    { id: 'sheriff', emoji: 'hero:sheriff/run', x: 30, y: S, size: 23, hidden: true, flip: true, pivot: 'center' },
-    { id: 'mouse', emoji: 'hero:mouse/idle', x: 30, y: M, size: 20, hidden: true, flip: true },
+    { id: 'plate', emoji: '🍽️', x: PLATE.x, y: fy(PLATE.size), size: PLATE.size },
+    // 小老鼠在左邊睡覺（頭朝左）
+    { id: 'mouse', emoji: 'hero:mouse/sleep', x: MOU, y: M, size: 27 },
+    // 花生朝左：面向豬探長
+    { id: 'raccoon', emoji: 'hero:raccoon/idle', x: RAC, y: R, size: 29 },
+    // 新的豬探長圖朝左，翻過來朝右：面向盤子和花生
+    { id: 'pig', emoji: 'hero:pig/think', x: PIG, y: P, size: PIG_SIZE, hidden: true, flip: true },
+    // 豬探長鼻子上的奶油（回馬槍才冒出來）
+    { id: 'cream', emoji: '☁️', x: MID + 2.5, y: 58.5, size: 6, hidden: true, float: true },
   ],
   moves: [
-    // 衝進來，看到門頂上的大起司
-    { at: 0, actor: 'mouse', do: 'enter', from: { x: -6, y: M }, dur: 0.5, ease: 'out' },
-    { at: 0.65, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/surprised' },
-    { at: 0.65, actor: 'mouse', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 0.8, actor: 'cheese', do: 'tilt', amount: 10, dur: 0.4 },
-    // 第一次：跳上門，只抓到一半
-    { at: 1.15, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/sneak' },
-    { at: 1.25, actor: 'mouse', do: 'squash', amount: 0.3, dur: 0.25 },
-    { at: 1.5, actor: 'mouse', do: 'moveTo', to: { x: 121, y: 54 }, arc: 12, dur: 0.45, ease: 'out' },
-    { at: 1.95, actor: 'mouse', do: 'shake', amount: 1, dur: 0.4 },
-    { at: 1.95, actor: 'door', do: 'shake', amount: 0.4, dur: 0.3 },
-    // 一路滑下來
-    { at: 2.35, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dizzy' },
-    { at: 2.35, actor: 'mouse', do: 'moveTo', to: { x: 121, y: M }, dur: 0.3, ease: 'in' },
-    // 退到最左邊，拉長身子蓄力
-    { at: 2.85, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/sneak' },
-    { at: 2.85, actor: 'mouse', do: 'moveTo', to: { x: 20, y: M }, dur: 0.5 },
-    { at: 3.4, actor: 'mouse', do: 'squash', amount: -0.35, dur: 0.45 },
-    { at: 3.4, actor: 'mouse', do: 'shake', amount: 0.7, dur: 0.45 },
-    // 全速衝鋒——撞扁在門上
-    { at: 3.85, actor: 'mouse', do: 'moveTo', to: { x: 116, y: M }, dur: 0.32, anticipate: 4, ease: 'in' },
-    { at: 4.17, actor: 'mouse', do: 'squash', amount: 0.6, dur: 0.7 },
-    { at: 4.17, actor: 'door', do: 'shake', amount: 1.4, dur: 0.6 },
-    // 門頂的書和起司都被震飛
-    { at: 4.17, actor: 'book1', do: 'moveTo', to: { x: 96, y: 8 }, dur: 0.35, ease: 'out' },
-    { at: 4.17, actor: 'book1', do: 'spin', times: 2, dur: 0.4 },
-    { at: 4.17, actor: 'book2', do: 'moveTo', to: { x: 130, y: 4 }, dur: 0.4, ease: 'out' },
-    { at: 4.17, actor: 'book2', do: 'spin', times: -2, dur: 0.45 },
-    { at: 4.17, actor: 'cheese', do: 'moveTo', to: { x: 150, y: -14 }, dur: 0.4, ease: 'out' },
-    { at: 4.17, actor: 'cheese', do: 'spin', times: 2, dur: 0.4 },
-    // 警長吹著哨子衝進來
-    { at: 4.3, actor: 'sheriff', do: 'enter', from: { x: -25, y: S }, dur: 0.55, ease: 'out' },
-    { at: 4.95, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/whistle' },
-    // 起司從天上掉下來，「咚」剛好落在警長頭上
-    { at: 4.9, actor: 'cheese', do: 'moveTo', to: { x: 30, y: S + C }, dur: 0.5, ease: 'in' },
-    { at: 4.9, actor: 'cheese', do: 'spin', times: -2, dur: 0.5 },
-    { at: 5.4, actor: 'sheriff', do: 'squash', amount: 0.35, dur: 0.3 },
-    { at: 5.4, actor: 'cheese', do: 'squash', amount: 0.3, dur: 0.3 },
-    { at: 5.45, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    { at: 4.5, actor: 'book1', do: 'vanish', dur: 0.1 },
-    { at: 4.85, actor: 'book2', do: 'vanish', dur: 0.1 },
-    // 小老鼠從門上剝下來
-    { at: 5.2, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dizzy' },
-    { at: 5.25, actor: 'mouse', do: 'moveTo', to: { x: 122, y: M }, dur: 0.3, ease: 'out' },
-    { at: 5.9, actor: 'mouse', do: 'shake', amount: 1, dur: 0.35 },
-    { at: 6.25, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/surprised' },
-    { at: 6.25, actor: 'mouse', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 6.3, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/happy' },
-    // 國字讓位：兩個走到中間
-    { at: 6.6, actor: 'sheriff', do: 'moveTo', to: { x: 64, y: S }, dur: 0.55 },
-    { at: 6.6, actor: 'cheese', do: 'moveTo', to: { x: 64, y: S + C }, dur: 0.55 },
-    { at: 6.6, actor: 'mouse', do: 'flip' },
-    { at: 6.6, actor: 'mouse', do: 'moveTo', to: { x: 96, y: M }, dur: 0.55 },
-    // 警長低頭，起司滑進小老鼠懷裡
-    { at: 7.2, actor: 'sheriff', do: 'tilt', amount: 18, dur: 0.4 },
-    { at: 7.25, actor: 'cheese', do: 'moveTo', to: { x: 92, y: 69 }, arc: 8, dur: 0.3, ease: 'in' },
-    { at: 7.55, actor: 'cheese', do: 'vanish', dur: 0.05 },
-    { at: 7.55, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/cheese' },
-    // 謝謝你——深深一鞠躬，再飛撲抱住警長
-    { at: 7.75, actor: 'mouse', do: 'tilt', amount: 40, dur: 0.45 },
-    { at: 8.25, actor: 'mouse', do: 'moveTo', to: { x: 74, y: 60 }, arc: 8, dur: 0.25, ease: 'out' },
-    { at: 8.5, actor: 'sheriff', do: 'squash', amount: 0.2, dur: 0.25 },
-    // 回馬槍：警長開心到尾巴狂搖，整隻轉成直升機飛起來
-    { at: 8.6, actor: 'sheriff', do: 'shake', amount: 1.5, dur: 0.25 },
-    { at: 8.6, actor: 'mouse', do: 'shake', amount: 1.5, dur: 0.25 },
-    { at: 8.85, actor: 'sheriff', do: 'spin', times: 3, dur: 0.65, ease: 'linear' },
-    { at: 8.85, actor: 'sheriff', do: 'moveTo', to: { x: 64, y: 50 }, dur: 0.15, ease: 'out' },
-    { at: 8.85, actor: 'mouse', do: 'moveTo', to: { x: 74, y: 45 }, dur: 0.2, ease: 'out' },
-    // 小老鼠被甩到右邊
-    { at: 9.05, actor: 'mouse', do: 'moveTo', to: { x: 132, y: M }, arc: 12, dur: 0.45, ease: 'out' },
-    { at: 9.05, actor: 'mouse', do: 'spin', times: 2, dur: 0.45, pivot: 'center' },
-    // 警長一邊轉一邊飄到左邊落地
-    { at: 9.0, actor: 'sheriff', do: 'moveTo', to: { x: 26, y: S }, arc: 6, dur: 0.45, ease: 'inOut' },
-    { at: 9.5, actor: 'sheriff', do: 'swap', emoji: 'hero:sheriff/dizzy' },
+    // 豬探長拿著放大鏡走進來：盤子上的蛋糕不見了！
+    { at: 0, actor: 'pig', do: 'enter', from: { x: -25, y: P }, dur: 0.45, ease: 'out' },
+    { at: 0.5, actor: 'pig', do: 'tilt', amount: 10, dur: 0.3 },
+    // 第 1 次：轉一圈指花生——就是你！花生傻眼，攤開手：手上空空的。豬探長「呃⋯⋯」
+    ...a1.moves,
+    { at: H1 + HOLD, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hug' },
+    { at: H1 + HOLD, actor: 'raccoon', do: 'shake', amount: 1.2, dur: 0.45 },
+    { at: H1 + 0.7, actor: 'pig', do: 'rotateTo', amount: -20, dur: 0.15, pivot: 'center' },
+    { at: H1 + 0.7, actor: 'pig', do: 'swap', emoji: 'hero:pig/doubt' },
+    { at: 2.4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    // 再拿放大鏡看盤子
+    { at: 2.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
+    { at: 2.45, actor: 'pig', do: 'tilt', amount: 10, dur: 0.3 },
+    // 第 2 次：轉身指睡覺的小老鼠——她嚇醒，打個大哈欠（她在睡覺）。豬探長一屁股跌坐
+    ...a2.moves,
+    { at: H2, actor: 'mouse', do: 'hop', amount: 6, dur: 0.3 },
+    { at: H2 + HOLD, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/yawn' },
+    { at: H2 + 0.7, actor: 'pig', do: 'rotateTo', amount: 30, dur: 0.15, pivot: 'center' },
+    { at: H2 + 0.7, actor: 'pig', do: 'swap', emoji: 'hero:pig/fall' },
+    // 第 3 次前停一拍：爬起來，托著下巴，看看這個、看看那個……花生開始發抖
+    { at: 4.6, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: 4.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/ponder' },
+    { at: 4.6, actor: 'pig', do: 'hop', amount: 2, dur: 0.2 },
+    { at: 5.0, actor: 'pig', do: 'flip' },
+    { at: 5.05, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/scared' },
+    { at: 5.05, actor: 'raccoon', do: 'shake', amount: 0.8, dur: 0.6 },
+    // 跳起來轉三圈——就是你！指著不動（國字拼好、到正中央）
+    ...a3.moves,
+    { at: 7.2, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/hug' },
+    { at: 7.2, actor: 'raccoon', do: 'shake', amount: 1.4, dur: 0.45 },
+    { at: 7.2, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/giggle' },
+    // 直挺挺倒下
+    { at: 7.45, actor: 'pig', do: 'rotateTo', amount: -20, dur: 0.05, pivot: 'center' },
+    { at: 7.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/flat' },
+    { at: 7.45, actor: 'pig', do: 'squash', amount: 0.4, dur: 0.35 },
+    // 語詞那一刻：花生走過來把他拉起來，拉到畫面中間，他鞠躬「謝謝你」
+    { at: PARK, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    { at: 7.95, actor: 'raccoon', do: 'moveTo', to: { x: 60, y: R }, dur: 0.3 },
+    { at: 8.25, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/reach' },
+    { at: 8.4, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/pull' },
+    { at: 8.4, actor: 'raccoon', do: 'moveTo', to: { x: RAC2, y: R }, dur: 0.3, ease: 'out' },
+    { at: 8.4, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: 8.4, actor: 'pig', do: 'moveTo', to: { x: MID, y: P }, dur: 0.3, ease: 'out' },
+    { at: 8.4, actor: 'mouse', do: 'flip' },
+    { at: 8.4, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/idle' },
+    { at: 8.4, actor: 'mouse', do: 'moveTo', to: { x: MOU2, y: M }, dur: 0.35 },
+    { at: THANKS, actor: 'pig', do: 'swap', emoji: 'hero:pig/bow' },
+    { at: THANKS + 0.1, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/happy' },
+    // 回馬槍（第 4 次）：他又想到了，轉一圈要指——花生跟小老鼠先一起指回他
+    { at: 9.1, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/idle' },
+    ...a4.moves,
+    { at: 9.35, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/point' },
+    { at: 9.35, actor: 'raccoon', do: 'hop', amount: 3, dur: 0.2 },
+    { at: 9.35, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/point' },
+    { at: 9.35, actor: 'mouse', do: 'hop', amount: 3, dur: 0.2 },
+    // 是你！他鼻子上沾著奶油
+    { at: GOTCHA, actor: 'pig', do: 'rotateTo', amount: -20, dur: 0.05, pivot: 'center' },
+    { at: GOTCHA, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: GOTCHA, actor: 'pig', do: 'squash', amount: 0.35, dur: 0.3 },
+    { at: GOTCHA, actor: 'cream', do: 'pop', dur: 0.15 },
+    // 舔掉奶油，不好意思地偷笑
+    { at: 10.3, actor: 'pig', do: 'swap', emoji: 'hero:pig/eat' },
+    { at: 10.3, actor: 'cream', do: 'vanish', dur: 0.12 },
+    { at: 10.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/giggle' },
+    { at: 10.45, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/laugh' },
+    { at: 10.45, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/laugh' },
+    // 問他：花生、小老鼠笑著跑掉（小老鼠順手把空盤子拿走），豬探長走到左前方、變大，轉向觀眾
+    { at: 10.6, actor: 'raccoon', do: 'flip' },
+    { at: 10.6, actor: 'raccoon', do: 'swap', emoji: 'hero:raccoon/dash' },
+    { at: 10.6, actor: 'raccoon', do: 'moveTo', to: { x: 200, y: R }, dur: 0.45, ease: 'in' },
+    { at: 10.6, actor: 'mouse', do: 'swap', emoji: 'hero:mouse/dash' },
+    { at: 10.6, actor: 'mouse', do: 'moveTo', to: { x: 200, y: M }, dur: 0.5, ease: 'in' },
+    { at: 10.72, actor: 'plate', do: 'moveTo', to: { x: 218, y: fy(PLATE.size) }, dur: 0.4, ease: 'in' },
+    { at: 10.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: 10.6, actor: 'pig', do: 'moveTo', to: { x: 32, y: P + 4 }, dur: 0.35 },
+    { at: 10.65, actor: 'pig', do: 'scaleTo', amount: 1.25, dur: 0.35, ease: 'back' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 11.95, actor: 'pig', do: 'swap', emoji: 'hero:pig/listen' },
+    { at: 11.95, actor: 'pig', do: 'rotateTo', amount: 10, dur: 0.3 },
+    { at: 12.5, actor: 'pig', do: 'hop', amount: 1.5, dur: 0.3 },
+    { at: 13.0, actor: 'pig', do: 'hop', amount: 1.5, dur: 0.3 },
+    // 回答：跳起來指著字——你！
+    { at: 13.45, actor: 'pig', do: 'rotateTo', amount: -10, dur: 0.12 },
+    { at: 13.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
+    { at: 13.45, actor: 'pig', do: 'hop', amount: 8, dur: 0.3 },
+    // 退場，畫面只留下字
+    { at: 13.72, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
+    { at: 13.72, actor: 'pig', do: 'flip' },
+    { at: 13.75, actor: 'pig', do: 'moveTo', to: { x: -45, y: P + 4 }, dur: 0.25, ease: 'in' },
   ],
   builds: [
-    // 飛上天的紅書 → 亻；藍書 → 尔
-    { at: 4.5, dur: 0.45, strokes: [0, 1], from: 'book1', color: '#E8483A' },
-    { at: 4.85, dur: 0.6, strokes: [2, 3, 4, 5, 6], from: 'book2', color: '#1C7ED6' },
+    // 每一次都從被指著的那個人（你）身上彈出來：花生 → 亻，小老鼠 → 尔的頭，花生 → 尔的小
+    { at: H1 + 0.05, dur: 0.6, strokes: [0, 1], from: 'raccoon', color: partColor('亻') },
+    { at: H2 + 0.05, dur: 0.55, strokes: [2, 3], from: 'mouse', color: partColor('尔') },
+    { at: H3 + 0.05, dur: 0.5, strokes: [4, 5, 6], from: 'raccoon', color: partColor('尔') },
   ],
   glyph: [
-    { at: 5.5, dur: 0.4, do: 'wobble' },
-    { at: 6.3, dur: 0.45, do: 'park' },
-    { at: 9.1, dur: 0.4, do: 'home' },
-    { at: 9.5, dur: 0.5, do: 'pulse' },
+    { at: HOME, dur: 0.45, do: 'home', ease: 'back' },
+    { at: PARK, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的豬探長
+    { at: 10.55, dur: 3.4, do: 'ask', keep: ['pig'], to: { x: 96, y: 43 }, amount: 0.82 },
+    { at: 10.6, dur: 0.4, do: 'home' },
+    { at: 13.45, dur: 0.35, do: 'pulse' },
+    { at: 14.1, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.45, kind: 'puff', actor: 'mouse', dur: 0.4 },
-    { at: 0.7, kind: 'bubble', actor: 'mouse', emoji: '🧀', dur: 0.7 },
-    { at: 1.95, kind: 'sweat', actor: 'mouse' },
-    { at: 2.35, kind: 'pop', actor: 'mouse', emoji: '😣', dur: 0.45 },
-    { at: 3.4, kind: 'puff', actor: 'mouse', dx: -6, dy: 10, dur: 0.45 },
-    { at: 4.17, kind: 'burst', actor: 'mouse', n: 1, dx: 6, dy: 4, dur: 0.4 },
-    { at: 4.95, kind: 'pop', actor: 'sheriff', emoji: '📣', dx: 8, dur: 0.4 },
-    { at: 5.4, kind: 'pop', actor: 'sheriff', emoji: '❗', dx: 10, dy: 6, dur: 0.4 },
-    { at: 5.3, kind: 'dizzy', actor: 'mouse', dur: 0.9 },
-    { at: 6.25, kind: 'pop', actor: 'mouse', emoji: '😍', dx: 8, dur: 0.4 },
-    { at: 7.6, kind: 'pop', actor: 'mouse', emoji: '❤️', dx: 10, dy: 6, dur: 0.4 },
-    { at: 8.5, kind: 'burst', actor: 'sheriff', emoji: '💕', n: 6, dx: 4, dy: 8, dur: 0.6 },
-    { at: 8.9, kind: 'puff', actor: 'sheriff', dur: 0.5 },
-    { at: 9.1, kind: 'pop', actor: 'mouse', emoji: '😵', dx: 6, dur: 0.4 },
-    { at: 9.55, kind: 'pop', actor: 'mouse', emoji: '😆', dx: 8, dur: 0.45 },
-    { at: 9.5, kind: 'dizzy', actor: 'sheriff', dur: 0.5 },
+    { at: 0.05, kind: 'zzz', actor: 'mouse', dx: -4, dy: 4, dur: H2 - 0.05 },
+    // 蛋糕呢？
+    { at: 0.4, kind: 'bubble', actor: 'pig', emoji: '🍰', dur: 0.6, scale: 1.6, dx: -2 },
+    ...a1.fx,
+    { at: H1 + 0.75, kind: 'sweat', actor: 'pig' },
+    ...a2.fx,
+    { at: H2 + 0.75, kind: 'sweat', actor: 'pig' },
+    // 第 3 次前停一拍
+    { at: 4.75, kind: 'pop', actor: 'pig', emoji: '👀', dur: 0.6, scale: 1.3 },
+    { at: 5.1, kind: 'sweat', actor: 'raccoon' },
+    ...a3.fx,
+    { at: 7.5, kind: 'dizzy', actor: 'pig', dur: 0.4 },
+    { at: THANKS + 0.1, kind: 'pop', actor: 'raccoon', emoji: '💕', dur: 0.5, scale: 1.2 },
+    // 是你！💥 換打在他身上
+    { at: GOTCHA, kind: 'burst', actor: 'pig', dx: -4, dy: -6, n: 1, dur: 0.35, scale: 2.2 },
+    { at: GOTCHA, kind: 'burst', actor: 'pig', dy: 8, emoji: '⭐', n: 10, dur: 0.45 },
+    { at: 13.45, kind: 'burst', x: 96, y: 38, emoji: '🌟', n: 10, dur: 0.38 },
   ],
   camera: [
-    { at: 4.17, dur: 0.35, do: 'shake', amount: 1.6 },
+    // 指人的三次都要看得到兩邊（指的人、被指的人），自己固定全景
+    { at: 0.2, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...a1.camera,
+    ...a2.camera,
+    ...a3.camera,
+    { at: 6.45, dur: 0.2, do: 'zoom', amount: 1 },
+    { at: GOTCHA, dur: 0.45, do: 'punch', amount: 0.2, to: { x: MID, y: 50 } },
+    { at: GOTCHA, dur: 0.35, do: 'shake', amount: 2.6 },
   ],
   lights: [
-    { at: 4.17, dur: 0.04, level: -0.45 },
-    { at: 4.21, dur: 0.3, level: 0 },
+    { at: HOME, dur: 0.05, level: -0.35 },
+    { at: HOME + 0.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.3, sfx: 'slide' },
-    { at: 0.65, say: '你' },
-    { at: 1.5, sfx: 'boing' },
-    { at: 2.35, sfx: 'slide' },
-    { at: 3.85, sfx: 'whoosh' },
-    { at: 4.17, sfx: 'bonk' },
-    { at: 4.95, sfx: 'blip' },
-    { at: 5.4, sfx: 'plop' },
-    { at: 5.55, say: '你' },
-    { at: 7.25, sfx: 'whoosh' },
-    { at: 7.75, say: '謝謝你' },
-    { at: 8.85, sfx: 'whoosh' },
-    { at: 9.05, sfx: 'boing' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: H1, say: '你' },
+    ...a1.cues,
+    ...a2.cues,
+    ...a3.cues,
+    { at: HOME + 0.1, say: '你' },
+    { at: 7.45, sfx: 'plop' },
+    { at: THANKS, say: '謝謝你' },
+    ...a4.cues,
+    { at: GOTCHA, sfx: 'bonk' },
+    { at: GOTCHA + 0.04, sfx: 'boing' },
+    { at: GOTCHA + 0.08, sfx: 'crack' },
+    { at: GOTCHA + 0.12, sfx: 'hic' },
+    { at: 10.3, sfx: 'gulp' },
+    { at: 10.95, say: FIXED_LINES.clipAsk },
+    { at: 13.45, say: '你' },
+    { at: 13.5, sfx: 'cheer' },
   ],
 }
 

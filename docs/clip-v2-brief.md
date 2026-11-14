@@ -32,6 +32,9 @@
 4. 驗收：`npx tsc -b`、`npm test`、`npm run anim:check`（全部，不能有新的錯誤）、`npm run anim:check -- <字>` 0 錯 0 注意、`npm run app:build`。
 5. 產出：最終總覽 `--tag final --width 320 --cols 6 --rows 11`（整支塞一張）、四次笑點逐格對照圖（一張）、新舊並排 mp4（`.anim-shots/<字>-old-vs-new.mp4`，舊版較短就補最後一格）。
 
+## 收尾：不要留用不到的檔
+交卷前把 `.anim-shots/` 裡這個字的中間產物刪掉（`r1`、`r2`⋯⋯各輪總覽、細看片段、舊版總覽、單支 mp4），**只留三個**：最終總覽、四次笑點逐格對照、`<字>-old-vs-new.mp4`。前兩張監督者驗收完會再刪，最後只留並排影片。暫存資料夾裡自己產生的東西也清掉。
+
 ## 不要做
 - 不要 git add／commit／push；不要改其他劇本；不要動 `data/`；不要開 5180 玩（只用 `anim:shot`）；不要引入外部網址。
 - 引擎（`clip.ts`／`AnimPlayer.tsx`）盡量不動；真的缺一個小效果才加，加了要補測試、且不能改變任何現有劇本的畫面。
