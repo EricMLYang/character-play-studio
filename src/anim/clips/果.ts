@@ -1,200 +1,295 @@
-import type { Clip, Move } from '../clip'
-import { pressStack } from '../helpers'
+import type { Camera, Clip, Cue, Fx, Light, Move } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 果（重做）：拉布拉多警長在水果攤吹哨，果架上的大蘋果滾下來把他撞成四腳朝天；他跳上蘋果想踩住它，結果蘋果載著他越滾越快，
-// 一頭撞上木頭果架——蘋果爆開變成「田」、木頭果架飛起來變成「木」，旁邊的水果全被震上天。國字讓到上方，水果一顆顆掉回來疊在他頭上、滾到腳邊（水果）。
-// 回馬槍：最後掉下來的是一顆大鳳梨，砸散頭上的水果、把他壓扁，他只好頂著大鳳梨搖搖晃晃走開。果、果、水果
-const B = 66.9 // 警長（size 24）站在地上的 y
-const W = 70.3 // 大蘋果（size 16）在地上的 y
-const R = 53.5 // 警長站在大蘋果上的 y
-const HEAD = ['apple', 'nana']
-const HY = [50.5, 42] // 頭上那一疊（梨子、香蕉）
-const BIG = 52.5 // 大鳳梨頂在頭上的 y
+// 果（v2）：字框正下方一棵大樹，樹上掛著一顆蘋果。楊捷睿每次踮腳伸手要摘，手快碰到的時候，蘋果就「啵」地自己長大一圈，
+// 重到樹枝彎下來、整顆壓在他頭上，一次比一次大：被敲得跌坐（樹幹飛出木的橫豎）、被壓扁趴在地上（樹幹飛出木的撇捺）、
+// 先停一拍：他盯著蘋果、慢慢伸手……蘋果長成大西瓜那麼大，把他整個壓扁（上面的田從這顆果子飛出來）——樹在下、果子在上，跟字一樣。
+// 字拼好放大時，樹縮到字的右邊、大蘋果掛在樹冠上：果子對田、樹幹對木，各亮一下——長得一樣。
+// 語詞：國字讓回上方，整棵樹「啵」地結滿蘋果，那顆大蘋果掉進他手裡（蘋果）。回馬槍：這次終於摘到了，他得意地張嘴一咬——
+// 蘋果又「啵」地長得比樹還大，把他壓得最扁。最後畫面暗下來只剩「果」，他跳到前面問「這是什麼字？」，手放耳邊等，再指著字說「果！」，退場只留字。
+// 果、果、蘋果、這是什麼字？、果
 
-// 警長跟著大蘋果一起走（站在上面）
-const ride = (at: number, dur: number, x: number, ease: Move['ease'], turn: number): Move[] => [
-  { at, dur, actor: 'w1', do: 'moveTo', to: { x, y: W }, ease },
-  { at, dur, actor: 'w1', do: 'rotateTo', amount: turn, ease },
-  { at, dur, actor: 'dog', do: 'moveTo', to: { x, y: R }, ease },
-]
+/** 楊捷睿（size 26）站在地上的 y；每次都站在同一個地方、面向右邊的樹 */
+const S = 26
+const B = 77 - 0.42 * S
+const X0 = 50
+/** 他頭頂、跌坐時頭頂、趴扁時背上的高度（蘋果壓下來的地方） */
+const TOP = { stand: 50, sit: 57, flat: 67 }
+/** 大樹（prop:tree，結果之後 swap 成 prop:apple-tree）：字框正下方，畫面上最大、最中間 */
+const TX = 80, TS = 48
+const TY = 77 - 0.42 * TS
+/** 樹幹中間（木從這裡飛出來） */
+const TRUNK = { x: TX, y: 68 }
+/** 蘋果（🍎）：掛在樹冠左下角，蒂頭接在 STEM；越大越重、掛得越低 */
+const AS = 7
+const STEM = { x: 64, y: 41 }
+/** 蘋果畫出來的半徑（s 是相對於一開始的倍率；小東西引擎會先放大約三成） */
+const r = (s: number) => 0.5 * AS * 1.3 * s
+const hang = (s: number) => ({ x: STEM.x, y: STEM.y + r(s) })
+/** 每次「啵」長大幾倍：1.4 → 1.4 → 1.6，第四次 1.8（比樹還大） */
+const GROW = [1.4, 1.4, 1.6]
+const SC = [1, 1.4, 1.96, 3.136]
+/** 傻眼停多久（看得見臉） */
+const HOLD = 0.42
+
+/**
+ * 「啵—咚」：他換成雙手往上伸、踮腳（預備）→ 手快碰到時蘋果抖一下 → 「啵」長大一圈（✨）→ 樹枝彎下來、整棵樹往他那邊歪，
+ * 蘋果掉在他頭上「咚」：💥＋白光＋鏡頭推近震一下，他傻眼停住 → 蘋果把他往下壓（跌坐／趴扁／壓得更扁）→ 樹枝彈回去，蘋果掛回樹上。
+ * at 是「啵」那一刻，k 是第幾次（0、1、2），越後面越大。
+ */
+function bonk(at: number, k: number) {
+  const s0 = SC[k], s1 = SC[k + 1]
+  const R = r(s1)
+  const hit = at + 0.28
+  const press = hit + HOLD
+  const back = press + 0.3
+  const lean = 4 + 3 * k
+  const low = k === 0 ? TOP.sit : TOP.flat
+  const moves: Move[] = [
+    // 踮腳伸手
+    { at: at - 0.7, actor: 'yang', do: 'swap', emoji: 'hero:yang/jump' },
+    { at: at - 0.7, dur: 0.95, actor: 'yang', do: 'hop', amount: 2.5 },
+    // 手快碰到：蘋果抖一下
+    { at: at - 0.3, dur: 0.3, actor: 'apple', do: 'shake', amount: 0.8 + 0.4 * k },
+    // 啵！長大一圈
+    { at, dur: 0.2, actor: 'apple', do: 'scaleTo', amount: GROW[k], ease: 'back' },
+    { at, dur: 0.2, actor: 'apple', do: 'moveTo', to: hang(s1), ease: 'back' },
+    // 太重了：樹枝彎下來，蘋果咚地掉在他頭上
+    { at: at + 0.15, dur: 0.13, actor: 'tree', do: 'rotateTo', amount: -lean, ease: 'in' },
+    { at: at + 0.15, dur: 0.13, actor: 'apple', do: 'moveTo', to: { x: X0 + 2, y: TOP.stand - R + 1.5 }, ease: 'in' },
+    { at: hit, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
+    { at: hit, dur: 0.25, actor: 'yang', do: 'squash', amount: 0.2 + 0.08 * k },
+    { at: hit, dur: 0.3, actor: 'apple', do: 'squash', amount: 0.08 },
+    // 傻眼停住，然後被壓下去
+    { at: press, actor: 'yang', do: 'swap', emoji: k === 0 ? 'hero:yang/fall' : 'hero:yang/flat' },
+    { at: press, dur: 0.12, actor: 'apple', do: 'moveTo', to: { x: X0 + 2, y: low - R + 1.5 }, ease: 'in' },
+    { at: press + 0.12, dur: 0.25, actor: 'apple', do: 'squash', amount: 0.1 + 0.04 * k },
+    // 樹枝彈回去，蘋果掛回樹上
+    { at: back, dur: 0.6, actor: 'tree', do: 'rotateTo', amount: lean, ease: 'elastic' },
+    { at: back, dur: 0.45, actor: 'apple', do: 'moveTo', to: hang(s1), ease: 'back' },
+  ]
+  const fx: Fx[] = [
+    { at, kind: 'burst', x: hang(s0).x, y: hang(s0).y, emoji: '✨', n: 6, dur: 0.35, scale: 1 + 0.2 * k },
+    // 樹枝：從蒂頭拉到樹冠
+    { at: at + 0.12, kind: 'line', actor: 'apple', dy: -R * 0.85, to: STEM, color: '#6B4423', width: 1.1, dur: back + 0.45 - at - 0.12 },
+    // 💥 每次都在他頭上同一個位置，一次比一次大
+    { at: hit, kind: 'burst', x: X0 - 6, y: TOP.stand - 4, n: 1, dur: 0.4, scale: 1.4 + 0.45 * k },
+    { at: press + 0.1, kind: 'dizzy', actor: 'yang', dy: k === 0 ? 0 : 6, dur: 0.6 },
+    { at: back, kind: 'burst', x: TX - 6, y: 48, emoji: '🍃', n: 5 + 2 * k, dur: 0.45 },
+  ]
+  const camera: Camera[] = [
+    { at: hit, dur: 0.4, do: 'punch', amount: 0.08 + 0.04 * k, to: { x: X0 + 4, y: TOP.stand + 4 } },
+    { at: hit, dur: 0.3, do: 'shake', amount: 1 + 0.5 * k },
+    { at: press + 0.12, dur: 0.25, do: 'shake', amount: 0.6 + 0.6 * k },
+  ]
+  const lights: Light[] = [{ at: hit, dur: 0.04, level: -0.25 - 0.08 * k }, { at: hit + 0.04, dur: 0.25, level: 0 }]
+  // 同一個音效（啵、咻、咚），一次比一次多疊一個
+  const cues: Cue[] = [{ at, sfx: 'blip' }, { at: at + 0.15, sfx: 'whoosh' }, { at: hit, sfx: 'bonk' }, { at: press + 0.12, sfx: 'plop' }, { at: back, sfx: 'boing' }]
+  if (k >= 1) cues.push({ at: hit + 0.04, sfx: 'poof' })
+  if (k >= 2) cues.push({ at: press + 0.14, sfx: 'crack' })
+  return { moves, fx, camera, lights, cues }
+}
+
+const P1 = 1.75, P2 = 3.8, P3 = 6.3
+const b1 = bonk(P1, 0)
+const b2 = bonk(P2, 1)
+const b3 = bonk(P3, 2)
+/** 每次樹枝彈回去的那一刻（筆畫從這裡飛出來） */
+const back = (p: number) => p + 0.28 + HOLD + 0.3
+/** 國字拼好、放大到正中央 */
+const HOME = 8.0
+/** 讓位、語詞 */
+const PARK = 9.0
+const WORD = 9.4
+/** 回馬槍：終於摘到了，張嘴一咬——啵 */
+const BITE = 10.15
+const H4 = 10.3
+const ASK = 11.0
+const ANSWER = 13.7
+
+/** 國字放大時樹縮到字的右邊（0.55 倍），大蘋果掛在樹冠正中間，果子在上、樹幹在下 */
+const SIDE = { x: 137, k: 0.55 }
+const SIDE_Y = 77 - 0.42 * TS * SIDE.k
+const SIDE_APPLE = { x: SIDE.x, y: 77 - 0.66 * TS * SIDE.k }
+const SIDE_TRUNK = { x: SIDE.x, y: 77 - 0.2 * TS * SIDE.k }
+/** 國字在正中央時，田、木的中心（hanzi-writer 座標換算） */
+const G = { tian: { x: 78, y: 29.5 }, mu: { x: 78.5, y: 56.5 } }
+/** 語詞那一刻：他雙手把大蘋果舉在頭上 */
+const XW = 42
+const LIFT = { x: XW, y: TOP.stand - r(SC[3]) + 1 }
+/** 讓位時大蘋果先掛回樹冠左邊（低一點，不擋上面的字） */
+const CROWN = { x: TX - 13, y: 54 }
+/** 回馬槍：蘋果放在他右邊地上 */
+const GROUND_APPLE = { x: XW + 15, y: 77 - r(SC[3]) - 0.5 }
+const BIGGEST = SC[3] * 1.55
 
 const clip: Clip = {
+  format: 2,
   char: '果',
-  meta: { theme: '警長追滾走的大蘋果', cast: '拉布拉多警長＋大蘋果＋木頭果架＋水果＋大鳳梨', gags: ['吹哨蘋果不聽話滾下來撞翻他', '跳上蘋果想踩住反被載著跑', '撞上果架蘋果爆開水果全飛上天', '水果一顆顆掉回來疊在頭上', '大鳳梨砸下來只好頂著走'] },
-  duration: 10,
-  bg: { top: '#FFE8CC', bottom: '#FFF4E6', floor: '#E6CFA8', scenery: 'city' },
+  meta: { theme: '楊捷睿摘蘋果', cast: '楊捷睿＋大樹（結滿蘋果的樹）＋蘋果', gags: ['楊捷睿每次踮腳伸手要摘樹上的蘋果，手快碰到時蘋果就啵地自己長大一圈、重到樹枝彎下來壓在他頭上，一次比一次大（敲得跌坐、壓扁、大得像西瓜把他整個壓扁）；回馬槍是他終於摘到了、得意地張嘴一咬，蘋果又啵地長得比樹還大，把他壓得最扁'] },
+  duration: 15,
+  bg: { top: '#DDF1FF', bottom: '#F6FBEA', floor: '#A9CF7E', scenery: 'hills' },
   actors: [
-    { id: 'log', emoji: '🪵', x: 100, y: 69.4, size: 18, pivot: 'center' },
-    { id: 'w2', emoji: '🍍', x: 140, y: 69.4, size: 18, pivot: 'center' },
-    { id: 'w1', emoji: '🍎', x: 100, y: 56.5, size: 16, pivot: 'center' },
-    { id: 'dog', emoji: 'hero:sheriff/idle', x: 30, y: B, size: 24, hidden: true, flip: true },
-    { id: 'apple', emoji: '🍐', x: 112, y: 71.5, size: 13, pivot: 'center' },
-    { id: 'nana', emoji: '🍌', x: 120, y: 72.4, size: 11, pivot: 'center' },
-    { id: 'grape', emoji: '🍇', x: 128, y: 71.5, size: 13, pivot: 'center' },
-    { id: 'o1', emoji: '🍊', x: 150, y: 72.4, size: 11, pivot: 'center' },
-    { id: 's1', emoji: '🍓', x: 156, y: 73.2, size: 9, pivot: 'center' },
+    { id: 'tree', emoji: 'prop:tree', x: TX, y: TY, size: TS },
+    // 姿勢圖朝左，翻過來面向右邊的樹
+    { id: 'yang', emoji: 'hero:yang/walk', x: X0, y: B, size: S, hidden: true, flip: true },
+    { id: 'apple', emoji: '🍎', x: hang(1).x, y: hang(1).y, size: AS, pivot: 'center' as const },
   ],
   moves: [
-    // 警長走進來，對著水果攤神氣地吹哨
-    { at: 0, actor: 'dog', do: 'enter', from: { x: -20, y: B }, dur: 0.6, ease: 'out' },
-    { at: 0.7, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/whistle' },
-    // 大蘋果晃一晃，從果架上滾下來，朝他直直滾過去
-    { at: 1.0, actor: 'w1', do: 'tilt', amount: -14, dur: 0.35 },
-    { at: 1.35, actor: 'w1', do: 'moveTo', to: { x: 86, y: W }, arc: 4, dur: 0.3, ease: 'in' },
-    { at: 1.35, actor: 'w1', do: 'rotateTo', amount: -60, dur: 0.3 },
-    { at: 1.65, actor: 'w1', do: 'moveTo', to: { x: 49, y: W }, dur: 0.45, ease: 'in' },
-    { at: 1.65, actor: 'w1', do: 'rotateTo', amount: -380, dur: 0.45, ease: 'in' },
-    { at: 1.6, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    // 撞翻！四腳朝天，大蘋果彈回去
-    { at: 2.1, actor: 'dog', do: 'moveTo', to: { x: 27, y: B }, dur: 0.2, ease: 'out' },
-    { at: 2.1, actor: 'dog', do: 'rotateTo', amount: -90, dur: 0.2, ease: 'out' },
-    { at: 2.1, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/dizzy' },
-    { at: 2.1, actor: 'w1', do: 'moveTo', to: { x: 54, y: W }, dur: 0.4, ease: 'out' },
-    { at: 2.1, actor: 'w1', do: 'rotateTo', amount: 200, dur: 0.4, ease: 'out' },
-    // 爬起來，氣呼呼
-    { at: 2.65, actor: 'dog', do: 'rotateTo', amount: 90, dur: 0.25, ease: 'back' },
-    { at: 2.65, actor: 'dog', do: 'moveTo', to: { x: 30, y: B }, dur: 0.25 },
-    { at: 2.9, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/idle' },
-    { at: 2.95, actor: 'dog', do: 'shake', amount: 1.2, dur: 0.3 },
-    // 蹲一下，跳上大蘋果踩住它
-    { at: 3.2, actor: 'dog', do: 'squash', amount: 0.3, dur: 0.2 },
-    { at: 3.4, actor: 'dog', do: 'moveTo', to: { x: 54, y: R }, arc: 12, dur: 0.35, ease: 'out' },
-    { at: 3.75, actor: 'w1', do: 'squash', amount: 0.2, dur: 0.2 },
-    { at: 3.75, actor: 'dog', do: 'squash', amount: 0.15, dur: 0.2 },
-    { at: 3.85, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/whistle' },
-    // 大蘋果開始滾，載著他越滾越快
-    { at: 4.3, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/run' },
-    ...ride(4.3, 0.7, 86, 'in', 300),
-    { at: 4.3, actor: 'dog', do: 'shake', amount: 1, dur: 0.7 },
-    // 碰！撞上果架：大蘋果爆開，果架和水果全飛上天，警長被彈飛
-    { at: 5.0, actor: 'w1', do: 'vanish', dur: 0.08 },
-    { at: 5.0, actor: 'log', do: 'moveTo', to: { x: 92, y: 40 }, dur: 0.3, ease: 'out' },
-    { at: 5.0, actor: 'log', do: 'spin', times: 1, dur: 0.3 },
-    { at: 5.3, actor: 'log', do: 'vanish', dur: 0.15 },
-    { at: 5.0, actor: 'apple', do: 'moveTo', to: { x: 60, y: -20 }, dur: 0.4, ease: 'out' },
-    { at: 5.0, actor: 'apple', do: 'spin', times: 2, dur: 0.4 },
-    { at: 5.02, actor: 'nana', do: 'moveTo', to: { x: 110, y: -20 }, dur: 0.4, ease: 'out' },
-    { at: 5.02, actor: 'nana', do: 'spin', times: -2, dur: 0.4 },
-    { at: 5.04, actor: 'grape', do: 'moveTo', to: { x: 140, y: -20 }, dur: 0.4, ease: 'out' },
-    { at: 5.04, actor: 'grape', do: 'spin', times: 2, dur: 0.4 },
-    { at: 5.05, actor: 'o1', do: 'moveTo', to: { x: 30, y: -20 }, dur: 0.45, ease: 'out' },
-    { at: 5.05, actor: 's1', do: 'moveTo', to: { x: 125, y: -20 }, dur: 0.45, ease: 'out' },
-    { at: 5.06, actor: 'w2', do: 'moveTo', to: { x: 150, y: -30 }, dur: 0.45, ease: 'out' },
-    { at: 5.05, actor: 'o1', do: 'moveTo', to: { x: 30, y: -20 }, dur: 0.45, ease: 'out' },
-    { at: 5.05, actor: 's1', do: 'moveTo', to: { x: 125, y: -20 }, dur: 0.45, ease: 'out' },
-    { at: 5.06, actor: 'w2', do: 'spin', times: -1, dur: 0.45 },
-    { at: 5.0, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    { at: 5.0, actor: 'dog', do: 'moveTo', to: { x: 136, y: B }, arc: 22, dur: 0.55, ease: 'linear' },
-    { at: 5.0, actor: 'dog', do: 'spin', times: 1, dur: 0.55, pivot: 'center' },
-    { at: 5.55, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/dizzy' },
-    { at: 6.2, actor: 'dog', do: 'shake', amount: 1, dur: 0.35 },
-    { at: 6.55, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/idle' },
-    // 國字讓位：他走到中間，抬頭——水果一顆顆掉回來疊在頭上
-    { at: 6.75, actor: 'dog', do: 'flip' },
-    { at: 6.8, actor: 'dog', do: 'moveTo', to: { x: 80, y: B }, dur: 0.55 },
-    { at: 7.35, actor: 'apple', do: 'moveTo', from: { x: 70, y: -15 }, to: { x: 80, y: HY[0] }, dur: 0.3, ease: 'in' },
-    { at: 7.5, actor: 'nana', do: 'moveTo', from: { x: 90, y: -15 }, to: { x: 80, y: HY[1] }, dur: 0.3, ease: 'in' },
-    { at: 7.45, actor: 'o1', do: 'moveTo', from: { x: 50, y: -15 }, to: { x: 60, y: 72.4 }, dur: 0.35, ease: 'in' },
-    { at: 7.8, actor: 'o1', do: 'moveTo', to: { x: 52, y: 72.4 }, dur: 0.3, ease: 'out' },
-    { at: 7.8, actor: 'o1', do: 'rotateTo', amount: -180, dur: 0.3, ease: 'out' },
-    { at: 7.6, actor: 's1', do: 'moveTo', from: { x: 112, y: -15 }, to: { x: 106, y: 73.2 }, dur: 0.35, ease: 'in' },
-    { at: 7.95, actor: 's1', do: 'moveTo', to: { x: 114, y: 73.2 }, dur: 0.3, ease: 'out' },
-    { at: 7.95, actor: 's1', do: 'rotateTo', amount: 200, dur: 0.3, ease: 'out' },
-    // 第三顆葡萄砸在香蕉上彈開，滾到腳邊
-    { at: 7.65, actor: 'grape', do: 'moveTo', from: { x: 74, y: -15 }, to: { x: 80, y: 36 }, dur: 0.25, ease: 'in' },
-    { at: 7.9, actor: 'grape', do: 'moveTo', to: { x: 100, y: 71.5 }, arc: 10, dur: 0.4, ease: 'linear' },
-    { at: 7.9, actor: 'grape', do: 'rotateTo', amount: 360, dur: 0.4 },
-    { at: 7.65, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    ...pressStack(7.65, 0.2, 0.1, 24, ['apple', 'nana']),
-    { at: 7.65, actor: 'dog', do: 'squash', amount: 0.1, dur: 0.2 },
-    // 水果！頂著一疊水果開心跳
-    { at: 8.0, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/happy' },
-    ...['dog', ...HEAD].map((actor) => ({ at: 8.0, actor, do: 'hop' as const, amount: 4, dur: 0.3 })),
-    // 回馬槍：最後掉下來的是那顆大鳳梨——砸散水果、卡在頭上
-    { at: 8.4, actor: 'w2', do: 'moveTo', from: { x: 80, y: -30 }, to: { x: 80, y: BIG }, dur: 0.25, ease: 'in' },
-    { at: 8.58, actor: 'apple', do: 'moveTo', to: { x: 10, y: 71.5 }, arc: 10, dur: 0.45, ease: 'linear' },
-    { at: 8.58, actor: 'apple', do: 'rotateTo', amount: -360, dur: 0.45 },
-    { at: 8.58, actor: 'nana', do: 'moveTo', to: { x: 126, y: 72.4 }, arc: 14, dur: 0.45, ease: 'linear' },
-    { at: 8.58, actor: 'nana', do: 'rotateTo', amount: 360, dur: 0.45 },
-    { at: 8.6, actor: 'grape', do: 'moveTo', to: { x: 140, y: 71.5 }, arc: 8, dur: 0.5, ease: 'linear' },
-    { at: 8.6, actor: 'o1', do: 'moveTo', to: { x: 22, y: 72.4 }, dur: 0.4, ease: 'out' },
-    { at: 8.6, actor: 'o1', do: 'rotateTo', amount: -400, dur: 0.4, ease: 'out' },
-    { at: 8.6, actor: 's1', do: 'moveTo', to: { x: 150, y: 73.2 }, dur: 0.4, ease: 'out' },
-    { at: 8.6, actor: 's1', do: 'rotateTo', amount: 400, dur: 0.4, ease: 'out' },
-    { at: 8.6, actor: 'grape', do: 'rotateTo', amount: 360, dur: 0.5 },
-    { at: 8.65, actor: 'dog', do: 'squash', amount: 0.45, dur: 0.4 },
-    ...pressStack(8.65, 0.4, 0.45, 24, ['w2']),
-    { at: 8.65, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/dizzy' },
-    // 頂著大鳳梨，搖搖晃晃走到左邊
-    { at: 9.0, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/surprised' },
-    { at: 9.0, actor: 'dog', do: 'flip' },
-    { at: 9.0, actor: 'dog', do: 'moveTo', to: { x: 42, y: B }, dur: 0.5 },
-    { at: 9.0, actor: 'w2', do: 'moveTo', to: { x: 42, y: BIG }, dur: 0.5 },
-    { at: 9.0, actor: 'w2', do: 'tilt', amount: 12, dur: 0.5 },
-    { at: 9.55, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/happy' },
+    // 楊捷睿走進來，抬頭指著字框：果！
+    { at: 0, dur: 0.5, actor: 'yang', do: 'enter', from: { x: -20, y: B }, ease: 'out' },
+    { at: 0.5, actor: 'yang', do: 'swap', emoji: 'hero:yang/know' },
+    { at: 0.75, dur: 0.4, actor: 'apple', do: 'tilt', amount: 12 },
+    // 第 1 次：踮腳摘——啵、咚！被敲得跌坐
+    ...b1.moves,
+    { at: back(P1) + 0.35, actor: 'yang', do: 'swap', emoji: 'hero:yang/angry' },
+    { at: back(P1) + 0.45, dur: 0.25, actor: 'yang', do: 'hop', amount: 2 },
+    // 第 2 次：再踮腳摘——啵、咚！被壓扁
+    ...b2.moves,
+    // 第 3 次前停一拍：爬起來、盯著那顆越來越大的蘋果想一想，慢慢伸手……
+    { at: back(P2) + 0.3, actor: 'yang', do: 'swap', emoji: 'hero:yang/ponder' },
+    { at: back(P2) + 0.5, dur: 0.5, actor: 'apple', do: 'tilt', amount: -10 },
+    ...b3.moves,
+    // 拼好前：他從底下爬出來退到左邊
+    { at: 7.65, actor: 'yang', do: 'swap', emoji: 'hero:yang/dizzy' },
+    { at: 7.65, dur: 0.35, actor: 'yang', do: 'moveTo', to: { x: 26, y: B } },
+    // 國字放大：樹縮到字的右邊、大蘋果跟著掛到樹冠正中間；果子和田、樹幹和木各亮一下
+    { at: HOME - 0.05, dur: 0.4, actor: 'tree', do: 'moveTo', to: { x: SIDE.x, y: SIDE_Y }, arc: 6, ease: 'out' },
+    { at: HOME - 0.05, dur: 0.4, actor: 'tree', do: 'scaleTo', amount: SIDE.k, ease: 'out' },
+    { at: HOME - 0.05, dur: 0.4, actor: 'apple', do: 'moveTo', to: SIDE_APPLE, arc: 6, ease: 'out' },
+    { at: HOME - 0.05, dur: 0.4, actor: 'apple', do: 'scaleTo', amount: 0.45, ease: 'out' },
+    { at: HOME + 0.45, dur: 0.4, actor: 'apple', do: 'flash' },
+    { at: HOME + 0.7, dur: 0.4, actor: 'tree', do: 'flash' },
+    { at: HOME + 0.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
+    // 語詞：國字讓回上方，樹回到中間；啵——整棵樹結滿蘋果，大蘋果掉進他手裡（蘋果）
+    { at: PARK, dur: 0.4, actor: 'tree', do: 'moveTo', to: { x: TX, y: TY }, arc: 6, ease: 'out' },
+    { at: PARK, dur: 0.4, actor: 'tree', do: 'scaleTo', amount: 1 / SIDE.k, ease: 'out' },
+    { at: PARK, dur: 0.4, actor: 'apple', do: 'moveTo', to: CROWN, arc: 6, ease: 'out' },
+    { at: PARK, dur: 0.4, actor: 'apple', do: 'scaleTo', amount: 1 / 0.45, ease: 'out' },
+    { at: PARK, dur: 0.4, actor: 'yang', do: 'moveTo', to: { x: XW, y: B } },
+    { at: PARK, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: WORD, actor: 'tree', do: 'swap', emoji: 'prop:apple-tree' },
+    { at: WORD, dur: 0.3, actor: 'tree', do: 'squash', amount: -0.08 },
+    { at: WORD + 0.05, actor: 'yang', do: 'swap', emoji: 'hero:yang/lift' },
+    { at: WORD + 0.05, dur: 0.18, actor: 'apple', do: 'moveTo', to: LIFT, ease: 'in' },
+    { at: WORD + 0.23, dur: 0.25, actor: 'yang', do: 'squash', amount: 0.12 },
+    // 回馬槍（第 4 次）：終於摘到了！放在地上、得意，張嘴一咬——
+    { at: 9.82, dur: 0.2, actor: 'apple', do: 'moveTo', to: GROUND_APPLE, arc: 4 },
+    { at: 9.82, actor: 'yang', do: 'swap', emoji: 'hero:yang/smug' },
+    { at: 10.03, actor: 'yang', do: 'swap', emoji: 'hero:yang/eat' },
+    { at: 10.03, dur: 0.12, actor: 'yang', do: 'moveTo', to: { x: XW + 3, y: B } },
+    { at: BITE, dur: 0.15, actor: 'apple', do: 'shake', amount: 1.5 },
+    // 啵！長得比樹還大，倒下來把他壓得最扁
+    { at: H4, dur: 0.22, actor: 'apple', do: 'scaleTo', amount: 1.55, ease: 'out' },
+    { at: H4, dur: 0.22, actor: 'apple', do: 'moveTo', to: { x: GROUND_APPLE.x + 4, y: 77 - r(BIGGEST) }, ease: 'out' },
+    { at: H4, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
+    { at: H4 + 0.25, dur: 0.15, actor: 'apple', do: 'moveTo', to: { x: XW - 2, y: TOP.flat - r(BIGGEST) + 18 }, ease: 'in' },
+    { at: H4 + 0.25, dur: 0.15, actor: 'apple', do: 'rotateTo', amount: -30, ease: 'in' },
+    { at: H4 + 0.4, actor: 'yang', do: 'swap', emoji: 'hero:yang/flat' },
+    { at: H4 + 0.4, dur: 0.3, actor: 'apple', do: 'squash', amount: 0.12 },
+    { at: H4 + 0.4, dur: 0.4, actor: 'tree', do: 'shake', amount: 2 },
+    // 問他：樹和蘋果縮不見；楊捷睿跳到左前方、變大，轉向觀眾
+    { at: ASK, dur: 0.35, actor: 'apple', do: 'scaleTo', amount: 0.02, ease: 'in' },
+    { at: ASK + 0.35, dur: 0.05, actor: 'apple', do: 'vanish' },
+    { at: ASK, dur: 0.35, actor: 'tree', do: 'scaleTo', amount: 0.02, ease: 'in' },
+    { at: ASK + 0.35, dur: 0.05, actor: 'tree', do: 'vanish' },
+    { at: ASK + 0.05, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
+    { at: ASK + 0.05, dur: 0.3, actor: 'yang', do: 'moveTo', to: { x: 32, y: B + 4 }, arc: 8 },
+    { at: ASK + 0.05, dur: 0.3, actor: 'yang', do: 'scaleTo', amount: 1.5 },
+    { at: ASK + 0.35, actor: 'yang', do: 'flip' },
+    // 安靜等他回答：手放耳邊、身體往字那邊傾、點兩下頭
+    { at: 12.2, actor: 'yang', do: 'swap', emoji: 'hero:yang/listen' },
+    { at: 12.2, dur: 0.3, actor: 'yang', do: 'rotateTo', amount: 10 },
+    { at: 12.7, dur: 0.3, actor: 'yang', do: 'hop', amount: 1.5 },
+    { at: 13.2, dur: 0.3, actor: 'yang', do: 'hop', amount: 1.5 },
+    // 回答：跳起來指著字
+    { at: ANSWER, dur: 0.12, actor: 'yang', do: 'rotateTo', amount: -10 },
+    { at: ANSWER, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
+    { at: ANSWER, dur: 0.2, actor: 'yang', do: 'hop', amount: 8 },
+    // 退場（跑走），畫面只留下字
+    { at: ANSWER + 0.15, actor: 'yang', do: 'swap', emoji: 'hero:yang/dash' },
+    { at: ANSWER + 0.15, actor: 'yang', do: 'flip' },
+    { at: ANSWER + 0.15, dur: 0.13, actor: 'yang', do: 'moveTo', to: { x: -45, y: B + 4 }, ease: 'in' },
   ],
   builds: [
-    // 爆開的大蘋果 → 田；飛起來的木頭果架 → 木
-    { at: 5.0, dur: 0.5, strokes: [0, 1, 2, 3], from: 'w1', color: '#E03131' },
-    { at: 5.3, dur: 0.55, strokes: [4, 5, 6, 7], from: 'log', color: '#8D5524' },
+    // 樹先長出來：每次樹枝彈回去，樹幹就飛出木的一半（橫豎、撇捺）；最後那顆大蘋果飛出上面的田——樹上結了果子
+    { at: back(P1) + 0.05, dur: 0.55, strokes: [4, 5], from: TRUNK, color: partColor('木') },
+    { at: back(P2) + 0.05, dur: 0.55, strokes: [6, 7], from: TRUNK, color: partColor('木') },
+    { at: back(P3) + 0.05, dur: 0.55, strokes: [0, 1, 2, 3], from: 'apple', color: partColor('田') },
   ],
   glyph: [
-    { at: 5.9, dur: 0.4, do: 'wobble' },
-    { at: 6.7, dur: 0.45, do: 'park', to: { x: 80, y: 19.5 } },
-    { at: 9.1, dur: 0.4, do: 'home' },
-    { at: 9.55, dur: 0.5, do: 'pulse' },
+    { at: HOME, dur: 0.45, do: 'home', ease: 'back' },
+    { at: PARK, dur: 0.45, do: 'park' },
+    // 問他：國字稍微偏右、縮一點，左前方讓給變大的楊捷睿
+    { at: ASK, dur: ANSWER + 0.28 - ASK, do: 'ask', keep: ['yang'], to: { x: 98, y: 43 }, amount: 0.82 },
+    { at: ASK + 0.05, dur: 0.4, do: 'home' },
+    { at: ANSWER, dur: 0.35, do: 'pulse' },
+    { at: 14.15, dur: 0.5, do: 'pulse' },
   ],
   fx: [
-    { at: 0.75, kind: 'zzz', actor: 'dog', emoji: '🎵', dur: 0.6 },
-    { at: 1.05, kind: 'pop', actor: 'w1', emoji: '❗', dur: 0.35 },
-    { at: 1.6, kind: 'pop', actor: 'dog', emoji: '😱', dur: 0.45 },
-    { at: 2.1, kind: 'burst', x: 38, y: 64, n: 1, dur: 0.35 },
-    { at: 2.25, kind: 'dizzy', actor: 'dog', dx: -6, dy: 10, dur: 0.4 },
-    { at: 2.95, kind: 'pop', actor: 'dog', emoji: '😤', dur: 0.4 },
-    { at: 3.2, kind: 'puff', actor: 'dog', dur: 0.3 },
-    { at: 3.9, kind: 'zzz', actor: 'dog', emoji: '🎵', dur: 0.4 },
-    { at: 4.35, kind: 'sweat', actor: 'dog' },
-    { at: 4.55, kind: 'pop', actor: 'dog', emoji: '😱', dur: 0.4 },
-    { at: 5.0, kind: 'burst', x: 92, y: 64, n: 1, dur: 0.4 },
-    { at: 5.0, kind: 'burst', x: 92, y: 64, emoji: '❤️', n: 8, dur: 0.5 },
-    { at: 5.6, kind: 'dizzy', actor: 'dog', dur: 0.9 },
-    { at: 7.25, kind: 'pop', actor: 'dog', emoji: '❓', dx: 16, dy: 6, dur: 0.4 },
-    { at: 8.0, kind: 'burst', actor: 'dog', emoji: '✨', n: 8, dy: 6, dur: 0.6 },
-    { at: 8.3, kind: 'pop', actor: 'dog', emoji: '❗', dx: 16, dy: 6, dur: 0.3 },
-    { at: 8.6, kind: 'burst', x: 80, y: 44, n: 1, dur: 0.35 },
-    { at: 8.8, kind: 'dizzy', actor: 'dog', dy: 8, dur: 0.4 },
-    { at: 9.05, kind: 'sweat', actor: 'dog', dx: 8 },
-    { at: 9.6, kind: 'pop', actor: 'dog', emoji: '😅', dx: -16, dy: -2, dur: 0.5 },
+    // 開場：看到蘋果，流口水
+    { at: 0.8, kind: 'pop', actor: 'apple', emoji: '❤️', dx: -6, dy: 2, dur: 0.5 },
+    ...b1.fx,
+    ...b2.fx,
+    // 第 3 次前停一拍：盯著蘋果、冒汗
+    { at: back(P2) + 0.4, kind: 'pop', actor: 'yang', emoji: '👀', dx: -3, dy: 3, dur: 0.6, scale: 1.5 },
+    { at: back(P2) + 0.5, kind: 'sweat', actor: 'yang' },
+    ...b3.fx,
+    // 國字放大：果子對田、樹幹對木，各亮一下——長得一樣
+    { at: HOME + 0.45, kind: 'burst', ...SIDE_APPLE, emoji: '✨', n: 1, dur: 0.45, scale: 1.3 },
+    { at: HOME + 0.45, kind: 'burst', ...G.tian, emoji: '✨', n: 1, dur: 0.45, scale: 1.3 },
+    { at: HOME + 0.7, kind: 'burst', ...SIDE_TRUNK, emoji: '✨', n: 1, dur: 0.45, scale: 1.3 },
+    { at: HOME + 0.7, kind: 'burst', ...G.mu, emoji: '✨', n: 1, dur: 0.45, scale: 1.3 },
+    // 蘋果：整棵樹結滿蘋果
+    { at: WORD, kind: 'burst', x: TX, y: 52, emoji: '✨', n: 10, dur: 0.5, scale: 1.2 },
+    // 回馬槍：咬一口、啵、咚
+    { at: BITE, kind: 'pop', actor: 'yang', emoji: '😋', dx: -12, dy: 2, dur: 0.3 },
+    { at: H4, kind: 'burst', x: GROUND_APPLE.x, y: GROUND_APPLE.y - 6, emoji: '✨', n: 8, dur: 0.4, scale: 1.4 },
+    { at: H4 + 0.4, kind: 'burst', x: XW - 22, y: 58, n: 1, dur: 0.45, scale: 2.7 },
+    { at: H4 + 0.4, kind: 'burst', x: XW, y: 70, emoji: '⭐', n: 8, dur: 0.45 },
+    { at: ANSWER, kind: 'burst', x: 98, y: 38, emoji: '🌟', n: 10, dur: 0.28 },
   ],
   camera: [
-    { at: 2.1, dur: 0.25, do: 'shake', amount: 1 },
-    { at: 5.0, dur: 0.4, do: 'shake', amount: 1.8 },
-    { at: 7.8, dur: 0.5, do: 'punch', amount: 0.1, to: { x: 80, y: 52 } },
-    { at: 8.62, dur: 0.3, do: 'shake', amount: 1.4 },
+    // 字拼好之前鏡頭固定在全景：樹要整棵在畫面裡
+    { at: 0.2, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 46 } },
+    ...b1.camera,
+    ...b2.camera,
+    ...b3.camera,
+    { at: 7.6, dur: 0.3, do: 'zoom', amount: 1 },
+    { at: H4 + 0.4, dur: 0.45, do: 'punch', amount: 0.25, to: { x: XW, y: 60 } },
+    { at: H4 + 0.4, dur: 0.4, do: 'shake', amount: 2.6 },
   ],
   lights: [
-    // 大蘋果爆開：白光一閃
-    { at: 5.0, dur: 0.04, level: -0.45 },
-    { at: 5.04, dur: 0.3, level: 0 },
+    ...b1.lights,
+    ...b2.lights,
+    ...b3.lights,
+    { at: HOME, dur: 0.05, level: -0.35 },
+    { at: HOME + 0.05, dur: 0.35, level: 0 },
+    { at: H4 + 0.4, dur: 0.04, level: -0.5 },
+    { at: H4 + 0.44, dur: 0.25, level: 0 },
   ],
   cues: [
-    { at: 0.7, say: '果' },
-    { at: 1.35, sfx: 'slide' },
-    { at: 2.1, sfx: 'bonk' },
-    { at: 3.4, sfx: 'boing' },
-    { at: 3.85, sfx: 'blip' },
-    { at: 4.3, sfx: 'whoosh' },
-    { at: 5.0, sfx: 'crack' },
-    { at: 5.02, sfx: 'splash' },
-    { at: 5.9, say: '果' },
-    { at: 7.35, sfx: 'plop' },
-    { at: 7.65, sfx: 'plop' },
-    { at: 7.9, sfx: 'boing' },
-    { at: 7.8, say: '水果' },
-    { at: 7.8, sfx: 'plop' },
-    { at: 8.4, sfx: 'whoosh' },
-    { at: 8.6, sfx: 'bonk' },
-    { at: 9.55, sfx: 'cheer' },
+    { at: 0.5, say: '果' },
+    ...b1.cues,
+    ...b2.cues,
+    ...b3.cues,
+    { at: HOME + 0.1, say: '果' },
+    { at: HOME + 0.45, sfx: 'blip' },
+    { at: HOME + 0.7, sfx: 'blip' },
+    { at: WORD, say: '蘋果' },
+    { at: WORD + 0.05, sfx: 'poof' },
+    { at: WORD + 0.3, sfx: 'plop' },
+    { at: BITE, sfx: 'crack' },
+    { at: H4, sfx: 'blip' },
+    { at: H4 + 0.25, sfx: 'whoosh' },
+    { at: H4 + 0.4, sfx: 'bonk' },
+    { at: H4 + 0.44, sfx: 'poof' },
+    { at: H4 + 0.48, sfx: 'crack' },
+    { at: H4 + 0.52, sfx: 'boing' },
+    { at: 11.2, say: FIXED_LINES.clipAsk },
+    { at: ANSWER, say: '果' },
+    { at: ANSWER + 0.05, sfx: 'cheer' },
   ],
 }
 
