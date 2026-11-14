@@ -142,6 +142,8 @@ export type Fx = {
   sweep?: number
   /** swoosh 甩之前先往反方向翹起來停幾秒（預備動作，0.15～0.2 在 0.25 秒一格的總覽上就看得到）；dur 要把它算進去 */
   windup?: number
+  /** swoosh 上下顛倒：從下面（後下方）往前甩，像踢腿、下勾拳。中心用 dx／dy 對到屁股 */
+  low?: boolean
 }
 
 /**
@@ -1030,7 +1032,7 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
         const pts: Vec[] = []
         for (let i = 0; i <= 12; i++) {
           const ai = a - dir * len * (1 - i / 12)
-          pts.push({ x: head.x + Math.cos(ai) * r, y: head.y + Math.sin(ai) * r })
+          pts.push({ x: head.x + Math.cos(ai) * r, y: head.y + (f.low ? -1 : 1) * Math.sin(ai) * r })
         }
         const fade = clamp((d - tt) / Math.max(0.05, (d - wind) * 0.35))
         out.push({ key: key(0), swoosh: { pts, color: f.color ?? '#fff', width: f.width ?? 2.6 }, x: 0, y: 0, size: 0, o: Math.min(fade, clamp(tt / 0.04)), s: 1, r: 0 })

@@ -158,4 +158,8 @@ test('swoosh：一段弧往 target 那一側甩過去；sweep 大就從另一邊
   assert.deepEqual([E.fxAt(clip(), 1.2)[0].swoosh.color, E.fxAt(clip(), 1.2)[0].swoosh.width], ['#fff', 2.6])
   assert.deepEqual([E.fxAt(clip({ color: '#F08A2C', width: 4 }), 1.2)[0].swoosh.color, E.fxAt(clip({ color: '#F08A2C', width: 4 }), 1.2)[0].swoosh.width], ['#F08A2C', 4])
   assert.equal(E.fxAt(clip(), 1.45).length, 0)
+  // low：上下顛倒，從下面甩過來（踢腿），終點一樣在 pig 那一側、跟中心一樣高
+  assert.ok(tip(clip({ low: true }), 1.01).y > anchorY + 6)
+  const lowEnd = tip(clip({ low: true }), 1.3)
+  assert.ok(lowEnd.x < cat.x - 11 && Math.abs(lowEnd.y - anchorY) < 0.5, JSON.stringify(lowEnd))
 })
