@@ -1,0 +1,7 @@
+{
+  "about": "第十張道具表（2026-11，Codex 生圖，洋紅底 3×3）：發呆的熊貓（正對前方、嘴張成小 o、眼神放空）／同一隻轉頭看左邊揮手（同一個比例可以 swap）、打瞌睡的公雞（跟 props-9 的 rooster 不同張表，大小差多少見 README）、頭上的腫包（貼膠布）、獨角仙（朝左）、白色大羽毛、半開透光的書、大銅鑼加鑼槌、當傘的大荷葉。清單在 scripts/sheets/props-10.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-10.png",
+  "key": "#FF00FF",
+  "props": ["panda-daze", "panda-wave", "rooster-sleep", "bump", "beetle", "feather", "book-ajar", "gong", "lotus-leaf"],
+  "together": [["panda-daze", "panda-wave"]]
+}

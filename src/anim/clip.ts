@@ -457,14 +457,15 @@ type Kind = 'creature' | 'vehicle' | 'prop'
  * 自製道具圖：劇本寫 emoji: 'prop:<名字>'，圖在 public/props/<名字>.png（npm run prop:cut 從道具表切出來，512×512、長邊撐滿、底部對齊）。
  * size 的意義跟 emoji 一樣（道具的長邊），站在地上的 y 跟主角一樣算。自動質感照「道具」那一邊（跟 🎁⭐🌳 一樣：不踩步伐、不點頭、不做小動作），
  * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）；
- * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸🦀🐢🐒🐐 一樣；會飛的蝴蝶、蜜蜂跟 🦋🐝 一樣，劇本給 float），
+ * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸🦀🐢🐒🐐🐓🪲 一樣；會飛的蝴蝶、蜜蜂跟 🦋🐝 一樣，劇本給 float），
  * 其中趴著睡、跳在半空、伸螯夾東西、縮進殼裡、吊在樹枝上、用後腳站起來的那幾張，還有跟 🐛 一樣在地上爬的毛毛蟲（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
  */
 export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
 const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump',
   'crab', 'crab-pinch', 'crab-walk', 'turtle', 'turtle-shell', 'monkey', 'monkey-hang',
-  'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting', 'turtle-old', 'rooster'])
+  'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting', 'turtle-old', 'rooster',
+  'panda-daze', 'panda-wave', 'rooster-sleep', 'beetle'])
 const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 

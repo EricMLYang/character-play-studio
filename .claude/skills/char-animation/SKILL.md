@@ -316,7 +316,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster` 跟 🐓 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -522,6 +522,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `bone` | 啃得乾乾淨淨的白骨頭；跟 `meat` 同 size swap | 還沒用 |
 | `watermelon` | 一整顆綠色條紋大西瓜 | 還沒用 |
 | `watermelon-half` | 切開的半顆西瓜（紅肉黑籽朝前）；跟 `watermelon` 同 size swap | 還沒用 |
+| `panda-daze` | 發呆的熊貓：坐著正對前方、嘴張成小 o、眼神放空（算動物）。**跟 `panda-wave` 同一個比例**，同 size、同 x swap | 呆 |
+| `panda-wave` | 同一隻熊貓轉頭看左邊、舉手揮手微笑 | 呆（回馬槍） |
+| `rooster-sleep` | 打瞌睡的公雞（朝左、閉眼垂頭；算動物）。跟 `rooster` 不同張表，同 size swap 差不到 5%，x 往右移約 0.03 × size 更準 | 還沒用 |
+| `bump` | 頭上的腫包（肉粉紅半圓、底部平、貼交叉膠布；寬扁） | 還沒用 |
+| `beetle` | 獨角仙（深咖啡色、分叉大角，側面朝左；跟 🪲 一樣算動物） | 還沒用 |
+| `feather` | 白色大羽毛（淺灰描邊、羽軸；淺色背景上看得到） | 呆（安靜那一拍飄過鼻子） |
+| `book-ajar` | 半開的藍色精裝書（立著、封面掀開一點、縫裡透金黃色的光） | 還沒用 |
+| `gong` | 掛在木架上的金色大銅鑼，旁邊靠著鑼槌 | 呆（第 2 次） |
+| `lotus-leaf` | 當傘用的大荷葉（長葉柄、圓葉子） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

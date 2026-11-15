@@ -20,6 +20,7 @@
 | props-7 | `tree` 大樹（沒有果子） | `apple-tree` 同一棵樹結滿紅蘋果 | `bao` 一顆包子 | `bao-plate` 一盤包子（冒熱氣） | `bao-pot` 鍋裡滾著包子的大鍋 | `chili` 大紅辣椒 | `hotpot` 麻辣火鍋 | `water` 一杯水加吸管 | `mirror` 立鏡 |
 | props-8 | `dumpling` 半月形水餃 | `dumpling-bite` 同一顆咬一口（露餡、冒熱氣） | `dumpling-plate` 一盤水餃（冒熱氣） | `dumpling-pot` 鍋裡滾著水餃的大鍋（冒熱氣） | `dumpling-chopsticks` 筷子夾著一顆水餃 | `soy` 一小碟醬油 | `flour` 一袋撒出來的麵粉 | `brain` 粉紅色大腦 | `backpack` 藍色雙肩書包 |
 | props-9 | `turtle-old` 很老的烏龜（白長鬍子拖地、白眉毛、小圓眼鏡，朝左） | `cake` 草莓鮮奶油蛋糕 | `cake-halves` 同一個蛋糕切成兩半（一張圖） | `rooster` 抬頭啼叫的公雞（朝左） | `alarm-clock` 紅色雙鈴鬧鐘 | `meat` 帶骨頭的漫畫肉 | `bone` 啃乾淨的白骨頭 | `watermelon` 整顆條紋西瓜 | `watermelon-half` 半顆西瓜（紅肉黑籽朝前） |
+| props-10 | `panda-daze` 發呆的熊貓（正對前方、嘴張成小 o、眼神放空） | `panda-wave` 同一隻轉頭看左邊揮手 | `rooster-sleep` 打瞌睡的公雞（朝左、閉眼垂頭） | `bump` 頭上的腫包（貼交叉膠布） | `beetle` 獨角仙（朝左） | `feather` 白色大羽毛（灰描邊、羽軸） | `book-ajar` 半開的藍色精裝書（縫裡透金光） | `gong` 掛在木架上的大銅鑼＋鑼槌 | `lotus-leaf` 當傘的大荷葉（長葉柄） |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -86,6 +87,14 @@ props-9 要注意（用 `npm run sheet:gen -- prop 9 scripts/sheets/props-9.txt`
 - `cake`／`cake-halves`、`meat`／`bone`、`watermelon`／`watermelon-half` 各用 `together` 綁成一組，同 size swap。
   `cake-halves` 是同一格裡的兩半（中間有縫），切成一張圖，不是兩張。
 - `rooster` 跟 `turtle-old` 一樣算動物（`src/anim/clip.ts` 的 `PROP_ANIMALS`），走過去踩步伐。
+
+props-10 要注意（用 `npm run sheet:gen -- prop 10 scripts/sheets/props-10.txt` 生的，九格清單就在那個檔）：
+- `panda-daze`／`panda-wave` 用 `together` 綁成一組，同 size、同 x swap（揮手那張舉起的手往左凸，撐滿寬的是它；身體、腳底對得齊）。
+  跟 props-4 的 `panda`（啃竹子）不同張表，三張都是高撐滿，size 一樣時身體差不多大。三張在引擎裡都跟 🐼 一樣算動物。
+- `rooster-sleep` 是 props-9 `rooster` 的「打瞌睡」版，**不同張表，不能用 `together` 綁**：兩張都是長邊撐滿（`rooster` 高撐滿 0.92、`rooster-sleep` 寬撐滿 0.92），
+  並排比過：雞冠、身體、尾巴、腳差不多大（差不到 5%），同 size swap 腳底對齊；睡著的身體偏右一點，要對得更準 x 往右移約 0.03 × size。算動物（跟 🐓 一樣）。
+- `beetle` 跟 🪲 一樣算動物（會踩步伐）。`bump`、`feather`、`book-ajar`、`gong`、`lotus-leaf` 是道具。
+- 去背逐張看過（淺色、深灰底各看一次）：白羽毛的羽片與灰描邊完整、熊貓的白毛沒有被吃掉、書縫的黃光邊緣淡淡地漸到透明，九張都沒有洋紅殘留。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 
