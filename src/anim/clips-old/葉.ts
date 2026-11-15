@@ -1,0 +1,132 @@
+import type { Clip } from '../clip'
+
+// 葉：玩具海盜想摘樹上那片亮晶晶的大葉子，跳起來差好遠；叫鸚鵡幫忙，鸚鵡把頭一撇不理他。
+// 積木小隊排隊走來，一塊一塊疊在他腳下，越疊越高、越晃越大，手指只差一點點——鸚鵡偏偏這時候飛上來停在他帽子上。
+// 塔「轟」地倒了，積木排成「艹、世、木」；樹一抖、葉子飄下來，大葉子剛好蓋在他頭上當帽子——鸚鵡又飛下來把它叼走。葉、葉、樹葉
+const clip: Clip = {
+  char: '葉',
+  meta: { theme: '海盜摘葉子', cast: '玩具海盜＋懶鸚鵡＋積木小隊＋大樹', gags: ['跳起來差好遠', '疊高高越晃越大', '鸚鵡最後一根稻草壓垮塔', '鸚鵡叼走葉子帽'] },
+  duration: 10,
+  bg: { top: '#FFF6DE', bottom: '#FFFBEF', floor: '#C9DEA6', scenery: 'forest' },
+  actors: [
+    { id: 'tree', emoji: '🌳', x: 146, y: 58, size: 34 },
+    { id: 'leaf', emoji: '🍃', x: 124, y: 22, size: 10, float: true },
+    { id: 'b1', emoji: '🧱', x: 124, y: 72, size: 9, hidden: true },
+    { id: 'b2', emoji: '🧱', x: 124, y: 64, size: 9, hidden: true },
+    { id: 'b3', emoji: '🧱', x: 124, y: 56, size: 9, hidden: true },
+    { id: 'b4', emoji: '🧱', x: 124, y: 48, size: 9, hidden: true },
+    { id: 'pirate', emoji: 'hero:pirate/idle', x: 124, y: 71, size: 14, hidden: true, flip: true },
+    { id: 'parrot', emoji: '🦜', x: 104, y: 72, size: 9, hidden: true, flip: true },
+  ],
+  moves: [
+    { at: 0, actor: 'pirate', do: 'enter', from: { x: -14, y: 71 }, dur: 0.7, ease: 'out' },
+    { at: 0.05, actor: 'parrot', do: 'enter', from: { x: -24, y: 72 }, dur: 0.75, ease: 'out' },
+    // 跳起來摘——差好遠
+    { at: 0.8, actor: 'pirate', do: 'squash', amount: -0.25, dur: 0.2 },
+    { at: 1.0, actor: 'pirate', do: 'hop', amount: 9, dur: 0.45 },
+    { at: 0.9, actor: 'leaf', do: 'flash', dur: 0.6 },
+    { at: 0.9, actor: 'leaf', do: 'tilt', amount: 15, dur: 0.6 },
+    // 叫鸚鵡去，鸚鵡把頭一撇
+    { at: 1.5, actor: 'pirate', do: 'flip' },
+    { at: 1.5, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/surprised' },
+    { at: 1.7, actor: 'parrot', do: 'flip' },
+    { at: 1.7, actor: 'parrot', do: 'shake', amount: 1, dur: 0.4 },
+    { at: 2.1, actor: 'pirate', do: 'flip' },
+    { at: 2.1, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/idle' },
+    // 積木小隊一塊一塊疊到腳下
+    { at: 2.0, actor: 'b1', do: 'enter', from: { x: -10, y: 72 }, dur: 0.4, ease: 'out' },
+    { at: 2.35, actor: 'pirate', do: 'moveTo', to: { x: 124, y: 63 }, dur: 0.15 },
+    { at: 2.35, actor: 'b2', do: 'enter', from: { x: -10, y: 72 }, dur: 0.4, arc: 10, ease: 'out' },
+    { at: 2.7, actor: 'pirate', do: 'moveTo', to: { x: 124, y: 55 }, dur: 0.15 },
+    { at: 2.7, actor: 'b3', do: 'enter', from: { x: -10, y: 72 }, dur: 0.4, arc: 18, ease: 'out' },
+    { at: 3.05, actor: 'pirate', do: 'moveTo', to: { x: 124, y: 47 }, dur: 0.15 },
+    { at: 3.05, actor: 'b4', do: 'enter', from: { x: -10, y: 72 }, dur: 0.4, arc: 26, ease: 'out' },
+    { at: 3.4, actor: 'pirate', do: 'moveTo', to: { x: 124, y: 39 }, dur: 0.15 },
+    // 越晃越大，手指只差一點點
+    { at: 3.4, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/telescope' },
+    { at: 2.4, actor: 'b1', do: 'shake', amount: 0.6, dur: 1.8 },
+    { at: 2.7, actor: 'b2', do: 'shake', amount: 1, dur: 1.5 },
+    { at: 3.0, actor: 'b3', do: 'shake', amount: 1.4, dur: 1.2 },
+    { at: 3.4, actor: 'b4', do: 'shake', amount: 1.8, dur: 0.9 },
+    { at: 3.5, actor: 'pirate', do: 'shake', amount: 2, dur: 0.8 },
+    { at: 3.5, actor: 'pirate', do: 'squash', amount: -0.2, dur: 0.5 },
+    // 鸚鵡偏偏飛上來停在帽子上
+    { at: 3.8, actor: 'parrot', do: 'flip' },
+    { at: 3.8, actor: 'parrot', do: 'moveTo', to: { x: 124, y: 29 }, arc: 8, dur: 0.4 },
+    { at: 4.2, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/surprised' },
+    // 轟——塔往左倒
+    { at: 4.5, actor: 'b4', do: 'moveTo', to: { x: 96, y: 40 }, dur: 0.3, ease: 'in' },
+    { at: 4.5, actor: 'b4', do: 'rotateTo', amount: -90, dur: 0.3 },
+    { at: 4.55, actor: 'b3', do: 'moveTo', to: { x: 104, y: 50 }, dur: 0.3, ease: 'in' },
+    { at: 4.55, actor: 'b3', do: 'rotateTo', amount: -70, dur: 0.3 },
+    { at: 4.6, actor: 'b2', do: 'moveTo', to: { x: 112, y: 62 }, dur: 0.3, ease: 'in' },
+    { at: 4.6, actor: 'b2', do: 'rotateTo', amount: -50, dur: 0.3 },
+    { at: 4.65, actor: 'b1', do: 'rotateTo', amount: -30, dur: 0.3 },
+    { at: 4.8, actor: 'b4', do: 'vanish', dur: 0.2 },
+    { at: 5.0, actor: 'b3', do: 'vanish', dur: 0.2 },
+    { at: 5.2, actor: 'b2', do: 'vanish', dur: 0.2 },
+    { at: 5.3, actor: 'b1', do: 'vanish', dur: 0.2 },
+    // 海盜摔到塔底，鸚鵡飛到樹枝上
+    { at: 4.5, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/dizzy' },
+    { at: 4.5, actor: 'pirate', do: 'moveTo', to: { x: 126, y: 71 }, dur: 0.45, ease: 'bounce' },
+    { at: 4.5, actor: 'pirate', do: 'spin', times: 1, dur: 0.4 },
+    { at: 4.5, actor: 'parrot', do: 'moveTo', to: { x: 138, y: 40 }, dur: 0.5, ease: 'out' },
+    { at: 4.95, actor: 'pirate', do: 'squash', amount: 0.35, dur: 0.3 },
+    // 樹一抖，葉子飄下來，大葉子剛好蓋在頭上當帽子
+    { at: 6.3, actor: 'tree', do: 'shake', amount: 1.5, dur: 0.6 },
+    { at: 6.5, actor: 'leaf', do: 'moveTo', to: { x: 126, y: 61 }, dur: 0.9, ease: 'out' },
+    { at: 6.5, actor: 'leaf', do: 'tilt', amount: 25, dur: 0.9 },
+    { at: 7.5, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/happy' },
+    { at: 7.5, actor: 'pirate', do: 'hop', amount: 2, dur: 0.3 },
+    { at: 7.5, actor: 'leaf', do: 'hop', amount: 2, dur: 0.3 },
+    // 鸚鵡飛下來站旁邊，聳聳肩……然後把葉子帽叼走
+    { at: 7.6, actor: 'parrot', do: 'moveTo', to: { x: 140, y: 72 }, arc: 4, dur: 0.4 },
+    { at: 8.5, actor: 'parrot', do: 'moveTo', to: { x: 127, y: 57 }, arc: 4, dur: 0.3 },
+    { at: 8.8, actor: 'parrot', do: 'moveTo', to: { x: 140, y: 38 }, dur: 0.4, ease: 'out' },
+    { at: 8.8, actor: 'leaf', do: 'moveTo', to: { x: 139, y: 43 }, dur: 0.4, ease: 'out' },
+    { at: 9.0, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/surprised' },
+    { at: 9.0, actor: 'pirate', do: 'hop', amount: 6, dur: 0.35 },
+  ],
+  builds: [
+    // 倒下來的積木：最上面 → 艹，中間 → 世，下面 → 木
+    { at: 4.8, dur: 0.4, strokes: [0, 1, 2, 3], from: 'b4', color: '#2B8A3E' },
+    { at: 5.0, dur: 0.5, strokes: [4, 5, 6, 7, 8], from: 'b3', color: '#2B8A3E' },
+    { at: 5.25, dur: 0.5, strokes: [9, 10, 11, 12], from: 'b2', color: '#2B8A3E' },
+  ],
+  glyph: [{ at: 5.8, dur: 0.4, do: 'wobble' }, { at: 9.3, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.4, kind: 'bubble', actor: 'pirate', emoji: '🍃', dur: 0.7 },
+    { at: 1.5, kind: 'pop', actor: 'pirate', emoji: '👆', dur: 0.5 },
+    { at: 1.8, kind: 'pop', actor: 'parrot', emoji: '🙄', dur: 0.6 },
+    { at: 2.0, kind: 'sweat', actor: 'pirate', dur: 0.5 },
+    { at: 3.6, kind: 'sweat', actor: 'pirate', dur: 0.6 },
+    { at: 4.2, kind: 'pop', actor: 'pirate', emoji: '❗', dx: -8, dur: 0.4 },
+    { at: 4.95, kind: 'burst', actor: 'pirate', dur: 0.5 },
+    { at: 4.95, kind: 'puff', actor: 'pirate', dur: 0.5 },
+    { at: 5.2, kind: 'dizzy', actor: 'pirate', dur: 1.2 },
+    { at: 6.3, kind: 'rain', actor: 'tree', emoji: '🍃', n: 7, dy: 8, dur: 1.2 },
+    { at: 7.9, kind: 'pop', actor: 'parrot', emoji: '🤷', dur: 0.6 },
+    { at: 9.0, kind: 'pop', actor: 'pirate', emoji: '😤', dx: -8, dur: 0.6 },
+  ],
+  camera: [
+    { at: 2.9, dur: 0.8, do: 'zoom', amount: 1.3, to: { x: 118, y: 40 } },
+    { at: 4.3, dur: 0.3, do: 'zoom', amount: 1 },
+    { at: 4.95, dur: 0.35, do: 'shake', amount: 1.4 },
+  ],
+  cues: [
+    { at: 0.9, say: '葉' },
+    { at: 2.3, sfx: 'clink' },
+    { at: 2.65, sfx: 'clink' },
+    { at: 3.0, sfx: 'clink' },
+    { at: 3.35, sfx: 'clink' },
+    { at: 4.15, sfx: 'tap' },
+    { at: 4.5, sfx: 'crack' },
+    { at: 4.95, sfx: 'bonk' },
+    { at: 5.8, say: '葉' },
+    { at: 6.5, say: '樹葉' },
+    { at: 8.8, sfx: 'whoosh' },
+    { at: 9.4, sfx: 'cheer' },
+  ],
+}
+
+export default clip
