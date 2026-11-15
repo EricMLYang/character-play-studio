@@ -285,7 +285,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 
 - **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter), pivot?('center'：旋轉以自己中心為支點) }`。陣列順序＝繪製順序。
   - **把東西分成兩半 `half: 'left' | 'right'`**：只畫圖的左半／右半（正中間直直切開，切口有描邊，擋字與影子只算那半邊）。同一張圖放兩個角色疊在同一個位置就是整個，各自 `moveTo` 往兩邊就分開了；`swap` 可以帶 `half`（`'whole'` 回到整張），例如劈開時換成 `prop:watermelon-half` 整張。樣板：「分」。
-  - **橫著切 `half: 'top' | 'bottom'` ＋ `cut`**（從圖的最上面往下算的比例，預設 0.5）：只畫上面一截／下面一截。上面那截沒有腳、不畫影子。
+  - **橫著切 `half: 'top' | 'bottom'` ＋ `cut`**（從圖的最上面往下算的比例，預設 0.5）：只畫上面一截／下面一截。上面那截沒有腳、不畫影子。 `swap` 也可以帶 `cut` 換切的位置——同一張圖一口一口被吃短（整棵→半棵→菜梗），樣板：「菜」。
     把身體跟腳分開、中間接 fx `tube`，就是伸長的腿（樣板：「腿」，機器人身體 `cut: 0.77`、腳 `cut: 0.8`）。
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate?, pivot? }`
   - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`stretchTo`（寬變 amount 倍、高變 1／amount 倍，以腳底為準、會累乘：雪球落地壓成寬扁的雪堆用 1.2～1.7；消失後重新出場就回原樣。擋字、影子的估算不算變寬的部分；道具拉細（amount < 1）時擋字估算跟著變窄，樣板：「爬」拉高拉細的樹幹）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`

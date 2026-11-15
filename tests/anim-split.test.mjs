@@ -107,3 +107,20 @@ test('glyph split：彈開、停住、合回去；沒寫 split 的劇本筆畫�
   // 最後 30% 合回去
   assert.ok(Math.abs(strokesAt(split, 2.98, centers)[0].dx) < 2)
 })
+
+test('swap 可以帶 cut：同一個道具一口一口被吃短，沒寫 cut 就照舊', () => {
+  const clip = clipOf([
+    { id: 'v', emoji: 'prop:bokchoy', x: 80, y: 62, size: 36 },
+  ], [
+    { at: 1, actor: 'v', do: 'swap', half: 'bottom', cut: 0.3 },
+    { at: 2, actor: 'v', do: 'swap', cut: 0.6 },
+    { at: 3, actor: 'v', do: 'swap', emoji: 'prop:bokchoy' },
+    { at: 4, actor: 'v', do: 'swap', half: 'whole' },
+  ])
+  const get = (t) => actorsAt(clip, t).find((a) => a.id === 'v')
+  assert.equal(get(0.5).cut, undefined)
+  assert.equal(get(1.5).half, 'bottom'); assert.equal(get(1.5).cut, 0.3)
+  assert.equal(get(2.5).cut, 0.6)
+  assert.equal(get(3.5).cut, 0.6)
+  assert.equal(get(4.5).half, undefined)
+})

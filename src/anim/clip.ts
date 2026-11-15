@@ -85,6 +85,8 @@ export type Move = {
   pivot?: 'center' | 'feet'
   /** swap 同時換掉角色的 half（只畫左半／右半／上面一截／下面一截）；'whole' 是回到整張圖。沒寫就照舊 */
   half?: 'left' | 'right' | 'top' | 'bottom' | 'whole'
+  /** swap 同時換掉橫著切的高度（Actor 的 cut）：同一個道具一口一口被吃短（「菜」）。沒寫就照舊 */
+  cut?: number
 }
 
 /** 一組筆畫組合出來：從某個角色（或某個點）飛過去，或從上面掉下來。 */
@@ -337,6 +339,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
       case 'swap':
         if (m.emoji) st.emoji = m.emoji
         if (m.half) st.half = m.half === 'whole' ? undefined : m.half
+        if (m.cut != null) st.cut = m.cut
         break
       case 'tint': st.tint = m.filter || undefined; break
       case 'flip': st.flip = !st.flip; break
