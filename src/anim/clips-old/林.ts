@@ -1,0 +1,121 @@
+import type { Clip } from '../clip'
+
+// 林：布忍者躲在一棵比他還小的木頭樹後面，披風英雄指著他準備衝。忍者抱起樹就跑，跑出左邊、又從右邊繞回來；英雄的披風翻上來蓋住臉，矇著眼亂衝，
+// 還把第二棵樹勾走拖在後面。拉開披風、轉身飛撲——停在半空——肚子著地「啪」！兩棵樹咚咚並排插好，變成「林」。忍者的煙霧彈終於炸開，下起一陣樹葉雨；英雄比讚、往後一倒，披風又蓋住臉。林、林、樹林
+const clip: Clip = {
+  char: '林',
+  meta: { theme: '搶小樹追逐戰', cast: '披風英雄＋布忍者＋兩棵木頭樹', gags: ['躲在比自己小的樹後面', '披風蓋臉矇眼亂衝', '其實一直在你後面', '飛撲肚子著地'] },
+  duration: 10,
+  bg: { top: '#FFF4DE', bottom: '#FFFBF2', floor: '#D8C3A0', scenery: 'room' },
+  actors: [
+    { id: 'tree2', emoji: '🌳', x: 96, y: 68, size: 12 },
+    { id: 'ninja', emoji: 'hero:ninja/hide', x: 30, y: 72, size: 12 },
+    { id: 'tree1', emoji: '🌳', x: 30, y: 69, size: 10 },
+    { id: 'hero', emoji: 'hero:cape/idle', x: 138, y: 71, size: 14, hidden: true },
+  ],
+  moves: [
+    { at: 0, actor: 'hero', do: 'enter', from: { x: 175, y: 71 }, dur: 0.5, ease: 'back' },
+    { at: 0.6, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
+    { at: 0.9, actor: 'hero', do: 'squash', amount: -0.3, dur: 0.3 },
+    // 忍者嚇一跳，把樹舉過頭就跑——跑出左邊
+    { at: 1.1, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 1.1, actor: 'ninja', do: 'hop', amount: 4, dur: 0.25 },
+    { at: 1.2, actor: 'tree1', do: 'moveTo', to: { x: 30, y: 58 }, dur: 0.15 },
+    { at: 1.4, actor: 'ninja', do: 'moveTo', to: { x: -15, y: 72 }, dur: 0.35, ease: 'in' },
+    { at: 1.4, actor: 'tree1', do: 'moveTo', to: { x: -15, y: 58 }, dur: 0.35, ease: 'in' },
+    // 英雄追過去，披風翻上來蓋住臉，矇著眼亂衝，還勾走第二棵樹
+    { at: 1.4, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
+    { at: 1.5, actor: 'hero', do: 'moveTo', to: { x: 104, y: 71 }, dur: 0.4, anticipate: 3, ease: 'in' },
+    { at: 1.9, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: 1.9, actor: 'hero', do: 'moveTo', to: { x: 22, y: 71 }, dur: 1.1, ease: 'linear' },
+    { at: 1.9, actor: 'hero', do: 'bounce', amount: 2, times: 5, dur: 1.1 },
+    { at: 2.2, actor: 'tree2', do: 'moveTo', to: { x: 36, y: 69 }, dur: 0.8, ease: 'linear' },
+    { at: 2.2, actor: 'tree2', do: 'bounce', amount: 2, times: 4, dur: 0.8 },
+    // 忍者其實從右邊繞回來了
+    { at: 2.3, actor: 'ninja', do: 'flip' },
+    { at: 2.3, actor: 'ninja', do: 'moveTo', to: { x: 175, y: 72 }, dur: 0.01 },
+    { at: 2.3, actor: 'tree1', do: 'moveTo', to: { x: 175, y: 58 }, dur: 0.01 },
+    { at: 2.4, actor: 'ninja', do: 'flip' },
+    { at: 2.4, actor: 'ninja', do: 'moveTo', to: { x: 132, y: 72 }, dur: 0.5, ease: 'out' },
+    { at: 2.4, actor: 'tree1', do: 'moveTo', to: { x: 132, y: 58 }, dur: 0.5, ease: 'out' },
+    // 拉開披風——咦？沒人
+    { at: 3.1, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
+    { at: 3.1, actor: 'hero', do: 'shake', amount: 0.8, dur: 0.3 },
+    { at: 3.4, actor: 'hero', do: 'flip' },
+    // 飛撲！停在半空——肚子著地
+    { at: 3.6, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
+    { at: 3.6, actor: 'hero', do: 'moveTo', to: { x: 76, y: 40 }, dur: 0.35, anticipate: 3, ease: 'out' },
+    { at: 3.6, actor: 'tree2', do: 'moveTo', to: { x: 66, y: 44 }, dur: 0.35, ease: 'out' },
+    { at: 3.95, actor: 'hero', do: 'shake', amount: 0.4, dur: 0.3 },
+    { at: 4.25, actor: 'hero', do: 'rotateTo', amount: 80, dur: 0.15 },
+    { at: 4.25, actor: 'hero', do: 'moveTo', to: { x: 90, y: 66 }, dur: 0.2, ease: 'in' },
+    { at: 4.45, actor: 'hero', do: 'squash', amount: 0.5, dur: 0.3 },
+    { at: 4.45, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
+    { at: 4.45, actor: 'ninja', do: 'hop', amount: 6, dur: 0.35 },
+    { at: 4.45, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 4.45, actor: 'tree1', do: 'hop', amount: 10, dur: 0.3 },
+    { at: 4.5, actor: 'tree2', do: 'vanish', dur: 0.15 },
+    { at: 4.75, actor: 'tree1', do: 'vanish', dur: 0.15 },
+    // 英雄滾到右邊坐起來；忍者溜到左邊
+    { at: 4.8, actor: 'hero', do: 'moveTo', to: { x: 138, y: 71 }, dur: 0.45, ease: 'out' },
+    { at: 4.8, actor: 'hero', do: 'rotateTo', amount: -80, dur: 0.45 },
+    { at: 4.7, actor: 'ninja', do: 'moveTo', to: { x: 24, y: 72 }, dur: 0.55, ease: 'out' },
+    { at: 5.4, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
+    // 煙霧彈終於炸開，下一陣樹葉雨
+    { at: 6.5, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/throw' },
+    { at: 6.5, actor: 'ninja', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 7.2, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
+    // 英雄暈暈地比讚——往後一倒，披風又蓋住臉
+    { at: 7.2, actor: 'hero', do: 'swap', emoji: 'hero:cape/happy' },
+    { at: 8.1, actor: 'hero', do: 'rotateTo', amount: 80, dur: 0.4, ease: 'bounce' },
+    { at: 8.1, actor: 'hero', do: 'moveTo', to: { x: 136, y: 74 }, dur: 0.4 },
+    { at: 8.5, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: 8.8, actor: 'ninja', do: 'bounce', amount: 2, times: 3, dur: 0.8 },
+  ],
+  builds: [
+    // 兩棵樹咚咚並排插好：左邊的木、右邊的木
+    { at: 4.5, dur: 0.45, strokes: [0, 1, 2, 3], from: 'tree2', color: '#2B8A3E' },
+    { at: 4.8, dur: 0.45, strokes: [4, 5, 6, 7], from: 'tree1', color: '#2F9E44' },
+  ],
+  glyph: [{ at: 5.4, dur: 0.4, do: 'wobble' }, { at: 9.3, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'pop', actor: 'hero', emoji: '👉', dx: -6, dur: 0.5 },
+    { at: 0.3, kind: 'pop', actor: 'ninja', emoji: '😎', dur: 0.5 },
+    { at: 1.1, kind: 'pop', actor: 'ninja', emoji: '❗', dur: 0.3 },
+    { at: 1.95, kind: 'pop', actor: 'hero', emoji: '🙈', dur: 0.8 },
+    { at: 2.0, kind: 'puff', actor: 'hero', dur: 1.0 },
+    { at: 2.95, kind: 'pop', actor: 'ninja', emoji: '😆', dur: 0.5 },
+    { at: 3.2, kind: 'pop', actor: 'hero', emoji: '❓', dur: 0.4 },
+    { at: 4.45, kind: 'burst', x: 90, y: 68, n: 1, dur: 0.35 },
+    { at: 4.45, kind: 'puff', x: 90, y: 72, dur: 0.4 },
+    { at: 5.3, kind: 'dizzy', actor: 'hero', dur: 1.6 },
+    { at: 6.5, kind: 'burst', actor: 'ninja', emoji: '☁️', n: 6, dur: 0.6 },
+    { at: 6.6, kind: 'rain', x: 80, y: 6, emoji: '🍃', dur: 1.6 },
+    { at: 7.3, kind: 'pop', actor: 'hero', emoji: '👍', dx: -6, dur: 0.7 },
+    { at: 8.5, kind: 'pop', actor: 'hero', emoji: '🙈', dy: 6, dur: 0.7 },
+    { at: 8.8, kind: 'pop', actor: 'ninja', emoji: '😆', dur: 0.6 },
+  ],
+  camera: [
+    { at: 1.9, dur: 0.3, do: 'follow', actor: 'hero', amount: 1.25 },
+    { at: 2.9, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 3.9, dur: 0.5, do: 'punch', amount: 0.15, to: { x: 76, y: 42 } },
+    { at: 4.45, dur: 0.3, do: 'shake', amount: 0.9 },
+  ],
+  cues: [
+    { at: 1.15, say: '林' },
+    { at: 1.4, sfx: 'whoosh' },
+    { at: 1.9, sfx: 'slide' },
+    { at: 2.4, sfx: 'whoosh' },
+    { at: 3.6, sfx: 'whoosh' },
+    { at: 4.45, sfx: 'bonk' },
+    { at: 4.6, sfx: 'plop' },
+    { at: 4.95, sfx: 'plop' },
+    { at: 5.4, say: '林' },
+    { at: 6.5, sfx: 'poof' },
+    { at: 6.65, say: '樹林' },
+    { at: 8.2, sfx: 'plop' },
+    { at: 9.4, sfx: 'cheer' },
+  ],
+}
+
+export default clip
