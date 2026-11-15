@@ -159,6 +159,19 @@ test('prop: 的人（姑姑六張）跟 🧍 一樣算角色：走過去踩步�
   assert.deepEqual(still('prop:aunt'), still('🧍'))
 })
 
+test('prop: 的爸爸、媽媽跟姑姑一樣算人；蹲著接、蹲著要抱、坐在地上的那幾張不踩步伐', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  for (const name of ['dad', 'dad-throw', 'dad-flex', 'dad-shock', 'mom', 'mom-hug']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🧍')).get('x'), name)
+  }
+  for (const name of ['dad-catch', 'mom-open', 'mom-tired']) {
+    assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0, name)
+  }
+})
+
 test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果；消失後重新出場就回到原本的樣子', () => {
   const clip = clipOf({
     actors: [{ id: 'x', emoji: 'prop:snowball', x: 120, y: 66, size: 24 }],

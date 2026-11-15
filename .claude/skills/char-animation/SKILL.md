@@ -318,7 +318,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）、爸爸五張（`dad*`）、媽媽四張（`mom*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss`、`dad-catch`、`mom-open`、`mom-tired` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -586,6 +586,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `leaf-pile` | 橘紅、黃色落葉堆成的寬扁小山（底部平的） | 還沒用 |
 | `maple-leaf` | 一片大大的橘紅楓葉（正面、有葉柄） | 還沒用 |
 | `pan` | 黑色空平底鍋（略俯視、握把朝左；寬扁） | 還沒用 |
+| `dad` | 爸爸：短黑髮、圓臉濃眉、天藍色 Polo 衫、卡其長褲、深藍球鞋，站好叉腰微笑（朝左前方；跟 🧍 一樣算**人**）。**爸爸五張同一個比例**，同 size、同 x 直接 swap | 爸 |
+| `dad-throw` | 同一位爸爸雙手往上高舉（剛把東西拋出去）、抬頭大笑 | 爸（拋） |
+| `dad-catch` | 同一位爸爸蹲馬步、雙手往前伸手心朝上要接、抬頭盯著上面（不踩步伐） | 爸（接、蹲馬步） |
+| `dad-flex` | 同一位爸爸秀手臂肌肉、閉眼得意（頭左上有黃色強調線） | 爸（回馬槍） |
+| `dad-shock` | 同一位爸爸嚇一跳、雙手舉起、嘴巴張大（頭左上有藍色汗滴） | 爸（回馬槍） |
+| `mom` | 媽媽：及肩深咖啡直髮、鵝黃上衣、淺綠圍裙、深藍長褲、白鞋，站好雙手交握微笑（朝左前方；算**人**）。**媽媽四張同一個比例** | 還沒用（媽） |
+| `mom-open` | 同一位媽媽蹲低、朝左張開雙手要抱人、大笑（不踩步伐） | 還沒用（媽） |
+| `mom-hug` | 同一位媽媽閉眼雙手在胸前環抱、旁邊兩顆紅愛心 | 還沒用（媽） |
+| `mom-tired` | 同一位媽媽累得坐在地上、半閉眼、頭上一滴汗（矮，高只有 0.82；不踩步伐） | 還沒用（媽） |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

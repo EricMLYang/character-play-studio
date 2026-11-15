@@ -1,0 +1,7 @@
+{
+  "about": "第十六張道具表（2026-11，Codex 生圖，洋紅底 3×3）：爸爸五張（站好叉腰微笑／雙手往上拋、抬頭大笑／蹲低雙手往前伸要接／秀肌肉閉眼得意／嚇一跳冒汗，同一個比例可以 swap）、媽媽四張（站好微笑／蹲低朝左張開雙手要抱／閉眼環抱、兩顆愛心／累得坐在地上，同一個比例可以 swap）。清單在 scripts/sheets/props-16.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-16.png",
+  "key": "#FF00FF",
+  "props": ["dad", "dad-throw", "dad-catch", "dad-flex", "dad-shock", "mom", "mom-open", "mom-hug", "mom-tired"],
+  "together": [["dad", "dad-throw", "dad-catch", "dad-flex", "dad-shock"], ["mom", "mom-open", "mom-hug", "mom-tired"]]
+}
