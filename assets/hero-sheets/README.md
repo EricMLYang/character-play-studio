@@ -65,6 +65,21 @@ npm run hero:cut -- pig --out /tmp/try   # 換新表前先輸出到別處看
 新姿勢表放進來、在 `src/anim/heroes/<主角>.cut.json` 寫好每格的姿勢名就能切；新姿勢也要加進 `src/play/poses.ts`（測試會對）。
 換表後重拍幾支用到那個主角的動畫看（`npm run anim:shot`）。
 
+### 圖會自動壓縮
+
+切出來的圖存檔時就減色成 **256 色的調色盤 PNG**（`scripts/png_pack.py`，libimagequant＝pngquant 的核心，Python 套件 `imagequant` 版本釘在 `scripts/py-env.mjs`）：
+一張 512×512 從 200 多 KB 變 60 KB 上下，五個明星 50 MB → 17.5 MB。參數：256 色、抖色 1.0（pngquant 的預設）、調色盤帶 alpha（淚水、汗滴、半透明的邊照樣是半透明）。
+2026-11-15 試過 128、64 色：淡藍的眼淚、冷風邊上開始有色階；256 色放大三倍在淺底、深底上都看不出差別，拍動畫逐格比也一樣。
+同一張姿勢表重切，輸出逐 byte 相同（壓縮是決定性的），所以 git 看得出哪些圖真的變了。
+
+舊圖、或手動放進 `public/hero/` 的圖：
+
+```bash
+npm run png:pack -- public/hero          # 整個資料夾重壓；已經是調色盤 PNG 的跳過（不會越壓越糊），.work/ 不碰
+```
+
+`npm run hero`（本機模型畫的舊主角，`scripts/hero-trim.py`）存檔時也一樣壓。
+
 ## 生圖的 prompt
 
 每張表都是「共同前言＋九格清單」，附一張參考圖（角色的截圖）丟給生圖工具。換角色時改「角色：」那一行。

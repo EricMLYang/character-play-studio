@@ -100,6 +100,11 @@ npm run prop:cut -- props-2 --out /tmp/try   # 新表先輸出到別處看（不
 最後量每張圖的內容範圍寫進 `src/anim/props.ts`（引擎算擋字、頭頂、影子用；`npm test` 會檢查圖、範圍表、設定三邊對得上）。
 放大超過 1.6 倍（原圖太小）會提醒「會糊」。
 
+**圖會自動壓縮**：存檔時減色成 256 色的調色盤 PNG（`scripts/png_pack.py`，跟主角圖同一套，參數與理由見 `assets/hero-sheets/README.md`「圖會自動壓縮」），
+一張 200 KB 上下 → 60 KB 上下，72 張 13 MB → 5 MB。半透明的玻璃、冷風、熱氣都還在（放大三倍比過）。同一張表重切，輸出逐 byte 相同。
+範圍表量的是壓過的圖（實際顯示的那張）：比壓之前少數幾張的邊差 1/512（例如 `mirror`、`starfruit-slice`），看不出來。
+手動放進 `public/props/` 的圖用 `npm run png:pack -- public/props` 補壓（壓過的跳過）。
+
 `.cut.json` 的欄位：`file`（檔名）、`key`（背景色，預設 `#FF00FF`）、`grid`（[欄, 列]，預設 [3, 3]）、
 `props`（照左到右、上到下每格的名字，`null` 跳過）、`flip`（要左右翻的名字）、`speck`（比這小的零星色塊當雜點清掉，預設 40 像素）、
 `together`（同一隻動物的幾個狀態要能 swap：`[["bear", "bear-sleep", "bear-roar"]]`，一組共用一個放大倍數，組裡最大的那張撐滿）。

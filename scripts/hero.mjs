@@ -17,6 +17,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
+import { PY, PY_ENV } from './py-env.mjs'
 
 const root = new URL('..', import.meta.url).pathname
 const heroDir = join(root, 'src/anim/heroes')
@@ -73,7 +74,7 @@ for (const hero of heroes) {
   // 裁切要整批做：所有姿勢用同一個比例，角色才不會換個姿勢就變大變小
   const stale = Object.keys(cfg.poses).some((p) => !existsSync(join(out, `${p}.png`)))
   if (changed || stale) {
-    execFileSync('uv', ['tool', 'run', '--from', 'rembg[cpu,cli]', 'python', join(root, 'scripts/hero-trim.py'), work, out, ...Object.keys(cfg.poses)], { stdio: 'inherit' })
+    execFileSync('uv', [...PY, join(root, 'scripts/hero-trim.py'), work, out, ...Object.keys(cfg.poses)], { stdio: 'inherit', env: PY_ENV })
     console.log(`${cfg.name}：${Object.keys(cfg.poses).length} 個姿勢 → public/hero/${hero}/`)
   } else console.log(`${cfg.name}（${hero}）：都做好了`)
   // 清掉設定裡已經拿掉的姿勢

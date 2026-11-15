@@ -6,6 +6,7 @@
 #   2. 自動切格：找格子之間整條都是背景的空白，不寫死座標（每張圖的格線位置都有點不同）。
 #   3. 排版：所有姿勢用同一個比例——以 ref（站姿）的身高佔滿畫布為準，坐著、跳起來、趴著的不各自撐滿；
 #      水平用身體的重心置中、腳底對齊底部，輸出 512×512。
+#   4. 存檔時減色成 256 色的調色盤 PNG（scripts/png_pack.py），一張 200 多 KB → 60 KB 上下，看不出差別。
 import json
 import shutil
 import sys
@@ -13,6 +14,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from sheet_cut import cells
+import png_pack
 
 cfg = json.loads(Path(sys.argv[1]).read_text())
 src_root, out = Path(sys.argv[2]), Path(sys.argv[3])
@@ -56,7 +58,7 @@ for pose, (im, s) in crops.items():
     x = int(min(max(SIZE / 2 - cx, m), SIZE - m - w)) if w <= SIZE - 2 * m else (SIZE - w) // 2
     y = SIZE - m - h
     sheet.paste(small, (x, y), small)
-    sheet.save(out / f'{pose}.png', optimize=True)
+    png_pack.save(sheet, out / f'{pose}.png')
     print(f'  {pose}：{im.width}×{im.height} → {w}×{h}')
 
 # 同一張圖兩個名字（例如花生、小老鼠沒有放大鏡，think 就是托下巴的 ponder），劇本兩個都能寫

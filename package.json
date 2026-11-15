@@ -24,7 +24,8 @@
     "voice": "node scripts/voice.mjs",
     "hero": "node scripts/hero.mjs",
     "hero:cut": "node scripts/hero-cut.mjs",
-    "prop:cut": "node scripts/prop-cut.mjs"
+    "prop:cut": "node scripts/prop-cut.mjs",
+    "png:pack": "node scripts/png-pack.mjs"
   },
   "dependencies": {
     "hanzi-writer": "^3.7.3",

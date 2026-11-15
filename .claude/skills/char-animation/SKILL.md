@@ -410,6 +410,9 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 （需要 `uv tool install mflux` 與 `uv tool install 'rembg[cpu,cli]'`，Z-Image Turbo 模型第一次會下載）。
 只會補缺的姿勢；想重畫某個姿勢：`npm run hero -- yang dizzy`，不滿意就改 seed 再跑。看成品：`/anim?char=楊&t=4`。
 
+主角圖、道具圖都是**壓過的**（256 色調色盤 PNG，一張 60 KB 上下，看不出差別）：`hero:cut`、`prop:cut`、`hero` 存檔時自動壓。
+手動放進 `public/hero/`、`public/props/` 的圖要跑 `npm run png:pack -- <資料夾>`（壓過的會跳過；做法與參數在 `scripts/png_pack.py`）。`public/emoji3d/` 不壓。
+
 ## 自製道具圖（沒有合適 emoji 的東西）
 
 emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊桃＝星星；📦 看起來是封著的，不是打開的禮物），**不要硬湊 emoji**：

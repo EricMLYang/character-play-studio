@@ -25,11 +25,13 @@
 |---|---|---|
 | `/media/<檔名>` | 上架且開放給孩子的影片／圖片：79 個（77 個保留原音、2 個系統朗讀），影片是 H.264 720p | 141 MB |
 | `/voice/` | 預先做好的語音（美佳）4682 個 m4a ＋ `index.json` | 90 MB |
-| `/hero/` | 主角各姿勢 PNG | 58 MB |
-| `/emoji3d/` | Fluent 3D emoji（MIT） | 18 MB |
+| `/hero/` | 主角各姿勢 PNG（256 色調色盤 PNG，一張 60 KB 上下；2026-11-15 壓過，原本 65 MB） | 22 MB |
+| `/props/` | 動畫的自製道具圖 PNG（同上，原本 13 MB） | 5 MB |
+| `/emoji3d/` | Fluent 3D emoji（MIT；漸層減色會出顆粒，沒壓） | 20 MB |
 | `/strokes/` | 筆順資料（hanzi-writer-data） | 1.2 MB |
 
 估計 App 大小約 **310 MB**，iPad 裝得下，不用另外下載內容。
+（2026-11-15 實測 `npm run app:build`：字 380 個、素材 104 個（195 MB），共 **369 MB**；壓主角／道具圖、拿掉 `.work/` 之前約 460 MB。上表 media、voice 的數字是當初的估計。）
 
 其他有利條件：
 - 孩子端程式裡沒有任何對外網址、沒有 `innerHTML`、`dangerouslySetInnerHTML`、`eval`
@@ -163,8 +165,9 @@ Mac（開發＋製作，照舊）                         iPad（單機）
 - 授權：美佳是 macOS 內建聲音，個人、非商業、自家使用沒問題；**不上架是前提**
 
 ### 2-7 其他靜態檔
-- `hero/`（58 MB）、`emoji3d/`、`strokes/` 照搬
-- 選配：hero 的 PNG 轉成 WebP 可以省一半以上，但會動到動畫劇本的路徑，不急
+- `hero/`、`props/`、`emoji3d/`、`strokes/` 照搬；`public/hero/<主角>/.work/`（`npm run hero` 的中間產物，約 40 MB）打包時拿掉
+- 主角、道具圖切圖時就減色成 256 色的調色盤 PNG（`scripts/png_pack.py`，2026-11-15）：hero 65 → 22 MB、props 13 → 5 MB，畫面看不出差別。
+  舊圖、手放的圖用 `npm run png:pack -- <資料夾>` 補壓（壓過的會跳過）。比轉 WebP 好在不用改劇本的路徑
 
 ### 2-8 觸控調校（網頁版也會受益）
 - 全域：`touch-action: manipulation`（去掉雙擊放大）、`-webkit-touch-callout: none`（長按不跳選單）、`user-select: none`、`overscroll-behavior: none`（不會整頁回彈）

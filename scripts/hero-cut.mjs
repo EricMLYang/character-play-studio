@@ -14,10 +14,12 @@
 //   fallback：{ 姿勢: 頂替的姿勢 }，optional 的表還沒到時先借別張頂著，劇本才不會指到不存在的圖
 //   alias：{ 姿勢: 同一張的姿勢 }，同一張圖再多一個名字（花生、小老鼠沒有放大鏡，think 就用托下巴的 ponder），各主角的姿勢名才一致
 // 姿勢表怎麼來、版面規則、生圖的 prompt：assets/hero-sheets/README.md。
-// 中間不產生暫存檔；需要 uv tool install 'rembg[cpu,cli]'（只借它的 Python 環境：numpy、Pillow）。
+// 中間不產生暫存檔；需要 uv tool install 'rembg[cpu,cli]'（只借它的 Python 環境：numpy、Pillow；壓 PNG 的 imagequant 由 uv 自動加，見 scripts/py-env.mjs）。
+// 存檔時就壓成 256 色的調色盤 PNG（scripts/png_pack.py），同一張表重切逐 byte 相同。
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
+import { PY, PY_ENV } from './py-env.mjs'
 
 const root = new URL('..', import.meta.url).pathname
 const args = process.argv.slice(2)
@@ -48,7 +50,7 @@ if (missing.length) fail(`${srcRoot} 裡缺這些姿勢表：\n${missing.map(([k
 if (spawnSync('which', ['uv']).status !== 0) fail(`找不到 uv。先裝：uv tool install 'rembg[cpu,cli]'`)
 
 const out = outDir ? resolve(outDir) : join(root, 'public/hero', hero)
-execFileSync('uv', ['tool', 'run', '--from', 'rembg[cpu,cli]', 'python', join(root, 'scripts/hero-cut.py'), cfgPath, srcRoot, out], { stdio: 'inherit', env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } })
+execFileSync('uv', [...PY, join(root, 'scripts/hero-cut.py'), cfgPath, srcRoot, out], { stdio: 'inherit', env: PY_ENV })
 // 清掉設定裡已經沒有的姿勢（例如舊畫風留下的圖）
 const names = new Set([...Object.values(cfg.sheets).flatMap((s) => s.poses.filter(Boolean)), ...Object.keys(cfg.fallback ?? {}), ...Object.keys(cfg.alias ?? {})])
 for (const f of readdirSync(out)) if (f.endsWith('.png') && !names.has(f.slice(0, -4))) rmSync(join(out, f))

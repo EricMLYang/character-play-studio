@@ -43,6 +43,8 @@ const badVideos = mediaFiles.filter((file) => /\.(mp4|mov|webm)$/i.test(file))
 if (badVideos.length) fail(`這些影片 iPad 播不動（要 ${PLAYABLE_VIDEO.join('／')}）：\n${badVideos.map(([f, c]) => `  ${f}：${c}`).join('\n')}`)
 
 await build({ root: ROOT, mode: 'app', logLevel: 'warn' })
+// vite 會把 public/ 整個照搬，連 public/hero/<主角>/.work/（npm run hero 去背前後的中間產物，約 40 MB）也搬進來；App 用不到，拿掉
+for (const hero of fs.readdirSync(path.join(OUT, 'hero'))) fs.rmSync(path.join(OUT, 'hero', hero, '.work'), { recursive: true, force: true })
 
 fs.writeFileSync(path.join(OUT, 'library.json'), JSON.stringify(snapshot))
 fs.mkdirSync(path.join(OUT, 'media'), { recursive: true })

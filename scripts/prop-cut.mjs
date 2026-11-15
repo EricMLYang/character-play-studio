@@ -13,11 +13,13 @@
 // 切完會重新產生 src/anim/props.ts（每張道具圖的內容範圍，引擎算擋字、頭頂、影子用），
 // public/props/ 裡設定已經沒有的圖會清掉。
 // 道具表怎麼來、版面規則、生圖的 prompt：assets/prop-sheets/README.md。
-// 去背、切格跟主角姿勢表（hero-cut）同一套：scripts/sheet_cut.py。需要 uv tool install 'rembg[cpu,cli]'（只借它的 numpy、Pillow）。
+// 去背、切格跟主角姿勢表（hero-cut）同一套：scripts/sheet_cut.py。需要 uv tool install 'rembg[cpu,cli]'（只借它的 numpy、Pillow；壓 PNG 的 imagequant 由 uv 自動加，見 scripts/py-env.mjs）。
+// 存檔時就壓成 256 色的調色盤 PNG（scripts/png_pack.py），同一張表重切逐 byte 相同。
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative, resolve } from 'node:path'
+import { PY, PY_ENV } from './py-env.mjs'
 
 const root = new URL('..', import.meta.url).pathname
 const cfgDir = join(root, 'src/anim/props')
@@ -60,7 +62,7 @@ try {
     const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
     if (!existsSync(join(srcRoot, cfg.file))) fail(`${srcRoot} 裡沒有道具表 ${cfg.file}（不在預設的 assets/prop-sheets/ 就用 --src 指過去）`)
     console.log(`${s}（${cfg.file}）：`)
-    execFileSync('uv', ['tool', 'run', '--from', 'rembg[cpu,cli]', 'python', join(root, 'scripts/prop-cut.py'), cfgPath, srcRoot, out, boxesPath], { stdio: 'inherit', env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } })
+    execFileSync('uv', [...PY, join(root, 'scripts/prop-cut.py'), cfgPath, srcRoot, out, boxesPath], { stdio: 'inherit', env: PY_ENV })
   }
   if (!outDir) {
     // 清掉設定裡已經沒有的道具，再產生範圍表（只留設定裡有的）

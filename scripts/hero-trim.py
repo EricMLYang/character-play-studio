@@ -1,10 +1,12 @@
 # 主角圖最後一步（由 scripts/hero.mjs 呼叫）：把去背好的姿勢裁到人物、所有姿勢用同一個比例、底部對齊、放進正方形。
 #   python hero-trim.py <去背資料夾> <輸出資料夾> <姿勢...>
+# 存檔時跟姿勢表切的主角一樣減色成 256 色的調色盤 PNG（scripts/png_pack.py）。
 import sys
 from collections import deque
 from pathlib import Path
 import numpy as np
 from PIL import Image
+import png_pack
 
 work, out, poses = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3:]
 SIZE = 512          # 輸出邊長
@@ -76,5 +78,5 @@ for pose, im in crops.items():
     y = canvas - int(side * MARGIN) - im.height
     sheet.paste(im, (x, y), im)
     sheet = sheet.resize((SIZE, SIZE), Image.LANCZOS)
-    sheet.save(out / f'{pose}.png', optimize=True)
+    png_pack.save(sheet, out / f'{pose}.png')
     print(f'  {pose}：{im.width}×{im.height} → {SIZE}×{SIZE}（比例 {scale:.2f}）')
