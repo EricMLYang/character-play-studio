@@ -1,0 +1,7 @@
+{
+  "about": "第十七張道具表（2026-11，Codex 生圖，洋紅底 3×3）：兔子哥哥五張（站好叉腰／往左衝刺／雙手高舉過頭咬牙用力、手上是空的／抓後腦勺尷尬傻笑冒汗／嚇一跳，同一個比例可以 swap）、恐龍姐姐四張（站好微笑／彎腰雙手往左伸、眼睛亮亮／遮嘴咯咯笑／嚇一跳，同一個比例可以 swap）。清單在 scripts/sheets/props-17.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-17.png",
+  "key": "#FF00FF",
+  "props": ["bro", "bro-run", "bro-lift", "bro-oops", "bro-shock", "sis", "sis-give", "sis-laugh", "sis-shock"],
+  "together": [["bro", "bro-run", "bro-lift", "bro-oops", "bro-shock"], ["sis", "sis-give", "sis-laugh", "sis-shock"]]
+}

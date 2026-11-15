@@ -172,6 +172,16 @@ test('prop: 的爸爸、媽媽跟姑姑一樣算人；蹲著接、蹲著要抱�
   }
 })
 
+test('prop: 的兔子哥哥、恐龍姐姐（props-17）跟姑姑一樣算人，九張都站著、都踩步伐', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  for (const name of ['bro', 'bro-run', 'bro-lift', 'bro-oops', 'bro-shock', 'sis', 'sis-give', 'sis-laugh', 'sis-shock']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🧍')).get('x'), name)
+  }
+})
+
 test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果；消失後重新出場就回到原本的樣子', () => {
   const clip = clipOf({
     actors: [{ id: 'x', emoji: 'prop:snowball', x: 120, y: 66, size: 24 }],
