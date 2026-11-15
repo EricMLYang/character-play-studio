@@ -116,7 +116,10 @@ function check(clip, engine) {
   // 國字讓位（park／home）：拼好後至少停 0.8 秒才 park，結尾 pulse 時要已經回到正中央原本的大小
   const built = glyphDoneAt(clip)
   const glyphOps = (clip.glyph ?? []).filter((g) => g.do === 'park' || g.do === 'home').sort((a, b) => a.at - b.at)
+  // v2 第一筆飛進來之前的 park 是「把空字框搬到別的地方」（例：「頭」東西從畫面中間往下掉，字框搬到左上），不是讓位
+  const firstBuild = Math.min(...clip.builds.map((b) => b.at))
   for (const g of glyphOps) {
+    if (v2 && g.do === 'park' && g.at < firstBuild) continue
     if (g.do === 'park' && g.at < built + 0.8) errors.push(`國字 ${built.toFixed(2)}s 才拼好，${g.at}s 就 park：至少停 0.8 秒讓小孩看清楚整個字`)
   }
   if (glyphOps.length || v2) {
