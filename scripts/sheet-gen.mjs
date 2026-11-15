@@ -4,8 +4,11 @@
 // 版面規則是切圖腳本的前提（純色底、3×3、格與格留白），所以前言固定寫在這裡，每次只給九格的清單。
 //
 //   npm run sheet:gen -- hero sheriff G scripts/sheets/sheriff-G.txt   主角：<id> <表的代號> <九格清單檔>
+//   npm run sheet:gen -- hero dino A scripts/sheets/hero-A.txt --new --look "……"   全新角色的第一張表
 //   npm run sheet:gen -- prop 9 scripts/sheets/props-9.txt             道具：<第幾張> <九格清單檔>
 //
+// 角色本身是綠色的（例如小恐龍）不能用綠幕——身體會被當成背景去掉一半：加 --magenta 改洋紅底，
+// 並在 .cut.json 那張表寫 "key": "#FF00FF"。
 // 九格清單檔：一行一格、共 9 行（「1. 」開頭的編號可有可無）。主角表若有某幾格需要道具，加 --props。
 // 主角的角色描述寫在 src/anim/heroes/<id>.cut.json 的 look（沒有就用 --look "……" 帶）；
 // 參考圖用 assets/hero-sheets/<id>-A.png（道具表用 pig-A.png 對齊畫風）。
@@ -24,11 +27,13 @@ const PROP_DIR = path.join(ROOT, 'assets/prop-sheets')
 const fail = (msg) => { console.error(msg); process.exit(1) }
 
 const argv = process.argv.slice(2)
-const flags = { props: false, look: '', force: false }
+const flags = { props: false, look: '', force: false, isNew: false, magenta: false }
 const pos = []
 for (let i = 0; i < argv.length; i++) {
   if (argv[i] === '--props') flags.props = true
   else if (argv[i] === '--force') flags.force = true
+  else if (argv[i] === '--new') flags.isNew = true
+  else if (argv[i] === '--magenta') flags.magenta = true
   else if (argv[i] === '--look') flags.look = argv[++i] ?? ''
   else pos.push(argv[i])
 }
@@ -47,25 +52,28 @@ if (kind === 'hero') {
   if (!id || !tag) fail('主角表要給 <id> 與 <表的代號>（A、B、C…）')
   name = `${id}-${tag}`
   outDir = HERO_DIR
-  ref = path.join(HERO_DIR, `${id}-A.png`)
-  if (!fs.existsSync(ref)) fail(`找不到參考圖 ${ref}（新角色的第一張表要另外準備參考圖）`)
+  // 新角色的第一張表（--new）：還沒有自己的參考圖，拿豬探長的 A 表只對齊畫風
+  ref = path.join(HERO_DIR, flags.isNew ? 'pig-A.png' : `${id}-A.png`)
+  if (!fs.existsSync(ref)) fail(`找不到參考圖 ${ref}（新角色的第一張表加 --new --look "……"）`)
   const cutFile = path.join(ROOT, 'src/anim/heroes', `${id}.cut.json`)
   const look = flags.look || (fs.existsSync(cutFile) ? JSON.parse(fs.readFileSync(cutFile, 'utf8')).look : '')
   if (!look) fail(`沒有角色描述：在 ${cutFile} 加 "look"，或用 --look "……" 帶`)
   prompt = `請用你的生圖工具（image generation）產生一張圖，存成目前資料夾的 ${name}.png，然後只回報檔案路徑與圖片尺寸。不要寫程式畫圖、不要用其他方式合成，一定要用生圖工具；解析度選最大的正方形。
 
-圖的內容：依照我附上的參考圖（同一個角色的姿勢表），畫出同一個角色的另一張姿勢表。角色：${look}
+${flags.isNew
+    ? `圖的內容：一個全新的原創卡通角色的姿勢表。我附上的參考圖只用來對齊畫風與版面（同樣的描邊、上色、頭身比例、九宮格排法），不要畫出參考圖裡的角色，也不要畫成任何現有動畫、遊戲、繪本裡的角色。新角色：${look}`
+    : `圖的內容：依照我附上的參考圖（同一個角色的姿勢表），畫出同一個角色的另一張姿勢表。角色：${look}`}
 
 版面：一張正方形圖，3×3 九宮格，共 9 個姿勢，每格一個。格與格之間留白，角色不可以超出自己的格子，也不可以互相碰到。
 
 每一格都要：
 - 全身入鏡，從頭頂到腳底都看得到，不能被裁切
-- 同樣的身高、同樣的頭身比例、同樣的服裝與配色，跟參考圖是同一個角色
+- 同樣的身高、同樣的頭身比例、同樣的服裝與配色，${flags.isNew ? '九格是同一個角色' : '跟參考圖是同一個角色'}
 - 腳站在同一條水平線上（跳起來、坐著、趴著的那幾格例外）
 - 身體朝向畫面左前方（四分之三側面），臉看得清楚
 - 表情和動作誇張、一眼看得懂，像默劇演員
 
-背景：整張圖是純綠色（#00FF00）平塗，沒有地板、沒有影子、沒有漸層、${flags.props ? '除了該格指定的道具以外沒有其他道具和場景' : '沒有任何道具和場景'}；角色身上不要有綠色反光。
+背景：整張圖是${flags.magenta ? '純洋紅色（#FF00FF）' : '純綠色（#00FF00）'}平塗，沒有地板、沒有影子、沒有漸層、${flags.props ? '除了該格指定的道具以外沒有其他道具和場景' : '沒有任何道具和場景'}；角色身上不要有${flags.magenta ? '洋紅色反光，也不要用洋紅色或桃紅色' : '綠色反光'}。
 不要任何文字、編號、框線、對話泡泡、表情符號。
 風格：跟參考圖一樣的卡通動畫質感（乾淨的深色描邊、柔和的賽璐璐上色），均勻的正面打光，色彩飽和、乾淨。
 

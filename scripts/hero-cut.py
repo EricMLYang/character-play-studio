@@ -23,7 +23,7 @@ MARGIN = 0.04       # 四周留一點白，描邊濾鏡才不會被切
 
 def cut_sheet(name, spec):
     """切一張姿勢表，回傳 {姿勢: RGBA 圖（裁到角色）}。去背、找格線、清雜點在 sheet_cut.py（道具表也用同一套）。"""
-    return cells(src_root / spec['file'], f'姿勢表 {name}', spec.get('grid', [3, 3]), spec['poses'], '#00FF00', spec.get('speck', 40))
+    return cells(src_root / spec['file'], f'姿勢表 {name}', spec.get('grid', [3, 3]), spec['poses'], spec.get('key', '#00FF00'), spec.get('speck', 40))
 
 crops = {}
 for name, spec in cfg['sheets'].items():
