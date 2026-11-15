@@ -25,12 +25,20 @@ const HEAD: Vec = { x: PX - 1, y: P - 25 }
 const MID = 80
 const BIG = 1.3
 
-/** 鐘面（圖上的比例，以 size 為單位）：鐘面中心在圖中心往下 0.086、秒針長 0.22；兩個鈴鐺在中心左右 0.19、往上 0.23 */
-const FACE_DY = 0.086
-const HAND_L = 0.22
-const BELL_DX = 0.19
-const BELL_DY = -0.23
+/**
+ * 鐘面（prop:alarm-face，沒有指針的鬧鐘；圖上的比例，以 size 為單位）：鐘面中心在圖中心往下 0.072（白色鐘面半徑 0.313）、秒針長 0.25；
+ * 兩個鈴鐺在中心左右 0.215、往上 0.275。時針、分針、秒針都是程式畫的
+ */
+const FACE_DY = 0.072
+const HAND_L = 0.25
+const BELL_DX = 0.215
+const BELL_DY = -0.275
 const HAND_COLOR = '#E8102B'
+/** 時針、分針：黑色，一直指著七點整（分針十二點、時針七點），鬧鐘就是七點響的 */
+const MIN_L = 0.235
+const HOUR_L = 0.15
+const HOUR_DEG = 210
+const BLACK = '#2A2A33'
 const WAVE_COLOR = '#2A2A33'
 
 /** 鬧鐘站在 (x, y)、放大 s 倍時，圖上 (rx, ry)（以 size 為單位）那一點在畫面上的位置；放大是以腳底為準 */
@@ -53,6 +61,21 @@ function hand(at: number, dur: number, deg: number, w: Spot, glow = false): Fx[]
   const out: Fx[] = [{ at, dur, kind: 'line', actor: 'clock', ...o, to, color: HAND_COLOR, width: 1.7 * w.s }]
   if (glow) out.unshift({ at, dur, kind: 'line', actor: 'clock', ...o, to, color: '#FFE066', width: 4 * w.s })
   return out
+}
+
+/**
+ * 時針、分針跟著鬧鐘走：face 是一個看不見的錨點，一直待在鐘面中心（鬧鐘每一個會搬動位置的動作都照抄一份，見檔尾 faceMoves）。
+ * 線從指針尖（face ＋ 偏移）畫到 face，所以鬧鐘跳、搬、彈的時候指針都跟著。放大 s 倍、整個鬧鐘轉 rot 度時指針跟著放大、轉。
+ */
+function clockHands(at: number, dur: number, s: number, rot = 0): Fx[] {
+  const tip = (deg: number, L: number) => {
+    const r = ((deg + rot) * Math.PI) / 180
+    return { dx: L * SC * s * Math.sin(r), dy: -L * SC * s * Math.cos(r) }
+  }
+  return [
+    { at, dur, kind: 'line', actor: 'face', ...tip(HOUR_DEG, HOUR_L), target: 'face', color: BLACK, width: 2.3 * s },
+    { at, dur, kind: 'line', actor: 'face', ...tip(0, MIN_L), target: 'face', color: BLACK, width: 1.5 * s },
+  ]
 }
 
 /**
@@ -187,6 +210,9 @@ const ASK_S = 1.35
 const ANSWER = ASK + 2.6
 const END = ANSWER + 1.4
 
+/** 靠在他身上歪幾度 */
+const LEAN_DEG = -16
+
 /** 網子：拿在手上（網子在右上、柄往左下），網圈懸在鬧鐘上方；蓋下去時整枝往下砸 */
 const SN = 40
 const NET_UP: Vec = { x: X0 - 10, y: 46 }
@@ -204,7 +230,9 @@ const clip: Clip = {
   actors: [
     { id: 'net', emoji: 'prop:net', x: NET_UP.x - 120, y: NET_UP.y, size: SN, float: true, hidden: true },
     { id: 'pig', emoji: 'hero:pig/walk', x: PX, y: P, size: SP, flip: true, hidden: true },
-    { id: 'clock', emoji: 'prop:alarm-clock', x: X0, y: C, size: SC },
+    { id: 'clock', emoji: 'prop:alarm-face', x: X0, y: C, size: SC },
+    // 鐘面中心（看不見的錨點）：時針、分針從這裡畫
+    { id: 'face', emoji: '⏺️', ...faceAt(X0, C, 1), size: 2, float: true, hidden: true },
   ],
   moves: [
     // 開場：豬探長打著哈欠走進來，抬頭看字框
@@ -271,7 +299,7 @@ const clip: Clip = {
     { at: OFF, dur: 0.2, actor: 'clock', do: 'squash', amount: 0.35 },
     // 走過去靠在他身上睡著
     { at: LEAN, dur: 0.3, actor: 'clock', do: 'moveTo', to: { x: 68, y: C } },
-    { at: LEAN + 0.2, dur: 0.25, actor: 'clock', do: 'rotateTo', amount: -16 },
+    { at: LEAN + 0.2, dur: 0.25, actor: 'clock', do: 'rotateTo', amount: LEAN_DEG },
     // 換他睜大眼睛
     { at: AWAKE, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
     { at: AWAKE, dur: 0.25, actor: 'pig', do: 'hop', amount: 4 },
@@ -308,6 +336,11 @@ const clip: Clip = {
     { at: END - 0.8, dur: 0.5, do: 'pulse' },
   ],
   fx: [
+    // 時針、分針（黑色，畫在秒針下面）：平常、放大以後、靠在他身上歪著（換的時候前後疊 0.12 秒，不會閃）
+    ...clockHands(0, WORD + 0.22 + 0.12, 1),
+    ...clockHands(WORD + 0.22, LEAN + 0.32 + 0.12 - WORD - 0.22, BIG),
+    // 鬧鐘退下（vanish 0.25 秒）的頭一點點還看得到指針，淡掉
+    ...clockHands(LEAN + 0.32, ASK + 0.1 - LEAN - 0.32, BIG, LEAN_DEG),
     // 開場：睡眼惺忪
     { at: 0.7, dur: A1 + 2 * TICK + PRE - 0.7, kind: 'zzz', actor: 'pig', dx: -4 },
     ...gags.fx,
@@ -346,5 +379,33 @@ const clip: Clip = {
     { at: ANSWER + 0.05, sfx: 'cheer' },
   ],
 }
+
+/** 鐘面中心：鬧鐘站在 (x, y)、放大 s 倍、以腳底轉 rot 度時（跟引擎一樣：轉斜了腳底會抬起來一點） */
+function faceAt(x: number, y: number, s: number, rot = 0): Vec {
+  const r = (rot * Math.PI) / 180
+  const d = (FACE_DY - 0.42) * SC * s
+  const base = y + 0.42 * SC - Math.abs(Math.sin(r)) * 0.42 * SC * s
+  return { x: x - d * Math.sin(r), y: base + d * Math.cos(r) }
+}
+/**
+ * 看不見的錨點 face 跟著鬧鐘：鬧鐘的 moveTo、hop、shake、vanish 照抄一份（位置換成鐘面中心）；
+ * 鬧鐘放大（語詞那一刻）、歪著靠過去（回馬槍）時，錨點跟著搬到新的鐘面中心。壓扁、左右搖（tilt）不跟。
+ */
+function faceMoves(moves: Move[]): Move[] {
+  // 動作「結束時」的大小、角度：剛好在放大／轉之前結束的那一步還是原樣
+  const sAt = (t: number) => (t > WORD + 0.1 + 1e-6 ? BIG : 1)
+  const rAt = (t: number) => (t > LEAN + 0.2 + 1e-6 ? LEAN_DEG : 0)
+  const out: Move[] = []
+  for (const m of moves) {
+    if (m.actor !== 'clock') continue
+    const end = m.at + (m.dur ?? 0)
+    if (m.do === 'moveTo' && m.to) out.push({ ...m, actor: 'face', to: faceAt(m.to.x, m.to.y, sAt(end), rAt(end)) })
+    else if (m.do === 'hop' || m.do === 'shake' || m.do === 'vanish') out.push({ ...m, actor: 'face' })
+    else if (m.do === 'scaleTo') out.push({ at: m.at, dur: m.dur, actor: 'face', do: 'moveTo', to: faceAt(MID, C, BIG), ease: m.ease })
+    else if (m.do === 'rotateTo') out.push({ at: m.at, dur: m.dur, actor: 'face', do: 'moveTo', to: faceAt(68, C, BIG, LEAN_DEG), ease: m.ease })
+  }
+  return out
+}
+clip.moves.push(...faceMoves(clip.moves))
 
 export default clip

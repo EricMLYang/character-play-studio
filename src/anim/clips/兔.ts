@@ -32,7 +32,8 @@ const pt = (x: number, y: number, u: number, v: number, s = 1): Vec => ({ x: x +
 const OBS = [
   { id: 'turtle', emoji: 'prop:turtle', size: 30 },
   { id: 'tree', emoji: 'prop:tree', size: 42 },
-  { id: 'mountain', emoji: '⛰️', size: 76 },
+  // 大山：雪頂、山腳草，底是平的貼著地面；高到山頂快碰到畫面上緣，她得整個人飛出畫面才跳得過
+  { id: 'mountain', emoji: 'prop:mountain', size: 88 },
 ].map((o) => ({ ...o, y: 77 - 0.42 * o.size }))
 /** 每一次跳到最高點時圖中心的 y：小跳剛好過烏龜、跳到畫面上半過樹頂、整個人飛出畫面上緣 */
 const PEAK = [36, 19, -62]

@@ -14,19 +14,17 @@ import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 /** 花生：圖朝左，整支面向右邊的樹（flip） */
 const S = 34
 const P = 77 - 0.42 * S
-/** 每次都從樹幹左邊同一個地方爬 */
-const RX = 118
-/** 高高的樹（畫面右邊）：樹幹是 prop:tree 只畫下面那截（切在分叉下面），拉高拉細，從地面一路到畫面頂；
- * 樹冠是同一張圖只畫上面那截，蓋在畫面最上面。國字回到正中央時樹幹不擋字 */
-const TX = 132
-const TREE_K = 0.468
-const TREE_S = 142.6
+/** 高高的樹（中間偏右）：prop:tall-tree（又直又長的樹幹，最上面一小團樹冠），從地面一路到畫面頂。
+ * 原圖很瘦（樹幹只有 size 的 0.051），stretchTo TREE_W 加粗一點、size 放大補回高度：樹幹粗 7.7、樹冠在 y −1～15。
+ * 樹幹細，國字回到正中央時不擋字，所以不用再擠到畫面右邊 */
+const TX = 124
+const TREE_W = 1.3
+const TREE_S = 116
 const TREE_Y = 77 - 0.42 * TREE_S
-const TRUNK_CUT = 0.7
-/** 樹冠：切在樹冠下緣，下緣落在 y 13 */
-const CROWN_S = 76
-const CROWN_CUT = 0.66
-const CROWN_Y = 13 - CROWN_CUT * CROWN_S + 0.5 * CROWN_S
+/** 樹冠下緣（原圖樹冠在 v 0.041～0.23，以 v 0.92 為支點、高度 ÷ TREE_W） */
+const CROWN_LOW = 77 + ((0.23 - 0.92) * TREE_S) / TREE_W
+/** 每次都從樹幹左邊同一個地方爬 */
+const RX = TX - 14
 /** 每一步往上爬多少、多久 */
 const STEP = 3.6
 const ST = 0.13
@@ -108,7 +106,7 @@ function climb(at: number, k: number, o: {
   const markTop = topY + 1.2 + HAND.dy
   const markLow = P + HAND.dy
   for (const j of [0, 1]) {
-    const x = TX - 3 + 1.6 * k + 3 * j
+    const x = TX - 3 + 0.9 * k + 2.6 * j
     fx.push(
       { at: sl, dur: o.slide + 0.12, kind: 'line', actor: 'rac', dx: x - RX, dy: HAND.dy, to: { x, y: markTop }, color: MARK, width: 1.15 },
       { at: land - 0.05, dur: 1, kind: 'line', actor: 'tree', dx: x - TX, dy: markLow - TREE_Y, to: { x, y: markTop }, color: MARK, width: 1.15 },
@@ -132,8 +130,8 @@ function climb(at: number, k: number, o: {
 /** 字框一開始就在左上：他在右邊爬上爬下，筆畫往左上飛，不經過字框 */
 const FRAME = { x: 30, y: 21 }
 const FRAME_K = 0.5
-/** 樹頂下面的蜂窩（前三次從下面看只是一顆黃黃圓圓的東西，上半截藏在葉子後面） */
-const HIVE = { x: RX, y: 11.6, s: 14 }
+/** 樹冠下面的蜂窩（掛在樹冠左半邊下面、樹幹左邊；前三次從下面看只是一顆黃黃圓圓的東西，上半截藏在葉子後面） */
+const HIVE = { x: TX - 10, y: CROWN_LOW - 1.4, s: 14 }
 /** 第 3 次摔得彈到左邊（讓國字回到中間） */
 const SIDE = 28
 
@@ -166,16 +164,15 @@ const clip: Clip = {
   // 晴朗的天空藍：灰色的花生、咖啡色的樹幹、黃色的蜂窩都跳得出來
   bg: { top: '#CFEBFF', bottom: '#F4FBFF', floor: '#BFE0A0', scenery: 'hills' },
   actors: [
-    { id: 'tree', emoji: 'prop:tree', x: TX, y: TREE_Y, size: TREE_S, half: 'bottom', cut: TRUNK_CUT },
     // 蜂窩畫在樹後面：上半截藏在葉子裡，從下面看只是一顆黃黃圓圓的東西
     { id: 'hive', emoji: 'prop:hive', x: HIVE.x, y: HIVE.y, size: HIVE.s, float: true },
-    { id: 'crown', emoji: 'prop:tree', x: TX, y: CROWN_Y, size: CROWN_S, half: 'top', cut: CROWN_CUT, float: true },
+    { id: 'tree', emoji: 'prop:tall-tree', x: TX, y: TREE_Y, size: TREE_S },
     { id: 'rac', emoji: 'hero:raccoon/walk', x: RX, y: P, size: S, hidden: true, flip: true },
     { id: 'bee', emoji: 'prop:bee', x: HIVE.x + 1, y: HIVE.y + 3, size: 10, hidden: true, float: true },
   ],
   moves: [
     // 開場：他從左邊走進來，走到樹下
-    { at: 0, dur: 0, actor: 'tree', do: 'stretchTo', amount: TREE_K },
+    { at: 0, dur: 0, actor: 'tree', do: 'stretchTo', amount: TREE_W },
     { at: 0.02, dur: 0.45, actor: 'rac', do: 'enter', from: { x: -25, y: P }, ease: 'out' },
     // 第 1 次：爬到 1/3
     ...g1.moves,
@@ -206,7 +203,6 @@ const clip: Clip = {
     { at: ASK, dur: 0.25, actor: 'bee', do: 'moveTo', to: { x: 175, y: 10 }, ease: 'in' },
     { at: ASK + 0.25, dur: 0.01, actor: 'bee', do: 'vanish' },
     { at: ASK, dur: 0.25, actor: 'hive', do: 'vanish' },
-    { at: ASK, dur: 0.25, actor: 'crown', do: 'vanish' },
     { at: ASK, dur: 0.25, actor: 'tree', do: 'vanish' },
     { at: ASK, actor: 'rac', do: 'swap', emoji: 'hero:raccoon/idle' },
     { at: ASK, actor: 'rac', do: 'flip' },

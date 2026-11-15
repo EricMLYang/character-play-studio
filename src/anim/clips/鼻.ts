@@ -179,7 +179,7 @@ const BACK = 0.71
 const B1 = 98, B2 = 136, B3 = [84, 109, 134], B4 = 120
 const BS2 = 23, BS3 = 25, BS4 = 25
 /** 東西：蛋糕 → 烤肉 → 大西瓜 → 臭襪子 */
-const F1 = 14, F2 = 19, F3 = 23, F4 = 20
+const F1 = 14, F2 = 19, F3 = 23, F4 = 26
 /** 他停在箱子左邊多遠 */
 const GAP = 24
 /** 語詞那一刻他站的地方（畫面中間）、問他時站的地方 */
@@ -373,7 +373,7 @@ const clip: Clip = {
     { at: WORD - 0.05, dur: 0.25, actor: 'rex', do: 'scaleTo', amount: WORD_S, ease: 'back' },
     { at: G4 - 0.25, dur: 0.2, actor: 'rex', do: 'scaleTo', amount: 1 / WORD_S },
     // 回馬槍的箱子掉下來（裡面是臭襪子，觀眾看不到）
-    ...setup(WORD + 0.1, G4 - 0.45, B4, BS4, '🧦', WORD + 0.1, [{ at: WORD + 0.1, actor: 'food', do: 'tint', filter: 'sepia(0.55) brightness(0.88)' }]),
+    ...setup(WORD + 0.1, G4 - 0.45, B4, BS4, 'prop:sock', WORD + 0.1),
     // 第 4 次：同樣吸、同樣被拉、同樣掀開
     ...s4.moves, ...p4.moves, ...r4.moves,
     // 臭襪子！傻眼 → 捏住鼻子往後仰 → 眼冒金星坐倒

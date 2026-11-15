@@ -19,8 +19,11 @@ const YY = ground(YS)
 /** 狗狗警長：坐在右邊看著他 */
 const DS = 36
 const DY = ground(DS)
-/** 丟的東西 */
-const BALL = 13, SOCK = 15, BOX = 24, SOFA = 48
+/** 丟的東西。臭襪子是 prop:sock（圖上自己冒三條臭氣線），thing 角色的 size 是 BALL，換成襪子時放大 SOCK ÷ BALL 倍 */
+const BALL = 13, SOCK = 19, BOX = 24
+const SOCK_K = SOCK / BALL
+/** 回馬槍推回來的那一堆：prop:junk-pile（藍沙發上疊著紙箱、足球、襪子、雨傘），比楊捷睿高 */
+const PILE = 60
 
 /**
  * 楊捷睿各姿勢的手（量 public/hero/yang/*.png，flip 朝右以後離角色中心多遠，乘上 size）。
@@ -148,7 +151,7 @@ function fetch(at: number, k: number, o: { yx: number; item: string; itemS: numb
     { at: at - 0.01, dur: 0.01, actor: o.item, do: 'pop' },
     { at, dur: RUN, actor: o.item, do: 'moveTo', to: mouth(dogX, o.itemS), ease: 'out' },
     // 啪：放在他腳邊
-    { at: drop, dur: 0.14 + 0.01 * (o.gap ?? 0), actor: o.item, do: 'moveTo', to: { x: feet, y: ground(o.itemS) }, arc: (o.gap ?? 0) * 0.4, ease: 'out' },
+    { at: drop, dur: 0.14 + 0.01 * (o.gap ?? 0), actor: o.item, do: 'moveTo', to: { x: feet, y: ground(BALL) }, arc: (o.gap ?? 0) * 0.4, ease: 'out' },
     // 開心地跳著搖尾巴，等他再丟
     { at: drop, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/happy' },
     { at: drop + 0.06, dur: 0.2, actor: 'dog', do: 'hop', amount: 3 },
@@ -228,10 +231,8 @@ const g4 = toss(R4, 3, { x: XM, item: 'thing', wind: null, to: { x: 205, y: 48 }
 /** 警長推著一座小山回來：大沙發上疊著紙箱、球、臭襪子 */
 const F4 = R4 + 0.6
 const SX = 110
-const DXP = SX + 0.5 * SOFA + 4
+const DXP = SX + 0.426 * PILE + 6.5
 const STOP = F4 + 0.42
-/** 沙發的座墊（紙箱放上去的高度：紙箱的中心） */
-const SEAT = 77 - 0.5 * SOFA - 0.42 * BOX + 3
 const ASK = STOP + 0.75
 const AX = 32
 const ASK_S = 1.15
@@ -246,7 +247,7 @@ const clip: Clip = {
   // 公園的草地：淡藍天空、綠地；橘紅的拋物線、紅外套、黃狗都跳得出來
   bg: { top: '#D8ECFF', bottom: '#F4FAFF', floor: '#BFE0A0', scenery: 'hills' },
   actors: [
-    { id: 'sofa', emoji: '🛋️', x: 230, y: ground(SOFA), size: SOFA, hidden: true },
+    { id: 'pile', emoji: 'prop:junk-pile', x: 230, y: ground(PILE), size: PILE, hidden: true },
     { id: 'dog', emoji: 'hero:sheriff/idle', x: DX, y: DY, size: DS },
     // 丟的東西：球 → 臭襪子 → （回來的）球；畫在警長前面（叼在嘴裡）、楊捷睿後面（塞到身後）
     { id: 'thing', emoji: '⚾', x: -25 + 0.22 * YS, y: YY + 0.2 * YS, size: BALL, pivot: 'center', float: true },
@@ -263,10 +264,13 @@ const clip: Clip = {
     ...g1.moves,
     ...f1.moves,
     // 第 2 次：球塞到身後，拿出臭襪子、捏著鼻子拎得遠遠的
-    ...swapBehind(N1, X0, '🧦', stinkHand(X0)),
+    ...swapBehind(N1, X0, 'prop:sock', stinkHand(X0)),
+    { at: N1 + 0.17, dur: 0.01, actor: 'thing', do: 'scaleTo', amount: SOCK_K },
     { at: N1 + 0.18, actor: 'yang', do: 'swap', emoji: 'hero:yang/stinky' },
     ...g2.moves,
     ...f2.moves,
+    // 叼回來的時候 pop 把大小重設成 1：襪子再放大回來
+    { at: F2 - 0.005, dur: 0.01, actor: 'thing', do: 'scaleTo', amount: SOCK_K },
     // 第 3 次前停一拍：襪子塞到身後；警長等著等著睡著了
     { at: N2, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: N2, dur: 0.16, actor: 'thing', do: 'moveTo', to: { x: X0 - 2, y: YY + 2 }, arc: 4 },
@@ -309,21 +313,16 @@ const clip: Clip = {
     { at: R4 - 0.35, dur: 0.2, actor: 'yang', do: 'scaleTo', amount: 1 / WK },
     { at: R4 - 0.35, dur: 0.2, actor: 'thing', do: 'moveTo', to: idleHand(XM) },
     ...g4.moves,
-    // 警長推著一座小山回來：沙發上一顆球、一隻臭襪子，頭上頂著紙箱
+    // 警長推著一座小山回來：一整堆（沙發上疊著紙箱、足球、臭襪子、雨傘）；頭上的紙箱已經疊進那一堆裡（在畫面外收掉）
     { at: F4, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/push' },
-    { at: F4, dur: 0.01, actor: 'dog', do: 'moveTo', to: { x: 230 + 0.5 * SOFA + 4, y: DY } },
-    { at: F4, dur: 0.01, actor: 'box', do: 'moveTo', to: onHead(230 + 0.5 * SOFA + 4, BOX) },
-    { at: F4 + 0.01, dur: 0.01, actor: 'sofa', do: 'enter', from: { x: 230, y: ground(SOFA) } },
-    { at: F4 + 0.02, dur: 0.4, actor: 'sofa', do: 'moveTo', to: { x: SX, y: ground(SOFA) }, ease: 'out' },
+    { at: F4, dur: 0.01, actor: 'dog', do: 'moveTo', to: { x: 230 + 0.426 * PILE + 6.5, y: DY } },
+    { at: F4, dur: 0.01, actor: 'box', do: 'vanish' },
+    { at: F4 + 0.01, dur: 0.01, actor: 'pile', do: 'enter', from: { x: 230, y: ground(PILE) } },
+    { at: F4 + 0.02, dur: 0.4, actor: 'pile', do: 'moveTo', to: { x: SX, y: ground(PILE) }, ease: 'out' },
     { at: F4 + 0.02, dur: 0.4, actor: 'dog', do: 'moveTo', to: { x: DXP, y: DY }, ease: 'out' },
-    { at: F4 + 0.02, dur: 0.4, actor: 'box', do: 'moveTo', to: onHead(DXP, BOX), ease: 'out' },
-    { at: F4 - 0.01, actor: 'thing', do: 'swap', emoji: '⚾' },
-    { at: F4, dur: 0.01, actor: 'thing', do: 'moveTo', to: { x: 230 - 6, y: SEAT - 6 } },
-    { at: F4 + 0.01, dur: 0.01, actor: 'thing', do: 'pop' },
-    { at: F4 + 0.02, dur: 0.4, actor: 'thing', do: 'moveTo', to: { x: SX - 6, y: SEAT - 6 }, ease: 'out' },
-    // 疊成一座小山：紙箱從他頭上跳到沙發上、球跳到最上面
-    { at: STOP, dur: 0.22, actor: 'box', do: 'moveTo', to: { x: SX, y: SEAT }, arc: 6, ease: 'out' },
-    { at: STOP + 0.06, dur: 0.22, actor: 'thing', do: 'moveTo', to: { x: SX, y: SEAT - 0.3 * BOX - 0.3 * BALL }, arc: 8, ease: 'out' },
+    // 煞車：整堆往前一晃、彈一下，快要倒下來
+    { at: STOP, dur: 0.3, actor: 'pile', do: 'tilt', amount: -6 },
+    { at: STOP, dur: 0.28, actor: 'pile', do: 'squash', amount: 0.12 },
     { at: STOP, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/happy' },
     { at: STOP + 0.1, dur: 0.2, actor: 'dog', do: 'hop', amount: 3 },
     { at: STOP + 0.4, dur: 0.2, actor: 'dog', do: 'hop', amount: 3 },
@@ -335,9 +334,7 @@ const clip: Clip = {
     // 問他：警長把小山拖走，楊捷睿走到左前方、變大
     { at: ASK, actor: 'dog', do: 'swap', emoji: 'hero:sheriff/pull' },
     { at: ASK + 0.05, dur: 0.4, actor: 'dog', do: 'moveTo', to: { x: DXP + 110, y: DY }, ease: 'in' },
-    { at: ASK + 0.05, dur: 0.4, actor: 'sofa', do: 'moveTo', to: { x: SX + 110, y: ground(SOFA) }, ease: 'in' },
-    { at: ASK + 0.05, dur: 0.4, actor: 'box', do: 'moveTo', to: { x: SX + 110, y: SEAT }, ease: 'in' },
-    { at: ASK + 0.05, dur: 0.4, actor: 'thing', do: 'moveTo', to: { x: SX + 110, y: SEAT - 0.3 * BOX - 0.3 * BALL }, ease: 'in' },
+    { at: ASK + 0.05, dur: 0.4, actor: 'pile', do: 'moveTo', to: { x: SX + 110, y: ground(PILE) }, ease: 'in' },
     { at: ASK, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: ASK, dur: 0.35, actor: 'yang', do: 'moveTo', to: { x: AX, y: YY + 2 }, arc: 4, ease: 'out' },
     { at: ASK + 0.35, dur: 0.3, actor: 'yang', do: 'scaleTo', amount: ASK_S, ease: 'back' },
@@ -383,8 +380,6 @@ const clip: Clip = {
     // 語詞那一刻：球閃一下，警長眼睛盯著球
     { at: WORD + 0.05, dur: 0.5, kind: 'burst', ...liftTop(XM, BALL, YS * WK, YY), n: 1, emoji: '🌟', scale: 1.2 },
     ...g4.fx,
-    // 小山上還掛著那隻臭襪子
-    { at: F4 + 0.22, dur: ASK - 0.15 - F4, kind: 'pop', actor: 'sofa', emoji: '🧦', dx: -18, dy: 9, scale: 2 },
     { at: STOP + 0.05, dur: 0.6, kind: 'burst', actor: 'dog', emoji: '💕', n: 5 },
     { at: STOP + 0.35, kind: 'sweat', actor: 'yang', dx: 6, dy: 3 },
   ],

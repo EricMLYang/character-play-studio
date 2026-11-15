@@ -318,7 +318,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -527,7 +527,7 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `cake` | 一整個草莓鮮奶油蛋糕（還沒切） | 還沒用 |
 | `cake-halves` | 同一個蛋糕切成左右兩半（中間有縫）；跟 `cake` 同 size swap | 還沒用 |
 | `rooster` | 抬頭張嘴啼叫的公雞（朝左；算動物） | 還沒用 |
-| `alarm-clock` | 紅色雙鈴鬧鐘（兩隻小腳） | 還沒用 |
+| `alarm-clock` | 紅色雙鈴鬧鐘（兩隻小腳；鐘面上畫死了黑色指針，要指針會動就用 `alarm-face`） | 還沒用 |
 | `meat` | 帶骨頭的漫畫肉（兩端露白骨） | 還沒用 |
 | `bone` | 啃得乾乾淨淨的白骨頭；跟 `meat` 同 size swap | 還沒用 |
 | `watermelon` | 一整顆綠色條紋大西瓜 | 還沒用 |
@@ -550,6 +550,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `kiss-mark` | 鮮紅色的唇印（寬扁）。貼在臉上用 `float`、跟著角色一起 `moveTo`；也可以當 fx 的 emoji | 姑（臉上的唇印） |
 | `box` | 打開的大紙箱（箱口朝上、四片蓋子打開），可以躲人 | 姑（第 2 次躲進去） |
 | `bush` | 圓圓的綠色灌木叢，可以躲人（size 30 時人只露出頭髮） | 姑（第 3 次躲進去） |
+| `mountain` | 一座大山（三角形、灰褐色、雪頂、山腳一圈草，底是平的；寬撐滿，高 0.81 × size） | 兔（第 3 次跳過的山，size 88） |
+| `tall-tree` | 很高很瘦的樹（直直的長樹幹、最上面一小團樹冠，樹冠在 v 0.041～0.23）。很瘦：要粗一點就 `stretchTo` 加寬、size 放大補回高度 | 爬（stretchTo 1.3、size 116，從地面到畫面頂） |
+| `pencil` | 水平的長鉛筆（**筆尖朝右**、黃色六角筆身、銀環、粉紅橡皮擦在左；只佔圖的底部一條，粗 0.115 × size）。改長度不改粗細：`scaleTo`、`stretchTo` 各乘 √倍率。**跟 `pencil-stub` 同一個比例**，但鉛筆頭畫得比較粗，見下一列 | 短 |
+| `pencil-stub` | 削到很短的鉛筆頭（筆尖朝右）。同 size 時比長鉛筆粗 1.69 倍：要一樣粗，size（或 scaleTo）乘 0.596 | 短（最後剩的那一小截、語詞特寫） |
+| `smoke` | 一大團不透明的白煙（淺灰描邊），「砰」一聲冒出來、蓋得住後面的東西；當 fx 的 emoji 用（burst n 1，scale ＝ 要蓋住的大小 ÷ 11） | 親（啵！） |
+| `frog-wink` | 眨一隻眼、笑得很得意的綠青蛙（算動物，跟 🐸 一樣）。跟 `frog` 不同張表：swap 時 `scaleTo` 0.79 才一樣大，換回來再乘回去 | 親（煙散開後得意那一下） |
+| `sock` | 皺巴巴的灰白臭襪子（補丁、破洞），上面冒三條黃綠色臭氣線（圖的上 30%） | 鼻（回馬槍）、丟（第 2 次） |
+| `junk-pile` | 一堆雜物：藍沙發上歪歪地疊著紙箱、足球、一隻襪子、紅雨傘 | 丟（回馬槍推回來的小山，size 60） |
+| `alarm-face` | 沒有指針的紅色雙鈴鬧鐘（鐘面只有十二個刻度）。指針由劇本畫：鐘面中心在圖中心往下 0.072 × size；跟 `alarm-clock` 不同張、長得不完全一樣，同一支別混用 | 時 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

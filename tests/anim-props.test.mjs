@@ -103,7 +103,7 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山�
     ['crab', '🦀'], ['crab-walk', '🦀'], ['turtle', '🐢'], ['monkey', '🐒'],
     ['goat', '🐐'], ['goat-butt', '🐐'], ['butterfly', '🦋'], ['bee', '🐝'], ['bee-sting', '🐝'],
     ['turtle-old', '🐢'], ['rooster', '🐓'],
-    ['panda-daze', '🐼'], ['panda-wave', '🐼'], ['rooster-sleep', '🐓'], ['beetle', '🪲']]) {
+    ['panda-daze', '🐼'], ['panda-wave', '🐼'], ['rooster-sleep', '🐓'], ['beetle', '🪲'], ['frog-wink', '🐸']]) {
     assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk(emoji)).get('x'), name)
     assert.ok(lifeOf(walk(`prop:${name}`)).get('x').steps.length > 0, `${name} 走過去要踩步伐`)
   }
@@ -127,6 +127,8 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山�
   for (const name of ['bump', 'feather', 'book-ajar', 'gong', 'lotus-leaf']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
   // 唇印、紙箱、灌木叢是道具：不做小動作
   for (const name of ['kiss-mark', 'box', 'bush']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
+  // 大山、高瘦的樹、鉛筆、鉛筆頭、白煙、臭襪子、一堆雜物、沒有指針的鬧鐘是道具：不做小動作
+  for (const name of ['mountain', 'tall-tree', 'pencil', 'pencil-stub', 'smoke', 'sock', 'junk-pile', 'alarm-face']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
   // 香蕉、雪球是道具：不做小動作
   assert.equal(still('prop:banana').beats.length, 0)
   assert.equal(still('prop:snowball').beats.length, 0)

@@ -23,23 +23,22 @@ const HAND = 15
 const YP = 63.5
 const E = YX + 0.43 * S
 /**
- * 鉛筆的畫法（整枝一樣粗，短的時候只是短、不是變小）：
- * - 筆尖：✏️（翻面再轉 -45 度，筆尖朝右）只畫最下面那一截（half bottom），剩下筆尖的木頭和筆芯。
- * - 筆身：從筆尖接到橡皮擦的橘色管子（fx tube，粗細跟筆尖的根部一樣）。
- * - 橡皮擦：一顆一樣粗的粉紅圓頭（長度 0 的 tube），蓋在筆身最左邊。
- * 「butt」是橡皮擦圓頭的中心（看不見的錨點），「tip」是筆尖那支 ✏️；兩個一起搬就是搬整枝。
+ * 鉛筆的畫法：一張道具圖 prop:pencil（水平、筆尖朝右、左邊粉紅橡皮擦）。整枝一樣粗，短的時候只是短、不是變小：
+ * 用 scaleTo × stretchTo 各乘 √r，長度變 r 倍、粗細不變（sx = 長度倍率、sy 永遠是 1）。
+ * 只剩橡皮擦頭那一小截時 swap 成 prop:pencil-stub（同一張表、同一個比例切的，但生圖把鉛筆頭畫得比長鉛筆粗 1.69 倍，
+ * 所以 sx、sy 都乘 STUB_K，粗細才跟長鉛筆一樣）。
+ * 圖上的位置（props.ts 量的）：長鉛筆 u 0.039～0.957、v 0.846～0.961；鉛筆頭 u 0.277～0.721、v 0.766～0.959。
  */
-const TS = 30
-const CUT = 0.8
-const W = 0.285 * TS
+const W = 8.55
 const R = W / 2
-const BODY = '#FF8C42'
-const ERASER = '#F06A93'
-/** 筆尖那支 ✏️ 的中心到筆尖、到筆尖根部 */
-const TIP_OFF = 0.594 * TS
-const CONE_OFF = 0.467 * TS
-/** 最短：只剩橡皮擦圓頭接筆尖 */
-const MIN = W + (TIP_OFF - CONE_OFF)
+/** 長鉛筆的 size：圖上筆身粗 0.115 × size */
+const PS = W / 0.115
+/** 長鉛筆不拉長時的長度 */
+const NAT = 0.918 * PS
+/** 鉛筆頭的 sx＝sy：粗 0.193 × PS × STUB_K ＝ W */
+const STUB_K = 0.115 / 0.193
+/** 最短：只剩鉛筆頭那一小截（鉛筆頭圖的長度） */
+const MIN = 0.444 * PS * STUB_K
 /** 一次比一次短：很長（半個畫面）→ 一半 → 四分之一 → 只剩橡皮擦頭 */
 const L0 = 76
 const T0 = E + L0
@@ -49,23 +48,46 @@ const T3 = E + MIN
 /** 削的時候小機器人用力推著筆尖，鉛筆屑從他手上噴出來 */
 const ZD = 0.55
 
-/** 橡皮擦那一頭在 ex、筆尖在 tx、高度 y 時，兩個錨點的位置 */
-const buttAt = (ex: number, y = YP): Vec => ({ x: ex + R, y })
-const tipAt = (tx: number, y = YP): Vec => ({ x: tx - TIP_OFF, y })
-/** 整枝搬到（橡皮擦 ex、長 len、高度 y） */
-function movePencil(at: number, dur: number, ex: number, len: number, y: number, extra: Partial<Move> = {}): Move[] {
+/** 鉛筆的樣子：長鉛筆（長度 len）或鉛筆頭（放大 k 倍） */
+type Look = { stub: false; len: number } | { stub: true; k: number }
+const scaleOf = (l: Look) => (l.stub ? { sx: STUB_K * l.k, sy: STUB_K * l.k } : { sx: l.len / NAT, sy: 1 })
+/** 橡皮擦那一頭在 ex、筆身中線在 cy 時，鉛筆這個角色的 x、y（縮放以 v 0.92 為支點） */
+function pencilAt(l: Look, ex: number, cy: number): Vec {
+  const { sx, sy } = scaleOf(l)
+  return l.stub
+    ? { x: ex + 0.223 * PS * sx, y: cy - 0.42 * PS + 0.0575 * PS * sy }
+    : { x: ex + 0.461 * PS * sx, y: cy - 0.42 * PS + 0.0165 * PS * sy }
+}
+/** 從 a 的樣子變成 b 的樣子（scaleTo、stretchTo 各一次，相對倍率） */
+function reshape(at: number, dur: number, a: Look, b: Look, ease: Move['ease'] = 'linear'): Move[] {
+  const p = scaleOf(a), q = scaleOf(b)
   return [
-    { at, dur, actor: 'butt', do: 'moveTo', to: buttAt(ex, y), ...extra } as Move,
-    { at, dur, actor: 'tip', do: 'moveTo', to: tipAt(ex + len, y), ...extra } as Move,
+    { at, dur, actor: 'pencil', do: 'scaleTo', amount: Math.sqrt((q.sx * q.sy) / (p.sx * p.sy)), ease } as Move,
+    { at, dur, actor: 'pencil', do: 'stretchTo', amount: Math.sqrt((q.sx / q.sy) / (p.sx / p.sy)), ease } as Move,
   ]
 }
-/** 筆身＋橡皮擦（k 是放大倍率：語詞那一刻的特寫） */
-function pencilFx(at: number, dur: number, k = 1, tipDy = 0): Fx[] {
+/** 削：長度從 len0 一路變成 len1（橡皮擦那頭 ex0 → ex1），分幾段直線走，兩頭才不會飄 */
+function shave(at: number, dur: number, len0: number, len1: number, ex0: number, ex1: number, cy: number): Move[] {
+  const N = 6, out: Move[] = []
+  for (let i = 0; i < N; i++) {
+    const a = len0 + ((len1 - len0) * i) / N, b = len0 + ((len1 - len0) * (i + 1)) / N
+    const t = at + (dur * i) / N, d = dur / N
+    out.push(...reshape(t, d, { stub: false, len: a }, { stub: false, len: b }))
+    out.push({ at: t, dur: d, actor: 'pencil', do: 'moveTo', to: pencilAt({ stub: false, len: b }, ex0 + ((ex1 - ex0) * (i + 1)) / N, cy), ease: 'linear' })
+  }
+  return out
+}
+/** 削到最短：swap 成鉛筆頭（橡皮擦那頭、高度不變） */
+function toStub(at: number, len: number, ex: number, cy: number): Move[] {
   return [
-    { at, dur, kind: 'tube', actor: 'tip', dx: (CONE_OFF - R) * k, dy: tipDy, target: 'butt', color: BODY, width: W * k, n: 999 },
-    { at, dur, kind: 'tube', actor: 'butt', dx: 0.01, dy: 0, target: 'butt', color: ERASER, width: W * k, n: 999 },
+    { at, actor: 'pencil', do: 'swap', emoji: 'prop:pencil-stub' },
+    ...reshape(at, 0.01, { stub: false, len }, { stub: true, k: 1 }),
+    { at, dur: 0.01, actor: 'pencil', do: 'moveTo', to: pencilAt({ stub: true, k: 1 }, ex, cy) },
   ]
 }
+/** 整枝搬到（橡皮擦 ex、高度 cy），樣子不變 */
+const movePencil = (at: number, dur: number, l: Look, ex: number, cy: number, extra: Partial<Move> = {}): Move =>
+  ({ at, dur, actor: 'pencil', do: 'moveTo', to: pencilAt(l, ex, cy), ...extra } as Move)
 
 /** 虛線輪廓：「剛才有這麼長」。畫在看不見、不會動的 mark 上，x0～x1 這一段；在 x1 畫一道紅色刻度 */
 const GHOST = '#5B4A88'
@@ -90,11 +112,11 @@ const merge = (...gs: Gag[]): Gag => ({
 
 /**
  * 同一個笑點：小機器人雙手抓住筆尖（push 預備）→「滋——！」用力削（他整個人抖、鉛筆屑一路噴、鏡頭推近＋震，同一個音效、一次多疊一個音），
- * 鉛筆一路變短（筆尖往回縮 tipTo；或整枝被吃進他手裡：橡皮擦那頭往前 buttTo），他跟著一路削過去（botFrom → botTo；沒寫就站著不動）→
+ * 鉛筆一路變短（shave，另外寫），他跟著一路削過去（botFrom → botTo；沒寫就站著不動）→
  * 「叮！」筆尖閃一下，他得意（smug）跳回原位，楊捷睿傻眼。at 是開始削的時間，k 是第幾次，dur 是削多久。回傳「叮」的時間 ding。
  */
 function zap(at: number, k: number, o: {
-  tipTo?: Vec; buttTo?: Vec; botFrom?: number; botTo?: number; dur?: number; hopHome?: boolean; newTip: Vec
+  botFrom?: number; botTo?: number; dur?: number; hopHome?: boolean; newTip: Vec
 }): Gag & { ding: number } {
   const dur = o.dur ?? ZD
   const ding = at + dur
@@ -106,8 +128,6 @@ function zap(at: number, k: number, o: {
     { at: ding + 0.05, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
     { at: ding + 0.05, dur: 0.25, actor: 'yang', do: 'hop', amount: 2.5 },
   ]
-  if (o.tipTo) moves.push({ at, dur, actor: 'tip', do: 'moveTo', to: o.tipTo, ease: 'linear' })
-  if (o.buttTo) moves.push({ at, dur, actor: 'butt', do: 'moveTo', to: o.buttTo, ease: 'linear' })
   if (o.botTo != null) moves.push({ at, dur, actor: 'bot', do: 'moveTo', to: { x: o.botTo, y: P }, ease: 'linear' })
   if (o.hopHome) moves.push({ at: ding + 0.08, dur: 0.35, actor: 'bot', do: 'moveTo', to: { x: RX, y: P }, arc: 7, ease: 'out' })
   // 鉛筆屑：每 0.12 秒從他手上（筆尖那裡）噴一把
@@ -141,11 +161,11 @@ const FRAME_K = 0.42
 // ---- 時間表 ----
 /** 第 1 次：他本來就站在筆尖那裡，一路削到一半 */
 const Z1 = 1.2
-const g1 = zap(Z1, 0, { tipTo: tipAt(T1), botFrom: T0 + HAND, botTo: T1 + HAND, hopHome: true, newTip: { x: T1, y: YP } })
+const g1 = zap(Z1, 0, { botFrom: T0 + HAND, botTo: T1 + HAND, hopHome: true, newTip: { x: T1, y: YP } })
 const D1 = g1.ding
 /** 第 2 次：走到筆尖，削到四分之一 */
 const Z2 = D1 + 1.1
-const g2 = zap(Z2, 1, { tipTo: tipAt(T2), botFrom: T1 + HAND, botTo: T2 + HAND, hopHome: true, newTip: { x: T2, y: YP } })
+const g2 = zap(Z2, 1, { botFrom: T1 + HAND, botTo: T2 + HAND, hopHome: true, newTip: { x: T2, y: YP } })
 const D2 = g2.ding
 /** 停一拍：抱住剩下的、比「不用了不用了」；伸縮手臂咻地伸過來夾走 */
 const HUG = D2 + 0.65
@@ -157,7 +177,7 @@ const CHEST = { ex: YX - 4, y: 62 }
 const HELD = { tx: RX - HAND, y: 65 }
 const Z3 = GRAB + GRAB_D + 0.2
 /** 第 3 次：整枝被吃進他手裡，橡皮擦那頭一路往前 */
-const g3 = zap(Z3, 2, { buttTo: buttAt(HELD.tx - MIN, HELD.y), newTip: { x: HELD.tx, y: HELD.y } })
+const g3 = zap(Z3, 2, { newTip: { x: HELD.tx, y: HELD.y } })
 const D3 = g3.ding
 /** 小小一截丟回來 */
 const TOSS = D3 + 0.15
@@ -169,15 +189,12 @@ const WORD = PARK + 0.3
 /** 語詞那一刻：那一小截飛到畫面中間、放大 SHOW_K 倍（一樣是橡皮擦頭接筆尖） */
 const SHOW_K = 2.4
 const SHOW_Y = 46
-/** 放大時 ✏️ 以腳底為準，看起來的中心往上移；錨點的 y 要往下補回來 */
-const LIFT = 0.42 * TS * (SHOW_K - 1)
-const SHOW_EX = 80 - (MIN * SHOW_K) / 2
 /** 國字放大到中間時他退到左邊 */
 const SIDE = 22
 /** 回馬槍：嗶，拿出一枝全新的超長鉛筆 */
 const NEW = WORD + 0.85
 const Z4 = NEW + 0.7
-const g4 = zap(Z4, 3, { tipTo: tipAt(T3), botFrom: T0 + HAND, botTo: T3 + HAND, dur: 0.85, hopHome: true, newTip: { x: T3, y: YP } })
+const g4 = zap(Z4, 3, { botFrom: T0 + HAND, botTo: T3 + HAND, dur: 0.85, hopHome: true, newTip: { x: T3, y: YP } })
 const D4 = g4.ding
 const ASK = D4 + 0.6
 const AX = 34
@@ -186,6 +203,48 @@ const ANSWER = ASK + 2.6
 const END = ANSWER + 1.4
 
 const gags = merge(g1, g2, g3, g4)
+
+/** 鉛筆的一生（照時間排：scaleTo、stretchTo 會累乘，一定要照順序算） */
+const LONG = (len: number): Look => ({ stub: false, len })
+const STUB: Look = { stub: true, k: 1 }
+const SHOW: Look = { stub: true, k: SHOW_K }
+const HUG_LEN = T2 - E
+const pencilMoves: Move[] = [
+  // 開場：楊捷睿拿著好長的鉛筆走進來
+  { at: 0, dur: 0.45, actor: 'pencil', do: 'enter', from: { x: pencilAt(LONG(L0), E, YP).x - 150, y: pencilAt(LONG(L0), E, YP).y }, ease: 'out' },
+  ...reshape(0.001, 0.01, LONG(NAT), LONG(L0)),
+  // 第 1、2 次：筆尖往回縮（橡皮擦那頭不動）
+  ...shave(Z1, ZD, L0, L0 / 2, E, E, YP),
+  ...shave(Z2, ZD, L0 / 2, L0 / 4, E, E, YP),
+  // 停一拍：抱在胸前；咻！被伸縮手臂夾走（筆尖到他手上）
+  movePencil(HUG, 0.2, LONG(HUG_LEN), CHEST.ex, CHEST.y),
+  movePencil(GRAB + 0.12, GRAB_D - 0.05, LONG(HUG_LEN), HELD.tx - HUG_LEN, HELD.y, { ease: 'in' }),
+  // 第 3 次：整枝被吃進他手裡（筆尖不動、橡皮擦那頭往前），叮——只剩鉛筆頭
+  ...shave(Z3, ZD, HUG_LEN, MIN, HELD.tx - HUG_LEN, HELD.tx - MIN, HELD.y),
+  ...toStub(D3, MIN, HELD.tx - MIN, HELD.y),
+  // 丟回來、楊捷睿接住；國字放大到中間時他捏著退到左邊
+  movePencil(TOSS, CATCH - TOSS, STUB, E, YP, { arc: 14 }),
+  // 捏在手的中間（鉛筆頭比原本的圓頭長一點，往左挪，不碰到放大到中間的國字）
+  movePencil(HOME - 0.1, 0.35, STUB, E - (YX - SIDE) - 7.5, YP, { arc: 4, ease: 'out' }),
+  // 語詞那一刻：飛到畫面中間、「啵」地放大發亮（以中線為準放大）
+  movePencil(WORD - 0.1, 0.25, STUB, 80 - MIN / 2, SHOW_Y, { ease: 'out' }),
+  ...reshape(WORD + 0.15, 0.01, STUB, SHOW),
+  movePencil(WORD + 0.15, 0.01, SHOW, 80 - (MIN * SHOW_K) / 2, SHOW_Y),
+  // 回馬槍：那一小截縮回來、丟到後面
+  ...reshape(NEW - 0.12, 0.01, SHOW, STUB),
+  movePencil(NEW - 0.12, 0.01, STUB, 80 - MIN / 2, SHOW_Y),
+  movePencil(NEW - 0.1, 0.3, STUB, -30, 72, { arc: 10, ease: 'in' }),
+  { at: NEW + 0.2, dur: 0.01, actor: 'pencil', do: 'vanish' },
+  // 嗶！全新的超長鉛筆（重新出場時大小從頭算，再拉成 L0）
+  { at: NEW + 0.22, actor: 'pencil', do: 'swap', emoji: 'prop:pencil' },
+  movePencil(NEW + 0.22, 0.01, LONG(L0), E, YP),
+  { at: NEW + 0.25, dur: 0.25, actor: 'pencil', do: 'pop' },
+  ...reshape(NEW + 0.251, 0.01, LONG(NAT), LONG(L0)),
+  // 第 4 次：順手又一路削到底
+  ...shave(Z4, 0.85, L0, MIN, E, E, YP),
+  ...toStub(D4, MIN, E, YP),
+  { at: ASK, dur: 0.01, actor: 'pencil', do: 'vanish' },
+]
 
 const clip: Clip = {
   format: 2,
@@ -197,20 +256,17 @@ const clip: Clip = {
   actors: [
     // 虛線輪廓的錨點（看不見、不會動）
     { id: 'mark', emoji: '✏️', x: E, y: YP, size: 4, float: true, hidden: true },
-    // 橡皮擦圓頭的中心（看不見的錨點，圓頭是效果畫的）
-    { id: 'butt', emoji: '✏️', x: buttAt(E).x - 150, y: YP, size: 4, float: true, hidden: true },
-    // 筆尖（畫在兩個人後面：插進機器人手裡就被擋住；筆身、橡皮擦是效果，畫在最上面）
-    { id: 'tip', emoji: '✏️', x: tipAt(T0).x, y: YP, size: TS, flip: true, float: true, pivot: 'center', hidden: true, half: 'bottom', cut: CUT },
-    { id: 'bot', emoji: 'hero:bot/idle', x: RX, y: P, size: S },
+    // 伸縮手臂抓住的地方（看不見的錨點，跟著被夾走的筆尖走）
+    { id: 'grip', emoji: '✏️', x: CHEST.ex + HUG_LEN, y: CHEST.y, size: 4, float: true, hidden: true },
     { id: 'yang', emoji: 'hero:yang/walk', x: YX, y: P, size: S, flip: true, hidden: true },
+    // 鉛筆（畫在楊捷睿前面、小機器人後面：抱在胸前看得到，筆尖插進機器人手裡就被擋住）
+    { id: 'pencil', emoji: 'prop:pencil', x: pencilAt(LONG(L0), E, YP).x, y: pencilAt(LONG(L0), E, YP).y, size: PS, float: true, hidden: true },
+    { id: 'bot', emoji: 'hero:bot/idle', x: RX, y: P, size: S },
   ],
   moves: [
-    // 筆尖轉成橫的、朝右
-    { at: 0, dur: 0.01, actor: 'tip', do: 'rotateTo', amount: -45 },
+    ...pencilMoves,
     // 開場：楊捷睿拿著好長的鉛筆走進來
     { at: 0, dur: 0.45, actor: 'yang', do: 'enter', from: { x: YX - 150, y: P }, ease: 'out' },
-    { at: 0, dur: 0.45, actor: 'tip', do: 'enter', from: { x: tipAt(T0).x - 150, y: YP }, ease: 'out' },
-    { at: 0, dur: 0.45, actor: 'butt', do: 'moveTo', to: buttAt(E), ease: 'out' },
     { at: 0.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
     // 小機器人：「嗶」，收到
     { at: 0.75, dur: 0.25, actor: 'bot', do: 'hop', amount: 2 },
@@ -224,42 +280,29 @@ const clip: Clip = {
     ...g2.moves,
     // 停一拍：抱住剩下的、比「不用了不用了」
     { at: HUG, actor: 'yang', do: 'swap', emoji: 'hero:yang/scared' },
-    ...movePencil(HUG, 0.2, CHEST.ex, T2 - E, CHEST.y),
     { at: NO, actor: 'yang', do: 'swap', emoji: 'hero:yang/wait' },
     { at: NO + 0.05, dur: 0.6, actor: 'yang', do: 'shake', amount: 1.2 },
     { at: NO + 0.4, actor: 'bot', do: 'swap', emoji: 'hero:bot/think' },
     // 咻！伸縮手臂伸過來夾走
     { at: GRAB - 0.05, actor: 'bot', do: 'swap', emoji: 'hero:bot/extend' },
-    ...movePencil(GRAB + 0.12, GRAB_D - 0.05, HELD.tx - (T2 - E), T2 - E, HELD.y, { ease: 'in' }),
+    { at: GRAB + 0.12, dur: GRAB_D - 0.05, actor: 'grip', do: 'moveTo', to: { x: HELD.tx, y: HELD.y }, ease: 'in' },
     { at: GRAB + 0.17, actor: 'yang', do: 'swap', emoji: 'hero:yang/surprised' },
     // 第 3 次：在他手上削，整枝被吃進去
     ...g3.moves,
     // 叮——丟回來只剩一小截，楊捷睿接住，欲哭無淚
     { at: TOSS, actor: 'bot', do: 'swap', emoji: 'hero:bot/throw' },
-    ...movePencil(TOSS, CATCH - TOSS, E, MIN, YP, { arc: 14 }),
     { at: TOSS + 0.35, actor: 'bot', do: 'swap', emoji: 'hero:bot/smug' },
     { at: CATCH, actor: 'yang', do: 'swap', emoji: 'hero:yang/cry' },
     // 國字放大到中間：他捏著那一小截退到左邊
     { at: HOME - 0.1, dur: 0.35, actor: 'yang', do: 'moveTo', to: { x: SIDE, y: P }, arc: 4, ease: 'out' },
-    ...movePencil(HOME - 0.1, 0.35, E - (YX - SIDE), MIN, YP, { arc: 4, ease: 'out' }),
     // 語詞那一刻：那一小截飛到畫面中間、「啵」地放大發亮，他指著它
-    ...movePencil(WORD - 0.1, 0.25, SHOW_EX, MIN, SHOW_Y, { ease: 'out' }),
-    { at: WORD + 0.15, dur: 0.01, actor: 'tip', do: 'scaleTo', amount: SHOW_K },
-    { at: WORD + 0.15, dur: 0.01, actor: 'tip', do: 'moveTo', to: { x: SHOW_EX + MIN * SHOW_K - TIP_OFF * SHOW_K, y: SHOW_Y + LIFT } },
-    { at: WORD + 0.15, dur: 0.01, actor: 'butt', do: 'moveTo', to: { x: SHOW_EX + R * SHOW_K, y: SHOW_Y } },
     { at: WORD - 0.1, actor: 'yang', do: 'swap', emoji: 'hero:yang/point' },
     // 走回原位接新鉛筆
     { at: WORD + 0.45, actor: 'yang', do: 'swap', emoji: 'hero:yang/walk' },
     { at: WORD + 0.45, dur: 0.35, actor: 'yang', do: 'moveTo', to: { x: YX, y: P } },
     // 回馬槍：那一小截縮回來、丟到後面；嗶，小機器人拿出一枝全新的超長鉛筆
-    { at: NEW - 0.12, dur: 0.01, actor: 'tip', do: 'scaleTo', amount: 1 / SHOW_K },
-    ...movePencil(NEW - 0.12, 0.01, SHOW_EX, MIN, SHOW_Y),
     { at: NEW - 0.1, actor: 'bot', do: 'swap', emoji: 'hero:bot/happy' },
     { at: NEW - 0.1, dur: 0.25, actor: 'bot', do: 'hop', amount: 3 },
-    ...movePencil(NEW - 0.1, 0.3, -30, MIN, 72, { arc: 10, ease: 'in' }),
-    { at: NEW + 0.2, dur: 0.01, actor: 'tip', do: 'vanish' },
-    ...movePencil(NEW + 0.22, 0.01, E, L0, YP),
-    { at: NEW + 0.25, dur: 0.25, actor: 'tip', do: 'pop' },
     { at: NEW + 0.3, actor: 'yang', do: 'swap', emoji: 'hero:yang/happy' },
     { at: NEW + 0.3, dur: 0.3, actor: 'yang', do: 'hop', amount: 4 },
     { at: NEW + 0.6, actor: 'yang', do: 'swap', emoji: 'hero:yang/reach' },
@@ -267,7 +310,6 @@ const clip: Clip = {
     { at: Z4 - 0.3, dur: 0.15, actor: 'bot', do: 'moveTo', to: { x: T0 + HAND, y: P } },
     ...g4.moves,
     // 問他：那一小截收掉，楊捷睿跳到左前方、放大，面向右邊的國字
-    { at: ASK, dur: 0.01, actor: 'tip', do: 'vanish' },
     { at: ASK, actor: 'yang', do: 'swap', emoji: 'hero:yang/idle' },
     { at: ASK, dur: 0.4, actor: 'yang', do: 'moveTo', to: { x: AX, y: P - 1 }, arc: 5, ease: 'out' },
     { at: ASK, dur: 0.3, actor: 'yang', do: 'scaleTo', amount: ASK_S, ease: 'back' },
@@ -309,18 +351,13 @@ const clip: Clip = {
     ...ghost(PARK + 0.3, ASK - PARK - 0.3, T1, T0),
     ...ghost(PARK + 0.3, ASK - PARK - 0.3, T2, T1),
     ...ghost(PARK + 0.3, ASK - PARK - 0.3, T3, T2),
-    // 筆身＋橡皮擦：一般大小、語詞那一刻放大、回馬槍的新鉛筆
-    ...pencilFx(0, WORD + 0.15),
-    ...pencilFx(WORD + 0.15, NEW - 0.12 - WORD - 0.15, SHOW_K, -LIFT),
-    ...pencilFx(NEW - 0.12, 0.32),
-    ...pencilFx(NEW + 0.25, ASK - NEW - 0.25 + 0.02),
     // 開場：機器人收到
     { at: 0.75, dur: 0.45, kind: 'pop', actor: 'bot', emoji: '❗', dy: 2 },
     ...gags.fx,
     // 停一拍：他冒汗
     { at: NO + 0.1, kind: 'sweat', actor: 'yang', dx: 4 },
     // 伸縮手臂：從機器人的手接到鉛筆
-    { at: GRAB, dur: GRAB_D + 0.15, kind: 'tube', actor: 'bot', dx: -16.7, dy: 6.4, target: 'tip', width: 2.4, n: 2.4 },
+    { at: GRAB, dur: GRAB_D + 0.15, kind: 'tube', actor: 'bot', dx: -16.7, dy: 6.4, target: 'grip', width: 2.4, n: 2.4 },
     // 語詞那一刻：那一小截發亮
     { at: WORD + 0.15, dur: 0.6, kind: 'burst', x: 80, y: SHOW_Y, n: 8, emoji: '✨' },
     // 嗶！全新的

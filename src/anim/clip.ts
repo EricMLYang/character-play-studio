@@ -476,7 +476,7 @@ const PROP_VEHICLES = new Set(['metro'])
 const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump',
   'crab', 'crab-pinch', 'crab-walk', 'turtle', 'turtle-shell', 'monkey', 'monkey-hang',
   'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting', 'turtle-old', 'rooster',
-  'panda-daze', 'panda-wave', 'rooster-sleep', 'beetle'])
+  'panda-daze', 'panda-wave', 'rooster-sleep', 'beetle', 'frog-wink'])
 /** 人（姑姑）：跟 🧍 一樣算角色——會走、會跳、閒著換重心、唸字時點頭；彎腰嘟嘴要親的那張不踩步伐（湊過去是整個人滑過去） */
 const PROP_PEOPLE = new Set(['aunt', 'aunt-run', 'aunt-kiss', 'aunt-cake', 'aunt-laugh', 'aunt-shock'])
 const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar', 'aunt-kiss'])

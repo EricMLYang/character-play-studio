@@ -1,0 +1,7 @@
+{
+  "about": "第十二張道具表（2026-11，Codex 生圖，洋紅底 3×3）：大山（雪頂、山腳草）、很高很瘦的樹、水平長鉛筆／削到很短的鉛筆頭（筆尖都朝右，同一個比例：一樣粗）、一大團白煙、眨眼得意的青蛙（跟 props-4 的 frog 不同張表，對齊見 README）、冒臭氣的臭襪子、沙發上疊雜物的一堆、沒有指針的紅色雙鈴鬧鐘（跟 props-9 的 alarm-clock 不同張表）。清單在 scripts/sheets/props-12.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-12.png",
+  "key": "#FF00FF",
+  "props": ["mountain", "tall-tree", "pencil", "pencil-stub", "smoke", "frog-wink", "sock", "junk-pile", "alarm-face"],
+  "together": [["pencil", "pencil-stub"]]
+}

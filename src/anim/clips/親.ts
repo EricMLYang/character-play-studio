@@ -48,6 +48,10 @@ function lipsTo(p: Vec, deg: number) {
   // 嘴唇跟臉頰疊進去一點點，看起來是真的碰到
   return { x: p.x - l.x + 0.6, lift: Math.max(0, l.y - p.y) }
 }
+/** 眨眼得意的青蛙（prop:frog-wink，跟 frog 不同張表）：同 size 時大了 1.27 倍，swap 時 scaleTo 這個倍率才一樣大（腳底對齊） */
+const WINK_K = 0.79
+/** 煙散開後眨眼得意多久 */
+const WINK = 0.4
 /** 青蛙畫出來的中心（白煙要蓋住的地方） */
 const frogMid = (fx: number, f: number): Vec => ({ x: fx, y: 77 - 0.4 * f })
 
@@ -118,20 +122,25 @@ function smooch(t0: number, k: number, o: { from: number; to: number; deg: numbe
   // 煙散開：呱呱跳一下；她傻眼（回馬槍是她自己戴著皇冠傻眼，皇冠跟著跳）
   moves.push(
     { at: poof + 0.34, dur: 0.3, actor: 'frog', do: 'hop', amount: 2.5 + k },
+    // 呱呱的同時眨一隻眼、笑得很得意，停一下再換回來
+    { at: poof + 0.34, actor: 'frog', do: 'swap', emoji: 'prop:frog-wink' },
+    { at: poof + 0.34, dur: 0.01, actor: 'frog', do: 'scaleTo', amount: WINK_K },
+    { at: poof + 0.34 + WINK, actor: 'frog', do: 'swap', emoji: 'prop:frog' },
+    { at: poof + 0.34 + WINK, dur: 0.01, actor: 'frog', do: 'scaleTo', amount: 1 / WINK_K },
     { at: poof + 0.3, actor: 'bunny', do: 'swap', emoji: 'hero:bunny/surprised' },
     { at: poof + 0.3, dur: 0.25, actor: 'bunny', do: 'hop', amount: 2 },
   )
   if (o.turn) moves.push({ at: poof + 0.3, dur: 0.25, actor: 'crown', do: 'hop', amount: 2 })
   // 白煙蓋住變的那一個：青蛙（變大後的大小也蓋得住）；回馬槍是她
   const mid = o.turn ? { x: o.turn.bx, y: 77 - 0.5 * SB } : frogMid(fx1, o.to)
-  const cover = o.turn ? 1.05 * SB : 0.8 * o.to
+  const cover = o.turn ? 1.15 * SB : o.to
   const fx: Fx[] = [
     // 想像泡泡：親下去會變王子（👑）
     { at: t0, dur: WISH + 0.1, kind: 'bubble', actor: 'bunny', emoji: '👑', scale: 1.5, dx: 2 },
     // 啾：愛心從碰到的那一點冒出來
     { at: hit, dur: 0.6, kind: 'burst', x: kiss.x + 1, y: kiss.y - 4, n: 1, emoji: '💖', scale: 0.75 + 0.15 * k },
-    // 啵：一大團白煙＋一圈星星
-    { at: poof, dur: 0.6, kind: 'burst', x: mid.x, y: mid.y, n: 1, emoji: '☁️', scale: cover / 11 },
+    // 啵：一大團不透明的白煙（prop:smoke，size ＝ cover 剛好整個蓋住變大後的青蛙）＋一圈星星
+    { at: poof, dur: 0.6, kind: 'burst', x: mid.x, y: mid.y, n: 1, emoji: 'prop:smoke', scale: cover / 11 },
     { at: poof + 0.02, dur: 0.6, kind: 'burst', x: mid.x, y: mid.y, n: 6 + 2 * k, emoji: '✨', scale: 1 + 0.2 * k },
   ]
   const camera: Camera[] = [
