@@ -1,123 +1,349 @@
-import type { Clip } from '../clip'
+import type { Camera, Clip, Cue, Fx, Light, Move, Vec } from '../clip'
+import { partColor } from '../parts'
+import { FIXED_LINES } from '../../../shared/voice-lines.mjs'
 
-// 時：大怪獸在溜冰場上把自己當保齡球。第一次太早趴下，像盤子一樣慢慢轉、只用鼻子碰了一下球瓶；發條鯊魚還衝過來咬錯球瓶。
-// 第二次退到最左邊全速肚皮滑行，「鏘」球瓶全飛，翻滾落下排成「時」。鯊魚一口咬到鬧鐘按鈕，鈴聲剛好準時響；結尾鯊魚又咬一次，怪獸嚇得跳起來。時、時、準時
+// 時（v2）：豬探長睡眼惺忪站在床邊，旁邊是一個大大的紅色鬧鐘。紅色的秒針「答、答、答」走到整點——「鈴鈴鈴！」鬧鐘左右狂抖、
+// 兩個鈴鐺冒聲波線，豬探長伸手要按掉——鬧鐘兩隻小腳一蹬「嘿」地跳開，他拍了個空「啪」，鬧鐘在旁邊繼續響、得意地扭（日從鬧鐘飛出來）。
+// 一次比一次用力：伸手按 → 整個人撲過去趴在地上（土）→ 先停一拍：拿捕蟲網躡手躡腳靠近，秒針停住好像沒發現……答！鈴鈴鈴！
+// 網子蓋下去，鬧鐘鑽出來跳到他頭上繼續響（寸）。語詞那一刻鬧鐘在畫面中間放大、秒針指著整點亮一下：時間。
+// 回馬槍（第四次）：他放棄了，抱著頭蹲下——鈴鈴鈴響完，鬧鐘自己「喀」地按掉自己，走過來靠在他身上睡著了；換他眼睛睜得大大的。
+// 最後畫面暗下來只剩「時」，豬探長問「這是什麼字？」，手放耳邊等他回答，再指著字說「時！」，然後退場只留字。
+// 時、時、時間、這是什麼字？、時
+
+/** 豬探長（size 38）、鬧鐘（size 36）都站在地上 */
+const SP = 38
+const P = 77 - 0.42 * SP
+const SC = 36
+const C = 77 - 0.42 * SC
+/** 豬探長平常站的地方（圖朝左，flip 朝右看鬧鐘）、鬧鐘平常在的地方（畫面中間）、鬧鐘每次跳去的地方（右邊） */
+const PX = 56
+const X0 = 90
+const X1 = 130
+/** 鬧鐘跳到他頭上時的位置（第 3 次） */
+const HEAD: Vec = { x: PX - 1, y: P - 25 }
+/** 語詞那一刻、回馬槍：鬧鐘在正中間放大 */
+const MID = 80
+const BIG = 1.3
+
+/** 鐘面（圖上的比例，以 size 為單位）：鐘面中心在圖中心往下 0.086、秒針長 0.22；兩個鈴鐺在中心左右 0.19、往上 0.23 */
+const FACE_DY = 0.086
+const HAND_L = 0.22
+const BELL_DX = 0.19
+const BELL_DY = -0.23
+const HAND_COLOR = '#E8102B'
+const WAVE_COLOR = '#2A2A33'
+
+/** 鬧鐘站在 (x, y)、放大 s 倍時，圖上 (rx, ry)（以 size 為單位）那一點在畫面上的位置；放大是以腳底為準 */
+const onClock = (x: number, y: number, s: number, rx: number, ry: number): Vec =>
+  ({ x: x + s * rx * SC, y: y + 0.42 * SC + s * (ry * SC - 0.42 * SC) })
+/** 同一點寫成 line 效果的起點偏移（line 從角色當下的 x、y 加 dx／dy 畫起） */
+const offClock = (x: number, y: number, s: number, rx: number, ry: number) => {
+  const p = onClock(x, y, s, rx, ry)
+  return { dx: p.x - x, dy: p.y - y }
+}
+
+type Spot = { x: number; y: number; s: number }
+/** 紅色秒針：deg 是角度（0 是十二點，順時針為正） */
+function hand(at: number, dur: number, deg: number, w: Spot, glow = false): Fx[] {
+  const r = (deg * Math.PI) / 180
+  const o = offClock(w.x, w.y, w.s, 0, FACE_DY)
+  const c = onClock(w.x, w.y, w.s, 0, FACE_DY)
+  const L = HAND_L * SC * w.s
+  const to = { x: c.x + L * Math.sin(r), y: c.y - L * Math.cos(r) }
+  const out: Fx[] = [{ at, dur, kind: 'line', actor: 'clock', ...o, to, color: HAND_COLOR, width: 1.7 * w.s }]
+  if (glow) out.unshift({ at, dur, kind: 'line', actor: 'clock', ...o, to, color: '#FFE066', width: 4 * w.s })
+  return out
+}
+
+/**
+ * 「鈴鈴鈴」：兩個鈴鐺往外冒三道聲波線，每 0.12 秒換一長一短（看起來在抖）。k 越大線越長。
+ * 線的起點跟著鬧鐘抖，終點留在原地，抖起來像在震。
+ */
+function waves(at: number, dur: number, w: Spot, k: number): Fx[] {
+  const out: Fx[] = []
+  for (let i = 0; at + i * 0.12 < at + dur - 0.04; i++) {
+    const long = i % 2 === 0
+    for (const side of [-1, 1]) {
+      for (const deg of [20, 50, 80]) {
+        // 從鈴鐺往外、往上斜出去
+        const r = (deg * Math.PI) / 180
+        const ux = side * Math.cos(r), uy = -Math.sin(r)
+        const r0 = 0.15, r1 = (long ? 0.3 : 0.25) * (1 + 0.12 * k)
+        const o = offClock(w.x, w.y, w.s, side * BELL_DX + ux * r0, BELL_DY + uy * r0)
+        const to = onClock(w.x, w.y, w.s, side * BELL_DX + ux * r1, BELL_DY + uy * r1)
+        out.push({ at: at + i * 0.12, dur: 0.16, kind: 'line', actor: 'clock', ...o, to, color: WAVE_COLOR, width: 1.25 * w.s })
+      }
+    }
+  }
+  return out
+}
+
+/** 響：鬧鐘左右狂抖（以腳底為支點搖）＋聲波線＋一串「鈴」；cam 是要不要推近震（響的第一下才推） */
+function rattle(at: number, dur: number, w: Spot, k: number, cam: boolean): Gag {
+  const moves: Move[] = [{ at, dur, actor: 'clock', do: 'shake', amount: 1.4 + 0.4 * k }]
+  for (let i = 0; at + i * 0.1 < at + dur - 0.05; i++) {
+    moves.push({ at: at + i * 0.1, dur: 0.1, actor: 'clock', do: 'tilt', amount: (i % 2 ? -1 : 1) * (7 + 2 * k) })
+  }
+  const cues: Cue[] = []
+  for (let i = 0; i * 0.08 < dur - 0.04; i++) cues.push({ at: at + i * 0.08, sfx: 'clink' })
+  const camera: Camera[] = cam
+    ? [
+        { at, dur: 0.45, do: 'punch', amount: 0.1 + 0.04 * k, to: { x: w.x, y: w.y - 6 } },
+        { at, dur: 0.4, do: 'shake', amount: 0.7 + 0.3 * k },
+      ]
+    : []
+  // 白光很淡，不把豬探長刷白
+  const lights: Light[] = cam ? [{ at, dur: 0.04, level: -0.1 - 0.03 * k }, { at: at + 0.04, dur: 0.2, level: 0 }] : []
+  return { moves, fx: waves(at, dur, w, k), camera, cues, lights }
+}
+
+type Gag = { moves: Move[]; fx: Fx[]; camera: Camera[]; cues: Cue[]; lights: Light[] }
+const merge = (...gs: Gag[]): Gag => ({
+  moves: gs.flatMap((g) => g.moves), fx: gs.flatMap((g) => g.fx), camera: gs.flatMap((g) => g.camera),
+  cues: gs.flatMap((g) => g.cues), lights: gs.flatMap((g) => g.lights),
+})
+
+/** 秒針「答」一格的間隔、走到整點後多久響 */
+const TICK = 0.17
+const PRE = 0.2
+/** 鬧鐘跳開要多久 */
+const JUMP = 0.3
+
+/**
+ * 同一個笑點：秒針「答、答、答」走到整點（freeze：走到十一點先停住多久，第三次前的停一拍）→
+ * 「鈴鈴鈴！」鬧鐘狂抖、聲波線、鏡頭推近震（同一串鈴聲，一次比一次長）→ 豬探長出手（try 秒後，各次自己寫）→
+ * 鬧鐘兩腳一蹬跳一個弧線到 land（落地彈一下），他撲空「啪」（miss 秒後）→ 鬧鐘在落點繼續響、得意地扭，一組筆畫從鬧鐘飛進字框。
+ * 第四次（回馬槍）沒有人出手、不跳：只到「鈴鈴鈴」為止，後面劇本自己寫。回傳每一拍的時間。
+ */
+function alarm(at: number, k: number, o: { w: Spot; freeze?: number; try?: number; land?: Vec; arc?: number; miss?: number; ringDur?: number }) {
+  const { w } = o
+  const t1 = at, t2 = at + TICK, t3 = at + 2 * TICK + (o.freeze ?? 0)
+  const RING = t3 + PRE
+  const ringDur = o.ringDur ?? 0.5
+  const out: Gag = { moves: [], fx: [], camera: [], cues: [], lights: [] }
+  // 答、答、答：紅色秒針十點 → 十一點 → 十二點，每一下鬧鐘輕輕點一下
+  out.fx.push(...hand(t1, t2 - t1, -60, w), ...hand(t2, t3 - t2, -30, w))
+  for (const t of [t1, t2, t3]) {
+    out.cues.push({ at: t, sfx: 'tap' })
+    out.moves.push({ at: t, dur: 0.12, actor: 'clock', do: 'squash', amount: 0.08 })
+  }
+  const tryAt = RING + (o.try ?? 0.3)
+  const jump = o.land ? tryAt + 0.06 : RING + ringDur
+  out.fx.push(...hand(t3, jump - t3, 0, w))
+  // 鈴鈴鈴！（第一次響到跳開為止）
+  const r1 = rattle(RING, (o.land ? jump : RING + ringDur) - RING, w, k, true)
+  if (!o.land) return { ...merge(out, r1), RING, t3, tryAt: NaN, jump: NaN, LAND: NaN, MISS: NaN }
+  // 嘿！兩腳一蹬（先壓扁蓄力），跳一個弧線到落點，落地彈一下
+  const land = o.land
+  const LAND = jump + JUMP
+  out.moves.push(
+    { at: jump - 0.06, dur: 0.08, actor: 'clock', do: 'squash', amount: 0.25 },
+    { at: jump, dur: JUMP, actor: 'clock', do: 'moveTo', to: land, arc: o.arc ?? 12, ease: 'linear' },
+    { at: LAND + 0.02, dur: 0.18, actor: 'clock', do: 'hop', amount: 2.5 },
+  )
+  out.cues.push({ at: jump, sfx: 'boing' })
+  // 啪！撲空：在鬧鐘剛剛的位置冒一個 💥，一次比一次大
+  const MISS = tryAt + (o.miss ?? 0.12)
+  out.fx.push({ at: MISS, kind: 'burst', x: w.x - 4, y: w.y + 4, n: 1, dur: 0.4, scale: 1.1 + 0.3 * k })
+  out.cues.push({ at: MISS, sfx: 'bonk' })
+  // 在落點繼續響、得意地扭（扭完停下來）
+  const r2 = rattle(LAND + 0.1, 0.42, { x: land.x, y: land.y, s: w.s }, k, false)
+  return { ...merge(out, r1, r2), RING, t3, tryAt, jump, LAND, MISS }
+}
+
+/** 字框一開始就在上方正中（背後是素色的牆，避開左上的窗戶、右上的掛畫） */
+const FRAME = { x: 86, y: 16 }
+const FRAME_K = 0.42
+
+const home: Spot = { x: X0, y: C, s: 1 }
+const big: Spot = { x: MID, y: C, s: BIG }
+
+// ---- 時間表 ----
+const A1 = 0.75
+const g1 = alarm(A1, 0, { w: home, try: 0.28, land: { x: X1, y: C }, arc: 12 })
+const B1 = g1.LAND + 0.85
+const A2 = B1 + 0.1
+const g2 = alarm(A2, 1, { w: home, try: 0.2, land: { x: X1, y: C }, arc: 18, miss: 0.22 })
+const B2 = g2.LAND + 0.85
+/** 第 3 次：拿出網子、躡手躡腳靠近，秒針停在十一點好久（停一拍）……答！ */
+const NET = B2 + 0.05
+const A3 = NET + 0.2
+const g3 = alarm(A3, 2, { w: home, freeze: 0.5, try: 0.25, land: HEAD, arc: 8, miss: 0.1 })
+/** 國字拼好 → 放大到中間 → 停 0.8 秒以上才讓位 → 語詞 */
+const DONE3 = g3.LAND + 0.05 + 0.45
+const HOME = DONE3 + 0.1
+const PARK = HOME + 0.85
+const WORD = PARK + 0.25
+/** 回馬槍：他放棄了抱頭蹲下，鬧鐘在正中間（放大的）照樣答答答、鈴鈴鈴 */
+const A4 = WORD + 0.65
+const g4 = alarm(A4, 3, { w: big, ringDur: 0.4 })
+/** 喀：自己按掉自己；靠過去睡著；他眼睛睜大 */
+const OFF = g4.RING + 0.4
+const LEAN = OFF + 0.25
+const AWAKE = LEAN + 0.35
+const ASK = AWAKE + 0.35
+const AX = 34
+const ASK_S = 1.35
+const ANSWER = ASK + 2.6
+const END = ANSWER + 1.4
+
+/** 網子：拿在手上（網子在右上、柄往左下），網圈懸在鬧鐘上方；蓋下去時整枝往下砸 */
+const SN = 40
+const NET_UP: Vec = { x: X0 - 10, y: 46 }
+const NET_DOWN: Vec = { x: X0 - 9, y: 63 }
+
+const gags = merge(g1, g2, g3, g4)
+
 const clip: Clip = {
+  format: 2,
   char: '時',
-  meta: { theme: '冰上肚皮保齡球', cast: '大怪獸＋發條鯊魚＋球瓶＋鬧鐘', gags: ['肚皮滑太短', '咬錯東西', '全速滑全倒', '鬧鐘嚇一跳回馬槍'] },
-  duration: 10,
-  bg: { top: '#DCEFFF', bottom: '#F4FAFF', floor: '#D7ECF7', scenery: 'snow' },
+  meta: { theme: '鬧鐘響了按不掉', cast: '豬探長＋會跳的紅色鬧鐘＋捕蟲網', gags: ['時間到，紅色秒針答答答走到整點，鬧鐘「鈴鈴鈴」響個不停，豬探長每次要按掉它，鬧鐘就用兩隻小腳嘿地跳開、讓他撲空，在旁邊繼續響（伸手按→整個人撲過去趴在地上→停一拍：拿網子躡手躡腳蓋下去，鬧鐘鑽出來跳到他頭上響）；回馬槍是他放棄抱頭蹲下，鬧鐘響完自己喀地按掉自己、靠在他身上睡著了，換他睜大眼睛睡不著'] },
+  duration: END,
+  // 淡黃的早晨房間、木頭地板：紅色鬧鐘、咖啡色的豬探長都跳得出來
+  bg: { top: '#FFF4D6', bottom: '#FFFBEF', floor: '#D9C3A0', scenery: 'room' },
   actors: [
-    { id: 'p1', emoji: '🎳', x: 68, y: 73.6, size: 8 },
-    { id: 'p2', emoji: '🎳', x: 80, y: 73.6, size: 8 },
-    { id: 'p3', emoji: '🎳', x: 92, y: 73.6, size: 8 },
-    { id: 'clock', emoji: '⏰', x: 151, y: 72.4, size: 11 },
-    { id: 'shark', emoji: 'hero:shark/idle', x: 138, y: 72, size: 12 },
-    { id: 'monster', emoji: 'hero:monster/idle', x: 18, y: 70.7, size: 15, flip: true },
+    { id: 'net', emoji: 'prop:net', x: NET_UP.x - 120, y: NET_UP.y, size: SN, float: true, hidden: true },
+    { id: 'pig', emoji: 'hero:pig/walk', x: PX, y: P, size: SP, flip: true, hidden: true },
+    { id: 'clock', emoji: 'prop:alarm-clock', x: X0, y: C, size: SC },
   ],
   moves: [
-    // 揉肚子、盯著球瓶、踮腳蓄力
-    { at: 0.2, actor: 'monster', do: 'shake', amount: 0.6, dur: 0.5 },
-    { at: 0.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 0.6, actor: 'shark', do: 'swap', emoji: 'hero:shark/idle' },
-    { at: 0.9, actor: 'monster', do: 'squash', amount: -0.3, dur: 0.4 },
-    // 第一次：太早趴下，像盤子一樣慢慢轉
-    { at: 1.3, actor: 'monster', do: 'moveTo', to: { x: 40, y: 70.7 }, dur: 0.35, anticipate: 3, ease: 'in' },
-    { at: 1.65, actor: 'monster', do: 'squash', amount: 0.4, dur: 1.0 },
-    { at: 1.65, actor: 'monster', do: 'moveTo', to: { x: 56, y: 70.7 }, dur: 0.9, ease: 'out' },
-    { at: 1.65, actor: 'monster', do: 'spin', times: 1, dur: 0.9 },
-    { at: 2.55, actor: 'p1', do: 'shake', amount: 1.5, dur: 0.4 },
-    { at: 2.6, actor: 'monster', do: 'swap', emoji: 'hero:monster/oops' },
-    // 鯊魚衝來咬錯球瓶，鬆口，原地轉一圈
-    { at: 2.7, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 2.7, actor: 'shark', do: 'moveTo', to: { x: 76, y: 66 }, arc: 4, dur: 0.3, ease: 'in' },
-    { at: 3.05, actor: 'shark', do: 'swap', emoji: 'hero:shark/spin' },
-    { at: 3.05, actor: 'shark', do: 'spin', times: 1, dur: 0.4 },
-    { at: 3.45, actor: 'shark', do: 'moveTo', to: { x: 138, y: 72 }, dur: 0.4, ease: 'out' },
-    { at: 3.85, actor: 'shark', do: 'swap', emoji: 'hero:shark/idle' },
-    // 第二次：退到最左邊，跺腳，全速肚皮滑行
-    { at: 3.1, actor: 'monster', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 3.1, actor: 'monster', do: 'moveTo', to: { x: 15, y: 70.7 }, dur: 0.5, ease: 'out' },
-    { at: 3.7, actor: 'monster', do: 'shake', amount: 1.2, dur: 0.35 },
-    { at: 4.1, actor: 'monster', do: 'moveTo', to: { x: 100, y: 70.7 }, dur: 0.4, anticipate: 4, ease: 'in' },
-    { at: 4.1, actor: 'monster', do: 'squash', amount: -0.3, dur: 0.4 },
-    // 鏘！全倒
-    { at: 4.45, actor: 'p1', do: 'moveTo', to: { x: 58, y: 24 }, arc: 8, dur: 0.35, ease: 'out' },
-    { at: 4.45, actor: 'p2', do: 'moveTo', to: { x: 98, y: 14 }, arc: 8, dur: 0.35, ease: 'out' },
-    { at: 4.45, actor: 'p3', do: 'moveTo', to: { x: 104, y: 36 }, arc: 8, dur: 0.35, ease: 'out' },
-    { at: 4.45, actor: 'p1', do: 'spin', times: 2, dur: 0.5 },
-    { at: 4.45, actor: 'p2', do: 'spin', times: 2, dur: 0.5 },
-    { at: 4.45, actor: 'p3', do: 'spin', times: 2, dur: 0.5 },
-    { at: 4.5, actor: 'monster', do: 'moveTo', to: { x: 121, y: 70.7 }, dur: 0.5, ease: 'out' },
-    { at: 4.5, actor: 'monster', do: 'squash', amount: 0.4, dur: 1.6 },
-    { at: 4.6, actor: 'monster', do: 'swap', emoji: 'hero:monster/dizzy' },
-    { at: 4.85, actor: 'p1', do: 'vanish', dur: 0.15 },
-    { at: 5.3, actor: 'p2', do: 'vanish', dur: 0.15 },
-    { at: 5.7, actor: 'p3', do: 'vanish', dur: 0.15 },
-    // 鯊魚咬到鬧鐘按鈕：鈴——準時
-    { at: 6.4, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 6.4, actor: 'shark', do: 'moveTo', to: { x: 143, y: 72 }, dur: 0.12 },
-    { at: 6.55, actor: 'clock', do: 'shake', amount: 1.5, dur: 0.9 },
-    { at: 6.55, actor: 'clock', do: 'bounce', amount: 2, times: 3, dur: 0.9 },
-    { at: 6.6, actor: 'monster', do: 'hop', amount: 7, dur: 0.4 },
-    { at: 6.6, actor: 'monster', do: 'swap', emoji: 'hero:monster/happy' },
-    { at: 6.7, actor: 'shark', do: 'moveTo', to: { x: 138, y: 72 }, dur: 0.3 },
-    { at: 6.8, actor: 'shark', do: 'swap', emoji: 'hero:shark/idle' },
-    // 全倒姿勢＋扭扭屁股
-    { at: 7.3, actor: 'monster', do: 'swap', emoji: 'hero:monster/roar' },
-    { at: 7.7, actor: 'monster', do: 'tilt', amount: 10, dur: 0.25 },
-    { at: 7.95, actor: 'monster', do: 'tilt', amount: -10, dur: 0.25 },
-    // 回馬槍：鯊魚又咬一次，鬧鐘又響，怪獸嚇到跳起來摔扁
-    { at: 8.4, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
-    { at: 8.4, actor: 'shark', do: 'moveTo', to: { x: 143, y: 72 }, dur: 0.12 },
-    { at: 8.55, actor: 'clock', do: 'shake', amount: 1.5, dur: 0.6 },
-    { at: 8.55, actor: 'monster', do: 'swap', emoji: 'hero:monster/surprised' },
-    { at: 8.55, actor: 'monster', do: 'hop', amount: 12, dur: 0.5 },
-    { at: 9.05, actor: 'monster', do: 'squash', amount: 0.35, dur: 0.3 },
-    { at: 9.1, actor: 'monster', do: 'swap', emoji: 'hero:monster/dizzy' },
-    { at: 8.7, actor: 'shark', do: 'moveTo', to: { x: 138, y: 72 }, dur: 0.3 },
-    { at: 9.0, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    // 開場：豬探長打著哈欠走進來，抬頭看字框
+    { at: 0, dur: 0.45, actor: 'pig', do: 'enter', from: { x: PX - 90, y: P }, ease: 'out' },
+    { at: 0.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/yawn' },
+    { at: 0.62, actor: 'pig', do: 'swap', emoji: 'hero:pig/doze' },
+    ...gags.moves,
+    // ---- 第 1 次：伸手按 ----
+    { at: g1.RING, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: g1.RING, dur: 0.2, actor: 'pig', do: 'hop', amount: 3 },
+    { at: g1.tryAt, actor: 'pig', do: 'swap', emoji: 'hero:pig/reach' },
+    { at: g1.tryAt, dur: 0.15, actor: 'pig', do: 'moveTo', to: { x: PX + 8, y: P }, ease: 'out' },
+    { at: g1.MISS, dur: 0.2, actor: 'pig', do: 'squash', amount: 0.15 },
+    // 撲空：傻眼停住
+    { at: g1.MISS + 0.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: g1.LAND + 0.45, actor: 'pig', do: 'swap', emoji: 'hero:pig/angry' },
+    // 鬧鐘響完，蹦回原位；他走回去
+    { at: B1 - 0.35, dur: 0.3, actor: 'clock', do: 'moveTo', to: { x: X0, y: C }, arc: 7 },
+    { at: B1 - 0.35, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
+    { at: B1 - 0.35, dur: 0.3, actor: 'pig', do: 'moveTo', to: { x: PX, y: P } },
+    { at: B1 - 0.05, actor: 'pig', do: 'swap', emoji: 'hero:pig/doubt' },
+    // ---- 第 2 次：蹲低等著，一響就整個人撲過去 ----
+    { at: A2, dur: 0.5, actor: 'pig', do: 'squash', amount: 0.12 },
+    { at: g2.RING, actor: 'pig', do: 'swap', emoji: 'hero:pig/dash' },
+    { at: g2.tryAt! - 0.1, dur: 0.12, actor: 'pig', do: 'squash', amount: -0.2 },
+    { at: g2.tryAt, dur: 0.22, actor: 'pig', do: 'moveTo', to: { x: X0 - 6, y: P }, arc: 5, ease: 'in' },
+    { at: g2.MISS, actor: 'pig', do: 'swap', emoji: 'hero:pig/flat' },
+    { at: g2.MISS, dur: 0.3, actor: 'pig', do: 'squash', amount: 0.3 },
+    // 趴著傻眼，再爬起來走回去
+    { at: g2.MISS + 0.6, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: B2 - 0.35, dur: 0.3, actor: 'clock', do: 'moveTo', to: { x: X0, y: C }, arc: 7 },
+    { at: B2 - 0.35, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
+    { at: B2 - 0.35, dur: 0.35, actor: 'pig', do: 'moveTo', to: { x: PX, y: P } },
+    // ---- 第 3 次：拿出網子，躡手躡腳，網子懸在鬧鐘上方……停一拍 ----
+    { at: NET, actor: 'pig', do: 'swap', emoji: 'hero:pig/sneak' },
+    { at: NET, dur: 0.01, actor: 'net', do: 'moveTo', to: NET_UP },
+    { at: NET, dur: 0.25, actor: 'net', do: 'pop' },
+    ...[A3 + 0.1, A3 + 0.4, A3 + 0.7].map((at): Move => ({ at, dur: 0.18, actor: 'pig', do: 'hop', amount: 1.5 })),
+    { at: A3 + 0.1, dur: 0.8, actor: 'net', do: 'moveTo', to: { x: NET_UP.x + 1, y: NET_UP.y - 3 } },
+    // 蓋下去！
+    { at: g3.tryAt, actor: 'pig', do: 'swap', emoji: 'hero:pig/push' },
+    { at: g3.tryAt, dur: 0.1, actor: 'net', do: 'moveTo', to: NET_DOWN, ease: 'in' },
+    { at: g3.MISS, dur: 0.2, actor: 'net', do: 'squash', amount: 0.2 },
+    // 鬧鐘鑽出來跳到他頭上：他被壓得一縮、傻眼
+    { at: g3.LAND, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: g3.LAND, dur: 0.25, actor: 'pig', do: 'squash', amount: 0.25 },
+    // 網子丟掉
+    { at: DONE3, dur: 0.25, actor: 'net', do: 'vanish' },
+    // 國字放大到中間：他頂著鬧鐘退到左邊
+    { at: HOME - 0.15, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
+    { at: HOME - 0.15, dur: 0.35, actor: 'pig', do: 'moveTo', to: { x: 22, y: P } },
+    { at: HOME - 0.15, dur: 0.35, actor: 'clock', do: 'moveTo', to: { x: 22 - 1, y: HEAD.y } },
+    { at: HOME + 0.2, actor: 'pig', do: 'swap', emoji: 'hero:pig/doubt' },
+    // 語詞那一刻：鬧鐘從頭上跳到正中間、放大，他指著它
+    { at: WORD - 0.2, dur: 0.3, actor: 'clock', do: 'moveTo', to: { x: MID, y: C }, arc: 8 },
+    { at: WORD + 0.1, dur: 0.25, actor: 'clock', do: 'scaleTo', amount: BIG, ease: 'back' },
+    { at: WORD - 0.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
+    { at: WORD - 0.1, dur: 0.3, actor: 'pig', do: 'moveTo', to: { x: 36, y: P } },
+    // 回馬槍：他放棄了，抱頭蹲下
+    { at: A4 - 0.15, actor: 'pig', do: 'swap', emoji: 'hero:pig/duck' },
+    { at: g4.RING, dur: 0.4, actor: 'pig', do: 'shake', amount: 1.2 },
+    // 喀：自己按掉自己（往下一壓）
+    { at: OFF - 0.12, dur: 0.12, actor: 'clock', do: 'hop', amount: 3 },
+    { at: OFF, dur: 0.2, actor: 'clock', do: 'squash', amount: 0.35 },
+    // 走過去靠在他身上睡著
+    { at: LEAN, dur: 0.3, actor: 'clock', do: 'moveTo', to: { x: 68, y: C } },
+    { at: LEAN + 0.2, dur: 0.25, actor: 'clock', do: 'rotateTo', amount: -16 },
+    // 換他睜大眼睛
+    { at: AWAKE, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: AWAKE, dur: 0.25, actor: 'pig', do: 'hop', amount: 4 },
+    // 問他：鬧鐘退下，豬探長站到左前方、放大，面向右邊的國字
+    { at: ASK, dur: 0.25, actor: 'clock', do: 'vanish' },
+    { at: ASK, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: ASK, dur: 0.4, actor: 'pig', do: 'moveTo', to: { x: AX, y: P - 1 }, arc: 4, ease: 'out' },
+    { at: ASK, dur: 0.3, actor: 'pig', do: 'scaleTo', amount: ASK_S, ease: 'back' },
+    // 安靜等他回答：手放耳邊、點兩下頭
+    { at: ASK + 1.15, actor: 'pig', do: 'swap', emoji: 'hero:pig/listen' },
+    { at: ASK + 1.6, dur: 0.3, actor: 'pig', do: 'hop', amount: 1.5 },
+    { at: ASK + 2.1, dur: 0.3, actor: 'pig', do: 'hop', amount: 1.5 },
+    // 回答：跳起來指著字
+    { at: ANSWER, actor: 'pig', do: 'swap', emoji: 'hero:pig/point' },
+    { at: ANSWER, dur: 0.3, actor: 'pig', do: 'hop', amount: 7 },
+    // 退場，畫面只留下字
+    { at: ANSWER + 0.15, actor: 'pig', do: 'swap', emoji: 'hero:pig/dash' },
+    { at: ANSWER + 0.15, actor: 'pig', do: 'flip' },
+    { at: ANSWER + 0.15, dur: 0.2, actor: 'pig', do: 'moveTo', to: { x: -45, y: P - 1 }, ease: 'in' },
   ],
   builds: [
-    // 球瓶翻滾落下：四根疊成日、三根是土、三根是寸
-    { at: 4.85, dur: 0.45, strokes: [0, 1, 2, 3], from: 'p1', color: '#1C4FD8' },
-    { at: 5.3, dur: 0.4, strokes: [4, 5, 6], from: 'p2', color: '#1971C2' },
-    { at: 5.7, dur: 0.4, strokes: [7, 8, 9], from: 'p3', color: '#1C4FD8' },
+    // 每響一次、跳開以後，一組筆畫從還在響的鬧鐘飛進字框：日、土、寸
+    { at: g1.LAND + 0.05, dur: 0.5, strokes: [0, 1, 2, 3], from: 'clock', color: partColor('日') },
+    { at: g2.LAND + 0.05, dur: 0.5, strokes: [4, 5, 6], from: 'clock', color: partColor('土') },
+    { at: g3.LAND + 0.05, dur: 0.45, strokes: [7, 8, 9], from: 'clock', color: partColor('寸') },
   ],
-  glyph: [{ at: 6.15, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.5, do: 'pulse' }],
+  glyph: [
+    { at: 0, dur: 0.01, do: 'park', to: FRAME, amount: FRAME_K },
+    { at: HOME, dur: 0.45, do: 'home', ease: 'back' },
+    { at: PARK, dur: 0.45, do: 'park', to: FRAME, amount: FRAME_K },
+    { at: ASK, dur: ANSWER + 0.3 - ASK, do: 'ask', keep: ['pig'], to: { x: 100, y: 43 }, amount: 0.8 },
+    { at: ASK + 0.05, dur: 0.4, do: 'home' },
+    { at: ANSWER, dur: 0.35, do: 'pulse' },
+    { at: END - 0.8, dur: 0.5, do: 'pulse' },
+  ],
   fx: [
-    { at: 0.4, kind: 'bubble', actor: 'monster', emoji: '🎳', dur: 0.7 },
-    { at: 2.0, kind: 'pop', actor: 'monster', emoji: '😵', dur: 0.5 },
-    { at: 2.6, kind: 'sweat', actor: 'monster' },
-    { at: 3.0, kind: 'pop', actor: 'shark', emoji: '❓', dur: 0.4 },
-    { at: 3.7, kind: 'puff', actor: 'monster', dur: 0.4 },
-    { at: 4.1, kind: 'puff', actor: 'monster', dur: 0.4 },
-    { at: 4.45, kind: 'burst', actor: 'p2', n: 1, dur: 0.4 },
-    { at: 4.8, kind: 'dizzy', actor: 'monster', dur: 1.5 },
-    { at: 6.55, kind: 'burst', actor: 'clock', emoji: '🎵', n: 4, dur: 0.8, dx: -12 },
-    { at: 8.55, kind: 'burst', actor: 'clock', emoji: '🎵', n: 4, dur: 0.6, dx: -12 },
-    { at: 8.6, kind: 'pop', actor: 'monster', emoji: '❗', dur: 0.4 },
+    // 開場：睡眼惺忪
+    { at: 0.7, dur: A1 + 2 * TICK + PRE - 0.7, kind: 'zzz', actor: 'pig', dx: -4 },
+    ...gags.fx,
+    // 第 1 次撲空：冒汗
+    { at: g1.MISS + 0.15, kind: 'sweat', actor: 'pig', dx: 4 },
+    // 第 2 次：趴在地上頭暈
+    { at: g2.MISS + 0.1, dur: 0.6, kind: 'dizzy', actor: 'pig', dy: 8 },
+    // 第 3 次前停一拍：他屏住呼吸冒汗
+    { at: A3 + 0.35, kind: 'sweat', actor: 'pig', dx: 4 },
+    // 語詞那一刻：秒針指著整點、亮一下
+    ...hand(WORD + 0.35, A4 - WORD - 0.35, 0, big, true),
+    { at: WORD + 0.3, dur: 0.6, kind: 'burst', x: MID, y: C - 2, n: 8, emoji: '✨' },
+    // 回馬槍：喀，一按就安靜；靠著他睡著
+    { at: OFF, dur: 0.35, kind: 'burst', ...onClock(MID, C, BIG, 0, -0.42), n: 1, emoji: '✨', scale: 1.5 },
+    { at: LEAN + 0.4, dur: ASK - LEAN - 0.4, kind: 'zzz', actor: 'clock', dx: 4, dy: 4 },
+    { at: AWAKE + 0.05, kind: 'sweat', actor: 'pig', dx: -6 },
   ],
   camera: [
-    { at: 2.3, dur: 0.6, do: 'punch', amount: 0.2, to: { x: 62, y: 66 } },
-    { at: 4.1, dur: 0.3, do: 'follow', actor: 'monster', amount: 1.3 },
-    { at: 4.45, dur: 0.3, do: 'shake', amount: 1.5 },
-    { at: 4.5, dur: 0.4, do: 'zoom', amount: 1 },
+    { at: 0.2, dur: 0.3, do: 'zoom', amount: 1.01, to: { x: 80, y: 45 } },
+    ...gags.camera,
+  ],
+  lights: [
+    ...gags.lights,
+    { at: HOME, dur: 0.05, level: -0.3 },
+    { at: HOME + 0.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.3, sfx: 'gulp' },
-    { at: 1.3, say: '時' },
-    { at: 1.65, sfx: 'slide' },
-    { at: 2.55, sfx: 'tap' },
-    { at: 2.95, sfx: 'gulp' },
-    { at: 4.1, sfx: 'whoosh' },
-    { at: 4.45, sfx: 'crack' },
-    { at: 6.15, say: '時' },
-    { at: 6.55, sfx: 'clink' },
-    { at: 6.7, say: '準時' },
-    { at: 8.55, sfx: 'clink' },
-    { at: 9.05, sfx: 'plop' },
-    { at: 9.5, sfx: 'cheer' },
+    { at: 0.5, say: '時' },
+    ...gags.cues,
+    { at: g3.LAND, sfx: 'bonk' },
+    { at: HOME + 0.1, say: '時' },
+    { at: WORD, say: '時間' },
+    { at: OFF, sfx: 'tap' },
+    { at: ASK + 0.1, say: FIXED_LINES.clipAsk },
+    { at: ANSWER, say: '時' },
+    { at: ANSWER + 0.05, sfx: 'cheer' },
   ],
 }
 
