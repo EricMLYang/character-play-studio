@@ -1,0 +1,128 @@
+import type { Clip } from '../clip'
+
+// 妹：大怪獸看到怪獸小妹妹困在木棒高塔頂上，坐上翹翹板拍肚子打鼓蓄力；橡膠恐龍手太短搆不到拉桿，乾脆跳起來一腳踩下去——
+// 大怪獸彈飛，角擦過高塔、飛過頭撞牆、倒栽蔥掉進水桶。撞散的木棒落下拼成「妹」，小妹妹從水桶冒出來抱住牠的腳；最後恐龍再踩一次，換自己彈上天。妹、妹、妹妹
+const clip: Clip = {
+  char: '妹',
+  meta: { theme: '翹翹板救妹妹', cast: '大怪獸＋橡膠恐龍＋怪獸小妹妹＋木棒塔＋水桶', gags: ['手太短搆不到乾脆用踩的', '彈飛過頭撞牆', '倒栽蔥進水桶', '恐龍再踩一次換自己飛'] },
+  duration: 10,
+  bg: { top: '#FFE3D3', bottom: '#FFF3EA', floor: '#E9C9A8', scenery: 'room' },
+  actors: [
+    { id: 'plank', emoji: '🪵', x: 34, y: 72, size: 16 },
+    { id: 'log1', emoji: '🪵', x: 84, y: 71, size: 10 },
+    { id: 'log2', emoji: '🪵', x: 85, y: 66, size: 10 },
+    { id: 'log3', emoji: '🪵', x: 83, y: 61, size: 10 },
+    { id: 'sis', emoji: 'hero:monster/happy', x: 84, y: 52.6, size: 8, tint: 'hue-rotate(-70deg) saturate(1.4)' },
+    { id: 'dino', emoji: 'hero:dino/idle', x: 12, y: 71.5, size: 13, hidden: true, flip: true },
+    { id: 'monster', emoji: 'hero:monster/idle', x: 30, y: 70.7, size: 15, hidden: true, flip: true },
+    { id: 'bucket', emoji: '🪣', x: 140, y: 72, size: 12 },
+    { id: 'sis2', emoji: 'hero:monster/happy', x: 148, y: 63, size: 8, hidden: true, tint: 'hue-rotate(-70deg) saturate(1.4)' },
+  ],
+  moves: [
+    { at: 0, actor: 'monster', do: 'enter', from: { x: -15, y: 70.7 }, dur: 0.6, ease: 'out' },
+    { at: 0.1, actor: 'dino', do: 'enter', from: { x: -20, y: 71.5 }, dur: 0.6, ease: 'out' },
+    { at: 0.3, actor: 'sis', do: 'bounce', amount: 2, times: 3, dur: 1.2 },
+    // 看到小妹妹，開心轉身指——屁股撞到恐龍
+    { at: 0.7, actor: 'monster', do: 'swap', emoji: 'hero:monster/surprised' },
+    { at: 0.7, actor: 'monster', do: 'hop', amount: 4, dur: 0.3 },
+    { at: 1.0, actor: 'monster', do: 'swap', emoji: 'hero:monster/happy' },
+    { at: 1.1, actor: 'monster', do: 'moveTo', to: { x: 22, y: 70.7 }, dur: 0.15, ease: 'out' },
+    { at: 1.2, actor: 'dino', do: 'hop', amount: 7, dur: 0.35 },
+    { at: 1.25, actor: 'monster', do: 'moveTo', to: { x: 30, y: 70.7 }, dur: 0.25 },
+    // 坐上翹翹板，拍肚子打鼓
+    { at: 1.6, actor: 'monster', do: 'moveTo', to: { x: 40, y: 66.5 }, arc: 8, dur: 0.4 },
+    { at: 2.0, actor: 'monster', do: 'shake', amount: 0.8, dur: 1.2 },
+    // 恐龍手太短搆不到拉桿，乾脆跳起來踩
+    { at: 2.0, actor: 'dino', do: 'moveTo', to: { x: 20, y: 71.5 }, dur: 0.35 },
+    { at: 2.35, actor: 'dino', do: 'swap', emoji: 'hero:dino/reach' },
+    { at: 2.35, actor: 'dino', do: 'shake', amount: 0.6, dur: 0.4 },
+    { at: 2.75, actor: 'dino', do: 'swap', emoji: 'hero:dino/idle' },
+    { at: 2.8, actor: 'dino', do: 'squash', amount: -0.3, dur: 0.2 },
+    { at: 2.95, actor: 'dino', do: 'moveTo', to: { x: 28, y: 67 }, arc: 16, dur: 0.4 },
+    { at: 3.35, actor: 'dino', do: 'squash', amount: 0.4, dur: 0.25 },
+    { at: 3.35, actor: 'plank', do: 'tilt', amount: -12, dur: 0.3 },
+    // 彈飛！角擦過塔頂
+    { at: 3.4, actor: 'monster', do: 'moveTo', to: { x: 150, y: 36 }, arc: 12, dur: 0.6, ease: 'linear' },
+    { at: 3.4, actor: 'monster', do: 'spin', times: 1, dur: 0.6 },
+    { at: 3.65, actor: 'log1', do: 'moveTo', to: { x: 70, y: 40 }, arc: 6, dur: 0.5, ease: 'out' },
+    { at: 3.65, actor: 'log2', do: 'moveTo', to: { x: 95, y: 34 }, arc: 6, dur: 0.5, ease: 'out' },
+    { at: 3.65, actor: 'log3', do: 'moveTo', to: { x: 110, y: 28 }, arc: 6, dur: 0.5, ease: 'out' },
+    { at: 3.65, actor: 'log1', do: 'spin', times: 2, dur: 0.5 },
+    { at: 3.65, actor: 'log2', do: 'spin', times: 2, dur: 0.5 },
+    { at: 3.65, actor: 'log3', do: 'spin', times: 2, dur: 0.5 },
+    { at: 4.15, actor: 'log1', do: 'vanish', dur: 0.25 },
+    { at: 4.15, actor: 'log2', do: 'vanish', dur: 0.25 },
+    { at: 4.15, actor: 'log3', do: 'vanish', dur: 0.25 },
+    // 小妹妹被一團毛毛托著慢慢飄下來，躲到水桶那邊
+    { at: 3.65, actor: 'sis', do: 'moveTo', to: { x: 128, y: 58 }, dur: 1.1, ease: 'out' },
+    { at: 4.75, actor: 'sis', do: 'vanish', dur: 0.2 },
+    // 撞牆，倒栽蔥掉進水桶
+    { at: 4.0, actor: 'monster', do: 'squash', amount: 0.45, dur: 0.3 },
+    { at: 4.0, actor: 'monster', do: 'swap', emoji: 'hero:monster/dizzy' },
+    { at: 4.3, actor: 'monster', do: 'rotateTo', amount: 180, dur: 0.3 },
+    { at: 4.3, actor: 'monster', do: 'moveTo', to: { x: 140, y: 52 }, dur: 0.35, ease: 'in' },
+    { at: 4.65, actor: 'bucket', do: 'squash', amount: 0.3, dur: 0.3 },
+    // 腳在空中亂踢
+    { at: 5.8, actor: 'monster', do: 'shake', amount: 0.6, dur: 0.6 },
+    // 小妹妹從水桶冒出來抱住腳
+    { at: 6.6, actor: 'sis2', do: 'pop' },
+    { at: 7.0, actor: 'sis2', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 7.3, actor: 'monster', do: 'shake', amount: 0.5, dur: 0.6 },
+    { at: 7.4, actor: 'dino', do: 'swap', emoji: 'hero:dino/happy' },
+    { at: 7.4, actor: 'dino', do: 'bounce', amount: 2, times: 3, dur: 0.8 },
+    // 回馬槍：恐龍再踩一次，這次換自己彈上天
+    { at: 8.2, actor: 'dino', do: 'squash', amount: -0.3, dur: 0.25 },
+    { at: 8.45, actor: 'dino', do: 'hop', amount: 26, dur: 0.8 },
+    { at: 8.45, actor: 'dino', do: 'spin', times: 1, dur: 0.8 },
+    { at: 8.45, actor: 'plank', do: 'tilt', amount: 12, dur: 0.3 },
+    { at: 9.25, actor: 'dino', do: 'squash', amount: 0.35, dur: 0.25 },
+    { at: 9.25, actor: 'dino', do: 'swap', emoji: 'hero:dino/dizzy' },
+  ],
+  builds: [
+    // 撞散的木棒：女 三根、未 五根
+    { at: 4.4, dur: 0.5, strokes: [0, 1, 2], from: 'log1', color: '#FF6B5E' },
+    { at: 4.8, dur: 0.6, strokes: [3, 4, 5, 6, 7], from: 'log2', color: '#F0475A' },
+  ],
+  glyph: [{ at: 5.45, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.75, kind: 'pop', actor: 'monster', emoji: '❗', dur: 0.4 },
+    { at: 1.0, kind: 'bubble', actor: 'monster', emoji: '💕', dur: 0.6 },
+    { at: 1.3, kind: 'pop', actor: 'dino', emoji: '❓', dur: 0.5 },
+    { at: 2.0, kind: 'zzz', actor: 'monster', emoji: '🥁', dur: 1.2 },
+    { at: 2.5, kind: 'sweat', actor: 'dino' },
+    { at: 3.35, kind: 'puff', actor: 'dino' },
+    { at: 3.65, kind: 'burst', actor: 'log3', emoji: '✨', n: 5, dur: 0.5 },
+    { at: 3.7, kind: 'puff', actor: 'sis', dur: 0.6 },
+    { at: 4.0, kind: 'burst', actor: 'monster', n: 1, dur: 0.4 },
+    { at: 4.65, kind: 'burst', actor: 'bucket', emoji: '💦', n: 5, dur: 0.5 },
+    { at: 5.0, kind: 'pop', actor: 'bucket', emoji: '💫', dy: -10, dur: 0.8 },
+    { at: 6.9, kind: 'pop', actor: 'sis2', emoji: '💕', dur: 0.7 },
+    { at: 7.5, kind: 'pop', actor: 'dino', emoji: '👏', dur: 0.6 },
+    { at: 9.3, kind: 'dizzy', actor: 'dino', dur: 0.7 },
+  ],
+  camera: [
+    { at: 2.0, dur: 0.8, do: 'zoom', amount: 1.3, actor: 'monster' },
+    { at: 3.4, dur: 0.25, do: 'follow', actor: 'monster', amount: 1.3 },
+    { at: 4.0, dur: 0.35, do: 'shake', amount: 1.5 },
+    { at: 4.4, dur: 0.5, do: 'zoom', amount: 1 },
+  ],
+  cues: [
+    { at: 1.0, say: '妹' },
+    { at: 1.15, sfx: 'boing' },
+    { at: 1.6, sfx: 'plop' },
+    { at: 2.0, sfx: 'tap' },
+    { at: 2.5, sfx: 'tap' },
+    { at: 3.35, sfx: 'boing' },
+    { at: 3.4, sfx: 'whoosh' },
+    { at: 3.65, sfx: 'crack' },
+    { at: 4.0, sfx: 'bonk' },
+    { at: 4.65, sfx: 'splash' },
+    { at: 5.45, say: '妹' },
+    { at: 6.6, say: '妹妹' },
+    { at: 8.45, sfx: 'boing' },
+    { at: 9.25, sfx: 'bonk' },
+    { at: 9.5, sfx: 'cheer' },
+  ],
+}
+
+export default clip
