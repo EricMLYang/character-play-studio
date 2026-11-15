@@ -1,0 +1,7 @@
+{
+  "about": "第十四張道具表（2026-11，Codex 生圖，洋紅底 3×3）：笑咪咪的綠色卡通蛇頭三張（平常／閉眼唱歌／嘟嘴吹笛子，臉朝左前方、下面一小段脖子）、弄蛇人的圓籃子、籃蓋、一碗白飯、青江菜、雞蛋、蔥油餅。清單在 scripts/sheets/props-14.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-14.png",
+  "key": "#FF00FF",
+  "props": ["snake-head", "snake-sing", "snake-flute", "charm-basket", "basket-lid", "rice", "bokchoy", "egg", "pancake"],
+  "together": [["snake-head", "snake-sing", "snake-flute"]]
+}
