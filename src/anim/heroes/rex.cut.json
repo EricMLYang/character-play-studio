@@ -1,0 +1,41 @@
+{
+  "name": "小恐龍",
+  "look": "小恐龍——圓滾滾的綠色恐龍寶寶，黃色肚子、粉紅臉頰，背上一排橘色背鰭，脖子綁紅色領巾，有一條粗粗的尾巴，用兩隻腳站立，大頭小身體的 Q 版比例。",
+  "about": "Codex 生圖畫的洋紅底姿勢表（3×3，畫風跟豬探長的表統一；牠是綠色的，綠幕會把身體去掉，所以每張表都寫 key #FF00FF）。A 表情、B 動作、D 全身動作、E 吃東西與身體反應、F 身體狀況與反應跟豬探長同一套；C 表 1、2 格是招牌的仰頭大吼 roar、用力跺腳 bigStomp（F 表已經有共用的 stomp「氣到跺腳」，招牌這格另外取名）。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "rex-A.png",
+      "key": "#FF00FF",
+      "poses": ["idle", "happy", "laugh", "surprised", "dizzy", "angry", "cry", "scared", "smug"]
+    },
+    "B": {
+      "file": "rex-B.png",
+      "key": "#FF00FF",
+      "poses": ["reach", "point", "listen", "ponder", "walk", "sneak", "flat", "wait", "back"]
+    },
+    "C": {
+      "file": "rex-C.png",
+      "key": "#FF00FF",
+      "poses": ["roar", "bigStomp", "sleep", "eat", "dash", "fall", "wave", "push", "cold"]
+    },
+    "D": {
+      "file": "rex-D.png",
+      "key": "#FF00FF",
+      "poses": ["kick", "throw", "pull", "lift", "jump", "hug", "blow", "peek", "flee"]
+    },
+    "E": {
+      "file": "rex-E.png",
+      "key": "#FF00FF",
+      "poses": ["sour", "spicy", "stinky", "full", "yawn", "sneeze", "drool", "giggle", "tired"]
+    },
+    "F": {
+      "file": "rex-F.png",
+      "key": "#FF00FF",
+      "poses": ["hold", "hungry", "hot", "doze", "know", "stomp", "bow", "duck", "slip"]
+    }
+  },
+  "alias": {
+    "think": "ponder"
+  }
+}

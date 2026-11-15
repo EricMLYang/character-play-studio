@@ -12,7 +12,9 @@
 export const POSES: Record<string, string[]> = {
   alien: ['beam', 'dizzy', 'happy', 'idle', 'saucer', 'surprised'],
   astronaut: ['dizzy', 'float', 'happy', 'idle', 'salute', 'surprised'],
+  bot: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'extend', 'fall', 'flat', 'flee', 'full', 'giggle', 'glitch', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
   brick: ['dizzy', 'happy', 'idle', 'march', 'stack', 'surprised'],
+  bunny: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'leap', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'ready', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
   cape: ['dizzy', 'fly', 'happy', 'idle', 'pose', 'surprised'],
   car: ['broken', 'dizzy', 'fast', 'happy', 'idle', 'surprised'],
   dino: ['dizzy', 'happy', 'idle', 'reach', 'roar', 'surprised'],
@@ -20,11 +22,13 @@ export const POSES: Record<string, string[]> = {
   monster: ['dizzy', 'happy', 'idle', 'oops', 'roar', 'sleep', 'stuffed', 'surprised'],
   mouse: ['angry', 'back', 'blow', 'bow', 'cheese', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stance', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
   ninja: ['dizzy', 'happy', 'hide', 'idle', 'surprised', 'throw'],
-  // 五個明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長）：從綠幕姿勢表切（npm run hero:cut -- <主角>，assets/hero-sheets/）。
-  // 都有同一套 52 個共用姿勢（A～F 六張表）＋各自兩個招牌姿勢；沒有放大鏡的 think 跟托下巴的 ponder 同一張，警長舊的 run 跟 dash 同一張
+  // 八個固定明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長；2026-11 新加的小恐龍 rex、兔子女孩 bunny、小機器人 bot）：從綠幕姿勢表切（npm run hero:cut -- <主角>，assets/hero-sheets/）。
+  // 都有同一套 52 個共用姿勢（A～F 六張表）＋各自兩個招牌姿勢；沒有放大鏡的 think 跟托下巴的 ponder 同一張，警長舊的 run 跟 dash 同一張。
+  // 舊主角 dino、robot 是本機模型畫的另一隻恐龍、機器人，跟 rex、bot 無關
   pig: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doubt', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
   pirate: ['dizzy', 'happy', 'idle', 'surprised', 'telescope', 'treasure'],
   raccoon: ['angry', 'back', 'blow', 'bow', 'carry', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'salute', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
+  rex: ['angry', 'back', 'bigStomp', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'roar', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
   robot: ['broken', 'dizzy', 'fly', 'happy', 'idle', 'surprised'],
   shark: ['chomp', 'dizzy', 'happy', 'idle', 'spin', 'surprised'],
   sheriff: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'old1', 'old2', 'old3', 'oldHuh', 'oldLaugh', 'oldPoint', 'oldShock', 'oldSleep', 'oldWalk', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'run', 'salute', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'whistle', 'yawn'],

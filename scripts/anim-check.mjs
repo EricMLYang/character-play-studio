@@ -11,11 +11,11 @@
 // v2 片型（劇本寫 format: 2，docs/clip-v2-plan.md）換一套唸字與結構的規則（錯誤）：
 //   唸的順序是「字、字、語詞、這是什麼字？、字」（字至少 3 次）、問句唸完到回答之間至少安靜 1.5 秒（不能有任何聲音）、
 //   最後 1 秒只有國字（拼好、在正中央、沒有效果、畫面上看不到任何角色與道具、不在 ask 裡）、meta.gags 只有 1 條（主軸笑點，回馬槍寫在同一條）、
-//   卡司至少一個固定明星（pig／raccoon／mouse／sheriff／yang）、片長 12～15 秒。
+//   卡司至少一個固定明星（src/anim/heroes/ 底下有 <id>.cut.json 的主角：pig／raccoon／mouse／sheriff／yang／rex／bunny／bot）、片長 12～15 秒。
 //   擋字、出界、鏡頭切字、會被打斷照舊；空字框階段還沒填的部分角色經過不算擋字，但已經填上去的筆畫被角色擋住 0.3 秒以上會提醒。
 //   v2 的字從頭到尾都在：任何時刻（含空字框階段）國字外框被鏡頭切到超過 1 單位就提醒，印出秒數。
 import { createServer } from 'vite'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const root = new URL('..', import.meta.url).pathname
@@ -28,7 +28,8 @@ const only = process.argv.slice(2).join('').replace(/\s/g, '')
 // v2 的問句與固定明星
 const { FIXED_LINES } = await import('../shared/voice-lines.mjs')
 const ASK = FIXED_LINES.clipAsk
-const STARS = ['pig', 'raccoon', 'mouse', 'sheriff', 'yang']
+// 固定明星＝有綠幕姿勢表設定（<id>.cut.json）的主角；新明星加了 .cut.json 就自動算進來
+const STARS = readdirSync(join(root, 'src/anim/heroes')).filter((f) => f.endsWith('.cut.json')).map((f) => f.slice(0, -'.cut.json'.length)).sort()
 
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true, hmr: false }, appType: 'custom' })
 let failed = false

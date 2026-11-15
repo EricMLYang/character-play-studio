@@ -1,0 +1,35 @@
+{
+  "name": "兔子女孩",
+  "look": "兔子女孩——白色的兔子女孩，長長的耳朵內側是粉紅色、一邊耳朵綁紅色蝴蝶結，穿黃色上衣、藍色短裙、紅色球鞋，用兩隻腳站立，大頭小身體的 Q 版比例。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作、D 全身動作、E 吃東西與身體反應、F 身體狀況與反應跟豬探長同一套；C 表 1、2 格是招牌的蹲低預備起跑 ready、高高跳起 leap。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "bunny-A.png",
+      "poses": ["idle", "happy", "laugh", "surprised", "dizzy", "angry", "cry", "scared", "smug"]
+    },
+    "B": {
+      "file": "bunny-B.png",
+      "poses": ["reach", "point", "listen", "ponder", "walk", "sneak", "flat", "wait", "back"]
+    },
+    "C": {
+      "file": "bunny-C.png",
+      "poses": ["ready", "leap", "sleep", "eat", "dash", "fall", "wave", "push", "cold"]
+    },
+    "D": {
+      "file": "bunny-D.png",
+      "poses": ["kick", "throw", "pull", "lift", "jump", "hug", "blow", "peek", "flee"]
+    },
+    "E": {
+      "file": "bunny-E.png",
+      "poses": ["sour", "spicy", "stinky", "full", "yawn", "sneeze", "drool", "giggle", "tired"]
+    },
+    "F": {
+      "file": "bunny-F.png",
+      "poses": ["hold", "hungry", "hot", "doze", "know", "stomp", "bow", "duck", "slip"]
+    }
+  },
+  "alias": {
+    "think": "ponder"
+  }
+}

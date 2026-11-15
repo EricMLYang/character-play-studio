@@ -65,6 +65,26 @@ test('角色的姿勢表跟 public/hero 的資料夾一模一樣', () => {
   }
 })
 
+test('固定明星（有 .cut.json 的主角）都切好了：設定裡每個姿勢都有圖，共用的 52 個一個不少', () => {
+  const dir = path.join(ROOT, 'src/anim/heroes')
+  const stars = fs.readdirSync(dir).filter((f) => f.endsWith('.cut.json')).map((f) => f.slice(0, -'.cut.json'.length))
+  for (const id of ['pig', 'raccoon', 'mouse', 'sheriff', 'yang', 'rex', 'bunny', 'bot']) assert.ok(stars.includes(id), `少了明星 ${id}`)
+  // 共用的姿勢：A、B、D、E、F 整張＋C 表 3～9 格（1、2 格是各自的招牌），以豬探長為準
+  const pig = JSON.parse(fs.readFileSync(path.join(dir, 'pig.cut.json'), 'utf8')).sheets
+  const shared = ['A', 'B', 'D', 'E', 'F'].flatMap((k) => pig[k].poses).concat(pig.C.poses.slice(2))
+  assert.equal(shared.length, 52)
+  for (const id of stars) {
+    const cfg = JSON.parse(fs.readFileSync(path.join(dir, `${id}.cut.json`), 'utf8'))
+    assert.ok(cfg.name && cfg.look?.includes('——'), `${id} 要有 name 與 look（「名字——長相」，sheet:gen 補表用）`)
+    const named = [...Object.values(cfg.sheets).flatMap((s) => s.poses.filter(Boolean)), ...Object.keys(cfg.alias ?? {}), ...Object.keys(cfg.fallback ?? {})]
+    assert.equal(new Set(named).size, named.length, `${id} 的 .cut.json 有重複的姿勢名`)
+    for (const p of [...shared, ...named]) {
+      assert.ok(POSES[id]?.includes(p), `${id} 少了姿勢 ${p}（src/play/poses.ts）`)
+      assert.ok(fs.existsSync(path.join(ROOT, 'public/hero', id, `${p}.png`)), `沒有 public/hero/${id}/${p}.png（npm run hero:cut -- ${id}）`)
+    }
+  }
+})
+
 test('反應換姿勢：有那張就用，沒有就退回 idle，不會指到不存在的圖', () => {
   assert.equal(poseFor('yang', 'cheer'), 'happy')
   assert.equal(poseFor('yang', 'think'), 'think')
