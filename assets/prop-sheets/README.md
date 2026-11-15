@@ -21,6 +21,7 @@
 | props-8 | `dumpling` 半月形水餃 | `dumpling-bite` 同一顆咬一口（露餡、冒熱氣） | `dumpling-plate` 一盤水餃（冒熱氣） | `dumpling-pot` 鍋裡滾著水餃的大鍋（冒熱氣） | `dumpling-chopsticks` 筷子夾著一顆水餃 | `soy` 一小碟醬油 | `flour` 一袋撒出來的麵粉 | `brain` 粉紅色大腦 | `backpack` 藍色雙肩書包 |
 | props-9 | `turtle-old` 很老的烏龜（白長鬍子拖地、白眉毛、小圓眼鏡，朝左） | `cake` 草莓鮮奶油蛋糕 | `cake-halves` 同一個蛋糕切成兩半（一張圖） | `rooster` 抬頭啼叫的公雞（朝左） | `alarm-clock` 紅色雙鈴鬧鐘 | `meat` 帶骨頭的漫畫肉 | `bone` 啃乾淨的白骨頭 | `watermelon` 整顆條紋西瓜 | `watermelon-half` 半顆西瓜（紅肉黑籽朝前） |
 | props-10 | `panda-daze` 發呆的熊貓（正對前方、嘴張成小 o、眼神放空） | `panda-wave` 同一隻轉頭看左邊揮手 | `rooster-sleep` 打瞌睡的公雞（朝左、閉眼垂頭） | `bump` 頭上的腫包（貼交叉膠布） | `beetle` 獨角仙（朝左） | `feather` 白色大羽毛（灰描邊、羽軸） | `book-ajar` 半開的藍色精裝書（縫裡透金光） | `gong` 掛在木架上的大銅鑼＋鑼槌 | `lotus-leaf` 當傘的大荷葉（長葉柄） |
+| props-11 | `aunt` 姑姑站好、提禮物袋 | `aunt-run` 張開雙手跑過來要抱人 | `aunt-kiss` 彎腰嘟嘴要親 | `aunt-cake` 捧生日蛋糕 | `aunt-laugh` 遮嘴大笑 | `aunt-shock` 嚇一跳 | `kiss-mark` 紅色唇印 | `box` 打開的大紙箱 | `bush` 灌木叢 |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -95,6 +96,16 @@ props-10 要注意（用 `npm run sheet:gen -- prop 10 scripts/sheets/props-10.t
   並排比過：雞冠、身體、尾巴、腳差不多大（差不到 5%），同 size swap 腳底對齊；睡著的身體偏右一點，要對得更準 x 往右移約 0.03 × size。算動物（跟 🐓 一樣）。
 - `beetle` 跟 🪲 一樣算動物（會踩步伐）。`bump`、`feather`、`book-ajar`、`gong`、`lotus-leaf` 是道具。
 - 去背逐張看過（淺色、深灰底各看一次）：白羽毛的羽片與灰描邊完整、熊貓的白毛沒有被吃掉、書縫的黃光邊緣淡淡地漸到透明，九張都沒有洋紅殘留。
+
+props-11 要注意（九格清單在 `scripts/sheets/props-11.txt`）：
+- 第一張有**人**的表：姑姑六張（`aunt`／`aunt-run`／`aunt-kiss`／`aunt-cake`／`aunt-laugh`／`aunt-shock`）用 `together` 綁成一組，同一個比例、同 size 直接 swap。
+  撐滿的是第二列（捧蛋糕、大笑、嚇一跳，高 0.92）；第一列三張（站好、跑、親）畫得小一點，高只有 0.88（跑的 0.86），
+  並排比過：頭的大小一樣，差在第二列的捲髮蓬一點，swap 彈一下時看不出來。全部朝左前方，要面向右邊就 `flip`。
+- 姑姑在引擎裡跟 🧍 一樣算**人**（`src/anim/clip.ts` 的 `PROP_PEOPLE`：走過去踩步伐、閒著換重心、唸字時點頭），`aunt-kiss` 彎著腰不踩步伐。
+- `aunt-kiss` 嘟起來的嘴在圖的 u 0.35、v 0.37：照 x、y（站在地上）算在 x − 0.15 × size、y − 0.13 × size，親誰就把嘴對到那裡。
+- `kiss-mark` 是鮮紅的唇印（寬扁），淺色背景上很醒目；貼在角色臉上用 `float`，跟著角色一起 `moveTo`。
+- 去背逐張看過（淺色、深灰底各看一次）：天藍洋裝的白圓點、白鞋、紅唇、紅唇印、紙箱的淺色內側、灌木叢的亮綠葉子都完整，九張都沒有洋紅殘留（逐像素數過，0 個洋紅像素）。
+  原圖的姑姑沒有畫出明顯的珍珠耳環。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 

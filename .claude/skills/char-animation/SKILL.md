@@ -316,7 +316,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -539,6 +539,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `book-ajar` | 半開的藍色精裝書（立著、封面掀開一點、縫裡透金黃色的光） | 還沒用 |
 | `gong` | 掛在木架上的金色大銅鑼，旁邊靠著鑼槌 | 呆（第 2 次） |
 | `lotus-leaf` | 當傘用的大荷葉（長葉柄、圓葉子） | 還沒用 |
+| `aunt` | 姑姑：咖啡色捲髮、紅口紅、天藍色白圓點洋裝、白鞋，站好微笑、一手提禮物袋（朝左前方；跟 🧍 一樣算**人**，會踩步伐）。**姑姑六張同一個比例**，同 size、同 x 直接 swap；size 寫 46 上下才比明星大 | 姑 |
+| `aunt-run` | 同一位姑姑張開雙手往左跑過來要抱人 | 姑（衝過去之前、衝刺） |
+| `aunt-kiss` | 同一位姑姑彎腰、閉眼、嘟起紅唇要親（不踩步伐）。嘴在（照站在地上的 x、y）x − 0.15 × size、y − 0.13 × size | 姑（啾那一下） |
+| `aunt-cake` | 同一位姑姑雙手捧插蠟燭的生日蛋糕（蛋糕在圖的左邊）、笑得很開心 | 姑（回馬槍） |
+| `aunt-laugh` | 同一位姑姑一手遮嘴呵呵大笑、閉眼 | 姑（親完、語詞那一刻） |
+| `aunt-shock` | 同一位姑姑嚇一跳、雙手舉起、嘴巴張大 | 姑（回馬槍被親） |
+| `kiss-mark` | 鮮紅色的唇印（寬扁）。貼在臉上用 `float`、跟著角色一起 `moveTo`；也可以當 fx 的 emoji | 姑（臉上的唇印） |
+| `box` | 打開的大紙箱（箱口朝上、四片蓋子打開），可以躲人 | 姑（第 2 次躲進去） |
+| `bush` | 圓圓的綠色灌木叢，可以躲人（size 30 時人只露出頭髮） | 姑（第 3 次躲進去） |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

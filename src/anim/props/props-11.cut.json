@@ -1,0 +1,7 @@
+{
+  "about": "第十一張道具表（2026-11，Codex 生圖，洋紅底 3×3）：姑姑六張（站好提禮物袋／張開雙手跑過來要抱人／彎腰嘟嘴要親／捧生日蛋糕／遮嘴大笑／嚇一跳，同一個比例可以 swap）、紅色唇印、打開的大紙箱、灌木叢。清單在 scripts/sheets/props-11.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-11.png",
+  "key": "#FF00FF",
+  "props": ["aunt", "aunt-run", "aunt-kiss", "aunt-cake", "aunt-laugh", "aunt-shock", "kiss-mark", "box", "bush"],
+  "together": [["aunt", "aunt-run", "aunt-kiss", "aunt-cake", "aunt-laugh", "aunt-shock"]]
+}

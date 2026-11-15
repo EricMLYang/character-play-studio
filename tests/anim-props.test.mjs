@@ -125,9 +125,27 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山�
   assert.equal(still('prop:lilypad').beats.length, 0)
   // 腫包、羽毛、書、銅鑼、荷葉是道具：不做小動作
   for (const name of ['bump', 'feather', 'book-ajar', 'gong', 'lotus-leaf']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
+  // 唇印、紙箱、灌木叢是道具：不做小動作
+  for (const name of ['kiss-mark', 'box', 'bush']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
   // 香蕉、雪球是道具：不做小動作
   assert.equal(still('prop:banana').beats.length, 0)
   assert.equal(still('prop:snowball').beats.length, 0)
+})
+
+test('prop: 的人（姑姑六張）跟 🧍 一樣算角色：走過去踩步伐、閒著換重心；彎腰嘟嘴要親的那張不踩步伐', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  for (const name of ['aunt', 'aunt-run', 'aunt-cake', 'aunt-laugh', 'aunt-shock']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🧍')).get('x'), name)
+    assert.ok(lifeOf(walk(`prop:${name}`)).get('x').steps.length > 0, `${name} 走過去要踩步伐`)
+  }
+  assert.deepEqual(lifeOf(walk('prop:aunt-kiss')).get('x'), lifeOf(walk('🐌')).get('x'))
+  assert.equal(lifeOf(walk('prop:aunt-kiss')).get('x').steps.length, 0)
+  const still = (emoji) => lifeOf(clipOf({ actors: [{ id: 'x', emoji, x: 120, y: 62, size: 34 }] })).get('x')
+  assert.ok(still('prop:aunt').beats.length > 0, '站著的姑姑會換重心')
+  assert.deepEqual(still('prop:aunt'), still('🧍'))
 })
 
 test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果；消失後重新出場就回到原本的樣子', () => {

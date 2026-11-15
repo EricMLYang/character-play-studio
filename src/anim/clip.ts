@@ -459,6 +459,7 @@ type Kind = 'creature' | 'vehicle' | 'prop'
  * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）；
  * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸🦀🐢🐒🐐🐓🪲 一樣；會飛的蝴蝶、蜜蜂跟 🦋🐝 一樣，劇本給 float），
  * 其中趴著睡、跳在半空、伸螯夾東西、縮進殼裡、吊在樹枝上、用後腳站起來的那幾張，還有跟 🐛 一樣在地上爬的毛毛蟲（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
+ * 人（PROP_PEOPLE，姑姑）跟 🧍 一樣照「角色」那一邊。
  */
 export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
@@ -466,7 +467,9 @@ const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog'
   'crab', 'crab-pinch', 'crab-walk', 'turtle', 'turtle-shell', 'monkey', 'monkey-hang',
   'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting', 'turtle-old', 'rooster',
   'panda-daze', 'panda-wave', 'rooster-sleep', 'beetle'])
-const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar'])
+/** 人（姑姑）：跟 🧍 一樣算角色——會走、會跳、閒著換重心、唸字時點頭；彎腰嘟嘴要親的那張不踩步伐（湊過去是整個人滑過去） */
+const PROP_PEOPLE = new Set(['aunt', 'aunt-run', 'aunt-kiss', 'aunt-cake', 'aunt-laugh', 'aunt-shock'])
+const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar', 'aunt-kiss'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 
 /**
@@ -513,7 +516,7 @@ const NO_STEPS = new Set([...'🐌🐍🐛🪱🐟🐠🐡🐬🐳🐋🐙🦑�
 function kindOf(emoji: string): Kind {
   if (isVehicle(emoji)) return 'vehicle'
   if (emoji.startsWith('hero:')) return 'creature'
-  if (emoji.startsWith(PROP_PREFIX)) return PROP_ANIMALS.has(propName(emoji)) ? 'creature' : 'prop'
+  if (emoji.startsWith(PROP_PREFIX)) return PROP_ANIMALS.has(propName(emoji)) || PROP_PEOPLE.has(propName(emoji)) ? 'creature' : 'prop'
   const c = emoji.codePointAt(0) ?? 0
   const inR = (a: number, b: number) => c >= a && c <= b
   if (inR(0x1f400, 0x1f43d) || c === 0x1f43f || inR(0x1f980, 0x1f9ae) || inR(0x1fab0, 0x1fabd) || inR(0x1face, 0x1facf)
