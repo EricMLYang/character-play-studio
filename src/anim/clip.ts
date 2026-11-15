@@ -472,7 +472,7 @@ type Kind = 'creature' | 'vehicle' | 'prop'
  * 只有交通工具（PROP_VEHICLES）照「車」那一邊（移動時身體歪、急停點一下頭，跟 🚈 一樣）；
  * 動物（PROP_ANIMALS）照「角色」那一邊（走過去踩步伐、閒著做小動作、唸字時點頭，跟 🐻🐼🐸🦀🐢🐒🐐🐓🪲🐘🦁 一樣；會飛的蝴蝶、蜜蜂、燕子跟 🦋🐝🐦 一樣，劇本給 float），
  * 其中趴著睡、跳在半空、伸螯夾東西、縮進殼裡、吊在樹枝上、用後腳站起來、把鼻子伸進水桶、坐著大笑、嚇得縮成一團的那幾張，還有跟 🐛 一樣在地上爬的毛毛蟲（PROP_NO_STEPS）跟 🐌 一樣不踩步伐。
- * 人（PROP_PEOPLE，姑姑、爸爸、媽媽、兔子哥哥、恐龍姐姐）跟 🧍 一樣照「角色」那一邊。
+ * 人（PROP_PEOPLE，姑姑、爸爸、媽媽、兔子哥哥、恐龍姐姐、阿公）跟 🧍 一樣照「角色」那一邊；阿公坐在搖椅上的三張不踩步伐。
  */
 export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
@@ -484,9 +484,10 @@ const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog'
 /** 人（姑姑）：跟 🧍 一樣算角色——會走、會跳、閒著換重心、唸字時點頭；彎腰嘟嘴要親的那張不踩步伐（湊過去是整個人滑過去） */
 const PROP_PEOPLE = new Set(['aunt', 'aunt-run', 'aunt-kiss', 'aunt-cake', 'aunt-laugh', 'aunt-shock',
   'dad', 'dad-throw', 'dad-catch', 'dad-flex', 'dad-shock', 'mom', 'mom-open', 'mom-hug', 'mom-tired',
-  'bro', 'bro-run', 'bro-lift', 'bro-oops', 'bro-shock', 'sis', 'sis-give', 'sis-laugh', 'sis-shock'])
+  'bro', 'bro-run', 'bro-lift', 'bro-oops', 'bro-shock', 'sis', 'sis-give', 'sis-laugh', 'sis-shock',
+  'grandpa', 'grandpa-sleep', 'grandpa-wake', 'grandpa-stand'])
 const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar', 'aunt-kiss',
-  'dad-catch', 'mom-open', 'mom-tired',
+  'dad-catch', 'mom-open', 'mom-tired', 'grandpa', 'grandpa-sleep', 'grandpa-wake',
   'elephant-suck', 'elephant-laugh', 'lion-scared'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 

@@ -182,6 +182,22 @@ test('prop: 的兔子哥哥、恐龍姐姐（props-17）跟姑姑一樣算人，
   }
 })
 
+test('prop: 的阿公（props-18）跟姑姑一樣算人；坐在搖椅上的三張不踩步伐，站著拄拐杖的那張會走', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  assert.deepEqual(lifeOf(walk('prop:grandpa-stand')).get('x'), lifeOf(walk('🧍')).get('x'))
+  for (const name of ['grandpa', 'grandpa-sleep', 'grandpa-wake']) {
+    assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0, name)
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('prop:mom-tired')).get('x'), `${name} 跟坐在地上的媽媽一樣`)
+  }
+  // 其他五張是一般道具：跟 🎁 一樣不踩步伐、不做小動作
+  for (const name of ['bowling-pin', 'bowling-ball', 'piggy-bank', 'shadow-screen', 'red-x']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🎁')).get('x'), name)
+  }
+})
+
 test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果；消失後重新出場就回到原本的樣子', () => {
   const clip = clipOf({
     actors: [{ id: 'x', emoji: 'prop:snowball', x: 120, y: 66, size: 24 }],

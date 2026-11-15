@@ -318,7 +318,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）、爸爸五張（`dad*`）、媽媽四張（`mom*`）、兔子哥哥五張（`bro*`）、恐龍姐姐四張（`sis*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss`、`dad-catch`、`mom-open`、`mom-tired` 不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）、爸爸五張（`dad*`）、媽媽四張（`mom*`）、兔子哥哥五張（`bro*`）、恐龍姐姐四張（`sis*`）、阿公四張（`grandpa*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss`、`dad-catch`、`mom-open`、`mom-tired`、坐在搖椅上的 `grandpa`／`grandpa-sleep`／`grandpa-wake` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -604,6 +604,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `sis-give` | 同一隻恐龍姐姐彎腰、雙手往左伸（手上是空的）、眼睛亮亮 | 還沒用 |
 | `sis-laugh` | 同一隻恐龍姐姐一手遮嘴、瞇眼咯咯笑 | 還沒用 |
 | `sis-shock` | 同一隻恐龍姐姐嚇一跳、雙手舉起、嘴巴張大 | 還沒用 |
+| `grandpa` | 阿公：頭頂光光、兩側白頭髮、白短鬍子、圓眼鏡、粉紅臉頰、米色針織背心、淺藍襯衫、深咖啡長褲，**坐在木頭搖椅上**、拿著打開的紅色故事書笑咪咪（朝左前方；算**人**、不踩步伐）。**阿公四張同一個比例**（驚醒那張、站著那張高撐滿 0.92；坐著的高 0.88），同 size swap | 公 |
+| `grandpa-sleep` | 同一位阿公在同一張搖椅上睡著：頭往後仰、嘴張大打呼、眼鏡歪、書蓋在肚子上（不踩步伐；同 x swap 搖椅對得齊） | 公（睡著） |
+| `grandpa-wake` | 同一位阿公在搖椅上驚醒：眼睛睜大、雙手舉起、書飛在左上（書是圖的一部分）、搖椅往後翹（不踩步伐；**跟 `grandpa` swap 時 x 往左移 0.028 × size** 搖椅才對齊） | 公（叫醒） |
+| `grandpa-stand` | 同一位阿公站著、右手拄木頭拐杖、左手揮手，笑咪咪（會走、踩步伐） | 公（退場） |
+| `bowling-pin` | 白色保齡球瓶、脖子兩道紅條紋（直立、細高，內容只佔畫布寬 0.38） | 還沒用（十、千、是、不換圖用） |
+| `bowling-ball` | 深藍色保齡球、三個指洞 | 還沒用 |
+| `piggy-bank` | 金色小豬存錢筒（側面朝左、背上一條投幣口；臉頰淡粉紅；寬撐滿，高 0.75） | 還沒用 |
+| `shadow-screen` | 影子戲布幕：木頭框立在地上、中間繃著淺米色白布（正面、布上什麼都沒有；白布是不透明的，影子由劇本畫在布前） | 還沒用 |
+| `red-x` | 粗粗的大紅叉（兩筆刷出來、邊緣毛毛的，純紅，約 `#E80401`） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

@@ -1,0 +1,7 @@
+{
+  "about": "第十八張道具表（2026-11，Codex 生圖，洋紅底 3×3）：阿公四張（坐在木頭搖椅上拿著打開的故事書笑咪咪／同一張搖椅上睡著打呼、書蓋在肚子上／搖椅上驚醒、雙手舉起、書飛起來／站著拄拐杖揮手，同一個比例可以 swap）、保齡球瓶、深藍色保齡球、金色小豬存錢筒（朝左）、影子戲布幕（木框＋米色白布）、粗粗的大紅叉。清單在 scripts/sheets/props-18.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-18.png",
+  "key": "#FF00FF",
+  "props": ["grandpa", "grandpa-sleep", "grandpa-wake", "grandpa-stand", "bowling-pin", "bowling-ball", "piggy-bank", "shadow-screen", "red-x"],
+  "together": [["grandpa", "grandpa-sleep", "grandpa-wake", "grandpa-stand"]]
+}
