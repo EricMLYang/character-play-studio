@@ -133,6 +133,9 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山�
   // 蛇頭三張是道具：要跟著劇本畫的蛇身扭，不踩步伐、不做小動作；籃子、籃蓋、食物也是道具
   for (const name of ['snake-head', 'snake-sing', 'snake-flute', 'charm-basket', 'basket-lid', 'rice', 'bokchoy', 'egg', 'pancake']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
   for (const name of ['snake-head', 'snake-sing', 'snake-flute']) assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0, name)
+  // 章魚頭三張是道具：腳由劇本用 fx line 畫在頭底下，不踩步伐、不做小動作；雲、落葉、楓葉、平底鍋也是道具
+  for (const name of ['octo-head', 'octo-kiss', 'octo-dizzy', 'cloud-happy', 'cloud-puff', 'cloud-dark', 'leaf-pile', 'maple-leaf', 'pan']) assert.equal(still(`prop:${name}`).beats.length, 0, name)
+  for (const name of ['octo-head', 'octo-kiss', 'octo-dizzy']) assert.equal(lifeOf(walk(`prop:${name}`)).get('x').steps.length, 0, name)
   // 屋簷下的燕子窩是道具：不做小動作
   assert.equal(still('prop:swallow-nest').beats.length, 0)
   // 香蕉、雪球是道具：不做小動作

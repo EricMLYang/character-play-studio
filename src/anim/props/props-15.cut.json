@@ -1,0 +1,7 @@
+{
+  "about": "第十五張道具表（2026-11，Codex 生圖，洋紅底 3×3）：紅粉色章魚頭三張（開心／閉眼嘟嘴兩顆愛心／頭暈，正面、底部平的、沒有腳，腳由劇本用 fx line 畫）、雲三張（開心白雲／鼓臉憋氣的淺灰雲／深灰烏雲）、落葉堆、楓葉、黑色空平底鍋（握把朝左）。清單在 scripts/sheets/props-15.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-15.png",
+  "key": "#FF00FF",
+  "props": ["octo-head", "octo-kiss", "octo-dizzy", "cloud-happy", "cloud-puff", "cloud-dark", "leaf-pile", "maple-leaf", "pan"],
+  "together": [["octo-head", "octo-kiss", "octo-dizzy"], ["cloud-happy", "cloud-puff", "cloud-dark"]]
+}

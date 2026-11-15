@@ -25,6 +25,7 @@
 | props-12 | `mountain` 大山（雪頂、山腳草） | `tall-tree` 很高很瘦的樹 | `pencil` 水平長鉛筆（筆尖朝右） | `pencil-stub` 很短的鉛筆頭（筆尖朝右） | `smoke` 一大團不透明的白煙 | `frog-wink` 眨眼得意的青蛙 | `sock` 冒臭氣的臭襪子 | `junk-pile` 沙發上疊紙箱、足球、襪子、雨傘 | `alarm-face` 沒有指針的紅色雙鈴鬧鐘 |
 | props-13 | `elephant` 灰色大象站好（朝左） | `elephant-suck` 同一隻把鼻子伸進藍色水桶吸水 | `elephant-spray` 同一隻鼻子舉高往左噴水 | `elephant-laugh` 同一隻坐著大笑 | `lion` 金黃公獅子站好得意（朝左） | `lion-roar` 同一隻吼叫（嘴前有聲波線） | `lion-scared` 同一隻嚇到縮成一團 | `swallow` 飛行的燕子（往左飛） | `swallow-nest` 屋簷下的泥巴鳥巢、三隻小燕子 |
 | props-14 | `snake-head` 笑咪咪的綠色蛇頭（臉朝左前方、下面一小段脖子） | `snake-sing` 同一顆閉眼張嘴唱歌 | `snake-flute` 同一顆嘟嘴吹橫笛（笛子在圖上、往左伸） | `charm-basket` 弄蛇人的圓籃子（籃口朝上） | `basket-lid` 圓形籃蓋（頂上小圓鈕） | `rice` 一碗冒熱氣的白飯（藍花碗） | `bokchoy` 青江菜 | `egg` 淺褐色雞蛋 | `pancake` 蔥油餅 |
+| props-15 | `octo-head` 紅粉色章魚頭（沒有腳、底部平的、開心） | `octo-kiss` 同一顆閉眼嘟嘴、兩顆愛心 | `octo-dizzy` 同一顆頭暈（眼睛圈圈） | `cloud-happy` 開心的小白雲 | `cloud-puff` 同一朵鼓臉憋氣（淺灰） | `cloud-dark` 同一朵深灰烏雲 | `leaf-pile` 落葉堆 | `maple-leaf` 楓葉 | `pan` 黑色空平底鍋（握把朝左） |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -143,6 +144,13 @@ props-14 要注意（九格清單在 `scripts/sheets/props-14.txt`）：
 - `charm-basket` 籃子的上緣在 v 0.26、籃口裡面暗暗的一圈在 v 0.27～0.38；`basket-lid` 是寬扁的圓蓋（內容在 v 0.42～0.96），蓋上去時蓋子底對齊籃子上緣往下一點。
 - `rice`、`bokchoy`、`egg`、`pancake` 還沒用。白飯的三道熱氣是淺灰白、有深色描邊，淺色背景上看得到但很淡；青江菜的白梗有描邊。
 - 去背逐張看過（淺色、深灰底各看一次）：蛇頭的黃下巴與深綠斑點、笛子、籃子的編織紋、白飯的熱氣、青江菜的白梗都完整，九張都沒有洋紅殘留（逐像素數過，0 個洋紅像素）。
+
+props-15 要注意（九格清單在 `scripts/sheets/props-15.txt`）：
+- 章魚頭三張（`octo-head`／`octo-kiss`／`octo-dizzy`）、雲三張（`cloud-happy`／`cloud-puff`／`cloud-dark`）各用 `together` 綁成一組，同一個比例。
+  章魚頭是兩邊有愛心的 `octo-kiss` 撐滿寬，`octo-head` 只佔畫布寬的 0.85；三張都是底部對齊（內容的底在 v 0.961），同 size、同 x swap 頭一樣大。
+- 章魚頭**沒有腳、底部是平的**：平底在 y + 0.461 × size，八隻腳由劇本用 fx `line` 從平底畫出來（「八」）。三張都是**道具**（不在 `PROP_ANIMALS`）：不踩步伐、不做小動作——跟蛇頭一樣，要跟劇本畫的腳對得上。
+- 雲、落葉堆、楓葉、平底鍋還沒用。`leaf-pile`、`pan` 寬扁（內容從 v 0.47～0.48 才開始），size 寫長邊。
+- 去背逐張看過（淺色、深灰底各看一次）：章魚頭的紅色邊緣、粉紅臉頰與愛心、白雲的淺灰描邊都完整，九張都沒有洋紅殘留（逐像素數過，0 個洋紅像素）。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 
