@@ -142,7 +142,15 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
       <g key={a.id} opacity={a.o}
         transform={`translate(${a.x} ${base}) rotate(${rf})${spin} skewX(${-a.lean}) scale(${sx} ${sy}) translate(0 ${-a.size * 0.42})`}
         style={filter ? { filter } : undefined}>
-        <Emoji char={a.emoji} size={a.size} art={art} />
+        {a.half
+          ? <>
+              {/* 只畫左半或右半（把東西分成兩半）：clipPath 在角色自己的座標裡，翻面、旋轉都跟著走 */}
+              <clipPath id={`half${uid}-${a.id}`}>
+                <rect x={a.half === 'left' ? -a.size : 0} y={-a.size} width={a.size} height={a.size * 2} />
+              </clipPath>
+              <g clipPath={`url(#half${uid}-${a.id})`}><Emoji char={a.emoji} size={a.size} art={art} /></g>
+            </>
+          : <Emoji char={a.emoji} size={a.size} art={art} />}
       </g>
     )
   }
@@ -239,8 +247,11 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
           // 站在比較前面的地上（腳在地平線下面）的角色，影子跟著畫在腳下
           // prop: 的影子照內容的寬度（細高的楊桃、樹不要拖一大片影子）
           const body = PROP_BOX[a.emoji.startsWith(PROP_PREFIX) ? a.emoji.slice(PROP_PREFIX.length) : '']
-          const wide = body ? (body[2] - body[0]) * 0.37 : 0.34
-          return <ellipse key={`sh-${a.id}`} cx={a.x} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * wide * a.s * a.sx * (0.4 + 0.6 * k)}
+          const full = body ? (body[2] - body[0]) * 0.37 : 0.34
+          // 只畫半邊的角色：影子也只有那半邊（窄一半、往那一邊偏）
+          const wide = a.half ? full / 2 : full
+          const side = a.half ? (a.half === 'left' ? -1 : 1) * (a.flip ? -1 : 1) * a.size * wide * a.s : 0
+          return <ellipse key={`sh-${a.id}`} cx={a.x + side} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * wide * a.s * a.sx * (0.4 + 0.6 * k)}
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
 

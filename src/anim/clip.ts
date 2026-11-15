@@ -34,6 +34,12 @@ export type Actor = {
    * 會滾的東西（雪球、球、輪子、陀螺）rotateTo／spin／tilt 都原地轉，不會繞著底部甩、也不會轉進地板。
    */
   pivot?: 'center'
+  /**
+   * 只畫圖的左半或右半（以圖的正中間直直切開，切口也有白色描邊）：把一個東西「分成兩半」。
+   * 同一張圖放兩個角色、同一個位置，一個 left、一個 right，合起來就是整個；各自 moveTo 往兩邊就分開了。
+   * swap 時可以用 half 換掉（'whole' 是整張圖）。翻面（flip）時跟著翻：left 會畫在右邊。
+   */
+  half?: 'left' | 'right'
 }
 
 /** 會留下結果的動作（位置、大小、角度、出場、退場、換造型）。 */
@@ -73,6 +79,8 @@ export type Move = {
   filter?: string
   /** rotateTo／spin／tilt 這一次的支點，蓋過角色的 pivot：'center' 原地空中轉一圈、'feet' 從腳底翻倒 */
   pivot?: 'center' | 'feet'
+  /** swap 同時換掉角色的 half（只畫左半／右半）；'whole' 是回到整張圖。沒寫就照舊 */
+  half?: 'left' | 'right' | 'whole'
 }
 
 /** 一組筆畫組合出來：從某個角色（或某個點）飛過去，或從上面掉下來。 */
@@ -106,6 +114,13 @@ export type GlyphFx =
   | { at: number; dur: number; do: 'park'; to?: Vec; amount?: number; ease?: Ease }
   | { at: number; dur: number; do: 'home'; ease?: Ease }
   | { at: number; dur: number; do: 'ask'; keep?: string[]; to?: Vec; amount?: number }
+  | { at: number; dur: number; do: 'split'; parts: GlyphPart[] }
+
+/**
+ * 國字被劈開（split，做完回原狀）：每一組筆畫在前 15% 往 to（舞台單位，照國字當下的大小）彈開、轉 r 度，停住，
+ * 最後 30% 彈回原位合好。國字本來的位置、大小不變，anim:check 的切字檢查照整個字的範圍算，彈開的距離要自己留在畫面裡。
+ */
+export type GlyphPart = { strokes: number[]; to: Vec; r?: number }
 
 /**
  * 漫畫效果：跟著角色的頭（或指定的點）走。
@@ -192,6 +207,8 @@ export type ActorState = {
   x: number; y: number; s: number; sx: number; sy: number; r: number; o: number
   /** r 裡面以自己中心為支點轉的那一部分（Actor／Move 的 pivot: 'center'）；其餘 r − rc 以腳底為支點 */
   rc: number
+  /** 只畫圖的左半或右半（Actor 的 half） */
+  half?: 'left' | 'right'
   /** 身體往左右歪（度，正的是頭往右）：以腳底為支點的斜切，像果凍一樣上半身晚一點跟上；引擎自動加的 */
   lean: number
   visible: boolean; glow: number
@@ -264,6 +281,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
     id: a.id, emoji: a.emoji, size: a.size, flip: !!a.flip, float: !!a.float, top: !!a.top, tint: a.tint,
     x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, rc: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
   }
+  if (a.half) st.half = a.half
   // stretchTo 留下的寬扁（寬 ×w、高 ÷w），最後才乘進 sx／sy；沒寫 stretchTo 的劇本一格都不變
   let w = 1
   for (const m of sortedMoves(clip)) {
@@ -306,7 +324,10 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
       case 'scaleTo': st.s *= lerp(1, m.amount ?? 1, e); break
       case 'stretchTo': w *= lerp(1, m.amount ?? 1, e); break
       case 'rotateTo': turn(lerp(0, m.amount ?? 0, e)); break
-      case 'swap': if (m.emoji) st.emoji = m.emoji; break
+      case 'swap':
+        if (m.emoji) st.emoji = m.emoji
+        if (m.half) st.half = m.half === 'whole' ? undefined : m.half
+        break
       case 'tint': st.tint = m.filter || undefined; break
       case 'flip': st.flip = !st.flip; break
       default: {
@@ -452,7 +473,14 @@ const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice
  * 一般 emoji 與主角照舊當成正方形：中心 (x, y)、半邊 half × size × s（各處用的 half 照以前的數字）；
  * prop: 照 src/anim/props.ts 量好的內容範圍（往內縮一成，跟 emoji 的估法一樣寬鬆），寬扁的捷運、細高的樹才不會被當成大正方形。
  */
-export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean }, half: number) {
+export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean; half?: 'left' | 'right' }, half: number) {
+  const box = wholeBox(a, half)
+  // 只畫半邊的角色（Actor 的 half）：只算切口那一邊
+  if (!a.half) return box
+  const left = (a.half === 'left') !== !!a.flip
+  return left ? { ...box, x1: Math.min(box.x1, a.x) } : { ...box, x0: Math.max(box.x0, a.x) }
+}
+function wholeBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean }, half: number) {
   const b = PROP_BOX[propName(a.emoji)]
   if (!b) { const h = a.size * a.s * half; return { x0: a.x - h, x1: a.x + h, y0: a.y - h, y1: a.y + h } }
   // 跟播放器同一個畫法：以腳底（y + 0.42 size）為準縮放，畫布 (u, v) ∈ [0, 1]
@@ -715,6 +743,7 @@ export function strokesAt(clip: Clip, t: number, centers: Vec[]): StrokeState[] 
   // 起點（舞台座標）要換成國字那層的座標，筆畫才會從角色身上飛出來、落進字框當下的位置
   const g = isV2(clip) ? glyphPlaceAt(clip, t) : null
   const local = (p: Vec): Vec => (g ? { x: GLYPH_MID.x + (p.x - g.x) / g.k, y: GLYPH_MID.y + (p.y - g.y) / g.k } : p)
+  const apart = splitAt(clip, t)
   for (const b of clip.builds) {
     const timing = buildTiming(b)
     const src = local(typeof b.from === 'string'
@@ -737,6 +766,28 @@ export function strokesAt(clip: Clip, t: number, centers: Vec[]): StrokeState[] 
         })
       }
     })
+  }
+  // 國字被劈開（glyph 的 split）：那幾筆一起往外彈開，再合回來
+  if (apart.size) {
+    const k = g ? g.k : 1
+    for (const s of out) {
+      const q = apart.get(s.index)
+      if (!q) continue
+      s.dx += (q.x * q.w) / k; s.dy += (q.y * q.w) / k; s.r += q.r * q.w
+    }
+  }
+  return out
+}
+
+/** glyph 的 split 在 t 讓每一筆彈開多少：stroke → 位移（舞台單位）、角度、力道 w（0～1） */
+export function splitAt(clip: Clip, t: number): Map<number, { x: number; y: number; r: number; w: number }> {
+  const out = new Map<number, { x: number; y: number; r: number; w: number }>()
+  for (const fx of clip.glyph ?? []) {
+    if (fx.do !== 'split' || t < fx.at || t > fx.at + fx.dur) continue
+    const p = (t - fx.at) / fx.dur
+    // 前 15% 彈開（衝過頭一點），停住，最後 30% 彈回來合好
+    const w = p < 0.15 ? backOut(p / 0.15) : p < 0.7 ? 1 : 1 - backOut((p - 0.7) / 0.3)
+    for (const part of fx.parts) for (const i of part.strokes) out.set(i, { x: part.to.x, y: part.to.y, r: part.r ?? 0, w })
   }
   return out
 }

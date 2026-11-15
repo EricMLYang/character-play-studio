@@ -284,6 +284,7 @@ ffmpeg -i 字-old.mp4 -i 字-new.mp4 -filter_complex hstack -c:v libx264 -pix_fm
 emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）。
 
 - **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter), pivot?('center'：旋轉以自己中心為支點) }`。陣列順序＝繪製順序。
+  - **把東西分成兩半 `half: 'left' | 'right'`**：只畫圖的左半／右半（正中間直直切開，切口有描邊，擋字與影子只算那半邊）。同一張圖放兩個角色疊在同一個位置就是整個，各自 `moveTo` 往兩邊就分開了；`swap` 可以帶 `half`（`'whole'` 回到整張），例如劈開時換成 `prop:watermelon-half` 整張。樣板：「分」。
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate?, pivot? }`
   - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`stretchTo`（寬變 amount 倍、高變 1／amount 倍，以腳底為準、會累乘：雪球落地壓成寬扁的雪堆用 1.2～1.7；消失後重新出場就回原樣。擋字、影子的估算不算變寬的部分）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
   - `ease`（moveTo／enter／scaleTo／stretchTo／rotateTo）：`inOut`（預設）、`in`（加速）、`out`（煞車）、`linear`、`back`（衝過頭彈回）、`bounce`（落地彈）、`elastic`（晃到停）
@@ -307,6 +308,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   `anim:check`：國字拼好不到 0.8 秒就 park、park 之後結尾 pulse 時還沒 home，都是**錯誤**；「擋住國字」「鏡頭切掉國字」照國字當下的位置與大小算。
   讓位後國字變小在上方（核心範圍約 x 66–94、y 7.5–35），角色可以在中間跳、站上東西，但頭上的符號、往上飛的東西要避開那一塊。
   引擎函式：`glyphPlaceAt`（中心與倍率）、`glyphBoxAt`（整個字的範圍）、`glyphCore(clip, t)`（擋字檢查的範圍）。
+  國字被劈開 `{ at, dur, do: 'split', parts: [{ strokes, to: {x,y}(舞台單位), r? }] }`（做完回原狀）：每組筆畫前 15% 彈開、停住、最後 30% 合回去（「分」的回馬槍）；國字的位置不變，彈開的距離自己留在畫面裡。
   v2 另有 `{ at, dur, do: 'ask', keep?, to?, amount? }`（問他：暗下來、國字到正中央亮著，見「v2 片型」）；v2 的國字一開始就在讓位的位置。
   引擎函式：`askAt`（ask 的力道 0～1）、`emptyFrameAt`（空字框的輪廓與亮度）、`isV2`。
 - **自製道具圖 `prop:<名字>`**：emoji 寫 `'prop:starfruit'` 就畫 `public/props/starfruit.png`（actors、swap、fx 的 emoji 都能用）。
