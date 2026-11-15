@@ -288,7 +288,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   - **橫著切 `half: 'top' | 'bottom'` ＋ `cut`**（從圖的最上面往下算的比例，預設 0.5）：只畫上面一截／下面一截。上面那截沒有腳、不畫影子。
     把身體跟腳分開、中間接 fx `tube`，就是伸長的腿（樣板：「腿」，機器人身體 `cut: 0.77`、腳 `cut: 0.8`）。
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate?, pivot? }`
-  - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`stretchTo`（寬變 amount 倍、高變 1／amount 倍，以腳底為準、會累乘：雪球落地壓成寬扁的雪堆用 1.2～1.7；消失後重新出場就回原樣。擋字、影子的估算不算變寬的部分）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
+  - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`stretchTo`（寬變 amount 倍、高變 1／amount 倍，以腳底為準、會累乘：雪球落地壓成寬扁的雪堆用 1.2～1.7；消失後重新出場就回原樣。擋字、影子的估算不算變寬的部分；道具拉細（amount < 1）時擋字估算跟著變窄，樣板：「爬」拉高拉細的樹幹）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
   - `ease`（moveTo／enter／scaleTo／stretchTo／rotateTo）：`inOut`（預設）、`in`（加速）、`out`（煞車）、`linear`、`back`（衝過頭彈回）、`bounce`（落地彈）、`elastic`（晃到停）
   - `anticipate`（moveTo／enter）：出發前先往反方向縮這麼遠（舞台單位，3～6）
   - 做完回原狀：`hop`（負值是往下沉）、`bounce`、`squash`（正壓扁／負拉長）、`shake`、`spin`、`tilt`、`flash`

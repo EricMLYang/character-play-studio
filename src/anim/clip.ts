@@ -216,6 +216,8 @@ export type ActorState = {
   /** 只畫圖的左半、右半、上面一截或下面一截（Actor 的 half）；cut 是上下切的高度（Actor 的 cut） */
   half?: 'left' | 'right' | 'top' | 'bottom'
   cut?: number
+  /** stretchTo 留下的寬度倍率（沒寫 stretchTo 就沒有這個欄位）：拉細的道具，擋字、取景的估算跟著變窄 */
+  sw?: number
   /** 身體往左右歪（度，正的是頭往右）：以腳底為支點的斜切，像果凍一樣上半身晚一點跟上；引擎自動加的 */
   lean: number
   visible: boolean; glow: number
@@ -351,7 +353,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
       }
     }
   }
-  if (w !== 1) { st.sx *= w; st.sy /= w }
+  if (w !== 1) { st.sx *= w; st.sy /= w; st.sw = w }
   return st
 }
 
@@ -485,7 +487,7 @@ const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice
  * 一般 emoji 與主角照舊當成正方形：中心 (x, y)、半邊 half × size × s（各處用的 half 照以前的數字）；
  * prop: 照 src/anim/props.ts 量好的內容範圍（往內縮一成，跟 emoji 的估法一樣寬鬆），寬扁的捷運、細高的樹才不會被當成大正方形。
  */
-export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean; half?: 'left' | 'right' | 'top' | 'bottom'; cut?: number }, half: number) {
+export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; sw?: number; flip?: boolean; half?: 'left' | 'right' | 'top' | 'bottom'; cut?: number }, half: number) {
   const box = wholeBox(a, half)
   // 只畫半邊的角色（Actor 的 half）：只算切口那一邊
   if (!a.half) return box
@@ -501,7 +503,7 @@ export function bodyBox(a: { emoji: string; x: number; y: number; size: number; 
 export function cutY(a: { y: number; size: number; s: number; sy?: number; cut?: number }) {
   return a.y + a.size * 0.42 + ((a.cut ?? 0.5) - 0.92) * a.size * a.s * (a.sy ?? 1)
 }
-function wholeBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean }, half: number) {
+function wholeBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; sw?: number; flip?: boolean }, half: number) {
   const b = PROP_BOX[propName(a.emoji)]
   if (!b) { const h = a.size * a.s * half; return { x0: a.x - h, x1: a.x + h, y0: a.y - h, y1: a.y + h } }
   // 跟播放器同一個畫法：以腳底（y + 0.42 size）為準縮放，畫布 (u, v) ∈ [0, 1]
@@ -509,7 +511,9 @@ function wholeBox(a: { emoji: string; x: number; y: number; size: number; s: num
   const pad = (b[2] - b[0]) * 0.05, padY = (b[3] - b[1]) * 0.05
   const u0 = b[0] + pad - 0.5, u1 = b[2] - pad - 0.5
   const [l, r] = a.flip ? [-u1, -u0] : [u0, u1]
-  return { x0: a.x + l * sz, x1: a.x + r * sz, y0: feet + (b[1] + padY - 0.92) * sy, y1: feet + (b[3] - padY - 0.92) * sy }
+  // stretchTo 拉細的道具（「爬」拉高拉細的樹幹）寬度跟著變窄；拉寬的照舊不算變寬的部分
+  const kx = Math.min(1, a.sw ?? 1)
+  return { x0: a.x + l * sz * kx, x1: a.x + r * sz * kx, y0: feet + (b[1] + padY - 0.92) * sy, y1: feet + (b[3] - padY - 0.92) * sy }
 }
 /** 頭頂（頭上的效果冒出來的地方）：一般照舊 y − 0.45 size；prop: 是內容的最上緣 */
 export function headY(a: { emoji: string; y: number; size: number; s: number; sy: number }) {

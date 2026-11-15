@@ -163,3 +163,20 @@ test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果�
   assert.ok(Math.abs(at(1.5).sy - 1 / 1.5) < 1e-9)
   assert.equal(at(3.5).sx, 1)
 })
+
+test('prop: stretchTo 拉細的道具擋字範圍跟著變窄（「爬」的樹幹）；拉寬的照舊不算變寬的部分', () => {
+  const tree = { id: 'tree', emoji: 'prop:tree', x: 120, y: 77 - 0.42 * 100, size: 100 }
+  const boxAt = (amount) => {
+    const clip = clipOf({ actors: [tree], moves: [{ at: 0, dur: 0, actor: 'tree', do: 'stretchTo', amount }] })
+    return bodyBox(actorsAt(clip, 1).find((a) => a.id === 'tree'), 0.4)
+  }
+  const plain = bodyBox(actorsAt(clipOf({ actors: [tree] }), 1)[0], 0.4)
+  const thin = boxAt(0.5), wide = boxAt(1.5)
+  assert.ok(Math.abs((thin.x1 - thin.x0) - (plain.x1 - plain.x0) / 2) < 1e-9)
+  // 以 x 為中心往內縮
+  assert.ok(Math.abs((thin.x0 - 120) - (plain.x0 - 120) / 2) < 1e-9)
+  assert.equal(wide.x0, plain.x0)
+  assert.equal(wide.x1, plain.x1)
+  // 沒有 stretchTo 的角色沒有 sw 欄位
+  assert.equal(actorsAt(clipOf({ actors: [tree] }), 1)[0].sw, undefined)
+})
