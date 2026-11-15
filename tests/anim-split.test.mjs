@@ -12,7 +12,7 @@ registerHooks({
   },
 })
 
-const { actorsAt, bodyBox, splitAt, strokesAt } = await import('../src/anim/clip.ts')
+const { actorsAt, bodyBox, cutY, fxAt, splitAt, strokesAt } = await import('../src/anim/clip.ts')
 
 function clipOf(actors, moves, glyph = []) {
   return {
@@ -51,6 +51,47 @@ test('half 的擋字範圍只算那半邊（翻面時左右對調）', () => {
   assert.equal(right.x0, 80); assert.equal(right.x1, whole.x1)
   assert.equal(bodyBox({ ...a, half: 'left', flip: true }, 0.4).x0, 80)
   assert.deepEqual({ ...left, x1: whole.x1 }, whole)
+})
+
+test('half top／bottom：橫著切在 cut 的高度，擋字範圍只算那一截；swap 可以切換', () => {
+  const clip = clipOf([
+    { id: 'b', emoji: 'hero:bot/idle', x: 80, y: 62, size: 36, half: 'top', cut: 0.77 },
+    { id: 'f', emoji: 'hero:bot/idle', x: 80, y: 62, size: 36, half: 'bottom', cut: 0.8 },
+  ], [
+    { at: 1, actor: 'b', do: 'swap', emoji: 'hero:bot/fall', half: 'whole' },
+  ])
+  const get = (t, id) => actorsAt(clip, t).find((a) => a.id === id)
+  assert.equal(get(0.5, 'b').half, 'top'); assert.equal(get(0.5, 'b').cut, 0.77)
+  assert.equal(get(1.5, 'b').half, undefined)
+  assert.equal(get(0.5, 'f').half, 'bottom')
+  const a = { emoji: 'hero:bot/idle', x: 80, y: 62, size: 36, s: 1 }
+  const whole = bodyBox(a, 0.45)
+  // 切口：腳底（y + 0.42 size）往上 (0.92 − cut) × size
+  const y = 62 + 0.42 * 36 - (0.92 - 0.77) * 36
+  assert.ok(Math.abs(cutY({ ...a, cut: 0.77 }) - y) < 1e-9)
+  const top = bodyBox({ ...a, half: 'top', cut: 0.77 }, 0.45)
+  const bottom = bodyBox({ ...a, half: 'bottom', cut: 0.77 }, 0.45)
+  assert.equal(top.y0, whole.y0); assert.ok(Math.abs(top.y1 - y) < 1e-9)
+  assert.ok(Math.abs(bottom.y0 - y) < 1e-9); assert.equal(bottom.y1, whole.y1)
+  assert.equal(top.x0, whole.x0); assert.equal(top.x1, whole.x1)
+})
+
+test('tube：從角色接到定點，一直在、跟著角色動；環節從定點那端數起', () => {
+  const clip = {
+    ...clipOf([{ id: 'b', emoji: 'hero:bot/idle', x: 80, y: 40, size: 36 }], [
+      { at: 1, dur: 1, actor: 'b', do: 'moveTo', to: { x: 80, y: 20 }, ease: 'linear' },
+    ]),
+    fx: [{ at: 0.5, dur: 2, kind: 'tube', actor: 'b', dy: 10, to: { x: 80, y: 72 }, n: 4 }],
+  }
+  assert.equal(fxAt(clip, 0.4).length, 0)
+  const a = fxAt(clip, 0.6)[0]
+  assert.deepEqual(a.tube.from, { x: 80, y: 50 }); assert.deepEqual(a.tube.to, { x: 80, y: 72 })
+  assert.equal(a.o, 1)
+  assert.deepEqual(a.tube.rings.map((r) => r.y), [68, 64, 60, 56, 52])
+  const b = fxAt(clip, 2)[0]
+  assert.equal(b.tube.from.y, 30)
+  assert.equal(b.tube.rings.length, 10)
+  assert.equal(fxAt(clip, 2.6).length, 0)
 })
 
 test('glyph split：彈開、停住、合回去；沒寫 split 的劇本筆畫一格都不變', () => {

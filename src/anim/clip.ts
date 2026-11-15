@@ -38,8 +38,12 @@ export type Actor = {
    * 只畫圖的左半或右半（以圖的正中間直直切開，切口也有白色描邊）：把一個東西「分成兩半」。
    * 同一張圖放兩個角色、同一個位置，一個 left、一個 right，合起來就是整個；各自 moveTo 往兩邊就分開了。
    * swap 時可以用 half 換掉（'whole' 是整張圖）。翻面（flip）時跟著翻：left 會畫在右邊。
+   * 'top'／'bottom' 是橫著切、只畫上面／下面那一截（切在 cut 的高度）：把身體跟腳分開，中間接一段伸長的腿（「腿」）。
+   * 只畫上面那截的角色沒有腳，地上不畫影子。
    */
-  half?: 'left' | 'right'
+  half?: 'left' | 'right' | 'top' | 'bottom'
+  /** half 是 'top'／'bottom' 時切在哪裡：從圖的最上面往下算的比例（0～1，預設 0.5 正中間） */
+  cut?: number
 }
 
 /** 會留下結果的動作（位置、大小、角度、出場、退場、換造型）。 */
@@ -79,8 +83,8 @@ export type Move = {
   filter?: string
   /** rotateTo／spin／tilt 這一次的支點，蓋過角色的 pivot：'center' 原地空中轉一圈、'feet' 從腳底翻倒 */
   pivot?: 'center' | 'feet'
-  /** swap 同時換掉角色的 half（只畫左半／右半）；'whole' 是回到整張圖。沒寫就照舊 */
-  half?: 'left' | 'right' | 'whole'
+  /** swap 同時換掉角色的 half（只畫左半／右半／上面一截／下面一截）；'whole' 是回到整張圖。沒寫就照舊 */
+  half?: 'left' | 'right' | 'top' | 'bottom' | 'whole'
 }
 
 /** 一組筆畫組合出來：從某個角色（或某個點）飛過去，或從上面掉下來。 */
@@ -132,11 +136,13 @@ export type GlyphPart = { strokes: number[]; to: Vec; r?: number }
  * swoosh 以 actor 的頭（加 dx／dy，例如尾巴根）為中心、半徑 n（預設 12），一段弧往 target（或 to）那一側掃過去：
  * 尾巴拍人、揮棒、甩鞭。color／width 是顏色與粗細（預設白色細線，像風切）；寫成跟角色同色、粗一點，看起來就是那條尾巴。
  * windup（秒）：先往反方向翹起來停這麼久（預備動作），再甩過去。同一個笑點每次用同一個 swoosh，「又來了」才看得出來。
+ * tube 從 actor（中心加 dx／dy）接一根有環節的伸縮管到 to（或 target 的中心）：深色描邊＋本色（color，預設鐵灰）＋每 n 單位一圈環節（預設 2.4，從 to 那端數起），
+ * 粗細 width（預設 2.6）；整段時間一直在、不長出來也不淡掉。機器人伸長的腿（「腿」）：身體 half 'top' 往上移、腳 half 'bottom' 留在地上，中間接兩根。
  */
 export type Fx = {
   at: number
   dur?: number
-  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam' | 'blow' | 'swoosh'
+  kind: 'burst' | 'dizzy' | 'bubble' | 'sweat' | 'puff' | 'zzz' | 'pop' | 'rain' | 'zap' | 'fountain' | 'stink' | 'line' | 'beam' | 'blow' | 'swoosh' | 'tube'
   actor?: string
   /** zap／line 打到誰 */
   target?: string
@@ -207,8 +213,9 @@ export type ActorState = {
   x: number; y: number; s: number; sx: number; sy: number; r: number; o: number
   /** r 裡面以自己中心為支點轉的那一部分（Actor／Move 的 pivot: 'center'）；其餘 r − rc 以腳底為支點 */
   rc: number
-  /** 只畫圖的左半或右半（Actor 的 half） */
-  half?: 'left' | 'right'
+  /** 只畫圖的左半、右半、上面一截或下面一截（Actor 的 half）；cut 是上下切的高度（Actor 的 cut） */
+  half?: 'left' | 'right' | 'top' | 'bottom'
+  cut?: number
   /** 身體往左右歪（度，正的是頭往右）：以腳底為支點的斜切，像果凍一樣上半身晚一點跟上；引擎自動加的 */
   lean: number
   visible: boolean; glow: number
@@ -282,6 +289,7 @@ function rawActor(clip: Clip, a: Actor, t: number): ActorState {
     x: a.x, y: a.y, s: 1, sx: 1, sy: 1, r: 0, rc: 0, lean: 0, o: 1, visible: !a.hidden, glow: 0,
   }
   if (a.half) st.half = a.half
+  if (a.cut != null) st.cut = a.cut
   // stretchTo 留下的寬扁（寬 ×w、高 ÷w），最後才乘進 sx／sy；沒寫 stretchTo 的劇本一格都不變
   let w = 1
   for (const m of sortedMoves(clip)) {
@@ -477,12 +485,21 @@ const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice
  * 一般 emoji 與主角照舊當成正方形：中心 (x, y)、半邊 half × size × s（各處用的 half 照以前的數字）；
  * prop: 照 src/anim/props.ts 量好的內容範圍（往內縮一成，跟 emoji 的估法一樣寬鬆），寬扁的捷運、細高的樹才不會被當成大正方形。
  */
-export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean; half?: 'left' | 'right' }, half: number) {
+export function bodyBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean; half?: 'left' | 'right' | 'top' | 'bottom'; cut?: number }, half: number) {
   const box = wholeBox(a, half)
   // 只畫半邊的角色（Actor 的 half）：只算切口那一邊
   if (!a.half) return box
+  if (a.half === 'top' || a.half === 'bottom') {
+    // 橫著切：切口在圖的 cut 高度（跟播放器同一個畫法，以腳底為準縮放）
+    const y = cutY(a)
+    return a.half === 'top' ? { ...box, y1: Math.min(box.y1, y) } : { ...box, y0: Math.max(box.y0, y) }
+  }
   const left = (a.half === 'left') !== !!a.flip
   return left ? { ...box, x1: Math.min(box.x1, a.x) } : { ...box, x0: Math.max(box.x0, a.x) }
+}
+/** 橫著切（half 'top'／'bottom'）的切口在舞台上的高度 */
+export function cutY(a: { y: number; size: number; s: number; sy?: number; cut?: number }) {
+  return a.y + a.size * 0.42 + ((a.cut ?? 0.5) - 0.92) * a.size * a.s * (a.sy ?? 1)
 }
 function wholeBox(a: { emoji: string; x: number; y: number; size: number; s: number; sy?: number; flip?: boolean }, half: number) {
   const b = PROP_BOX[propName(a.emoji)]
@@ -931,9 +948,9 @@ export function glyphAt(clip: Clip, t: number) {
 export const FLOOR = 74
 
 export type FxItem = { key: string; emoji?: string; bubble?: boolean; bolt?: Vec[]; wave?: boolean; swoosh?: { pts: Vec[]; color: string; width: number };
-  line?: { from: Vec; to: Vec; color: string; width: number }; beam?: Vec[]; x: number; y: number; size: number; o: number; s: number; r: number }
+  line?: { from: Vec; to: Vec; color: string; width: number }; tube?: { from: Vec; to: Vec; color: string; width: number; rings: Vec[] }; beam?: Vec[]; x: number; y: number; size: number; o: number; s: number; r: number }
 
-const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, beam: 1, blow: 0.6, swoosh: 0.35 }
+const FX_DUR: Record<Fx['kind'], number> = { burst: 0.6, dizzy: 1.2, bubble: 1, sweat: 0.7, puff: 0.5, zzz: 1.6, pop: 0.8, rain: 0.8, zap: 0.35, fountain: 1, stink: 1.6, line: 0.5, tube: 1, beam: 1, blow: 0.6, swoosh: 0.35 }
 
 export function fxAt(clip: Clip, t: number): FxItem[] {
   const out: FxItem[] = []
@@ -1035,6 +1052,19 @@ export function fxAt(clip: Clip, t: number): FxItem[] {
         const grow = clamp(p * d / 0.12)
         const to = { x: lerp(from.x, end.x, grow), y: lerp(from.y, end.y, grow) }
         out.push({ key: key(0), line: { from, to, color: f.color ?? '#fff', width: f.width ?? 0.7 }, x: 0, y: 0, size: 0, o: clamp((1 - p) * d / 0.12), s: 1, r: 0 })
+        break
+      }
+      case 'tube': {
+        if (!a) break
+        const b = f.target ? actors.get(f.target) : undefined
+        const to = b ? { x: b.x, y: b.y } : f.to
+        if (!to) break
+        const from = { x: a.x + (f.dx ?? 0), y: a.y + (f.dy ?? 0) }
+        // 環節：從 to（腳）那端往上每 gap 一圈，伸長時新的一節從上面冒出來
+        const gap = f.n || 2.4, len = Math.hypot(from.x - to.x, from.y - to.y)
+        const rings: Vec[] = []
+        for (let l = gap; l < len - gap * 0.4; l += gap) rings.push({ x: lerp(to.x, from.x, l / len), y: lerp(to.y, from.y, l / len) })
+        out.push({ key: key(0), tube: { from, to, color: f.color ?? '#8C919C', width: f.width ?? 2.6, rings }, x: 0, y: 0, size: 0, o: 1, s: 1, r: 0 })
         break
       }
       case 'beam': {

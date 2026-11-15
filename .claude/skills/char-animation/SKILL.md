@@ -285,6 +285,8 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 
 - **actors**：`{ id, emoji, x, y, size, hidden?, flip?, float?(不畫影子), top?(畫在關燈黑幕上), tint?(CSS filter), pivot?('center'：旋轉以自己中心為支點) }`。陣列順序＝繪製順序。
   - **把東西分成兩半 `half: 'left' | 'right'`**：只畫圖的左半／右半（正中間直直切開，切口有描邊，擋字與影子只算那半邊）。同一張圖放兩個角色疊在同一個位置就是整個，各自 `moveTo` 往兩邊就分開了；`swap` 可以帶 `half`（`'whole'` 回到整張），例如劈開時換成 `prop:watermelon-half` 整張。樣板：「分」。
+  - **橫著切 `half: 'top' | 'bottom'` ＋ `cut`**（從圖的最上面往下算的比例，預設 0.5）：只畫上面一截／下面一截。上面那截沒有腳、不畫影子。
+    把身體跟腳分開、中間接 fx `tube`，就是伸長的腿（樣板：「腿」，機器人身體 `cut: 0.77`、腳 `cut: 0.8`）。
 - **moves**：`{ at, dur?, actor, do, to?, from?, arc?, amount?, times?, emoji?, ease?, anticipate?, pivot? }`
   - 會留下結果：`enter`（從 from 進到原位）、`pop`、`drop`、`vanish`、`moveTo`、`scaleTo`（倍率，會累乘）、`stretchTo`（寬變 amount 倍、高變 1／amount 倍，以腳底為準、會累乘：雪球落地壓成寬扁的雪堆用 1.2～1.7；消失後重新出場就回原樣。擋字、影子的估算不算變寬的部分）、`rotateTo`（累加）、`swap`（換 emoji 或主角姿勢）、`flip`
   - `ease`（moveTo／enter／scaleTo／stretchTo／rotateTo）：`inOut`（預設）、`in`（加速）、`out`（煞車）、`linear`、`back`（衝過頭彈回）、`bounce`（落地彈）、`elastic`（晃到停）
@@ -299,7 +301,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 - **fx**（跟著角色頭頂，可用 dx/dy 偏移）：`burst`（n=1 是 💥，n>1 是一圈 emoji）、`dizzy`、`bubble`（想法泡泡＋emoji）、
   `sweat`、`puff`、`zzz`（emoji 可換，例如 🎵）、`pop`（頭上冒 ❗❓💡👋）、`rain`、`zap`（actor 劈閃電到 target）、`fountain`、`stink`、
   `line`（從 actor 拉線到 target 或 to：蜘蛛絲白色細線、雷射紅色粗線，用 color／width）、`beam`（飛碟往下的牽引光束，n 是底部寬度）
-  、`blow`（從 actor 嘴巴往 target 或 to 吹一串 💨）、`swoosh`（以 actor 為中心往 target 那一側掃一道弧線：尾巴拍人、揮棒）；每個效果都可以加 `scale`（以錨點放大幾倍）
+  、`blow`（從 actor 嘴巴往 target 或 to 吹一串 💨）、`swoosh`（以 actor 為中心往 target 那一側掃一道弧線：尾巴拍人、揮棒）、`tube`（從 actor 中心加 dx／dy 接一根有環節的伸縮管到定點 `to`：深色描邊＋本色 `color`（預設鐵灰）＋每 `n` 單位一圈環節，粗細 `width`；整段一直在、跟著 actor 動）；每個效果都可以加 `scale`（以錨點放大幾倍）
 - **camera**：做完就回原狀 `{ at, dur, do: 'punch'|'shake', amount?, to? }`；會留下結果（維持到下一個）：
   `{ do: 'zoom', amount?(倍率，1 = 全景), to? | actor? }`、`{ do: 'follow', actor, amount? }`（跟拍）。視野永遠不會推出背景外面。
 - **lights**：`{ at, dur, level }`，0 正常、1 全黑、負數是白色閃光（相機閃光燈：-0.9 再 0.3 秒回到 0）

@@ -144,9 +144,12 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
         style={filter ? { filter } : undefined}>
         {a.half
           ? <>
-              {/* 只畫左半或右半（把東西分成兩半）：clipPath 在角色自己的座標裡，翻面、旋轉都跟著走 */}
+              {/* 只畫左半或右半（把東西分成兩半）、上面或下面一截（身體跟腳分開）：clipPath 在角色自己的座標裡，翻面、旋轉都跟著走 */}
               <clipPath id={`half${uid}-${a.id}`}>
-                <rect x={a.half === 'left' ? -a.size : 0} y={-a.size} width={a.size} height={a.size * 2} />
+                {a.half === 'top' || a.half === 'bottom'
+                  ? <rect x={-a.size} y={a.half === 'top' ? -a.size : ((a.cut ?? 0.5) - 0.5) * a.size} width={a.size * 2}
+                      height={a.half === 'top' ? (a.cut ?? 0.5) * a.size + a.size / 2 : a.size * 2} />
+                  : <rect x={a.half === 'left' ? -a.size : 0} y={-a.size} width={a.size} height={a.size * 2} />}
               </clipPath>
               <g clipPath={`url(#half${uid}-${a.id})`}><Emoji char={a.emoji} size={a.size} art={art} /></g>
             </>
@@ -240,7 +243,8 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
         <FloorDecor kind={clip.bg.scenery} t={t} />
 
         {/* 地上的影子：離地愈高愈小愈淡，跳起來才看得出高度 */}
-        {visible.filter((a) => !a.float).map((a) => {
+        {/* 只畫上面一截（half 'top'）的沒有腳，不畫影子 */}
+        {visible.filter((a) => !a.float && a.half !== 'top').map((a) => {
           const feet = a.y + a.size * 0.42
           const h = Math.max(0, FLOOR - feet)
           const k = 1 - Math.min(1, h / 40)
@@ -249,8 +253,9 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
           const body = PROP_BOX[a.emoji.startsWith(PROP_PREFIX) ? a.emoji.slice(PROP_PREFIX.length) : '']
           const full = body ? (body[2] - body[0]) * 0.37 : 0.34
           // 只畫半邊的角色：影子也只有那半邊（窄一半、往那一邊偏）
-          const wide = a.half ? full / 2 : full
-          const side = a.half ? (a.half === 'left' ? -1 : 1) * (a.flip ? -1 : 1) * a.size * wide * a.s : 0
+          const lr = a.half === 'left' || a.half === 'right'
+          const wide = lr ? full / 2 : full
+          const side = lr ? (a.half === 'left' ? -1 : 1) * (a.flip ? -1 : 1) * a.size * wide * a.s : 0
           return <ellipse key={`sh-${a.id}`} cx={a.x + side} cy={Math.max(FLOOR + 1.4, feet - 1.6)} rx={a.size * wide * a.s * a.sx * (0.4 + 0.6 * k)}
             ry={a.size * 0.06 * (0.4 + 0.6 * k)} fill="#000" opacity={0.16 * k * a.o} />
         })}
@@ -315,6 +320,18 @@ export default function AnimPlayer({ clip, playing, t, onTime, onEnd, art = '3d'
               : art === '3d' && FLIP_3D.has(codeOf(f.emoji))
                 ? <g transform="scale(-1 1)"><Emoji char={f.emoji} size={f.size} art={art} /></g>
                 : <Emoji char={f.emoji} size={f.size} art={art} />)}
+            {/* 伸縮管：深色描邊＋本色＋一圈一圈的環節 */}
+            {f.tube && (() => {
+              const { from, to, color, width, rings } = f.tube
+              const len = Math.hypot(from.x - to.x, from.y - to.y) || 1
+              const nx = -(from.y - to.y) / len * (width / 2 + 0.35), ny = (from.x - to.x) / len * (width / 2 + 0.35)
+              return <>
+                <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke="#3E4250" strokeWidth={width + 1} strokeLinecap="round" />
+                <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={color} strokeWidth={width} strokeLinecap="round" />
+                <line x1={from.x - nx * 0.35} y1={from.y - ny * 0.35} x2={to.x - nx * 0.35} y2={to.y - ny * 0.35} stroke="#fff" strokeOpacity=".35" strokeWidth={width * 0.22} strokeLinecap="round" />
+                {rings.map((r, i) => <line key={i} x1={r.x - nx} y1={r.y - ny} x2={r.x + nx} y2={r.y + ny} stroke="#3E4250" strokeWidth={0.5} strokeLinecap="round" />)}
+              </>
+            })()}
             {f.beam && <polygon points={f.beam.map((q) => `${q.x},${q.y}`).join(' ')} fill="#FFF27A" opacity=".45" />}
             {f.line && <>
               <line x1={f.line.from.x} y1={f.line.from.y} x2={f.line.to.x} y2={f.line.to.y} stroke={f.line.color}
