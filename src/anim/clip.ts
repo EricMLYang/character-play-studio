@@ -485,9 +485,10 @@ const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog'
 const PROP_PEOPLE = new Set(['aunt', 'aunt-run', 'aunt-kiss', 'aunt-cake', 'aunt-laugh', 'aunt-shock',
   'dad', 'dad-throw', 'dad-catch', 'dad-flex', 'dad-shock', 'mom', 'mom-open', 'mom-hug', 'mom-tired',
   'bro', 'bro-run', 'bro-lift', 'bro-oops', 'bro-shock', 'sis', 'sis-give', 'sis-laugh', 'sis-shock',
-  'grandpa', 'grandpa-sleep', 'grandpa-wake', 'grandpa-stand'])
+  'grandpa', 'grandpa-sleep', 'grandpa-wake', 'grandpa-stand',
+  'grandma', 'grandma-serve', 'grandma-ladle', 'grandma-pinch', 'grandma-shock', 'uncle', 'uncle-hide', 'uncle-tada', 'uncle-fall'])
 const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar', 'aunt-kiss',
-  'dad-catch', 'mom-open', 'mom-tired', 'grandpa', 'grandpa-sleep', 'grandpa-wake',
+  'dad-catch', 'mom-open', 'mom-tired', 'grandpa', 'grandpa-sleep', 'grandpa-wake', 'uncle-fall',
   'elephant-suck', 'elephant-laugh', 'lion-scared'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 

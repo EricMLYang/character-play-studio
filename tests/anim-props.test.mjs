@@ -198,6 +198,18 @@ test('prop: 的阿公（props-18）跟姑姑一樣算人；坐在搖椅上的三
   }
 })
 
+test('prop: 的阿嬤、叔叔（props-19）跟姑姑一樣算人；只有往後跌坐的叔叔不踩步伐', () => {
+  const walk = (emoji) => clipOf({
+    actors: [{ id: 'x', emoji, x: 20, y: 66, size: 24 }],
+    moves: [{ at: 1, dur: 1, actor: 'x', do: 'moveTo', to: { x: 80, y: 66 } }],
+  })
+  for (const name of ['grandma', 'grandma-serve', 'grandma-ladle', 'grandma-pinch', 'grandma-shock', 'uncle', 'uncle-hide', 'uncle-tada']) {
+    assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk('🧍')).get('x'), name)
+  }
+  assert.equal(lifeOf(walk('prop:uncle-fall')).get('x').steps.length, 0)
+  assert.deepEqual(lifeOf(walk('prop:uncle-fall')).get('x'), lifeOf(walk('prop:mom-tired')).get('x'), '跌坐的叔叔跟坐在地上的媽媽一樣')
+})
+
 test('stretchTo：壓成寬扁（寬 ×amount、高 ÷amount）、留下結果；消失後重新出場就回到原本的樣子', () => {
   const clip = clipOf({
     actors: [{ id: 'x', emoji: 'prop:snowball', x: 120, y: 66, size: 24 }],

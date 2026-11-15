@@ -318,7 +318,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）、爸爸五張（`dad*`）、媽媽四張（`mom*`）、兔子哥哥五張（`bro*`）、恐龍姐姐四張（`sis*`）、阿公四張（`grandpa*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss`、`dad-catch`、`mom-open`、`mom-tired`、坐在搖椅上的 `grandpa`／`grandpa-sleep`／`grandpa-wake` 不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）、爸爸五張（`dad*`）、媽媽四張（`mom*`）、兔子哥哥五張（`bro*`）、恐龍姐姐四張（`sis*`）、阿公四張（`grandpa*`）、阿嬤五張（`grandma*`）、叔叔四張（`uncle*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss`、`dad-catch`、`mom-open`、`mom-tired`、坐在搖椅上的 `grandpa`／`grandpa-sleep`／`grandpa-wake`、跌坐的 `uncle-fall` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -613,6 +613,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `piggy-bank` | 金色小豬存錢筒（側面朝左、背上一條投幣口；臉頰淡粉紅；寬撐滿，高 0.75） | 還沒用 |
 | `shadow-screen` | 影子戲布幕：木頭框立在地上、中間繃著淺米色白布（正面、布上什麼都沒有；白布是不透明的，影子由劇本畫在布前） | 還沒用 |
 | `red-x` | 粗粗的大紅叉（兩筆刷出來、邊緣毛毛的，純紅，約 `#E80401`） | 還沒用 |
+| `grandma` | 阿嬤：銀白頭髮盤成圓包頭、圓臉、粉紅臉頰、瞇瞇眼，橘紅碎花上衣、米白圍裙、深藍長褲、咖啡色布鞋，站好雙手交握笑咪咪（朝左前方；算**人**，會踩步伐）。**阿嬤五張同一個比例**（都是高撐滿 0.92），同 size、同 x 直接 swap | 婆 |
+| `grandma-serve` | 同一位阿嬤雙手端一碗冒熱氣的湯往左遞（藍花白碗是圖的一部分；碗中心在 x − 0.22 × size、y − 0.02 × size） | 婆 |
+| `grandma-ladle` | 同一位阿嬤一手舉高湯勺、一手叉腰，很有精神（湯勺是圖的一部分，旁邊有黃色強調線） | 還沒用 |
+| `grandma-pinch` | 同一位阿嬤彎腰、伸一隻手往左捏臉頰、笑咪咪（黃色強調線；捏住的地方在 x − 0.275 × size、y − 0.02 × size） | 婆（捏臉頰） |
+| `grandma-shock` | 同一位阿嬤嚇一跳、雙手舉起、嘴巴張大 | 婆（回馬槍） |
+| `uncle` | 叔叔：咖啡色短亂髮、黑框眼鏡、露牙笑，橘色連帽外套、牛仔褲、白球鞋，站好一手比 YA（朝左前方；算**人**，會踩步伐）。**叔叔四張同一個比例** | 還沒用（叔） |
+| `uncle-hide` | 同一位叔叔雙手藏在背後、身體前傾、神祕偷笑 | 還沒用 |
+| `uncle-tada` | 同一位叔叔雙手往左攤開「登登！」（手上是空的），很得意 | 還沒用 |
+| `uncle-fall` | 同一位叔叔嚇一跳往後跌坐、眼鏡歪掉、頭上藍汗滴（不踩步伐；高 0.88） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

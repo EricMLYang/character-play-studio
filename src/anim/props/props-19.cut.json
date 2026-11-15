@@ -1,0 +1,7 @@
+{
+  "about": "第十九張道具表（2026-11，Codex 生圖，洋紅底 3×3）：阿嬤五張（站好笑咪咪、雙手交握／雙手端一碗冒熱氣的湯往左遞／一手舉高湯勺、一手叉腰／彎腰伸手往左捏臉頰／嚇一跳雙手舉起，同一個比例可以 swap）、叔叔四張（站好比 YA／雙手藏背後偷笑／雙手往左攤開「登登」／嚇一跳往後跌坐、眼鏡歪掉冒汗，同一個比例可以 swap）。清單在 scripts/sheets/props-19.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-19.png",
+  "key": "#FF00FF",
+  "props": ["grandma", "grandma-serve", "grandma-ladle", "grandma-pinch", "grandma-shock", "uncle", "uncle-hide", "uncle-tada", "uncle-fall"],
+  "together": [["grandma", "grandma-serve", "grandma-ladle", "grandma-pinch", "grandma-shock"], ["uncle", "uncle-hide", "uncle-tada", "uncle-fall"]]
+}
