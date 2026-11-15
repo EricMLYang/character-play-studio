@@ -1,0 +1,7 @@
+{
+  "about": "第十三張道具表（2026-11，Codex 生圖，洋紅底 3×3）：灰色卡通大象四張（站好／鼻子伸進藍色水桶吸水／鼻子舉高往左噴水柱／坐著大笑）、金黃公獅子三張（站好得意／吼叫／嚇到縮成一團）、飛行的燕子、屋簷下有三隻小燕子的鳥巢。清單在 scripts/sheets/props-13.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-13.png",
+  "key": "#FF00FF",
+  "props": ["elephant", "elephant-suck", "elephant-spray", "elephant-laugh", "lion", "lion-roar", "lion-scared", "swallow", "swallow-nest"],
+  "together": [["elephant", "elephant-suck", "elephant-spray", "elephant-laugh"], ["lion", "lion-roar", "lion-scared"]]
+}

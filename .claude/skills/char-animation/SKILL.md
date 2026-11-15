@@ -318,7 +318,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster`／`rooster-sleep` 跟 🐓、`panda-daze`／`panda-wave` 跟 🐼、`beetle` 跟 🪲、`frog-wink` 跟 🐸、`elephant`／`elephant-spray` 跟 🐘、`lion`／`lion-roar` 跟 🦁 一樣（`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐），`butterfly`、`bee`、`bee-sting`、`swallow` 跟 🦋🐝🐦 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。姑姑六張（`aunt*`）跟 🧍 一樣算**人**（`PROP_PEOPLE`），`aunt-kiss` 不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -559,6 +559,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `sock` | 皺巴巴的灰白臭襪子（補丁、破洞），上面冒三條黃綠色臭氣線（圖的上 30%） | 鼻（回馬槍）、丟（第 2 次） |
 | `junk-pile` | 一堆雜物：藍沙發上歪歪地疊著紙箱、足球、一隻襪子、紅雨傘 | 丟（回馬槍推回來的小山，size 60） |
 | `alarm-face` | 沒有指針的紅色雙鈴鬧鐘（鐘面只有十二個刻度）。指針由劇本畫：鐘面中心在圖中心往下 0.072 × size；跟 `alarm-clock` 不同張、長得不完全一樣，同一支別混用 | 時 |
+| `elephant` | 圓滾滾的灰色大象站好微笑（朝左、粉紅耳朵內側、白象牙、鼻子垂下；算動物，跟 🐘 一樣）。四張大象同一個比例 | 象（語詞那一刻） |
+| `elephant-suck` | 同一隻低頭把鼻子伸進藍色水桶吸水（桶子畫在圖上；不踩步伐）；swap 時 x 往右移 0.02 × size | 象（咕嚕咕嚕吸水） |
+| `elephant-spray` | 同一隻鼻子舉高往左上噴一小段水花（水花最遠端在 u 0.16、v 0.27，粗水柱由劇本用 fx `line` 畫）；**swap 時 x 往右移 0.086 × size** | 象（噗！） |
+| `elephant-laugh` | 同一隻坐在地上、鼻子捲起來閉眼大笑（不踩步伐） | 象（每次噴完） |
+| `lion` | 金黃公獅子站好、得意抬頭（朝左、蓬蓬的鬃毛；算動物，跟 🦁 一樣）。三張獅子同一個比例 | 還沒用 |
+| `lion-roar` | 同一隻張大嘴吼叫，嘴前有黑色聲波線 | 還沒用 |
+| `lion-scared` | 同一隻嚇到縮成一團、鬃毛炸開、眼睛瞪圓（不踩步伐） | 還沒用 |
+| `swallow` | 飛行的燕子（藍黑背、白肚、紅喉、剪刀尾，往左飛；算動物，跟 🐦 一樣，飛要加 `float`） | 還沒用 |
+| `swallow-nest` | 屋簷下的泥巴鳥巢，三隻張大黃嘴的小燕子（連屋簷一起，寬撐滿） | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

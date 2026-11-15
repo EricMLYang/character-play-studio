@@ -23,6 +23,7 @@
 | props-10 | `panda-daze` 發呆的熊貓（正對前方、嘴張成小 o、眼神放空） | `panda-wave` 同一隻轉頭看左邊揮手 | `rooster-sleep` 打瞌睡的公雞（朝左、閉眼垂頭） | `bump` 頭上的腫包（貼交叉膠布） | `beetle` 獨角仙（朝左） | `feather` 白色大羽毛（灰描邊、羽軸） | `book-ajar` 半開的藍色精裝書（縫裡透金光） | `gong` 掛在木架上的大銅鑼＋鑼槌 | `lotus-leaf` 當傘的大荷葉（長葉柄） |
 | props-11 | `aunt` 姑姑站好、提禮物袋 | `aunt-run` 張開雙手跑過來要抱人 | `aunt-kiss` 彎腰嘟嘴要親 | `aunt-cake` 捧生日蛋糕 | `aunt-laugh` 遮嘴大笑 | `aunt-shock` 嚇一跳 | `kiss-mark` 紅色唇印 | `box` 打開的大紙箱 | `bush` 灌木叢 |
 | props-12 | `mountain` 大山（雪頂、山腳草） | `tall-tree` 很高很瘦的樹 | `pencil` 水平長鉛筆（筆尖朝右） | `pencil-stub` 很短的鉛筆頭（筆尖朝右） | `smoke` 一大團不透明的白煙 | `frog-wink` 眨眼得意的青蛙 | `sock` 冒臭氣的臭襪子 | `junk-pile` 沙發上疊紙箱、足球、襪子、雨傘 | `alarm-face` 沒有指針的紅色雙鈴鬧鐘 |
+| props-13 | `elephant` 灰色大象站好（朝左） | `elephant-suck` 同一隻把鼻子伸進藍色水桶吸水 | `elephant-spray` 同一隻鼻子舉高往左噴水 | `elephant-laugh` 同一隻坐著大笑 | `lion` 金黃公獅子站好得意（朝左） | `lion-roar` 同一隻吼叫（嘴前有聲波線） | `lion-scared` 同一隻嚇到縮成一團 | `swallow` 飛行的燕子（往左飛） | `swallow-nest` 屋簷下的泥巴鳥巢、三隻小燕子 |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -121,6 +122,17 @@ props-12 要注意（九格清單在 `scripts/sheets/props-12.txt`）：
   **鐘面上沒有指針**（只有十二個刻度），時針、分針、秒針都由劇本畫。白色鐘面中心在圖中心往下 0.072 × size、半徑 0.313 × size；兩個鈴鐺在中心左右 0.215、往上 0.275（「時」）。同一支劇本不要兩張混用。
 - `smoke` 是完全不透明的白色（淺灰描邊），蓋得住後面的東西；在淺色背景上靠描邊看得出輪廓。`sock` 上面三條黃綠色臭氣線是圖的一部分（佔圖的上 30%），襪子本身只有下面 0.6。
 - 去背逐張看過（淺色、深灰底各看一次）：山頂白雪、白煙的邊、鉛筆的銀色金屬環與粉紅橡皮擦、臭氣線、鬧鐘的白鐘面都完整，九張都沒有洋紅殘留（逐像素數過，0 個洋紅像素）。
+
+props-13 要注意（九格清單在 `scripts/sheets/props-13.txt`）：
+- 大象四張（`elephant`／`elephant-suck`／`elephant-spray`／`elephant-laugh`）、獅子三張（`lion`／`lion-roar`／`lion-scared`）各用 `together` 綁成一組，同一個比例（大象是噴水那張、獅子是吼叫那張撐滿寬）。
+  **`elephant-spray` 跟 `elephant` 同 size swap，x 要往右移 0.086 × size**（頭往左上抬、水花往左凸出去，各自置中後身體就往左偏了 44/512 格）；移過去以後四隻腳、腳底對得齊，
+  但噴水那張的大象畫得比較矮（耳朵頂低 0.13 × size），swap 彈一下時看得出來一點點。`elephant-suck` x 往右移 0.02 × size；`elephant-laugh` 是坐姿，同 x 就好（「象」）。
+- `elephant-suck` 的藍色水桶畫在圖上（鼻子伸進桶裡），不用另外放桶子；換成別張時桶子會跟著不見。
+- `elephant-spray` 圖上的水只是鼻子往左上噴的一小段弧線＋水滴（水花最遠那一端在 u 0.16、v 0.27），要射到人身上的粗水柱由劇本畫（「象」用兩條 fx `line`：深藍外圈＋淺藍水芯）。
+- 大象、獅子在引擎裡算動物（`src/anim/clip.ts` 的 `PROP_ANIMALS`，跟 🐘🦁 一樣踩步伐）；`elephant-suck`、`elephant-laugh`、`lion-scared` 不踩步伐（`PROP_NO_STEPS`）。
+  `swallow` 跟 🐦 一樣算動物，在空中飛要加 `float`；`swallow-nest`（屋簷＋鳥巢，寬撐滿）是道具。
+- 去背逐張看過（淺色、深灰底各看一次）：大象耳朵內側的淺粉紅、白色象牙、噴出來的淺藍水花與水滴、獅子嘴前的黑色聲波線、嚇到時頭上的驚嚇線、燕子的紅喉白肚、小燕子的黃嘴都完整，
+  九張都沒有洋紅殘留（逐像素數過，0 個洋紅像素）。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 
