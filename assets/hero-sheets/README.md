@@ -8,7 +8,7 @@
 - 2026-11 用 Codex 的生圖工具畫的（爸爸同意）。參考圖取自爸爸 FamilyCreation 資料夾裡孩子看熟的影片（各明星那幾支的截圖），
   所以長相是他認得的那一隻；參考圖本身不放進 repo（那批影片裡也有別人的角色與家人的臉）。
 - 一張表 9 個姿勢是同一次畫的，長相、比例、上色都一致——比一張一張畫（`scripts/hero.mjs`）穩定得多。
-- 檔名：`<主角>-<表>.png`，例如 `pig-A.png`（A 表情、B 動作、C 道具與生活動作、D 全身動作、E 吃東西與身體反應、F 身體狀況與反應）。
+- 檔名：`<主角>-<表>.png`，例如 `pig-A.png`（A 表情、B 動作、C 道具與生活動作、D 全身動作、E 吃東西與身體反應、F 身體狀況與反應；G 起是某個主角專屬的表，例如 `sheriff-G.png` 警長變老）。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 
@@ -29,6 +29,7 @@
 | D | `kick` 一腳往前踢高 | `throw` 高舉過頭往前丟 | `pull` 雙手往後拉 | `lift` 雙手高舉過頭 | `jump` 跳起來往上搆 | `hug` 張開雙手 | `blow` 鼓臉吹氣 | `peek` 蹲低偷看 | `flee` 回頭嚇到往後逃 |
 | E | `sour` 酸到皺臉發抖 | `spicy` 辣到吐舌噴淚 | `stinky` 捏鼻子往後仰 | `full` 吃飽坐著摸肚子 | `yawn` 大哈欠伸懶腰 | `sneeze` 打噴嚏 | `drool` 眼睛發亮流口水 | `giggle` 摀嘴偷笑 | `tired` 累到吐舌喘氣 |
 | F | `hold` 憋尿夾腿冒汗 | `hungry` 摸扁肚子垂頭 | `hot` 滿頭汗吐舌搧風 | `doze` 站著睡著 | `know` 舉手說我知道 | `stomp` 氣到跺腳 | `bow` 鞠躬 | `duck` 抱頭蹲下 | `slip` 滑倒的瞬間 |
+| G（只有警長） | `old1` 一小撮白鬍子 | `old2` 鬍子到胸口＋拐杖 | `old3` 鬍子拖地、眼鏡、駝背 | `oldShock` 很老、嚇到跌坐、拐杖飛掉 | `oldWalk` 拄拐杖發抖慢走 | `oldLaugh` 摸鬍子笑 | `oldSleep` 拄拐杖打瞌睡 | `oldPoint` 舉拐杖指 | `oldHuh` 手放耳邊「蛤？」 |
 
 D 表（2026-11-15 補）切出來要注意：`jump` 的圖是腳縮起來、但切圖時一樣腳底對齊底部，劇本要自己 `hop`／`moveTo` 把他抬離地面；
 `flee` 是身體往**右**跑、回頭看左邊（跟其他姿勢反向），從左邊的東西逃開不用 flip；小老鼠的 `blow` 圖裡自帶一小團淺藍的氣。
@@ -36,6 +37,12 @@ D 表（2026-11-15 補）切出來要注意：`jump` 的圖是腳縮起來、但
 E 表（2026-11-15 補）：圖上自帶效果——`spicy` 兩邊噴淺藍眼淚、`sneeze` 嘴前噴一串淺藍飛沫、`drool` 嘴角一滴口水（花生多兩顆黃色閃光）、`tired` 頭上淺藍汗滴、`sour`／`full`／`spicy`／`giggle` 身邊有幾條黑色抖動線（部分角色）。劇本不用再疊同樣的 💦，要更大的效果再加 fx。`full` 是坐姿（腳底一樣對齊底部）；`sneeze` 的飛沫往左噴，要對著右邊的東西噴就 `flip`。
 
 F 表（2026-11-15 補）：圖上自帶效果——`hold` 夾腿、雙手按肚子下方、身邊淺藍汗滴與抖動線（每個角色都有，花生、警長的汗滴噴得比較開）、`hot` 滿頭淺藍汗滴＋搧風的動作線、`doze` 身邊幾條搖晃線（豬探長、花生；豬探長嘴角多一滴淺藍口水）、`know` 舉起的手旁邊幾條黑色強調線（豬探長、花生）、`stomp` 踩地那隻腳下一圈黑色衝擊線（豬探長、花生、小老鼠）、`stomp` 花生頭上多一個生氣符號、`duck` 身邊抖動線、`slip` 身下幾條滑動線（豬探長、花生、小老鼠；警長的 `slip` 比較像跌坐）。劇本不用再疊同樣的 💦。`bow`、`duck` 比站姿矮（彎腰、蹲著），`slip` 是往後倒、雙腳往前（左）飛起來的瞬間，腳底一樣對齊底部：要「滑倒」配 `rotateTo`／`hop`，倒地後接 `fall` 或 `flat`。花生的 `slip` 照站姿比例會超出畫布，另外縮成 0.99 倍（看不出來）。
+
+G 表（2026-11-15 補，**只有狗狗警長有**，給「老」用；用 `npm run sheet:gen` 生的，九格清單在 `scripts/sheets/sheriff-G.txt`）：
+`old1`→`old2`→`old3` 是同一隻一級比一級老（鬍子一小撮→到胸口＋拐杖→拖地＋眼鏡＋駝背），同一個比例可以直接 `swap`；後六格都是 `old3` 的老法。
+圖上自帶效果：`oldShock` 頭旁黃色驚嚇線、身下黑色動作線、飛在右邊的拐杖（拐杖在圖裡，不用另外放）；`oldWalk` 兩邊抖動線；`oldLaugh`、`oldPoint`、`oldHuh` 旁邊幾條黃色強調線；`oldSleep` 淺藍鼻涕泡。
+`old3` 駝背但帽頂跟 `idle` 一樣高（圖就是這樣畫的）；`oldShock` 是跌坐、腳舉起來；`oldHuh` 照站姿比例會超出畫布，另外縮成 0.98 倍（看不出來）。
+其他四個明星沒有 G 表：跟 C 表的招牌姿勢一樣，各自的 `.cut.json` 與 `src/play/poses.ts` 各列各的，不用五個一致。
 
 | 明星 | 檔名 | 角色（生圖 prompt 的「角色：」那一行） | C 表招牌 1 | C 表招牌 2 |
 |---|---|---|---|---|
@@ -80,7 +87,19 @@ npm run png:pack -- public/hero          # 整個資料夾重壓；已經是調�
 
 `npm run hero`（本機模型畫的舊主角，`scripts/hero-trim.py`）存檔時也一樣壓。
 
-## 生圖的 prompt
+## 生圖：`npm run sheet:gen`
+
+```bash
+npm run sheet:gen -- hero sheriff G scripts/sheets/sheriff-G.txt   # 主角：<id> <表的代號> <九格清單檔>（有道具的格子加 --props）
+npm run sheet:gen -- prop 9 scripts/sheets/props-9.txt             # 道具表：<第幾張> <九格清單檔>
+```
+
+- 請 Codex 的生圖工具畫，在暫存資料夾生好才搬進 `assets/hero-sheets/<id>-<代號>.png`（道具表進 `assets/prop-sheets/`）；已經有同名的圖要加 `--force` 才會蓋掉。**會連網**，送出去的只有 prompt 與參考圖。
+- prompt 的前言（版面規則、綠底、畫風）**固定寫在 `scripts/sheet-gen.mjs` 裡**，每次只要給九格清單；清單放 `scripts/sheets/<id>-<代號>.txt`（一行一格、共 9 行），跟著 repo 留著，之後重生、補表才查得到當初怎麼寫。
+- 角色描述（prompt 的「角色：」那一行）讀 `src/anim/heroes/<id>.cut.json` 的 `look`；參考圖用 `assets/hero-sheets/<id>-A.png`。
+- 生好只是原圖：自己打開看過（九格都對、沒有互相碰到、底色乾淨），再寫進 `.cut.json` 的 `sheets`、加進 `src/play/poses.ts`，跑 `npm run hero:cut -- <id>`（可以先 `--out` 到別處看）。
+
+## 生圖的 prompt（A～F 表當初手動送的，前言現在在 `scripts/sheet-gen.mjs`）
 
 每張表都是「共同前言＋九格清單」，附一張參考圖（角色的截圖）丟給生圖工具。換角色時改「角色：」那一行。
 

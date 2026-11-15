@@ -1,6 +1,7 @@
 {
   "name": "狗狗警長",
-  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的吹哨子、敬禮；D 表全身動作、E 表吃東西與身體反應、F 表身體狀況與反應跟豬探長同一套。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張；舊的 run 跟衝刺的 dash 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
+  "look": "狗狗警長——金黃色的拉布拉多犬警長，垂耳，戴棕色牛仔警長帽，穿淺藍色襯衫、胸前有金色星星警徽，脖子掛著紅繩銀色哨子，用兩隻腳站立，大頭小身體的 Q 版比例。",
+  "about": "Codex 生圖畫的綠幕姿勢表（3×3，畫風跟豬探長的表統一）。A 表情、B 動作跟豬探長同一套；C 表 1、2 格是招牌的吹哨子、敬禮；D 表全身動作、E 表吃東西與身體反應、F 表身體狀況與反應跟豬探長同一套；G 表「變老」只有警長有（old1～old3 一級比一級老，其他六格是很老的動作）。朝左。比例以 A 表的 idle 身高為準。沒有放大鏡，think 跟托下巴的 ponder 同一張；舊的 run 跟衝刺的 dash 同一張。來源與版面規則見 assets/hero-sheets/README.md。",
   "ref": "idle",
   "sheets": {
     "A": {
@@ -26,6 +27,10 @@
     "F": {
       "file": "sheriff-F.png",
       "poses": ["hold", "hungry", "hot", "doze", "know", "stomp", "bow", "duck", "slip"]
+    },
+    "G": {
+      "file": "sheriff-G.png",
+      "poses": ["old1", "old2", "old3", "oldShock", "oldWalk", "oldLaugh", "oldSleep", "oldPoint", "oldHuh"]
     }
   },
   "alias": {

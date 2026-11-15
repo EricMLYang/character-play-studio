@@ -6,6 +6,7 @@
 ## 怎麼來的
 
 - 2026-11 用 Codex 的生圖工具畫的，附一張主角姿勢表當畫風參考（只對齊描邊與上色，不畫出角色）。
+- 新的道具表用 `npm run sheet:gen -- prop <第幾張> scripts/sheets/props-<第幾張>.txt` 生（前言固定在腳本裡、九格清單放 `scripts/sheets/`），見 `assets/hero-sheets/README.md` 的「生圖：`npm run sheet:gen`」。
 - 一張表 9 個道具是同一次畫的，畫風一致。檔名：`props-<編號>.png`，對應 `src/anim/props/props-<編號>.cut.json`。
 
 | 表 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
@@ -18,6 +19,7 @@
 | props-6 | `goat` 白山羊站著（四分之三臉、看得到兩支角） | `goat-butt` 同一隻低頭要頂人 | `goat-rear` 同一隻後腳站起來 | `butterfly` 張翅的蝴蝶（正面） | `caterpillar` 綠色毛毛蟲（朝左） | `chrysalis` 掛在樹枝下的蛹 | `bee` 蜜蜂在飛（朝左） | `bee-sting` 同一隻生氣、尾針翹起 | `lilypad` 荷葉（浮在一小圈水上） |
 | props-7 | `tree` 大樹（沒有果子） | `apple-tree` 同一棵樹結滿紅蘋果 | `bao` 一顆包子 | `bao-plate` 一盤包子（冒熱氣） | `bao-pot` 鍋裡滾著包子的大鍋 | `chili` 大紅辣椒 | `hotpot` 麻辣火鍋 | `water` 一杯水加吸管 | `mirror` 立鏡 |
 | props-8 | `dumpling` 半月形水餃 | `dumpling-bite` 同一顆咬一口（露餡、冒熱氣） | `dumpling-plate` 一盤水餃（冒熱氣） | `dumpling-pot` 鍋裡滾著水餃的大鍋（冒熱氣） | `dumpling-chopsticks` 筷子夾著一顆水餃 | `soy` 一小碟醬油 | `flour` 一袋撒出來的麵粉 | `brain` 粉紅色大腦 | `backpack` 藍色雙肩書包 |
+| props-9 | `turtle-old` 很老的烏龜（白長鬍子拖地、白眉毛、小圓眼鏡，朝左） | `cake` 草莓鮮奶油蛋糕 | `cake-halves` 同一個蛋糕切成兩半（一張圖） | `rooster` 抬頭啼叫的公雞（朝左） | `alarm-clock` 紅色雙鈴鬧鐘 | `meat` 帶骨頭的漫畫肉 | `bone` 啃乾淨的白骨頭 | `watermelon` 整顆條紋西瓜 | `watermelon-half` 半顆西瓜（紅肉黑籽朝前） |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -76,6 +78,14 @@ props-8 要注意：
 - `dumpling-bite`、`dumpling-plate`、`dumpling-pot` 上的熱氣跟 props-7 一樣，去背後留下來是**淡紫白色**的線條，淺色、深色背景上都看得見。
 - `flour` 撒出來的白色麵粉堆完整留著（沒有被去背吃掉，邊上還有幾顆小粉粒），但**白色麵粉在淺色背景上對比低**：要讓人看清楚就放在深色背景或深色的東西前面。
 - `brain` 是粉紅色（不是洋紅），去背沒有吃到，皺摺、描邊都完整。
+
+props-9 要注意（用 `npm run sheet:gen -- prop 9 scripts/sheets/props-9.txt` 生的，九格清單就在那個檔）：
+- `turtle-old` 是 props-5 `turtle` 的「很老」版，**不同張表，不能用 `together` 綁**：兩張都是寬撐滿（長邊＝寬），同 size swap 寬度一樣；
+  老烏龜的頭比較低、身體比較高（白鬍子垂到地上），swap 時腳底對齊、整隻差不多大，彈一下看不出跳。眼鏡的鏡片原本帶一點淡紫，去背後前面那片鏡片變透明（看得到後面），
+  鏡框、反光、白眉毛、白鬍子都完整，沒有洋紅殘留。
+- `cake`／`cake-halves`、`meat`／`bone`、`watermelon`／`watermelon-half` 各用 `together` 綁成一組，同 size swap。
+  `cake-halves` 是同一格裡的兩半（中間有縫），切成一張圖，不是兩張。
+- `rooster` 跟 `turtle-old` 一樣算動物（`src/anim/clip.ts` 的 `PROP_ANIMALS`），走過去踩步伐。
 
 ## 版面規則（腳本靠這些自動切，生圖時一定要做到）
 

@@ -101,7 +101,8 @@ test('prop: 的動物（熊、熊貓、青蛙、螃蟹、烏龜、猴子、山�
   })
   for (const [name, emoji] of [['bear', '🐻'], ['bear-roar', '🐻'], ['panda', '🐼'], ['frog', '🐸'],
     ['crab', '🦀'], ['crab-walk', '🦀'], ['turtle', '🐢'], ['monkey', '🐒'],
-    ['goat', '🐐'], ['goat-butt', '🐐'], ['butterfly', '🦋'], ['bee', '🐝'], ['bee-sting', '🐝']]) {
+    ['goat', '🐐'], ['goat-butt', '🐐'], ['butterfly', '🦋'], ['bee', '🐝'], ['bee-sting', '🐝'],
+    ['turtle-old', '🐢'], ['rooster', '🐓']]) {
     assert.deepEqual(lifeOf(walk(`prop:${name}`)).get('x'), lifeOf(walk(emoji)).get('x'), name)
     assert.ok(lifeOf(walk(`prop:${name}`)).get('x').steps.length > 0, `${name} 走過去要踩步伐`)
   }

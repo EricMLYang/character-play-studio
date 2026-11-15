@@ -314,7 +314,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
   引擎照每張圖量好的內容範圍（`src/anim/props.ts`）算擋字、頭頂效果的位置、影子寬度、自動取景，寬扁的捷運不會被當成大正方形。
   自動質感跟 🎁⭐ 這類道具一樣（不踩步伐、不點頭、不做小動作），`metro` 跟 🚈 一樣算車；
   動物（`bear`、`bear-roar`、`panda`、`frog`、`crab`、`crab-walk`、`turtle`、`monkey`）跟 🐻🐼🐸🦀🐢🐒 一樣算角色（走過去踩步伐、閒著做小動作、唸字時點頭），
-  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
+  `bear-sleep`、`frog-jump`、`crab-pinch`、`turtle-shell`、`monkey-hang`、`goat-rear` 算角色但跟 🐌 一樣不踩步伐；`goat`、`goat-butt` 跟 🐐 一樣，`turtle-old` 跟 🐢、`rooster` 跟 🐓 一樣，`butterfly`、`bee`、`bee-sting` 跟 🦋🐝 一樣（飛要加 `float`），`caterpillar` 跟 🐛 一樣不踩步伐。見下面「自製道具圖」一節。
 - **format**：`2` 是 v2 片型（空字框、ask、v2 的 anim:check）；部件顏色查 `src/anim/parts.ts` 的 `partColor`。
 - **cues**：`{ at, say }` 或 `{ at, sfx }`；sfx：crack boing clink gulp rumble bubble poof plop cheer tap bonk whoosh slide deflate splash hic blip laser achoo
 - **meta**：`{ theme, cast, gags: [...] }`，寫成一行
@@ -322,7 +322,7 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 ## 主角（固定造型的角色）
 
 `public/hero/<主角>/<姿勢>.png` 是固定造型的角色。每個主角都有 idle、happy、dizzy、surprised，再加自己的招牌姿勢。
-五個明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長）已經換成 Codex 畫的綠幕姿勢表切出來的新造型，**姿勢名一模一樣**（見下面的共用表，A～F 六張表 52 個）；
+五個明星（豬探長、花生、小老鼠、楊捷睿、狗狗警長）已經換成 Codex 畫的綠幕姿勢表切出來的新造型，**姿勢名一模一樣**（見下面的共用表，A～F 六張表 52 個；狗狗警長另有 G 表「變老」9 個）；
 機器人、車子等其他主角還是本機開源模型畫的舊貼紙，只有 6 個姿勢。
 
 | 主角 | id | 招牌姿勢 | 適合的故事 |
@@ -401,6 +401,22 @@ emoji 角色站在地板上：`y ≈ 77 − 0.42 × size`（size 13 → y 71）�
 | `slip` | 滑倒的瞬間：雙腳往前飛起、身體往後倒、雙手亂揮：踩到香蕉皮、冰上、水上。腳底一樣對齊底部，配 `hop`／`rotateTo` 才離地；倒地後接 `fall`／`flat`。警長那張比較像跌坐 |
 
 再加上面那張表的各自兩個招牌姿勢（豬探長的 `think`／`doubt` 也在其中）。新造型比舊貼紙高瘦，size 照舊 20～24。
+
+### 只有狗狗警長有的：G 表「變老」（`hero:sheriff/<姿勢>`）
+
+另外四個明星沒有這九張（跟招牌姿勢一樣，劇本只能給 `sheriff` 用）。同一個比例、腳底對齊，可以直接 `swap` 一級一級變老。
+
+| 姿勢 | 什麼時候用 |
+|---|---|
+| `old1` | 有一點老：下巴一小撮白鬍子、眉毛變白，還站得直 |
+| `old2` | 更老：白鬍子到胸口、一手拄拐杖、背有點彎 |
+| `old3` | 非常老：白鬍子拖到地上、小圓眼鏡、駝背、雙手拄拐杖（以下六張都是這個老法） |
+| `oldShock` | 很老又被嚇到：跳起來跌坐、拐杖飛掉、眼鏡歪、嘴張大（圖上自帶黃色驚嚇線） |
+| `oldWalk` | 拄拐杖發抖、很慢地走（圖上自帶抖動線） |
+| `oldLaugh` | 摸著長鬍子呵呵笑、眼睛瞇成線 |
+| `oldSleep` | 拄著拐杖站著打瞌睡、鼻子冒鼻涕泡（圖上自帶淺藍泡泡） |
+| `oldPoint` | 舉拐杖指斜上方、很有精神（ask 回答可用） |
+| `oldHuh` | 手放耳邊、往前傾、瞇眼「蛤？」聽不到 |
 
 **換新造型、加姿勢、加新主角的正規做法**：請生圖模型畫綠幕九宮格姿勢表，放進 `assets/hero-sheets/`，
 寫 `src/anim/heroes/<主角>.cut.json`（每格的姿勢名；同一張圖要兩個名字用 `alias`），跑 `npm run hero:cut -- <主角>`，再把姿勢加進 `src/play/poses.ts`。
@@ -495,6 +511,15 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `flour` | 一袋打開的麵粉（米白紙袋，右下撒出一小堆白色麵粉）。**白色麵粉在淺色背景上對比低**，放在深色背景或深色東西前面比較看得清楚 | 還沒用 |
 | `brain` | 一個粉紅色大腦（一圈一圈的皺摺，側面、小腦在右下） | 還沒用 |
 | `backpack` | 藍色雙肩書包（正面、兩條背帶、前面一個小口袋） | 還沒用 |
+| `turtle-old` | 很老的烏龜（白長鬍子垂到地上、白眉毛、小圓眼鏡，側面朝左；跟 `turtle` 同 size swap 就接得上；算動物） | 老（回馬槍：噗一下烏龜也變老） |
+| `cake` | 一整個草莓鮮奶油蛋糕（還沒切） | 還沒用 |
+| `cake-halves` | 同一個蛋糕切成左右兩半（中間有縫）；跟 `cake` 同 size swap | 還沒用 |
+| `rooster` | 抬頭張嘴啼叫的公雞（朝左；算動物） | 還沒用 |
+| `alarm-clock` | 紅色雙鈴鬧鐘（兩隻小腳） | 還沒用 |
+| `meat` | 帶骨頭的漫畫肉（兩端露白骨） | 還沒用 |
+| `bone` | 啃得乾乾淨淨的白骨頭；跟 `meat` 同 size swap | 還沒用 |
+| `watermelon` | 一整顆綠色條紋大西瓜 | 還沒用 |
+| `watermelon-half` | 切開的半顆西瓜（紅肉黑籽朝前）；跟 `watermelon` 同 size swap | 還沒用 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

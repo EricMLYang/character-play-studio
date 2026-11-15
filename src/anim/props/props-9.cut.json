@@ -1,0 +1,7 @@
+{
+  "about": "第九張道具表（2026-11，Codex 生圖，洋紅底 3×3）：很老的烏龜（白長鬍子拖地、白眉毛、小圓眼鏡，側面朝左；跟 props-5 的 turtle 不同張表，靠「長邊撐滿」對齊，劇本 swap 時照 README 的位移接）、草莓鮮奶油蛋糕／同一個蛋糕切成兩半（同一個比例可以 swap）、啼叫的公雞、紅色鬧鐘、帶骨頭的漫畫肉／啃乾淨的骨頭（同一個比例）、整顆西瓜／半顆西瓜（同一個比例）。動物都朝左。清單在 scripts/sheets/props-9.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-9.png",
+  "key": "#FF00FF",
+  "props": ["turtle-old", "cake", "cake-halves", "rooster", "alarm-clock", "meat", "bone", "watermelon", "watermelon-half"],
+  "together": [["cake", "cake-halves"], ["meat", "bone"], ["watermelon", "watermelon-half"]]
+}

@@ -443,7 +443,7 @@ export const PROP_PREFIX = 'prop:'
 const PROP_VEHICLES = new Set(['metro'])
 const PROP_ANIMALS = new Set(['bear', 'bear-sleep', 'bear-roar', 'panda', 'frog', 'frog-jump',
   'crab', 'crab-pinch', 'crab-walk', 'turtle', 'turtle-shell', 'monkey', 'monkey-hang',
-  'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting'])
+  'goat', 'goat-butt', 'goat-rear', 'caterpillar', 'butterfly', 'bee', 'bee-sting', 'turtle-old', 'rooster'])
 const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-shell', 'monkey-hang', 'goat-rear', 'caterpillar'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
 

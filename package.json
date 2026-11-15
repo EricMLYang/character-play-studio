@@ -25,6 +25,7 @@
     "hero": "node scripts/hero.mjs",
     "hero:cut": "node scripts/hero-cut.mjs",
     "prop:cut": "node scripts/prop-cut.mjs",
+    "sheet:gen": "node scripts/sheet-gen.mjs",
     "png:pack": "node scripts/png-pack.mjs"
   },
   "dependencies": {
