@@ -1,0 +1,111 @@
+import type { Clip } from '../clip'
+
+// 椅：發條鯊魚只想坐上那張藍色小椅子，卻拚命轉自己尾巴的發條、轉太緊——一放手「咻」衝過頭，越過椅子一口咬進木板堆，
+// 木板噴上天，冒煙打轉轉到頭昏，木板一片片落成紅色的「椅」。牠甩甩頭，這次輕輕一跳就坐上椅子；
+// 回馬槍：椅子搖呀搖，搖太大差點往後翻，鯊魚嚇一跳——又穩穩搖回來。椅、椅、椅子
+const clip: Clip = {
+  char: '椅',
+  meta: { theme: '發條鯊魚找椅子', cast: '發條鯊魚＋藍色小椅子＋木板堆', gags: ['發條轉太緊衝過頭', '一口咬進木板堆', '搖椅搖太大差點翻'] },
+  duration: 10,
+  bg: { top: '#FFF3DA', bottom: '#FFFBF2', floor: '#E7D2B0', scenery: 'room' },
+  actors: [
+    { id: 'chair', emoji: '🪑', x: 136, y: 72, size: 11, tint: 'hue-rotate(185deg) saturate(1.6)' },
+    { id: 'w1', emoji: '🪵', x: 153, y: 72.5, size: 9 },
+    { id: 'w2', emoji: '🪵', x: 153, y: 66, size: 9 },
+    { id: 'w3', emoji: '🪵', x: 153, y: 59.5, size: 9 },
+    { id: 'shark', emoji: 'hero:shark/idle', x: 24, y: 71, size: 14, hidden: true, flip: true },
+  ],
+  moves: [
+    { at: 0.0, actor: 'shark', do: 'enter', from: { x: -18, y: 71 }, dur: 0.6, ease: 'out' },
+    // 拚命轉尾巴的發條，越轉越快，全身發抖
+    { at: 1.0, actor: 'shark', do: 'shake', amount: 0.6, dur: 0.5 },
+    { at: 1.5, actor: 'shark', do: 'shake', amount: 1.4, dur: 0.5 },
+    { at: 1.3, actor: 'w3', do: 'shake', amount: 0.8, dur: 0.6 },
+    { at: 1.6, actor: 'shark', do: 'squash', amount: -0.25, dur: 0.4 },
+    // 放手！衝過頭，越過椅子咬進木板堆
+    { at: 2.0, actor: 'shark', do: 'swap', emoji: 'hero:shark/chomp' },
+    { at: 2.0, actor: 'shark', do: 'moveTo', to: { x: 146, y: 71 }, dur: 0.45, anticipate: 4, ease: 'in' },
+    { at: 2.45, actor: 'shark', do: 'squash', amount: 0.5, dur: 0.25 },
+    { at: 2.45, actor: 'w1', do: 'moveTo', to: { x: 110, y: -15 }, arc: 10, dur: 0.5, ease: 'out' },
+    { at: 2.47, actor: 'w2', do: 'moveTo', to: { x: 80, y: -15 }, arc: 12, dur: 0.55, ease: 'out' },
+    { at: 2.49, actor: 'w3', do: 'moveTo', to: { x: 55, y: -15 }, arc: 14, dur: 0.6, ease: 'out' },
+    { at: 2.45, actor: 'w1', do: 'spin', times: 2, dur: 0.5 },
+    { at: 2.47, actor: 'w2', do: 'spin', times: 2, dur: 0.55 },
+    { at: 2.49, actor: 'w3', do: 'spin', times: 3, dur: 0.6 },
+    // 腳底冒煙往後滑，原地打轉轉到昏
+    { at: 2.7, actor: 'shark', do: 'swap', emoji: 'hero:shark/surprised' },
+    { at: 2.7, actor: 'shark', do: 'moveTo', to: { x: 124, y: 71 }, dur: 0.5, ease: 'out' },
+    { at: 3.3, actor: 'shark', do: 'swap', emoji: 'hero:shark/spin' },
+    { at: 3.3, actor: 'shark', do: 'flip' },
+    { at: 3.5, actor: 'shark', do: 'flip' },
+    { at: 3.7, actor: 'shark', do: 'flip' },
+    { at: 3.9, actor: 'shark', do: 'flip' },
+    { at: 4.1, actor: 'shark', do: 'flip' },
+    { at: 4.3, actor: 'shark', do: 'flip' },
+    { at: 4.5, actor: 'shark', do: 'swap', emoji: 'hero:shark/dizzy' },
+    { at: 3.3, actor: 'shark', do: 'shake', amount: 1, dur: 1.2 },
+    // 甩甩頭，看到椅子——輕輕一跳坐上去
+    { at: 5.9, actor: 'shark', do: 'swap', emoji: 'hero:shark/idle' },
+    { at: 5.9, actor: 'shark', do: 'shake', amount: 1.5, dur: 0.35 },
+    { at: 6.4, actor: 'shark', do: 'moveTo', to: { x: 136, y: 63 }, arc: 8, dur: 0.45, ease: 'out' },
+    { at: 6.85, actor: 'chair', do: 'squash', amount: 0.25, dur: 0.25 },
+    { at: 6.85, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    // 回馬槍：搖呀搖——搖太大差點往後翻——又穩穩搖回來
+    { at: 7.4, actor: 'chair', do: 'tilt', amount: -8, dur: 0.5 },
+    { at: 7.4, actor: 'shark', do: 'tilt', amount: -8, dur: 0.5 },
+    { at: 7.9, actor: 'chair', do: 'tilt', amount: 8, dur: 0.5 },
+    { at: 7.9, actor: 'shark', do: 'tilt', amount: 8, dur: 0.5 },
+    { at: 8.4, actor: 'chair', do: 'tilt', amount: -28, dur: 0.7 },
+    { at: 8.4, actor: 'shark', do: 'tilt', amount: -28, dur: 0.7 },
+    { at: 8.5, actor: 'shark', do: 'swap', emoji: 'hero:shark/surprised' },
+    { at: 9.1, actor: 'shark', do: 'swap', emoji: 'hero:shark/happy' },
+    { at: 9.1, actor: 'chair', do: 'tilt', amount: 5, dur: 0.4 },
+    { at: 9.1, actor: 'shark', do: 'tilt', amount: 5, dur: 0.4 },
+  ],
+  builds: [
+    // 噴上天的木板一片片落下：木 → 大 → 可
+    { at: 3.4, dur: 0.7, strokes: [0, 1, 2, 3], from: 'w3', style: 'drop', color: '#E03131' },
+    { at: 4.1, dur: 0.6, strokes: [4, 5, 6, 7], from: 'w2', style: 'drop', color: '#E03131' },
+    { at: 4.7, dur: 0.7, strokes: [8, 9, 10, 11], from: 'w1', style: 'drop', color: '#E03131' },
+  ],
+  glyph: [{ at: 5.4, dur: 0.4, do: 'wobble' }, { at: 9.4, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.6, kind: 'bubble', actor: 'shark', emoji: '🪑', dur: 0.9, dx: 7 },
+    { at: 1.1, kind: 'pop', actor: 'shark', emoji: '🔑', dur: 0.8, dx: -8 },
+    { at: 1.5, kind: 'sweat', actor: 'shark' },
+    { at: 2.0, kind: 'puff', actor: 'shark', dur: 0.5 },
+    { at: 2.45, kind: 'burst', x: 150, y: 64, dur: 0.45, dx: -4 },
+    { at: 2.75, kind: 'puff', actor: 'shark', dur: 0.6 },
+    { at: 2.9, kind: 'stink', actor: 'shark', emoji: '💨', dur: 0.8 },
+    { at: 4.5, kind: 'dizzy', actor: 'shark', dur: 1.4 },
+    { at: 6.1, kind: 'pop', actor: 'shark', emoji: '💡', dur: 0.5 },
+    { at: 6.9, kind: 'burst', actor: 'shark', emoji: '✨', n: 5, dur: 0.5 },
+    { at: 8.6, kind: 'sweat', actor: 'shark' },
+    { at: 9.2, kind: 'pop', actor: 'shark', emoji: '😁', dur: 0.6 },
+  ],
+  camera: [
+    { at: 1.4, dur: 0.6, do: 'zoom', amount: 1.25, to: { x: 34, y: 60 } },
+    { at: 2.0, dur: 0.3, do: 'follow', actor: 'shark', amount: 1.3 },
+    { at: 2.45, dur: 0.3, do: 'shake', amount: 1.4 },
+    { at: 2.6, dur: 0.5, do: 'zoom', amount: 1 },
+  ],
+  cues: [
+    { at: 0.1, sfx: 'tap' },
+    { at: 1.0, sfx: 'tap' },
+    { at: 1.2, sfx: 'tap' },
+    { at: 1.35, say: '椅' },
+    { at: 1.55, sfx: 'tap' },
+    { at: 1.7, sfx: 'tap' },
+    { at: 2.0, sfx: 'whoosh' },
+    { at: 2.45, sfx: 'bonk' },
+    { at: 2.5, sfx: 'crack' },
+    { at: 2.75, sfx: 'slide' },
+    { at: 5.45, say: '椅' },
+    { at: 6.85, say: '椅子' },
+    { at: 7.6, sfx: 'tap' },
+    { at: 8.1, sfx: 'tap' },
+    { at: 9.5, sfx: 'cheer' },
+  ],
+}
+
+export default clip
