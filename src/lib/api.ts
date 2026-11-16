@@ -56,3 +56,16 @@ export const recordPlay = (route: PlayEventKind, body: Record<string, unknown>):
   fetch(`/api/${route}`, { method: 'POST', body: JSON.stringify(body), keepalive: true }).then(j)
 export const importDeviceProgress = (data: unknown): Promise<{ added: number; skipped: number; already: number }> =>
   fetch('/api/progress/import', { method: 'POST', body: JSON.stringify(data) }).then(j)
+
+// ---- 角色九宮格（Studio 才用）----
+export type HeroSheet = { tag: string; file: string; poses: (string | null)[]; cells: string[] }
+export type HeroInfo = { id: string; name: string; look: string; star: boolean; custom: boolean; sheets: HeroSheet[]; poses: string[]; missing: string[]; magenta: boolean }
+export type HeroJob = { id: string; status: 'running' | 'done' | 'failed'; step: string; log: string[]; startedAt: string; finishedAt?: string; onlyA: boolean }
+export const getHeroes = (): Promise<{ heroes: HeroInfo[]; job: HeroJob | null }> => fetch('/api/heroes').then(j)
+export const uploadHero = (file: File, opts: { id: string; name: string; look: string; magenta: boolean; onlyA: boolean }): Promise<HeroJob> => {
+  const q = new URLSearchParams({ id: opts.id, name: opts.name, look: opts.look, ext: file.name.split('.').pop() || 'png', magenta: opts.magenta ? '1' : '', onlyA: opts.onlyA ? '1' : '' })
+  return fetch(`/api/heroes/upload?${q}`, { method: 'POST', body: file }).then(j)
+}
+export const finishHero = (body: { id: string; look: string; magenta: boolean }): Promise<HeroJob> =>
+  fetch('/api/heroes/finish', { method: 'POST', body: JSON.stringify(body) }).then(j)
+export const cancelHeroJob = (): Promise<HeroJob | null> => fetch('/api/heroes/cancel', { method: 'POST' }).then(j)

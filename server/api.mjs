@@ -1,17 +1,18 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { json, dispatch } from './http.mjs'
-import { MEDIA, STROKES, VOICE } from './core.mjs'
+import { MEDIA, ROOT, STROKES, VOICE } from './core.mjs'
 import { syncVoice } from './voice.mjs'
 import { libraryRoutes } from './routes/library.mjs'
 import { promptRoutes } from './routes/prompt.mjs'
 import { mediaRoutes } from './routes/media.mjs'
 import { characterRoutes } from './routes/character.mjs'
 import { playRoutes } from './routes/play.mjs'
+import { heroRoutes } from './routes/heroes.mjs'
 
 /** 全部 API，依領域分檔。新功能加一個 routes/*.mjs 再接到這裡。 */
 const ROUTES = {}
-for (const table of [libraryRoutes, promptRoutes, mediaRoutes, characterRoutes, playRoutes]) {
+for (const table of [libraryRoutes, promptRoutes, mediaRoutes, characterRoutes, playRoutes, heroRoutes]) {
   for (const [key, handler] of Object.entries(table)) {
     // 兩個檔案宣告同一條路由時，後面那個會默默蓋掉前面的：開機就擋下來
     if (ROUTES[key]) throw new Error(`API 路由重複：${key}`)
@@ -57,6 +58,18 @@ export function apiPlugin() {
         // 沒有筆順的字要明確回 404，不要落到網頁本身；孩子端據此退回字卡動畫
         if (!fs.existsSync(file)) return json(res, 404, { error: '沒有筆順資料' })
         res.setHeader('Content-Type', 'application/json; charset=utf-8')
+        fs.createReadStream(file).pipe(res)
+      })
+
+      // 主角姿勢表原圖（assets/hero-sheets/，不在 public/、不打包進 App）：只給 Studio 的「角色九宮格」看
+      const SHEETS = path.join(ROOT, 'assets', 'hero-sheets')
+      server.middlewares.use('/hero-sheets', (req, res, next) => {
+        const name = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '')
+        if (!/^[a-z0-9]+-[A-Z]\.png$/.test(name)) return next()
+        const file = path.join(SHEETS, name)
+        if (!fs.existsSync(file)) return json(res, 404, { error: '沒有這張姿勢表' })
+        res.setHeader('Content-Type', 'image/png')
+        res.setHeader('Cache-Control', 'no-cache')
         fs.createReadStream(file).pipe(res)
       })
 

@@ -215,3 +215,16 @@ npm run sheet:gen -- prop 9 scripts/sheets/props-9.txt             # 道具表�
 | `kitty` | `kitty-A.png` | 小貓咪——奶油白色的小貓女孩，耳朵和尾巴是橘色、額頭有一小塊橘色斑紋，粉紅色的鼻子和耳朵內側，脖子戴黃色項圈掛一顆金色小鈴鐺，穿天藍色吊帶裙，用兩隻腳站立，大頭小身體的 Q 版比例。 |
 
 要接進引擎：補 B～F 表（之後用自己的 A 表當參考，不用 `--new`）、寫 `src/anim/heroes/<id>.cut.json`（`look` 抄上面那句）、加進 `src/play/poses.ts`、`npm run hero:cut -- <id>`。小企鵝的 A 表有幾格自帶效果線（驚嚇線、冒氣、頭暈圈圈）。
+
+## 從 Studio 上傳圖片做新角色（2026-11-16 加）
+
+Studio 上方「🧸 角色九宮格」：瀏覽每個主角的姿勢表（格子上標姿勢名）與切好的姿勢；「＋ 上傳圖片做新角色」把圖裡的主角做成固定明星。
+背後就是上面那套手動流程，伺服器在背景一步一步跑（`server/hero-maker.mjs`）：
+
+1. 上傳的圖存到 `media/hero-uploads/<id>.<副檔名>`（不進 git）。
+2. `sheet:gen -- hero <id> A … --from <上傳的圖> --look-out …`：上傳的圖決定長相、`pig-A.png` 只對齊畫風；沒填長相就請 Codex 順便寫一句「名字——長相」。
+3. 用自己的 A 表補 B～F（九格跟豬探長同一套，C 表也是放大鏡 `think`、抱胸 `doubt`）。
+4. 寫 `src/anim/heroes/<id>.cut.json`、`hero:cut`、把姿勢登記進 `src/play/custom-heroes.json`（`poses.ts` 會合併進 `POSES`）。
+
+勾「只先做 A 表」會停在第 2 步；fox、kitty、penguin 這種只有 A 表的，在九宮格裡會出現「補齊 B～F 並切圖」（長相預先從上面的表抄）。
+A～F 沒到齊不寫 `.cut.json`（有 `.cut.json` 就算固定明星，測試要 52 個共用姿勢一個不少）。生好的表沒人工看過：做完要打開九宮格逐張看，有問題照上面的方法手動重生那張再 `hero:cut`。

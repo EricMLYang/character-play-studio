@@ -9,6 +9,7 @@ import { ClipMedia } from '../anim/AnimMedia'
 import LearningSummary from './LearningSummary'
 import { setParts } from '../play/parts'
 import CharacterEditor from './CharacterEditor'
+import HeroGallery from './HeroGallery'
 import '../play/play.css'
 import './studio.css'
 
@@ -33,6 +34,7 @@ const TAGS = feedbackTags.map((id) => ({ id, label: TAG_LABELS[id] || id }))
 export default function StudioApp() {
   const [lib, setLib] = useState<Library | null>(null)
   const [sel, setSel] = useState<string | null>(null)
+  const [heroesOpen, setHeroesOpen] = useState(false)
   const [prompt, setPrompt] = useState<Prompt | null>(null)
   const [toast, setToast] = useState('')
   const [filter, setFilter] = useState<'all' | 'seed' | 'prompted' | 'live'>('all')
@@ -186,9 +188,11 @@ export default function StudioApp() {
         <button className="st-mobile-nav" onClick={() => setListOpen((v) => !v)}>
           {listOpen ? (sel ? `編輯「${sel}」` : '選一個字') : '☰ 換一個字'}
         </button>
+        <button className="st-btn ghost st-heroes-open" onClick={() => setHeroesOpen(true)}>🧸 角色九宮格</button>
         <button className="st-btn ghost st-import" onClick={importFromDevice}>匯入 iPad 紀錄</button>
         <a className="st-play" href="/">▶ 開播放器</a>
       </header>
+      {heroesOpen && <HeroGallery onClose={() => setHeroesOpen(false)} />}
 
       <div className={'st-body' + (listOpen ? ' list-open' : '')}>
         <aside className="st-side">

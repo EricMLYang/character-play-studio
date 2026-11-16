@@ -8,8 +8,11 @@
  * 但不是每位都有同一組：反應要換姿勢時，先找這位有沒有那張，沒有就退回 idle，只靠動作演。
  */
 
-/** public/hero/<id>/ 底下有哪些姿勢（tests/stage.test.mjs 會跟資料夾對一次，不會寫錯） */
-export const POSES: Record<string, string[]> = {
+import CUSTOM_HEROES from './custom-heroes.json' with { type: 'json' }
+
+/** public/hero/<id>/ 底下有哪些姿勢（tests/stage.test.mjs 會跟資料夾對一次，不會寫錯）。
+ *  Studio「角色九宮格 → 上傳圖片做新角色」做出來的明星由伺服器寫進 custom-heroes.json，不用手改這裡。 */
+const BUILT_IN: Record<string, string[]> = {
   alien: ['beam', 'dizzy', 'happy', 'idle', 'saucer', 'surprised'],
   astronaut: ['dizzy', 'float', 'happy', 'idle', 'salute', 'surprised'],
   bot: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drool', 'duck', 'eat', 'extend', 'fall', 'flat', 'flee', 'full', 'giggle', 'glitch', 'happy', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
@@ -35,6 +38,7 @@ export const POSES: Record<string, string[]> = {
   warrior: ['dizzy', 'happy', 'idle', 'shield', 'surprised', 'swing'],
   yang: ['angry', 'back', 'blow', 'bow', 'cold', 'cry', 'dash', 'dizzy', 'doze', 'drive', 'drool', 'duck', 'eat', 'fall', 'flat', 'flee', 'full', 'giggle', 'happy', 'helmet', 'hold', 'hot', 'hug', 'hungry', 'idle', 'jump', 'kick', 'know', 'laugh', 'lift', 'listen', 'peek', 'point', 'ponder', 'pull', 'push', 'reach', 'scared', 'sleep', 'slip', 'smug', 'sneak', 'sneeze', 'sour', 'spicy', 'stinky', 'stomp', 'surprised', 'think', 'throw', 'tired', 'wait', 'walk', 'wave', 'yawn'],
 }
+export const POSES: Record<string, string[]> = { ...BUILT_IN, ...(CUSTOM_HEROES as Record<string, string[]>) }
 
 /**
  * 角色的反應。遊戲在「對／錯／等他想」那一下叫一次，角色就演一次。

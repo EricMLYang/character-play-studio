@@ -7,6 +7,8 @@
 .st-top { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: #fff; }
 .st-stats { font-size: 13px; color: var(--dim); }
 .st-import { margin-left: auto; }
+.st-heroes-open { margin-left: auto; }
+.st-heroes-open + .st-import { margin-left: 0; }
 .st-import + .st-play { margin-left: 0; }
 .st-play { margin-left: auto; padding: 8px 18px; border-radius: 999px; background: #FF8A4C; color: #fff;
   text-decoration: none; font-weight: 700; font-size: 14px; }
@@ -238,3 +240,45 @@
 .st-gallery-item b { font-family: var(--kai, serif); font-size: 22px; line-height: 1.1; }
 .st-gallery-item small { font-size: 11px; color: rgba(0,0,0,.45); }
 .st-gallery-item.on { outline: 3px solid #9B7BFF; }
+
+/* 角色九宮格（HeroGallery.tsx） */
+.st-heroes { width: min(1100px, 100%); }
+.st-hero-job { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 8px 0; padding: 10px 14px; border-radius: 12px; background: #fff7e0; }
+.st-hero-job.done { background: #e6f6e6; }
+.st-hero-job.failed { background: #fde8e6; }
+.st-hero-job details { flex: 1 1 100%; }
+.st-hero-job pre { max-height: 200px; overflow: auto; margin: 6px 0 0; padding: 8px; border-radius: 8px; background: #2e2a26; color: #f4efe6; font-size: 11px; white-space: pre-wrap; }
+.st-hero-upload { display: grid; grid-template-columns: 220px 1fr; gap: 14px; margin: 8px 0 14px; padding: 14px; border-radius: 14px; border: 1px dashed rgba(0,0,0,.2); background: #fff; }
+.st-hero-drop { display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #f4efe6; text-align: center; cursor: pointer; overflow: hidden; }
+.st-hero-drop img { width: 100%; height: 100%; object-fit: contain; }
+.st-hero-drop input { display: none; }
+.st-hero-fields, .st-hero-finish { display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.st-hero-fields label, .st-hero-finish label { display: flex; flex-direction: column; gap: 3px; }
+.st-hero-fields input:not([type]), .st-hero-fields textarea, .st-hero-finish textarea { padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,.15); font: inherit; }
+.st-hero-fields .st-hero-check, .st-hero-finish .st-hero-check { flex-direction: row; align-items: center; gap: 6px; }
+.st-hero-fields .st-btn, .st-hero-finish .st-btn { align-self: flex-start; }
+.st-hero-finish { margin: 8px 0 14px; padding: 12px 14px; border-radius: 12px; background: #fff7e0; }
+.st-hero-finish p { margin: 0; }
+.st-hero-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+.st-hero-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.st-hero-group > .st-dim { min-width: 100px; font-size: 12px; }
+.st-hero-chip { display: flex; align-items: center; gap: 4px; padding: 3px 10px 3px 4px; border-radius: 999px; border: 1px solid rgba(0,0,0,.12); background: #fff; font-size: 13px; cursor: pointer; }
+.st-hero-chip img, .st-hero-chip span { width: 26px; height: 26px; object-fit: contain; text-align: center; }
+.st-hero-chip.on { background: #9B7BFF; color: #fff; border-color: #9B7BFF; }
+.st-hero-detail h4 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.st-hero-detail code { font-size: 12px; padding: 1px 6px; border-radius: 6px; background: #f4efe6; }
+.st-hero-sheet { margin: 0 0 16px; }
+.st-hero-sheet figcaption { margin-bottom: 4px; font-weight: 600; font-size: 14px; }
+.st-hero-sheet-img { position: relative; width: min(560px, 100%); }
+.st-hero-sheet-img img { display: block; width: 100%; border-radius: 10px; }
+.st-hero-sheet-img ol { position: absolute; inset: 0; display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr); margin: 0; padding: 0; list-style: none; }
+.st-hero-sheet-img li { display: flex; align-items: flex-end; justify-content: center; padding: 4px; }
+.st-hero-sheet-img li span:not(:empty) { padding: 1px 7px; border-radius: 999px; background: rgba(0,0,0,.6); color: #fff; font: 12px/1.4 ui-monospace, monospace; }
+.st-hero-poses { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.st-hero-poses figure { margin: 0; padding: 4px; border-radius: 10px; background: #fff; border: 1px solid rgba(0,0,0,.06); text-align: center; }
+.st-hero-poses img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+.st-hero-poses figcaption { font: 11px ui-monospace, monospace; color: rgba(0,0,0,.55); }
+@media (max-width: 700px) {
+  .st-hero-upload { grid-template-columns: 1fr; }
+  .st-hero-drop { max-width: 220px; }
+}
