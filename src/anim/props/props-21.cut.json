@@ -1,0 +1,7 @@
+{
+  "about": "第二十一張道具表（2026-11，Codex 生圖，洋紅底 3×3）：家裡的東西——木頭方桌、有椅背的木椅、關著的白框窗戶、同一扇窗戶往外打開（裡面是深藍色的房間，兩張同一個比例可以 swap）、紅磚矮牆、亮著的黃燈罩立燈、金黃色大銅鐘、打開的紅雨傘、一大碗拉麵（筷子夾起一撮麵、冒熱氣）。清單在 scripts/sheets/props-21.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-21.png",
+  "key": "#FF00FF",
+  "props": ["table", "chair", "window", "window-open", "brick-wall", "lamp", "bell", "umbrella", "noodles"],
+  "together": [["window", "window-open"]]
+}

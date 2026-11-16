@@ -31,6 +31,7 @@
 | props-18 | `grandpa` 阿公坐在搖椅上拿著打開的故事書 | `grandpa-sleep` 同一張搖椅上睡著打呼、書蓋在肚子上 | `grandpa-wake` 搖椅上驚醒、雙手舉起、書飛起來 | `grandpa-stand` 站著拄拐杖揮手 | `bowling-pin` 保齡球瓶 | `bowling-ball` 深藍色保齡球 | `piggy-bank` 金色小豬存錢筒（朝左） | `shadow-screen` 影子戲布幕（木框＋米色白布） | `red-x` 粗粗的大紅叉 |
 | props-19 | `grandma` 阿嬤站好笑咪咪、雙手交握 | `grandma-serve` 雙手端一碗冒熱氣的湯往左遞 | `grandma-ladle` 舉高湯勺、叉腰（黃色強調線） | `grandma-pinch` 彎腰伸手往左捏臉頰（黃色強調線） | `grandma-shock` 嚇一跳、雙手舉起 | `uncle` 叔叔站好比 YA | `uncle-hide` 雙手藏背後偷笑 | `uncle-tada` 雙手往左攤開「登登」（手上是空的） | `uncle-fall` 嚇一跳往後跌坐、眼鏡歪掉冒汗 |
 | props-20 | `tiger` 小老虎四腳站好、得意（朝左） | `tiger-roar` 同一隻張大嘴往左吼（嘴前有聲波線） | `tiger-scared` 同一隻嚇到縮成一團、冒汗 | `goose` 大白鵝抬頭挺胸站好（朝左） | `goose-chase` 同一隻張開翅膀、伸長脖子往左追人 | `goose-peck` 同一隻低頭往左下啄 | `wolf` 大野狼兩腳站著叉腰壞笑 | `wolf-howl` 同一隻仰頭閉眼嚎叫 | `wolf-blow` 同一隻鼓腮幫子往左吹氣（嘴前有白色的風） |
+| props-21 | `table` 木頭方桌（斜上方看、桌上是空的） | `chair` 有椅背的木椅（椅面朝左前） | `window` 關著的白框窗戶（田字四格、淺藍玻璃、有窗台） | `window-open` 同一扇窗戶往外打開（裡面深藍色） | `brick-wall` 紅磚矮牆（正面、上緣平） | `lamp` 亮著的黃燈罩立燈 | `bell` 金黃色大銅鐘（有掛環、鐘錘） | `umbrella` 打開的紅雨傘（直立、木握把） | `noodles` 一大碗拉麵（筷子夾起一撮麵、冒熱氣） |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -356,3 +357,9 @@ props-20 要注意（九格清單在 `scripts/sheets/props-20.txt`）：
 - `tiger-roar` 的聲波線、`wolf-blow` 的風都畫在圖的左邊，佔掉圖寬的一部分：本體會比站姿那張偏右，swap 時 x 要自己對一下。
 - 鵝是白的，淺色背景上靠灰色描邊認，別放在白雲或白色東西前面。
 - 三種動物都算動物（`src/anim/clip.ts` 的 PROP_ANIMALS），`tiger-scared` 不踩步伐。
+
+props-21 要注意（九格清單在 `scripts/sheets/props-21.txt`）：
+- `window` 與 `window-open` 是同一扇窗、同一個比例，同一個 `size` 直接 `swap`；打開那張兩片窗扇往左右凸出去，比關著的寬。玻璃是不透明的淺藍色，裡面的房間是深藍色，看不到後面的東西。
+- `brick-wall` 是矮牆（約五層磚），要更高就疊兩張或用 `stretchTo` 拉高；「狼」當時想要的磚頭房子不是這張。
+- `lamp` 是亮著的；要演關燈用 `tint`（例如 `brightness(.55) saturate(.4)`）壓暗，沒有另外一張關著的。
+- `noodles` 的筷子和夾起來的麵畫在圖的右上，碗在下半。
