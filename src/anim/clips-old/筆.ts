@@ -1,0 +1,140 @@
+import type { Clip } from '../clip'
+
+// 筆：披風英雄指著一排站得直直的大鉛筆，想帥氣飛越過去——一飛，太長的披風蓋住頭，一頭撞倒第一枝，鉛筆像骨牌越倒越快，
+// 倒下的鉛筆變成「聿」；最後一枝像翹翹板把他彈上天，兩片鉛筆屑飄下來變成竹字頭，他屁股坐上去把最後一點敲到位，滑下來撿到一枝小鉛筆。
+// 躲在第一枝鉛筆後面的布忍者煙霧彈放錯時間，最後踮腳偷溜又被鉛筆屑絆倒。筆、筆、鉛筆
+const clip: Clip = {
+  char: '筆',
+  meta: { theme: '鉛筆骨牌', cast: '披風英雄＋布忍者＋一排大鉛筆', gags: ['披風蓋頭盲飛撞倒第一枝', '鉛筆骨牌越倒越快', '最後一枝彈上天屁股坐上字'] },
+  duration: 10,
+  bg: { top: '#FFF4E0', bottom: '#FFFBF2', floor: '#BFDDF2', scenery: 'room' },
+  actors: [
+    { id: 'ninja', emoji: 'hero:ninja/hide', x: 42, y: 73, size: 9 },
+    { id: 'p1', emoji: '✏️', x: 50, y: 66, size: 14 },
+    { id: 'p2', emoji: '✏️', x: 64, y: 66, size: 14 },
+    { id: 'p3', emoji: '✏️', x: 78, y: 66, size: 14 },
+    { id: 'p4', emoji: '✏️', x: 92, y: 66, size: 14 },
+    { id: 'p5', emoji: '✏️', x: 106, y: 66, size: 14 },
+    { id: 'sh1', emoji: '🌀', x: 106, y: 56, size: 6, hidden: true, float: true, tint: 'hue-rotate(150deg)' },
+    { id: 'sh2', emoji: '🌀', x: 106, y: 56, size: 6, hidden: true, float: true, tint: 'hue-rotate(150deg)' },
+    { id: 'sh3', emoji: '🌀', x: 100, y: 74, size: 5, hidden: true, tint: 'hue-rotate(150deg)' },
+    { id: 'hero', emoji: 'hero:cape/pose', x: 18, y: 71, size: 14, flip: true },
+    { id: 'pencil', emoji: '✏️', x: 128, y: 66, size: 6, hidden: true },
+  ],
+  moves: [
+    // 鉛筆立正（emoji 的鉛筆是斜的，轉正）
+    { at: 0, dur: 0.01, actor: 'p1', do: 'rotateTo', amount: -45 },
+    { at: 0, dur: 0.01, actor: 'p2', do: 'rotateTo', amount: -45 },
+    { at: 0, dur: 0.01, actor: 'p3', do: 'rotateTo', amount: -45 },
+    { at: 0, dur: 0.01, actor: 'p4', do: 'rotateTo', amount: -45 },
+    { at: 0, dur: 0.01, actor: 'p5', do: 'rotateTo', amount: -45 },
+    { at: 0, dur: 0.01, actor: 'pencil', do: 'rotateTo', amount: -45 },
+    { at: 0.8, actor: 'p1', do: 'flash', dur: 0.5 },
+    { at: 0.85, actor: 'p3', do: 'flash', dur: 0.5 },
+    { at: 0.9, actor: 'p5', do: 'flash', dur: 0.5 },
+    { at: 1.1, actor: 'ninja', do: 'hop', amount: 2, dur: 0.3 },
+    // 扭一扭蓄力
+    { at: 1.3, actor: 'hero', do: 'squash', amount: -0.25, dur: 0.4 },
+    { at: 1.35, actor: 'hero', do: 'shake', amount: 0.8, dur: 0.4 },
+    // 起飛——披風蓋住頭，看不見，一頭撞上第一枝
+    { at: 1.8, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
+    { at: 1.8, actor: 'hero', do: 'moveTo', to: { x: 30, y: 54 }, dur: 0.3, ease: 'out' },
+    { at: 2.1, actor: 'hero', do: 'moveTo', to: { x: 40, y: 60 }, dur: 0.3, ease: 'in' },
+    { at: 2.1, actor: 'hero', do: 'tilt', amount: 15, dur: 0.3 },
+    { at: 2.4, actor: 'hero', do: 'squash', amount: 0.35, dur: 0.2 },
+    // 骨牌：一枝倒向下一枝，越倒越快
+    { at: 2.45, actor: 'p1', do: 'rotateTo', amount: 80, dur: 0.3, ease: 'in' },
+    { at: 2.7, actor: 'p2', do: 'rotateTo', amount: 80, dur: 0.24, ease: 'in' },
+    { at: 2.9, actor: 'p3', do: 'rotateTo', amount: 80, dur: 0.18, ease: 'in' },
+    { at: 3.05, actor: 'p4', do: 'rotateTo', amount: 80, dur: 0.14, ease: 'in' },
+    { at: 2.75, actor: 'p1', do: 'vanish', dur: 0.15 },
+    { at: 2.94, actor: 'p2', do: 'vanish', dur: 0.15 },
+    { at: 3.08, actor: 'p3', do: 'vanish', dur: 0.15 },
+    { at: 3.19, actor: 'p4', do: 'vanish', dur: 0.15 },
+    // 英雄跟著倒下去的鉛筆一路彈到最後一枝
+    { at: 2.6, actor: 'hero', do: 'moveTo', to: { x: 98, y: 58 }, arc: 6, dur: 0.6, ease: 'linear' },
+    // 最後一枝像翹翹板——把英雄彈上天
+    { at: 3.2, actor: 'p5', do: 'tilt', amount: 40, dur: 0.3 },
+    { at: 3.25, actor: 'hero', do: 'moveTo', to: { x: 90, y: 2 }, dur: 0.45, ease: 'out' },
+    { at: 3.25, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: 3.3, actor: 'sh1', do: 'pop', dur: 0.2 },
+    { at: 3.3, actor: 'sh2', do: 'pop', dur: 0.2 },
+    { at: 3.4, actor: 'sh1', do: 'moveTo', to: { x: 66, y: 10 }, arc: 8, dur: 0.6, ease: 'out' },
+    { at: 3.4, actor: 'sh2', do: 'moveTo', to: { x: 120, y: 10 }, arc: 8, dur: 0.6, ease: 'out' },
+    { at: 3.5, actor: 'sh1', do: 'spin', times: 2, dur: 0.8 },
+    { at: 3.5, actor: 'sh2', do: 'spin', times: 2, dur: 0.8 },
+    { at: 3.55, actor: 'p5', do: 'vanish', dur: 0.2 },
+    { at: 4.2, actor: 'sh1', do: 'vanish', dur: 0.2 },
+    { at: 4.55, actor: 'sh2', do: 'vanish', dur: 0.2 },
+    // 屁股坐到字的頂上，敲進最後一點，再滑下來坐在右下角
+    { at: 4.3, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
+    { at: 4.3, actor: 'hero', do: 'moveTo', to: { x: 90, y: 8 }, dur: 0.35, ease: 'in' },
+    { at: 4.65, actor: 'hero', do: 'squash', amount: 0.35, dur: 0.2 },
+    { at: 4.95, actor: 'hero', do: 'moveTo', to: { x: 126, y: 71 }, arc: 4, dur: 0.45, ease: 'in' },
+    { at: 5.4, actor: 'hero', do: 'squash', amount: 0.3, dur: 0.2 },
+    // 披風掀開，腿上有一枝小鉛筆，舉起來
+    { at: 6.2, actor: 'pencil', do: 'pop', dur: 0.3 },
+    { at: 6.5, actor: 'hero', do: 'swap', emoji: 'hero:cape/happy' },
+    { at: 6.5, actor: 'pencil', do: 'moveTo', to: { x: 126, y: 52 }, dur: 0.3, ease: 'back' },
+    { at: 7.4, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
+    { at: 7.4, actor: 'pencil', do: 'moveTo', to: { x: 133, y: 64 }, dur: 0.3 },
+    // 回馬槍：忍者踮腳沿著最下面偷溜，被鉛筆屑絆倒
+    { at: 7.9, actor: 'sh3', do: 'pop', dur: 0.3 },
+    { at: 8.1, actor: 'ninja', do: 'moveTo', to: { x: 96, y: 73 }, dur: 0.8, ease: 'linear' },
+    { at: 8.1, actor: 'ninja', do: 'bounce', amount: 1.5, times: 4, dur: 0.8 },
+    { at: 8.9, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: 8.9, actor: 'ninja', do: 'rotateTo', amount: 80, dur: 0.25, ease: 'in' },
+    { at: 9.2, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/dizzy' },
+  ],
+  builds: [
+    // 倒下來的鉛筆一枝一枝變成橫畫，長長的一豎從中間穿下去 → 聿
+    { at: 2.75, dur: 0.3, strokes: [7], from: 'p1', color: '#E03131' },
+    { at: 2.94, dur: 0.3, strokes: [8], from: 'p2', color: '#E03131' },
+    { at: 3.08, dur: 0.3, strokes: [9], from: 'p3', color: '#E03131' },
+    { at: 3.19, dur: 0.3, strokes: [10], from: 'p4', color: '#E03131' },
+    { at: 3.55, dur: 0.45, strokes: [6, 11], from: 'p5', color: '#C92A2A' },
+    // 兩片鉛筆屑飄下來 → 竹字頭；屁股坐上去敲進最後一點
+    { at: 4.2, dur: 0.4, strokes: [0, 1, 2], from: 'sh1', color: '#F06595' },
+    { at: 4.55, dur: 0.3, strokes: [3, 4], from: 'sh2', color: '#F06595' },
+    { at: 4.65, dur: 0.3, strokes: [5], from: 'hero', color: '#F06595' },
+  ],
+  glyph: [{ at: 4.7, dur: 0.4, do: 'wobble' }, { at: 9.3, dur: 0.6, do: 'pulse' }],
+  fx: [
+    { at: 0.7, kind: 'pop', actor: 'hero', emoji: '👉', dur: 0.6 },
+    { at: 1.15, kind: 'pop', actor: 'ninja', emoji: '🤫', dur: 0.5 },
+    { at: 1.85, kind: 'pop', actor: 'hero', emoji: '🙈', dur: 0.6 },
+    { at: 2.4, kind: 'burst', actor: 'hero', n: 1, dur: 0.35, dx: 6 },
+    { at: 2.75, kind: 'burst', actor: 'ninja', emoji: '💨', n: 1, dur: 0.5 },
+    { at: 2.85, kind: 'pop', actor: 'ninja', emoji: '😷', dur: 0.6 },
+    { at: 3.25, kind: 'puff', actor: 'p5', dur: 0.4 },
+    { at: 4.7, kind: 'pop', actor: 'hero', emoji: '💫', dur: 0.4, dx: 6, dy: 10 },
+    { at: 5.45, kind: 'dizzy', actor: 'hero', dur: 0.8 },
+    { at: 6.55, kind: 'pop', actor: 'hero', emoji: '❗', dur: 0.5 },
+    { at: 7.0, kind: 'pop', actor: 'hero', emoji: '👍', dur: 0.7, dx: -14 },
+    { at: 9.2, kind: 'pop', actor: 'ninja', emoji: '👍', dur: 0.6 },
+  ],
+  camera: [
+    // 骨牌倒的時候跟著英雄，彈上天前退回全景
+    { at: 2.4, dur: 0.3, do: 'zoom', amount: 1.2, to: { x: 70, y: 58 } },
+    { at: 3.1, dur: 0.3, do: 'zoom', amount: 1 },
+  ],
+  cues: [
+    { at: 0.75, say: '筆' },
+    { at: 1.8, sfx: 'whoosh' },
+    { at: 2.4, sfx: 'boing' },
+    { at: 2.75, sfx: 'tap' },
+    { at: 2.94, sfx: 'tap' },
+    { at: 3.08, sfx: 'tap' },
+    { at: 3.19, sfx: 'tap' },
+    { at: 3.25, sfx: 'boing' },
+    { at: 2.8, sfx: 'poof' },
+    { at: 4.0, say: '筆' },
+    { at: 4.65, sfx: 'bonk' },
+    { at: 5.4, sfx: 'slide' },
+    { at: 6.5, say: '鉛筆' },
+    { at: 8.9, sfx: 'slide' },
+    { at: 9.5, sfx: 'cheer' },
+  ],
+}
+
+export default clip
