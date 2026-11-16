@@ -12618,14 +12618,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "a square megaphone box and two giant crescent cheese wedges stacked by a cheeky cartoon mouse",
+        "morph": "A square speaker box and two stacked crescent wedges topple from a swaying tower and lock into the left 口 radical and right stacked 多 component of the Traditional Chinese character 哆.",
         "hook": "哆是哆啦Ａ夢的哆，他的脖子上掛著一個小鈴鐺。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 323,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "哆-326421a6-2ca0-4e23-ba02-ccfa8daea801.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-14T15:18:17.430Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-14T15:18:35.130Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "a0fdf7c8-d3b0-4b03-a6c7-1a86e230cbf2",
+      "promptedAt": "2026-11-14T15:15:44.420Z",
+      "needsRedo": false
     },
     {
       "char": "啦",
@@ -12647,14 +12666,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "stout cartoon detective pig with an oversized magnifying glass and a tall wooden clue-door built from painted timber beams",
+        "morph": "A square wooden door window and colorful painted timber beams shaken loose by the detective pig's headlong crash tumble and lock cleanly into the left mouth radical 口, center hand radical 扌, and right standing component 立 of the Traditional Chinese character 啦.",
         "hook": "啦是說話最後面輕輕的尾巴：好啦、來啦！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 324,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "啦-6052487b-74d8-4282-8db7-3b5527a12d88.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-14T15:21:33.980Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-14T15:21:49.382Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "f4141785-d2a9-45cc-b426-eaded73bff6e",
+      "promptedAt": "2026-11-14T15:19:34.863Z",
+      "needsRedo": false
     },
     {
       "char": "夢",
@@ -12676,14 +12714,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A wobbling tower of bouncy cloud-shaped pillows and indigo wooden blocks carried by Peanut the cartoon raccoon sidekick",
+        "morph": "Bouncing stacked cloud pillows and sleepy wooden blocks ricocheting off floor, walls, ceiling, and a cheeky mouse's head to clack into the four layered components of the Traditional Chinese character 夢 (top grass radical 艹, wide net 罒, crown cover 冖, and bottom crescent evening 夕)",
         "hook": "睡著以後在腦子裡看到的故事，就是夢。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 325,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "夢-ec102037-52ae-4abe-8233-70af5cac061d.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-14T15:24:55.267Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-14T15:25:41.310Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "f9e4d597-21a5-40b5-bf73-a4adddabc4ee",
+      "promptedAt": "2026-11-14T15:22:35.575Z",
+      "needsRedo": false
     },
     {
       "char": "布",
@@ -12734,14 +12791,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A tiny mismatched toy robot, an enormous foam-armored toy warrior, and deep-blue stroke inlays carried in the warrior’s shield.",
+        "morph": "The warrior’s belly flop shakes blue stroke inlays from his shield into the exact centered structure of 警; below the finished glyph, the robot folds into a miniature police car.",
         "hook": "警車上的燈一閃一閃，警長來抓小偷了！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 327,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "警-25532486-0e37-45a9-8217-42a2607c278a.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T13:26:14.011Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T13:26:31.776Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "da9643e8-9213-4386-8210-fafaaa7b9ede",
+      "promptedAt": "2026-11-16T12:36:15.005Z",
+      "needsRedo": false
     },
     {
       "char": "探",
@@ -12763,14 +12839,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A pastel springboard investigation station with a footprint target, padded rebound wall, catch bucket, and eleven dark-blue stroke-shaped structural pieces.",
+        "morph": "The rebound impact releases eleven stroke pieces into shallow landing guides, forming 扌 on the left and 冖, 八, 木 on the right as one correctly proportioned 探.",
         "hook": "探就是到處仔細看、找線索，豬探長最會找。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 328,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "探-788dd660-f594-44a2-bcfe-ab7fdef5752a.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T13:29:16.922Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T13:29:54.557Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "3baea662-79fa-442c-9be0-7da6755871eb",
+      "promptedAt": "2026-11-16T13:27:35.386Z",
+      "needsRedo": false
     },
     {
       "char": "生",
@@ -12821,14 +12916,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "a chunky green rubber dinosaur toy with giant feet, tiny stubby arms, and a round bouncy bottom, plus a row of bright foam blocks and bowling pins",
+        "morph": "A row of colorful bowling pins and curved foam blocks are knocked flying by the rubber dinosaur's belly slide, spinning and stacking mid-air into the outer 尸 canopy and the paired 比 legs of the character 屁 in solid deep cobalt blue.",
         "hook": "噗！放了一個屁。屁屁就是屁股。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 330,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "屁-fc792835-0214-46ee-95cd-5d774935e722.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-14T15:29:24.748Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-14T15:30:32.807Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "a6009255-ba3b-40e3-9377-e369cede5410",
+      "promptedAt": "2026-11-14T15:26:40.133Z",
+      "needsRedo": false
     },
     {
       "char": "偵",
@@ -12850,14 +12964,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A runaway magnifying glass, a caped action figure, and solid blue stroke bars.",
+        "morph": "The chase pushes loose stroke bars toward their final positions; one belly-flop jolts them into the exact Traditional Chinese structure 亻 + 貞.",
         "hook": "跟著腳印一路查，把壞人找出來，就是偵探。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 331,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "偵-3908b0ef-6c09-4a85-94ee-8fc1d0a0be1e.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T13:40:04.323Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T13:40:20.758Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "f45d3f4a-1937-41e4-983a-9733159d32fc",
+      "promptedAt": "2026-11-16T13:30:59.795Z",
+      "needsRedo": false
     },
     {
       "char": "野",
@@ -12908,14 +13041,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A chunky toy warrior, an elastic mooring strap, and one wind-up toy naval patrol boat with detachable navy-blue deck pieces.",
+        "morph": "The boat's flat deck pieces become the exact strokes of 軍: a broad 冖 above a clearly formed 車, with its central vertical extending below the lowest horizontal.",
         "hook": "戴著鋼盔的一大群，就是軍團。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 333,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "軍-0c0d527a-835c-4d3e-96be-5106dfd62789.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T14:10:25.402Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T14:11:10.243Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "d8b98064-c81f-40bf-bb80-8a0562e75741",
+      "promptedAt": "2026-11-16T13:39:58.086Z",
+      "needsRedo": false
     },
     {
       "char": "團",
@@ -13053,14 +13205,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "Two dark golden biscuit paddles shaped as the exact left and right components of 餓.",
+        "morph": "A gentle head bump knocks two biscuit components free; they tumble face-up and land side by side as one correctly proportioned Traditional Chinese 餓.",
         "hook": "肚子咕嚕咕嚕叫，看到吃的就流口水，好餓！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 338,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "餓-4bf8226a-bb70-4c7d-b91e-2f13a5ebc625.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T14:18:40.781Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T14:18:56.210Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "ce0db58b-de9a-4ae1-a2a3-e76a26d89012",
+      "promptedAt": "2026-11-16T14:12:34.096Z",
+      "needsRedo": false
     },
     {
       "char": "毛",
@@ -13111,14 +13282,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A rubber dinosaur's springy tail and a bucket-catching rig with eight dark-violet foam stroke pieces.",
+        "morph": "The mouse's bumper impact releases eight foam pieces into a frontal 怪: three strokes for 忄 on the left, two for 又 above three for 土 on the right.",
         "hook": "長得跟大家都不一樣，就是怪：怪獸來了！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 340,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "怪-a2e283e6-2a8f-4dbe-8c5f-2e0c0ca925ce.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T14:59:24.047Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T14:59:41.039Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "b2ae48f3-7f5d-4d08-80b5-b10d39c4b5e9",
+      "promptedAt": "2026-11-16T14:20:13.555Z",
+      "needsRedo": false
     },
     {
       "char": "獸",
@@ -13140,14 +13330,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A giant footprint assembled from hinged, deep-blue stroke dominoes, plus the detective's oversized magnifying glass.",
+        "morph": "A physical domino cascade folds accurately shaped stroke pieces into 獸; the final falling piece launches the pig onto a pedal that stamps the upper-right dot of 犬.",
         "hook": "獸是又大又有力的動物：野獸、怪獸。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 341,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "獸-fc44f5e4-a3df-45ac-9b9c-38eb9029a688.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T00:15:46.467Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T00:16:03.540Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "ce4287be-d6a4-44bd-8253-8e637a2dd836",
+      "promptedAt": "2026-11-15T00:07:37.134Z",
+      "needsRedo": false
     },
     {
       "char": "消",
@@ -13169,14 +13378,16 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "Ten saturated blue foam stroke pieces carried in a precarious stack, plus one small original toy fire engine.",
+        "morph": "A belly-slide bowling impact tumbles ten foam pieces into the exact strokes of 消: three separate water-radical strokes on the left and a correctly proportioned 肖 on the right.",
         "hook": "消就是讓它不見：把火消掉的車叫消防車。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 342,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "3d464c51-72df-4338-8311-621f3edcadca",
+      "promptedAt": "2026-11-16T15:00:38.401Z"
     },
     {
       "char": "防",
@@ -13314,14 +13525,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "Five thick rubber outer-skin strips and one small rubber ball",
+        "morph": "A precarious tower of rubber skin strips topples into the five correctly arranged strokes of 皮.",
         "hook": "包在外面那一層就是皮：香蕉要剝皮才能吃。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 347,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "皮-02f924f1-8dd2-4e8c-8333-e4d436ba1d29.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T00:28:32.460Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T00:28:49.018Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "f52e2a29-036c-493a-9a17-f7073114fcec",
+      "promptedAt": "2026-11-15T00:17:36.399Z",
+      "needsRedo": false
     },
     {
       "char": "卡",
@@ -13343,14 +13573,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "An oversized toy truck carrying five saturated blue foam stroke panels.",
+        "morph": "A crash dislodges five foam panels, which drop into the precise five-stroke structure of 卡 while the truck rolls clear.",
         "hook": "載很多東西的大車叫卡車；一張硬硬的紙叫卡。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 348,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "卡-02a1c23d-3af9-43c4-a17b-89b73586257b.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T00:33:19.531Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T00:33:38.218Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "4e8f77e4-4a34-479e-b602-a399bc731797",
+      "promptedAt": "2026-11-15T00:31:41.346Z",
+      "needsRedo": false
     },
     {
       "char": "丘",
@@ -13372,14 +13621,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "Five solid teal stroke pieces and a small rounded grassy hill.",
+        "morph": "Five ricochet impacts seat five rigid pieces into the exact five-stroke structure of 丘.",
         "hook": "駱駝背上圓圓鼓鼓的，就像一座小山丘。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 349,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "丘-fd4aaa96-b098-490f-a84f-60cda11b550b.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T00:36:22.767Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T00:36:43.467Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "a6d11bef-bef1-4d19-9043-ee88ad18befa",
+      "promptedAt": "2026-11-15T00:34:42.209Z",
+      "needsRedo": false
     },
     {
       "char": "神",
@@ -13401,14 +13669,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "a chunky toy warrior's bundle of red foam practice sticks and his long red foam sword, knocked flying by a head-bump with a googly-eyed pull-back race car; a tiny plush toy dragon pops out from under his flipped round shield",
+        "morph": "After the BOINK, the red foam sticks tumble through the air and land one by one as the strokes of 神: four short sticks form the left 礻 radical (top dot, horizontal turning hook, vertical, small dot), four sticks form the box and two inner horizontals of 申, and the warrior's own long foam sword drops last as the long vertical through the center of 申. The glyph then holds perfectly still.",
         "hook": "揮一下魔法棒就變出來，好神奇！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 350,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "神-73fc1305-8bb2-432e-8526-a5205f885774.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T22:44:26.475Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T22:44:42.804Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "d843ad3d-624a-48fb-aadf-00245d71d728",
+      "promptedAt": "2026-11-15T22:32:43.311Z",
+      "needsRedo": false
     },
     {
       "char": "奇",
@@ -13430,14 +13717,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A tiny chunky wind-up toy shark versus a giant barrel-shaped toy pirate on a sunny sand deck, with a loose pile of red-painted wooden planks that become the strokes",
+        "morph": "The giant pirate's tree-like topple lands with a THUMP that bounces the plank pile into the air; the planks drop into place as 奇: 大 on top (short horizontal crossed by a long left-falling plank that starts above it, plus a short right-falling plank), then 可 below (a long horizontal plank, a small three-piece square 口 under its left half, and a tall vertical plank on the right ending in a small leftward hook)",
         "hook": "水晶球裡看得到沒看過的東西，好奇怪、好神奇！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 351,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "奇-76469a1a-336a-4e91-a248-66dc4464aa14.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T22:45:35.130Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T22:45:53.887Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "d521cf8b-4d73-406a-86e8-8d742375dbb3",
+      "promptedAt": "2026-11-15T22:42:56.660Z",
+      "needsRedo": false
     },
     {
       "char": "巧",
@@ -13588,14 +13894,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "elastic spiderweb rope, colorful toy blocks, and a bouncy cartoon toy spider",
+        "morph": "Stretched elastic web bands and colorful toy blocks snap back from a tug-of-war release and lock together into the left 虫 radical, middle 矢 component, and right 口 square of the Traditional Chinese character 蜘.",
         "hook": "蜘跟蛛永遠在一起：蜘蛛有八隻腳。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 357,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "蜘-560d6d56-f295-4ef1-9562-73aea5977722.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T22:29:53.977Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T22:30:11.088Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "0bf0f8f9-fcab-4580-aad8-96cb2f418e96",
+      "promptedAt": "2026-11-15T22:27:20.706Z",
+      "needsRedo": false
     },
     {
       "char": "蛛",
@@ -13617,14 +13942,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "a bright red yarn spiderweb strung between two short posts behind a dozing barrel-shaped toy pirate, with a tiny friendly cartoon spider in the middle",
+        "morph": "The head-on bonk between the pig detective and the pirate snaps the red yarn web; its loose strands fly up and drop into place as the 12 strokes of 蛛: the left part 虫 (a small box on a vertical with a rising tick and dot) and the right part 朱 (a slanted top stroke, two horizontals, a long vertical, and the two falling side strokes).",
         "hook": "蜘蛛織了網，等小蟲飛過來。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 358,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "蛛-f62605d6-34c4-4a7c-81c4-4e2dc8c1aa68.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T22:41:21.189Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T22:41:38.935Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "d6ac6839-d7e7-4fea-9874-85158ddf1e59",
+      "promptedAt": "2026-11-15T22:31:04.361Z",
+      "needsRedo": false
     },
     {
       "char": "鋼",
@@ -13704,14 +14048,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A mismatched boxy toy robot, one arm conspicuously longer than the other, and one original cartoon mouse.",
+        "morph": "Thirteen solid blue stroke pieces click into the exact Traditional Chinese glyph 鼠 through a chain of mechanical ricochets.",
         "hook": "吱吱吱！愛偷吃米的就是老鼠。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 361,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "鼠-fbd9d69d-0e6d-407a-b3c2-58f617f6fa79.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T13:39:30.346Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T22:26:31.172Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "db75fce1-fabe-43c1-8f4a-8ee639cd74fa",
+      "promptedAt": "2026-11-15T13:33:43.128Z",
+      "needsRedo": false
     },
     {
       "char": "瑪",
@@ -13862,14 +14225,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A runaway folding ball made from saturated blue, articulated glyph strokes.",
+        "morph": "A belly-flop unfolds the ball into the exact Traditional Chinese glyph 變; the warrior's round foam shield then changes into a square.",
         "hook": "毛毛蟲變成蝴蝶，就是變！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 367,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "變-6629c47a-0868-42fa-8b82-a74f66f36b07.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T13:09:38.853Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T13:09:54.918Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "1c320ea3-7ab1-488f-818f-9438685ac4bb",
+      "promptedAt": "2026-11-15T13:07:24.674Z",
+      "needsRedo": false
     },
     {
       "char": "形",
@@ -13891,14 +14273,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A chunky wind-up toy shark and a small shape-changing press built from seven cobalt-blue stroke components.",
+        "morph": "One overshooting collision tips seven rigid components into the exact strokes of 形; a gentle second button tap then rounds the shark into a ball.",
         "hook": "形就是樣子：方形、星形。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 368,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "形-acf17d9c-cbcf-4934-b7c5-a18ea1808895.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T13:14:13.776Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T13:14:31.451Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "fa97f274-5a39-471b-8c00-da3a176339b6",
+      "promptedAt": "2026-11-15T13:10:50.594Z",
+      "needsRedo": false
     },
     {
       "char": "剛",
@@ -13920,14 +14321,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "heavy steel barbell frame and twin iron anchor rods",
+        "morph": "A heavy steel barbell frame and curved anchor hooks tugged in a tug-of-war snap upright and lock together into the left ridged frame 岡 and right vertical knife radical 刂 of the character 剛.",
         "hook": "剛就是硬邦邦、很有力。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 369,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "剛-5714a16e-1f36-4752-be80-39b234fa6c62.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-15T13:32:37.816Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-15T13:32:54.389Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "0d17d931-5d91-45f4-8553-4bb0ff214755",
+      "promptedAt": "2026-11-15T13:22:55.687Z",
+      "needsRedo": false
     },
     {
       "char": "傑",
@@ -14580,6 +15000,30 @@
         "attempts": []
       },
       "2026-10-28": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-14": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-15": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-16": {
         "queue": [
           "喝",
           "眼",
