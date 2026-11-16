@@ -1,0 +1,93 @@
+{
+  "name": "小骷髏",
+  "look": "小骷髏——可愛萬聖節小骷髏，很多動作和表情",
+  "about": "Studio「上傳圖片做新角色」做的姿勢表（A 表是洋紅底、B～F 是綠幕——Codex 兩次畫的底色不一樣，所以只有 A 表帶 key）（3×3，Codex 照家長上傳的圖畫、豬探長的表對齊畫風；上傳的圖在 media/hero-uploads/，不進 git）。A～F 六張表的九格跟豬探長同一套（C 表也是放大鏡 think、抱胸 doubt）；朝左。比例以 A 表的 idle 身高為準。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "jerry-A.png",
+      "key": "#FF00FF",
+      "poses": [
+        "idle",
+        "happy",
+        "laugh",
+        "surprised",
+        "dizzy",
+        "angry",
+        "cry",
+        "scared",
+        "smug"
+      ]
+    },
+    "B": {
+      "file": "jerry-B.png",
+      "poses": [
+        "reach",
+        "point",
+        "listen",
+        "ponder",
+        "walk",
+        "sneak",
+        "flat",
+        "wait",
+        "back"
+      ]
+    },
+    "C": {
+      "file": "jerry-C.png",
+      "poses": [
+        "think",
+        "doubt",
+        "sleep",
+        "eat",
+        "dash",
+        "fall",
+        "wave",
+        "push",
+        "cold"
+      ]
+    },
+    "D": {
+      "file": "jerry-D.png",
+      "poses": [
+        "kick",
+        "throw",
+        "pull",
+        "lift",
+        "jump",
+        "hug",
+        "blow",
+        "peek",
+        "flee"
+      ]
+    },
+    "E": {
+      "file": "jerry-E.png",
+      "poses": [
+        "sour",
+        "spicy",
+        "stinky",
+        "full",
+        "yawn",
+        "sneeze",
+        "drool",
+        "giggle",
+        "tired"
+      ]
+    },
+    "F": {
+      "file": "jerry-F.png",
+      "poses": [
+        "hold",
+        "hungry",
+        "hot",
+        "doze",
+        "know",
+        "stomp",
+        "bow",
+        "duck",
+        "slip"
+      ]
+    }
+  }
+}
