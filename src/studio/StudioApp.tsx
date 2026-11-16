@@ -192,6 +192,12 @@ export default function StudioApp() {
         <button className="st-btn ghost st-import" onClick={importFromDevice}>匯入 iPad 紀錄</button>
         <a className="st-play" href="/">▶ 開播放器</a>
       </header>
+      {lib.sandbox && (
+        // 試玩伺服器的 Studio 什麼都存不下來（伺服器也會擋）：上架前一眼就要看到，不要等按了才報錯
+        <div className="st-sandbox" role="alert">
+          ⚠️ 這是試玩伺服器，上傳、上架、改字都存不下來。要上架請開正式的 <a href="http://localhost:5180/studio">localhost:5180/studio</a>
+        </div>
+      )}
       {heroesOpen && <HeroGallery onClose={() => setHeroesOpen(false)} />}
 
       <div className={'st-body' + (listOpen ? ' list-open' : '')}>

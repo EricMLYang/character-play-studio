@@ -9,6 +9,7 @@ import { mediaRoutes } from './routes/media.mjs'
 import { characterRoutes } from './routes/character.mjs'
 import { playRoutes } from './routes/play.mjs'
 import { heroRoutes } from './routes/heroes.mjs'
+import { isSandbox, sandboxBlocks, SANDBOX_MESSAGE } from './sandbox.mjs'
 
 /** 全部 API，依領域分檔。新功能加一個 routes/*.mjs 再接到這裡。 */
 const ROUTES = {}
@@ -101,6 +102,9 @@ export function apiPlugin() {
       server.middlewares.use('/api', (req, res, next) => {
         if (req.method === 'POST' && req.headers.origin && req.headers.origin !== `http://${req.headers.host}`) {
           return json(res, 403, { error: '請從本機 Studio 執行操作' })
+        }
+        if (isSandbox() && sandboxBlocks(req.method, new URL(req.url, 'http://x').pathname.replace(/\/+$/, ''))) {
+          return json(res, 423, { error: SANDBOX_MESSAGE })
         }
         return dispatch(ROUTES, req, res, next)
       })

@@ -2,6 +2,7 @@ import { cliProviders } from '../ai-cli.mjs'
 import { loadCharacters, saveCharacters, loadTemplate, productionDay } from '../core.mjs'
 import { loadProgress } from '../progress.mjs'
 import { loadParts } from '../char-assets.mjs'
+import { isSandbox } from '../sandbox.mjs'
 
 export const libraryRoutes = {
   'GET /library': () => {
@@ -21,6 +22,8 @@ export const libraryRoutes = {
       production,
       pendingAttempts: Object.values(db.production.days).flatMap((d) => d.attempts).filter((a) => !a.mediaFile && !a.failedAt && db.characters.some((c) => c.char === a.char)),
       cliProviders: cliProviders(),
+      // 試玩伺服器：Studio 頂上掛紅條，寫入會被擋（server/sandbox.mjs）
+      sandbox: isSandbox(),
     }
   },
 }

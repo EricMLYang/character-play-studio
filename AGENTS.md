@@ -6,6 +6,7 @@
 - 改完跑 `npm test`、`npx tsc -b`；動到孩子端就 `npm run app:build` 確認 iPad 版還打包得起來。
 - Commit 直接進 `main`，逐一 stage 檔案（不要 `git add -A`）。`data/characters.json` 常有伺服器寫入的變動，不是你的產出就別一起 commit。
 - 試玩孩子端一律用 `npm run play`（隔離的資料目錄）。直接開 5180 玩會寫進小孩的真實紀錄 `data/progress.json`。
+- `npm run play` 用完就關，不要用 nohup 丟在背景。它的 Studio 存不下來（伺服器會擋、頂上有紅條）；家長的網址永遠是 5180（#298：開著沒關三天，21 支上架影片差點不見）。
 - 畫面上的話小孩讀不到，要唸得出來：固定句放 `shared/voice-lines.mjs`（或各功能自己的 shared 表），伺服器會預先做音檔。
 - 程式註解與文件用繁體中文，口吻照既有檔案。
 

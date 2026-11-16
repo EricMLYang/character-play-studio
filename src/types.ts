@@ -96,6 +96,8 @@ export type Library = {
   production: { date: string; limit: number; queue: string[]; attempts: Attempt[] }
   pendingAttempts: Attempt[]
   cliProviders: { id: string; name: string; installed: boolean }[]
+  /** 試玩伺服器（npm run play）：Studio 的寫入會被擋，存不下來 */
+  sandbox?: boolean
 }
 
 export type DailyBatch = {

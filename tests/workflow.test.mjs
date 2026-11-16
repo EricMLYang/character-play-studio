@@ -636,3 +636,19 @@ test('failed metadata persistence restores the staged file and leaves the librar
   assert.deepEqual(loadCharacters(), JSON.parse(JSON.stringify(db)))
   assert.equal(fs.readdirSync(path.dirname(file)).some((f) => f.startsWith('.deleting-')), false)
 })
+
+test('試玩伺服器（npm run play）擋掉 Studio 的寫入，孩子端的紀錄照常收', async () => {
+  // 2026-11-14～16 在 5199 的 Studio 上架了 21 支影片，紀錄全進了暫存字庫（#298）
+  process.env.CPS_SANDBOX = 'play'
+  try {
+    assert.equal((await request('/library', undefined, 'GET')).body.sandbox, true)
+    for (const route of ['/import?char=木&ext=mp4&attemptId=x', '/media-review', '/character/update', '/prompt/select', '/heroes/upload', '/progress/import']) {
+      const r = await request(route, {})
+      assert.equal(r.status, 423, route)
+      assert.match(r.body.error, /5180/)
+    }
+    // 孩子端的紀錄路由不擋（body 不合法會是別的錯，但不會是 423）
+    assert.notEqual((await request('/watch', {})).status, 423)
+  } finally { delete process.env.CPS_SANDBOX }
+  assert.equal((await request('/library', undefined, 'GET')).body.sandbox, false)
+})
