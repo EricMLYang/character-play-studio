@@ -1,0 +1,7 @@
+{
+  "about": "第二十張道具表（2026-11，Codex 生圖，洋紅底 3×3）：小老虎三張（四腳站好得意／張大嘴往左吼、嘴前有聲波線／嚇到縮成一團冒汗）、大白鵝三張（抬頭挺胸站好／張開翅膀伸長脖子往左追人／低頭往左下啄）、大野狼三張（兩腳站著叉腰壞笑／仰頭閉眼嚎叫／鼓腮幫子往左吹氣、嘴前有白色的風）；每種動物的三張同一個比例可以 swap。清單在 scripts/sheets/props-20.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-20.png",
+  "key": "#FF00FF",
+  "props": ["tiger", "tiger-roar", "tiger-scared", "goose", "goose-chase", "goose-peck", "wolf", "wolf-howl", "wolf-blow"],
+  "together": [["tiger", "tiger-roar", "tiger-scared"], ["goose", "goose-chase", "goose-peck"], ["wolf", "wolf-howl", "wolf-blow"]]
+}

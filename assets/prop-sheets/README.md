@@ -30,6 +30,7 @@
 | props-17 | `bro` 兔子哥哥站好叉腰 | `bro-run` 往左衝刺 | `bro-lift` 雙手高舉過頭、咬牙用力（手上是空的） | `bro-oops` 抓後腦勺尷尬傻笑（汗滴） | `bro-shock` 嚇一跳 | `sis` 恐龍姐姐站好微笑 | `sis-give` 彎腰雙手往左伸、眼睛亮亮 | `sis-laugh` 遮嘴咯咯笑 | `sis-shock` 嚇一跳 |
 | props-18 | `grandpa` 阿公坐在搖椅上拿著打開的故事書 | `grandpa-sleep` 同一張搖椅上睡著打呼、書蓋在肚子上 | `grandpa-wake` 搖椅上驚醒、雙手舉起、書飛起來 | `grandpa-stand` 站著拄拐杖揮手 | `bowling-pin` 保齡球瓶 | `bowling-ball` 深藍色保齡球 | `piggy-bank` 金色小豬存錢筒（朝左） | `shadow-screen` 影子戲布幕（木框＋米色白布） | `red-x` 粗粗的大紅叉 |
 | props-19 | `grandma` 阿嬤站好笑咪咪、雙手交握 | `grandma-serve` 雙手端一碗冒熱氣的湯往左遞 | `grandma-ladle` 舉高湯勺、叉腰（黃色強調線） | `grandma-pinch` 彎腰伸手往左捏臉頰（黃色強調線） | `grandma-shock` 嚇一跳、雙手舉起 | `uncle` 叔叔站好比 YA | `uncle-hide` 雙手藏背後偷笑 | `uncle-tada` 雙手往左攤開「登登」（手上是空的） | `uncle-fall` 嚇一跳往後跌坐、眼鏡歪掉冒汗 |
+| props-20 | `tiger` 小老虎四腳站好、得意（朝左） | `tiger-roar` 同一隻張大嘴往左吼（嘴前有聲波線） | `tiger-scared` 同一隻嚇到縮成一團、冒汗 | `goose` 大白鵝抬頭挺胸站好（朝左） | `goose-chase` 同一隻張開翅膀、伸長脖子往左追人 | `goose-peck` 同一隻低頭往左下啄 | `wolf` 大野狼兩腳站著叉腰壞笑 | `wolf-howl` 同一隻仰頭閉眼嚎叫 | `wolf-blow` 同一隻鼓腮幫子往左吹氣（嘴前有白色的風） |
 
 props-2 要注意：
 - 檸檬三張是「同一顆被咬」的三個階段，切出來比例差不到 2%、右緣與底部對得齊，同一個 `size` 直接 `swap` 就接得上（`lemon-half` 的葉子會往右下偏一點，swap 彈一下時看不出來）。缺口在圖的**左上**：咬的人要從左邊撲過來，從右邊咬就 `flip`。
@@ -349,3 +350,9 @@ props-8 的前言跟 props-1 一樣，九格清單：
 8. 一個可愛的粉紅色大腦：有一圈一圈的皺摺
 9. 一個藍色的雙肩書包：正面、有兩條背帶、前面一個小口袋
 ```
+
+props-20 要注意（九格清單在 `scripts/sheets/props-20.txt`）：
+- 老虎、鵝、狼各三張是同一隻、同一個比例，同一個 `size` 直接 `swap`。三種都朝左，要朝右就 `flip`。
+- `tiger-roar` 的聲波線、`wolf-blow` 的風都畫在圖的左邊，佔掉圖寬的一部分：本體會比站姿那張偏右，swap 時 x 要自己對一下。
+- 鵝是白的，淺色背景上靠灰色描邊認，別放在白雲或白色東西前面。
+- 三種動物都算動物（`src/anim/clip.ts` 的 PROP_ANIMALS），`tiger-scared` 不踩步伐。
