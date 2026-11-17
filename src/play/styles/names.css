@@ -50,7 +50,7 @@
 .names-ask { position: relative; font-size: clamp(80px, 18vh, 150px); line-height: 1; animation: breathe 2s ease-in-out infinite; }
 .names-ask-ear { position: absolute; right: -14px; bottom: 0; font-size: 30px; }
 .names-slots { display: flex; justify-content: center; gap: clamp(6px, 1.4vw, 14px); padding: 10px 14px; border-radius: 26px; background: rgba(255,255,255,.75); box-shadow: 0 4px 0 rgba(0,0,0,.05); }
-.names-slot { display: grid; place-items: center; width: clamp(62px, 11vh, 100px); height: clamp(62px, 11vh, 100px); border-radius: 18px;
+.names-slot { position: relative; display: grid; place-items: center; width: clamp(62px, 11vh, 100px); height: clamp(62px, 11vh, 100px); border-radius: 18px;
   border: 4px dashed rgba(46,42,38,.25); background: rgba(46,42,38,.04); }
 .names-slot.now { border-color: #FF8A4C; background: rgba(255,138,76,.12); animation: breathe 1.2s ease-in-out infinite; }
 .names-slot.full { border: 4px solid #FFD24A; background: #fff; }
@@ -60,6 +60,31 @@
 @keyframes namesFly { from { transform: translate(var(--dx), var(--dy)) scale(1.15); } to { transform: none; } }
 .names-slots.done .names-slot { animation: namesWin .6s cubic-bezier(.2,1.7,.4,1) both; animation-delay: calc(var(--k) * 90ms); border-color: #FFB400; }
 @keyframes namesWin { 50% { transform: translateY(-14px) scale(1.12) rotate(-4deg); } }
+
+/* 點對一個字的小獎勵（全部 0.6 秒內結束、不擋下一次點）：
+   字飛到格子（.42s，約 .28s 落定）→ 格子啵一下（.28s～.58s）＋周圍噴一圈小星星（.24s～.6s）；主角同時跳一下（.45s） */
+/* z-index：剛落定的格子疊在後面那一格上面，星星才不會被下一格蓋住 */
+.names-slot.landed { z-index: 1; animation: namesLand .3s cubic-bezier(.2,1.8,.4,1) .28s both; }
+@keyframes namesLand { 0% { transform: scale(1); } 45% { transform: scale(1.16); } 100% { transform: scale(1); } }
+.names-burst { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.names-burst i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; background: #FFC21A;
+  clip-path: polygon(50% 0, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0 50%, 37% 37%);
+  opacity: 0; animation: namesSpark .36s ease-out .24s both; }
+.names-burst i:nth-child(2n) { width: 9px; height: 9px; left: -4.5px; top: -4.5px; background: #FF8A4C; border-radius: 50%; clip-path: none; }
+.names-burst i:nth-child(4n+3) { background: #4CC3FF; }
+@keyframes namesSpark {
+  0% { opacity: 1; transform: rotate(var(--a)) translateY(-28px) scale(.6); }
+  60% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-66px) scale(1.1); }
+}
+/* 主角跳一下：hop-a、hop-b 輪流（同一個 keyframes 換名字，每次點對都從頭跳） */
+.names-ask-hop { display: inline-block; transform-origin: 50% 100%; }
+.names-ask-hop.hop-a { animation: namesHopA .45s cubic-bezier(.3,1.5,.5,1) both; }
+.names-ask-hop.hop-b { animation: namesHopB .45s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes namesHopA { 0%, 100% { transform: none; } 20% { transform: scale(1.08, .9); } 55% { transform: translateY(-18%) scale(.96, 1.06) rotate(-5deg); } }
+@keyframes namesHopB { 0%, 100% { transform: none; } 20% { transform: scale(1.08, .9); } 55% { transform: translateY(-18%) scale(.96, 1.06) rotate(5deg); } }
+/* 沒拼過的主角剪影：--reveal（拼好的格數／要拼的格數，Names.tsx 給）從 0 到 1，從黑影一點一點變出顏色 */
+.names-ask .names-shadow { filter: grayscale(calc(1 - var(--reveal, 0))) brightness(var(--reveal, 0)) opacity(calc(.22 + .78 * var(--reveal, 0))); transition: filter .4s ease-out; }
 
 .names-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2vw, 20px); max-width: 760px; }
 .names-tile { display: grid; place-items: center; width: clamp(76px, 13vh, 112px); height: clamp(76px, 13vh, 112px); border-radius: 24px;
@@ -130,5 +155,8 @@
   .names-choose-art { font-size: 20vh; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .names-card, .names-tile, .names-slot b.flew, .names-sticker, .names-again, .names-slots.done .names-slot { animation-duration: .01ms; }
+  .names-card, .names-tile, .names-slot b.flew, .names-sticker, .names-again, .names-slots.done .names-slot,
+  .names-slot.landed, .names-ask-hop.hop-a, .names-ask-hop.hop-b { animation-duration: .01ms; }
+  .names-burst { display: none; }
+  .names-ask .names-shadow { transition: none; }
 }

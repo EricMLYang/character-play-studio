@@ -45,11 +45,17 @@ export type Tile = { key: string; char: string; decoy: boolean }
 const alike = (a: string, b: string) => ALIKE.has(a < b ? a + b : b + a)
 
 /**
- * 字塊：名字裡的字打散（重複的字有兩塊），再加 decoys 個干擾字。
+ * 一次給幾個干擾字。2026-11-18 爸爸說「題目先不要這麼難，只給主角的字挑選」：先給 0，
+ * 字塊只有名字裡的字，他只要排順序。之後想加回來改這個數字就好（原本是 2，挑字的邏輯都還在 tilesFor）。
+ */
+export const DECOYS = 0
+
+/**
+ * 字塊：名字裡的字打散（重複的字有兩塊），再加 decoys 個干擾字（預設 DECOYS）。
  * 干擾字優先挑跟名字裡某個字長得像的（要他真的看字，不是看形狀猜），不夠才從字庫隨機挑；
  * 一定不是名字裡的字（不然點了算對算錯都說不通）。rand 給測試固定用。
  */
-export function tilesFor(name: Name, library: CharEntry[], decoys = 2, rand: () => number = Math.random): Tile[] {
+export function tilesFor(name: Name, library: CharEntry[], decoys = DECOYS, rand: () => number = Math.random): Tile[] {
   const own = new Set(nameChars(name))
   const pool = [...new Set(library.map((c) => c.char))].filter((c) => isHan(c) && !own.has(c))
   const shuffle = <T,>(list: T[]) => {
@@ -64,7 +70,8 @@ export function tilesFor(name: Name, library: CharEntry[], decoys = 2, rand: () 
     ...spellChars(name).map((char, i) => ({ key: `n${i}`, char, decoy: false })),
     ...extra.map((char, i) => ({ key: `d${i}`, char, decoy: true })),
   ]
-  // 打散；剛好排成名字原本的順序就再洗一次（不然他不用讀，照著點就好）
+  // 打散；剛好排成名字原本的順序就再洗一次（不然他不用讀，照著點就好）。
+  // 沒有干擾字時兩個字的名字（恐龍、花生…）只剩一種不照順序的排法：洗不到就整排反過來，一定是反的
   for (let k = 0; k < 6; k++) {
     const mixed = shuffle(tiles)
     if (mixed.filter((t) => !t.decoy).map((t) => t.char).join('') !== spellChars(name).join('') || tiles.length < 2) return mixed
@@ -79,4 +86,10 @@ export const nextSlot = (slots: Slot[], filled: boolean[]) => slots.findIndex((s
 export const fits = (slots: Slot[], filled: boolean[], tile: Tile) => {
   const i = nextSlot(slots, filled)
   return i >= 0 && slots[i].char === tile.char
+}
+
+/** 要他拼的格子填了幾成（0～1；不是國字的 given 不算）：沒拼過的主角剪影照這個一點一點亮起來 */
+export function revealOf(slots: Slot[], filled: boolean[]) {
+  const mine = slots.map((s, i) => (s.given ? -1 : i)).filter((i) => i >= 0)
+  return mine.length ? mine.filter((i) => filled[i]).length / mine.length : 1
 }

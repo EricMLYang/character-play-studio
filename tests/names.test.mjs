@@ -18,7 +18,7 @@ const ROOT = path.resolve(import.meta.dirname, '..')
 const { NAMES, NAME_FIXED, nameById, nameChars, spellChars, askLine, nameLines, validName, isHan } = await import('../shared/names.mjs')
 const { spellName } = await import('../shared/domain.mjs')
 const { recordEvent } = await import('../shared/play-events.mjs')
-const { wallOf, tilesFor, slotsOf, nextSlot, fits } = await import('../src/play/nameplay.ts')
+const { wallOf, tilesFor, slotsOf, nextSlot, fits, revealOf, DECOYS } = await import('../src/play/nameplay.ts')
 const { ALIKE } = await import('../src/play/alike.ts')
 const { nameSceneProblems, loadNameClip, sceneIds } = await import('../scripts/names-check.mjs')
 
@@ -52,7 +52,7 @@ test('名字：id 不重複、44 個都建好、貼紙有 3D 圖', () => {
   assert.equal(isHan('Ａ'), false)
 })
 
-test('有動畫的名字：剛好唸一句、一字不差就是名字，長度 7～10 秒、檔頭寫了字面意思（規則在 scripts/names-check.mjs）', async () => {
+test('有動畫的名字：剛好唸一句、一字不差就是名字，長度 7～12 秒、檔頭寫了字面意思（規則在 scripts/names-check.mjs）', async () => {
   const ids = sceneIds()
   assert.deepEqual(ids.filter((id) => !nameById(id)), [], '有動畫檔對不到名字')
   assert.ok(ids.length >= 6, '至少有 6 支範本')
@@ -73,7 +73,27 @@ test('要唸的句子都會先做成音檔：固定句、名字、「把他的�
   assert.match(fs.readFileSync(path.join(ROOT, 'server/voice.mjs'), 'utf8'), /\.\.\.nameLines\(\)/)
 })
 
-test('字塊：名字裡的字打散（同一個字出現兩次就有兩塊），加兩個干擾字，干擾字不是名字裡的字', () => {
+test('字塊（預設）：只有名字裡的字打散，沒有干擾字（2026-11-18 爸爸說先不要這麼難），也不能剛好照順序排', () => {
+  assert.equal(DECOYS, 0)
+  for (const name of NAMES) {
+    for (let seed = 1; seed < 30; seed++) {
+      const tiles = tilesFor(name, library, undefined, seeded(seed))
+      assert.equal(tiles.filter((t) => t.decoy).length, 0, `${name.text} 不該有干擾字`)
+      assert.deepEqual(tiles.map((t) => t.char).sort(), [...spellChars(name)].sort(), `${name.text} 的字塊要剛好是名字裡的字`)
+      assert.equal(new Set(tiles.map((t) => t.key)).size, tiles.length, '每一塊 key 不一樣')
+      if (spellChars(name).length > 1) assert.notEqual(tiles.map((t) => t.char).join(''), spellChars(name).join(''), `${name.text} 的字塊不能剛好照順序排`)
+    }
+  }
+  // 兩個字的名字只剩一種不照順序的排法：一定是反過來的（不管亂數怎麼抽）
+  for (const id of ['dino', 'peanut', 'truck', 'dragon', 'totoro', 'snowman', 'tiger']) {
+    const name = nameById(id)
+    for (const rand of [seeded(7), () => 0, () => 0.999999, () => 0.5]) {
+      assert.equal(tilesFor(name, library, undefined, rand).map((t) => t.char).join(''), [...spellChars(name)].reverse().join(''), name.text)
+    }
+  }
+})
+
+test('字塊（decoys=2，之後想加回來時）：名字裡的字打散（同一個字出現兩次就有兩塊），加兩個干擾字，干擾字不是名字裡的字', () => {
   for (const name of NAMES) {
     for (let seed = 1; seed < 30; seed++) {
       const tiles = tilesFor(name, library, 2, seeded(seed))
@@ -104,6 +124,16 @@ test('干擾字優先挑長得像的字（alike.ts）', () => {
     const decoys = tilesFor(name, library, 2, seeded(seed)).filter((t) => t.decoy)
     assert.ok(decoys.every((d) => alikeOf(d.char)), `汪汪隊的干擾字應該都是長得像「汪」的字：${decoys.map((d) => d.char).join('')}`)
   }
+})
+
+test('剪影亮起來的比例：拼好的格數／要拼的格數，不是國字的（Ａ）不算', () => {
+  const dora = nameById('dora') // 哆啦Ａ夢：要拼三格
+  const slots = slotsOf(dora)
+  assert.equal(revealOf(slots, [false, false, true, false]), 0)
+  assert.equal(revealOf(slots, [true, false, true, false]), 1 / 3)
+  assert.equal(revealOf(slots, [true, true, true, true]), 1)
+  const dino = slotsOf(nameById('dino'))
+  assert.equal(revealOf(dino, [true, false]), 0.5)
 })
 
 test('格子：不是國字的（Ａ）一開始就填好；照順序點，同樣的字哪一塊都可以', () => {

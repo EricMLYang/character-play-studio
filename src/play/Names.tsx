@@ -5,9 +5,9 @@ import type { Clip } from '../anim/clip'
 import { hasNameScene, loadNameScene } from '../names/scenes'
 import { lineOf } from '../story/scene'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
-import { blip, cheer, magic, tap, whoosh } from '../lib/sfx'
+import { blip, cheer, magic, rightNote, tap, whoosh } from '../lib/sfx'
 import { NAMES, NAME_FIXED, askLine, spellChars } from '../../shared/names.mjs'
-import { fits, nextSlot, slotsOf, tilesFor, wallOf, type Card, type Slot, type Tile } from './nameplay'
+import { fits, nextSlot, revealOf, slotsOf, tilesFor, wallOf, type Card, type Slot, type Tile } from './nameplay'
 import { litIndex } from './stories'
 import { Confetti, SubBar, emojiArt } from './ui'
 import { holdCelebrations } from './hold'
@@ -16,8 +16,11 @@ import { holdCelebrations } from './hold'
  * 主角館：他把名字一個字一個字拼出來，那個主角就出場演一段（為什麼做、名字的資料在 shared/names.mjs）。
  *
  *   牆      一張一張卡片：拼過的是名字＋貼紙，沒拼過的是問號剪影。看過的字多的名字排前面，不鎖
- *   拼      上面一排空格、下面字塊（名字的字打散＋兩個干擾字）。字塊**點之前不唸**，要他自己讀；
- *           點對了唸那個字、字飛進空格；點錯了搖一下、唸出他點的那個字（讓他知道那是什麼字），不扣分
+ *   拼      上面一排空格、下面字塊（只有名字的字打散；2026-11-18 爸爸說先不要這麼難，干擾字先拿掉，
+ *           要加回來改 nameplay.ts 的 DECOYS）。字塊**點之前不唸**，要他自己讀；
+ *           點對了唸那個字、字飛進空格：落定時格子啵一下、噴一圈小星星，上面的主角開心跳一下，
+ *           叮咚一聲一個字比一個字高（rightNote）；沒拼過的主角是黑剪影，每拼對一個字亮一點，拼完完全現形。
+ *           整個小獎勵 0.6 秒內結束、不擋下一次點。點錯了搖一下、唸出他點的那個字（讓他知道那是什麼字），不扣分
  *   演      拼完那個名字的動畫就演出來，下面名字跟著聲音一個字一個字亮（故事屋的 karaoke）
  *   亮相    停在最後一格、貼紙蓋上去。點舞台主角就再演一次（不用重拼）
  *
@@ -29,6 +32,8 @@ type Step = 'wall' | 'choose' | 'spell' | 'spelled' | 'show' | 'pose'
 type Fly = { dx: number; dy: number }
 
 const RATE = 0.85
+/** 字落進格子時噴出去的小星星：八顆，各往一個方向（角度） */
+const SPARKS = [0, 45, 90, 135, 180, 225, 270, 315]
 const lasts = (text: string) => (voiceDuration(text) ?? 0.28 * [...text].length + 0.5) * 1000
 
 export default function Names({ library, progress, onBack, onDone }: {
@@ -142,7 +147,8 @@ export default function Names({ library, progress, onBack, onDone }: {
     const to = slotEls.current[i]?.getBoundingClientRect()
     const fly = to ? { dx: from.left + from.width / 2 - (to.left + to.width / 2), dy: from.top + from.height / 2 - (to.top + to.height / 2) } : { dx: 0, dy: 60 }
     const nextFilled = filled.map((f, k) => f || k === i)
-    tap()
+    // 越拼越高：第幾個點對的字（用掉的字塊都是點對的）
+    rightNote(used.length + 1)
     say(tile.char, RATE)
     setFlies({ ...flies, [i]: fly })
     setFilled(nextFilled)
@@ -229,18 +235,21 @@ export default function Names({ library, progress, onBack, onDone }: {
   // ---------- 拼 ----------
   if (step === 'spell' || step === 'spelled') {
     const i = nextSlot(slots, filled)
+    // 點對一個字主角跳一下：兩個一樣的 keyframes 輪流用，每點對一次動畫都從頭來（不重掛元素，剪影變亮才有過場）
+    const hop = used.length ? (used.length % 2 ? ' hop-a' : ' hop-b') : ''
     return (
       <div className={`names step-${step}`}>
         <SubBar title="🦸 拼出名字" onBack={leave} backLabel="← 主角館" />
         <div className="names-spell">
-          <button className="names-ask" onClick={() => { stopSpeech(); say(askLine(name), RATE) }} aria-label="再聽一次名字">
-            <Emoji emoji={name.emoji} className={card.count ? '' : 'names-shadow'} />
+          <button className="names-ask" style={{ ['--reveal' as any]: revealOf(slots, filled) }} onClick={() => { stopSpeech(); say(askLine(name), RATE) }} aria-label="再聽一次名字">
+            <span className={'names-ask-hop' + hop}><Emoji emoji={name.emoji} className={card.count ? '' : 'names-shadow'} /></span>
             <span className="names-ask-ear" aria-hidden>🔊</span>
           </button>
           <div className={'names-slots' + (step === 'spelled' ? ' done' : '')} aria-label={step === 'spelled' ? name.text : `${slots.length} 個格子`}>
             {slots.map((s, k) => (
-              <span key={k} ref={(el) => { slotEls.current[k] = el }} className={'names-slot' + (s.given ? ' given' : '') + (filled[k] ? ' full' : '') + (k === i ? ' now' : '')} style={{ ['--k' as any]: k }}>
+              <span key={k} ref={(el) => { slotEls.current[k] = el }} className={'names-slot' + (s.given ? ' given' : '') + (filled[k] ? ' full' : '') + (k === i ? ' now' : '') + (flies[k] ? ' landed' : '')} style={{ ['--k' as any]: k }}>
                 {filled[k] && <b style={flies[k] ? { ['--dx' as any]: `${flies[k].dx}px`, ['--dy' as any]: `${flies[k].dy}px` } : undefined} className={flies[k] ? 'flew' : ''}>{s.char}</b>}
+                {flies[k] && <span className="names-burst" aria-hidden>{SPARKS.map((a) => <i key={a} style={{ ['--a' as any]: `${a}deg` }} />)}</span>}
               </span>
             ))}
           </div>

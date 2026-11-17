@@ -12,7 +12,7 @@ registerHooks({
   },
 })
 
-const { ladderNotes, ARRIVALS } = await import('../src/lib/sfx.ts')
+const { ladderNotes, rightNotes, ARRIVALS } = await import('../src/lib/sfx.ts')
 const { streakOf } = await import('../src/play/streak.ts')
 const { SCENES } = await import('../src/play/stageScenes.ts')
 
@@ -34,6 +34,18 @@ test('答對的音一路往上爬，爬到頂就停在頂，三個音都往上',
   }
   assert.deepEqual(ladderNotes(30), ladderNotes(9))
   assert.deepEqual(ladderNotes(0), ladderNotes(1))
+})
+
+test('主角館拼對的音：第 1 個字、第 2 個字⋯⋯一階一階往上，兩個音都往上跳', () => {
+  let prev = 0
+  for (let step = 1; step <= 6; step++) {
+    const [a, b] = rightNotes(step)
+    assert.ok(a > prev, `第 ${step} 個字沒有比上一個高`)
+    assert.ok(b > a)
+    prev = a
+  }
+  assert.deepEqual(rightNotes(0), rightNotes(1))
+  assert.ok(rightNotes(99).every((f) => f > 0))
 })
 
 test('每一個景都有到站小旋律', () => {

@@ -272,6 +272,22 @@ export function ladder(step: number) {
   ladderNotes(step).forEach((f, i) => tone(i * 0.06, f, f, 0.16, 'triangle', 0.06 - i * 0.012))
 }
 
+/**
+ * 主角館拼對第 step 個字（從 1 算）的兩個音：比 tap() 亮、往上跳一個大一點的音程，
+ * 每多拼一個字起點就高一級（五聲音階），拼到最後一個字聽起來「快好了」。純函式（tests/sound-kit.test.mjs）。
+ */
+export function rightNotes(step: number) {
+  const start = Math.max(0, Math.min(PENTA.length - 3, Math.floor(step) - 1))
+  return [PENTA[start], PENTA[start + 2]]
+}
+/** 主角館拼對一個字：叮－咚往上兩聲，再加一點很輕的高音亮片，0.25 秒內結束（跟唸字同時響，所以輕） */
+export function rightNote(step: number) {
+  const [a, b] = rightNotes(step)
+  tone(0, a, a, 0.12, 'triangle', 0.07)
+  tone(0.07, b, b * 1.02, 0.16, 'triangle', 0.06)
+  tone(0.07, b * 2, b * 2, 0.12, 'sine', 0.015)
+}
+
 /** 每個地方的到站小旋律（stageScenes.ts 的景 id） */
 export const ARRIVALS: Record<string, number[]> = {
   home: [523.25, 659.25, 783.99],

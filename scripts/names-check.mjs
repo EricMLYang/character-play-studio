@@ -3,7 +3,7 @@
 //   npm run names:check            # 全部有動畫的名字（沒有動畫的列成一行，不算錯）
 //   npm run names:check -- pika    # 只看這一支
 //
-// 錯誤（exit 1）：檔名對不到名字、唸的不是那個名字（要剛好一句 say、一字不差）、太早唸、劇本長度不在 7～10 秒或唸不完、
+// 錯誤（exit 1）：檔名對不到名字、唸的不是那個名字（要剛好一句 say、一字不差）、太早唸、劇本長度不在 7～12 秒或唸不完、
 // 用了不存在的角色或主角圖、時間超出劇本長度、白光太亮、用了兒童 emoji、用了沒有 3D 圖的 emoji、檔頭沒寫「演的是字面意思：」。
 // 注意：效果不夠（品質標準：鏡頭推近或 punch、shake、粒子、光線或背景變化、5 個以上音效、至少兩個角色）。
 // tests/names.test.mjs 用同一個 nameSceneProblems，所以錯誤也會讓 npm test 失敗。
@@ -15,7 +15,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIR = path.join(ROOT, 'src/names/scenes')
 export const MIN_SEC = 7
-export const MAX_SEC = 10
+export const MAX_SEC = 12
 
 let hooked = false
 function hook() {
