@@ -111,6 +111,84 @@ export const STORIES = [
       { id: 'brave', text: '超人再也不怕黑了。' },
     ],
   },
+  // 小骷髏主演（hero:jerry）。「骷、髏」不在字庫，所以故事裡只叫「他」；封面看得到是誰
+  {
+    id: 'candy', title: '誰在門後', hero: 'jerry', emoji: '🎃',
+    pages: [
+      { id: 'want', text: '夜晚了，他想吃糖。' },
+      { id: 'door', text: '前面有一個大門。' },
+      { id: 'who', ask: '門後是＿！', options: [
+        { char: '姑', emoji: '🍬', text: '姑姑給他好多糖！', ok: true },
+        { char: '獅', emoji: '🦁', text: '是獅子！快跑！' },
+        { char: '熊', emoji: '🐻', text: '熊在睡。不要叫他！' },
+      ] },
+      { id: 'bag', text: '好多糖！他要回家了。' },
+      { id: 'ride', ask: '他坐＿回家！', options: [
+        { char: '車', emoji: '🚗', text: '坐車回家，好快！', ok: true },
+        { char: '馬', emoji: '🐎', text: '馬跑太快了！糖都飛了！', ok: true },
+        { char: '雲', emoji: '☁️', text: '雲太高了！他好怕！' },
+      ] },
+      { id: 'home', text: '到家了。他累了，睡了。' },
+    ],
+  },
+  {
+    id: 'cake', title: '小老鼠偷吃', hero: 'mouse', emoji: '🍰',
+    pages: [
+      { id: 'table', text: '桌上有一個大蛋糕。' },
+      { id: 'cat', text: '小老鼠想偷吃。貓在睡。' },
+      { id: 'cross', ask: '他要＿過去！', options: [
+        { char: '爬', emoji: '🤫', text: '慢慢爬，貓沒聽到。', ok: true },
+        { char: '跑', emoji: '🙀', text: '貓聽到了！快回去！' },
+        { char: '跳', emoji: '🐾', text: '他跳到貓的頭上了！' },
+      ] },
+      { id: 'wake', text: '貓起來了！貓也想吃！' },
+      { id: 'feed', ask: '給貓吃＿的！', options: [
+        { char: '甜', emoji: '🧁', text: '甜甜的蛋糕！貓笑了。', ok: true },
+        { char: '酸', emoji: '🍋', text: '好酸！貓的毛都起來了！' },
+        { char: '苦', emoji: '🤢', text: '好苦！貓的臉綠了！' },
+      ] },
+      { id: 'share', text: '貓和小老鼠一起吃蛋糕。' },
+    ],
+  },
+  {
+    id: 'fart', title: '好大的屁', hero: 'rex', emoji: '💨',
+    pages: [
+      { id: 'beans', text: '小恐龍吃了好多豆。' },
+      { id: 'belly', text: '他的肚子叫了。屁要來了！' },
+      { id: 'blast', ask: '屁噴到＿了！', all: true, options: [
+        { char: '花', emoji: '🌸', text: '花聞到屁，不笑了！' },
+        { char: '蜂', emoji: '🐝', text: '蜂飛不起來了！' },
+        { char: '象', emoji: '🐘', text: '屁太大了！象飛上天了！' },
+      ] },
+      { id: 'alone', text: '大家都怕他的屁。他哭了。' },
+      { id: 'stuck', text: '小車沒電了，不會走。' },
+      { id: 'push', ask: '小恐龍用＿推車！', options: [
+        { char: '屁', emoji: '🚀', text: '好大的屁！小車跑好快！', ok: true },
+        { char: '手', emoji: '✋', text: '用手推，車不走。' },
+        { char: '頭', emoji: '💫', text: '用頭推！頭上有星星！' },
+      ] },
+      { id: 'love', text: '大家都愛他的屁了！' },
+    ],
+  },
+  {
+    id: 'ufo', title: '外星人來了', hero: 'alien', emoji: '🛸',
+    pages: [
+      { id: 'light', text: '夜晚，天上有光。' },
+      { id: 'come', text: '外星人來了！他想玩。' },
+      { id: 'grab', ask: '光把＿拉上去！', all: true, options: [
+        { char: '牛', emoji: '🐄', text: '牛飛上天了！牛在叫！' },
+        { char: '爸', emoji: '🧔', text: '爸爸飛上天了！爸爸好怕！' },
+        { char: '豬', emoji: '🐷', text: '小豬也上去了！他在笑！' },
+      ] },
+      { id: 'heavy', text: '太多了！外星人飛不起來了！' },
+      { id: 'gift', ask: '外星人給我＿！', options: [
+        { char: '星', emoji: '⭐', text: '好美的星星！', ok: true },
+        { char: '蛋', emoji: '🐣', text: '蛋裡有小外星人！', ok: true },
+        { char: '石', emoji: '🌑', text: '是天上來的石！', ok: true },
+      ] },
+      { id: 'bye', text: '再見，外星人！' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
