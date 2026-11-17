@@ -15,7 +15,8 @@
 4. `docs/clip-v2-plan.md` 的「只有一個主軸笑點」一節（整節照做）
 5. 節奏與質感的樣板：`src/anim/clips/貓.ts`（同一個笑點寫成函式、呼叫好幾次）、`晚.ts`、`爬.ts`。
    它們是識字動畫，**國字、字框、builds、glyph、park、ask、問字、語詞都跟你無關**，只學「一個笑點越做越大」與姿勢的用法。
-6. 現在的 `src/names/scenes/<id>.ts` 與 `shared/names.mjs` 裡那個名字的 `note`
+6. 加強版的第一支 `src/names/scenes/robot.ts`（主軸寫成 `dance()` 呼叫三次、`press()`／`spin()` 給反轉沿用；照這個結構寫，但**套路不要跟它一樣**——不要又是「按一下就冒煙、最後飛上天」）
+7. 現在的 `src/names/scenes/<id>.ts` 與 `shared/names.mjs` 裡那個名字的 `note`
 
 ## 加強版的標準
 - **動手前先用一句話寫下主軸笑點**，不用解釋就看得懂，而且演的是名字的字面意思。
