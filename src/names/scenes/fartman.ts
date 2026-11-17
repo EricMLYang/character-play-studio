@@ -1,133 +1,190 @@
-// 演的是字面意思：屁屁＋超人——一個披披風的超人（自家主角）怎麼跳、怎麼跑都飛不起來，吃了一包豆子，「噗」一聲放屁才衝上天（沒有番薯、校長等原作情節）。
+// 演的是字面意思：屁屁＋超人——一個披披風的超人（自家主角）飛不起來，只好用力「噗」放屁當推進器，最後屁大到變成一朵雲把他托上天（沒有番薯、校長等原作情節）。
+import type { Camera, Cue, Fx, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
 
-// 運動場上的飛行比賽：小鳥拍拍翅膀就飛上終點旗，得意地看著超人。超人擺好姿勢、蹲低、跳——
-// 在半空停一下……啪，臉朝下摔回地上。小鳥笑翻。他助跑、披風甩起來、用力一跳——絆到自己的披風滾了好幾圈。
-// 他看到地上一包豆子，一口吃光。肚子咕嚕咕嚕……他回頭看屁股……停一拍……沒事。正要嘆氣——
-// 「噗！」好大一團屁把他衝上天，小鳥被吹得在空中轉圈。超人在天上繞一圈，帥氣地落地擺姿勢：「屁屁超人」。
-// 屁股後面又「噗」一小聲，把他抬高一點點。
-const H = 15 // 超人的 size
-const G = 77 - 0.42 * H
-const BIRD = 11
-const FLAG = { x: 140, y: 77 - 0.42 * 22 }
-const ON_FLAG = { x: 136, y: FLAG.y - 12 } // 小鳥站在旗子上
-const BEANS = { x: 116, y: 77 - 0.42 * 9 }
+// 主軸笑點（一句話）：超人想飛上樹拿青蛙的氣球，飛不起來，只好蹲下用力「噗」——屁一次比一次大，把他噴得一次比一次高。
+// 同一個蹲下憋氣、同一團黃色的屁、同一聲「噗」，三次只有結果變大：一小團、跳一下就掉回來 → 一大團、噴到樹梢差一點點就摸到、摔下來頭昏
+// → 先停一拍（他蹲最低、抖最兇，青蛙先跳開躲好），第三次噗出一大朵屁雲——他卻一動也不動、傻眼。
+// 反轉：那朵屁雲慢慢浮起來，把他整個托上天，他站在自己的屁雲上拿到氣球：「屁屁超人」。
+const S = 36 // 超人的 size
+const G = 77 - 0.42 * S // 超人站在地上的 y
+const HX = 70 // 超人每次都站在這裡噗
+const BUTT = { x: HX - 7, y: G + 7 } // 屁屁（他面向右邊，屁屁在左後方）
+const TREE = { x: 108, size: 64 }
+const BALLOON = { x: 98, y: 27 } // 卡在樹梢的氣球
+const FROG = { x: 34, y: 71.4 } // 青蛙（size 22）
+/** 青蛙站哪：開場，被第一次、第二次、第三次的屁吹到哪（第三次前他先跳到 x 17 躲好） */
+const FROG_AT = [34, 29, 23, 9]
+/** 屁的顏色：白雲圖染成黃色 */
+const FART = 'brightness(0.86) sepia(1) saturate(3.2) hue-rotate(4deg)'
+const RIDE = { x: 82, y: 33 } // 坐屁雲上去以後站的地方
 /** 鏡頭推近 z 倍、讓畫面正中間是 (x, y)：zoom 的 to 是不動點，不是中心，換算一下 */
 const look = (x: number, y: number, z: number) => ({ x: (x * z - 80) / (z - 1), y: (y * z - 45) / (z - 1) })
-const POSE = { x: 80, y: G }
+
+/**
+ * 噗（每一次都一樣）：蹲低憋氣、全身抖 → 「噗」屁屁噴出一團黃色的屁，他被往上噴、青蛙被吹歪。
+ * k 是第幾次（0、1、2），越後面蹲越久、抖越兇、屁越大、噴越高、音效多疊一個。p 是噗的那一刻。
+ */
+function toot(p: number, k: number) {
+  const cloud = `fart${k + 1}`
+  const wind = 0.5 + 0.15 * k // 蹲著憋多久
+  const moves: Move[] = [
+    { at: p - wind, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
+    { at: p - wind, actor: 'hero', do: 'squash', amount: 0.22 + 0.06 * k, dur: wind },
+    { at: p - wind + 0.1, actor: 'hero', do: 'shake', amount: 0.5 + 0.35 * k, dur: wind - 0.1 },
+    // 噗！屁從屁屁噴出來、往左後方散開
+    { at: p, actor: cloud, do: 'pop', dur: 0.15 },
+    { at: p, actor: cloud, do: 'scaleTo', amount: [1.6, 1.9, 2.2][k], dur: 0.45, ease: 'out' },
+    // 青蛙被屁吹得往後滑、身體往後仰（一次比一次遠）
+    { at: p + 0.05, actor: 'frog', do: 'moveTo', to: { x: FROG_AT[k + 1], y: FROG.y }, dur: 0.35, ease: 'out' },
+    { at: p + 0.05, actor: 'frog', do: 'rotateTo', amount: -(12 + 6 * k), dur: 0.15, ease: 'out' },
+    { at: p + 0.6, actor: 'frog', do: 'rotateTo', amount: 12 + 6 * k, dur: 0.3, ease: 'back' },
+  ]
+  if (k < 2) {
+    moves.push(
+      { at: p, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
+      { at: p, actor: cloud, do: 'moveTo', to: { x: BUTT.x - 8 - 6 * k, y: BUTT.y - 3 }, dur: 0.6, ease: 'out' },
+      { at: p + 0.55, actor: cloud, do: 'vanish', dur: 0.35 },
+    )
+  }
+  const fx: Fx[] = [
+    { at: p + 0.05, kind: 'stink', actor: cloud, dur: 1.1 },
+    { at: p, kind: 'puff', actor: 'hero', n: 4 + 4 * k, dur: 0.5 },
+  ]
+  if (k >= 1) fx.push({ at: p - 0.3, kind: 'sweat', actor: 'hero', dur: 0.4 })
+  const camera: Camera[] = [
+    { at: p, dur: 0.4, do: 'punch', amount: 0.06 + 0.05 * k, to: BUTT },
+    { at: p, dur: 0.3 + 0.1 * k, do: 'shake', amount: 0.6 + 0.6 * k },
+  ]
+  // 同一個音效（噗＋洩氣），一次比一次多疊一個
+  const cues: Cue[] = [{ at: p, sfx: 'poof' }, { at: p + 0.03, sfx: 'deflate' }]
+  if (k >= 1) cues.push({ at: p + 0.06, sfx: 'whoosh' })
+  if (k >= 2) cues.push({ at: p + 0.1, sfx: 'rumble' })
+  return { moves, fx, camera, cues }
+}
+
+const P1 = 1.55, P2 = 3.45, P3 = 6.5
+const t1 = toot(P1, 0)
+const t2 = toot(P2, 1)
+const t3 = toot(P3, 2)
+const TOP2 = P2 + 0.3 // 第二次噴到最高
+const LAND2 = TOP2 + 0.65 // 第二次摔回地上
+const LIFT = P3 + 0.75 // 屁雲開始浮起來
+const UP = LIFT + 1.0 // 到樹梢
+const POSE = UP + 0.3 // 拿到氣球、亮相
 
 export default scene({
-  duration: 9.6,
-  bg: { top: '#7FC6F5', bottom: '#E2F4FF', floor: '#D98C5F', scenery: 'track' },
+  duration: 10.9, // 亮相後停 2.3 秒以上
+  bg: { top: '#86CFF0', bottom: '#EAF8FF', floor: '#9CCB72', scenery: 'city' },
   actors: [
-    { id: 'flag', emoji: '🏁', x: FLAG.x, y: FLAG.y, size: 22 },
-    { id: 'trophy', emoji: '🏆', x: 22, y: 77 - 0.42 * 12, size: 12 },
-    { id: 'beans', emoji: '🫘', x: BEANS.x, y: BEANS.y, size: 9 },
-    { id: 'fart', emoji: '💨', x: 60, y: 66, size: 22, float: true, hidden: true },
-    { id: 'bird', emoji: '🐦', x: 58, y: 77 - 0.42 * BIRD, size: BIRD, flip: true },
-    { id: 'hero', emoji: 'hero:cape/idle', x: 42, y: G, size: H },
+    { id: 'tree', emoji: 'prop:tall-tree', x: TREE.x, y: 77 - 0.42 * TREE.size, size: TREE.size },
+    { id: 'frog', emoji: 'prop:frog', x: FROG.x, y: FROG.y, size: 22, flip: true },
+    // 三團屁（同一張雲染黃色）：畫在超人後面
+    { id: 'fart1', emoji: 'prop:smoke', x: BUTT.x - 3, y: BUTT.y, size: 10, hidden: true, float: true, tint: FART },
+    { id: 'fart2', emoji: 'prop:smoke', x: BUTT.x - 3, y: BUTT.y, size: 13, hidden: true, float: true, tint: FART },
+    { id: 'fart3', emoji: 'prop:smoke', x: BUTT.x - 3, y: BUTT.y, size: 18, hidden: true, float: true, tint: FART },
+    // 氣球畫在屁雲前面：最後要看得到
+    { id: 'balloon', emoji: '🎈', x: BALLOON.x, y: BALLOON.y, size: 13, float: true, pivot: 'center' },
+    { id: 'hero', emoji: 'hero:cape/idle', x: HX, y: G, size: S, flip: true },
   ],
   moves: [
-    // ① 小鳥拍拍翅膀就飛上終點旗
-    { at: 0.1, actor: 'bird', do: 'squash', amount: 0.3, dur: 0.2 },
-    { at: 0.3, actor: 'bird', do: 'moveTo', to: ON_FLAG, arc: 18, dur: 0.7, ease: 'inOut' },
-    { at: 1.05, actor: 'bird', do: 'flip' },
-    { at: 1.1, actor: 'bird', do: 'hop', amount: 2, dur: 0.25 },
-    // ② 超人擺姿勢、蹲低、跳——半空停一下……臉朝下摔回地上
-    { at: 1.0, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
-    { at: 1.6, actor: 'hero', do: 'squash', amount: 0.35, dur: 0.3 },
-    { at: 1.9, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
-    { at: 1.9, actor: 'hero', do: 'moveTo', to: { x: 46, y: 50 }, dur: 0.3, ease: 'out' },
-    { at: 2.2, actor: 'hero', do: 'shake', amount: 0.6, dur: 0.3 },
-    { at: 2.5, actor: 'hero', do: 'moveTo', to: { x: 48, y: G }, dur: 0.2, ease: 'in' },
-    { at: 2.7, actor: 'hero', do: 'squash', amount: 0.5, dur: 0.4 },
-    { at: 2.75, actor: 'bird', do: 'tilt', amount: 18, dur: 0.6 },
-    // 助跑、用力一跳——絆到披風滾好幾圈
-    { at: 3.2, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
-    { at: 3.2, actor: 'hero', do: 'flip' },
-    { at: 3.3, actor: 'hero', do: 'moveTo', to: { x: 84, y: G }, dur: 0.45, anticipate: 4, ease: 'in' },
-    { at: 3.75, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
-    { at: 3.75, actor: 'hero', do: 'moveTo', to: { x: 104, y: G }, arc: 5, dur: 0.5, ease: 'out' },
-    { at: 3.75, actor: 'hero', do: 'spin', times: 2, dur: 0.5, pivot: 'center' },
-    { at: 4.3, actor: 'bird', do: 'hop', amount: 3, dur: 0.3 },
-    // ③ 看到豆子，一口吃光
-    { at: 4.75, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
-    { at: 4.9, actor: 'beans', do: 'moveTo', to: { x: 104, y: G - 6 }, arc: 6, dur: 0.25 },
-    { at: 5.15, actor: 'beans', do: 'vanish', dur: 0.1 },
-    { at: 5.15, actor: 'hero', do: 'squash', amount: -0.15, dur: 0.25 },
-    // 肚子咕嚕咕嚕……回頭看屁股……沒事
-    { at: 5.45, actor: 'hero', do: 'shake', amount: 0.8, dur: 0.4 },
-    { at: 5.5, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
-    { at: 5.95, actor: 'hero', do: 'flip' },
-    { at: 6.35, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
-    { at: 6.35, actor: 'hero', do: 'flip' },
-    // ④ 噗！衝上天，小鳥被吹得在空中轉圈
-    { at: 6.6, actor: 'fart', do: 'moveTo', to: { x: 96, y: 68 }, dur: 0.01 },
-    { at: 6.6, actor: 'fart', do: 'pop', dur: 0.2 },
-    { at: 6.6, actor: 'fart', do: 'scaleTo', amount: 2, dur: 0.4, ease: 'out' },
-    { at: 6.6, actor: 'fart', do: 'moveTo', to: { x: 88, y: 66 }, dur: 0.6, ease: 'out' },
-    { at: 7.1, actor: 'fart', do: 'vanish', dur: 0.4 },
-    { at: 6.6, actor: 'hero', do: 'swap', emoji: 'hero:cape/fly' },
-    { at: 6.6, actor: 'hero', do: 'rotateTo', amount: 90, dur: 0.1, pivot: 'center' },
-    { at: 6.6, actor: 'hero', do: 'moveTo', to: { x: 108, y: -20 }, dur: 0.35, ease: 'in' },
-    { at: 6.65, actor: 'bird', do: 'moveTo', to: { x: 156, y: 18 }, dur: 0.5, ease: 'out' },
-    { at: 6.65, actor: 'bird', do: 'spin', times: 3, dur: 0.6, pivot: 'center' },
-    // 天上繞一圈回來，帥氣落地
-    { at: 7.0, actor: 'hero', do: 'rotateTo', amount: 90, dur: 0.01, pivot: 'center' },
-    { at: 7.0, actor: 'hero', do: 'moveTo', to: { x: 60, y: -20 }, dur: 0.01 },
-    { at: 7.05, actor: 'hero', do: 'moveTo', to: { x: POSE.x, y: 40 }, dur: 0.3, ease: 'out' },
-    { at: 7.05, actor: 'hero', do: 'rotateTo', amount: 180, dur: 0.3, pivot: 'center' },
-    { at: 7.35, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
-    { at: 7.35, actor: 'hero', do: 'moveTo', to: POSE, dur: 0.2, ease: 'in' },
-    { at: 7.55, actor: 'hero', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 7.6, actor: 'hero', do: 'scaleTo', amount: 1.6, dur: 0.35, ease: 'back' },
-    { at: 7.4, actor: 'bird', do: 'moveTo', to: { x: 112, y: 77 - 0.42 * BIRD }, dur: 0.5, ease: 'in' },
-    // 又「噗」一小聲，抬高一點點
-    { at: 8.5, actor: 'hero', do: 'hop', amount: 3, dur: 0.45 },
-    { at: 8.6, actor: 'bird', do: 'tilt', amount: -15, dur: 0.5 },
+    // 開場：青蛙跳著指樹上的氣球，超人拍拍胸口「交給我」
+    { at: 0.1, actor: 'frog', do: 'swap', emoji: 'prop:frog-jump' },
+    { at: 0.1, actor: 'frog', do: 'hop', amount: 4, dur: 0.35 },
+    { at: 0.5, actor: 'frog', do: 'hop', amount: 4, dur: 0.35 },
+    { at: 0.85, actor: 'frog', do: 'swap', emoji: 'prop:frog' },
+    { at: 0.2, actor: 'balloon', do: 'tilt', amount: 12, dur: 0.6 },
+    { at: 0.5, actor: 'hero', do: 'squash', amount: -0.12, dur: 0.2 },
+    { at: 0.6, actor: 'hero', do: 'hop', amount: 3, dur: 0.3 },
+
+    // 第一次：小小一團，跳一下就掉回來，傻眼
+    ...t1.moves,
+    { at: P1, actor: 'hero', do: 'moveTo', to: { x: HX, y: G - 7 }, dur: 0.2, ease: 'out' },
+    { at: P1 + 0.22, actor: 'hero', do: 'moveTo', to: { x: HX, y: G }, dur: 0.2, ease: 'in' },
+    { at: P1 + 0.42, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: P1 + 1.1, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
+
+    // 第二次：一大團，噴到樹梢、伸手差一點點……摔下來頭昏
+    ...t2.moves,
+    { at: P2, actor: 'hero', do: 'moveTo', to: { x: HX + 4, y: G - 24 }, dur: 0.3, ease: 'out' },
+    { at: TOP2, actor: 'hero', do: 'shake', amount: 0.6, dur: 0.3 },
+    { at: TOP2, actor: 'balloon', do: 'tilt', amount: -14, dur: 0.4 },
+    { at: TOP2 + 0.35, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: TOP2 + 0.35, actor: 'hero', do: 'moveTo', to: { x: HX, y: G }, dur: LAND2 - TOP2 - 0.35, ease: 'in' },
+    { at: LAND2, actor: 'hero', do: 'swap', emoji: 'hero:cape/dizzy' },
+    { at: LAND2, actor: 'hero', do: 'squash', amount: 0.3, dur: 0.3 },
+
+    // 停一拍：他爬起來、瞪著樹梢，青蛙先跳開躲好（他知道要來了）
+    { at: 5.05, actor: 'hero', do: 'swap', emoji: 'hero:cape/idle' },
+    { at: 5.2, actor: 'frog', do: 'swap', emoji: 'prop:frog-jump' },
+    { at: 5.2, actor: 'frog', do: 'moveTo', to: { x: 17, y: FROG.y }, arc: 6, dur: 0.35, ease: 'out' },
+    { at: 5.6, actor: 'frog', do: 'swap', emoji: 'prop:frog' },
+    // 第三次：蹲最低、抖最兇——噗出一大朵屁雲，他卻一動也不動，傻眼
+    ...t3.moves,
+    { at: P3, actor: 'hero', do: 'swap', emoji: 'hero:cape/surprised' },
+    { at: P3, actor: 'fart3', do: 'moveTo', to: { x: HX - 2, y: G + 20 }, dur: 0.5, ease: 'out' },
+    { at: P3 + 0.1, actor: 'frog', do: 'shake', amount: 1, dur: 0.5 },
+    // 反轉：屁雲慢慢浮起來，把他托上天
+    { at: LIFT - 0.15, actor: 'fart3', do: 'squash', amount: 0.15, dur: 0.15 },
+    { at: LIFT, actor: 'fart3', do: 'moveTo', to: { x: RIDE.x - 2, y: RIDE.y + 24 }, dur: UP - LIFT, ease: 'inOut' },
+    { at: LIFT, actor: 'hero', do: 'moveTo', to: RIDE, dur: UP - LIFT, ease: 'inOut' },
+    { at: LIFT + 0.35, actor: 'hero', do: 'swap', emoji: 'hero:cape/happy' },
+    // 到樹梢：氣球自己落到他手上
+    { at: UP, actor: 'balloon', do: 'moveTo', to: { x: RIDE.x + 15, y: RIDE.y - 13 }, dur: 0.3, ease: 'back' },
+    { at: UP, actor: 'tree', do: 'shake', amount: 0.6, dur: 0.3 },
+    // 亮相：站在自己的屁雲上擺姿勢
+    { at: POSE, actor: 'hero', do: 'swap', emoji: 'hero:cape/pose' },
+    { at: POSE, actor: 'hero', do: 'scaleTo', amount: 1.1, dur: 0.35, ease: 'back' },
+    { at: POSE + 0.5, actor: 'frog', do: 'swap', emoji: 'prop:frog-jump' },
+    { at: POSE + 0.5, actor: 'frog', do: 'hop', amount: 4, dur: 0.35 },
+    { at: POSE + 0.9, actor: 'frog', do: 'hop', amount: 4, dur: 0.35 },
+    // 屁雲上下飄
+    { at: POSE + 0.6, actor: 'fart3', do: 'hop', amount: 1.5, dur: 0.8 },
+    { at: POSE + 0.6, actor: 'hero', do: 'hop', amount: 1.5, dur: 0.8 },
+    { at: POSE + 0.6, actor: 'balloon', do: 'hop', amount: 1.5, dur: 0.8 },
   ],
   fx: [
-    { at: 0.3, kind: 'puff', actor: 'bird', n: 4, dur: 0.4 },
-    { at: 1.15, kind: 'pop', actor: 'bird', emoji: '😎', dx: -8, dur: 0.6 },
-    { at: 2.25, kind: 'sweat', actor: 'hero' },
-    { at: 2.8, kind: 'pop', actor: 'bird', emoji: '😆', dx: -8, dur: 0.6 },
-    { at: 3.3, kind: 'puff', actor: 'hero', n: 5, dur: 0.4 },
-    { at: 4.25, kind: 'dizzy', actor: 'hero', dur: 0.6 },
-    { at: 4.35, kind: 'pop', actor: 'bird', emoji: '😆', dx: -8, dur: 0.5 },
-    { at: 4.8, kind: 'pop', actor: 'hero', emoji: '💡', dx: 8, dur: 0.4 },
-    { at: 5.5, kind: 'pop', actor: 'hero', emoji: '😳', dx: 9, dur: 0.5 },
-    { at: 6.0, kind: 'pop', actor: 'hero', emoji: '❓', dx: 9, dur: 0.5 },
-    { at: 6.6, kind: 'puff', actor: 'fart', n: 12, dur: 0.7 },
-    { at: 6.6, kind: 'stink', actor: 'fart', dur: 1.4 },
-    { at: 6.7, kind: 'pop', actor: 'bird', emoji: '😵', dx: -6, dur: 0.6 },
-    { at: 7.6, kind: 'burst', actor: 'hero', emoji: '⭐', n: 10, dur: 0.9 },
-    { at: 8.0, kind: 'dizzy', actor: 'bird', dur: 0.8 },
-    { at: 8.4, kind: 'burst', actor: 'hero', emoji: '🎉', n: 8, dur: 0.9 },
-    { at: 8.5, kind: 'puff', actor: 'hero', n: 3, dx: -6, dur: 0.4 },
+    ...t1.fx,
+    { at: P1 + 0.45, kind: 'sweat', actor: 'hero' },
+    ...t2.fx,
+    { at: LAND2, kind: 'burst', actor: 'hero', n: 1, dur: 0.4, scale: 1.4 },
+    { at: LAND2 + 0.1, kind: 'dizzy', actor: 'hero', dur: 0.8 },
+    ...t3.fx,
+    { at: LIFT, kind: 'stink', actor: 'fart3', dur: 1.4 },
+    { at: POSE, kind: 'burst', actor: 'hero', emoji: '✨', n: 10, dur: 0.9, scale: 1.4 },
+    { at: POSE + 0.45, kind: 'burst', actor: 'hero', emoji: '🎉', n: 8, dur: 0.9, scale: 1.4 },
   ],
   camera: [
-    { at: 2.7, dur: 0.3, do: 'shake', amount: 0.8 },
-    { at: 5.3, dur: 0.6, do: 'zoom', amount: 1.5, to: { x: 104, y: 56 } },
-    { at: 6.6, dur: 0.4, do: 'shake', amount: 2 },
-    { at: 6.6, dur: 0.3, do: 'zoom', amount: 1 },
-    { at: 7.6, dur: 0.5, do: 'zoom', amount: 1.4, to: look(POSE.x + 8, 54, 1.4) },
+    // 定住構圖：超人、青蛙、樹梢的氣球都在畫面裡，超人夠大
+    { at: 0, dur: 0.01, do: 'zoom', amount: 1.3, to: look(76, 48, 1.3) },
+    ...t1.camera,
+    ...t2.camera,
+    { at: LAND2, dur: 0.35, do: 'shake', amount: 1.2 },
+    // 停一拍：慢慢推近蹲著憋氣的他
+    { at: 5.3, dur: 0.8, do: 'zoom', amount: 1.55, to: look(HX - 2, 54, 1.55) },
+    ...t3.camera,
+    { at: P3 + 0.1, dur: 0.4, do: 'zoom', amount: 1.3, to: look(76, 50, 1.3) },
+    // 浮上去：跟著往上
+    { at: LIFT, dur: UP - LIFT, do: 'zoom', amount: 1.45, to: look(RIDE.x, 38, 1.45) },
   ],
   lights: [
-    { at: 6.6, dur: 0.05, level: -0.4 },
-    { at: 6.65, dur: 0.4, level: 0 },
-    { at: 7.0, dur: 0.01, level: 0 },
+    { at: P3, dur: 0.05, level: -0.3 },
+    { at: P3 + 0.05, dur: 0.35, level: 0 },
+    { at: POSE, dur: 0.05, level: -0.2 },
+    { at: POSE + 0.05, dur: 0.4, level: 0 },
   ],
   cues: [
-    { at: 0.3, sfx: 'whoosh' },
-    { at: 1.9, sfx: 'boing' },
-    { at: 2.7, sfx: 'bonk' },
-    { at: 3.75, sfx: 'slide' },
-    { at: 5.15, sfx: 'gulp' },
-    { at: 5.45, sfx: 'rumble' },
-    { at: 6.6, sfx: 'poof' },
-    { at: 6.65, sfx: 'whoosh' },
-    { at: 7.55, sfx: 'plop' },
-    { at: 7.8, say: '屁屁超人' },
-    { at: 8.5, sfx: 'poof' },
+    { at: 0.1, sfx: 'boing' },
+    ...t1.cues,
+    { at: P1 + 0.42, sfx: 'plop' },
+    ...t2.cues,
+    { at: LAND2, sfx: 'bonk' },
+    { at: 5.2, sfx: 'boing' },
+    ...t3.cues,
+    { at: LIFT, sfx: 'bubble' },
+    { at: UP, sfx: 'blip' },
+    { at: POSE, sfx: 'clink' },
+    { at: POSE + 0.3, say: '屁屁超人' },
+    { at: POSE + 0.6, sfx: 'cheer' },
   ],
 })
