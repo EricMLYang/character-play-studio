@@ -27,7 +27,7 @@ export const NAMES = [
   { id: 'peanut', text: '花生', emoji: '🥜', note: '自家的浣熊花生（hero:raccoon）澆一次水土裡就冒出一顆花生砸他頭，越冒越大，最大那顆裂開「生」出一朵花' },
   { id: 'butt', text: '屁屁偵探', emoji: '💨', note: '偵探拿放大鏡找線索，噗一聲把壞人吹跑；不要把臉做成屁股形狀' },
   { id: 'catarmy', text: '野貓軍團', emoji: '🐈', note: '一排貓咪列隊踏步，一條魚丟過來隊伍全亂' },
-  { id: 'threepigs', text: '三隻小豬', emoji: '🐷', note: '三隻小豬疊羅漢搆東西（老童話，沒有原作的問題）' },
+  { id: 'threepigs', text: '三隻小豬', emoji: '🐷', note: '三隻小豬一隻一隻疊羅漢搆牆上的蛋糕，越疊下面越扁，最後彈上去（老童話，沒有原作的問題）' },
   { id: 'redhood', text: '小紅帽', emoji: '👒', note: '一頂紅帽子被風吹走，追著帽子跑' },
   { id: 'wolf', text: '大野狼', emoji: '🐺', note: '大野狼吹氣，吹到自己飛走' },
   { id: 'caterpillar', text: '毛毛蟲', emoji: '🐛', note: '毛毛蟲一伸一縮爬上葉子打噴嚏；不要演吃一洞一洞的水果、變蝴蝶' },
