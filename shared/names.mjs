@@ -23,7 +23,7 @@ export const NAMES = [
   { id: 'riceball', text: '飯糰男孩', emoji: '🍙', note: '楊捷睿捏飯糰，越捏越大把自己壓扁' },
   { id: 'dora', text: '哆啦Ａ夢', emoji: '🔔', note: '鈴鐺「哆啦哆啦」響，主角睡著做了一個夢（夢裡冒出好吃的）；不要藍色圓貓、口袋、竹蜻蜓、任意門' },
   { id: 'labrador', text: '拉布拉多警長', emoji: '🚨', note: '狗狗頭上頂著警燈，追著搶錢的浣熊跑，一把抓住' },
-  { id: 'pigsleuth', text: '豬探長', emoji: '🔍', note: '小豬拿放大鏡找腳印，犯人一直躲在他後面' },
+  { id: 'pigsleuth', text: '豬探長', emoji: '🔍', note: '小豬拿放大鏡找犯人，他一回頭，犯人就繞到他背後躲起來' },
   { id: 'peanut', text: '花生', emoji: '🥜', note: '一顆花生埋進土裡，「生」出一朵花' },
   { id: 'butt', text: '屁屁偵探', emoji: '💨', note: '偵探拿放大鏡找線索，噗一聲把壞人吹跑；不要把臉做成屁股形狀' },
   { id: 'catarmy', text: '野貓軍團', emoji: '🐈', note: '一排貓咪列隊踏步，一條魚丟過來隊伍全亂' },
