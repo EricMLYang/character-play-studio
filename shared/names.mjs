@@ -38,7 +38,7 @@ export const NAMES = [
   { id: 'dino', text: '恐龍', emoji: '🦖', note: '蛋裂開跑出小恐龍，吼得震天，結果被一隻小老鼠嚇到（恐）' },
   { id: 'monster', text: '大怪獸', emoji: '👾', note: '自家的大怪獸（hero:monster）打嗝把自己噴上天' },
   { id: 'firetruck', text: '消防車', emoji: '🚒', note: '消防車噴水滅火，噴到自己' },
-  { id: 'robot', text: '機器人', emoji: '🤖', note: '自家的機器人（hero:robot）跳舞跳到冒煙' },
+  { id: 'robot', text: '機器人', emoji: '🤖', note: '自家的機器人（hero:robot）聽到音樂就轉圈跳舞，跳一次冒一次煙，第三次當機，第四次煙從腳底噴出來變火箭' },
   { id: 'alien', text: '外星人', emoji: '👽', note: '自家的外星人（hero:alien）用飛碟光束吸東西吸錯' },
   { id: 'dragon', text: '神龍', emoji: '🐉', note: '一條龍從雲裡出來噴火烤棉花糖；不要七顆球、許願' },
   { id: 'truck', text: '卡車', emoji: '🚚', note: '卡車載太多東西卡在橋下（卡）' },

@@ -84,6 +84,9 @@ export async function nameSceneProblems(name, clip) {
     if (e.startsWith('hero:')) {
       const [hero, pose] = e.slice(5).split('/')
       if (!POSES[hero]?.includes(pose)) errors.push(`${where}：沒有這張主角圖 ${e}`)
+    } else if (e.startsWith('prop:')) {
+      // 自製道具圖（跟 anim-check 一樣）：public/props/ 有那張圖就好
+      if (!fs.existsSync(path.join(ROOT, 'public/props', `${e.slice(5)}.png`))) errors.push(`${where}：沒有道具圖 ${e}（public/props/）`)
     } else if (/[🧒👦👧👶]/u.test(e)) errors.push(`${where}：不能用兒童 emoji（${e}）`)
     else if (!has3d(e)) errors.push(`${where}：${e} 沒有 3D 圖（public/emoji3d/），換一個有的`)
   }
