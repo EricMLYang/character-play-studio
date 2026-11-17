@@ -1,135 +1,197 @@
-// 演的是字面意思：佩（佩戴、戴在身上）＋佩＋豬——一隻跑第一名的小豬，被公雞一樣一樣「佩」戴上獎牌、皇冠、蝴蝶結、獎盃，重到走不動，最後一隻蝴蝶停上來就整個垮掉（不是側臉粉紅豬、沒穿裙子、沒有泥巴坑）。
+// 演的是字面意思：佩（佩戴、戴在身上）＋佩＋豬——戴偵探帽的豬探長要走上頒獎台，小機器人一次又一次把金牌「佩」到他身上，重到走不動（不是側臉粉紅豬、沒穿裙子、沒有泥巴坑、沒有一家人）。
+import type { Camera, Cue, Fx, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
-import type { Move } from '../../anim/clip'
 
-// 運動會：小豬衝過終點旗，第一名！裁判公雞把獎牌丟過來，掛在脖子上；再丟皇冠、蝴蝶結、大獎盃……小豬越來越沉。
-// 想走上頒獎台：腳抬不起來。公雞再插一朵小花在最上面——小豬抖了抖……撐住了（停一拍，鬆一口氣）。
-// 一隻小蝴蝶輕輕停上去——垮！小豬整個趴平，東西噴滿地。小豬一彈起來，輕輕鬆鬆跳上頒獎台，獎牌和皇冠飛回身上，閃光燈一閃：「佩佩豬」。
-const on = (surface: number, size: number) => surface + 3 - 0.42 * size // 站在某個面上的 y
-const P = on(74, 20) // 小豬（size 20）站在地上的 y
-const START = 52
-const BOX = { x: 112, y: on(74, 20) } // 頒獎台（📦 size 20）
-const TOP = 58.5 // 頒獎台頂面
-// 戴在身上的東西：相對小豬的位置（小豬朝右，頭在右邊）
-const WEAR: Record<string, { dx: number; dy: number }> = {
-  medal: { dx: 7, dy: -2 },
-  crown: { dx: 5, dy: -11 },
-  bow: { dx: -9, dy: -8 },
-  cup: { dx: -1, dy: -12.5 },
-  flower: { dx: -1, dy: -23.5 },
-  fly: { dx: 0, dy: -29.5 },
+// 主軸笑點（一句話）：小機器人每「佩」一次金牌到豬探長身上，他就被壓得更低、走得更慢。
+// 同一隻伸長的手臂、同一聲「叮」，三次只有結果變大：一面（還得意地走得動）→ 兩面（彎腰喘氣、只拖一小步）→
+// 先停一拍（機器人舉起一面超大的金牌，豬探長回頭看、嚇得發抖）→ 砰！整隻被壓扁在地上。
+// 回馬槍是第四次：機器人再佩上一面小小的金牌——這次他沒有更扁，而是被金牌拖得往前一倒、整隻滾起來，
+// 一路滾到頒獎台、彈上去站好：「佩佩豬」。
+const S = 36 // 豬探長的 size
+const PY = 77 - 0.42 * S // 豬探長站在地上的 y
+const BS = 24 // 小機器人
+const BY = 77 - 0.42 * BS
+const GAP = 26 // 機器人永遠站在豬探長右後方這麼遠
+const X1 = 112 // 第一次站的地方
+const X2 = 101 // 第一次佩完自己走過去的地方
+const X3 = 97 // 第二次佩完只拖得動這一小步
+const TABLE = { x: 54, size: 26 }
+const TOP = 58 // 頒獎台（桌子）的檯面
+const PT = TOP + 1.5 - 0.42 * S // 站在檯面上的 y
+
+type Pose = 'idle' | 'happy' | 'tired' | 'scared' | 'flat' | 'duck' | 'top'
+/** 每面金牌掛在身上的位置：相對豬探長（朝左），照姿勢不同（top＝最後站上頒獎台，全部攤開來給大家看） */
+const WEAR: Record<string, Record<Pose, [number, number]>> = {
+  m1: { idle: [-1, 8], happy: [-1, 8], tired: [-3, 5], scared: [-1, 7], flat: [7, 7], duck: [-2, 7], top: [-10, 10] },
+  m2: { idle: [-6, 9], happy: [-6, 9], tired: [-8, 6], scared: [-6, 8], flat: [11, 7], duck: [-6, 8], top: [8, 10] },
+  m3: { idle: [4, 9], happy: [4, 9], tired: [2, 6], scared: [4, 8], flat: [15, 7], duck: [2, 8], top: [-1, 13] },
+  big: { idle: [-1, 10], happy: [-1, 10], tired: [-3, 7], scared: [-1, 10], flat: [10, 5], duck: [0, 7], top: [-1, 12] },
+  tiny: { idle: [0, -13], happy: [1, -13], tired: [-4, -7], scared: [0, -13], flat: [-2, 6], duck: [0, -6], top: [1, -13] },
 }
-const at = (id: string, x: number, y: number, k = 1) => ({ x: x + WEAR[id].dx * k, y: y + WEAR[id].dy * k })
+const spot = (id: string, x: number, y: number, pose: Pose) => ({ x: x + WEAR[id][pose][0], y: y + WEAR[id][pose][1] })
 
-/** 小豬的移動，身上的東西照抄 */
-const wear = (moves: Move[], ids: string[]): Move[] => moves.flatMap((m) => {
-  if (m.do !== 'moveTo') return [m]
-  return [m, ...ids.map((id): Move => ({ ...m, actor: id, to: at(id, m.to!.x, m.to!.y) }))]
-})
-/** 從公雞丟到小豬身上 */
-const toss = (t: number, id: string, x = START): Move[] => [
-  { at: t, actor: id, do: 'pop', dur: 0.1 },
-  { at: t, actor: id, do: 'moveTo', to: at(id, x, P), arc: 12, dur: 0.4, ease: 'out' },
-  { at: t, actor: id, do: 'spin', times: 1, dur: 0.4 },
-]
-const ROO = { x: 134, y: on(74, 18) }
+/** 豬探長移動或換姿勢：身上已經戴著的金牌照抄（同一刻移到新位置） */
+function body(at: number, dur: number, x: number, y: number, pose: Pose, worn: string[], extra: Partial<Move> = {}): Move[] {
+  return [
+    { at, actor: 'pig', do: 'moveTo', to: { x, y }, dur, ...extra },
+    ...worn.map((id): Move => ({ at, actor: id, do: 'moveTo', to: spot(id, x, y, pose), dur, ...extra, anticipate: undefined })),
+  ]
+}
+
+/**
+ * 主軸笑點：機器人伸長手臂把金牌「佩」上去 → 叮 → 他被壓低一級。每一次都一模一樣：
+ * 機器人換 extend、金牌從手上跳起來越過頭頂套進脖子、落下那一刻叮＋壓扁＋揚塵＋鏡頭推近。
+ * k 是第幾次（0、1、2），ids 是這次佩上的金牌，x 是他站的地方，pose 是壓完的姿勢。hit＝金牌套上那一刻。
+ */
+function pin(hit: number, k: number, ids: string[], worn: string[], x: number, pose: Pose, held = false) {
+  const bx = x + GAP
+  const moves: Move[] = [
+    { at: hit - 0.45, actor: 'bot', do: 'squash', amount: -0.15, dur: 0.15 },
+    { at: hit - 0.35, actor: 'bot', do: 'swap', emoji: held ? 'hero:bot/throw' : 'hero:bot/extend' },
+    ...ids.flatMap((id, i): Move[] => [
+      ...(held ? [] : [
+        { at: hit - 0.35, actor: id, do: 'moveTo', to: { x: bx - 11 - 3 * i, y: BY - 3 }, dur: 0.01 },
+        { at: hit - 0.33, actor: id, do: 'pop', dur: 0.1 },
+      ] as Move[]),
+      { at: hit - 0.25, actor: id, do: 'moveTo', to: spot(id, x, PY, pose === 'flat' ? 'idle' : pose), arc: 12 + 4 * k, dur: 0.25, ease: 'in' },
+    ]),
+    { at: hit + 0.3, actor: 'bot', do: 'swap', emoji: 'hero:bot/happy' },
+    // 叮！被壓下去一級
+    { at: hit, actor: 'pig', do: 'swap', emoji: `hero:pig/${pose}` },
+    { at: hit, actor: 'pig', do: 'squash', amount: 0.18 + 0.12 * k, dur: 0.3 },
+    ...body(hit, 0.12, x, PY, pose, [...worn, ...(pose === 'flat' ? ids : [])]),
+  ]
+  for (const id of ids) moves.push({ at: hit, actor: id, do: 'hop', amount: -1.5 - k, dur: 0.3 })
+  if (k >= 1) moves.push({ at: hit + 0.1, actor: 'pig', do: 'shake', amount: 0.4 + 0.3 * k, dur: 0.4 })
+  const fx: Fx[] = [
+    { at: hit, kind: 'burst', x: x - 2, y: PY - 6, emoji: '✨', n: 4 + 2 * k, dur: 0.5, scale: 1.2 + 0.2 * k },
+    { at: hit + 0.02, kind: 'puff', actor: 'pig', n: 4 + 4 * k, dur: 0.5 },
+  ]
+  if (k >= 2) fx.push({ at: hit, kind: 'burst', x: x + 14, y: PY + 4, n: 1, dur: 0.35, scale: 1.5 })
+  const camera: Camera[] = [
+    { at: hit, dur: 0.4, do: 'punch', amount: 0.06 + 0.05 * k, to: { x: x + 8, y: k >= 2 ? PY + 6 : PY - 6 } },
+    { at: hit, dur: 0.25 + 0.1 * k, do: 'shake', amount: 0.4 + 0.5 * k },
+  ]
+  const cues: Cue[] = [{ at: hit - 0.3, sfx: 'whoosh' }, { at: hit, sfx: 'clink' }]
+  if (k >= 1) cues.push({ at: hit + 0.06, sfx: 'bonk' })
+  if (k >= 2) cues.push({ at: hit + 0.1, sfx: 'crack' })
+  return { moves, fx, camera, cues }
+}
+
+const H1 = 1.65, H2 = 3.55, H3 = 6.3, H4 = 7.65
+const p1 = pin(H1, 0, ['m1'], [], X1, 'happy')
+const p2 = pin(H2, 1, ['m2', 'm3'], ['m1'], X2, 'tired')
+const p3 = pin(H3, 2, ['big'], ['m1', 'm2', 'm3'], X3, 'flat', true)
+const ALL = ['m1', 'm2', 'm3', 'big']
+// 回馬槍：同一隻手、同一聲叮，佩上一面小小的——他被拖得往前一倒，整隻滾起來
+const p4 = pin(H4, 0, ['tiny'], ALL, X3, 'flat')
+const ROLL = H4 + 0.55
+const BUMP = ROLL + 0.75
+const LAND = BUMP + 0.45
+const WORN = [...ALL, 'tiny']
 
 export default scene({
-  duration: 9.3,
-  bg: { top: '#A8D8FF', bottom: '#EAF6FF', floor: '#E9926B', scenery: 'track' },
+  duration: 11.0,
+  bg: { top: '#16204A', bottom: '#3C4A8C', floor: '#B23A3A', scenery: 'city' },
   actors: [
-    { id: 'flag', emoji: '🏁', x: 30, y: on(74, 22), size: 22 },
-    { id: 'box', emoji: '📦', x: BOX.x, y: BOX.y, size: 20 },
-    { id: 'pig', emoji: '🐖', x: START, y: P, size: 20, flip: true },
-    { id: 'bow', emoji: '🎀', x: ROO.x, y: ROO.y - 6, size: 8, hidden: true, pivot: 'center' },
-    { id: 'medal', emoji: '🥇', x: ROO.x, y: ROO.y - 6, size: 8, hidden: true, pivot: 'center' },
-    { id: 'cup', emoji: '🏆', x: ROO.x, y: ROO.y - 6, size: 12, hidden: true, pivot: 'center' },
-    { id: 'crown', emoji: '👑', x: ROO.x, y: ROO.y - 6, size: 8, hidden: true, pivot: 'center' },
-    { id: 'flower', emoji: '🌼', x: ROO.x, y: ROO.y - 6, size: 8, hidden: true, pivot: 'center' },
-    { id: 'fly', emoji: '🦋', x: 170, y: 20, size: 7, float: true },
-    { id: 'roo', emoji: '🐓', x: ROO.x, y: ROO.y, size: 18 },
+    { id: 'table', emoji: 'prop:table', x: TABLE.x, y: 77 - 0.42 * TABLE.size, size: TABLE.size },
+    { id: 'pig', emoji: 'hero:pig/walk', x: X1, y: PY, size: S },
+    { id: 'bot', emoji: 'hero:bot/idle', x: X1 + GAP, y: BY, size: BS },
+    { id: 'm1', emoji: '🥇', x: 0, y: 0, size: 9, hidden: true, pivot: 'center' },
+    { id: 'm2', emoji: '🥇', x: 0, y: 0, size: 9, hidden: true, pivot: 'center' },
+    { id: 'm3', emoji: '🥇', x: 0, y: 0, size: 9, hidden: true, pivot: 'center' },
+    { id: 'big', emoji: '🥇', x: 0, y: 0, size: 12, hidden: true, pivot: 'center' },
+    { id: 'tiny', emoji: '🥇', x: 0, y: 0, size: 5, hidden: true, pivot: 'center' },
   ],
   moves: [
-    // 衝過終點，第一名！
-    { at: 0.05, actor: 'pig', do: 'enter', from: { x: -14, y: P }, dur: 0.7, anticipate: 3, ease: 'back' },
-    { at: 0.8, actor: 'pig', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 0.8, actor: 'roo', do: 'hop', amount: 3, dur: 0.3 },
-    // 公雞一樣一樣丟過來
-    ...toss(1.0, 'medal'),
-    { at: 1.45, actor: 'pig', do: 'hop', amount: 2, dur: 0.25 },
-    { at: 1.45, actor: 'medal', do: 'hop', amount: 2, dur: 0.25 },
-    ...toss(1.7, 'crown'),
-    ...toss(2.3, 'bow'),
-    ...toss(2.9, 'cup'),
-    { at: 3.3, actor: 'pig', do: 'squash', amount: 0.2, dur: 0.35 },
-    // 想走上頒獎台：腳抬不起來
-    ...wear([{ at: 3.75, actor: 'pig', do: 'moveTo', to: { x: START + 4, y: P }, dur: 0.5, ease: 'out' }], ['medal', 'crown', 'bow', 'cup']),
-    { at: 3.75, actor: 'pig', do: 'shake', amount: 0.6, dur: 0.5 },
-    // 公雞走過來，在最上面插一朵小花
-    { at: 4.2, actor: 'roo', do: 'moveTo', to: { x: START + 36, y: ROO.y }, dur: 0.4, ease: 'out' },
-    { at: 4.65, actor: 'flower', do: 'pop', dur: 0.1 },
-    { at: 4.65, actor: 'flower', do: 'moveTo', to: at('flower', START + 4, P), arc: 4, dur: 0.3, ease: 'out' },
-    { at: 4.95, actor: 'pig', do: 'shake', amount: 0.4, dur: 0.3 },
-    // 撐住了……一隻小蝴蝶飄下來
-    { at: 5.3, actor: 'fly', do: 'moveTo', to: at('fly', START + 4, P), dur: 0.7, ease: 'out' },
-    // 垮！
-    { at: 6.1, actor: 'pig', do: 'squash', amount: 0.5, dur: 0.5 },
-    { at: 6.1, actor: 'medal', do: 'moveTo', to: { x: 30, y: on(74, 8) }, arc: 10, dur: 0.5, ease: 'out' },
-    { at: 6.1, actor: 'crown', do: 'moveTo', to: { x: 84, y: on(74, 8) }, arc: 14, dur: 0.5, ease: 'out' },
-    { at: 6.1, actor: 'bow', do: 'moveTo', to: { x: 20, y: on(74, 8) }, arc: 8, dur: 0.5, ease: 'out' },
-    { at: 6.1, actor: 'cup', do: 'moveTo', to: { x: 44, y: on(74, 12) }, arc: 12, dur: 0.5, ease: 'out' },
-    { at: 6.1, actor: 'flower', do: 'moveTo', to: { x: 72, y: on(74, 8) }, arc: 16, dur: 0.5, ease: 'out' },
-    ...['medal', 'crown', 'bow', 'cup', 'flower'].map((id, i): Move => ({ at: 6.1, actor: id, do: 'spin', times: i % 2 ? 2 : -2, dur: 0.5 })),
-    { at: 6.1, actor: 'fly', do: 'moveTo', to: { x: 70, y: 22 }, dur: 0.6, ease: 'out' },
-    { at: 6.1, actor: 'roo', do: 'hop', amount: 5, dur: 0.35 },
-    // 一彈起來，輕輕鬆鬆跳上頒獎台，獎牌、皇冠飛回來
-    { at: 6.8, actor: 'pig', do: 'moveTo', to: { x: BOX.x, y: on(TOP, 20) }, arc: 12, dur: 0.45, anticipate: 3, ease: 'out' },
-    { at: 7.25, actor: 'pig', do: 'scaleTo', amount: 1.5, dur: 0.35, ease: 'back' },
-    { at: 7.3, actor: 'medal', do: 'moveTo', to: at('medal', BOX.x, on(TOP, 20), 1.5), arc: 10, dur: 0.35, ease: 'out' },
-    { at: 7.3, actor: 'medal', do: 'scaleTo', amount: 1.5, dur: 0.35 },
-    { at: 7.4, actor: 'crown', do: 'moveTo', to: at('crown', BOX.x, on(TOP, 20), 1.5), arc: 10, dur: 0.35, ease: 'out' },
-    { at: 7.4, actor: 'crown', do: 'scaleTo', amount: 1.5, dur: 0.35 },
-    { at: 7.4, actor: 'fly', do: 'moveTo', to: { x: BOX.x - 22, y: 30 }, dur: 0.5 },
-    { at: 7.9, actor: 'roo', do: 'hop', amount: 3, dur: 0.3 },
+    // 開場：豬探長大步走向左邊的頒獎台，機器人追上來「等一下！」
+    { at: 0, actor: 'pig', do: 'enter', from: { x: 172, y: PY }, dur: 0.8, ease: 'out' },
+    { at: 0.85, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: 0, actor: 'bot', do: 'enter', from: { x: 190, y: BY }, dur: 1.1, ease: 'back' },
+    // 第一面：得意得跳一下，還走得動
+    ...p1.moves,
+    { at: H1 + 0.55, actor: 'pig', do: 'swap', emoji: 'hero:pig/walk' },
+    ...body(H1 + 0.55, 0.6, X2, PY, 'happy', ['m1']),
+    { at: H1 + 0.7, actor: 'bot', do: 'moveTo', to: { x: X2 + GAP, y: BY }, dur: 0.6 },
+    { at: H1 + 1.2, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: H1 + 1.2, actor: 'bot', do: 'swap', emoji: 'hero:bot/idle' },
+    // 第二面、第三面：彎腰喘氣，只拖得動一小步
+    ...p2.moves,
+    ...body(H2 + 0.6, 0.7, X3, PY, 'tired', ['m1', 'm2', 'm3'], { ease: 'linear' }),
+    { at: H2 + 0.6, actor: 'pig', do: 'shake', amount: 0.6, dur: 0.7 },
+    { at: H2 + 0.8, actor: 'bot', do: 'moveTo', to: { x: X3 + GAP, y: BY }, dur: 0.4 },
+    // 停一拍：機器人舉起一面超大的金牌，豬探長回頭一看，嚇得縮起來發抖
+    { at: 4.75, actor: 'bot', do: 'swap', emoji: 'hero:bot/lift' },
+    { at: 4.75, actor: 'big', do: 'moveTo', to: { x: X3 + GAP, y: BY - 18 }, dur: 0.01 },
+    { at: 4.78, actor: 'big', do: 'pop', dur: 0.2 },
+    { at: 5.0, actor: 'big', do: 'shake', amount: 0.5, dur: 0.4 },
+    { at: 5.05, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    ...body(5.05, 0.1, X3, PY, 'scared', ['m1', 'm2', 'm3']),
+    { at: 5.5, actor: 'pig', do: 'swap', emoji: 'hero:pig/scared' },
+    { at: 5.5, actor: 'pig', do: 'shake', amount: 0.7, dur: 0.6 },
+    // 砰！整隻壓扁
+    ...p3.moves,
+    { at: H3 + 0.45, actor: 'bot', do: 'swap', emoji: 'hero:bot/surprised' },
+    // 回馬槍：再佩一面小小的
+    ...p4.moves,
+    { at: H4 + 0.3, actor: 'bot', do: 'swap', emoji: 'hero:bot/idle' },
+    // 被金牌拖得往前一倒，整隻滾起來
+    { at: ROLL - 0.1, actor: 'pig', do: 'swap', emoji: 'hero:pig/duck' },
+    ...body(ROLL, BUMP - ROLL, TABLE.x + 16, PY + 2, 'duck', WORN, { ease: 'in' }),
+    { at: ROLL, actor: 'pig', do: 'spin', times: -3, dur: BUMP - ROLL, pivot: 'center' },
+    ...WORN.map((id): Move => ({ at: ROLL, actor: id, do: 'spin', times: -2, dur: BUMP - ROLL })),
+    { at: ROLL + 0.15, actor: 'bot', do: 'swap', emoji: 'hero:bot/dash' },
+    { at: ROLL + 0.15, actor: 'bot', do: 'moveTo', to: { x: 98, y: BY }, dur: 0.9, ease: 'out' },
+    // 撞到頒獎台，彈上去站好
+    ...body(BUMP, LAND - BUMP, TABLE.x, PT, 'top', WORN, { arc: 16, ease: 'out' }),
+    { at: BUMP, actor: 'pig', do: 'swap', emoji: 'hero:pig/happy' },
+    { at: BUMP, actor: 'bot', do: 'swap', emoji: 'hero:bot/happy' },
+    { at: BUMP, actor: 'bot', do: 'hop', amount: 4, dur: 0.35 },
+    { at: LAND, actor: 'pig', do: 'squash', amount: 0.2, dur: 0.25 },
   ],
   fx: [
-    { at: 0.75, kind: 'puff', actor: 'pig', n: 6, dur: 0.5 },
-    { at: 0.8, kind: 'burst', actor: 'flag', emoji: '⭐', n: 5, dur: 0.6 },
-    { at: 1.45, kind: 'burst', actor: 'medal', emoji: '✨', n: 4, dur: 0.5 },
-    { at: 3.35, kind: 'sweat', actor: 'pig' },
-    { at: 3.9, kind: 'pop', actor: 'pig', emoji: '😣', dx: 10, dur: 0.6 },
-    { at: 5.3, kind: 'pop', actor: 'pig', emoji: '😅', dx: 12, dur: 0.6 },
-    { at: 6.1, kind: 'puff', actor: 'pig', n: 10, dur: 0.6 },
-    { at: 6.15, kind: 'burst', actor: 'pig', emoji: '💥', n: 1, dur: 0.4 },
-    { at: 6.3, kind: 'dizzy', actor: 'pig', dur: 0.5 },
-    { at: 6.3, kind: 'pop', actor: 'roo', emoji: '😱', dx: -6, dur: 0.5 },
-    { at: 7.4, kind: 'burst', actor: 'pig', emoji: '🎉', n: 9, dur: 1.0 },
-    { at: 7.55, kind: 'burst', actor: 'pig', emoji: '✨', n: 7, dur: 0.9 },
+    ...p1.fx,
+    ...p2.fx,
+    { at: H2 + 0.2, kind: 'sweat', actor: 'pig', dur: 1.0 },
+    { at: 5.5, kind: 'sweat', actor: 'pig', dur: 0.8 },
+    ...p3.fx,
+    ...p4.fx,
+    { at: ROLL, kind: 'puff', actor: 'pig', n: 8, dur: 0.6 },
+    { at: BUMP, kind: 'burst', x: TABLE.x + 8, y: 62, n: 1, dur: 0.35, scale: 1.6 },
+    { at: LAND, kind: 'burst', actor: 'pig', emoji: '✨', n: 10, dur: 0.9, scale: 1.4 },
+    { at: LAND + 0.3, kind: 'burst', actor: 'pig', emoji: '🎉', n: 7, dur: 0.9, scale: 1.4 },
   ],
   camera: [
-    { at: 4.6, dur: 0.6, do: 'zoom', amount: 1.35, to: { x: 66, y: 54 } },
-    { at: 6.1, dur: 0.4, do: 'shake', amount: 1.5 },
-    { at: 6.2, dur: 0.4, do: 'zoom', amount: 1 },
-    { at: 7.3, dur: 0.5, do: 'zoom', amount: 1.35, to: { x: 106, y: 46 } },
+    { at: 0, dur: 0.01, do: 'zoom', amount: 1.3, to: { x: 104, y: 50 } },
+    ...p1.camera,
+    ...p2.camera,
+    // 停一拍時慢慢推近
+    { at: 4.8, dur: 0.7, do: 'zoom', amount: 1.5, to: { x: 108, y: 56 } },
+    ...p3.camera,
+    { at: H3 + 0.5, dur: 0.4, do: 'zoom', amount: 1.3, to: { x: 104, y: 56 } },
+    ...p4.camera,
+    { at: ROLL, dur: 0.6, do: 'zoom', amount: 1.3, to: { x: 76, y: 50 } },
+    { at: BUMP, dur: 0.3, do: 'shake', amount: 1.0 },
+    { at: LAND, dur: 0.5, do: 'zoom', amount: 1.5, to: { x: 66, y: 45 } },
   ],
   lights: [
-    { at: 7.6, dur: 0.05, level: -0.4 },
-    { at: 7.65, dur: 0.3, level: 0 },
-    { at: 8.0, dur: 0.05, level: -0.3 },
-    { at: 8.05, dur: 0.3, level: 0 },
+    // 亮相：記者的閃光燈閃兩下
+    { at: LAND + 0.05, dur: 0.05, level: -0.35 },
+    { at: LAND + 0.1, dur: 0.3, level: 0 },
+    { at: LAND + 0.6, dur: 0.05, level: -0.25 },
+    { at: LAND + 0.65, dur: 0.3, level: 0 },
   ],
   cues: [
-    { at: 0.1, sfx: 'whoosh' },
-    { at: 0.8, sfx: 'cheer' },
-    { at: 1.4, sfx: 'clink' },
-    { at: 2.1, sfx: 'clink' },
-    { at: 2.7, sfx: 'clink' },
-    { at: 3.3, sfx: 'bonk' },
-    { at: 3.75, sfx: 'rumble' },
-    { at: 4.95, sfx: 'tap' },
-    { at: 6.1, sfx: 'crack' },
-    { at: 6.8, sfx: 'boing' },
-    { at: 7.6, say: '佩佩豬' },
-    { at: 7.65, sfx: 'clink' },
+    { at: 0.1, sfx: 'tap' },
+    ...p1.cues,
+    ...p2.cues,
+    { at: 4.78, sfx: 'boing' },
+    { at: 5.5, sfx: 'rumble' },
+    ...p3.cues,
+    ...p4.cues,
+    { at: ROLL, sfx: 'whoosh' },
+    { at: BUMP, sfx: 'boing' },
+    { at: LAND + 0.1, say: '佩佩豬' },
+    { at: LAND + 0.4, sfx: 'cheer' },
   ],
 })
