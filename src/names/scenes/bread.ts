@@ -1,115 +1,238 @@
-// 演的是字面意思：麵包＋小偷——半夜一個小忍者偷偷把一條麵包抱走（不是披著麵包的老鼠，也沒有老鼠）。
+// 演的是字面意思：麵包＋小偷——小忍者踮腳到麵包店的櫃台偷麵包（不是披著麵包的老鼠，整支沒有老鼠）。
+import type { Camera, Cue, Fx, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
 
-// 半夜的麵包店：忍者從天花板跳下來，舉著葉子假裝隱形、踮腳摸到麵包籃。一抬麵包，睡在上面的貓也被抬起來——
-// 貓醒了左看右看（他僵住冒汗）……又睡回去。他抱著麵包跑到中間跳起來慶祝，燈突然亮了！他立刻躲到麵包後面，
-// 只露出眼睛：「麵包小偷」。貓瞄一眼又睡了，他抱著麵包比耶。
-const G = 66.1 // 忍者（size 26）站在地上的 y
-const BASKET = { x: 116, y: 71.1 }
-const BREAD = { x: 116, y: 61 }
+// 主軸笑點（一句話）：小忍者每偷一個麵包，看店的阿公就睜開眼睛——他立刻舉葉子定住裝沒事，可是偷的麵包一次比一次大，葉子越來越遮不住。
+// 同一段踮腳、同一下睜眼、同一聲定住，三次只有結果變大：一小條吐司（阿公看一眼又睡了）→ 一根長法國麵包（阿公探身瞇眼看很久）→
+// 先停一拍（打呼停了、阿公動了一下，他手已經伸向最大那條吐司，僵住）……阿公一睜眼：反轉——這次他沒有定住，
+// 「砰」一團煙，人和麵包全部不見，只剩那片葉子慢慢飄下來。阿公嚇得從搖椅上彈起來，小忍者從天花板跳下來，三個麵包疊在頭頂上：「麵包小偷」。
+const S = 34 // 小忍者的 size
+const G = 77 - 0.42 * S // 小忍者站在地上的 y
+const START = 40 // 每次從這裡踮腳出發
+const REACH = 62 // 每次都走到櫃台前這裡伸手
+const P = 46 // 阿公（坐在搖椅上）的 size
+const PY = 77 - 0.42 * P
+const PX = 122
+const TABLE = { x: 90, y: 77 - 0.42 * 36 }
+/** 櫃台桌面上麵包底部的高度 */
+const TOP = 55
+/** 偷到的麵包在他手上的位置（相對忍者的 x、y；他朝右） */
+const HELD: Record<string, { dx: number; dy: number }> = {
+  toast: { dx: 6, dy: 3 },
+  long: { dx: 4, dy: -2 },
+  big: { dx: 7, dy: -9 },
+}
+/** 麵包原本放在櫃台的哪裡 */
+const HOME = {
+  toast: { x: 79, y: TOP - 4 },
+  long: { x: 89, y: TOP - 6 },
+  big: { x: 99, y: TOP - 8 },
+}
+/** 阿公睜眼以後盯著看多久 */
+const HOLD = [0.6, 1.0]
+/** 踮腳走過去多久 */
+const TIP = 0.55
+
+/** 忍者走到 x，手上的麵包跟著走 */
+function carry(at: number, x: number, dur: number, held: string[], ease: Move['ease'] = 'linear'): Move[] {
+  return [
+    { at, actor: 'ninja', do: 'moveTo', to: { x, y: G }, dur, ease },
+    ...held.map((id): Move => ({ at, actor: id, do: 'moveTo', to: { x: x + HELD[id].dx, y: G + HELD[id].dy }, dur, ease })),
+  ]
+}
+
+/** 踮腳：每一步小小一跳（手上的麵包一起跳） */
+function tiptoe(at: number, dur: number, ids: string[]): Move[] {
+  const steps = 3
+  const out: Move[] = []
+  for (let i = 0; i < steps; i++) {
+    for (const id of ids) out.push({ at: at + (i * dur) / steps, actor: id, do: 'hop', amount: 1.6, dur: dur / steps })
+  }
+  return out
+}
+
+/** 踮腳到櫃台前（每一次都一樣） */
+function sneak(t: number, held: string[]): Move[] {
+  return [
+    { at: t, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
+    ...carry(t, REACH, TIP, held),
+    ...tiptoe(t, TIP, ['ninja', ...held]),
+  ]
+}
+
+/** 拿起麵包放到手上 */
+function grab(at: number, item: string): Move[] {
+  return [
+    { at, actor: item, do: 'moveTo', to: { x: REACH + HELD[item].dx, y: G + HELD[item].dy }, arc: 3, dur: 0.2, ease: 'out' },
+    { at, actor: 'ninja', do: 'tilt', amount: -8, dur: 0.2 },
+  ]
+}
+
+/** 阿公睜眼（每一次都一樣：打呼停、眼睛睜開、搖椅一晃） */
+function wake(at: number): Move[] {
+  return [
+    { at, actor: 'gramp', do: 'swap', emoji: 'prop:grandpa' },
+    { at, actor: 'gramp', do: 'hop', amount: 2, dur: 0.2 },
+  ]
+}
+
+/**
+ * 主軸笑點：踮腳到櫃台 → 拿起一個麵包 → 阿公睜眼 → 舉葉子定住。
+ * k 是第幾次（0、1），item 是這次拿的麵包，held 是之前已經拿在手上的。t 是出發的時間；回傳 end＝退回原位的時間。
+ */
+function steal(t: number, k: number, item: string, held: string[]) {
+  const g = t + TIP + 0.1
+  const look = g + 0.3
+  const back = look + HOLD[k]
+  const all = [...held, item]
+  const moves: Move[] = [
+    ...sneak(t, held),
+    ...grab(g, item),
+    ...wake(look),
+    // 他立刻舉葉子定住
+    { at: look + 0.05, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
+    { at: look + 0.25, actor: 'ninja', do: 'shake', amount: 0.4 + 0.3 * k, dur: HOLD[k] - 0.3 },
+  ]
+  // 第一次看一眼；第二次探身往前瞇眼看很久
+  if (k >= 1) moves.push({ at: look + 0.25, actor: 'gramp', do: 'tilt', amount: -10, dur: HOLD[k] - 0.3 })
+  else moves.push({ at: look + 0.25, actor: 'gramp', do: 'tilt', amount: -4, dur: 0.3 })
+  // 阿公又睡了，他鬆一口氣、抱著麵包退回原位
+  moves.push(
+    { at: back, actor: 'gramp', do: 'swap', emoji: 'prop:grandpa-sleep' },
+    { at: back + 0.15, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
+    ...carry(back + 0.25, START, 0.4, all, 'inOut'),
+  )
+  const fx: Fx[] = [
+    { at: look + 0.25, kind: 'sweat', actor: 'ninja', dur: HOLD[k] - 0.1 },
+    { at: look + 0.05, kind: 'burst', actor: 'ninja', emoji: '💦', n: 3 + 2 * k, dur: 0.45, scale: 1.3 + 0.2 * k },
+  ]
+  const camera: Camera[] = [{ at: look + 0.05, dur: 0.5 + 0.2 * k, do: 'punch', amount: 0.08 + 0.05 * k, to: { x: 84, y: G - 6 } }]
+  if (k >= 1) camera.push({ at: look + 0.05, dur: 0.3, do: 'shake', amount: 0.6 })
+  // 同一個音效（拿起來「沙」、睜眼「嗶」、定住「叮」），第二次多疊一聲
+  const cues: Cue[] = [{ at: g, sfx: 'slide' }, { at: look, sfx: 'blip' }, { at: look + 0.05, sfx: 'clink' }]
+  if (k >= 1) cues.push({ at: look + 0.3, sfx: 'blip' })
+  return { moves, fx, cues, camera, look, back, end: back + 0.65 }
+}
+
+const T1 = 0.85
+const s1 = steal(T1, 0, 'toast', [])
+const T2 = s1.end + 0.1
+const s2 = steal(T2, 1, 'long', ['toast'])
+// 第三次：同樣踮腳過去，先停一拍
+const T3 = s2.end + 0.1
+const PAUSE = T3 + TIP + 0.05
+const GRAB3 = PAUSE + 0.7
+const LOOK3 = GRAB3 + 0.3
+const POOF = LOOK3 + 0.05
+const JOLT = POOF + 0.7
+const LAND = JOLT + 0.55
+const HELD3 = ['toast', 'long']
+/** 亮相：麵包疊在頭頂上（happy 姿勢雙手舉高） */
+const SHOW = 62
+const UP = { toast: { x: SHOW + 1, y: G - 14 }, long: { x: SHOW, y: G - 19 }, big: { x: SHOW, y: G - 25 } }
 
 export default scene({
-  duration: 9.5,
-  bg: { top: '#4C3B6B', bottom: '#8A6FA8', floor: '#C79A6B', scenery: 'room' },
+  duration: LAND + 1.8,
+  bg: { top: '#F2B872', bottom: '#FBE2B8', floor: '#9C6236', scenery: 'room' },
   actors: [
-    { id: 'plant', emoji: '🪴', x: 20, y: 68.6, size: 20 },
-    { id: 'rack', emoji: '🧺', x: 146, y: 70.3, size: 16 },
-    { id: 'long', emoji: '🥖', x: 146, y: 62, size: 13, float: true },
-    { id: 'candle', emoji: '🕯️', x: 40, y: 71.5, size: 11 },
-    { id: 'basket', emoji: '🧺', x: BASKET.x, y: BASKET.y, size: 14 },
-    { id: 'ninja', emoji: 'hero:ninja/idle', x: 46, y: G, size: 26, hidden: true },
-    { id: 'bread', emoji: '🍞', x: BREAD.x, y: BREAD.y, size: 17, float: true },
-    { id: 'cat', emoji: '🐈', x: 117, y: 53.5, size: 13, float: true },
+    { id: 'lamp', emoji: 'prop:lamp', x: 150, y: 77 - 0.42 * 30, size: 30 },
+    { id: 'gramp', emoji: 'prop:grandpa-sleep', x: PX, y: PY, size: P },
+    { id: 'table', emoji: 'prop:table', x: TABLE.x, y: TABLE.y, size: 36 },
+    // 忍者畫在麵包後面：拿在手上的麵包擋在他身體前面
+    { id: 'ninja', emoji: 'hero:ninja/idle', x: START, y: G, size: S, flip: true, hidden: true },
+    { id: 'big', emoji: '🍞', x: HOME.big.x, y: HOME.big.y, size: 18, float: true },
+    { id: 'long', emoji: '🥖', x: HOME.long.x, y: HOME.long.y, size: 14, float: true },
+    { id: 'toast', emoji: '🍞', x: HOME.toast.x, y: HOME.toast.y, size: 8, float: true },
+    { id: 'leaf', emoji: '🍃', x: REACH, y: G - 6, size: 9, hidden: true, float: true },
   ],
   moves: [
-    // 從天花板跳下來（先縮成一團再落地），馬上舉葉子假裝隱形，左看右看
-    { at: 0.15, actor: 'ninja', do: 'drop', dur: 0.5 },
-    { at: 0.7, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
-    { at: 1.05, actor: 'ninja', do: 'flip' },
-    { at: 1.35, actor: 'ninja', do: 'flip' },
-    // 想到麵包，踮腳摸過去
-    { at: 1.7, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
-    { at: 2.15, actor: 'ninja', do: 'moveTo', to: { x: 97, y: G }, dur: 1.0, ease: 'linear' },
-    { at: 2.15, actor: 'ninja', do: 'bounce', amount: 1.3, times: 5, dur: 1.0 },
-    // 抬麵包——連貓一起抬起來
-    { at: 3.3, actor: 'ninja', do: 'tilt', amount: 10, dur: 0.4 },
-    { at: 3.35, actor: 'bread', do: 'moveTo', to: { x: BREAD.x - 4, y: BREAD.y - 6 }, dur: 0.35, ease: 'out' },
-    { at: 3.35, actor: 'cat', do: 'moveTo', to: { x: 113, y: 47.5 }, dur: 0.35, ease: 'out' },
-    // 貓醒了：他僵住、舉葉子；貓左看右看
-    { at: 3.8, actor: 'cat', do: 'hop', amount: 4, dur: 0.3 },
-    { at: 3.85, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
-    { at: 3.85, actor: 'ninja', do: 'shake', amount: 0.8, dur: 0.4 },
-    { at: 4.3, actor: 'cat', do: 'flip' },
-    { at: 4.75, actor: 'cat', do: 'flip' },
-    { at: 4.3, actor: 'ninja', do: 'shake', amount: 0.5, dur: 1.0 },
-    // ……又睡回去了。呼——
-    { at: 5.2, actor: 'cat', do: 'squash', amount: 0.25, dur: 0.4 },
-    // 真的抱走：麵包舉過頭，貓滑回籃子上繼續睡
-    { at: 5.6, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/idle' },
-    { at: 5.6, actor: 'bread', do: 'moveTo', to: { x: 97, y: 47 }, dur: 0.3, ease: 'out' },
-    { at: 5.65, actor: 'cat', do: 'moveTo', to: { x: BASKET.x, y: 62.5 }, arc: 3, dur: 0.35, ease: 'in' },
-    // 抱著麵包跑到中間
-    { at: 5.95, actor: 'ninja', do: 'flip' },
-    { at: 6.0, actor: 'ninja', do: 'moveTo', to: { x: 72, y: G }, dur: 0.45, anticipate: 3, ease: 'in' },
-    { at: 6.0, actor: 'bread', do: 'moveTo', to: { x: 72, y: 47 }, dur: 0.45, ease: 'in' },
-    // 跳起來慶祝……
-    { at: 6.5, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
-    { at: 6.5, actor: 'ninja', do: 'hop', amount: 6, dur: 0.4 },
-    { at: 6.5, actor: 'bread', do: 'moveTo', to: { x: 72, y: 50 }, dur: 0.1 },
-    { at: 6.5, actor: 'bread', do: 'hop', amount: 6, dur: 0.4 },
-    // 燈亮了！立刻躲到麵包後面，只露出眼睛
-    { at: 6.95, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
-    { at: 7.05, actor: 'bread', do: 'moveTo', to: { x: 72, y: 75.5 }, dur: 0.15, ease: 'out' },
-    { at: 7.05, actor: 'bread', do: 'scaleTo', amount: 1.2, dur: 0.15, ease: 'back' },
-    { at: 7.1, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
-    { at: 7.25, actor: 'ninja', do: 'shake', amount: 0.5, dur: 0.6 },
-    // 貓瞄一眼，又睡了
-    { at: 7.4, actor: 'cat', do: 'hop', amount: 2, dur: 0.25 },
-    // 亮相：抱著麵包跳出來比耶
-    { at: 8.15, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
-    { at: 8.15, actor: 'ninja', do: 'scaleTo', amount: 1.3, dur: 0.3, ease: 'back' },
-    { at: 8.15, actor: 'bread', do: 'moveTo', to: { x: 77, y: 41 }, dur: 0.3, ease: 'back' },
-    { at: 8.15, actor: 'bread', do: 'scaleTo', amount: 1.05, dur: 0.3 },
-    { at: 8.15, actor: 'bread', do: 'tilt', amount: 12, dur: 0.4 },
+    // 開場：小忍者從左邊踮腳溜進來，阿公在搖椅上睡覺
+    { at: 0.05, actor: 'ninja', do: 'enter', from: { x: -20, y: G }, dur: 0.6, ease: 'out' },
+    { at: 0.3, actor: 'gramp', do: 'tilt', amount: 3, dur: 0.8 },
+    // 第 1 次：一小條吐司
+    ...s1.moves,
+    // 第 2 次：長長的法國麵包
+    ...s2.moves,
+    // 第 3 次：同樣踮腳過去……
+    ...sneak(T3, HELD3),
+    // 停一拍：打呼停了，阿公在椅子上動了一下；他手已經伸向最大那條吐司，僵住
+    { at: PAUSE, actor: 'gramp', do: 'tilt', amount: -5, dur: 0.6 },
+    { at: PAUSE + 0.1, actor: 'gramp', do: 'shake', amount: 0.5, dur: 0.4 },
+    { at: PAUSE, actor: 'ninja', do: 'tilt', amount: -10, dur: 0.6 },
+    { at: PAUSE + 0.15, actor: 'big', do: 'shake', amount: 0.5, dur: 0.4 },
+    // 拿起最大那條，阿公睜眼——
+    ...grab(GRAB3, 'big'),
+    ...wake(LOOK3),
+    // 反轉：這次沒有定住——砰！一團煙，人和麵包全部不見，只剩葉子
+    { at: POOF, actor: 'ninja', do: 'vanish', dur: 0.12 },
+    { at: POOF, actor: 'toast', do: 'vanish', dur: 0.12 },
+    { at: POOF, actor: 'long', do: 'vanish', dur: 0.12 },
+    { at: POOF, actor: 'big', do: 'vanish', dur: 0.12 },
+    { at: POOF + 0.05, actor: 'leaf', do: 'pop', dur: 0.15 },
+    { at: POOF + 0.2, actor: 'leaf', do: 'moveTo', to: { x: REACH + 12, y: 72 }, dur: 1.3, ease: 'out' },
+    { at: POOF + 0.2, actor: 'leaf', do: 'tilt', amount: 30, dur: 0.6 },
+    { at: POOF + 0.8, actor: 'leaf', do: 'tilt', amount: -30, dur: 0.6 },
+    // 阿公看著空空的地方……嚇得從搖椅上彈起來（書飛出去）
+    { at: POOF + 0.25, actor: 'gramp', do: 'tilt', amount: -8, dur: 0.4 },
+    { at: JOLT, actor: 'gramp', do: 'swap', emoji: 'prop:grandpa-wake' },
+    { at: JOLT, actor: 'gramp', do: 'moveTo', to: { x: PX - 0.028 * P, y: PY }, dur: 0.01 },
+    { at: JOLT, actor: 'gramp', do: 'hop', amount: 4, dur: 0.3 },
+    { at: JOLT + 0.3, actor: 'gramp', do: 'shake', amount: 0.8, dur: 0.6 },
+    // 亮相：小忍者從天花板跳下來，三個麵包疊在頭頂上
+    { at: LAND - 0.35, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
+    { at: LAND - 0.35, actor: 'ninja', do: 'moveTo', to: { x: SHOW, y: G }, dur: 0.01 },
+    { at: LAND - 0.35, actor: 'ninja', do: 'drop', dur: 0.35 },
+    ...(['toast', 'long', 'big'] as const).flatMap((id): Move[] => [
+      { at: LAND - 0.35, actor: id, do: 'moveTo', to: UP[id], dur: 0.01 },
+      { at: LAND - 0.35, actor: id, do: 'drop', dur: 0.35 },
+    ]),
+    { at: LAND - 0.35, actor: 'leaf', do: 'vanish', dur: 0.2 },
+    { at: LAND + 0.1, actor: 'ninja', do: 'scaleTo', amount: 1.12, dur: 0.3, ease: 'back' },
+    { at: LAND + 0.5, actor: 'big', do: 'tilt', amount: 8, dur: 0.4 },
   ],
   fx: [
-    { at: 0.68, kind: 'puff', actor: 'ninja', dur: 0.4 },
-    { at: 0.8, kind: 'pop', actor: 'ninja', emoji: '🤫', dx: -12, dy: 4, dur: 0.8 },
-    { at: 0.3, kind: 'zzz', actor: 'cat', dur: 3.3 },
-    { at: 1.75, kind: 'bubble', actor: 'ninja', emoji: '🍞', dur: 1.2 },
-    { at: 3.8, kind: 'pop', actor: 'cat', emoji: '❗', dur: 0.5 },
-    { at: 4.0, kind: 'sweat', actor: 'ninja' },
-    { at: 4.45, kind: 'pop', actor: 'cat', emoji: '❓', dur: 0.45 },
-    { at: 5.25, kind: 'zzz', actor: 'cat', dur: 1.9 },
-    { at: 5.3, kind: 'pop', actor: 'ninja', emoji: '😮‍💨', dx: -12, dur: 0.5 },
-    { at: 6.0, kind: 'puff', actor: 'ninja', dur: 0.4 },
-    { at: 7.0, kind: 'pop', actor: 'ninja', emoji: '😱', dx: -16, dy: 2, dur: 0.5 },
-    { at: 7.4, kind: 'pop', actor: 'cat', emoji: '😑', dur: 0.6 },
-    { at: 7.9, kind: 'zzz', actor: 'cat', dur: 1.3 },
-    { at: 8.2, kind: 'burst', actor: 'ninja', emoji: '✨', n: 9, dur: 0.8 },
-    { at: 8.3, kind: 'burst', actor: 'bread', emoji: '🎉', n: 5, dur: 0.9 },
+    // 打呼：每次睜眼就停，睡回去再響
+    { at: 0.2, kind: 'zzz', actor: 'gramp', dur: s1.look - 0.2 },
+    { at: s1.back + 0.1, kind: 'zzz', actor: 'gramp', dur: s2.look - s1.back - 0.1 },
+    { at: s2.back + 0.1, kind: 'zzz', actor: 'gramp', dur: PAUSE - s2.back - 0.1 },
+    ...s1.fx,
+    ...s2.fx,
+    { at: PAUSE + 0.1, kind: 'sweat', actor: 'ninja', dur: 0.6 },
+    { at: POOF - 0.02, kind: 'burst', x: REACH + 2, y: G - 4, emoji: 'prop:smoke', n: 1, dur: 0.8, scale: 3 },
+    { at: POOF, kind: 'puff', x: REACH, y: G, n: 10, dur: 0.6 },
+    { at: LAND, kind: 'burst', actor: 'ninja', emoji: '✨', n: 10, dur: 0.9, scale: 1.4 },
+    { at: LAND + 0.35, kind: 'burst', actor: 'big', emoji: '🎉', n: 7, dur: 0.9, scale: 1.3 },
   ],
   camera: [
-    { at: 0.66, dur: 0.25, do: 'shake', amount: 0.8 },
-    { at: 7.0, dur: 0.3, do: 'shake', amount: 1.2 },
-    { at: 7.05, dur: 0.6, do: 'punch', amount: 0.15, to: { x: 72, y: 52 } },
-    { at: 8.15, dur: 0.45, do: 'zoom', amount: 1.5, to: { x: 75, y: 53 } },
+    { at: 0, dur: 0.01, do: 'zoom', amount: 1.4, to: { x: 84, y: 50 } },
+    ...s1.camera,
+    ...s2.camera,
+    // 停一拍：慢慢推近
+    { at: PAUSE, dur: 0.6, do: 'zoom', amount: 1.55, to: { x: 84, y: 50 } },
+    { at: POOF, dur: 0.4, do: 'shake', amount: 1.4 },
+    { at: POOF + 0.3, dur: 0.4, do: 'zoom', amount: 1.4, to: { x: 84, y: 50 } },
+    { at: JOLT, dur: 0.3, do: 'shake', amount: 0.8 },
+    // 亮相
+    { at: LAND, dur: 0.3, do: 'shake', amount: 1.0 },
+    { at: LAND, dur: 0.5, do: 'zoom', amount: 1.3, to: { x: SHOW + 18, y: 46 } },
   ],
   lights: [
-    // 半夜：一開始就是暗的；燈突然亮了（白光一閃）
-    { at: 0, dur: 0.01, level: 0.5 },
-    { at: 6.95, dur: 0.05, level: -0.35 },
-    { at: 7.0, dur: 0.3, level: 0 },
+    { at: POOF, dur: 0.05, level: -0.4 },
+    { at: POOF + 0.05, dur: 0.4, level: 0 },
+    { at: LAND, dur: 0.05, level: -0.3 },
+    { at: LAND + 0.05, dur: 0.4, level: 0 },
   ],
   cues: [
-    { at: 0.65, sfx: 'plop' },
-    { at: 2.15, sfx: 'tap' },
-    { at: 3.35, sfx: 'slide' },
-    { at: 3.8, sfx: 'bonk' },
-    { at: 5.6, sfx: 'whoosh' },
-    { at: 6.5, sfx: 'boing' },
-    { at: 6.95, sfx: 'clink' },
-    { at: 7.3, say: '麵包小偷' },
-    { at: 8.2, sfx: 'cheer' },
+    { at: 0.1, sfx: 'tap' },
+    ...s1.cues,
+    ...s2.cues,
+    { at: PAUSE + 0.1, sfx: 'hic' },
+    { at: GRAB3, sfx: 'slide' },
+    { at: LOOK3, sfx: 'blip' },
+    { at: POOF, sfx: 'poof' },
+    { at: JOLT, sfx: 'boing' },
+    { at: LAND, sfx: 'bonk' },
+    { at: LAND + 0.2, say: '麵包小偷' },
+    { at: LAND + 0.5, sfx: 'cheer' },
   ],
 })
