@@ -35,7 +35,7 @@ export const NAMES = [
   { id: 'pocket', text: '寶可夢', emoji: '💎', note: '寶（寶石）可以夢到：主角睡著，夢裡冒出一堆寶石；不要紅白球' },
   { id: 'woof', text: '汪汪隊', emoji: '🐶', note: '一隊狗狗排隊汪汪叫，最小的那隻叫最大聲；不要徽章、每隻狗一台車' },
   { id: 'tiger', text: '巧虎', emoji: '🐯', note: '老虎想拿樹上的東西，用一個巧妙的辦法（疊箱子、用尾巴勾）拿到' },
-  { id: 'dino', text: '恐龍', emoji: '🦖', note: '蛋裂開跑出小恐龍，吼得震天，結果被一隻小老鼠嚇到（恐）' },
+  { id: 'dino', text: '恐龍', emoji: '🦖', note: '蛋裡跳出來的恐龍吼跑了老虎、吼飛了獅子，結果被一隻小雞「啾」一聲嚇得躲回蛋殼裡（恐）' },
   { id: 'monster', text: '大怪獸', emoji: '👾', note: '自家的大怪獸（hero:monster）打嗝把自己噴上天' },
   { id: 'firetruck', text: '消防車', emoji: '🚒', note: '消防車噴水滅火，噴到自己' },
   { id: 'robot', text: '機器人', emoji: '🤖', note: '自家的機器人（hero:robot）聽到音樂就轉圈跳舞，跳一次冒一次煙，第三次當機，第四次煙從腳底噴出來變火箭' },
