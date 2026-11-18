@@ -13176,14 +13176,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A chunky toy fire engine with a wind-up penguin captain, a rubber dinosaur lookout, a mischievous hose, and ten royal-blue stroke tiles.",
+        "morph": "Each ricochet seats one pre-cut stroke tile in a fixed Traditional Chinese 恐 layout. The upper-left 工 takes three tiles, the upper-right component takes three, and the lower 心 takes four.",
         "hook": "恐是很可怕的意思，恐龍就是很可怕的大龍。吼！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 337,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "恐-7f888235-4f06-44d9-9dbf-5c083da7c604.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-18T10:38:50.655Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-18T10:39:12.892Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "0d4ca155-b72a-4c05-8449-ed81592f1683",
+      "promptedAt": "2026-11-18T10:36:46.430Z",
+      "needsRedo": false
     },
     {
       "char": "餓",
@@ -13253,14 +13272,16 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A tiny fishbowl-helmet astronaut toy, one giant round-segmented caterpillar, and four cobalt tufts.",
+        "morph": "The belly-up thump sends four shaped tufts tumbling into the four strokes of 毛 while the caterpillar sprouts a long, shaggy coat.",
         "hook": "動物身上軟軟的就是毛，毛毛蟲全身都是毛。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 339,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "cb37f66b-9087-4327-8b63-50f03fd4d0b7",
+      "promptedAt": "2026-11-18T10:48:11.573Z"
     },
     {
       "char": "怪",
@@ -13382,12 +13403,29 @@
         "morph": "A belly-slide bowling impact tumbles ten foam pieces into the exact strokes of 消: three separate water-radical strokes on the left and a correctly proportioned 肖 on the right.",
         "hook": "消就是讓它不見：把火消掉的車叫消防車。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 342,
-      "media": [],
+      "media": [
+        {
+          "file": "消-fffe6e17-5a8e-40cb-ba96-68ffa970b10f.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T15:08:11.726Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T15:08:32.411Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "3d464c51-72df-4338-8311-621f3edcadca",
-      "promptedAt": "2026-11-16T15:00:38.401Z"
+      "promptedAt": "2026-11-16T15:00:38.401Z",
+      "needsRedo": false
     },
     {
       "char": "防",
@@ -13409,14 +13447,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A runaway miniature fire engine carrying navy rubber barrier pieces shaped as the strokes of 防.",
+        "morph": "The belly-flop ejects the rubber cargo; its pieces tumble into the narrow left 阝 and wider right 方, forming one flat, correctly proportioned 防.",
         "hook": "防就是先擋住，不讓壞事發生，像盾牌一樣。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 343,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "防-5fa465b7-d215-43b6-b3a5-8356748d9811.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-16T15:12:34.046Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-16T15:12:49.667Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "d5e8a16a-7f45-4e04-a935-b9503a749302",
+      "promptedAt": "2026-11-16T15:09:32.107Z",
+      "needsRedo": false
     },
     {
       "char": "汪",
@@ -13467,14 +13524,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "One folded cobalt foam strap made of spring-loaded stroke pieces, with a chunky grip at each end.",
+        "morph": "The two grips spring open and seat flush as the left 阝, while the wider middle pieces fan out into the right-side 㒸. The pieces settle into the exact silhouette of 隊.",
         "hook": "喇叭一吹，大家排成一隊，一起出任務！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 345,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "隊-8d07acf6-f64c-4c99-aaae-c079812c3301.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-18T10:41:38.726Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-18T10:42:44.596Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "84fb9bad-841d-44c7-a58b-6a3cd76213c4",
+      "promptedAt": "2026-11-18T10:40:19.656Z",
+      "needsRedo": false
     },
     {
       "char": "寶",
@@ -13496,14 +13572,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A pop-apart treasure case with a faceted blue gemstone peeking through its lid",
+        "morph": "The impact sends the case’s red lid, braces, and base into a front-facing arrangement with 宀 on top, 王 and 缶 side by side in the middle, and 貝 at the bottom.",
         "hook": "閃亮亮的金幣和寶石，最珍貴的東西就是寶。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 346,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "寶-0ab0e23a-8c81-4ada-ad62-6a4036bba8af.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-18T10:46:07.286Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-18T10:46:27.613Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "9ba4585c-375f-4788-bf3c-815fd1e3d92d",
+      "promptedAt": "2026-11-18T10:44:30.453Z",
+      "needsRedo": false
     },
     {
       "char": "皮",
@@ -14092,14 +14187,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "Deep turquoise foam stroke paddles forming 王 on the left and 馬 on the right, beside an original oval portal pipe.",
+        "morph": "A gentle head bump knocks the foam strokes upward; they fall face-forward into the exact Traditional Chinese glyph 瑪.",
         "hook": "瑪常常出現在名字裡：瑪利歐、湯瑪士。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 362,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "瑪-c4709c14-fc44-4d96-a8c9-9ed4b564620e.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-17T15:34:23.307Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-17T16:05:21.512Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "77d491b4-5601-4696-8b19-4f812bfeb0ab",
+      "promptedAt": "2026-11-17T15:30:36.266Z",
+      "needsRedo": false
     },
     {
       "char": "利",
@@ -14117,14 +14231,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A tiny squeaky pull-back race car, an enormous friendly cartoon Labrador sheriff, and seven solid blue glyph strokes.",
+        "morph": "The sheriff’s belly-first landing shakes seven loosely tilted strokes into the precise Traditional Chinese glyph 利: 禾 on the left and 刂 on the right.",
         "hook": "刀子很利，一切就開。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 363,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "利-5b676eb8-e0c5-477f-9258-3f45b48b6c23.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-17T16:09:40.239Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-17T16:09:56.257Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "0cd45e4f-3fca-4769-aaaf-91be5ba5f5f4",
+      "promptedAt": "2026-11-17T16:06:24.042Z",
+      "needsRedo": false
     },
     {
       "char": "歐",
@@ -14138,14 +14271,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A springboard-mounted rubber dinosaur and a curry-rice bucket beneath a padded glyph-parts rack.",
+        "morph": "The rebound shakes loose saturated blue pieces from a padded rack; they fall into a precise frontal Traditional Chinese 歐, with 區 on the left and 欠 on the right.",
         "hook": "歐是瑪利歐的歐，也是很遠的歐洲的歐。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 364,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "歐-91d0e097-0826-4cc6-aaa0-c8a07d22e0e9.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-17T16:13:14.931Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-17T16:13:33.226Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "c1754b41-0122-4aa2-8d14-77ff0fbc3724",
+      "promptedAt": "2026-11-17T16:11:03.937Z",
+      "needsRedo": false
     },
     {
       "char": "噴",
@@ -14167,14 +14319,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "An original caped action figure and one integrated domino apparatus made of hinged dark-blue glyph strokes.",
+        "morph": "A small cape-blinded bump starts an accelerating domino cascade; hinged stroke pieces fall into their exact positions, and the hero's final landing presses the last stroke into place.",
         "hook": "水嘩地衝出來就是噴：噴水、噴火！"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 365,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "噴-63436f20-c3bd-425f-82bc-3f9f820ac73e.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-17T15:28:22.469Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-17T15:29:04.665Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "2c62ea3d-fcee-422e-81d1-f66b8a537f6a",
+      "promptedAt": "2026-11-17T15:25:31.554Z",
+      "needsRedo": false
     },
     {
       "char": "霸",
@@ -15024,6 +15195,22 @@
         "attempts": []
       },
       "2026-11-16": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-17": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-18": {
         "queue": [
           "喝",
           "眼",
