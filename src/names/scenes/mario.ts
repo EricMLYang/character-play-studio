@@ -1,136 +1,193 @@
-// 演的是字面意思：名字沒有字面意思，演「一個好愛跳的人」——小忍者一朵雲一朵雲往上跳，跳太高卡在月亮上，青蛙跳上來救他（沒有紅帽子、鬍子、吊帶褲、水管、問號磚、蘑菇、烏龜殼、金幣）。
+// 演的是字面意思：名字沒有字面意思，演「一個好愛跳的人」——小骷髏看到擋路的東西就要從上面跳過去，一個比一個高（沒有紅帽子、鬍子、吊帶褲、水管、問號磚、磚塊平台、蘑菇、烏龜、金幣、旗桿，也不踩誰）。
+import type { Camera, Cue, Fx, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
 
-// 傍晚的山坡：小忍者一路蹦蹦跳跳進來，青蛙在地上看。他看到天上一階一階的雲，咚、咚、咚跳上去，
-// 站在最高那朵雲上看月亮，蹲低……用力一跳，飛出畫面。青蛙抬頭等……等……掉下來的只有一顆星星，砸在青蛙頭上。
-// 原來他卡在月亮彎彎的那一邊，腳亂踢。青蛙一朵雲一朵雲跳上去，抓住他的腳一拉——兩個一起掉在雲上，
-// 雲像彈簧床把他們彈起來，小忍者站穩、青蛙站在他頭上，兩個一起舉手：「瑪利歐」。
-const N = 15 // 小忍者的 size
-const G = 77 - 0.42 * N
-const FROG = 12
-const FG = 77 - 0.42 * FROG
-// 三朵雲（雲上面站人的位置用 anim:shot 量過）
-const C1 = { x: 58, y: 64 }
-const C2 = { x: 84, y: 56 }
-const C3 = { x: 110, y: 50 }
-const on = (c: { x: number; y: number }, size: number) => ({ x: c.x, y: c.y - 2 - 0.42 * size })
+// 主軸笑點（一句話）：小骷髏看到擋路的東西就一定要從上面跳過去——擋路的一個比一個高。
+// 同一套跳法（助跑兩步、蹲、跳過去、落地「咚」），三次只有東西越來越大、落地越來越重：
+// 小石頭 → 走進來的綿羊 → 「咚」把趴著睡覺的河馬震得整隻彈起來、落在路中間繼續睡（停一拍：他傻眼，再退後好幾步助跑），跳過去「咚！」震醒河馬。
+// 反轉：河馬爬起來學他，助跑一跳反過來從他頭上跳過去，「轟」一落地把他震得一屁股坐在地上。他跳起來樂翻了：「瑪利歐」。
+// 主角用小骷髏（hero:jerry）：楊捷睿是紅外套配藍短褲，跟原作的配色太像，刻意不用。
+const S = 36 // 小骷髏的 size
+const G = 77 - 0.42 * S
+const GX = 78 // 擋路的東西都在這裡
+const HIP = 38 // 河馬（頭朝右）
+const HG = 77 - 0.42 * HIP
+const NAP = 1.15 // 睡著時趴扁：寬 1.15 倍、高 1／1.15
+const H0 = 120 // 河馬一開始睡在右邊
+const SH = 22 // 綿羊
+const SG = 77 - 0.42 * SH
+const ROCK = 14
+
+/**
+ * 主軸：助跑兩步、蹲、跳過去、落地「咚」（三次一模一樣，只有弧線越高、落地越重）。
+ * T＝起跳那一刻；from 助跑起點、take 起跳點、land 落點；k 第幾次（0、1、2）。
+ */
+function jump(T: number, k: number, from: number, take: number, land: number) {
+  const dur = [0.45, 0.5, 0.6][k]
+  const L = T + dur
+  const moves: Move[] = [
+    { at: T - 0.45, actor: 'kid', do: 'swap', emoji: 'hero:jerry/dash' },
+    { at: T - 0.45, actor: 'kid', do: 'moveTo', to: { x: take, y: G }, dur: 0.3, ease: 'in' },
+    { at: T - 0.15, actor: 'kid', do: 'squash', amount: 0.3, dur: 0.15 },
+    { at: T, actor: 'kid', do: 'swap', emoji: 'hero:jerry/jump' },
+    { at: T, actor: 'kid', do: 'moveTo', to: { x: land, y: G }, arc: [12, 17, 22][k], dur, ease: 'linear' },
+    { at: L, actor: 'kid', do: 'swap', emoji: 'hero:jerry/smug' },
+    { at: L, actor: 'kid', do: 'squash', amount: 0.25 + 0.08 * k, dur: 0.25 },
+  ]
+  const fx: Fx[] = [
+    { at: L, kind: 'puff', actor: 'kid', n: 6 + 5 * k, dur: 0.6 + 0.15 * k },
+  ]
+  const camera: Camera[] = [
+    { at: L, dur: 0.25 + 0.1 * k, do: 'shake', amount: 0.4 + 0.6 * k },
+  ]
+  if (k >= 1) camera.push({ at: L, dur: 0.4, do: 'punch', amount: 0.04 + 0.04 * k, to: { x: land, y: 62 } })
+  // 同一聲「嘿咻」起跳＋「咚」落地，一次比一次多疊一個
+  const cues: Cue[] = [{ at: T, sfx: 'boing' }, { at: L, sfx: 'plop' }]
+  if (k >= 1) cues.push({ at: L + 0.02, sfx: 'bonk' })
+  if (k >= 2) cues.push({ at: L + 0.05, sfx: 'rumble' })
+  return { moves, fx, camera, cues, L }
+}
+
+// 三次的站位：左右對稱，跳過去的落點就是下一次的助跑起點
+const LEFT = 50, RIGHT = 104, TAKE_L = 58, TAKE_R = 96
+const T1 = 0.95
+const j1 = jump(T1, 0, LEFT, TAKE_L, RIGHT) // 左 → 右，跳過小石頭
+const T2 = 2.95
+const j2 = jump(T2, 1, RIGHT, TAKE_R, LEFT) // 右 → 左，跳過綿羊
+// 「咚」把河馬震得整隻彈起來，落在路中間繼續睡；停一拍，退後好幾步
+const ROLL = j2.L + 0.1
+const BACK = 34
+const T3 = 6.3
+const J3L = 110
+const j3 = jump(T3, 2, BACK, 47, J3L) // 左 → 右，跳過河馬
+// 反轉：河馬醒來，反過來從他頭上跳過去
+const WAKE = 7.3
+const HT = 7.95 // 河馬起跳
+const HD = 0.6
+const HL = HT + HD // 河馬落地「轟」
+const HX = 136
+/** 睡著的呼吸：每 1.1 秒鼓起來一下 */
+function breathe(from: number, to: number): Move[] {
+  const out: Move[] = []
+  for (let t = from; t + 1 <= to; t += 1.1) out.push({ at: t, actor: 'hippo', do: 'squash', amount: -0.06, dur: 1 })
+  return out
+}
 /** 鏡頭推近 z 倍、讓畫面正中間是 (x, y)：zoom 的 to 是不動點，不是中心，換算一下 */
 const look = (x: number, y: number, z: number) => ({ x: (x * z - 80) / (z - 1), y: (y * z - 45) / (z - 1) })
-const MOON = { x: 134, y: 29 }
-const STUCK = { x: 131, y: 33 } // 卡在月亮彎彎的那一邊
+const UP = 9.4 // 他跳起來亮相
+const POSE = UP + 0.45
 
 export default scene({
-  duration: 9.6,
-  bg: { top: '#7A5BB8', bottom: '#FFC9A0', floor: '#7DB860', scenery: 'hills' },
+  duration: 11.1,
+  bg: { top: '#78C6F2', bottom: '#E4F5FF', floor: '#95CB5C', scenery: 'hills' },
   actors: [
-    { id: 'moon', emoji: '🌙', x: MOON.x, y: MOON.y, size: 24, float: true, pivot: 'center' },
-    { id: 'tree', emoji: '🌳', x: 14, y: 77 - 0.42 * 28, size: 28 },
-    { id: 'rock', emoji: '🪨', x: 36, y: 77 - 0.42 * 10, size: 10 },
-    { id: 'c1', emoji: '☁️', x: C1.x, y: C1.y, size: 18, float: true },
-    { id: 'c2', emoji: '☁️', x: C2.x, y: C2.y, size: 18, float: true },
-    { id: 'c3', emoji: '☁️', x: C3.x, y: C3.y, size: 26, float: true },
-    { id: 'star', emoji: '⭐', x: 36, y: 8, size: 8, float: true, pivot: 'center', hidden: true },
-    { id: 'frog', emoji: '🐸', x: 36, y: 77 - 0.42 * 10 - 7, size: FROG },
-    { id: 'ninja', emoji: 'hero:ninja/idle', x: 20, y: G, size: N },
+    { id: 'tree', emoji: 'prop:tree', x: 9, y: 77 - 0.42 * 40, size: 40 },
+    { id: 'flower', emoji: '🌻', x: 150, y: 77 - 0.42 * 12, size: 12 },
+    { id: 'rock', emoji: 'prop:rock', x: GX, y: 77 - 0.42 * ROCK, size: ROCK },
+    { id: 'hippo', emoji: '🦛', x: H0, y: HG, size: HIP, flip: true },
+    { id: 'sheep', emoji: '🐑', x: -16, y: SG, size: SH, flip: true },
+    { id: 'kid', emoji: 'hero:jerry/idle', x: LEFT, y: G, size: S, flip: true },
   ],
   moves: [
-    // ① 蹦蹦跳跳進來（愛跳的人，走路也用跳的）
-    { at: 0, actor: 'ninja', do: 'enter', from: { x: -14, y: G }, dur: 0.3, ease: 'out' },
-    { at: 0.3, actor: 'ninja', do: 'moveTo', to: { x: 32, y: G }, arc: 7, dur: 0.3, ease: 'out' },
-    { at: 0.6, actor: 'ninja', do: 'moveTo', to: { x: 46, y: G }, arc: 7, dur: 0.3, ease: 'out' },
-    { at: 0.9, actor: 'frog', do: 'hop', amount: 3, dur: 0.3 },
-    // ② 咚、咚、咚跳上三朵雲
-    { at: 1.2, actor: 'ninja', do: 'squash', amount: 0.25, dur: 0.15 },
-    { at: 1.35, actor: 'ninja', do: 'moveTo', to: on(C1, N), arc: 9, dur: 0.35, ease: 'out' },
-    { at: 1.7, actor: 'c1', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 1.85, actor: 'ninja', do: 'moveTo', to: on(C2, N), arc: 9, dur: 0.35, ease: 'out' },
-    { at: 2.2, actor: 'c2', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 2.35, actor: 'ninja', do: 'moveTo', to: on(C3, N), arc: 9, dur: 0.35, ease: 'out' },
-    { at: 2.7, actor: 'c3', do: 'squash', amount: 0.25, dur: 0.25 },
-    { at: 2.5, actor: 'frog', do: 'tilt', amount: -12, dur: 0.5 },
-    // 看月亮，蹲低……用力一跳，飛出畫面
-    { at: 3.0, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
-    { at: 3.25, actor: 'ninja', do: 'squash', amount: 0.4, dur: 0.35 },
-    { at: 3.25, actor: 'c3', do: 'squash', amount: 0.3, dur: 0.35 },
-    { at: 3.6, actor: 'ninja', do: 'moveTo', to: { x: 122, y: -30 }, dur: 0.35, ease: 'out' },
-    { at: 3.6, actor: 'c3', do: 'bounce', amount: 2, times: 2, dur: 0.5 },
-    // 青蛙抬頭等……等……掉下來的只有一顆星星
-    { at: 4.1, actor: 'frog', do: 'tilt', amount: 10, dur: 0.6 },
-    { at: 4.8, actor: 'star', do: 'pop', dur: 0.1 },
-    { at: 4.85, actor: 'star', do: 'moveTo', to: { x: 36, y: 60 }, dur: 0.35, ease: 'in' },
-    { at: 4.85, actor: 'star', do: 'spin', times: 2, dur: 0.35 },
-    { at: 5.2, actor: 'frog', do: 'squash', amount: 0.45, dur: 0.35 },
-    { at: 5.2, actor: 'star', do: 'moveTo', to: { x: 50, y: 72 }, arc: 6, dur: 0.4, ease: 'out' },
-    // 原來卡在月亮上，腳亂踢
-    { at: 4.5, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
-    { at: 4.5, actor: 'ninja', do: 'moveTo', to: { x: STUCK.x, y: -30 }, dur: 0.01 },
-    { at: 5.4, actor: 'ninja', do: 'moveTo', to: STUCK, dur: 0.2, ease: 'back' },
-    { at: 5.55, actor: 'moon', do: 'tilt', amount: 12, dur: 0.5 },
-    { at: 5.6, actor: 'ninja', do: 'shake', amount: 1.2, dur: 0.6 },
-    // ④ 青蛙一朵雲一朵雲跳上去，抓住他的腳一拉
-    { at: 5.8, actor: 'frog', do: 'moveTo', to: on(C1, FROG), arc: 8, dur: 0.25, ease: 'out' },
-    { at: 6.05, actor: 'frog', do: 'moveTo', to: on(C2, FROG), arc: 8, dur: 0.25, ease: 'out' },
-    { at: 6.3, actor: 'frog', do: 'moveTo', to: on(C3, FROG), arc: 8, dur: 0.25, ease: 'out' },
-    { at: 6.6, actor: 'frog', do: 'moveTo', to: { x: STUCK.x - 2, y: STUCK.y + 11 }, dur: 0.25, ease: 'out' },
-    { at: 6.9, actor: 'moon', do: 'tilt', amount: -18, dur: 0.4 },
-    // 兩個一起掉在雲上，雲把他們彈起來
-    { at: 7.0, actor: 'ninja', do: 'moveTo', to: { x: C3.x - 4, y: on(C3, N).y }, dur: 0.3, ease: 'in' },
-    { at: 7.0, actor: 'frog', do: 'moveTo', to: { x: C3.x + 12, y: on(C3, FROG).y - 6 }, dur: 0.3, ease: 'in' },
-    { at: 7.3, actor: 'c3', do: 'squash', amount: 0.3, dur: 0.35 },
-    { at: 7.3, actor: 'ninja', do: 'hop', amount: 6, dur: 0.4 },
-    { at: 7.3, actor: 'frog', do: 'hop', amount: 6, dur: 0.4 },
-    // ⑤ 站穩、青蛙站在頭上，兩個一起舉手
-    { at: 7.4, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/happy' },
-    { at: 7.7, actor: 'ninja', do: 'scaleTo', amount: 1.6, dur: 0.3, ease: 'back' },
-    { at: 7.7, actor: 'frog', do: 'moveTo', to: { x: C3.x + 13, y: on(C3, FROG).y }, dur: 0.3, ease: 'back' },
-    { at: 7.7, actor: 'frog', do: 'scaleTo', amount: 1.3, dur: 0.3, ease: 'back' },
-    { at: 8.3, actor: 'ninja', do: 'hop', amount: 2, dur: 0.3 },
-    { at: 8.3, actor: 'frog', do: 'hop', amount: 4, dur: 0.3 },
+    // 河馬趴著睡大覺（壓扁一點、慢慢起伏像在呼吸）
+    { at: 0, actor: 'hippo', do: 'stretchTo', amount: NAP, dur: 0.01 },
+    ...breathe(0.2, ROLL - 0.1),
+    ...breathe(ROLL + 0.8, j3.L),
+    // 開場：看到小石頭，興奮地原地蹦一下
+    { at: 0.1, actor: 'kid', do: 'squash', amount: -0.15, dur: 0.15 },
+    { at: 0.25, actor: 'kid', do: 'swap', emoji: 'hero:jerry/happy' },
+    { at: 0.25, actor: 'kid', do: 'hop', amount: 4, dur: 0.25 },
+    // 第一次：小石頭
+    ...j1.moves,
+    // 轉身：綿羊慢慢走進來擋在中間
+    { at: 1.7, actor: 'kid', do: 'flip' },
+    { at: 1.7, actor: 'kid', do: 'swap', emoji: 'hero:jerry/idle' },
+    { at: 1.45, actor: 'sheep', do: 'moveTo', to: { x: GX, y: SG }, dur: 0.85, ease: 'out' },
+    { at: 2.3, actor: 'kid', do: 'swap', emoji: 'hero:jerry/happy' },
+    { at: 2.3, actor: 'kid', do: 'hop', amount: 3, dur: 0.2 },
+    // 第二次：綿羊（被頭上飛過去嚇一跳）
+    ...j2.moves,
+    { at: T2 + 0.1, actor: 'sheep', do: 'hop', amount: 4, dur: 0.3 },
+    { at: j2.L + 0.1, actor: 'sheep', do: 'moveTo', to: { x: 185, y: SG }, dur: 0.45, ease: 'in' },
+    // 「咚」把河馬震得整隻彈起來，落在路中間繼續睡
+    { at: j2.L, actor: 'hippo', do: 'shake', amount: 0.8, dur: 0.4 },
+    { at: 3.6, actor: 'kid', do: 'flip' },
+    { at: 3.6, actor: 'kid', do: 'swap', emoji: 'hero:jerry/idle' },
+    { at: ROLL, actor: 'hippo', do: 'moveTo', to: { x: GX, y: HG }, arc: 16, dur: 0.6, ease: 'linear' },
+    { at: ROLL + 0.6, actor: 'hippo', do: 'squash', amount: 0.12, dur: 0.2 },
+    // 停一拍：傻眼……然後咧嘴，退後好幾步，蹲得低低的
+    { at: ROLL + 0.65, actor: 'kid', do: 'swap', emoji: 'hero:jerry/surprised' },
+    { at: 5.15, actor: 'kid', do: 'swap', emoji: 'hero:jerry/smug' },
+    { at: 5.25, actor: 'kid', do: 'moveTo', to: { x: BACK, y: G }, dur: 0.45, ease: 'out' },
+    { at: 5.6, actor: 'kid', do: 'squash', amount: 0.3, dur: 0.25 },
+    // 第三次：河馬
+    ...j3.moves,
+    // 河馬被震醒：站高、彈一下
+    { at: j3.L, actor: 'hippo', do: 'shake', amount: 1.2, dur: 0.4 },
+    { at: WAKE, actor: 'hippo', do: 'stretchTo', amount: 1 / NAP, dur: 0.25, ease: 'back' },
+    { at: WAKE, actor: 'hippo', do: 'hop', amount: 6, dur: 0.3 },
+    { at: WAKE + 0.2, actor: 'kid', do: 'flip' },
+    { at: WAKE + 0.2, actor: 'kid', do: 'swap', emoji: 'hero:jerry/surprised' },
+    // 河馬學他：蹲、跳過他頭上
+    { at: HT - 0.25, actor: 'hippo', do: 'squash', amount: 0.3, dur: 0.25 },
+    { at: HT, actor: 'hippo', do: 'moveTo', to: { x: HX, y: HG }, arc: 30, dur: HD, ease: 'linear' },
+    { at: HT + 0.05, actor: 'kid', do: 'swap', emoji: 'hero:jerry/duck' },
+    // 轟！他被震起來一屁股坐下
+    // 自己寫小一點的壓扁，引擎就不會把牠壓成一片
+    { at: HL, actor: 'hippo', do: 'squash', amount: 0.12, dur: 0.2 },
+    { at: HL, actor: 'kid', do: 'swap', emoji: 'hero:jerry/fall' },
+    { at: HL, actor: 'kid', do: 'hop', amount: 7, dur: 0.35 },
+    // 跳起來樂翻了，河馬也跟著蹦
+    { at: UP, actor: 'kid', do: 'swap', emoji: 'hero:jerry/happy' },
+    { at: UP, actor: 'kid', do: 'moveTo', to: { x: 98, y: G }, arc: 9, dur: 0.45, ease: 'out' },
+    { at: UP + 0.1, actor: 'hippo', do: 'moveTo', to: { x: HX - 10, y: HG }, arc: 6, dur: 0.4, ease: 'out' },
+    { at: POSE + 0.5, actor: 'hippo', do: 'hop', amount: 4, dur: 0.3 },
   ],
   fx: [
-    { at: 0.3, kind: 'puff', actor: 'ninja', dur: 0.3 },
-    { at: 0.9, kind: 'pop', actor: 'frog', emoji: '👀', dx: 6, dur: 0.6 },
-    { at: 1.7, kind: 'burst', actor: 'c1', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 2.2, kind: 'burst', actor: 'c2', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 2.7, kind: 'burst', actor: 'c3', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 3.0, kind: 'pop', actor: 'ninja', emoji: '💡', dx: 8, dur: 0.5 },
-    { at: 3.6, kind: 'puff', actor: 'c3', n: 8, dur: 0.5 },
-    { at: 4.2, kind: 'pop', actor: 'frog', emoji: '❓', dx: 6, dur: 0.6 },
-    { at: 5.2, kind: 'dizzy', actor: 'frog', dur: 0.7 },
-    { at: 5.6, kind: 'sweat', actor: 'ninja' },
-    { at: 5.65, kind: 'pop', actor: 'ninja', emoji: '😱', dx: -12, dur: 0.6 },
-    { at: 6.6, kind: 'pop', actor: 'frog', emoji: '💪', dx: -8, dur: 0.4 },
-    { at: 7.3, kind: 'puff', actor: 'c3', n: 10, dur: 0.6 },
-    { at: 7.7, kind: 'burst', actor: 'ninja', emoji: '⭐', n: 8, dur: 0.8 },
-    { at: 8.3, kind: 'burst', actor: 'ninja', emoji: '🎉', n: 8, dur: 0.9 },
+    { at: 0, kind: 'zzz', actor: 'hippo', emoji: '💤', dur: ROLL, scale: 1.5, dx: -6 },
+    ...j1.fx,
+    ...j2.fx,
+    { at: ROLL + 0.6, kind: 'puff', actor: 'hippo', n: 8, dur: 0.7 },
+    { at: ROLL + 0.75, kind: 'zzz', actor: 'hippo', emoji: '💤', dur: WAKE - ROLL - 0.8, scale: 1.5 },
+    { at: 5.6, kind: 'sweat', actor: 'kid', dur: 0.6 },
+    ...j3.fx,
+    { at: HL, kind: 'puff', actor: 'hippo', n: 14, dur: 0.9 },
+    { at: HL + 0.35, kind: 'dizzy', actor: 'kid', dur: 0.7 },
+    { at: POSE, kind: 'burst', actor: 'kid', emoji: '✨', n: 10, dur: 0.9, scale: 1.4, dy: -12 },
+    { at: POSE + 0.35, kind: 'burst', actor: 'kid', emoji: '🎉', n: 7, dur: 0.9, scale: 1.4, dy: -16 },
   ],
   camera: [
-    { at: 0, dur: 0.01, do: 'zoom', amount: 1, to: { x: 80, y: 45 } },
-    { at: 3.6, dur: 0.4, do: 'shake', amount: 0.8 },
-    { at: 3.7, dur: 0.4, do: 'zoom', amount: 1 },
-    { at: 5.2, dur: 0.3, do: 'shake', amount: 1 },
-    { at: 5.4, dur: 0.4, do: 'zoom', amount: 1.5, to: look(118, 40, 1.5) },
-    { at: 7.3, dur: 0.35, do: 'shake', amount: 1.2 },
-    { at: 7.6, dur: 0.45, do: 'zoom', amount: 1.45, to: { x: C3.x, y: 40 } },
+    { at: 0, dur: 0.01, do: 'zoom', amount: 1.2, to: look(86, 50, 1.2) },
+    ...j1.camera,
+    ...j2.camera,
+    // 河馬彈到中間：鏡頭推近，停一拍
+    { at: ROLL + 0.7, dur: 0.8, do: 'zoom', amount: 1.3, to: look(66, 53, 1.3) },
+    { at: T3 - 0.4, dur: 0.4, do: 'zoom', amount: 1.2, to: look(80, 50, 1.2) },
+    // 河馬跳過他頭上、落到右邊：短暫拉遠讓位
+    { at: HT - 0.3, dur: 0.35, do: 'zoom', amount: 1.05, to: look(92, 46, 1.05) },
+    ...j3.camera,
+    { at: HL, dur: 0.5, do: 'shake', amount: 1.6 },
+    // 亮相
+    { at: UP, dur: 0.5, do: 'zoom', amount: 1.4, to: look(110, 56, 1.4) },
   ],
   lights: [
-    { at: 0, dur: 0.01, level: 0.15 },
-    { at: 3.6, dur: 0.6, level: 0.3 },
-    { at: 7.65, dur: 0.05, level: -0.35 },
-    { at: 7.7, dur: 0.4, level: 0 },
+    { at: j3.L, dur: 0.05, level: -0.25 },
+    { at: j3.L + 0.05, dur: 0.3, level: 0 },
+    { at: HL, dur: 0.05, level: -0.25 },
+    { at: HL + 0.05, dur: 0.35, level: 0 },
   ],
   cues: [
-    { at: 0.3, sfx: 'boing' },
-    { at: 0.6, sfx: 'boing' },
-    { at: 1.7, sfx: 'blip' },
-    { at: 2.2, sfx: 'blip' },
-    { at: 2.7, sfx: 'blip' },
-    { at: 3.6, sfx: 'whoosh' },
-    { at: 5.2, sfx: 'bonk' },
-    { at: 5.6, sfx: 'slide' },
-    { at: 6.05, sfx: 'tap' },
-    { at: 7.3, sfx: 'boing' },
-    { at: 7.8, say: '瑪利歐' },
-    { at: 8.3, sfx: 'cheer' },
+    { at: 0.25, sfx: 'boing' },
+    ...j1.cues,
+    { at: 1.6, sfx: 'tap' },
+    ...j2.cues,
+    { at: ROLL, sfx: 'rumble' },
+    { at: 5.25, sfx: 'slide' },
+    ...j3.cues,
+    { at: HT, sfx: 'boing' },
+    { at: HL, sfx: 'bonk' },
+    { at: HL + 0.03, sfx: 'rumble' },
+    { at: POSE, say: '瑪利歐' },
+    { at: POSE + 0.35, sfx: 'cheer' },
   ],
 })
