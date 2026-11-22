@@ -13276,12 +13276,29 @@
         "morph": "The belly-up thump sends four shaped tufts tumbling into the four strokes of 毛 while the caterpillar sprouts a long, shaggy coat.",
         "hook": "動物身上軟軟的就是毛，毛毛蟲全身都是毛。"
       },
-      "status": "prompted",
+      "status": "live",
       "priority": 339,
-      "media": [],
+      "media": [
+        {
+          "file": "毛-aa9ce575-69dd-4caf-a25e-5105cbdfd69a.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-22T00:10:54.873Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-22T00:11:24.516Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
       "feedback": [],
       "activePromptId": "cb37f66b-9087-4327-8b63-50f03fd4d0b7",
-      "promptedAt": "2026-11-18T10:48:11.573Z"
+      "promptedAt": "2026-11-18T10:48:11.573Z",
+      "needsRedo": false
     },
     {
       "char": "怪",
@@ -13943,14 +13960,16 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A small green cartoon alien in a toy flying saucer and one runaway spring-brimmed toy soldier cap.",
+        "morph": "The belly-flop jars six blue strips out of the cap’s spring brim. They skid into 兵 while the soft khaki crown flips onto the alien’s head.",
         "hook": "拿著弓箭排排站的就是兵。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 355,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "688eaa44-490d-4618-b967-36ec55af8f0d",
+      "promptedAt": "2026-11-22T00:17:57.883Z"
     },
     {
       "char": "佩",
@@ -14085,14 +14104,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A teetering stack of cobalt-blue steel strips, a tiny steel washer, and a few rounded steel offcuts.",
+        "morph": "The falling strips spread across the floor into a flat, standard Traditional Chinese 鋼, with 金 on the left and 岡 on the right. The washer and offcuts roll aside and bury Peanut up to his eyes.",
         "hook": "鋼比鐵還硬，螺絲就是鋼做的。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 359,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "鋼-d21bf8dd-f1db-4644-b78e-d317471e6e40.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-22T00:28:05.661Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-22T00:31:45.769Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "70a65f7f-9324-4d84-b38a-857b8c2ff23d",
+      "promptedAt": "2026-11-22T00:23:19.668Z",
+      "needsRedo": false
     },
     {
       "char": "鐵",
@@ -14114,14 +14152,33 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "heavy riveted iron door and loose iron bars",
+        "morph": "iron door bars, plates, rivets, and curved latch blasted loose by the crash drop into place to form 鐵",
         "hook": "鐵又硬又重，鏟子的頭就是鐵做的。"
       },
-      "status": "seed",
+      "status": "live",
       "priority": 360,
-      "media": [],
-      "feedback": []
+      "media": [
+        {
+          "file": "鐵-b94caa43-4bc6-44cf-88a5-b3611f82d091.mp4",
+          "kind": "video",
+          "addedAt": "2026-11-22T01:03:28.667Z",
+          "review": "published",
+          "audioMode": "original",
+          "volume": 0.7,
+          "feedbackCount": 0,
+          "checkedAt": "2026-11-22T01:03:44.305Z",
+          "checks": {
+            "shape": true,
+            "pronunciation": true,
+            "volume": true
+          }
+        }
+      ],
+      "feedback": [],
+      "activePromptId": "4b0c8ba0-219b-4e61-a8f3-82b3dd5bfd54",
+      "promptedAt": "2026-11-22T00:54:11.189Z",
+      "needsRedo": false
     },
     {
       "char": "鼠",
@@ -14765,14 +14822,16 @@
         }
       ],
       "concept": {
-        "object": "",
-        "morph": "",
+        "object": "A huge round, one-horned fuzzy monster and a small green alien in a toy saucer that leaves squashy blue rubber skid marks.",
+        "morph": "The belly-flop flips the rubber skid marks inward. Straight strips land as 果 on the left, and bent strips with two separate dots land as 多 on the right.",
         "hook": "一起玩、一起做事的朋友叫夥伴。"
       },
-      "status": "seed",
+      "status": "prompted",
       "priority": 379,
       "media": [],
-      "feedback": []
+      "feedback": [],
+      "activePromptId": "e6de8fb2-4dc9-4e02-ac55-3179165a4d50",
+      "promptedAt": "2026-11-22T12:10:16.123Z"
     },
     {
       "char": "伴",
@@ -15211,6 +15270,22 @@
         "attempts": []
       },
       "2026-11-18": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-22": {
+        "queue": [
+          "喝",
+          "眼",
+          "頭"
+        ],
+        "attempts": []
+      },
+      "2026-11-23": {
         "queue": [
           "喝",
           "眼",
