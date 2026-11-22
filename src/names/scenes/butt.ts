@@ -1,122 +1,197 @@
-// 演的是字面意思：偵探拿放大鏡找線索，屁屁「噗」一聲把壞人吹跑（臉不是屁股形狀，偵探是一般的 🕵️）。
+// 演的是字面意思：屁屁＋偵探——拿大放大鏡找線索的兔子偵探，一彎腰屁屁就「噗」一聲（臉不是屁股形狀，屁從屁屁出來）。
+import type { Camera, Cue, Fx, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
 
-// 黃昏的樹林：偵探跳進來，彎腰沿著腳印一個一個看，腳印通到大樹叢。他把頭伸進樹叢找——什麼都沒有。
-// 其實海盜抱著寶箱早就溜到他背後，對觀眾偷笑。偵探彎下腰再找……停一拍……肚子咕嚕……「噗！」一陣大風把海盜吹上天，
-// 寶箱裡的鑽石掉下來。偵探回頭什麼都沒看到，撿起鑽石用放大鏡一照：「屁屁偵探」。最後又小小噗一聲，他臉紅了。
-const G = 66.1 // 偵探（size 26）
-const P = 66.9 // 海盜（size 24）
-// 🕵️ 的 3D 圖手上本來就拿著放大鏡，不另外放
+// 主軸笑點（一句話）：兔子偵探一彎腰用放大鏡找線索，屁屁就「噗」一聲，把背後的落葉堆吹掉一層。
+// 開場小忍者抱著偷來的紅蘿蔔，一溜煙鑽進她背後的落葉堆，只露出紅頭巾。
+// 同一個彎腰、同一團黃綠色的屁、同一聲「噗」，三次只有結果變大：吹掉幾片葉子、露出頭巾 → 吹掉半堆、忍者拿一片葉子擋臉
+// → 先停一拍（她彎最低、屁屁抖最兇，忍者探頭一看嚇到），第三次噗——整堆落葉吹光，忍者被燻得頭昏坐在地上、蘿蔔掉出來。
+// 反轉：她根本不知道是自己破的案，一回頭看到小偷，指著他得意：「屁屁偵探」。
+const S = 36 // 兔子偵探的 size
+const G = 77 - 0.42 * S // 站在地上的 y
+const BX = 58 // 她每次都站在這裡找（面向左邊，屁屁朝右邊的落葉堆）
+const BUTT = { x: BX + 11, y: G + 3 } // 彎腰時屁屁（尾巴）的位置
+const PILE = { x: 96, size: 40 }
+const PY = 77 - 0.42 * PILE.size
+const NS = 26 // 忍者
+const NY = 77 - 0.42 * NS
+const NX = 97
+const HIDE = NY + 4 // 躲在落葉堆裡：只露出頭巾
+/** 屁的顏色：白雲圖染成黃綠色 */
+const FART = 'brightness(0.9) sepia(1) saturate(3) hue-rotate(35deg)'
+/** 鏡頭推近 z 倍、讓畫面正中間是 (x, y)：zoom 的 to 是不動點，不是中心，換算一下 */
+const look = (x: number, y: number, z: number) => ({ x: (x * z - 80) / (z - 1), y: (y * z - 45) / (z - 1) })
+
+/** 放大鏡跟著手：站著拿在胸前、彎腰時鏡片朝地上 */
+const GLASS = {
+  stand: { x: BX - 11, y: G + 4, r: -15 },
+  bend: { x: BX - 13, y: G + 10, r: -80 },
+}
+let glassR = 0
+function glass(at: number, to: { x: number; y: number; r: number }, dur = 0.2): Move[] {
+  const d = to.r - glassR
+  glassR = to.r
+  const moves: Move[] = [{ at, actor: 'glass', do: 'moveTo', to: { x: to.x, y: to.y }, dur, ease: 'out' }]
+  if (d) moves.push({ at, actor: 'glass', do: 'rotateTo', amount: d, dur })
+  return moves
+}
+
+/**
+ * 噗（每一次都一樣）：彎腰把放大鏡湊到地上 → 屁屁翹起來抖一抖 →「噗」一團黃綠色的屁往右噴，背後的落葉堆被吹掉一層 → 她嚇一跳彈起來。
+ * k 是第幾次（0、1、2），越後面屁越大、葉子飛越多、落葉堆越小、音效多疊一個。p 是噗的那一刻；bend 是彎下去的那一刻。
+ */
+function toot(p: number, k: number, bend = p - 0.7) {
+  const cloud = `fart${k + 1}`
+  const moves: Move[] = [
+    { at: bend, actor: 'det', do: 'swap', emoji: 'hero:bunny/bow' },
+    ...glass(bend, GLASS.bend),
+    // 屁屁翹起來、抖一抖
+    { at: p - 0.4, actor: 'det', do: 'squash', amount: -0.1, dur: 0.25 },
+    { at: p - 0.3, actor: 'det', do: 'shake', amount: 0.4 + 0.3 * k, dur: 0.28 },
+    // 噗！
+    { at: p, actor: 'det', do: 'squash', amount: 0.2 + 0.05 * k, dur: 0.2 },
+    { at: p, actor: cloud, do: 'pop', dur: 0.12 },
+    { at: p, actor: cloud, do: 'scaleTo', amount: [1.8, 2.2, 2.6][k], dur: 0.45, ease: 'out' },
+    { at: p, actor: cloud, do: 'moveTo', to: { x: BUTT.x + 9 + 3 * k, y: BUTT.y - 3 - 2 * k }, dur: 0.5, ease: 'out' },
+    { at: p + 0.55, actor: cloud, do: 'vanish', dur: 0.3 },
+    // 落葉堆被吹掉一層
+    { at: p + 0.08, actor: 'pile', do: 'shake', amount: 0.8 + 0.4 * k, dur: 0.3 },
+    // 嚇一跳彈起來（傻眼停住）
+    { at: p + 0.1, actor: 'det', do: 'swap', emoji: 'hero:bunny/surprised' },
+    { at: p + 0.1, actor: 'det', do: 'hop', amount: 4 + k, dur: 0.3 },
+    ...glass(p + 0.1, GLASS.stand, 0.15),
+    { at: p + 0.1, actor: 'glass', do: 'hop', amount: 4 + k, dur: 0.3 },
+  ]
+  const fx: Fx[] = [
+    { at: p, kind: 'blow', x: BUTT.x + 2, y: BUTT.y, to: { x: PILE.x - 4, y: PY - 2 }, n: 3 + k, dur: 0.45 },
+    { at: p + 0.05, kind: 'stink', actor: cloud, dur: 1.0 },
+    { at: p + 0.1, kind: 'blow', actor: 'pile', dy: 4, emoji: '🍂', to: { x: PILE.x + 34 + 6 * k, y: 30 - 4 * k }, n: 2 + 3 * k, dur: 0.7, scale: 1.3 + 0.3 * k },
+  ]
+  const camera: Camera[] = [
+    { at: p, dur: 0.4, do: 'punch', amount: 0.06 + 0.05 * k, to: { x: BUTT.x + 6, y: BUTT.y } },
+    { at: p, dur: 0.3 + 0.1 * k, do: 'shake', amount: 0.6 + 0.6 * k },
+  ]
+  // 同一個音效（噗＋洩氣），一次比一次多疊一個
+  const cues: Cue[] = [{ at: p, sfx: 'poof' }, { at: p + 0.03, sfx: 'deflate' }]
+  if (k >= 1) cues.push({ at: p + 0.08, sfx: 'whoosh' })
+  if (k >= 2) cues.push({ at: p + 0.12, sfx: 'rumble' })
+  return { moves, fx, camera, cues }
+}
+
+const P1 = 1.9, P2 = 3.8, P3 = 6.5
+const t1 = toot(P1, 0)
+const t2 = toot(P2, 1)
+const t3 = toot(P3, 2, P3 - 1.3) // 第三次彎最久
+const TURN = P3 + 1.0 // 她回頭
+const POSE = TURN + 0.45 // 指著小偷亮相
 
 export default scene({
-  duration: 9.4,
-  bg: { top: '#F2A65A', bottom: '#FCE3B0', floor: '#7DA35B', scenery: 'forest' },
+  duration: 10.4,
+  bg: { top: '#9FD3F0', bottom: '#FFF1CC', floor: '#D9A55B', scenery: 'forest' },
   actors: [
-    { id: 'mush', emoji: '🍄', x: 18, y: 71.5, size: 11 },
-    { id: 'log', emoji: '🪵', x: 150, y: 71.5, size: 14 },
-    { id: 'f1', emoji: '🐾', x: 72, y: 73, size: 6, float: true },
-    { id: 'f2', emoji: '🐾', x: 88, y: 73, size: 6, float: true },
-    { id: 'f3', emoji: '🐾', x: 104, y: 73, size: 6, float: true },
-    { id: 'pirate', emoji: 'hero:pirate/treasure', x: 128, y: P, size: 24 },
-    { id: 'bush', emoji: '🌳', x: 128, y: 59.4, size: 42 },
-    { id: 'gas', emoji: '💨', x: 86, y: 60, size: 16, hidden: true, float: true, flip: true },
-    { id: 'gem', emoji: '💎', x: 60, y: 60, size: 10, hidden: true, float: true, pivot: 'center' },
-    { id: 'sleuth', emoji: '🕵️', x: 52, y: G, size: 26, flip: true },
+    { id: 'tree', emoji: 'prop:tree', x: 140, y: 77 - 0.42 * 56, size: 56 },
+    { id: 'maple', emoji: 'prop:maple-leaf', x: 22, y: 72.5, size: 9, float: true },
+    // 三團屁（同一張雲染黃綠色）：畫在忍者與落葉堆後面，吹開時看得到誰被吹到
+    { id: 'fart1', emoji: 'prop:smoke', x: BUTT.x + 2, y: BUTT.y, size: 9, hidden: true, float: true, tint: FART },
+    { id: 'fart2', emoji: 'prop:smoke', x: BUTT.x + 2, y: BUTT.y, size: 10, hidden: true, float: true, tint: FART },
+    { id: 'fart3', emoji: 'prop:smoke', x: BUTT.x + 2, y: BUTT.y, size: 11, hidden: true, float: true, tint: FART },
+    { id: 'ninja', emoji: 'hero:ninja/idle', x: 160, y: NY, size: NS },
+    { id: 'carrot', emoji: '🥕', x: 151, y: NY + 4, size: 11, pivot: 'center' },
+    { id: 'pile', emoji: 'prop:leaf-pile', x: PILE.x, y: PY, size: PILE.size },
+    { id: 'det', emoji: 'hero:bunny/idle', x: BX, y: G, size: S },
+    { id: 'glass', emoji: '🔍', x: GLASS.stand.x, y: GLASS.stand.y, size: 12, float: true, pivot: 'center' },
   ],
   moves: [
-    // 跳進來
-    { at: 0, actor: 'sleuth', do: 'enter', from: { x: -18, y: G }, dur: 0.6, ease: 'out' },
-    { at: 0.6, actor: 'sleuth', do: 'hop', amount: 4, dur: 0.3 },
-    // 彎腰沿著腳印一個一個看過去
-    { at: 1.0, actor: 'sleuth', do: 'tilt', amount: 12, dur: 2.2 },
-    { at: 1.5, actor: 'sleuth', do: 'moveTo', to: { x: 70, y: G }, dur: 0.5 },
-    { at: 2.0, actor: 'sleuth', do: 'moveTo', to: { x: 88, y: G }, dur: 0.5 },
-    // 海盜趁他低頭，從樹叢後面溜到他背後
-    { at: 2.3, actor: 'pirate', do: 'moveTo', to: { x: 60, y: P }, dur: 0.8, ease: 'inOut' },
-    { at: 2.3, actor: 'pirate', do: 'bounce', amount: 1.2, times: 4, dur: 0.8 },
-    // 把頭伸進樹叢找——什麼都沒有
-    { at: 2.6, actor: 'sleuth', do: 'moveTo', to: { x: 104, y: G }, dur: 0.4 },
-    { at: 3.0, actor: 'bush', do: 'shake', amount: 1.2, dur: 0.6 },
-    { at: 3.3, actor: 'pirate', do: 'hop', amount: 3, dur: 0.3 },
-    // 再彎下腰看地上……停一拍……
-    { at: 4.0, actor: 'sleuth', do: 'tilt', amount: 22, dur: 1.4 },
-    { at: 4.3, actor: 'pirate', do: 'moveTo', to: { x: 80, y: P }, dur: 0.5 },
-    { at: 4.9, actor: 'sleuth', do: 'shake', amount: 0.6, dur: 0.4 },
-    // 噗！海盜被吹上天，鑽石掉下來
-    { at: 5.4, actor: 'sleuth', do: 'squash', amount: 0.25, dur: 0.3 },
-    { at: 5.45, actor: 'pirate', do: 'swap', emoji: 'hero:pirate/surprised' },
-    { at: 5.5, actor: 'pirate', do: 'moveTo', to: { x: 14, y: 4 }, arc: 10, dur: 1.0, ease: 'out' },
-    { at: 5.5, actor: 'pirate', do: 'spin', times: -3, dur: 1.0, pivot: 'center' },
-    { at: 6.5, actor: 'pirate', do: 'vanish', dur: 0.2 },
-    // 一大團風從他背後噴出來
-    { at: 5.42, actor: 'gas', do: 'pop', dur: 0.12 },
-    { at: 5.45, actor: 'gas', do: 'moveTo', to: { x: 70, y: 60 }, dur: 0.45, ease: 'out' },
-    { at: 5.45, actor: 'gas', do: 'scaleTo', amount: 2.2, dur: 0.45, ease: 'out' },
-    { at: 5.95, actor: 'gas', do: 'vanish', dur: 0.3 },
-    { at: 5.55, actor: 'gem', do: 'pop', dur: 0.15 },
-    { at: 5.6, actor: 'gem', do: 'moveTo', to: { x: 86, y: 70 }, arc: 14, dur: 0.6, ease: 'out' },
-    { at: 5.6, actor: 'gem', do: 'spin', times: 2, dur: 0.6 },
-    // 回頭：什麼都沒看到
-    { at: 6.4, actor: 'sleuth', do: 'flip' },
-    { at: 6.4, actor: 'sleuth', do: 'scaleTo', amount: 1.15, dur: 0.3, ease: 'back' },
-    // 撿起鑽石，用放大鏡一照：亮相
-    { at: 6.9, actor: 'sleuth', do: 'moveTo', to: { x: 92, y: G }, dur: 0.3 },
-    { at: 7.0, actor: 'gem', do: 'moveTo', to: { x: 92, y: 33 }, arc: 6, dur: 0.3, ease: 'back' },
-    { at: 7.3, actor: 'gem', do: 'scaleTo', amount: 1.5, dur: 0.3, ease: 'back' },
-    { at: 7.3, actor: 'sleuth', do: 'hop', amount: 5, dur: 0.4 },
-    { at: 7.3, actor: 'sleuth', do: 'scaleTo', amount: 1.05, dur: 0.35, ease: 'back' },
-    // 回馬槍：又小小噗一聲，臉紅
-    { at: 8.3, actor: 'sleuth', do: 'squash', amount: 0.15, dur: 0.25 },
-    { at: 8.3, actor: 'gas', do: 'moveTo', to: { x: 76, y: 64 }, dur: 0.01 },
-    { at: 8.31, actor: 'gas', do: 'scaleTo', amount: 0.3, dur: 0.01 },
-    { at: 8.32, actor: 'gas', do: 'pop', dur: 0.2 },
-    { at: 8.35, actor: 'gas', do: 'moveTo', to: { x: 70, y: 62 }, dur: 0.4, ease: 'out' },
-    { at: 8.9, actor: 'gas', do: 'vanish', dur: 0.25 },
+    // 開場：小忍者抱著偷來的紅蘿蔔衝進來，一跳鑽進落葉堆（偵探面向另一邊，正拿放大鏡看）
+    { at: 0, actor: 'ninja', do: 'moveTo', to: { x: NX + 8, y: NY }, dur: 0.6, ease: 'out' },
+    { at: 0, actor: 'carrot', do: 'moveTo', to: { x: NX - 1, y: NY + 4 }, dur: 0.6, ease: 'out' },
+    { at: 0.65, actor: 'ninja', do: 'moveTo', to: { x: NX, y: HIDE }, arc: 6, dur: 0.35, ease: 'in' },
+    { at: 0.65, actor: 'carrot', do: 'moveTo', to: { x: NX - 6, y: HIDE + 4 }, arc: 6, dur: 0.35, ease: 'in' },
+    { at: 1.0, actor: 'pile', do: 'squash', amount: 0.2, dur: 0.25 },
+    { at: 0.2, actor: 'glass', do: 'tilt', amount: 15, dur: 0.6 },
+    { at: 0.3, actor: 'det', do: 'tilt', amount: -5, dur: 0.6 },
+
+    // 第一次：吹掉幾片葉子，頭巾露出來
+    ...t1.moves,
+    { at: P1 + 0.1, actor: 'pile', do: 'scaleTo', amount: 0.82, dur: 0.3, ease: 'out' },
+    { at: P1 + 0.15, actor: 'ninja', do: 'moveTo', to: { x: NX, y: HIDE - 1.5 }, dur: 0.2 },
+    { at: P1 + 0.7, actor: 'det', do: 'swap', emoji: 'hero:bunny/idle' },
+
+    // 第二次：吹掉半堆，忍者拿一片葉子擋臉
+    ...t2.moves,
+    { at: P2 + 0.1, actor: 'pile', do: 'scaleTo', amount: 0.72, dur: 0.3, ease: 'out' },
+    { at: P2 + 0.15, actor: 'ninja', do: 'moveTo', to: { x: NX, y: NY + 1 }, dur: 0.2 },
+    { at: P2 + 0.35, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/hide' },
+    { at: P2 + 0.35, actor: 'ninja', do: 'shake', amount: 0.6, dur: 0.4 },
+    { at: P2 + 0.7, actor: 'det', do: 'swap', emoji: 'hero:bunny/idle' },
+
+    // 停一拍：她彎最低、屁屁抖最兇；忍者放下葉子探頭一看——嚇到
+    ...t3.moves,
+    { at: P3 - 0.9, actor: 'det', do: 'shake', amount: 0.5, dur: 0.5 },
+    { at: P3 - 0.75, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/surprised' },
+    { at: P3 - 0.75, actor: 'ninja', do: 'hop', amount: 2, dur: 0.25 },
+    // 第三次：整堆落葉吹光，忍者被燻得頭昏、蘿蔔掉出來
+    { at: P3 + 0.08, actor: 'pile', do: 'moveTo', to: { x: PILE.x + 34, y: PY - 3 }, dur: 0.55, ease: 'linear' },
+    { at: P3 + 0.08, actor: 'pile', do: 'rotateTo', amount: 50, dur: 0.55 },
+    { at: P3 + 0.08, actor: 'pile', do: 'scaleTo', amount: 0.5, dur: 0.55 },
+    { at: P3 + 0.6, actor: 'pile', do: 'vanish', dur: 0.2 },
+    { at: P3 + 0.1, actor: 'ninja', do: 'moveTo', to: { x: NX + 6, y: NY }, dur: 0.3, ease: 'out' },
+    { at: P3 + 0.1, actor: 'ninja', do: 'tilt', amount: 10, dur: 0.5 },
+    { at: P3 + 0.6, actor: 'ninja', do: 'swap', emoji: 'hero:ninja/dizzy' },
+    { at: P3 + 0.12, actor: 'carrot', do: 'moveTo', to: { x: 84, y: 71.5 }, arc: 12, dur: 0.6, ease: 'out' },
+    { at: P3 + 0.12, actor: 'carrot', do: 'spin', times: 2, dur: 0.6 },
+
+    // 反轉：她回頭，看到小偷——指著他得意亮相
+    { at: TURN, actor: 'det', do: 'flip' },
+    { at: TURN, actor: 'det', do: 'swap', emoji: 'hero:bunny/surprised' },
+    ...glass(TURN, { x: BX - 9, y: G + 5, r: 15 }, 0.1),
+    { at: POSE, actor: 'det', do: 'swap', emoji: 'hero:bunny/point' },
+    { at: POSE, actor: 'det', do: 'scaleTo', amount: 1.1, dur: 0.35, ease: 'back' },
+    ...glass(POSE, { x: BX - 8, y: G + 4, r: -10 }, 0.2),
+    // 定格裡還有一點動：忍者頭昏晃一晃、她得意地跳一下
+    { at: POSE + 1.0, actor: 'ninja', do: 'tilt', amount: -8, dur: 0.6 },
+    { at: POSE + 1.3, actor: 'det', do: 'hop', amount: 3, dur: 0.3 },
+    { at: POSE + 1.3, actor: 'glass', do: 'hop', amount: 3, dur: 0.3 },
   ],
   fx: [
-    { at: 0.55, kind: 'puff', actor: 'sleuth', dur: 0.4 },
-    { at: 1.1, kind: 'pop', actor: 'sleuth', emoji: '🤔', dx: -8, dur: 0.7 },
-    { at: 2.4, kind: 'pop', actor: 'pirate', emoji: '🤫', dur: 0.6 },
-    { at: 3.0, kind: 'burst', actor: 'bush', emoji: '🍃', n: 6, dur: 0.6 },
-    { at: 3.4, kind: 'pop', actor: 'sleuth', emoji: '❓', dx: 6, dur: 0.6 },
-    { at: 3.4, kind: 'pop', actor: 'pirate', emoji: '😆', dur: 0.6 },
-    { at: 4.95, kind: 'pop', actor: 'pirate', emoji: '😳', dx: -6, dur: 0.5 },
-    { at: 5.45, kind: 'burst', x: 88, y: 58, emoji: '💨', n: 12, dur: 1.0 },
-    { at: 5.45, kind: 'stink', actor: 'pirate', dur: 0.9 },
-    { at: 5.6, kind: 'burst', actor: 'pirate', emoji: '⭐', n: 5, dur: 0.7 },
-    { at: 5.5, kind: 'puff', actor: 'sleuth', n: 10, dur: 0.6 },
-    { at: 6.45, kind: 'pop', actor: 'sleuth', emoji: '❓', dx: -8, dur: 0.5 },
-    { at: 7.3, kind: 'burst', actor: 'gem', emoji: '✨', n: 9, dur: 0.9 },
-    { at: 7.6, kind: 'burst', actor: 'sleuth', emoji: '🎉', n: 7, dur: 0.9 },
-    { at: 8.3, kind: 'burst', x: 100, y: 62, emoji: '💨', n: 3, dur: 0.6 },
-    { at: 8.4, kind: 'pop', actor: 'sleuth', emoji: '😳', dx: -10, dur: 0.8 },
+    { at: 0.95, kind: 'burst', actor: 'pile', emoji: '🍂', n: 5, dur: 0.6 },
+    ...t1.fx,
+    ...t2.fx,
+    { at: P3 - 0.9, kind: 'sweat', actor: 'ninja', dur: 0.6 },
+    ...t3.fx,
+    { at: P3 + 0.3, kind: 'stink', actor: 'ninja', dur: 1.8 },
+    { at: P3 + 0.7, kind: 'dizzy', actor: 'ninja', dur: 2.5 },
+    { at: POSE, kind: 'burst', actor: 'det', emoji: '✨', n: 10, dy: -12, dur: 0.9, scale: 1.4 },
+    { at: POSE + 0.45, kind: 'burst', actor: 'det', emoji: '🎉', n: 7, dy: -12, dur: 0.9, scale: 1.4 },
   ],
   camera: [
-    { at: 1.0, dur: 0.4, do: 'zoom', amount: 1.35, to: { x: 86, y: 60 } },
-    { at: 3.2, dur: 0.3, do: 'zoom', amount: 1.15, to: { x: 92, y: 52 } },
-    { at: 5.45, dur: 0.4, do: 'shake', amount: 1.8 },
-    // 噗的那一刻推近偵探（定點在他身上，他留在原地變大）；海盜飛出畫面時鏡頭不要跟上去
-    { at: 4.95, dur: 0.45, do: 'zoom', amount: 1.5, to: { x: 88, y: 64 } },
-    { at: 7.3, dur: 0.45, do: 'zoom', amount: 1.55, to: { x: 92, y: 62 } },
+    { at: -0.3, dur: 0, do: 'zoom', amount: 1.45, to: look(78, 54, 1.45) },
+    ...t1.camera,
+    ...t2.camera,
+    // 停一拍：慢慢推近屁屁和落葉堆
+    { at: P3 - 1.1, dur: 0.9, do: 'zoom', amount: 1.6, to: look(80, 58, 1.6) },
+    ...t3.camera,
+    { at: P3 + 0.2, dur: 0.4, do: 'zoom', amount: 1.45, to: look(80, 54, 1.45) },
+    // 亮相
+    { at: POSE, dur: 0.5, do: 'zoom', amount: 1.5, to: look(78, 55, 1.5) },
   ],
   lights: [
-    { at: 0, dur: 0.01, level: 0.2 },
-    { at: 5.45, dur: 0.05, level: -0.3 },
-    { at: 5.5, dur: 0.3, level: 0.2 },
-    { at: 7.3, dur: 0.4, level: 0 },
+    { at: P3, dur: 0.05, level: -0.25 },
+    { at: P3 + 0.05, dur: 0.35, level: 0 },
+    { at: POSE, dur: 0.05, level: -0.2 },
+    { at: POSE + 0.05, dur: 0.4, level: 0 },
   ],
   cues: [
-    { at: 0.55, sfx: 'plop' },
-    { at: 1.1, sfx: 'tap' },
-    { at: 1.6, sfx: 'tap' },
-    { at: 3.0, sfx: 'slide' },
-    { at: 4.9, sfx: 'rumble' },
-    { at: 5.45, sfx: 'poof' },
-    { at: 5.5, sfx: 'whoosh' },
-    { at: 6.2, sfx: 'clink' },
-    { at: 7.3, sfx: 'blip' },
-    { at: 7.45, say: '屁屁偵探' },
-    { at: 8.3, sfx: 'deflate' },
-    { at: 8.6, sfx: 'cheer' },
+    { at: 0.1, sfx: 'whoosh' },
+    { at: 1.0, sfx: 'slide' },
+    ...t1.cues,
+    ...t2.cues,
+    { at: P3 - 0.75, sfx: 'blip' },
+    ...t3.cues,
+    { at: P3 + 0.7, sfx: 'plop' },
+    { at: TURN, sfx: 'boing' },
+    { at: POSE, sfx: 'clink' },
+    { at: POSE + 0.2, say: '屁屁偵探' },
+    { at: POSE + 0.5, sfx: 'cheer' },
   ],
 })
