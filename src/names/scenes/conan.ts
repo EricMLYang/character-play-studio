@@ -1,165 +1,278 @@
-// 演的是字面意思：名（有名）＋偵探——一隻太有名的貓頭鷹偵探，粉絲一直圍上來要簽名，他忙著簽名沒空辦案，小偷還混進排隊的隊伍裡（沒有戴大眼鏡的小孩、蝴蝶結、手錶、麻醉針）。
+// 演的是字面意思：名（太有名）＋偵探——太有名的偵探，一舉起放大鏡要辦案，粉絲就衝過來拍照，害他沒辦法辦案（沒有大眼鏡、紅領結、藍西裝、小孩，沒有手錶、麻醉針、變聲器、滑板、足球，也不指著鏡頭）。
+import type { Camera, Cue, Fx, Light, Move } from '../../anim/clip'
 import { scene } from '../../story/scene'
-import type { Move } from '../../anim/clip'
 
-// 傍晚的街上：戴高帽的貓頭鷹偵探神氣地走過來，彎腰用放大鏡看地上的腳印。
-// 三隻小雞粉絲尖叫衝過來，擋在放大鏡前面、啪啪啪拍照（閃光一直閃），他推開，她們又擠回來——只好一張一張簽名。
-// 一隻抱著鑽石的刺蝟小偷偷偷排到隊伍最後面，也拿一張紙要簽名。偵探簽、簽、簽……簽到他……停一拍……
-// 放大鏡往下一照：腳印就在刺蝟腳下！偵探撲過去，鑽石彈上天，掉在偵探手上，小雞們拍照拍不停：「名偵探柯南」。
-const O = 20 // 貓頭鷹
-const G = 77 - 0.42 * O
-const HAT = { dx: 0, dy: -21 }
-const GLASS = { dx: 10, dy: -6 }
-const OX = 58
-const CH = 9 // 小雞
-const CG = 77 - 0.42 * CH
-const QUEUE = [80, 92, 104] // 排隊的位置
-const HG = 77 - 0.42 * 11 // 刺蝟（size 11）
-const THIEF = 117
+// 主軸笑點（一句話）：名偵探一舉起放大鏡要找線索，粉絲就衝過來「喀嚓」拍照，他忍不住擺 pose，小偷就趁機從他背後溜過去。
+// 同一個動作（彎腰舉放大鏡 → 小雞粉絲衝過來 → 舉相機、白光一閃、喀嚓 → 他立刻舉著放大鏡擺 pose → 小刺蝟踮腳從他背後溜過去），
+// 做三次：粉絲 1 隻 → 3 隻 → 一大群；小偷背的東西 王冠 → 錢袋 → 比他還大的鑽石。
+// 第三次前停一拍：他抱胸斜眼盯著粉絲來的那邊，樹叢後面冒出一顆大鑽石。
+// 反轉：這次小偷等不及先溜出來，一大群一起按快門，超大的閃光把站在他背後的小偷照得清清楚楚——小偷嚇得定住，
+// 鑽石滑下來砸在地上、他頭昏；偵探轉身一看，拿放大鏡湊過去，再舉著放大鏡擺 pose：「名偵探柯南」。
+// 主角用豬探長（自家的偵探：格子獵帽、風衣，舉放大鏡、擺 pose、嚇一跳的姿勢都有）。
 
-/** 貓頭鷹的動作，帽子、放大鏡照抄 */
-const owl = (moves: Move[]): Move[] => moves.flatMap((m) => {
-  if (!['moveTo', 'enter', 'hop', 'bounce', 'shake'].includes(m.do)) return [m]
-  const off = (d: { dx: number; dy: number }) => (v?: Move['to']) => v && { x: v.x + d.dx, y: v.y + d.dy }
-  return [m,
-    { ...m, actor: 'hat', to: off(HAT)(m.to), from: off(HAT)(m.from) },
-    { ...m, actor: 'glass', to: off(GLASS)(m.to), from: off(GLASS)(m.from) }]
-})
+// ── 站位 ──
+const H = 36 // 豬探長
+const HY = 77 - 0.42 * H
+const HX = 64 // 辦案時站的地方
+/** 放大鏡（🔍 size GS）拿在手上的位置：揮手的那隻手（量過），flip＝面向右 */
+const GS = 13
+const glassAt = (x: number, faceRight: boolean) => ({ x: x + (faceRight ? 14 : -14), y: HY - 11.5 })
+const walkGlass = (x: number) => ({ x: x + 15, y: HY - 2.5 })
+// 小雞粉絲
+const FS = 12
+const FY = 77 - 0.42 * FS
+const FANS = ['🐥', '🐤', '🐥', '🐤', '🐥', '🐤', '🐥', '🐤', '🐥']
+const OFF = 178 // 粉絲從右邊畫面外衝進來
+/** 每一次站到哪裡（前排 x、後排 x 往後退一點） */
+const SPOTS: { x: number; y: number }[][] = [
+  [{ x: 88, y: FY }],
+  [{ x: 84, y: FY }, { x: 96, y: FY }, { x: 108, y: FY }],
+  [
+    { x: 80, y: FY }, { x: 91, y: FY }, { x: 102, y: FY }, { x: 113, y: FY }, { x: 124, y: FY },
+    { x: 86, y: FY - 3 }, { x: 97, y: FY - 3 }, { x: 108, y: FY - 3 }, { x: 119, y: FY - 3 },
+  ],
+]
+// 小偷：刺蝟（站得比大家後面一點），從左邊樹叢溜到右邊樹叢
+const TS = 22
+const TY = 77 - 0.42 * TS - 2
+const LX = 24 // 左邊樹叢
+const RX = 136 // 右邊樹叢
+const LOOT = [
+  { id: 'crown', emoji: '👑', s: 12 },
+  { id: 'bag', emoji: '💰', s: 16 },
+  { id: 'gem', emoji: '💎', s: 26 },
+]
+const lootY = (s: number) => TY - 9 - 0.38 * s
+const CAUGHT = 38 // 第三次被照到時站的地方
+const FLAT = 1.3 // 被鑽石壓扁（變寬變矮）
+/** 鏡頭推近 z 倍、讓畫面正中間是 (x, y)：zoom 的 to 是不動點，不是中心 */
+const look = (x: number, y: number, z: number) => ({ x: (x * z - 80) / (z - 1), y: (y * z - 45) / (z - 1) })
+
+/** 小偷踮腳走：刺蝟和背上的東西一起移動，一小步一小步地顛 */
+function sneak(at: number, x0: number, x1: number, dur: number, loot: string, ls: number): Move[] {
+  const moves: Move[] = [
+    { at, actor: 'thief', do: 'moveTo', to: { x: x1, y: TY }, dur, ease: 'linear' },
+    { at, actor: loot, do: 'moveTo', to: { x: x1 + 2, y: lootY(ls) }, dur, ease: 'linear' },
+  ]
+  const steps = Math.max(2, Math.round(Math.abs(x1 - x0) / 14))
+  for (let i = 0; i < steps; i++) {
+    const t = at + (i * dur) / steps
+    moves.push(
+      { at: t, actor: 'thief', do: 'hop', amount: 2, dur: dur / steps },
+      { at: t, actor: loot, do: 'hop', amount: 2, dur: dur / steps },
+    )
+  }
+  return moves
+}
+
+/**
+ * 主軸：彎腰舉放大鏡 → 粉絲衝過來圍住 → 舉相機、白光一閃、喀嚓 → 他舉放大鏡擺 pose。
+ * P＝舉放大鏡那一刻，k＝第幾次。回傳 flash＝閃光那一刻、end＝粉絲散開。
+ */
+function fame(P: number, k: number) {
+  const spots = SPOTS[k]
+  const rush = P + 0.25
+  const flash = P + 0.85 + 0.1 * k
+  const fans = spots.map((_, i) => `f${i}`)
+  const moves: Move[] = [
+    // 彎腰舉放大鏡（姿勢自己拿著放大鏡，手上那支先收起來）
+    { at: P, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
+    { at: P, actor: 'glass', do: 'vanish', dur: 0.05 },
+    { at: P + 0.05, actor: 'pig', do: 'hop', amount: -1.5, dur: 0.3 },
+    // 擺 pose：舉著放大鏡、揮手
+    { at: flash, actor: 'pig', do: 'swap', emoji: 'hero:pig/wave' },
+    { at: flash, actor: 'glass', do: 'moveTo', to: glassAt(HX, true), dur: 0 },
+    { at: flash, actor: 'glass', do: 'pop', dur: 0.2 },
+    { at: flash + 0.05, actor: 'pig', do: 'hop', amount: 3 + k, dur: 0.3 },
+    { at: flash + 0.05, actor: 'glass', do: 'hop', amount: 3 + k, dur: 0.3 },
+  ]
+  spots.forEach((s, i) => {
+    const id = fans[i]
+    const d = (i % 5) * 0.05 + (i >= 5 ? 0.08 : 0)
+    moves.push(
+      { at: rush + d, actor: id, do: 'moveTo', to: s, arc: 5, dur: 0.4, ease: 'out' },
+      // 舉相機：跳起來
+      { at: flash - 0.2 + (i % 3) * 0.03, actor: id, do: 'hop', amount: 4, dur: 0.35 },
+    )
+  })
+  const fx: Fx[] = [
+    { at: rush + 0.25, kind: 'puff', actor: fans[0], n: 4 + 3 * k, dur: 0.5 },
+    // 喀嚓：白光＋每隻小雞頭上一台相機
+    ...spots.map((_, i): Fx => ({ at: flash - 0.12, kind: 'pop', actor: fans[i], emoji: '📷', dur: 0.55, scale: 1.2 })),
+    { at: flash, kind: 'burst', actor: 'pig', emoji: '✨', n: 6 + 3 * k, dy: -12, dur: 0.6, scale: 1.2 + 0.1 * k },
+  ]
+  const camera: Camera[] = [
+    { at: flash, dur: 0.35, do: 'punch', amount: 0.05 + 0.01 * k, to: { x: HX, y: 52 } },
+    { at: flash, dur: 0.25, do: 'shake', amount: 0.4 + 0.3 * k },
+  ]
+  const lights: Light[] = [
+    { at: flash, dur: 0.04, level: [-0.12, -0.18, -0.25][k] },
+    { at: flash + 0.04, dur: 0.3, level: 0 },
+  ]
+  // 同一串音效，一次比一次多一聲
+  const cues: Cue[] = [{ at: P, sfx: 'tap' }, { at: rush, sfx: 'whoosh' }, { at: flash, sfx: 'blip' }]
+  if (k >= 1) cues.push({ at: rush + 0.1, sfx: 'cheer' }, { at: flash + 0.1, sfx: 'blip' })
+  if (k >= 2) cues.push({ at: rush, sfx: 'rumble' }, { at: flash + 0.2, sfx: 'blip' })
+  return { moves, fx, camera, lights, cues, flash, end: flash + 1.45, fans }
+}
+
+/** 粉絲拍完照開心地跑走（下一次再從右邊衝進來） */
+const leave = (at: number, fans: string[]): Move[] => fans.flatMap((id, i): Move[] => [
+  { at: at + i * 0.05, actor: id, do: 'flip' },
+  { at: at + i * 0.05, actor: id, do: 'moveTo', to: { x: OFF, y: FY }, dur: 0.45, ease: 'in' },
+  { at: at + 0.6, actor: id, do: 'flip' },
+])
+
+// ── 時間表 ──
+const P1 = 0.7
+const b1 = fame(P1, 0)
+const P2 = b1.end + 0.25
+const b2 = fame(P2, 1)
+const DOUBT = b2.end + 0.2 // 停一拍：他抱胸斜眼盯著粉絲來的那邊
+const PEEK = DOUBT + 0.25 // 樹叢後面冒出一顆大鑽石
+const P3 = DOUBT + 0.8
+const b3 = fame(P3, 2)
+const F3 = b3.flash
+const SLIP = F3 + 0.55 // 鑽石滑下來
+const THUD = SLIP + 0.3
+const TURN = F3 + 0.8 // 他轉身
+const LOOK = TURN + 0.5 // 拿放大鏡湊過去
+const POSE = LOOK + 0.6 // 亮相
+const END = POSE + 1.9 // 名字要唸 1.2 秒，唸完再停一下
+const PX = HX // 亮相時站的地方（不往前擠，小偷的臉要露出來）
 
 export default scene({
-  duration: 9.6,
-  bg: { top: '#3D4E8C', bottom: '#F2B38A', floor: '#9C96A8', scenery: 'city' },
+  duration: Math.round(END * 10) / 10,
+  bg: { top: '#7FCBF2', bottom: '#E8F6FF', floor: '#E3CFA9', scenery: 'city' },
   actors: [
-    { id: 'tree', emoji: '🌳', x: 150, y: 77 - 0.42 * 24, size: 24 },
-    { id: 'foot', emoji: '👣', x: 98, y: 73.5, size: 9, float: true },
-    { id: 'owl', emoji: '🦉', x: OX, y: G, size: O },
-    { id: 'hat', emoji: '🎩', x: OX + HAT.dx, y: G + HAT.dy, size: 9, float: true },
-    { id: 'glass', emoji: '🔍', x: OX + GLASS.dx, y: G + GLASS.dy, size: 8, float: true, pivot: 'center' },
-    { id: 'c1', emoji: '🐥', x: 190, y: CG, size: CH },
-    { id: 'c2', emoji: '🐥', x: 200, y: CG, size: CH },
-    { id: 'c3', emoji: '🐤', x: 210, y: CG, size: CH },
-    { id: 'thief', emoji: '🦔', x: 190, y: HG, size: 11 },
-    { id: 'gem', emoji: '💎', x: 186, y: HG - 7, size: 6, float: true, pivot: 'center' },
-    { id: 'medal', emoji: '🥇', x: OX + 1, y: -10, size: 7, float: true, hidden: true },
+    // 噴水池（背景）：寬扁的水池＋一直噴的水
+    { id: 'pool', emoji: '🔵', x: 104, y: 77 - 0.42 * 12 - 3, size: 12, float: true },
+    { id: 'crown', emoji: LOOT[0].emoji, x: LX + 2, y: lootY(LOOT[0].s), size: LOOT[0].s, float: true, hidden: true },
+    { id: 'bag', emoji: LOOT[1].emoji, x: LX + 2, y: lootY(LOOT[1].s), size: LOOT[1].s, float: true, hidden: true },
+    { id: 'clue', emoji: '👣', x: 86, y: 74.5, size: 8, float: true },
+    { id: 'gem', emoji: LOOT[2].emoji, x: LX + 2, y: lootY(LOOT[2].s) + 14, size: LOOT[2].s, float: true, hidden: true, pivot: 'center' },
+    { id: 'thief', emoji: '🦔', x: LX, y: TY, size: TS, flip: true },
+    { id: 'pig', emoji: 'hero:pig/walk', x: HX, y: HY, size: H, flip: true },
+    { id: 'glass', emoji: '🔍', x: walkGlass(HX).x, y: walkGlass(HX).y, size: GS, float: true, flip: true },
+    ...FANS.map((e, i) => ({ id: `f${i}`, emoji: e, x: OFF, y: i >= 5 ? FY - 3 : FY, size: FS })),
+    { id: 'bushL', emoji: 'prop:bush', x: LX - 2, y: 77 - 0.42 * 26, size: 26 },
+    { id: 'bushR', emoji: 'prop:bush', x: RX + 2, y: 77 - 0.42 * 26, size: 26, flip: true },
   ],
   moves: [
-    // ① 神氣地走過來，彎腰看腳印
-    ...owl([{ at: 0, actor: 'owl', do: 'enter', from: { x: -16, y: G }, dur: 0.9, ease: 'out' }]),
-    ...owl([{ at: 1.0, actor: 'owl', do: 'hop', amount: -2, dur: 0.6 }]),
-    { at: 1.0, actor: 'glass', do: 'moveTo', to: { x: 92, y: 70 }, dur: 0.35, ease: 'out' },
-    // ② 小雞粉絲衝過來，擠在放大鏡前面
-    { at: 1.4, actor: 'c1', do: 'moveTo', to: { x: 76, y: CG }, dur: 0.45, ease: 'out' },
-    { at: 1.5, actor: 'c2', do: 'moveTo', to: { x: 86, y: CG }, dur: 0.45, ease: 'out' },
-    { at: 1.6, actor: 'c3', do: 'moveTo', to: { x: 96, y: CG }, dur: 0.45, ease: 'out' },
-    { at: 2.1, actor: 'c1', do: 'bounce', amount: 3, times: 2, dur: 0.5 },
-    { at: 2.15, actor: 'c2', do: 'bounce', amount: 3, times: 2, dur: 0.5 },
-    { at: 2.2, actor: 'c3', do: 'bounce', amount: 3, times: 2, dur: 0.5 },
-    // 他推開，她們又擠回來
-    { at: 2.7, actor: 'glass', do: 'moveTo', to: { x: OX + GLASS.dx, y: G + GLASS.dy }, dur: 0.2 },
-    ...owl([{ at: 2.75, actor: 'owl', do: 'shake', amount: 1, dur: 0.3 }]),
-    { at: 2.8, actor: 'c1', do: 'moveTo', to: { x: 96, y: CG }, arc: 6, dur: 0.3, ease: 'out' },
-    { at: 2.8, actor: 'c2', do: 'moveTo', to: { x: 106, y: CG }, arc: 8, dur: 0.3, ease: 'out' },
-    { at: 2.8, actor: 'c3', do: 'moveTo', to: { x: 116, y: CG }, arc: 10, dur: 0.3, ease: 'out' },
-    { at: 3.15, actor: 'c1', do: 'moveTo', to: { x: QUEUE[0], y: CG }, dur: 0.25, ease: 'in' },
-    { at: 3.2, actor: 'c2', do: 'moveTo', to: { x: QUEUE[1], y: CG }, dur: 0.25, ease: 'in' },
-    { at: 3.25, actor: 'c3', do: 'moveTo', to: { x: QUEUE[2], y: CG }, dur: 0.25, ease: 'in' },
-    // 只好一張一張簽名
-    { at: 3.6, actor: 'glass', do: 'swap', emoji: '📝' },
-    { at: 3.7, actor: 'glass', do: 'shake', amount: 0.8, dur: 0.25 },
-    { at: 3.95, actor: 'c1', do: 'moveTo', to: { x: 72, y: CG }, arc: 6, dur: 0.3, ease: 'out' },
-    // 刺蝟小偷抱著鑽石偷偷排到最後面
-    { at: 3.4, actor: 'thief', do: 'moveTo', to: { x: THIEF, y: HG }, dur: 0.8, ease: 'out' },
-    { at: 3.4, actor: 'gem', do: 'moveTo', to: { x: THIEF - 4, y: HG - 7 }, dur: 0.8, ease: 'out' },
-    { at: 4.2, actor: 'glass', do: 'shake', amount: 0.8, dur: 0.25 },
-    { at: 4.45, actor: 'c2', do: 'moveTo', to: { x: 66, y: CG }, arc: 6, dur: 0.3, ease: 'out' },
-    { at: 4.65, actor: 'glass', do: 'shake', amount: 0.8, dur: 0.25 },
-    { at: 4.9, actor: 'c3', do: 'moveTo', to: { x: 76, y: CG }, arc: 6, dur: 0.3, ease: 'out' },
-    { at: 4.9, actor: 'thief', do: 'moveTo', to: { x: 84, y: HG }, dur: 0.4 },
-    { at: 4.9, actor: 'gem', do: 'moveTo', to: { x: 80, y: HG - 7 }, dur: 0.4 },
-    { at: 4.9, actor: 'foot', do: 'moveTo', to: { x: 86, y: 73.5 }, dur: 0.4 },
-    { at: 5.35, actor: 'glass', do: 'shake', amount: 0.8, dur: 0.25 },
-    // 停一拍……放大鏡往下一照
-    { at: 5.85, actor: 'glass', do: 'swap', emoji: '🔍' },
-    { at: 5.85, actor: 'glass', do: 'moveTo', to: { x: 90, y: 62 }, dur: 0.25, ease: 'out' },
-    { at: 5.85, actor: 'glass', do: 'scaleTo', amount: 1.4, dur: 0.25, ease: 'back' },
-    { at: 6.1, actor: 'thief', do: 'shake', amount: 0.8, dur: 0.3 },
-    // ③ 撲過去！鑽石彈上天
-    { at: 6.4, actor: 'glass', do: 'scaleTo', amount: 1 / 1.4, dur: 0.15 },
-    { at: 6.4, actor: 'glass', do: 'moveTo', to: { x: OX + GLASS.dx, y: G + GLASS.dy }, dur: 0.2 },
-    { at: 6.4, actor: 'thief', do: 'moveTo', to: { x: 122, y: HG }, dur: 0.3, ease: 'out' },
-    ...owl([{ at: 6.45, actor: 'owl', do: 'moveTo', to: { x: 98, y: G }, arc: 10, dur: 0.3, ease: 'in' }]),
-    { at: 6.75, actor: 'thief', do: 'squash', amount: 0.5, dur: 0.5 },
-    { at: 6.75, actor: 'gem', do: 'moveTo', to: { x: 98 + GLASS.dx - 20, y: 18 }, dur: 0.35, ease: 'out' },
-    { at: 6.75, actor: 'gem', do: 'spin', times: 3, dur: 0.7 },
-    { at: 7.1, actor: 'gem', do: 'moveTo', to: { x: 98 - 11, y: G - 6 }, dur: 0.35, ease: 'bounce' },
-    // ④ 亮相：變大、獎牌掉下來掛好
-    { at: 7.1, actor: 'owl', do: 'scaleTo', amount: 1.3, dur: 0.3, ease: 'back' },
-    { at: 7.1, actor: 'hat', do: 'moveTo', to: { x: 98 + HAT.dx, y: G + HAT.dy * 1.3 }, dur: 0.3, ease: 'back' },
-    { at: 7.1, actor: 'hat', do: 'scaleTo', amount: 1.3, dur: 0.3, ease: 'back' },
-    { at: 7.1, actor: 'glass', do: 'moveTo', to: { x: 98 + GLASS.dx * 1.3, y: G + GLASS.dy * 1.3 }, dur: 0.3, ease: 'back' },
-    { at: 7.1, actor: 'medal', do: 'moveTo', to: { x: 98, y: G - 8 }, dur: 0.01 },
-    { at: 7.15, actor: 'medal', do: 'drop', dur: 0.4 },
-    // 小雞們圍過來拍照
-    { at: 7.2, actor: 'c1', do: 'moveTo', to: { x: 62, y: CG }, dur: 0.4, ease: 'out' },
-    { at: 7.2, actor: 'c2', do: 'moveTo', to: { x: 72, y: CG }, dur: 0.4, ease: 'out' },
-    { at: 7.2, actor: 'c3', do: 'moveTo', to: { x: 126, y: CG }, dur: 0.4, ease: 'out' },
-    { at: 7.8, actor: 'c1', do: 'hop', amount: 3, dur: 0.3 },
-    { at: 8.0, actor: 'c3', do: 'hop', amount: 3, dur: 0.3 },
-    { at: 8.2, actor: 'c2', do: 'hop', amount: 3, dur: 0.3 },
+    { at: 0, dur: 0, actor: 'pool', do: 'stretchTo', amount: 2.6 },
+    // 開場：神氣地走進廣場
+    { at: 0, actor: 'pig', do: 'enter', from: { x: HX - 24, y: HY }, dur: 0.6, ease: 'out' },
+    { at: 0, actor: 'glass', do: 'enter', from: { x: walkGlass(HX - 24).x, y: walkGlass(HX - 24).y }, dur: 0.6, ease: 'out' },
+    // 第一次：1 隻粉絲，小偷背著王冠溜過去
+    ...b1.moves,
+    { at: b1.flash, actor: 'crown', do: 'pop', dur: 0.15 },
+    ...sneak(b1.flash + 0.1, LX, RX, 1.3, 'crown', LOOT[0].s),
+    ...leave(b1.end, b1.fans),
+    { at: b1.end, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: b1.end, actor: 'glass', do: 'vanish', dur: 0.1 },
+    { at: b1.end, actor: 'crown', do: 'vanish', dur: 0.15 },
+    { at: b1.end + 0.2, actor: 'thief', do: 'moveTo', to: { x: LX, y: TY }, dur: 0 },
+    // 第二次：3 隻粉絲，錢袋
+    ...b2.moves,
+    { at: b2.flash, actor: 'bag', do: 'pop', dur: 0.15 },
+    ...sneak(b2.flash + 0.1, LX, RX, 1.3, 'bag', LOOT[1].s),
+    ...leave(b2.end, b2.fans),
+    { at: b2.end, actor: 'pig', do: 'swap', emoji: 'hero:pig/idle' },
+    { at: b2.end, actor: 'glass', do: 'vanish', dur: 0.1 },
+    { at: b2.end, actor: 'bag', do: 'vanish', dur: 0.15 },
+    { at: b2.end + 0.2, actor: 'thief', do: 'moveTo', to: { x: LX, y: TY }, dur: 0 },
+    // 停一拍：他抱胸斜眼盯著右邊——樹叢後面冒出一顆大鑽石
+    { at: DOUBT, actor: 'pig', do: 'swap', emoji: 'hero:pig/doubt' },
+    { at: PEEK, actor: 'gem', do: 'pop', dur: 0.3 },
+    { at: PEEK, actor: 'gem', do: 'moveTo', to: { x: LX + 2, y: lootY(LOOT[2].s) }, dur: 0.35, ease: 'back' },
+    // 第三次：一大群；小偷等不及，先溜出來
+    ...b3.moves,
+    ...sneak(P3 + 0.15, LX, CAUGHT, F3 - P3 - 0.2, 'gem', LOOT[2].s),
+    // 反轉：超大的閃光把他照得清清楚楚——嚇得定住
+    { at: F3 + 0.05, actor: 'thief', do: 'shake', amount: 0.7, dur: 0.5 },
+    { at: F3 + 0.05, actor: 'gem', do: 'shake', amount: 0.7, dur: 0.5 },
+    // 腿一軟，背上的大鑽石「咚」地壓下來，把他壓扁（臉還露在外面）
+    { at: SLIP, actor: 'gem', do: 'hop', amount: 4, dur: 0.3 },
+    { at: THUD, actor: 'thief', do: 'stretchTo', amount: FLAT, dur: 0.15, ease: 'out' },
+    { at: THUD, actor: 'gem', do: 'moveTo', to: { x: CAUGHT + 2, y: lootY(LOOT[2].s) + 4.5 }, dur: 0.15, ease: 'in' },
+    { at: THUD, actor: 'gem', do: 'rotateTo', amount: -12, dur: 0.2 },
+    { at: THUD + 0.15, actor: 'gem', do: 'squash', amount: 0.12, dur: 0.25 },
+    // 偵探轉身一看
+    { at: TURN, actor: 'pig', do: 'flip' },
+    { at: TURN, actor: 'pig', do: 'swap', emoji: 'hero:pig/surprised' },
+    { at: TURN, actor: 'pig', do: 'hop', amount: 4, dur: 0.35 },
+    { at: TURN, actor: 'glass', do: 'vanish', dur: 0.05 },
+    { at: TURN, actor: 'glass', do: 'flip' },
+    // 拿放大鏡湊過去看
+    { at: LOOK, actor: 'pig', do: 'swap', emoji: 'hero:pig/think' },
+    { at: LOOK, actor: 'pig', do: 'hop', amount: -1.5, dur: 0.4 },
+    // 亮相：舉著放大鏡擺 pose
+    { at: POSE, actor: 'pig', do: 'swap', emoji: 'hero:pig/wave' },
+    { at: POSE, actor: 'glass', do: 'moveTo', to: glassAt(PX, false), dur: 0 },
+    { at: POSE, actor: 'glass', do: 'pop', dur: 0.25 },
+    { at: POSE + 0.05, actor: 'pig', do: 'hop', amount: 4, dur: 0.35 },
+    { at: POSE + 0.05, actor: 'glass', do: 'hop', amount: 4, dur: 0.35 },
+    ...b3.fans.map((id, i): Move => ({ at: POSE + 0.1 + (i % 4) * 0.06, actor: id, do: 'hop', amount: 4, dur: 0.35 })),
   ],
   fx: [
-    { at: 1.1, kind: 'pop', actor: 'owl', emoji: '🤔', dx: -8, dur: 0.6 },
-    { at: 1.5, kind: 'pop', actor: 'c1', emoji: '😍', dur: 0.6 },
-    { at: 1.7, kind: 'pop', actor: 'c3', emoji: '💕', dur: 0.6 },
-    { at: 2.2, kind: 'pop', actor: 'c2', emoji: '📷', dur: 0.5 },
-    { at: 2.8, kind: 'pop', actor: 'owl', emoji: '💢', dx: -8, dur: 0.4 },
-    { at: 3.3, kind: 'sweat', actor: 'owl' },
-    { at: 3.7, kind: 'burst', actor: 'glass', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 4.0, kind: 'pop', actor: 'c1', emoji: '💕', dur: 0.5 },
-    { at: 4.2, kind: 'burst', actor: 'glass', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 4.65, kind: 'burst', actor: 'glass', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 5.35, kind: 'burst', actor: 'glass', emoji: '✨', n: 4, dur: 0.4 },
-    { at: 5.4, kind: 'pop', actor: 'thief', emoji: '😆', dx: 6, dur: 0.5 },
-    { at: 6.05, kind: 'pop', actor: 'owl', emoji: '❗', dx: -8, dur: 0.5 },
-    { at: 6.1, kind: 'sweat', actor: 'thief' },
-    { at: 6.75, kind: 'puff', actor: 'thief', n: 14, dur: 0.7 },
-    { at: 6.85, kind: 'dizzy', actor: 'thief', dur: 1.6 },
-    { at: 7.2, kind: 'burst', actor: 'owl', emoji: '✨', n: 10, dur: 0.9 },
-    { at: 7.6, kind: 'pop', actor: 'c1', emoji: '📷', dur: 0.4 },
-    { at: 7.9, kind: 'pop', actor: 'c3', emoji: '📷', dur: 0.4 },
-    { at: 8.3, kind: 'burst', actor: 'owl', emoji: '🎉', n: 8, dur: 0.9 },
+    // 噴水池一直噴
+    ...Array.from({ length: 14 }, (_, i): Fx => ({ at: i * 0.8, kind: 'fountain', x: 104, y: 64, emoji: '💧', n: 7, dur: 1.1 })),
+    ...b1.fx,
+    ...b2.fx,
+    ...b3.fx,
+    // 反轉：小偷被照到
+    // 閃光從相機打到他身上，照得清清楚楚
+    ...['f0', 'f5', 'f1'].map((id): Fx => ({ at: F3, kind: 'line', actor: id, target: 'thief', color: '#FFF8C8', width: 2.2, dur: 0.35 })),
+    { at: F3 + 0.02, kind: 'burst', actor: 'thief', emoji: '✨', n: 8, dy: 2, dur: 0.6, scale: 1.3 },
+    { at: F3 + 0.1, kind: 'sweat', actor: 'thief', dur: 0.7 },
+    { at: F3 + 0.45, kind: 'pop', actor: 'f0', emoji: '📷', dur: 0.5, scale: 1.2 },
+    { at: F3 + 0.5, kind: 'pop', actor: 'f5', emoji: '📷', dur: 0.5, scale: 1.2 },
+    { at: THUD, kind: 'burst', actor: 'gem', emoji: '💥', n: 1, dur: 0.4, scale: 1.3 },
+    { at: THUD + 0.05, kind: 'puff', actor: 'thief', n: 8, dur: 0.5 },
+    { at: THUD + 0.2, kind: 'dizzy', actor: 'thief', dur: END - THUD },
+    { at: LOOK + 0.25, kind: 'burst', actor: 'thief', emoji: '✨', n: 6, dy: -4, dur: 0.5 },
+    // 亮相
+    { at: POSE, kind: 'burst', actor: 'pig', emoji: '✨', n: 10, dy: -12, dur: 1.0, scale: 1.4 },
+    { at: POSE + 0.3, kind: 'burst', actor: 'pig', emoji: '🎉', n: 7, dy: -14, dur: 0.9, scale: 1.3 },
+    ...[0, 2, 4, 6].map((i): Fx => ({ at: POSE + 0.15, kind: 'pop', actor: `f${i}`, emoji: '📷', dur: 0.5, scale: 1.2 })),
   ],
   camera: [
-    { at: 5.6, dur: 0.4, do: 'zoom', amount: 1.5, to: { x: 86, y: 62 } },
-    { at: 6.4, dur: 0.3, do: 'zoom', amount: 1 },
-    { at: 6.75, dur: 0.35, do: 'shake', amount: 1.4 },
-    { at: 7.2, dur: 0.6, do: 'zoom', amount: 1.45, to: { x: 96, y: 62 } },
+    { at: -0.3, dur: 0, do: 'zoom', amount: 1.3, to: look(80, 50, 1.3) },
+    ...b1.camera,
+    ...b2.camera,
+    // 停一拍：看樹叢後面的大鑽石
+    { at: DOUBT, dur: 0.5, do: 'zoom', amount: 1.35, to: look(66, 50, 1.35) },
+    // 一大群：拉開一點
+    { at: P3 + 0.2, dur: 0.5, do: 'zoom', amount: 1.2, to: look(80, 48, 1.2) },
+    ...b3.camera,
+    { at: THUD, dur: 0.3, do: 'shake', amount: 0.8 },
+    { at: TURN, dur: 0.35, do: 'punch', amount: 0.06, to: { x: HX, y: 52 } },
+    // 亮相：推近偵探和小偷
+    { at: LOOK, dur: 0.6, do: 'zoom', amount: 1.55, to: look(58, 54, 1.55) },
   ],
   lights: [
-    { at: 2.2, dur: 0.05, level: -0.3 },
-    { at: 2.25, dur: 0.15, level: 0 },
-    { at: 2.45, dur: 0.05, level: -0.3 },
-    { at: 2.5, dur: 0.15, level: 0 },
-    { at: 7.6, dur: 0.05, level: -0.4 },
-    { at: 7.65, dur: 0.2, level: 0 },
-    { at: 7.9, dur: 0.05, level: -0.35 },
-    { at: 7.95, dur: 0.2, level: 0 },
+    ...b1.lights,
+    ...b2.lights,
+    ...b3.lights,
+    { at: F3 + 0.5, dur: 0.04, level: -0.12 },
+    { at: F3 + 0.54, dur: 0.25, level: 0 },
+    { at: POSE + 0.15, dur: 0.04, level: -0.15 },
+    { at: POSE + 0.19, dur: 0.3, level: 0 },
   ],
   cues: [
     { at: 0.1, sfx: 'tap' },
-    { at: 1.4, sfx: 'cheer' },
-    { at: 2.2, sfx: 'blip' },
-    { at: 2.45, sfx: 'blip' },
-    { at: 2.75, sfx: 'whoosh' },
-    { at: 3.7, sfx: 'tap' },
-    { at: 4.2, sfx: 'tap' },
-    { at: 4.65, sfx: 'tap' },
-    { at: 5.85, sfx: 'boing' },
-    { at: 6.45, sfx: 'whoosh' },
-    { at: 6.75, sfx: 'bonk' },
-    { at: 7.25, say: '名偵探柯南' },
-    { at: 7.6, sfx: 'blip' },
-    { at: 7.9, sfx: 'blip' },
-    { at: 8.3, sfx: 'cheer' },
+    ...b1.cues,
+    { at: b1.flash + 0.4, sfx: 'slide' },
+    ...b2.cues,
+    { at: b2.flash + 0.4, sfx: 'slide' },
+    { at: PEEK, sfx: 'clink' },
+    ...b3.cues,
+    { at: F3 + 0.15, sfx: 'boing' },
+    { at: F3 + 0.5, sfx: 'blip' },
+    { at: THUD, sfx: 'bonk' },
+    { at: TURN, sfx: 'whoosh' },
+    { at: LOOK + 0.25, sfx: 'clink' },
+    { at: POSE + 0.05, sfx: 'cheer' },
+    { at: POSE + 0.1, say: '名偵探柯南' },
   ],
 })
