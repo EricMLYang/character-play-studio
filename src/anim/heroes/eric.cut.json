@@ -1,0 +1,93 @@
+{
+  "name": "eric",
+  "look": "eric——大頭身體小的 Q 版，表情很賊很皮，叫 Eric",
+  "about": "Studio「上傳圖片做新角色」做的姿勢表（A 表洋紅底、B～F 綠幕：上傳時勾了洋紅底，按「補齊」時沒帶到）（3×3，Codex 照家長上傳的圖畫、豬探長的表對齊畫風；上傳的圖在 media/hero-uploads/，不進 git）。A～F 六張表的九格跟豬探長同一套（C 表也是放大鏡 think、抱胸 doubt）；朝左。比例以 A 表的 idle 身高為準。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "eric-A.png",
+      "key": "#FF00FF",
+      "poses": [
+        "idle",
+        "happy",
+        "laugh",
+        "surprised",
+        "dizzy",
+        "angry",
+        "cry",
+        "scared",
+        "smug"
+      ]
+    },
+    "B": {
+      "file": "eric-B.png",
+      "poses": [
+        "reach",
+        "point",
+        "listen",
+        "ponder",
+        "walk",
+        "sneak",
+        "flat",
+        "wait",
+        "back"
+      ]
+    },
+    "C": {
+      "file": "eric-C.png",
+      "poses": [
+        "think",
+        "doubt",
+        "sleep",
+        "eat",
+        "dash",
+        "fall",
+        "wave",
+        "push",
+        "cold"
+      ]
+    },
+    "D": {
+      "file": "eric-D.png",
+      "poses": [
+        "kick",
+        "throw",
+        "pull",
+        "lift",
+        "jump",
+        "hug",
+        "blow",
+        "peek",
+        "flee"
+      ]
+    },
+    "E": {
+      "file": "eric-E.png",
+      "poses": [
+        "sour",
+        "spicy",
+        "stinky",
+        "full",
+        "yawn",
+        "sneeze",
+        "drool",
+        "giggle",
+        "tired"
+      ]
+    },
+    "F": {
+      "file": "eric-F.png",
+      "poses": [
+        "hold",
+        "hungry",
+        "hot",
+        "doze",
+        "know",
+        "stomp",
+        "bow",
+        "duck",
+        "slip"
+      ]
+    }
+  }
+}
