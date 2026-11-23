@@ -210,6 +210,28 @@ export const STORIES = [
       { id: 'end', text: '爸爸睡了。楊捷睿也睡了。' },
     ],
   },
+  {
+    // 2026-11-24：他在主角館拼的是豬探長、屁屁偵探——喜歡偵探。這本要他照線索（大大的耳）自己推出小偷是誰；
+    // 探長的「長」是多音字，故事裡叫「豬偵探」
+    id: 'thief', title: '誰偷了包子', hero: 'pig', emoji: '🔍',
+    pages: [
+      { id: 'gone', text: '桌上的包子不見了！' },
+      { id: 'clue', text: '豬偵探來了。小偷有大大的耳！' },
+      { id: 'who', ask: '小偷是＿！', options: [
+        { char: '兔', emoji: '🐰', text: '是兔！兔的嘴裡有包子！', ok: true },
+        { char: '象', emoji: '🐘', text: '象太大了！門太小了！' },
+        { char: '蛇', emoji: '🐍', text: '不是蛇。蛇沒有耳！' },
+      ] },
+      { id: 'run', text: '兔跑了！跑好快！' },
+      { id: 'throw', ask: '豬偵探丟＿！', options: [
+        { char: '菜', emoji: '🥬', text: '兔看到菜，不跑了！', ok: true },
+        { char: '豆', emoji: '🫘', text: '好多豆！豬偵探飛起來了！' },
+        { char: '糖', emoji: '🍬', text: '兔吃了糖。兔跑太快了！' },
+      ] },
+      { id: 'sorry', text: '兔說對不起！' },
+      { id: 'end', text: '看！豬偵探也在偷吃！' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
