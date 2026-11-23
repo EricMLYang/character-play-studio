@@ -189,6 +189,27 @@ export const STORIES = [
       { id: 'bye', text: '再見，外星人！' },
     ],
   },
+  {
+    // 2026-11-23：爸爸（hero:eric，楊捷睿的爸爸）第一次主演。孩子叫不醒爸爸、叫醒了又把爸爸玩到累——他有權力的那種好笑
+    id: 'dad', title: '爸爸不起來', hero: 'eric', emoji: '💤',
+    pages: [
+      { id: 'sleep', text: '早上了。爸爸在睡。' },
+      { id: 'want', text: '楊捷睿想玩。爸爸不起來！' },
+      { id: 'wake', ask: '用＿叫他！', options: [
+        { char: '肉', emoji: '🍖', text: '爸爸聞到肉了。他起來了！', ok: true },
+        { char: '蛙', emoji: '🐸', text: '蛙在他的頭上叫。他沒聽到！' },
+        { char: '冰', emoji: '🧊', text: '好冰！爸爸跳到天上了！' },
+      ] },
+      { id: 'up', text: '爸爸起來了！一起玩！' },
+      { id: 'game', ask: '爸爸是大＿！', all: true, options: [
+        { char: '馬', emoji: '🐎', text: '爸爸是大馬！跑好快！' },
+        { char: '山', emoji: '⛰️', text: '爸爸是大山！爬上去了！' },
+        { char: '熊', emoji: '🐻', text: '爸爸是大熊！抱抱！' },
+      ] },
+      { id: 'tired', text: '玩了好多。爸爸累了。' },
+      { id: 'end', text: '爸爸睡了。楊捷睿也睡了。' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
