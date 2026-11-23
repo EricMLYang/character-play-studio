@@ -232,6 +232,26 @@ export const STORIES = [
       { id: 'end', text: '看！豬偵探也在偷吃！' },
     ],
   },
+  {
+    // 2026-11-24：他在主角館拼過消防車。前半是「用什麼打火」，後半是救完火還噴上癮、看到紅的熱的都噴（全部都要）
+    id: 'fire', title: '消防車來了', hero: 'firefighter', emoji: '🚒',
+    pages: [
+      { id: 'burn', text: '不好了！樹上有火！' },
+      { id: 'truck', text: '消防車來了！' },
+      { id: 'put', ask: '用＿打火！', options: [
+        { char: '水', emoji: '💦', text: '水來了！火沒了！', ok: true },
+        { char: '木', emoji: '🪵', text: '不能給火吃木！火大了！' },
+        { char: '茶', emoji: '🍵', text: '茶太少了！火在笑！' },
+      ] },
+      { id: 'more', text: '火沒了。他想再噴水！' },
+      { id: 'spray', ask: '他噴＿！', all: true, options: [
+        { char: '龍', emoji: '🐉', text: '小龍不能噴火了！他哭了。' },
+        { char: '爸', emoji: '🍖', text: '爸爸的肉都是水了！' },
+        { char: '陽', emoji: '🌞', text: '太陽太高了！噴不到！' },
+      ] },
+      { id: 'wet', text: '大家都是水！消防車回家了。' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
