@@ -14857,6 +14857,77 @@
       "priority": 380,
       "media": [],
       "feedback": []
+    },
+    {
+      "char": "悟",
+      "zhuyin": "ㄨˋ",
+      "meaning": "to realize; to awaken",
+      "emoji": "🐒",
+      "words": [
+        {
+          "text": "孫悟空",
+          "emoji": "🐒"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "悟是孫悟空的悟，猴子一翻筋斗就飛上雲。"
+      },
+      "status": "seed",
+      "priority": 381,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "戒",
+      "zhuyin": "ㄐㄧㄝˋ",
+      "meaning": "to guard against; ring",
+      "emoji": "🐷",
+      "words": [
+        {
+          "text": "豬八戒",
+          "emoji": "🐷"
+        },
+        {
+          "text": "戒指",
+          "emoji": "💍"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "戒是豬八戒的戒，大耳朵的豬八戒最愛吃。"
+      },
+      "status": "seed",
+      "priority": 382,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "主",
+      "zhuyin": "ㄓㄨˇ",
+      "meaning": "master; owner; main",
+      "emoji": "👑",
+      "words": [
+        {
+          "text": "公主",
+          "emoji": "👑"
+        },
+        {
+          "text": "白雪公主",
+          "emoji": "❄️"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "主是白雪公主的主，公主頭上戴著亮亮的皇冠。"
+      },
+      "status": "seed",
+      "priority": 383,
+      "media": [],
+      "feedback": []
     }
   ],
   "production": {
