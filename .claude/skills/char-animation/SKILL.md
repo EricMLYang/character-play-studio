@@ -630,6 +630,7 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `nian`、`nian-roar`、`nian-shock`、`nian-ears`、`nian-flee`、`nian-sneak`、`nian-dizzy`、`nian-eat`、`nian-dance` | 年獸（公版，過年故事）：圓滾滾毛茸茸的藍綠色怪獸，金色鬃毛與獨角，兇得很好笑、其實很膽小；都朝左、同一個比例可以 swap：四腳站著得意露牙／張大嘴吼／嚇得四腳離地／坐著摀耳朵發抖／哭著逃跑／踮腳偷偷摸摸／頭暈坐地／坐著抱一盤餃子吃得兩頰鼓鼓／圍紅圍巾頂紅包用後腳跳舞 | 主角館「年獸」（還沒寫） |
 | `bajie`、`bajie-drool`、`bajie-melon`、`bajie-full`、`bajie-nap`、`bajie-shock`、`bajie-dizzy`、`bajie-flee`、`bajie-angry` | 豬八戒（公版，西遊記）：豬頭人身、大招風耳、黑色小僧帽、深藍僧袍露出圓肚子、黃腰帶（跟自家的豬探長不一樣）；都朝左、同一個比例可以 swap：拿釘耙站著得意／眼睛變星星流口水／捧一大片西瓜埋頭啃／吃撐躺平拍肚子／靠著釘耙站著睡、冒鼻涕泡／嚇一跳／頭暈坐地／扛釘耙逃跑／生氣跺腳鼻孔噴氣 | 主角館「豬八戒」（還沒寫） |
 | `snowwhite`、`snowwhite-happy`、`snowwhite-shock`、`snowwhite-apple`、`snowwhite-bite`、`snowwhite-sleep`、`snowwhite-yawn`、`snowwhite-sneeze`、`snowwhite-angry` | 白雪公主（公版，格林童話）：原創造型——黑髮麻花辮、雪花髮夾、淺藍冬裝白毛邊、白披風白靴（不是動畫電影那套）；都朝左、同一個比例可以 swap：拉裙擺行禮／開心跳／嚇一跳／捧著紅蘋果看／咬一大口兩頰鼓鼓／仰躺昏睡、旁邊一顆咬過的蘋果／坐著伸懶腰打呵欠／打噴嚏把蘋果塊噴出去／生氣跺腳 | 主角館「白雪公主」（還沒寫） |
+| `duckling`、`duckling-cry`、`duckling-flower`、`duckling-look`、`duckling-shock`、`duckling-sad`、`duckling-dizzy`、`swan`、`swan-happy` | 醜小鴨（公版，安徒生童話）：灰撲撲毛亂亂、頭頂三根呆毛的小鴨，都朝左；小鴨七張同一個比例可以 swap：害羞低頭／大哭噴淚／頭上插黃花擺姿勢／彎腰低頭看倒影／嚇一跳炸毛／垂頭喪氣地走／頭暈坐地。`swan`／`swan-happy` 是他長大以後的白天鵝（抬頭挺胸／張開大翅膀大笑、頭上那朵黃花），兩張同一個比例，size 要給得比小鴨大 | 主角館「醜小鴨」（還沒寫） |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

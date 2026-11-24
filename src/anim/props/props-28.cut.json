@@ -1,0 +1,7 @@
+{
+  "about": "第 28 張（2026-11-25，Codex 生圖，洋紅底 3×3）：主角館的醜小鴨（安徒生童話，公版），前七格是灰撲撲、毛亂亂、頭頂三根呆毛的小鴨，後兩格是他長大以後的白天鵝（同樣的圓眼睛與呆毛）。用主角表的生圖方式畫再搬來當道具表切，同 props-22。害羞低頭／大哭噴淚／頭上插黃花擺姿勢／彎腰低頭看（看倒影）／嚇一跳炸毛／垂頭喪氣地走／頭暈坐地／白天鵝抬頭挺胸／白天鵝張開大翅膀大笑、頭上那朵黃花；都朝左。小鴨七張同一個比例，天鵝兩張同一個比例（比小鴨大，劇本裡 size 自己給大一點）。九格清單在 scripts/sheets/props-28.txt。",
+  "file": "props-28.png",
+  "key": "#FF00FF",
+  "props": ["duckling", "duckling-cry", "duckling-flower", "duckling-look", "duckling-shock", "duckling-sad", "duckling-dizzy", "swan", "swan-happy"],
+  "together": [["duckling", "duckling-cry", "duckling-flower", "duckling-look", "duckling-shock", "duckling-sad", "duckling-dizzy"], ["swan", "swan-happy"]]
+}
