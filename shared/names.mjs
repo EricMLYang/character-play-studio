@@ -36,6 +36,8 @@ import { LINES } from './voice-lines.mjs'
  *   note   還沒寫動畫的：可以怎麼演（給寫劇本的人的建議，不是規定）；寫好了就是「演的是什麼」
  */
 export const NAMES = [
+  { id: 'wukong', text: '孫悟空', emoji: 'prop:wukong', parts: [{ chars: '孫悟空', emoji: 'prop:wukong' }], note: '公版人物（西遊記），演本尊：搆不到樹上的仙桃，拔毛一吹變出分身疊羅漢，一次疊得比一次高，最上面那隻摘到桃子卻自己吃掉；他氣得舉金箍棒往頭上一敲，分身全變回毛，咬過的桃子砸在他頭上再彈進他懷裡，抱著桃子坐上筋斗雲亮相。造型照傳統年畫（prop:wukong 那一套），不照任何動畫漫畫的版本' },
+  { id: 'tigeraunt', text: '虎姑婆', emoji: 'prop:tigeraunt', parts: [{ chars: '虎', word: '老虎', emoji: '🐅' }, { chars: '姑婆', emoji: 'prop:tigeraunt-wave' }], note: '公版人物（台灣民間故事），演本尊的搞笑版：假扮老婆婆甜甜地招手騙小孩過來，尾巴卻一直從裙子後面翹出來，她塞回去再裝沒事，一次翹得比一次誇張，第三次把頭巾都掀了只好現原形大吼；小孩一腳踩住尾巴她嚇得彈起來摔暈，最後拿到一碗花生坐著吃得很開心。不演吃小孩手指那一段；造型用 prop:tigeraunt 那一套' },
   { id: 'labrador', text: '拉布拉多警長', emoji: '🚨', parts: [{ chars: '拉', word: '用力拉', emoji: '💪' }, { chars: '布', word: '布袋', emoji: '💰' }, { chars: '拉', word: '用力拉', emoji: '💪' }, { chars: '多', word: '好多', emoji: '🦴' }, { chars: '警長', emoji: '🚨' }], note: '頭上頂著警燈的狗警長（hero:sheriff）抓住小黑貓小偷的布袋往後拉，袋子越拉越長、骨頭越掉越多，最後空袋子彈回去把小偷套住，只剩頭從袋口冒出來' },
   { id: 'pigsleuth', text: '豬探長', emoji: '🔍', parts: [{ chars: '豬', emoji: '🐷' }, { chars: '探長', emoji: '🔍' }], note: '小豬拿放大鏡找犯人，他一回頭，犯人就繞到他背後躲起來' },
   { id: 'peanut', text: '花生', emoji: '🥜', parts: [{ chars: '花', word: '花朵', emoji: '🌻' }, { chars: '生', word: '花生', emoji: '🥜' }], note: '自家的浣熊花生（hero:raccoon）澆一次水土裡就冒出一顆花生砸他頭，越冒越大，最大那顆裂開「生」出一朵花' },
