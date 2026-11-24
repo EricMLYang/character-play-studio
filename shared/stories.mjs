@@ -252,6 +252,27 @@ export const STORIES = [
       { id: 'wet', text: '大家都是水！消防車回家了。' },
     ],
   },
+  {
+    // 2026-11-25：媽媽（hero:three，小三）第一次主演，跟爸爸（hero:eric）、楊捷睿一起。媽媽下班好累，父子倆想讓她笑——
+    // 先送東西（幫倒忙最好笑），再端飯（三種口味都要選，每種都有人遭殃），最後一起抱抱
+    id: 'mom', title: '媽媽好累', hero: 'three', emoji: '🌷',
+    pages: [
+      { id: 'home', text: '媽媽回家了。媽媽好累。' },
+      { id: 'want', text: '楊捷睿想要媽媽笑。' },
+      { id: 'give', ask: '給媽媽＿！', options: [
+        { char: '花', emoji: '🌷', text: '媽媽聞到花，笑了！', ok: true },
+        { char: '蛇', emoji: '🐍', text: '有蛇！媽媽跳到爸爸的頭上！' },
+        { char: '冰', emoji: '🧊', text: '好冰！媽媽跳起來了！' },
+      ] },
+      { id: 'eat', text: '媽媽想吃飯了。' },
+      { id: 'dish', ask: '爸爸給媽媽＿的飯！', all: true, options: [
+        { char: '辣', emoji: '🌶️', text: '好辣！爸爸的嘴裡有火！' },
+        { char: '苦', emoji: '🥬', text: '好苦！大家的臉都綠了！' },
+        { char: '甜', emoji: '🍰', text: '好甜！楊捷睿吃了好多！' },
+      ] },
+      { id: 'hug', text: '大家一起抱抱媽媽。' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
