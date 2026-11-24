@@ -1,0 +1,7 @@
+{
+  "about": "第 25 張（2026-11-24，Codex 生圖，洋紅底 3×3）：主角館的年獸（過年故事，公版），九格是同一個角色的九個姿勢（用主角表的生圖方式畫再搬來當道具表切，同 props-22）。圓滾滾、毛茸茸的藍綠色怪獸，金色鬃毛與獨角，兇得很好笑、其實很膽小。得意露牙／張大嘴吼／嚇得四腳離地／摀耳朵發抖／哭著逃跑／偷偷摸摸／頭暈坐地／抱一盤餃子吃得兩頰鼓鼓（畫得像小籠包）／圍紅圍巾頂紅包跳舞；都朝左。九格清單在 scripts/sheets/props-25.txt。",
+  "file": "props-25.png",
+  "key": "#FF00FF",
+  "props": ["nian", "nian-roar", "nian-shock", "nian-ears", "nian-flee", "nian-sneak", "nian-dizzy", "nian-eat", "nian-dance"],
+  "together": [["nian", "nian-roar", "nian-shock", "nian-ears", "nian-flee", "nian-sneak", "nian-dizzy", "nian-eat", "nian-dance"]]
+}
