@@ -1,0 +1,7 @@
+{
+  "about": "第 27 張（2026-11-25，Codex 生圖，洋紅底 3×3）：主角館的白雪公主（格林童話，公版），九格是同一個角色的九個姿勢（用主角表的生圖方式畫再搬來當道具表切，同 props-22）。原創造型：黑髮麻花辮、雪花髮夾、淺藍冬裝白毛邊、白披風白靴——刻意不用動畫電影那套配色。拉裙擺行禮／開心跳／嚇一跳／捧著紅蘋果看／咬一大口兩頰鼓鼓／仰躺昏睡（旁邊一顆咬過的蘋果）／坐著伸懶腰打呵欠／打噴嚏把蘋果塊噴出去／生氣跺腳；都朝左。九格清單在 scripts/sheets/props-27.txt。",
+  "file": "props-27.png",
+  "key": "#FF00FF",
+  "props": ["snowwhite", "snowwhite-happy", "snowwhite-shock", "snowwhite-apple", "snowwhite-bite", "snowwhite-sleep", "snowwhite-yawn", "snowwhite-sneeze", "snowwhite-angry"],
+  "together": [["snowwhite", "snowwhite-happy", "snowwhite-shock", "snowwhite-apple", "snowwhite-bite", "snowwhite-sleep", "snowwhite-yawn", "snowwhite-sneeze", "snowwhite-angry"]]
+}
