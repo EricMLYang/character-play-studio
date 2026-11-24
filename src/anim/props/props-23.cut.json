@@ -1,0 +1,6 @@
+{
+  "about": "第 23 張（2026-11-24，Codex 生圖，洋紅底 3×3）：西遊記的道具，給主角館的孫悟空、豬八戒用。仙桃（黃橘色帶葉）、金箍棒（直立，紅棍金箍）、空的筋斗雲、結滿桃子的桃樹、九齒釘耙、芭蕉扇、紫金葫蘆、一片西瓜、一撮金色猴毛（帶兩顆亮點）。清單在 scripts/sheets/props-23.txt。",
+  "file": "props-23.png",
+  "key": "#FF00FF",
+  "props": ["peach", "staff", "nimbus", "peach-tree", "rake", "palm-fan", "gourd", "watermelon-slice", "monkey-hair"]
+}

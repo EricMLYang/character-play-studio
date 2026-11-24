@@ -1,0 +1,7 @@
+{
+  "about": "第 22 張（2026-11-24，Codex 生圖，洋紅底 3×3）：主角館的孫悟空，九格是同一個角色的九個姿勢（用主角表的生圖方式畫：npm run sheet:gen -- hero wukong A … --new --magenta --props，生好搬來這裡當道具表切，因為只有一張表、不是 54 個姿勢的固定明星）。造型照傳統年畫：金棕色小猴子、金箍、紅上衣、虎皮裙，不照任何動畫漫畫的版本。站著拿金箍棒／開心跳／嚇一跳／頭暈坐地／啃桃子／舉棒往前衝／手搭眉毛遠望／坐筋斗雲／拔毛吹氣；都朝左。九格清單在 scripts/sheets/props-22.txt。",
+  "file": "props-22.png",
+  "key": "#FF00FF",
+  "props": ["wukong", "wukong-happy", "wukong-shock", "wukong-dizzy", "wukong-peach", "wukong-strike", "wukong-look", "wukong-cloud", "wukong-blow"],
+  "together": [["wukong", "wukong-happy", "wukong-shock", "wukong-dizzy", "wukong-peach", "wukong-strike", "wukong-look", "wukong-cloud", "wukong-blow"]]
+}
