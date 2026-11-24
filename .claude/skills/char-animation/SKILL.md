@@ -628,6 +628,7 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `rake`、`palm-fan`、`gourd`、`watermelon-slice` | 九齒釘耙（直立）；芭蕉扇（綠葉金柄）；寶葫蘆（去背後是深灰藍色帶金色雲紋、紅繩）；一片西瓜 | 還沒用（西遊記：豬八戒等） |
 | `tigeraunt`、`tigeraunt-wave`、`tigeraunt-oops`、`tigeraunt-hide`、`tigeraunt-roar`、`tigeraunt-eat`、`tigeraunt-flee`、`tigeraunt-dizzy`、`tigeraunt-sleep` | 虎姑婆（公版，台灣民間故事）：假扮老婆婆的老虎，藍底白花頭巾、小圓眼鏡、深藍衣裙、白圍裙；都朝左、同一個比例可以 swap：拄拐杖偷笑／招手（裝甜）／尾巴從裙子後面翹出來嚇一跳／彎腰把尾巴塞回裙子／現原形張嘴大吼／坐著吃一碗帶殼花生／嚇得逃跑／頭暈坐地／側躺睡著打呼 | 主角館「虎姑婆」 |
 | `nian`、`nian-roar`、`nian-shock`、`nian-ears`、`nian-flee`、`nian-sneak`、`nian-dizzy`、`nian-eat`、`nian-dance` | 年獸（公版，過年故事）：圓滾滾毛茸茸的藍綠色怪獸，金色鬃毛與獨角，兇得很好笑、其實很膽小；都朝左、同一個比例可以 swap：四腳站著得意露牙／張大嘴吼／嚇得四腳離地／坐著摀耳朵發抖／哭著逃跑／踮腳偷偷摸摸／頭暈坐地／坐著抱一盤餃子吃得兩頰鼓鼓／圍紅圍巾頂紅包用後腳跳舞 | 主角館「年獸」（還沒寫） |
+| `bajie`、`bajie-drool`、`bajie-melon`、`bajie-full`、`bajie-nap`、`bajie-shock`、`bajie-dizzy`、`bajie-flee`、`bajie-angry` | 豬八戒（公版，西遊記）：豬頭人身、大招風耳、黑色小僧帽、深藍僧袍露出圓肚子、黃腰帶（跟自家的豬探長不一樣）；都朝左、同一個比例可以 swap：拿釘耙站著得意／眼睛變星星流口水／捧一大片西瓜埋頭啃／吃撐躺平拍肚子／靠著釘耙站著睡、冒鼻涕泡／嚇一跳／頭暈坐地／扛釘耙逃跑／生氣跺腳鼻孔噴氣 | 主角館「豬八戒」（還沒寫） |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

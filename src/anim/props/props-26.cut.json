@@ -1,0 +1,7 @@
+{
+  "about": "第 26 張（2026-11-24，Codex 生圖，綠底 3×3——他是粉膚色，洋紅底會吃掉臉）：主角館的豬八戒（西遊記，公版），九格是同一個角色的九個姿勢（用主角表的生圖方式畫再搬來當道具表切，同 props-22）。照傳統年畫：豬頭人身、大招風耳、黑色小僧帽、深藍僧袍敞開露出圓肚子、黃腰帶；跟自家的豬探長（hero:pig）長得不一樣。拿釘耙站著／看到吃的眼睛變星星流口水／埋頭啃西瓜／吃撐躺平拍肚子／靠著釘耙站著睡／嚇一跳／頭暈坐地／扛釘耙逃跑／生氣跺腳；都朝左。九格清單在 scripts/sheets/props-26.txt。",
+  "file": "props-26.png",
+  "key": "#00FF00",
+  "props": ["bajie", "bajie-drool", "bajie-melon", "bajie-full", "bajie-nap", "bajie-shock", "bajie-dizzy", "bajie-flee", "bajie-angry"],
+  "together": [["bajie", "bajie-drool", "bajie-melon", "bajie-full", "bajie-nap", "bajie-shock", "bajie-dizzy", "bajie-flee", "bajie-angry"]]
+}
