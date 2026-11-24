@@ -1,0 +1,7 @@
+{
+  "about": "第 29 張（2026-11-25，Codex 生圖，洋紅底 3×3）：主角館的小美人魚（安徒生童話，公版），九格是同一個角色的九個姿勢（用主角表的生圖方式畫再搬來當道具表切，同 props-22）。原創造型：深藍色包包頭、橘色海星髮夾、藍白條紋泳衣、金魚一樣的金橘色尾巴——刻意不用動畫電影那套紅髮綠尾。坐在石頭上揮手／從水裡跳起來／嚇一跳／用尾巴尖站著搖搖晃晃／尾巴套兩隻黃雨鞋叉腰得意／趴地摔成大字、頭上轉星星／坐著大哭／頭暈坐地／生氣尾巴拍地；都朝左。九格清單在 scripts/sheets/props-29.txt。",
+  "file": "props-29.png",
+  "key": "#FF00FF",
+  "props": ["mermaid", "mermaid-leap", "mermaid-shock", "mermaid-wobble", "mermaid-boots", "mermaid-flop", "mermaid-cry", "mermaid-dizzy", "mermaid-angry"],
+  "together": [["mermaid", "mermaid-leap", "mermaid-shock", "mermaid-wobble", "mermaid-boots", "mermaid-flop", "mermaid-cry", "mermaid-dizzy", "mermaid-angry"]]
+}
