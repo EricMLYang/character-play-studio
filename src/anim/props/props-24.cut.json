@@ -1,0 +1,7 @@
+{
+  "about": "第 24 張（2026-11-24，Codex 生圖，洋紅底 3×3）：主角館的虎姑婆（台灣民間故事，公版），九格是同一個角色的九個姿勢（用主角表的生圖方式畫再搬來當道具表切，同 props-22）。假扮成老婆婆的老虎：藍底白花頭巾、小圓眼鏡、深藍衣裙、白圍裙，好笑不可怕。拄拐杖偷笑／招手／尾巴露出來嚇一跳／把尾巴塞回裙子／現原形大吼／坐著吃一碗花生／逃跑／頭暈坐地／側躺睡著；都朝左。九格清單在 scripts/sheets/props-24.txt。",
+  "file": "props-24.png",
+  "key": "#FF00FF",
+  "props": ["tigeraunt", "tigeraunt-wave", "tigeraunt-oops", "tigeraunt-hide", "tigeraunt-roar", "tigeraunt-eat", "tigeraunt-flee", "tigeraunt-dizzy", "tigeraunt-sleep"],
+  "together": [["tigeraunt", "tigeraunt-wave", "tigeraunt-oops", "tigeraunt-hide", "tigeraunt-roar", "tigeraunt-eat", "tigeraunt-flee", "tigeraunt-dizzy", "tigeraunt-sleep"]]
+}
