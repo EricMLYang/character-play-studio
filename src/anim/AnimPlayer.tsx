@@ -6,7 +6,7 @@ import Scenery, { FloorDecor, Foreground, Ground } from './Scenery'
 import { EMOJI_3D } from './emoji3d'
 import { PROP_BOX } from './props'
 import { FLIP_3D } from './flip3d'
-import { actorsAt, askAt, askFxAt, cameraAt, emptyFrameAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, isV2, lightAt, landings, strokesAt, toStage, FLOOR, PROP_PREFIX, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
+import { actorsAt, askAt, askFxAt, cameraAt, emptyFrameAt, fxAt, glyphAt, glyphDoneAt, hasGlyph, isV2, lightAt, landings, strokesAt, toStage, FLOOR, PROP_PREFIX, propSrc, GLYPH_MID, GLYPH_TRANSFORM, type Clip, type Vec } from './clip'
 import './anim.css'
 
 /**
@@ -406,7 +406,7 @@ function Emoji({ char, size, art }: { char: string; size: number; art: Art }) {
   }
   // 自製道具圖（沒有合適 emoji 的東西）：跟主角圖一樣是 512×512、四周留 4%、底部對齊，emoji 與 3D 模式都畫同一張
   if (char.startsWith(PROP_PREFIX)) {
-    return <image href={`/props/${char.slice(PROP_PREFIX.length)}.png`} x={-size / 2} y={-size / 2} width={size} height={size} />
+    return <image href={propSrc(char)} x={-size / 2} y={-size / 2} width={size} height={size} />
   }
   const code = art === '3d' ? codeOf(char) : ''
   if (code && EMOJI_3D.has(code)) {

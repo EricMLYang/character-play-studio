@@ -11,7 +11,7 @@
 //   npm run anim:shot -- 晚 --old --tag old  拍重做前的舊版（src/anim/clips-old/晚.ts，試播頁的 ?v=old）
 //   npm run anim:shot -- --story cold        故事屋的一本故事：每一段戲各出一張總覽（src/story/scenes/cold.ts）
 //   npm run anim:shot -- --story cold/warm:火  只拍其中一段
-//   npm run anim:shot -- --name pika         主角館的一個名字（src/names/scenes/pika.ts）；--name pika,dino 一次好幾個、--name all 全部
+//   npm run anim:shot -- --name dino         主角館的一個名字（src/names/scenes/dino.ts）；--name dino,wolf 一次好幾個、--name all 全部
 //
 // 其他參數：--out <資料夾>（預設 .anim-shots/，已 .gitignore）、--width <每格寬，預設 640>、
 // --cols <每列幾格，預設 3>、--rows <每張幾列，預設 5>、--fps <mp4 的格數，預設 30>、--mp4-width <預設 960>

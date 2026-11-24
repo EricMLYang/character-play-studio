@@ -1,4 +1,4 @@
-/** 名字的一段：chars 依序接起來就是 text；word 是這幾個字在動畫裡代表的詞（皮→皮球）；emoji 是那個東西的圖 */
+/** 名字的一段：chars 依序接起來就是 text；word 是這幾個字在動畫裡代表的詞（花→花朵）；emoji 是那個東西的圖（emoji 或 'prop:<名字>'） */
 export type NamePart = { chars: string; word?: string; emoji: string }
 export type Name = { id: string; text: string; emoji: string; parts: NamePart[]; note?: string }
 /** 一段對到名字的哪幾格：from～to（不含 to）；last 是這一段最後一個要拼的格子 */
@@ -7,6 +7,7 @@ export type NameLog = { first?: string; last?: string; count: number }
 
 export const NAMES: Name[]
 export function nameById(id: string): Name | undefined
+export function collectedNames(progress: { names?: Record<string, NameLog> } | undefined | null): string[]
 export function isHan(c: string): boolean
 export function spellChars(name: Name): string[]
 export function nameChars(name: Name): string[]

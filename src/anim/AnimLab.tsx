@@ -11,7 +11,7 @@ import '../play/play.css'
  * /anim：動畫取代影片的原型試播頁。
  * 網址可帶 ?char=果&t=3.2 直接定格在某一秒（截圖驗證用）；加 &v=old 看重做前的舊版（有留舊版的字才有）。
  * 故事屋的戲也在這裡看：?story=cold 列出那本故事的每一段（src/story/scenes/cold.ts），&char=<戲的編號> 選其中一段。
- * 主角館的動畫：?name=pika 看那個名字的那一支（src/names/scenes/pika.ts），試播頁用名字的 id 當它的名字。
+ * 主角館的動畫：?name=dino 看那個名字的那一支（src/names/scenes/dino.ts），試播頁用名字的 id 當它的名字。
  * 另外掛一個 window.__animSeek(t)：npm run anim:shot 在同一頁連續換秒數截圖，不必每格重新載入。
  * 只有這個試播頁有（孩子端與 iPad 版都不打包 AnimLab）。
  */

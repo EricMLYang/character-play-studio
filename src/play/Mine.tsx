@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef } from 'react'
 import type { Progress } from '../types'
 import { tap } from '../lib/sfx'
+import { collectedNames } from '../../shared/names.mjs'
 import { PARTNERS, STARS_PER, nextPartner, serveNextWith, trailStops } from './partners'
 
 /**
@@ -28,7 +29,8 @@ export default function Mine({ progress, stars, fullCount, onGo, onClose }: {
     { id: 'roots', icon: '🏠', label: '部首家族找到', n: Object.values(progress.radicals || {}).reduce((sum, f) => sum + Object.keys(f).length, 0), unit: '個家人' },
     // 2026-11-12：原本這一格是「小書讀過幾句」。故事屋的貼紙是他真的在收集的東西（一種結果一張），換成這個
     { id: 'story', icon: '📚', label: '故事貼紙收了', n: Object.values(progress.stories || {}).reduce((sum, s) => sum + Object.keys(s.seen || {}).length, 0), unit: '張' },
-    { id: 'names', icon: '🦸', label: '主角貼紙收了', n: Object.keys(progress.names || {}).length, unit: '張' },
+    // 紀錄裡有 2026-11-24 拿掉的名字：只算名單上還有的，跟主角館牆上數得到的一樣
+    { id: 'names', icon: '🦸', label: '主角貼紙收了', n: collectedNames(progress).length, unit: '張' },
     { id: 'full', icon: '👑', label: '星星集滿的字', n: fullCount, unit: '個' },
   ]
   return (

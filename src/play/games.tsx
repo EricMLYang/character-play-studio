@@ -12,6 +12,7 @@ import Spell from './Spell'
 import Story from './Story'
 import Names from './Names'
 import { knownCount } from './dishes'
+import { collectedNames } from '../../shared/names.mjs'
 import type { Stop, StopGo } from './today'
 
 /**
@@ -108,7 +109,8 @@ export const GAMES: Game[] = [
   {
     // 2026-11-14：把喜歡的角色的名字一個字一個字拼出來，那個主角就出場演一段（Names.tsx、shared/names.mjs）
     id: 'names', icon: '🦸', title: '主角館', fresh: true,
-    subtitle: (p) => { const n = Object.keys(p.names || {}).length; return n ? `${n} 張貼紙` : '拼出名字，主角就出來' },
+    // 只算名單上還有的（紀錄裡有拿掉的名字，collectedNames）
+    subtitle: (p) => { const n = collectedNames(p).length; return n ? `${n} 張貼紙` : '拼出名字，主角就出來' },
     render: (ctx) => (
       <Names library={ctx.library} progress={ctx.progress} onBack={ctx.back}
         onDone={(id) => ctx.record({ kind: 'name', char: id, done: true })} />

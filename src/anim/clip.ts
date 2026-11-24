@@ -492,6 +492,11 @@ const PROP_NO_STEPS = new Set(['bear-sleep', 'frog-jump', 'crab-pinch', 'turtle-
   'dad-catch', 'mom-open', 'mom-tired', 'grandpa', 'grandpa-sleep', 'grandpa-wake', 'uncle-fall',
   'elephant-suck', 'elephant-laugh', 'lion-scared', 'tiger-scared'])
 const propName = (emoji: string) => (emoji.startsWith(PROP_PREFIX) ? emoji.slice(PROP_PREFIX.length) : '')
+/**
+ * 'prop:<名字>' 的圖檔網址（不是 prop: 的回 ''）。舞台（AnimPlayer）與孩子端的小圖（ui.tsx 的 emojiArt：主角館的貼紙、圖位）
+ * 用同一個，圖放哪裡只寫在這裡。
+ */
+export const propSrc = (emoji: string) => { const name = propName(emoji); return name ? `/props/${name}.png` : '' }
 
 /**
  * 角色畫出來的範圍（舞台座標），擋字、頭頂、自動取景用。

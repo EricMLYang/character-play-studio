@@ -23,7 +23,8 @@ for (const clipDir of [join(root, 'src/anim/clips'), join(root, 'src/story/scene
     for (const m of readFileSync(join(clipDir, f), 'utf8').matchAll(/emoji: '([^']+)'/g)) if (!/^(hero|prop):/.test(m[1])) used.add(m[1])
   }
 }
-for (const file of ['shared/stories.mjs', 'shared/names.mjs']) for (const m of readFileSync(join(root, file), 'utf8').matchAll(/emoji: '([^']+)'/g)) used.add(m[1])
+// 主角館的貼紙、圖位可以是專門畫的圖（prop:，public/props/），不用下載
+for (const file of ['shared/stories.mjs', 'shared/names.mjs']) for (const m of readFileSync(join(root, file), 'utf8').matchAll(/emoji: '([^']+)'/g)) if (!/^(hero|prop):/.test(m[1])) used.add(m[1])
 
 const missing = [...used].filter((e) => !existsSync(join(outDir, `${codeOf(e)}.png`)))
 let notFound = []

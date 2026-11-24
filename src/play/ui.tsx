@@ -1,18 +1,22 @@
 import type { ReactNode } from 'react'
 import type { CharEntry } from '../types'
 import { EMOJI_3D } from '../anim/emoji3d'
+import { PROP_PREFIX, propSrc } from '../anim/clip'
 
 /**
  * 各個遊戲共用的小元件與顏色。新遊戲先從這裡拿，畫面長得才會一致。
  */
 
 /**
- * 這個 emoji 有沒有 3D 圖（public/emoji3d/，動畫短片用的那批）。有的話回傳圖檔網址。
+ * 這個 emoji 有沒有 3D 圖（public/emoji3d/，動畫短片用的那批），或是不是專門畫的圖（prop:）。有的話回傳圖檔網址。
  * 放大到半個畫面的時候，3D 圖比系統 emoji 好看太多；沒有圖的字照樣用 emoji 字，不會缺一塊。
  * 用 1em 當寬高，呼叫端原本用 font-size 控制大小的寫法都不用改。
  */
 export function emojiArt(emoji?: string) {
   if (!emoji) return null
+  // 專門畫的圖（'prop:<名字>'，public/props/，512×512 透明底）：主角館的公版人物用它，emoji 湊不出孫悟空。
+  // 一樣 1em 見方、object-fit contain，跟 3D 圖放在同一個框裡；圖本身四周留白、內容貼底，站的位置跟 3D 圖差不多
+  if (emoji.startsWith(PROP_PREFIX)) return propSrc(emoji)
   const code = [...emoji.replace(/\uFE0F/g, '')].map((c) => c.codePointAt(0)!.toString(16)).join('-')
   return EMOJI_3D.has(code) ? `/emoji3d/${code}.png` : null
 }
