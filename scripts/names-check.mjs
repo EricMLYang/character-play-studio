@@ -4,7 +4,7 @@
 //   npm run names:check -- pika    # 只看這一支
 //
 // 錯誤（exit 1）：檔名對不到名字、唸的不是那個名字（要剛好一句 say、一字不差）、太早唸、劇本長度不在 7～12 秒或唸不完、
-// 用了不存在的角色或主角圖、時間超出劇本長度、白光太亮、用了兒童 emoji、用了沒有 3D 圖的 emoji、檔頭沒寫「演的是字面意思：」。
+// 用了不存在的角色或主角圖、時間超出劇本長度、白光太亮、用了兒童 emoji、用了沒有 3D 圖的 emoji、檔頭沒寫「演的是字面意思：」、parts 寫錯（接起來不是名字、圖沒有 3D 圖、word 沒包含那幾個字）。
 // 注意：效果不夠（品質標準：鏡頭推近或 punch、shake、粒子、光線或背景變化、5 個以上音效、至少兩個角色）。
 // tests/names.test.mjs 用同一個 nameSceneProblems，所以錯誤也會讓 npm test 失敗。
 import fs from 'node:fs'
@@ -91,6 +91,16 @@ export async function nameSceneProblems(name, clip) {
     else if (!has3d(e)) errors.push(`${where}：${e} 沒有 3D 圖（public/emoji3d/），換一個有的`)
   }
   if (!has3d(name.emoji)) errors.push(`${where}：貼紙 ${name.emoji} 沒有 3D 圖`)
+  // parts（拼字時一段一段跳出來的圖、牆上的預告）：寫法在 .claude/skills/name-scenes/SKILL.md 的「parts」
+  const parts = name.parts ?? []
+  if (!parts.length) errors.push(`${where}：沒有 parts（名字切成幾段、每段一個圖）`)
+  else if (parts.map((p) => p.chars).join('') !== name.text) errors.push(`${where}：parts 的 chars 接起來是「${parts.map((p) => p.chars).join('')}」，要剛好等於「${name.text}」`)
+  for (const p of parts) {
+    const han = [...(p.chars ?? '')].filter((c) => /\p{Script=Han}/u.test(c)).join('')
+    if (!han) errors.push(`${where}：parts「${p.chars}」沒有要拼的國字，併到相鄰那一段`)
+    if (!p.emoji || !has3d(p.emoji)) errors.push(`${where}：parts「${p.chars}」的圖 ${p.emoji ?? '（沒寫）'} 沒有 3D 圖`)
+    if (p.word !== undefined && !p.word.includes(han)) errors.push(`${where}：parts「${p.chars}」的 word「${p.word}」要包含「${han}」`)
+  }
 
   // 品質標準（.claude/skills/name-scenes/SKILL.md）：缺了列成注意
   const cam = clip.camera ?? []

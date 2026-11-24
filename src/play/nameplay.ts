@@ -1,6 +1,6 @@
 import type { CharEntry, Progress } from '../types'
 import { ALIKE } from './alike'
-import { NAMES, isHan, nameChars, spellChars, type Name } from '../../shared/names.mjs'
+import { NAMES, hasNewScene, isHan, nameChars, spellChars, type Name, type PartSpan } from '../../shared/names.mjs'
 
 /**
  * 主角館（Names.tsx）的規則：牆上有哪幾張、怎麼排、字塊怎麼出。純函式，好測。
@@ -9,8 +9,10 @@ import { NAMES, isHan, nameChars, spellChars, type Name } from '../../shared/nam
  */
 export type Card = {
   name: Name
-  /** 拼過幾次（0 就是還沒拼過：牆上是問號剪影） */
+  /** 拼過幾次（0 就是還沒拼過） */
   count: number
+  /** 拼過、但看的是重做前的舊版（hasNewScene）：牆上標 🆕，點進去先告訴他、看完要記一筆 */
+  redo: boolean
   /** 名字裡他看過的字佔幾成（0～1）：高的排前面 */
   seen: number
   /** 名字裡還沒看過的字：卡片上小小標「有新字」 */
@@ -28,7 +30,8 @@ export function wallOf(library: CharEntry[], progress: Progress, has: (id: strin
     .map((name, order) => {
       const chars = nameChars(name)
       const fresh = chars.filter((c) => !watched[c]?.count)
-      return { card: { name, count: progress.names?.[name.id]?.count ?? 0, seen: (chars.length - fresh.length) / chars.length, fresh }, order }
+      const log = progress.names?.[name.id]
+      return { card: { name, count: log?.count ?? 0, redo: hasNewScene(log), seen: (chars.length - fresh.length) / chars.length, fresh }, order }
     })
     .sort((a, b) => b.card.seen - a.card.seen || a.order - b.order)
     .map((x) => x.card)
@@ -88,8 +91,9 @@ export const fits = (slots: Slot[], filled: boolean[], tile: Tile) => {
   return i >= 0 && slots[i].char === tile.char
 }
 
-/** 要他拼的格子填了幾成（0～1；不是國字的 given 不算）：沒拼過的主角剪影照這個一點一點亮起來 */
-export function revealOf(slots: Slot[], filled: boolean[]) {
-  const mine = slots.map((s, i) => (s.given ? -1 : i)).filter((i) => i >= 0)
-  return mine.length ? mine.filter((i) => filled[i]).length / mine.length : 1
-}
+/**
+ * 圖位亮了沒：一段裡要拼的格子都填好了，那一段的圖就跳出來（不是國字的 Ａ 一開始就填好，不算）。
+ * 一段剛好都是不用拼的（last = -1，現在沒有這種名字）就一開始就亮。
+ */
+export const litParts = (spans: PartSpan[], filled: boolean[]) =>
+  spans.map((s) => s.last < 0 || filled.slice(s.from, s.to).every(Boolean))

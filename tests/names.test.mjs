@@ -15,10 +15,10 @@ registerHooks({
 })
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const { NAMES, NAME_FIXED, nameById, nameChars, spellChars, askLine, nameLines, validName, isHan } = await import('../shared/names.mjs')
+const { NAMES, NAME_FIXED, nameById, nameChars, spellChars, askLine, nameLines, validName, isHan, partLine, partSpans, hasNewScene, NAME_SCENES_REDONE } = await import('../shared/names.mjs')
 const { spellName } = await import('../shared/domain.mjs')
 const { recordEvent } = await import('../shared/play-events.mjs')
-const { wallOf, tilesFor, slotsOf, nextSlot, fits, revealOf, DECOYS } = await import('../src/play/nameplay.ts')
+const { wallOf, tilesFor, slotsOf, nextSlot, fits, litParts, DECOYS } = await import('../src/play/nameplay.ts')
 const { ALIKE } = await import('../src/play/alike.ts')
 const { nameSceneProblems, loadNameClip, sceneIds } = await import('../scripts/names-check.mjs')
 
@@ -65,10 +65,15 @@ test('有動畫的名字：剛好唸一句、一字不差就是名字，長度 7
   }
 })
 
-test('要唸的句子都會先做成音檔：固定句、名字、「把他的名字拼出來」', () => {
+test('要唸的句子都會先做成音檔：固定句、名字、「把他的名字拼出來」、每一段拼好時唸的話', () => {
   const lines = new Set(nameLines())
   for (const text of Object.values(NAME_FIXED)) assert.ok(lines.has(text))
-  for (const name of NAMES) { assert.ok(lines.has(name.text)); assert.ok(lines.has(askLine(name))) }
+  for (const name of NAMES) {
+    assert.ok(lines.has(name.text))
+    assert.ok(lines.has(askLine(name)))
+    for (const part of name.parts) { const line = partLine(part); if (line) assert.ok(lines.has(line), `${name.text}：「${line}」沒有進 nameLines`) }
+  }
+  assert.equal(NAME_FIXED.nameNewScene, '有新的動畫喔！')
   assert.equal(askLine(nameById('bread')), '麵包小偷！把他的名字拼出來！')
   assert.match(fs.readFileSync(path.join(ROOT, 'server/voice.mjs'), 'utf8'), /\.\.\.nameLines\(\)/)
 })
@@ -126,14 +131,20 @@ test('干擾字優先挑長得像的字（alike.ts）', () => {
   }
 })
 
-test('剪影亮起來的比例：拼好的格數／要拼的格數，不是國字的（Ａ）不算', () => {
-  const dora = nameById('dora') // 哆啦Ａ夢：要拼三格
+test('圖位亮起來：一段裡要拼的格子都填好了才亮（不是國字的 Ａ 不用等）', () => {
+  const dora = nameById('dora') // 哆啦Ａ｜夢
+  const spans = partSpans(dora)
+  assert.deepEqual(spans.map((s) => [s.from, s.to, s.last]), [[0, 3, 1], [3, 4, 3]])
   const slots = slotsOf(dora)
-  assert.equal(revealOf(slots, [false, false, true, false]), 0)
-  assert.equal(revealOf(slots, [true, false, true, false]), 1 / 3)
-  assert.equal(revealOf(slots, [true, true, true, true]), 1)
-  const dino = slotsOf(nameById('dino'))
-  assert.equal(revealOf(dino, [true, false]), 0.5)
+  assert.deepEqual(litParts(spans, slots.map((s) => s.given)), [false, false])
+  assert.deepEqual(litParts(spans, [true, false, true, false]), [false, false], '哆啦還差啦')
+  assert.deepEqual(litParts(spans, [true, true, true, false]), [true, false], '啦放進去，鈴鐺就跳出來')
+  assert.deepEqual(litParts(spans, [true, true, true, true]), [true, true])
+  const pika = partSpans(nameById('pika'))
+  assert.deepEqual(pika.map((s) => s.last), [0, 1, 2])
+  const labrador = partSpans(nameById('labrador')) // 拉｜布｜拉｜多｜警長
+  assert.deepEqual(labrador.map((s) => [s.from, s.to, s.last]), [[0, 1, 0], [1, 2, 1], [2, 3, 2], [3, 4, 3], [4, 6, 5]])
+  assert.deepEqual(litParts(labrador, [true, true, true, true, true, false]), [true, true, true, true, false], '警長要兩個字都放進去')
 })
 
 test('格子：不是國字的（Ａ）一開始就填好；照順序點，同樣的字哪一塊都可以', () => {
@@ -188,4 +199,47 @@ test('伺服器只收真的有的名字、而且是拼完的；名字的 id 不�
   assert.ok(send({ char: 'pika' }).error, '要是拼完的')
   assert.ok(send({ char: 'pika', done: false }).error)
   assert.equal(validName({ char: 'dora', done: true }), true)
+})
+
+test('每個名字都有 parts：接起來剛好是名字、每段一個有 3D 圖的 emoji、word 包含那幾個國字', () => {
+  const code = (e) => [...e.replace(/️/g, '')].map((c) => c.codePointAt(0).toString(16)).join('-')
+  for (const name of NAMES) {
+    assert.ok(Array.isArray(name.parts) && name.parts.length > 0, `${name.text} 沒有 parts`)
+    assert.equal(name.parts.map((p) => p.chars).join(''), name.text, `${name.text} 的 parts 接起來不是名字`)
+    for (const part of name.parts) {
+      assert.ok(part.chars && [...part.chars].some(isHan), `${name.text}：每一段至少要有一個要拼的國字（「${part.chars}」）`)
+      assert.ok(part.emoji, `${name.text}「${part.chars}」沒有 emoji`)
+      assert.ok(fs.existsSync(path.join(ROOT, 'public/emoji3d', `${code(part.emoji)}.png`)), `${name.text}「${part.chars}」的 ${part.emoji} 沒有 3D 圖`)
+      const han = [...part.chars].filter(isHan).join('')
+      if (part.word !== undefined) {
+        assert.ok(part.word.includes(han), `${name.text}：word「${part.word}」要包含「${han}」`)
+        assert.notEqual(part.word, han, `${name.text}：word 跟 chars 一樣就不用寫（「${han}」）`)
+      }
+    }
+  }
+})
+
+test('一段拼好時唸的話：有 word 唸「皮球的皮」、沒有 word 兩個字以上唸那個詞、一個字不再唸；Ａ 不唸', () => {
+  assert.equal(partLine({ chars: '皮', word: '皮球', emoji: '🏀' }), '皮球的皮')
+  assert.equal(partLine({ chars: '蘋果', emoji: '🍎' }), '蘋果')
+  assert.equal(partLine({ chars: '龍', emoji: '🐉' }), null)
+  assert.equal(partLine({ chars: '哆啦Ａ', emoji: '🔔' }), '哆啦')
+  assert.deepEqual(nameById('pika').parts.map(partLine), ['皮球的皮', '卡車的卡', '山丘的丘'])
+})
+
+test('🆕 新動畫：拼過、最後一次看在 2026-11-23 重做之前的才算；看完 last 更新就不算', () => {
+  assert.equal(NAME_SCENES_REDONE, '2026-11-23')
+  assert.equal(hasNewScene(undefined), false, '沒拼過')
+  assert.equal(hasNewScene({ count: 0 }), false)
+  assert.equal(hasNewScene({ first: '2026-11-14T12:55:28.791Z', last: '2026-11-14T12:55:28.791Z', count: 1 }), true)
+  assert.equal(hasNewScene({ first: '2026-11-22T23:59:59.000Z', last: '2026-11-22T23:59:59.000Z', count: 2 }), true)
+  assert.equal(hasNewScene({ first: '2026-11-14T00:00:00.000Z', last: '2026-11-23T12:43:45.646Z', count: 2 }), false, '重做之後看過了')
+  assert.equal(hasNewScene({ count: 1 }), false, '沒有時間的不亂標')
+  // 看完記一筆（spellName 更新 last），🆕 就消失
+  const old = { watched: {}, names: { robot: { first: '2026-11-14T12:55:28.791Z', last: '2026-11-14T12:55:28.791Z', count: 1 } } }
+  const has = (id) => ['robot', 'dino'].includes(id)
+  assert.equal(wallOf(library, old, has).find((c) => c.name.id === 'robot').redo, true)
+  assert.equal(wallOf(library, old, has).find((c) => c.name.id === 'dino').redo, false, '沒拼過的不標')
+  const after = spellName(old, 'robot', '2026-11-24T10:00:00.000Z')
+  assert.equal(wallOf(library, after, has).find((c) => c.name.id === 'robot').redo, false)
 })

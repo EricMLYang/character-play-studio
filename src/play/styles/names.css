@@ -6,28 +6,37 @@
 .names :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .names-empty { margin: auto; font-size: 20px; font-weight: 700; }
 .names-emoji { display: inline-block; width: 1em; height: 1em; line-height: 1; object-fit: contain; vertical-align: middle; }
-/* 還沒拼過：只看得到黑黑的剪影 */
-.names-shadow { filter: brightness(0) opacity(.22); }
-
-/* 牆：一張一張卡片，跟故事屋的書封同一種質感（紙的漸層＋側邊色條） */
+/* 牆：一張一張卡片，跟故事屋的書封同一種質感（紙的漸層＋側邊色條）。
+   每張都是彩色的主角＋名字＋下面一排小小的 parts 圖（預告會演什麼）：以前沒拼過的是黑剪影加問號，他挑不到想要的主角。
+   拼過的（.got）是亮色底＋側邊色條＋右上角的星星章；還沒拼過的（.todo）是素素的白紙＋虛線框，一眼分得出來 */
 .names-wall { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 19vh, 190px), 1fr)); align-content: start; justify-items: center;
-  gap: clamp(14px, 2.6vh, 26px); padding: 10px clamp(16px, 4vw, 48px) calc(20px + env(safe-area-inset-bottom)); max-width: 1100px; width: 100%; margin: 0 auto; overflow-y: auto; }
+  gap: clamp(14px, 2.6vh, 26px); padding: 18px clamp(16px, 4vw, 48px) calc(20px + env(safe-area-inset-bottom)); max-width: 1100px; width: 100%; margin: 0 auto; overflow-y: auto; }
 .names-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; width: 100%; max-width: 200px;
-  aspect-ratio: 4 / 5; padding: 10px 8px 14px; border-radius: 10px 24px 24px 10px;
-  background: linear-gradient(160deg, #FFFDF6, #FFE9B8); box-shadow: -7px 0 0 #E7B95C, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13);
+  aspect-ratio: 4 / 5; padding: 10px 8px 12px; border-radius: 10px 24px 24px 10px;
+  background: #FFFEFA; border: 3px dashed rgba(46,42,38,.16); box-shadow: 0 5px 0 rgba(0,0,0,.05), 0 10px 20px rgba(0,0,0,.07);
   animation: cardIn .4s both; animation-delay: calc(var(--i) * 60ms); transition: transform .15s; }
 .names-card:active { transform: translateY(3px) scale(.98); }
-.names-card:nth-child(5n+2) { background: linear-gradient(160deg, #F4FBFF, #BFE6FF); box-shadow: -7px 0 0 #6DB9E8, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
-.names-card:nth-child(5n+3) { background: linear-gradient(160deg, #F7FFF4, #C9F0C0); box-shadow: -7px 0 0 #76C46A, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
-.names-card:nth-child(5n+4) { background: linear-gradient(160deg, #FFF6FA, #FFCFE0); box-shadow: -7px 0 0 #EE8FB1, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
-.names-card:nth-child(5n+5) { background: linear-gradient(160deg, #F8F6FF, #D6CEFF); box-shadow: -7px 0 0 #9B8CFF, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
+.names-card.got { border: 3px solid #fff; background: linear-gradient(160deg, #FFFDF6, #FFE9B8); box-shadow: -7px 0 0 #E7B95C, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
+.names-card.got:nth-child(5n+2) { background: linear-gradient(160deg, #F4FBFF, #BFE6FF); box-shadow: -7px 0 0 #6DB9E8, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
+.names-card.got:nth-child(5n+3) { background: linear-gradient(160deg, #F7FFF4, #C9F0C0); box-shadow: -7px 0 0 #76C46A, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
+.names-card.got:nth-child(5n+4) { background: linear-gradient(160deg, #FFF6FA, #FFCFE0); box-shadow: -7px 0 0 #EE8FB1, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
+.names-card.got:nth-child(5n+5) { background: linear-gradient(160deg, #F8F6FF, #D6CEFF); box-shadow: -7px 0 0 #9B8CFF, 0 7px 0 rgba(0,0,0,.08), 0 16px 30px rgba(0,0,0,.13); }
 .names-card-art { position: relative; flex: 1; min-height: 0; width: 100%; display: grid; place-items: center; font-size: clamp(64px, 11vh, 104px); }
 .names-card.got .names-card-art .names-emoji { filter: drop-shadow(0 4px 0 rgba(0,0,0,.1)); animation: breathe 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * -.4s); }
-.names-card-q { position: absolute; inset: 0; display: grid; place-items: center; font-size: .7em; font-weight: 900; color: rgba(46,42,38,.45); }
-.names-card-title { font-family: var(--kai); font-size: clamp(18px, 3vh, 26px); line-height: 1.15; text-align: center; }
-.names-card-boxes { display: flex; gap: 4px; }
-.names-card-boxes i { width: 16px; height: 16px; border-radius: 5px; border: 2.5px dashed rgba(46,42,38,.3); }
+/* 名字至少 20px（iPad 上他要讀得到） */
+.names-card-title { font-family: var(--kai); font-size: clamp(20px, 3vh, 26px); line-height: 1.15; text-align: center; }
+/* 預告：這段戲會演的東西（names.mjs 的 parts），小小一排 */
+.names-card-parts { display: flex; justify-content: center; gap: 3px; font-size: clamp(20px, 3vh, 26px); line-height: 1; }
+.names-card-part { display: inline-grid; place-items: center; font-style: normal; }
+.names-card.todo .names-card-part { opacity: .8; }
+/* 拿到了：右上角的星星章 */
+.names-card-got { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; border: 3px solid #FFC21A; box-shadow: 0 3px 0 rgba(0,0,0,.1); font-size: 22px; transform: rotate(12deg); }
 .names-card-fresh { position: absolute; top: 8px; left: 6px; padding: 2px 8px; border-radius: 999px; background: var(--c4); color: #fff; font-size: 12px; font-weight: 800; transform: rotate(-6deg); }
+/* 🆕：拼過、但看的是舊版的動畫（hasNewScene）。掛在卡片上緣正中間，輕輕上下晃 */
+.names-card-new { position: absolute; z-index: 2; top: -12px; left: 50%; padding: 1px 9px 3px; border-radius: 999px; background: #FF5A5A; box-shadow: 0 3px 0 #C93B3B;
+  font-size: 22px; line-height: 1.1; transform: translateX(-50%) rotate(-4deg); animation: namesNewBob 1.4s ease-in-out infinite; }
+@keyframes namesNewBob { 0%, 100% { transform: translateX(-50%) rotate(-4deg); } 50% { transform: translateX(-50%) translateY(-4px) rotate(4deg); } }
 .names-card.stamped .names-card-art .names-emoji { animation: namesStamp .8s cubic-bezier(.2,1.8,.4,1) .2s both; }
 @keyframes namesStamp { 0% { transform: scale(2.6) rotate(18deg); opacity: 0; } 60% { transform: scale(.9) rotate(-8deg); opacity: 1; } 100% { transform: none; } }
 
@@ -36,7 +45,7 @@
 .names-choose-art { font-size: clamp(90px, 22vh, 180px); line-height: 1; animation: pop .45s cubic-bezier(.2,1.6,.4,1) both; }
 .names-choose-title { font-family: var(--kai); font-size: clamp(34px, 7vh, 60px); line-height: 1.1; }
 .names-choose-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(14px, 3vw, 32px); }
-.names-big { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: clamp(130px, 22vh, 190px); height: clamp(130px, 22vh, 190px);
+.names-big { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: clamp(130px, 22vh, 190px); height: clamp(130px, 22vh, 190px);
   border-radius: 34px; background: #fff; box-shadow: 0 8px 0 rgba(0,0,0,.1), 0 16px 30px rgba(0,0,0,.12); animation: cardIn .4s both; }
 .names-big span { font-size: clamp(54px, 10vh, 84px); line-height: 1; }
 .names-big b { font-size: clamp(17px, 2.6vh, 22px); }
@@ -44,13 +53,18 @@
 .names-big.go span { padding-left: .1em; }
 .names-big:active:not(:disabled) { transform: translateY(5px); box-shadow: none; }
 .names-big:disabled { opacity: .5; }
+/* 🆕 的卡片：▶ 加一圈黃光、一直輕輕跳，右上角掛 🆕 */
+.names-big.go.fresh { box-shadow: 0 8px 0 #D95C88, 0 0 0 7px #FFE27A, 0 16px 30px rgba(0,0,0,.12); animation: cardIn .4s both, breathe 1.1s ease-in-out .4s infinite; }
+.names-big-new { position: absolute; top: -14px; right: -14px; font-style: normal; font-size: clamp(28px, 5vh, 40px); line-height: 1; transform: rotate(10deg); }
 
-/* 拼：上面要拼的主角（剪影）、一排格子、下面字塊 */
+/* 拼：上面要拼的主角、一排圖位＋一排格子、下面字塊 */
 .names-spell { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(12px, 3vh, 30px); padding: 6px 14px calc(16px + env(safe-area-inset-bottom)); }
 .names-ask { position: relative; font-size: clamp(80px, 18vh, 150px); line-height: 1; animation: breathe 2s ease-in-out infinite; }
 .names-ask-ear { position: absolute; right: -14px; bottom: 0; font-size: 30px; }
-.names-slots { display: flex; justify-content: center; gap: clamp(6px, 1.4vw, 14px); padding: 10px 14px; border-radius: 26px; background: rgba(255,255,255,.75); box-shadow: 0 4px 0 rgba(0,0,0,.05); }
-.names-slot { position: relative; display: grid; place-items: center; width: clamp(62px, 11vh, 100px); height: clamp(62px, 11vh, 100px); border-radius: 18px;
+/* 格線：第一列圖位（.names-part，跨它那幾格的欄）、第二列格子（.names-slot，一格一欄）。欄寬由格子決定，圖位一定比格子小 */
+.names-slots { display: grid; justify-content: center; column-gap: clamp(6px, 1.4vw, 14px); row-gap: clamp(4px, 1vh, 8px); padding: 10px 14px; border-radius: 26px;
+  background: rgba(255,255,255,.75); box-shadow: 0 4px 0 rgba(0,0,0,.05); }
+.names-slot { grid-row: 2; position: relative; display: grid; place-items: center; width: clamp(62px, 11vh, 100px); height: clamp(62px, 11vh, 100px); border-radius: 18px;
   border: 4px dashed rgba(46,42,38,.25); background: rgba(46,42,38,.04); }
 .names-slot.now { border-color: #FF8A4C; background: rgba(255,138,76,.12); animation: breathe 1.2s ease-in-out infinite; }
 .names-slot.full { border: 4px solid #FFD24A; background: #fff; }
@@ -83,8 +97,22 @@
 .names-ask-hop.hop-b { animation: namesHopB .45s cubic-bezier(.3,1.5,.5,1) both; }
 @keyframes namesHopA { 0%, 100% { transform: none; } 20% { transform: scale(1.08, .9); } 55% { transform: translateY(-18%) scale(.96, 1.06) rotate(-5deg); } }
 @keyframes namesHopB { 0%, 100% { transform: none; } 20% { transform: scale(1.08, .9); } 55% { transform: translateY(-18%) scale(.96, 1.06) rotate(5deg); } }
-/* 沒拼過的主角剪影：--reveal（拼好的格數／要拼的格數，Names.tsx 給）從 0 到 1，從黑影一點一點變出顏色 */
-.names-ask .names-shadow { filter: grayscale(calc(1 - var(--reveal, 0))) brightness(var(--reveal, 0)) opacity(calc(.22 + .78 * var(--reveal, 0))); transition: filter .4s ease-out; }
+
+/* 圖位：還沒拼到是淡淡的空圈；那一段最後一個字放進去，圖「啵」地彈出來＋一圈小星星（.45 秒內結束，不擋下一次點）。
+   圖只在亮的時候才掛上去，彈的動畫每段只跑一次 */
+.names-part { grid-row: 1; justify-self: center; position: relative; display: grid; place-items: center; width: clamp(44px, 8vh, 72px); height: clamp(44px, 8vh, 72px);
+  border-radius: 50%; border: 3px dashed rgba(46,42,38,.16); font-size: clamp(34px, 6.2vh, 56px); line-height: 1; }
+.names-part.on { border-color: transparent; background: radial-gradient(circle, #FFF3BF 0 55%, rgba(255,243,191,0) 72%); }
+.names-part-pic { display: inline-block; animation: namesPartPop .42s cubic-bezier(.2,1.8,.4,1) both; }
+@keyframes namesPartPop { 0% { transform: scale(0) rotate(-25deg); } 60% { transform: scale(1.25) rotate(6deg); } 100% { transform: none; } }
+.names-part-burst { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.names-part-burst i { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; background: #FFC21A;
+  clip-path: polygon(50% 0, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0 50%, 37% 37%);
+  opacity: 0; animation: namesSpark .4s ease-out both; }
+.names-part-burst i:nth-child(2n) { background: #4CC3FF; }
+/* 拼好了：圖照順序一個一個跳一下（點名：皮球、卡車、山丘），在格子一起跳（namesWin）之後；跳在圖本身，不蓋掉圖位剛彈出來的動畫 */
+.names-slots.done .names-part.on .names-emoji { animation: namesRoll .36s ease-out both; animation-delay: calc(.55s + var(--p) * .3s); }
+@keyframes namesRoll { 50% { transform: translateY(-28%) scale(1.3) rotate(-6deg); } }
 
 .names-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2vw, 20px); max-width: 760px; }
 .names-tile { display: grid; place-items: center; width: clamp(76px, 13vh, 112px); height: clamp(76px, 13vh, 112px); border-radius: 24px;
@@ -114,6 +142,12 @@
 @keyframes namesPoint { 0%, 100% { transform: translate(-50%, 0); opacity: .9; } 50% { transform: translate(-50%, -14px); opacity: 1; } }
 
 .names-panel { flex: none; width: 100%; min-height: clamp(120px, 20vh, 180px); display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.4vh, 14px); }
+/* 亮相：名字下面排出同一排圖（這段戲＝這幾個東西）。演的時候先佔位置但看不到，亮相那一刻舞台才不會縮一下 */
+.names-pose-parts { display: flex; justify-content: center; gap: 8px; font-size: clamp(26px, 4.4vh, 40px); line-height: 1; visibility: hidden; }
+.names-pose-part { display: inline-grid; place-items: center; width: 1.2em; height: 1.2em; border-radius: 50%; font-style: normal;
+  background: rgba(255,255,255,.88); box-shadow: 0 3px 0 rgba(0,0,0,.06); }
+.names-pose-parts.on { visibility: visible; }
+.names-pose-parts.on .names-pose-part { animation: namesPartPop .42s cubic-bezier(.2,1.8,.4,1) both; animation-delay: calc(.4s + var(--p) * .15s); }
 .names-line { display: flex; justify-content: center; margin: 0; padding: 4px 18px; border-radius: 22px; background: rgba(255,255,255,.82); box-shadow: 0 4px 0 rgba(0,0,0,.05); }
 .names-char { font-family: var(--kai); font-size: clamp(36px, 7vh, 64px); line-height: 1.25; padding: 0 2px; border-radius: 12px; transition: background .12s, transform .12s; }
 .names-char.lit { background: #FFE27A; transform: translateY(-4px) scale(1.12); }
@@ -127,7 +161,9 @@
 @media (max-width: 700px) {
   .names-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 14px; padding-left: 14px; padding-right: 14px; }
   .names-card { max-width: none; }
-  .names-slots { gap: 5px; padding: 8px; }
+  .names-card-title { font-size: min(25px, 6.2vw); }
+  .names-slots { column-gap: 5px; row-gap: 4px; padding: 8px; }
+  .names-part { width: min(10vw, 44px); height: min(10vw, 44px); border-width: 2.5px; font-size: min(7.6vw, 34px); }
   .names-slot { width: min(13vw, 64px); height: min(13vw, 64px); border-width: 3px; border-radius: 13px; }
   .names-slot.full { border-width: 3px; }
   .names-slot b { font-size: min(9.6vw, 46px); }
@@ -138,25 +174,30 @@
   .names-char { font-size: min(10vw, 46px); }
   .names-big { width: 40vw; height: 40vw; }
 }
-/* 手機橫放：舞台在左、名字與按鈕在右；拼字時剪影縮小 */
+/* 手機橫放：舞台在左、名字與按鈕在右。拼字時主角站到格子左邊（多了一排圖位，上下疊放高 390 會擠不下），字塊在下面一整排 */
 @media (max-height: 500px) and (orientation: landscape) {
   .names-show { flex-direction: row; align-items: stretch; gap: 12px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
   .names-frame { flex: 1.6; width: auto; max-height: none; }
   .names-panel { flex: 1; width: auto; min-width: 0; min-height: 0; justify-content: center; }
   .names-char { font-size: clamp(26px, 9vh, 40px); }
-  .names-spell { gap: 8px; }
-  .names-ask { font-size: 18vh; }
+  .names-spell { display: grid; grid-template-columns: auto auto; grid-template-areas: 'ask word' 'tiles tiles'; align-content: center; justify-content: center; gap: 10px 22px; }
+  .names-ask { grid-area: ask; font-size: 24vh; }
+  .names-slots { grid-area: word; }
+  .names-tiles { grid-area: tiles; justify-self: center; }
+  .names-part { width: 10vh; height: 10vh; border-width: 2.5px; font-size: 7.6vh; }
   .names-slot { width: 15vh; height: 15vh; }
   .names-slot b { font-size: 10vh; }
   .names-tile { width: 19vh; height: 19vh; border-radius: 16px; }
   .names-tile b { font-size: 12vh; }
-  .names-wall { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); align-content: start; }
+  .names-wall { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); align-content: start; }
+  .names-card { aspect-ratio: 1; }
   .names-big { width: 30vh; height: 30vh; }
   .names-choose-art { font-size: 20vh; }
 }
 @media (prefers-reduced-motion: reduce) {
   .names-card, .names-tile, .names-slot b.flew, .names-sticker, .names-again, .names-slots.done .names-slot,
-  .names-slot.landed, .names-ask-hop.hop-a, .names-ask-hop.hop-b { animation-duration: .01ms; }
-  .names-burst { display: none; }
-  .names-ask .names-shadow { transition: none; }
+  .names-slot.landed, .names-ask-hop.hop-a, .names-ask-hop.hop-b, .names-part-pic, .names-slots.done .names-part.on .names-emoji,
+  .names-pose-parts.on .names-pose-part { animation-duration: .01ms; }
+  .names-burst, .names-part-burst { display: none; }
+  .names-card-new, .names-big.go.fresh { animation: none; }
 }
