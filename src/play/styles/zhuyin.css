@@ -1,0 +1,149 @@
+/* ---------- 注音找字（ZhuyinPad.tsx）：自己逛逛的「ㄅㄆㄇ 找字」 ---------- */
+/*
+ * 三組三種顏色：聲母藍、介音綠、韻母粉紅。鍵盤、顯示區、字卡上標出來的符號都用同一組變數，
+ * 他按了藍色的ㄅ，上面那串字和字卡上的ㄅ也是藍的，一看就對得起來。
+ * --zy 是那一組的底色（選中時鋪滿）、--zy-tint 是組的淡底、--zy-deep 是沒選時的字色（白底上對比 5:1 以上）。
+ */
+.zy-initial { --zy: #4CC3FF; --zy-tint: #E2F4FF; --zy-deep: #17638F; }
+.zy-medial { --zy: #6BD37B; --zy-tint: #E2F6E5; --zy-deep: #26703A; }
+.zy-final { --zy: #FF7BA9; --zy-tint: #FFE5EE; --zy-deep: #B02F62; }
+
+/* 頂列的入口：要比旁邊的小藥丸大、一眼看得到，按鈕上寫的就是他認得的ㄅㄆㄇ */
+.zy-open { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 5px 18px 5px 8px; border-radius: 999px;
+  background: #fff; color: var(--ink); box-shadow: 0 5px 0 rgba(0,0,0,.12), 0 10px 20px rgba(0,0,0,.08);
+  transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
+.zy-open:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+.zy-open-sym { display: flex; gap: 3px; }
+.zy-open-sym i { display: grid; place-items: center; width: 34px; height: 38px; border-radius: 12px; background: var(--zy);
+  font-family: var(--bopomofo); font-style: normal; font-size: 25px; font-weight: 800; line-height: 1; color: var(--ink); }
+.zy-open-text { font-size: 19px; font-weight: 800; white-space: nowrap; }
+.zy-open.on { background: var(--ink); color: #fff; }
+
+/*
+ * 鍵盤：左邊（窄的畫面是上面）一塊顯示區，右邊三組鍵。
+ * 鍵的大小、每組幾欄都用變數，下面每種尺寸只換變數。寬的平板（1050 以上）：
+ * 聲母 7 欄 × 3 列、介音 1 欄 × 3 列、韻母 5 欄 × 3 列，三組一樣高。
+ * 寬 = 13×62 + 10×8（組內間隔）+ 3×16（組內邊）+ 2×12（組間）= 958px，加顯示區 136 + 14 = 1108，排得進 1180 − 56。
+ * 高 = 3×62 + 2×8 + 16 = 218px（加下緣 14，整塊約 232px）。
+ */
+.zy-pad { --zy-key: 62px; --zy-gap: 8px; --zy-pad: 8px; --zy-font: 36px;
+  flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: stretch; gap: 14px; padding: 0 28px 14px;
+  animation: placeIn .3s cubic-bezier(.2,1.6,.4,1) both; }
+.zy-show { flex: 1 1 136px; min-width: 136px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px; border-radius: 24px; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.08), 0 12px 24px rgba(0,0,0,.07); }
+.zy-picked { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 60px;
+  font-family: var(--bopomofo); font-size: 46px; font-weight: 800; line-height: 1; }
+.zy-picked b { padding: 5px 6px; border-radius: 14px; background: var(--zy); color: var(--ink); animation: pop .28s cubic-bezier(.2,1.7,.4,1) both; }
+.zy-picked-empty { color: rgba(46,42,38,.22); }
+.zy-found { font-size: 17px; font-weight: 800; color: rgba(46,42,38,.78); white-space: nowrap; }
+/* 清掉：深色底白字（亮色底上的白字對比不夠）；沒選東西時佔著位置但看不到 */
+.zy-clear { min-height: 48px; padding: 8px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 18px; font-weight: 800;
+  white-space: nowrap; box-shadow: 0 4px 0 rgba(0,0,0,.2); }
+.zy-clear:active { transform: translateY(3px); box-shadow: none; }
+.zy-clear:disabled { visibility: hidden; }
+
+.zy-keys { flex: 0 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 12px; }
+/* 一組一塊淡底加一圈那組的顏色：組與組之間看得出分界 */
+.zy-group { display: grid; grid-template-columns: repeat(var(--cols), var(--zy-key)); gap: var(--zy-gap); padding: var(--zy-pad);
+  border-radius: 20px; background: var(--zy-tint); box-shadow: inset 0 0 0 3px var(--zy); }
+.zy-group.zy-initial { --cols: 7; }
+.zy-group.zy-medial { --cols: 1; }
+.zy-group.zy-final { --cols: 5; }
+.zy-key { position: relative; display: grid; place-items: center; width: var(--zy-key); height: var(--zy-key); padding: 0; border-radius: 16px;
+  background: #fff; color: var(--zy-deep); font-family: var(--bopomofo); font-size: var(--zy-font); font-weight: 800; line-height: 1;
+  box-shadow: 0 4px 0 var(--zy), 0 6px 10px rgba(0,0,0,.08);
+  transition: transform .12s cubic-bezier(.2,1.7,.4,1), background .12s, box-shadow .12s; }
+.zy-key:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--zy); }
+/* 選中：底色鋪滿、放大一點、一圈深色外框——遠遠看也知道選了哪幾顆 */
+.zy-key.on { z-index: 1; background: var(--zy); color: var(--ink); transform: scale(1.08);
+  box-shadow: 0 0 0 4px var(--ink), 0 6px 0 rgba(0,0,0,.18); }
+/* 按下去會變成 0 個字的鍵：淡掉、不能按 */
+.zy-key:disabled { background: rgba(255,255,255,.5); box-shadow: none; opacity: .3; }
+/* 按一下：符號彈一下，噴一圈同色的小點點，0.4 秒內結束；不擋下一次點 */
+.zy-glyph { display: block; }
+.zy-glyph.pop { animation: zyPop .34s cubic-bezier(.2,1.7,.4,1); }
+@keyframes zyPop { 0% { transform: scale(1) } 40% { transform: scale(1.35) rotate(-8deg) } 100% { transform: none } }
+.zy-burst { position: absolute; inset: 0; pointer-events: none; }
+.zy-burst i { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+  background: var(--zy); box-shadow: 0 0 0 2px #fff; opacity: 0; animation: zyBurst .4s ease-out; }
+@keyframes zyBurst {
+  0% { opacity: 1; transform: rotate(var(--a)) translateY(0) scale(.6) }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(var(--zy-key) * -.8)) scale(.3) } }
+
+/* 找到的字：平鋪、一張接一張彈進來（每張晚 35ms，最多晚到 0.56 秒，加上彈的 0.38 秒不到一秒） */
+.grid.zy-grid .card { animation-delay: calc(min(var(--i) * 35ms, 560ms)); }
+/* 字卡上的注音放大，選中的符號用那一組的顏色標出來 */
+.zy-grid .card-zhuyin { font-size: 30px; line-height: 1.3; letter-spacing: 0; padding: 3px 8px; white-space: nowrap; background: #fff; }
+.zy-hit { padding: 0 2px; border-radius: 8px; background: var(--zy); font-weight: 800; box-shadow: 0 0 0 2px var(--zy); }
+
+/*
+ * 直的平板（701–1049，820×1180）：顯示區自己一行（橫的一條），鍵 60px。
+ * 聲母 11 欄 × 2 列（11×60 + 10×6 + 12 = 732，排得進 820 − 56 = 764），
+ * 下一行介音 3 欄 × 1 列（204）＋韻母 7 欄 × 2 列（468），合起來 684。
+ * 高 = 顯示區約 60 ＋ 12 ＋ 138 ＋ 10 ＋ 138 ≈ 358，加下緣 14 約 372px。
+ */
+@media (min-width: 701px) and (max-width: 1049px) {
+  .zy-pad { --zy-key: 60px; --zy-gap: 6px; --zy-pad: 6px; --zy-font: 34px; gap: 12px; }
+  .zy-group.zy-initial { --cols: 11; }
+  .zy-group.zy-medial { --cols: 3; }
+  .zy-group.zy-final { --cols: 7; }
+  .zy-show { flex: 1 1 100%; flex-direction: row; gap: 16px; padding: 6px 14px; }
+  .zy-picked { min-height: 48px; font-size: 40px; }
+}
+
+/*
+ * 手機直放（390×844）：鍵 44px、符號 26px。聲母 7 欄 × 3 列（7×44 + 6×6 + 12 = 356，排得進 390 − 28 = 362），
+ * 下一行介音 1 欄 × 3 列（56）＋韻母 5 欄 × 3 列（256），合起來 320。
+ * 高 = 顯示區 52 ＋ 8 ＋ 156 ＋ 8 ＋ 156 ≈ 380，加下緣 8 約 388px。
+ */
+@media (max-width: 700px) {
+  .zy-open { min-height: 48px; gap: 6px; padding: 4px 14px 4px 6px; }
+  .zy-open-sym i { width: 28px; height: 34px; font-size: 21px; border-radius: 10px; }
+  .zy-open-text { font-size: 16px; }
+  .zy-pad { --zy-key: 44px; --zy-gap: 6px; --zy-pad: 6px; --zy-font: 26px; gap: 8px; padding: 0 14px 8px; }
+  .zy-keys { gap: 8px; }
+  .zy-group { border-radius: 16px; }
+  .zy-key { border-radius: 12px; box-shadow: 0 3px 0 var(--zy), 0 4px 8px rgba(0,0,0,.08); }
+  .zy-show { flex: 1 1 100%; flex-direction: row; gap: 10px; padding: 4px 10px; border-radius: 20px; }
+  .zy-picked { min-height: 44px; font-size: 32px; }
+  .zy-picked b { padding: 4px 5px; border-radius: 10px; }
+  .zy-found { font-size: 15px; }
+  .zy-clear { min-height: 44px; padding: 6px 14px; font-size: 16px; }
+  .zy-grid .card-zhuyin { font-size: 26px; padding: 2px 6px; }
+}
+
+/*
+ * 手機橫放（844×390）：只有 390 高，鍵盤不能把畫面吃掉。鍵 44px、間隔 4px，跟寬平板一樣 7／1／5 欄 × 3 列：
+ * 寬 = 13×44 + 10×4 + 3×8 + 2×8 = 652，顯示區 120 擺在左邊，合計 780，排得進 844 − 28 = 816；
+ * 高 = 3×44 + 2×4 + 8 = 148（捲動框上下各留 3 → 154），整塊約 162px。更窄的畫面鍵盤區自己橫向捲，不會往下長。
+ * 頂列：鍵盤開著時「隨便給我一個」收起來、上下邊距縮小，頂列排成一行（約 62px）；
+ * 剩下約 170px 給字卡，找到的字卡縮成 150px 高、拿掉圖示，至少看得到完整的一排。
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home.zy-on .home-bar { padding: 8px 14px 6px; }
+  .home.zy-on .chip.surprise { display: none; }
+  .home.zy-on .search { flex-basis: 160px; }
+  .zy-open { min-height: 44px; }
+  .zy-pad { --zy-key: 44px; --zy-gap: 4px; --zy-pad: 4px; --zy-font: 26px; flex-wrap: nowrap; gap: 8px; padding: 2px 14px 6px; }
+  .zy-group.zy-initial { --cols: 7; }
+  .zy-group.zy-medial { --cols: 1; }
+  .zy-group.zy-final { --cols: 5; }
+  /* 上下留 3px：捲動框會切掉超出的部分，選中那顆放大加外框會多出 2px */
+  .zy-keys { flex-wrap: nowrap; gap: 8px; padding: 3px 2px; overflow-x: auto; overscroll-behavior-x: contain; }
+  .zy-group { flex-shrink: 0; border-radius: 14px; }
+  .zy-key { border-radius: 12px; box-shadow: 0 3px 0 var(--zy); }
+  .zy-show { flex: 1 0 120px; min-width: 120px; flex-direction: column; gap: 6px; padding: 6px; border-radius: 18px; }
+  .zy-picked { min-height: 40px; font-size: 30px; }
+  .zy-found { font-size: 14px; }
+  .zy-clear { min-height: 44px; padding: 6px 12px; font-size: 15px; }
+  .grid.zy-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); grid-auto-rows: 150px; gap: 10px; padding: 8px 14px 24px; }
+  .zy-grid .card-emoji, .zy-grid .card-badge { display: none; }
+  .zy-grid .card { padding-top: 12px; }
+  .zy-grid .card-zhuyin { font-size: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zy-pad, .zy-picked b, .zy-glyph.pop, .grid.zy-grid .card { animation: none; }
+  .zy-burst { display: none; }
+  .zy-key, .zy-open { transition: none; }
+}

@@ -3,6 +3,7 @@ import type { Library, Progress } from '../types'
 import { getLibrary } from '../lib/api'
 import { taiwanDay, starIndex } from '../../shared/domain.mjs'
 import { browseCharacters } from '../../shared/selection.mjs'
+import { hasPick, matchesPick, togglePick, type ZhuyinPick } from '../../shared/zhuyin.mjs'
 import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
 import { arrive } from '../lib/sfx'
@@ -39,6 +40,8 @@ export default function PlayApp() {
   const [progress, setProgress] = useState<Progress>(EMPTY)
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
+  /** 注音找字（ZhuyinPad.tsx）：null 是鍵盤收著；開著時是每一組選了哪個符號。放這裡是因為字卡清單要照它篩 */
+  const [zhuyin, setZhuyin] = useState<ZhuyinPick | null>(null)
   const [error, setError] = useState('')
   const [syncError, setSyncError] = useState(false)
   const { route, go, back } = useRoute()
@@ -117,7 +120,8 @@ export default function PlayApp() {
   }, [stars, caps])
   const fullCount = useMemo(() => all.filter((c) => isFull(c.char)).length, [all, isFull])
   // 搜尋，或「還沒看過／集滿星星」這兩個篩選時字卡平鋪；其他時候照詞組排（下面 groups 那個 prop）
-  const items = useMemo(() => {
+  // pool 是還沒照注音篩的清單：注音鍵盤照它算哪幾顆按得下去，跟字卡牆是同一份，才不會按出 0 個字
+  const pool = useMemo(() => {
     const q = query.trim().toLowerCase()
     const keep = (c: typeof all[number]) =>
       filter === 'all' ? true
@@ -127,6 +131,8 @@ export default function PlayApp() {
     return all.filter((c) => keep(c) &&
       (!q || q.includes(c.char) || c.zhuyin.includes(q) || c.meaning.toLowerCase().includes(q)))
   }, [all, query, filter, progress, isFull])
+  const zhuyinOn = Boolean(zhuyin && hasPick(zhuyin))
+  const items = useMemo(() => (zhuyin && zhuyinOn ? pool.filter((c) => matchesPick(c.zhuyin, zhuyin)) : pool), [pool, zhuyin, zhuyinOn])
 
   // 星星可能在任何一個遊戲裡拿到（看完影片、描完字、餵怪獸認出來、拼好詞、魔法鍋變出來），
   // 所以「拿到了！」這一下放在最外框，一個地方管全部，遊戲本身不用各做一次。
@@ -240,7 +246,7 @@ export default function PlayApp() {
         {game ? <div className="scene-enter" key={`${screen}:${route.want ?? ''}`}>{game.render(ctx)}</div> : (
           <Home
             items={items}
-            groups={!query.trim() && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
+            groups={!query.trim() && !zhuyinOn && (filter === 'all' || filter === 'video') ? [...groups.filter((g) => g.pin), ...mine, ...groups.filter((g) => !g.pin)] : null}
             total={all.length}
             watched={progress.watched}
             progress={progress}
@@ -256,7 +262,13 @@ export default function PlayApp() {
             onFilter={setFilter}
             onPick={open}
             onSurprise={surprise}
-            onReset={() => { setQuery(''); setFilter('all') }}
+            onReset={() => { setQuery(''); setFilter('all'); setZhuyin(null) }}
+            zhuyin={zhuyin}
+            zhuyinPool={pool}
+            // 打開鍵盤時打字搜尋與篩選歸零：鍵盤是照整個字庫找，篩選列在鍵盤開著時也收起來
+            onZhuyinToggle={() => { if (zhuyin) setZhuyin(null); else { setQuery(''); setFilter('all'); setZhuyin({}) } }}
+            onZhuyinPick={(sym) => setZhuyin((z) => togglePick(z || {}, sym))}
+            onZhuyinClear={() => setZhuyin({})}
             places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress), fresh: Boolean(g.fresh) && !seen.includes(g.id) }))}
             onScreen={toScreen}
             onRide={startRide}
@@ -286,7 +298,7 @@ export default function PlayApp() {
           onGo={(c) => open(c.char)}
           onJump={open}
           onClose={close}
-          onBrowseVideos={() => { setQuery(''); setFilter('video'); go({ screen: 'home' }, { replace: true }) }}
+          onBrowseVideos={() => { setQuery(''); setFilter('video'); setZhuyin(null); go({ screen: 'home' }, { replace: true }) }}
           onComplete={(e, id) => record({ char: e.char, id })}
           onTraced={(e, strokes, blind) => record({ kind: 'trace', char: e.char, strokes, ...(blind ? { blind: true } : {}) })}
           onTown={() => go({ screen: 'town' }, { replace: true })}

@@ -14,6 +14,8 @@ import Buddy, { useReaction } from './Buddy'
 import { emojiArt } from './ui'
 import DeviceParent from './DeviceParent'
 import { STANDALONE } from '../lib/target'
+import ZhuyinPad, { ZhuyinMarked, ZhuyinOpen } from './ZhuyinPad'
+import { hasPick, pickText, type ZhuyinPick } from '../../shared/zhuyin.mjs'
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: '🌈 全部字卡' },
@@ -25,6 +27,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 
 export default function Home({
   items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo, made = [],
+  zhuyin = null, zhuyinPool = [], onZhuyinToggle, onZhuyinPick, onZhuyinClear,
 }: {
   /** 他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
   made?: { char: string; emoji: string }[]
@@ -62,6 +65,13 @@ export default function Home({
   path: Stop[]
   walked: boolean
   onGo: (go: StopGo) => void
+  /** 注音找字（ZhuyinPad.tsx）：null 是鍵盤收著，開著時是每一組選了哪個符號（狀態在 PlayApp） */
+  zhuyin?: ZhuyinPick | null
+  /** 還沒照注音篩的字卡：鍵盤照它算哪幾顆按得下去 */
+  zhuyinPool?: CharEntry[]
+  onZhuyinToggle?: () => void
+  onZhuyinPick?: (sym: string) => void
+  onZhuyinClear?: () => void
 }) {
   const [mine, setMine] = useState(false)
   /** 骰子正在轉（轉完才開那個字） */
@@ -71,6 +81,10 @@ export default function Home({
    * 他想重看「叫」的影片隨時可以，只是打開來不再是兩百多張字卡攤開讓他挑
    */
   const [explore, setExplore] = useState(false)
+  /** 注音鍵盤開著（開著的時候篩選列、遊戲入口收起來，找到的字卡緊接在鍵盤下面） */
+  const pad = explore && Boolean(zhuyin)
+  /** 有選注音：字卡平鋪、注音放大標色 */
+  const marked = pad && hasPick(zhuyin)
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   /**
@@ -104,7 +118,7 @@ export default function Home({
       >
         <span className="card-emoji" aria-hidden="true">{c.emoji || '✨'}</span>
         <span className="card-char">{c.char}</span>
-        <span className="card-zhuyin">{c.zhuyin}</span>
+        <span className="card-zhuyin">{marked ? <ZhuyinMarked zhuyin={c.zhuyin} pick={zhuyin!} /> : c.zhuyin}</span>
         {video && <span className="card-badge" aria-hidden="true">▶ 影片</span>}
         {count > 0 && <span className="card-count">看過 {count} 次</span>}
         {/* 集滿了就只戴皇冠：五顆星加皇冠會跟「看過 N 次」擠在一起 */}
@@ -128,7 +142,7 @@ export default function Home({
     g.key === 'more' ? c.priority % 8 : g.mine ? hueOf.get(c.char) ?? 0 : (gi < pinCount ? gi : gi - mineCount) % 8
 
   return (
-    <div className="home">
+    <div className={'home' + (pad ? ' zy-on' : '')}>
       {mine && (
         <Mine progress={progress} stars={starTotal} fullCount={fullCount}
           onClose={() => { tap(); setMine(false) }}
@@ -147,17 +161,21 @@ export default function Home({
               placeholder="找字：輸入國字、注音或英文"
               aria-label="找字"
             />
-            <div className="home-filters" aria-label="篩選">
-              {FILTERS.filter(useful).map((f) => (
-                <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
-              ))}
-            </div>
+            {!pad && (
+              <div className="home-filters" aria-label="篩選">
+                {FILTERS.filter(useful).map((f) => (
+                  <button key={f.id} data-filter={f.id} className={'chip' + (filter === f.id ? ' on' : '')} aria-pressed={filter === f.id} onClick={() => onFilter(f.id)}>{f.label}</button>
+                ))}
+              </div>
+            )}
             {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
             <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
               onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
               <span className="dice" aria-hidden>🎲</span> 隨便給我一個
             </button>
-            <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>
+            {/* 鍵盤開著時顯示區自己會說找到幾個字 */}
+            {!pad && <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>}
+            {onZhuyinToggle && <ZhuyinOpen open={pad} onToggle={onZhuyinToggle} />}
           </>
         )}
         <button className="chip explore-toggle" aria-pressed={explore} onClick={() => { tap(); setExplore((v) => !v); if (explore) onReset() }}>
@@ -171,7 +189,9 @@ export default function Home({
           onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); setExplore(true) }} />
       )}
 
-      {explore && (
+      {pad && <ZhuyinPad pick={zhuyin!} pool={zhuyinPool} found={items.length} onPick={(sym) => onZhuyinPick?.(sym)} onClear={() => onZhuyinClear?.()} />}
+
+      {explore && !pad && (
         <div className="home-invite">
           {/* 看完字卡之後還有地方可以去：小鎮、字火車……清單在 games.tsx */}
           <div className="home-places">
@@ -211,7 +231,8 @@ export default function Home({
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
         </div>
       ) : (
-        <div className="grid" aria-label="字卡瀏覽">
+        // 選的注音一變，key 跟著換：整片字卡重新掛上去，一張接一張再「跑出來」一次
+        <div key={marked ? pickText(zhuyin) : 'list'} className={'grid' + (marked ? ' zy-grid' : '')} aria-label="字卡瀏覽">
           {items.map((c, i) => card(c, c.priority % 8, i))}
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
         </div>
