@@ -1,0 +1,98 @@
+{
+  "name": "小三",
+  "look": "小三——她留著黑色及肩直髮，側分瀏海搭著微微內彎的髮尾，穿灰褐色短袖上衣、深灰長褲和米色鞋，手腕戴著細金手環，是大頭小身體的 Q 版造型。",
+  "about": "Studio「上傳圖片做新角色」做的洋紅底姿勢表（3×3，Codex 照家長上傳的圖畫、豬探長的表對齊畫風；上傳的圖在 media/hero-uploads/，不進 git）。A～F 六張表的九格跟豬探長同一套（C 表也是放大鏡 think、抱胸 doubt）；朝左。比例以 A 表的 idle 身高為準。",
+  "ref": "idle",
+  "sheets": {
+    "A": {
+      "file": "three-A.png",
+      "key": "#FF00FF",
+      "poses": [
+        "idle",
+        "happy",
+        "laugh",
+        "surprised",
+        "dizzy",
+        "angry",
+        "cry",
+        "scared",
+        "smug"
+      ]
+    },
+    "B": {
+      "file": "three-B.png",
+      "key": "#FF00FF",
+      "poses": [
+        "reach",
+        "point",
+        "listen",
+        "ponder",
+        "walk",
+        "sneak",
+        "flat",
+        "wait",
+        "back"
+      ]
+    },
+    "C": {
+      "file": "three-C.png",
+      "key": "#FF00FF",
+      "poses": [
+        "think",
+        "doubt",
+        "sleep",
+        "eat",
+        "dash",
+        "fall",
+        "wave",
+        "push",
+        "cold"
+      ]
+    },
+    "D": {
+      "file": "three-D.png",
+      "key": "#FF00FF",
+      "poses": [
+        "kick",
+        "throw",
+        "pull",
+        "lift",
+        "jump",
+        "hug",
+        "blow",
+        "peek",
+        "flee"
+      ]
+    },
+    "E": {
+      "file": "three-E.png",
+      "key": "#FF00FF",
+      "poses": [
+        "sour",
+        "spicy",
+        "stinky",
+        "full",
+        "yawn",
+        "sneeze",
+        "drool",
+        "giggle",
+        "tired"
+      ]
+    },
+    "F": {
+      "file": "three-F.png",
+      "key": "#FF00FF",
+      "poses": [
+        "hold",
+        "hungry",
+        "hot",
+        "doze",
+        "know",
+        "stomp",
+        "bow",
+        "duck",
+        "slip"
+      ]
+    }
+  }
+}
