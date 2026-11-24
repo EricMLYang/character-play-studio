@@ -15,8 +15,12 @@ import { knownCount } from './dishes'
 import type { Stop, StopGo } from './today'
 
 /**
- * 首頁「自己逛逛」裡可以去的地方：魔法筆、故事屋、主角館、小鎮、字火車、餵大怪獸、詞語拼圖、指讀小書、部首家族（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
+ * 首頁「自己逛逛」裡可以去的地方（今天的路那五站也是從這裡挑，today.ts）。一個遊戲一筆：入口按鈕、網址（#/<id>）、
  * 返回鍵都從這張表來，PlayApp 不用知道有哪些遊戲。
+ *
+ * **這張表的順序就是自己逛逛那一排遊戲架的順序**：他最常玩的排前面（2026-11-24 爸爸排的：故事屋、魔法筆、主角館、
+ * 餵大怪獸、小鎮、字火車、詞語拼圖、指讀小書、字的家族）。別的地方都是用 id 找（gameById、today.ts 自己寫死每一站），
+ * 不靠這個順序。tests/explore-shelf.test.mjs 擋著順序與每一格的底色。
  *
  * 加一個新遊戲：
  * 1. 寫畫面元件（src/play/<Game>.tsx），樣式放 src/play/styles/<game>.css 並在 play.css 接上
@@ -25,7 +29,8 @@ import type { Stop, StopGo } from './today'
  * 3. 要記進度的話：規則寫在 shared/domain.mjs，在 shared/play-events.mjs 加一種紀錄，Progress 型別加欄位。
  *    考的能力跟既有遊戲一樣就共用那一種紀錄（跳石頭過河與小偵探都記 recall，跟餵大怪獸同一份記住程度）
  * 4. 有固定台詞的話：shared/voice-lines.mjs 加句型，音檔就會預先做好。他還不會讀字，畫面上的話要唸得出來
- * 5. 在下面 GAMES 加一筆；剛做好的加 fresh: true，首頁入口會亮一顆 🆕（他進去過一次就不亮）
+ * 5. 在下面 GAMES 加一筆（排在哪裡就是遊戲架上的位置）；剛做好的加 fresh: true，首頁入口會亮一顆 🆕（他進去過一次就不亮）。
+ *    入口那一格的底色寫 .place-<id>（各遊戲自己的樣式檔第一行），tests/explore-shelf.test.mjs 也要加上它
  * 6. 如果這個遊戲是某一顆星星的來源（shared/domain.mjs 的 STAR_DEEDS.where）：接 ctx.want，
  *    讓進來的第一題就出那個字
  */
@@ -80,16 +85,6 @@ export type Game = {
 
 export const GAMES: Game[] = [
   {
-    // 2026-11-06 第二夜：寫出來，就變出來（Spell.tsx）。描字有史以來 13 次，這個遊戲是為了讓他想寫
-    id: 'spell', icon: '🪄', title: '魔法筆', fresh: true,
-    subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `寫過 ${n} 個字` : '寫什麼就變什麼' },
-    render: (ctx) => (
-      <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} focus={ctx.focus} path={ctx.path} onWalk={ctx.walk} onBack={ctx.back}
-        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })}
-        onFused={(word) => ctx.record({ kind: 'fuse', char: word })} />
-    ),
-  },
-  {
     // 2026-11-12：他讀的字，決定故事怎麼演（Story.tsx、shared/stories.mjs）。之前沒有「讀一段有意思的話、而且讀了有用」的地方
     id: 'story', icon: '📚', title: '故事屋', fresh: true,
     subtitle: (p) => { const n = Object.values(p.stories || {}).reduce((sum, s) => sum + Object.keys(s.seen || {}).length, 0); return n ? `${n} 張貼紙` : '你讀的字會演出來' },
@@ -101,12 +96,31 @@ export const GAMES: Game[] = [
     ),
   },
   {
+    // 2026-11-06 第二夜：寫出來，就變出來（Spell.tsx）。描字有史以來 13 次，這個遊戲是為了讓他想寫
+    id: 'spell', icon: '🪄', title: '魔法筆', fresh: true,
+    subtitle: (p) => { const n = Object.keys(p.town || {}).length; return n ? `寫過 ${n} 個字` : '寫什麼就變什麼' },
+    render: (ctx) => (
+      <Spell library={ctx.library} progress={ctx.progress} stars={ctx.stars} want={ctx.want} focus={ctx.focus} path={ctx.path} onWalk={ctx.walk} onBack={ctx.back}
+        onTraced={(char, strokes, blind) => ctx.record({ kind: 'trace', char, strokes, ...(blind ? { blind: true } : {}) })}
+        onFused={(word) => ctx.record({ kind: 'fuse', char: word })} />
+    ),
+  },
+  {
     // 2026-11-14：把喜歡的角色的名字一個字一個字拼出來，那個主角就出場演一段（Names.tsx、shared/names.mjs）
     id: 'names', icon: '🦸', title: '主角館', fresh: true,
     subtitle: (p) => { const n = Object.keys(p.names || {}).length; return n ? `${n} 張貼紙` : '拼出名字，主角就出來' },
     render: (ctx) => (
       <Names library={ctx.library} progress={ctx.progress} onBack={ctx.back}
         onDone={(id) => ctx.record({ kind: 'name', char: id, done: true })} />
+    ),
+  },
+  {
+    id: 'feed', icon: '🍽️', title: '餵大怪獸',
+    subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
+    // 跳石頭過河與小偵探 2026-10-24 併進來了：夥伴來端菜、第三道是一筆一筆畫的神秘料理
+    render: (ctx) => (
+      <Feed library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
+        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} path={ctx.path} onWalk={ctx.walk} />
     ),
   },
   {
@@ -125,15 +139,6 @@ export const GAMES: Game[] = [
       <Train groups={ctx.groups} saved={ctx.savedWords} onBack={ctx.back}
         onRide={(text) => { ctx.record({ kind: 'word', char: text }); ctx.ride(text) }}
         onRemove={(text) => ctx.record({ kind: 'word', char: text, remove: true })} />
-    ),
-  },
-  {
-    id: 'feed', icon: '🍽️', title: '餵大怪獸',
-    subtitle: (p) => { const n = knownCount(p); return n ? `認得 ${n} 個字` : '牠肚子好餓' },
-    // 跳石頭過河與小偵探 2026-10-24 併進來了：夥伴來端菜、第三道是一筆一筆畫的神秘料理
-    render: (ctx) => (
-      <Feed library={ctx.library} progress={ctx.progress} stars={ctx.stars} onPick={ctx.open} onBack={ctx.back} want={ctx.want}
-        onRecall={(char, ok) => ctx.record({ kind: 'recall', char, ok })} path={ctx.path} onWalk={ctx.walk} />
     ),
   },
   {

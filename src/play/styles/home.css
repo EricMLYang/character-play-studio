@@ -112,9 +112,6 @@
   transition: width .5s cubic-bezier(.2,1.5,.4,1); }
 .quests .bank { flex-shrink: 0; }
 
-.home-invite { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 28px 16px; }
-.home-invite h2 { margin: 0; font-size: 25px; }
-.home-invite p { margin: 4px 0 0; font-size: 15px; color: #645449; }
 /* 首頁那隻角色：看他的紀錄挑一件現在可以做的事（nudge.ts），按一下直接過去 */
 .buddy { display: flex; align-items: center; gap: 4px; padding: 6px 12px 6px 6px; border-radius: 28px; text-align: left;
   background: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.09), 0 14px 26px rgba(0,0,0,.08);
@@ -138,30 +135,76 @@
 .viewer-close.viewer-browse { background: #ffe28b; font-size: 17px; box-shadow: 0 4px 0 #ddba60; }
 
 
-/* ---------- 首頁的去處：小鎮、魔法鍋、字火車（games.tsx 的 GAMES） ---------- */
-/* 六個去處要排得進一行（最長的是「跳石頭過河」五個字），擠不下就整排換行 */
-.home-places { display: flex; flex-wrap: wrap; gap: 10px; margin-left: auto; }
-.home-places + .today { margin-left: 8px; }
-.place { position: relative; display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 7px 15px 7px 8px; border-radius: 22px;
-  text-align: left; box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
+/* ---------- 自己逛逛（Home 的 explore）：頂列 → 遊戲架 → 找字工具列 → 字卡牆 ---------- */
+/*
+ * 爸爸 2026-11-24：「自己逛逛的畫面太多遊戲，有點滿」。以前頂列塞了八樣東西排成兩行，九個遊戲是帶副標的長條藥丸，
+ * 六歲看到的是一整片差不多大的東西。現在分四層，每一層長得不一樣：
+ * 頂列一行（標題、星星、回今天的路、家長）、一排大方塊（只有圖示跟名字）、找字工具列（孩子的大、家長的小）、字卡牆。
+ * 四種尺寸算出來的數字寫在檔尾的 @media 旁邊。
+ *
+ * 頂列：只在自己逛逛時改（今天的路那一面不動）。一行、不換行；高 = 上 10 + 44（按鈕最小可點高度）+ 下 6 = 60px。
+ */
+.home.exploring .home-bar { flex-wrap: nowrap; gap: 12px; padding: 10px 28px 6px; }
+.home.exploring .home-title { line-height: 1.2; white-space: nowrap; }
+.home.exploring .explore-toggle { flex-shrink: 0; white-space: nowrap; }
+.home.exploring .home-parent { flex-shrink: 0; min-height: 44px; margin-left: 0; }
+/* 星星存摺縮成頂列的一顆：大星星＋數字，下緣那條還看得出離下一個寶箱多近；「再 N 顆開寶箱」那兩行收起來 */
+.home-bar .bank { flex-shrink: 0; height: 44px; padding: 0 12px 3px 6px; gap: 3px; }
+.home-bar .bank-star { font-size: 24px; }
+.home-bar .bank-n { font-size: 20px; }
+.home-bar .bank-label { display: none; }
+.home-bar .bank-bar { left: 8px; right: 8px; bottom: 3px; height: 3px; }
+
+/*
+ * 遊戲架：一排大方塊，上面大圖示、下面名字。平板上九個平分一整排（grid 自動欄，再加一個遊戲也還是一排），
+ * 手機上改成橫捲（檔尾）。1180 寬：(1180 − 56 − 8×12) ÷ 9 ≈ 114px 一塊、96px 高。
+ * position: relative 是給 Home 算那一格的 offsetLeft（從遊戲回來要把那一格捲進畫面）。
+ */
+.home-shelf { position: relative; flex-shrink: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px;
+  padding: 6px 28px 12px; }
+/* 底色寫在 .place（權重最低），各遊戲的 .place-<id> 才蓋得過去；魔法筆以前沒有自己的顏色，補在下面 */
+.place { position: relative; min-width: 0; height: 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 4px; border-radius: 24px; background: #fff; text-align: center;
+  box-shadow: 0 6px 0 rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1);
   /* 一個一個彈進來：首頁是「組裝起來」的，不是一次整個貼上去 */
   animation: placeIn .34s cubic-bezier(.2,1.6,.4,1) backwards; animation-delay: calc(100ms + var(--i, 0) * 45ms); }
 @keyframes placeIn { from { opacity: 0; transform: translateY(10px) scale(.92) } }
 .place:hover { transform: translateY(-3px) rotate(-1deg); }
 .place:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
-.place b { display: block; font-size: 18px; white-space: nowrap; }
-.place small { display: block; font-size: 12px; font-weight: 700; color: rgba(46,42,38,.72); white-space: nowrap; }
-.place-icon { display: grid; place-items: center; width: 44px; height: 44px; font-size: 28px; border-radius: 16px; background: rgba(255,255,255,.7);
-  animation: nudge 4s ease-in-out infinite; }
+.place b { display: block; max-width: 100%; font-size: 17px; font-weight: 800; line-height: 1.2; white-space: nowrap; }
+.place-icon { display: grid; place-items: center; width: 54px; height: 54px; flex-shrink: 0; font-size: 46px; line-height: 1;
+  border-radius: 18px; background: rgba(255,255,255,.7); animation: nudge 4s ease-in-out infinite; }
 /* 還沒進去過的新玩法：亮一顆 🆕（進去一次就不亮了，記在這台裝置，seen.ts） */
 .place-new { position: absolute; top: -8px; right: -6px; font-size: 20px; line-height: 1;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,.25)); animation: nudge 2.4s ease-in-out infinite; }
 .place.fresh { animation: breathe 2s ease-in-out infinite; }
 
+.place-spell { background: #FFF0B3; }
+.place-spell .place-icon { animation-delay: -.6s; }
 .place-town { background: #BDEBC4; }
 .place-train { background: #FFD9B8; }
 .place-train .place-icon { animation-delay: -1s; }
+
+/*
+ * 找字工具列：左邊兩顆給孩子的大按鈕（ㄅㄆㄇ 找字、隨便給我一個，52px 高），右邊給家長的小工具（打字搜尋、篩選、字數），
+ * 小一號、半透明、沒有陰影，不搶孩子的注意。家長那一組 flex-basis 520px：右邊剩不到 520 就整組換到下一行（直的平板、手機）。
+ */
+.home-find { flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 0 28px 10px; }
+.home-find-kid { flex: none; display: flex; align-items: center; gap: 10px; }
+.home-find .surprise { min-height: 52px; padding: 6px 18px; font-size: 19px; font-weight: 800; white-space: nowrap;
+  box-shadow: 0 5px 0 rgba(0,0,0,.12), 0 10px 20px rgba(0,0,0,.08); }
+.home-find-parent { flex: 1 1 520px; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.home-find .search { flex: 1 1 140px; min-width: 110px; max-width: 320px; height: 38px; padding: 0 14px; font-size: 15px;
+  background: rgba(255,255,255,.75); box-shadow: none; }
+/* 篩選排不下就自己橫捲（手機上），不要把字數或搜尋框擠掉 */
+.home-find .home-filters { flex: 0 1 auto; min-width: 0; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.home-find-parent .chip { flex: none; min-height: 36px; padding: 6px 11px; font-size: 13px; white-space: nowrap;
+  background: rgba(255,255,255,.6); color: rgba(46,42,38,.78); box-shadow: none; }
+.home-find-parent .chip.on { background: var(--ink); color: #fff; }
+.home-find .home-stat { flex: none; margin-left: 0; font-size: 13px; white-space: nowrap; }
+/* 鍵盤開著：篩選與字數收起來，家長那一組只剩搜尋框，留在孩子按鈕的同一行 */
+.home.zy-on .home-find-parent { flex-basis: 200px; }
 
 /* 首頁上他自己接的詞：外框是火車的顏色，標題可以點來坐一次 */
 .word.word-mine { background: rgba(255,217,184,.7); box-shadow: inset 0 0 0 2px #FFC08A; }
@@ -169,28 +212,16 @@
 .word-ride-go { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c0); color: #fff; font-size: 15px;
   padding-left: 2px; box-shadow: 0 3px 0 #d9662f; }
 
-/*
- * 筆電寬度（700–1400）：七個去處加上那隻角色排不進同一行，會擠成兩行，字卡就被推到螢幕外。
- * 副標收起來、圖示縮一點，去處自己佔一整行就排得下，字卡才看得到。
- */
+/* 筆電與平板寬度（700–1400）：家長只留圖示，頂列才排得進一行（名字寫出來會自己擠掉一整行） */
 @media (min-width: 701px) and (max-width: 1400px) {
-  .home-places { flex: 1 1 100%; margin-left: 0; }
-  /* 家長只留圖示，上面那一列才排得進一行（名字寫出來會自己擠掉一整行） */
   .parent-label { display: none; }
   .home-parent { padding: 9px 12px; }
-  .place { padding: 6px 12px 6px 7px; min-height: 56px; }
-  .place small { display: none; }
-  .place b { font-size: 17px; }
-  .place-icon { width: 38px; height: 38px; font-size: 24px; border-radius: 14px; }
 }
 
 
 @media (max-width: 700px) {
   .home-bar { gap: 10px; padding: 12px 14px 8px; }
   .home-title { font-size: 24px; margin-right: 0; }
-  .search { flex: 1 1 100%; order: 3; height: 46px; max-width: none; }
-  .home-filters { order: 4; flex: 1 1 auto; }
-  .home-stat { order: 5; margin-left: auto; }
   .home-parent { margin-left: auto; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); grid-auto-rows: 218px; gap: 12px;
     padding: 6px 14px calc(32px + env(safe-area-inset-bottom)); }
@@ -205,9 +236,6 @@
   .card-emoji { font-size: 38px; width: 58px; height: 58px; border-radius: 20px; }
   .card-zhuyin { font-size: 22px; }
   .card-badge { top: 8px; right: 6px; font-size: 10px; }
-  .home-invite { padding: 4px 14px 8px; gap: 8px; }
-  .home-invite h2 { font-size: 20px; }
-  .home-invite p { font-size: 13px; }
   .buddy { flex: 1 1 100%; padding: 3px 8px 3px 3px; gap: 2px; border-radius: 20px; }
   .buddy-go { gap: 8px; }
   .buddy-img { width: 48px; height: 48px; }
@@ -226,31 +254,10 @@
   /* 家長只留圖示：名字寫出來會自己擠掉一整行，那一行比字卡不值錢 */
   .parent-label { display: none; }
   .home-parent { padding: 9px 12px; }
-  .home-invite { flex-wrap: wrap; }
-  /* 列與列之間要留得比 6px 多：🆕 從格子頂端探出 6px，擠在一起會像貼到上一排的角 */
-  .home-places { order: 5; flex: 1 1 100%; margin-left: 0; column-gap: 6px; row-gap: 14px; display: grid; grid-template-columns: repeat(4, 1fr); }
-  /* 七個去處擠在 390px：排兩行四個（一行七個只剩 40px 寬，六歲的手指按不準），圖示疊在名字上面，副標拿掉 */
-  .place { min-width: 0; min-height: 50px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
-  .place small { display: none; }
-  /* 最長的名字是「跳石頭過河」五個字，要排得進 (362 − 3×6) ÷ 4 − 8 ≈ 78px */
-  .place b { font-size: min(14px, 3.7vw); white-space: nowrap; }
-  .place-icon { width: 32px; height: 32px; font-size: 21px; border-radius: 12px; }
-  .place-new { top: -6px; right: -4px; font-size: 16px; }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-  /* 橫躺的手機只剩一點高度：留下去處的入口，標語與統計收起來 */
-  .home-invite { display: flex; padding: 2px 14px 8px; }
-  .home-invite > :not(.home-places) { display: none; }
-  /*
-   * 橫躺只有三百多 px 高：去處用跟手機一樣的小塊（圖示疊在名字上面），七個排得進一行；
-   * 字卡也縮一號，不然一張 260px 的字卡在這個高度只看得到上面一截。
-   */
-  .home-places { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 6px; flex: 1 1 100%; margin-left: 0; }
-  .place { min-width: 0; min-height: 48px; flex-direction: column; gap: 0; padding: 3px 4px 4px; text-align: center; border-radius: 18px; }
-  .place small { display: none; }
-  .place b { font-size: 13px; white-space: nowrap; }
-  .place-icon { width: 28px; height: 28px; font-size: 19px; border-radius: 10px; }
+  /* 橫躺只有三百多 px 高：字卡縮一號，不然一張 260px 的字卡在這個高度只看得到上面一截（遊戲架在檔尾） */
   .quests { padding-bottom: 4px; }
   .word-cards > .card { width: 118px; height: 186px; }
   .card-char { font-size: 54px; }
@@ -465,7 +472,6 @@
 .path-listen { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: var(--paper); font-size: 22px; }
 .path-listen:active { transform: translateY(2px); }
 .explore-toggle { margin-left: auto; }
-.exploring .explore-toggle { margin-left: 0; }
 @media (max-width: 720px) {
   .path { padding: 4px 14px calc(16px + env(safe-area-inset-bottom)); gap: 12px; justify-content: flex-start; }
   .path-road { justify-content: flex-start; }
@@ -494,3 +500,64 @@
 @media (prefers-reduced-motion: reduce) { .path-made { animation: none; } }
 /* 橫的手機太矮：今天的路那張卡片一路到底，站兩旁會壓到卡片和🔊，不放 */
 @media (max-height: 500px) { .path-made { display: none; } }
+
+/*
+ * 自己逛逛在各種尺寸（本體規則在上面「自己逛逛」那一段；這幾段一定要寫在它們後面，同樣權重後寫的贏）。
+ * 鍵盤收著時字卡牆從第幾 px 開始 ＝ 頂列 ＋ 遊戲架 ＋ 找字工具列：
+ *   平板橫 1180×820：60 ＋ 114（方塊 114×96）＋ 62（一行）＝ 236
+ *   平板直 820×1180：60 ＋ 110（方塊 80×92）＋ 108（家長那組換到第二行）＝ 278
+ *   手機直 390×844：60 ＋ 106（方塊 76×84，橫捲）＋ 102（家長那組換到第二行）＝ 268
+ *   手機橫 844×390：54 ＋ 90（方塊 84×72，九個剛好排得下）＋ 50（一行）＝ 194
+ * 鍵盤開著的數字在 zhuyin.css。
+ */
+/* 直的平板（820 寬）：九個一排不捲，(820 − 56 − 8×6) ÷ 9 ≈ 80px 一塊；最長的名字四個字 × 16px ＝ 64，排得下 */
+@media (min-width: 701px) and (max-width: 1049px) {
+  .home-shelf { gap: 6px; }
+  .place { height: 92px; border-radius: 20px; }
+  .place-icon { width: 52px; height: 52px; font-size: 44px; }
+  .place b { font-size: 16px; }
+}
+/*
+ * 手機直放（390 寬）：一排橫捲、一格一格停（scroll-snap），寬 76：14 ＋ 4 × (76 ＋ 8) ＝ 350，
+ * 第五塊從 350 開始，畫面右邊露出 40px（約半塊），看得出後面還有。不換成兩排：兩排就又是一整片了。
+ * 上下留 10／12px：捲動框會切掉超出的部分，🆕 從格子頂端探出 7px、底下有 6px 的陰影。
+ */
+@media (max-width: 700px) {
+  .home.exploring .home-bar { gap: 8px; padding: 10px 14px 6px; }
+  .home.exploring .home-title { font-size: 20px; }
+  .home-bar .bank { padding: 0 8px 3px 4px; gap: 2px; }
+  .home-bar .bank-star { font-size: 20px; }
+  .home-bar .bank-n { font-size: 17px; }
+  .home-shelf { display: flex; gap: 8px; padding: 10px 14px 12px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 14px; scrollbar-width: none; }
+  /* 最後一塊後面留一點空：Safari 橫捲時不算右邊的 padding */
+  .home-shelf::after { content: ''; flex: 0 0 6px; }
+  .place { flex: 0 0 76px; height: 84px; gap: 2px; padding: 4px 2px; border-radius: 20px; scroll-snap-align: start; }
+  .place-icon { width: 50px; height: 50px; font-size: 44px; border-radius: 16px; }
+  .place b { font-size: 16px; }
+  .place-new { top: -7px; right: -4px; font-size: 17px; }
+  .home-find { gap: 8px; padding: 0 14px 8px; }
+  .home-find-kid { gap: 8px; }
+  .home-find .surprise { min-height: 48px; padding: 4px 14px; font-size: 16px; }
+  .home-find-parent { gap: 6px; }
+  .home-find .search { flex-basis: 120px; min-width: 96px; padding: 0 12px; }
+}
+/*
+ * 手機橫放（844×390）：高度最缺。頂列 54、方塊 72 高、找字工具列擠成一行（家長那組 flex-basis 0，篩選排不下就自己橫捲）。
+ * 遊戲架照樣一排：844 寬時 (844 − 28 − 8×8) ÷ 9 ≈ 84px 一塊，九個剛好排得下不用捲；更窄的手機每塊最少 72px，排不下就橫捲。
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home.exploring .home-bar { gap: 10px; padding: 6px 14px 4px; }
+  .home.exploring .home-title { font-size: 24px; }
+  .home-shelf { grid-auto-columns: minmax(72px, 1fr); gap: 8px; padding: 8px 14px 10px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 14px; scrollbar-width: none; }
+  .place { height: 72px; gap: 0; padding: 2px; border-radius: 18px; scroll-snap-align: start; }
+  .place-icon { width: 46px; height: 46px; font-size: 44px; border-radius: 14px; }
+  .place b { font-size: 16px; }
+  .home-find { gap: 6px 12px; padding: 0 14px 6px; }
+  .home-find .surprise { min-height: 44px; padding: 4px 14px; font-size: 16px; }
+  .home-find-parent { flex-basis: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .place { transition: none; }
+}

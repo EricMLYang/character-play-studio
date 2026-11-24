@@ -8,7 +8,7 @@ import { hasMovie } from '../anim/clips'
 import { applyEvent, pendingEvents, queueEvent, flushEvents, type PlayEvent } from '../lib/playQueue'
 import { arrive } from '../lib/sfx'
 import { Confetti } from './ui'
-import Home from './Home'
+import Home, { type ExploreMemo } from './Home'
 import Viewer from './Viewer'
 import { Ride } from './Train'
 import { setParts } from './parts'
@@ -42,6 +42,14 @@ export default function PlayApp() {
   const [filter, setFilter] = useState<Filter>('all')
   /** 注音找字（ZhuyinPad.tsx）：null 是鍵盤收著；開著時是每一組選了哪個符號。放這裡是因為字卡清單要照它篩 */
   const [zhuyin, setZhuyin] = useState<ZhuyinPick | null>(null)
+  /**
+   * 首頁是在「自己逛逛」還是「今天的路」。放這裡不放 Home：進遊戲時 Home 整個卸載，
+   * 狀態放在 Home 裡的話，從自己逛逛點了故事屋、按返回，就被丟回今天的路（爸爸 2026-11-24 回報的）。
+   * 從哪裡出發就回哪裡：自己逛逛出發的回自己逛逛，今天的路出發的回今天的路。重新整理就回今天的路，不存起來。
+   */
+  const [explore, setExplore] = useState(false)
+  /** 自己逛逛捲到哪、剛剛點了哪一格遊戲：Home 卸載又掛回來時照這個還原（Home.tsx 的 ExploreMemo） */
+  const exploreMemo = useRef<ExploreMemo>({ top: 0, shelf: 0, place: '' })
   const [error, setError] = useState('')
   const [syncError, setSyncError] = useState(false)
   const { route, go, back } = useRoute()
@@ -203,6 +211,13 @@ export default function PlayApp() {
     go({ screen: id, ...(want ? { want } : {}) }, { replace })
   }
   const toScreen = (id: string) => enter(id)
+  const reset = () => { setQuery(''); setFilter('all'); setZhuyin(null) }
+  /** 打開或收起自己逛逛：換一面就從頭開始（捲動歸零）；收起來時搜尋、篩選、注音一起清掉 */
+  const showExplore = (open: boolean) => {
+    exploreMemo.current = { top: 0, shelf: 0, place: '' }
+    setExplore(open)
+    if (!open) reset()
+  }
 
   // 選擇困難時的出口：優先給還沒看過的字，都看過了就在目前清單裡隨機
   const surprise = useCallback(() => {
@@ -262,13 +277,17 @@ export default function PlayApp() {
             onFilter={setFilter}
             onPick={open}
             onSurprise={surprise}
-            onReset={() => { setQuery(''); setFilter('all'); setZhuyin(null) }}
+            onReset={reset}
+            explore={explore}
+            onExplore={showExplore}
+            exploreMemo={exploreMemo}
             zhuyin={zhuyin}
             zhuyinPool={pool}
             // 打開鍵盤時打字搜尋與篩選歸零：鍵盤是照整個字庫找，篩選列在鍵盤開著時也收起來
             onZhuyinToggle={() => { if (zhuyin) setZhuyin(null); else { setQuery(''); setFilter('all'); setZhuyin({}) } }}
             onZhuyinPick={(sym) => setZhuyin((z) => togglePick(z || {}, sym))}
             onZhuyinClear={() => setZhuyin({})}
+            // 遊戲架照 GAMES 的順序排（他最常玩的在前面，games.tsx）
             places={GAMES.map((g) => ({ id: g.id, icon: g.icon, title: g.title, subtitle: g.subtitle(progress), fresh: Boolean(g.fresh) && !seen.includes(g.id) }))}
             onScreen={toScreen}
             onRide={startRide}
@@ -298,7 +317,8 @@ export default function PlayApp() {
           onGo={(c) => open(c.char)}
           onJump={open}
           onClose={close}
-          onBrowseVideos={() => { setQuery(''); setFilter('video'); setZhuyin(null); go({ screen: 'home' }, { replace: true }) }}
+          // 「回影片字卡」要看得到影片字卡：字卡牆只在自己逛逛，所以一定落在自己逛逛（從遊戲裡開的字也一樣）
+          onBrowseVideos={() => { reset(); setFilter('video'); showExplore(true); go({ screen: 'home' }, { replace: true }) }}
           onComplete={(e, id) => record({ char: e.char, id })}
           onTraced={(e, strokes, blind) => record({ kind: 'trace', char: e.char, strokes, ...(blind ? { blind: true } : {}) })}
           onTown={() => go({ screen: 'town' }, { replace: true })}

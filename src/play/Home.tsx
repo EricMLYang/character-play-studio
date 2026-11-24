@@ -25,10 +25,22 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'full', label: '👑 集滿星星' },
 ]
 
+/**
+ * 自己逛逛捲到哪：字卡牆往下捲了多少、遊戲架（手機上會橫捲）往右捲了多少、剛剛點進去的是哪一格遊戲。
+ * 進遊戲時 Home 整個卸載，這份放在 PlayApp，回來掛上時照它還原——他從故事屋回來，還是在剛剛那個位置。
+ */
+export type ExploreMemo = { top: number; shelf: number; place: string }
+
 export default function Home({
   items, groups, total, watched, progress, stars, starCaps, allHaveMovies, starTotal, fullCount, todayCount, query, onQuery, filter, onFilter, onPick, onSurprise, onReset, places, onScreen, onRide, path, walked, onGo, made = [],
   zhuyin = null, zhuyinPool = [], onZhuyinToggle, onZhuyinPick, onZhuyinClear,
+  explore, onExplore, exploreMemo,
 }: {
+  /** 在自己逛逛（true）還是今天的路（false）。狀態在 PlayApp：進遊戲再回來要留著 */
+  explore: boolean
+  /** 打開／收起自己逛逛（收起來時 PlayApp 會把搜尋、篩選、注音清掉） */
+  onExplore: (open: boolean) => void
+  exploreMemo: { current: ExploreMemo }
   /** 他最近在魔法筆變出來的東西（magicWorld.ts 的 recentMade）：站在今天的路兩旁，點了去魔法筆 */
   made?: { char: string; emoji: string }[]
   items: CharEntry[]
@@ -76,15 +88,38 @@ export default function Home({
   const [mine, setMine] = useState(false)
   /** 骰子正在轉（轉完才開那個字） */
   const [rolling, setRolling] = useState(false)
-  /**
-   * 自己逛逛：字卡牆、搜尋、遊戲入口都還在，收在路的後面。
+  /*
+   * 自己逛逛（explore）：字卡牆、搜尋、遊戲入口都還在，收在路的後面。
    * 他想重看「叫」的影片隨時可以，只是打開來不再是兩百多張字卡攤開讓他挑
    */
-  const [explore, setExplore] = useState(false)
-  /** 注音鍵盤開著（開著的時候篩選列、遊戲入口收起來，找到的字卡緊接在鍵盤下面） */
+  /** 注音鍵盤開著（開著的時候篩選列、遊戲架收起來，找到的字卡緊接在鍵盤下面） */
   const pad = explore && Boolean(zhuyin)
   /** 有選注音：字卡平鋪、注音放大標色 */
   const marked = pad && hasPick(zhuyin)
+  const gridKey = groups ? 'grouped' : marked ? pickText(zhuyin) : 'list'
+  const grid = useRef<HTMLDivElement>(null)
+  const shelf = useRef<HTMLElement>(null)
+  /*
+   * 從遊戲回來（Home 重新掛上）：字卡牆捲回原本的位置、遊戲架捲到剛剛那一格、焦點放回那一格。
+   * 之後字卡牆換一份（注音選了別的、詞組換平鋪）就記下新的位置，不然回來會捲到一個不相干的地方。
+   */
+  const restored = useRef(false)
+  useLayoutEffect(() => {
+    const memo = exploreMemo.current
+    if (restored.current) { memo.top = grid.current?.scrollTop ?? 0; return }
+    restored.current = true
+    if (!explore) return
+    if (grid.current) grid.current.scrollTop = memo.top
+    const row = shelf.current
+    if (!row) return
+    row.scrollLeft = memo.shelf
+    const tile = memo.place ? row.querySelector<HTMLButtonElement>(`.place-${CSS.escape(memo.place)}`) : null
+    memo.place = ''
+    if (!tile) return
+    // 手機上遊戲架是橫捲的：那一格在畫面外就捲過去（只捲這一排，不用 scrollIntoView，它會連字卡牆一起捲）
+    if (tile.offsetLeft + tile.offsetWidth > row.scrollLeft + row.clientWidth || tile.offsetLeft < row.scrollLeft) row.scrollLeft = tile.offsetLeft - 14
+    tile.focus({ preventScroll: true })
+  }, [gridKey, explore])
 
   // 同一個詞的字卡用同一個顏色，孩子一眼看得出哪幾張是一起的
   /**
@@ -142,23 +177,69 @@ export default function Home({
     g.key === 'more' ? c.priority % 8 : g.mine ? hueOf.get(c.char) ?? 0 : (gi < pinCount ? gi : gi - mineCount) % 8
 
   return (
-    <div className={'home' + (pad ? ' zy-on' : '')}>
+    <div className={'home' + (explore ? ' exploring' : '') + (pad ? ' zy-on' : '')}>
       {mine && (
         <Mine progress={progress} stars={starTotal} fullCount={fullCount}
           onClose={() => { tap(); setMine(false) }}
-          onGo={(where) => { setMine(false); if (where === 'full') onFilter('full'); else onScreen(where) }} />
+          // 「星星集滿的字」是字卡牆的篩選：字卡牆只在自己逛逛，從今天的路打開的也要走過去
+          onGo={(where) => { setMine(false); if (where === 'full') { if (!explore) onExplore(true); onFilter('full') } else onScreen(where) }} />
       )}
+      {/*
+        自己逛逛由上到下四層，每一層是什麼要一眼分得出來（爸爸 2026-11-24：原本一整片差不多大的東西，太滿、不好挑）：
+        頂列（標題、星星、回今天的路、家長）→ 遊戲架（九個大方塊）→ 找字工具列（左邊給孩子、右邊給家長）→ 字卡牆。
+      */}
       <header className="home-bar">
         <h1 className="home-title">字字樂園</h1>
-        {explore && (
-          <>
+        {/* 星星存摺縮成頂列一顆：點了一樣打開「我的東西」 */}
+        {explore && <StarBank total={starTotal} onOpen={() => { tap(); setMine(true) }} />}
+        <button className="chip explore-toggle" aria-pressed={explore} onClick={() => { tap(); onExplore(!explore) }}>
+          {explore ? '🛤️ 回今天的路' : '🎲 自己逛逛'}
+        </button>
+        <ParentGate />
+      </header>
+
+      {!explore && (
+        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount} made={made}
+          onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); onExplore(true) }} />
+      )}
+
+      {/*
+        遊戲架：九個一排的大方塊，圖示加名字就好（副標他讀不到，留在 aria-label 與 title 給大人）。
+        順序就是 games.tsx 的 GAMES（他最常玩的在前面）。鍵盤開著時收起來，找到的字卡才緊接在鍵盤下面
+      */}
+      {explore && !pad && (
+        <nav className="home-shelf" ref={shelf} aria-label="去玩" onScroll={(e) => { exploreMemo.current.shelf = e.currentTarget.scrollLeft }}>
+          {places.map((p, i) => (
+            <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} style={{ ['--i' as any]: i }}
+              onClick={() => { tap(); exploreMemo.current.place = p.id; onScreen(p.id) }}
+              aria-label={`${p.title}${p.fresh ? '（新的）' : ''}：${p.subtitle}`} title={p.subtitle}>
+              <span className="place-icon" aria-hidden>{p.icon}</span>
+              <b>{p.title}</b>
+              {p.fresh && <span className="place-new" aria-hidden>🆕</span>}
+            </button>
+          ))}
+        </nav>
+      )}
+
+      {/* 找字工具列：左邊兩顆大的給孩子，右邊小的、淡的給家長（打字搜尋、篩選、字數），窄的畫面家長那一組換到下一行 */}
+      {explore && (
+        <div className="home-find">
+          <div className="home-find-kid">
+            {onZhuyinToggle && <ZhuyinOpen open={pad} onToggle={onZhuyinToggle} />}
+            {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
+            <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
+              onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
+              <span className="dice" aria-hidden>🎲</span> 隨便給我一個
+            </button>
+          </div>
+          <div className="home-find-parent" role="group" aria-label="打字找字與篩選">
             <input
               className="search"
               type="search"
               value={query}
               onChange={(e) => onQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && items[0]) onPick(items[0].char) }}
-              placeholder="找字：輸入國字、注音或英文"
+              placeholder="輸入國字、注音或英文"
               aria-label="找字"
             />
             {!pad && (
@@ -168,48 +249,16 @@ export default function Home({
                 ))}
               </div>
             )}
-            {/* 還不會打字的孩子也要有一個「我不知道要看什麼」的出口。骰子先轉一下再開，那一下的期待就是它好玩的地方 */}
-            <button className={'chip surprise' + (rolling ? ' rolling' : '')} disabled={!items.length || rolling}
-              onClick={() => { tap(); setRolling(true); window.setTimeout(() => { setRolling(false); onSurprise() }, 420) }}>
-              <span className="dice" aria-hidden>🎲</span> 隨便給我一個
-            </button>
             {/* 鍵盤開著時顯示區自己會說找到幾個字 */}
             {!pad && <span className="home-stat">{items.length === total ? `${total} 個字` : `${items.length} / ${total} 個字`}</span>}
-            {onZhuyinToggle && <ZhuyinOpen open={pad} onToggle={onZhuyinToggle} />}
-          </>
-        )}
-        <button className="chip explore-toggle" aria-pressed={explore} onClick={() => { tap(); setExplore((v) => !v); if (explore) onReset() }}>
-          {explore ? '🛤️ 回今天的路' : '🎲 自己逛逛'}
-        </button>
-        <ParentGate />
-      </header>
-
-      {!explore && (
-        <PathBoard stops={path} walked={walked} starTotal={starTotal} todayCount={todayCount} made={made}
-          onGo={onGo} onMine={() => { tap(); setMine(true) }} onExplore={() => { tap(); setExplore(true) }} />
+          </div>
+        </div>
       )}
 
       {pad && <ZhuyinPad pick={zhuyin!} pool={zhuyinPool} found={items.length} onPick={(sym) => onZhuyinPick?.(sym)} onClear={() => onZhuyinClear?.()} />}
 
-      {explore && !pad && (
-        <div className="home-invite">
-          {/* 看完字卡之後還有地方可以去：小鎮、字火車……清單在 games.tsx */}
-          <div className="home-places">
-            {places.map((p, i) => (
-              <button key={p.id} className={`place place-${p.id}` + (p.fresh ? ' fresh' : '')} style={{ ['--i' as any]: i }} onClick={() => { tap(); onScreen(p.id) }}
-                aria-label={p.fresh ? `${p.title}（新的）：${p.subtitle}` : undefined}>
-                <span className="place-icon" aria-hidden>{p.icon}</span>
-                <span><b>{p.title}</b><small>{p.subtitle}</small></span>
-                {p.fresh && <span className="place-new" aria-hidden>🆕</span>}
-              </button>
-            ))}
-          </div>
-          <StarBank total={starTotal} onOpen={() => { tap(); setMine(true) }} />
-        </div>
-      )}
-
       {explore && (groups ? (
-        <div className="grid grouped" aria-label="字卡瀏覽">
+        <div ref={grid} onScroll={(e) => { exploreMemo.current.top = e.currentTarget.scrollTop }} className="grid grouped" aria-label="字卡瀏覽">
           {[...groups, ...(filter === 'all' ? [{ key: 'more', label: '📚 更多字卡', items: items.filter((c) => !hasMovie(c)) }] : [])]
             .filter((g) => g.items.length)
             .map((g, gi) => (
@@ -232,7 +281,7 @@ export default function Home({
         </div>
       ) : (
         // 選的注音一變，key 跟著換：整片字卡重新掛上去，一張接一張再「跑出來」一次
-        <div key={marked ? pickText(zhuyin) : 'list'} className={'grid' + (marked ? ' zy-grid' : '')} aria-label="字卡瀏覽">
+        <div key={gridKey} ref={grid} onScroll={(e) => { exploreMemo.current.top = e.currentTarget.scrollTop }} className={'grid' + (marked ? ' zy-grid' : '')} aria-label="字卡瀏覽">
           {items.map((c, i) => card(c, c.priority % 8, i))}
           {!items.length && <Empty total={total} query={query} filter={filter} onReset={onReset} />}
         </div>

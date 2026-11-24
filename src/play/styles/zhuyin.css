@@ -8,7 +8,7 @@
 .zy-medial { --zy: #6BD37B; --zy-tint: #E2F6E5; --zy-deep: #26703A; }
 .zy-final { --zy: #FF7BA9; --zy-tint: #FFE5EE; --zy-deep: #B02F62; }
 
-/* 頂列的入口：要比旁邊的小藥丸大、一眼看得到，按鈕上寫的就是他認得的ㄅㄆㄇ */
+/* 找字工具列（home.css 的 .home-find）左邊那顆入口：跟「隨便給我一個」一樣大、一眼看得到，按鈕上寫的就是他認得的ㄅㄆㄇ */
 .zy-open { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 5px 18px 5px 8px; border-radius: 999px;
   background: #fff; color: var(--ink); box-shadow: 0 5px 0 rgba(0,0,0,.12), 0 10px 20px rgba(0,0,0,.08);
   transition: transform .15s cubic-bezier(.2,1.7,.4,1); }
@@ -116,13 +116,11 @@
  * 手機橫放（844×390）：只有 390 高，鍵盤不能把畫面吃掉。鍵 44px、間隔 4px，跟寬平板一樣 7／1／5 欄 × 3 列：
  * 寬 = 13×44 + 10×4 + 3×8 + 2×8 = 652，顯示區 120 擺在左邊，合計 780，排得進 844 − 28 = 816；
  * 高 = 3×44 + 2×4 + 8 = 148（捲動框上下各留 3 → 154），整塊約 162px。更窄的畫面鍵盤區自己橫向捲，不會往下長。
- * 頂列：鍵盤開著時「隨便給我一個」收起來、上下邊距縮小，頂列排成一行（約 62px）；
- * 剩下約 170px 給字卡，找到的字卡縮成 150px 高、拿掉圖示，至少看得到完整的一排。
+ * 上面：鍵盤開著時「隨便給我一個」收起來，頂列和找字工具列併成一行（54px，檔尾那段）；
+ * 390 − 54 − 162 ＝ 174px 給字卡，找到的字卡縮成 150px 高、拿掉圖示，上緣留 8px，完整的一排（158）看得到。
  */
 @media (max-height: 500px) and (orientation: landscape) {
-  .home.zy-on .home-bar { padding: 8px 14px 6px; }
   .home.zy-on .chip.surprise { display: none; }
-  .home.zy-on .search { flex-basis: 160px; }
   .zy-open { min-height: 44px; }
   .zy-pad { --zy-key: 44px; --zy-gap: 4px; --zy-pad: 4px; --zy-font: 26px; flex-wrap: nowrap; gap: 8px; padding: 2px 14px 6px; }
   .zy-group.zy-initial { --cols: 7; }
@@ -140,6 +138,25 @@
   .zy-grid .card-emoji, .zy-grid .card-badge { display: none; }
   .zy-grid .card { padding-top: 12px; }
   .zy-grid .card-zhuyin { font-size: 24px; }
+}
+
+/*
+ * 鍵盤開著時頂列和找字工具列併成同一行（寬的平板、橫的手機）：遊戲架收起來以後，
+ * 這兩條各佔一行太浪費高度，鍵盤底下的字卡會被擠到剩一截。.home 換成格子：第一行左邊頂列、右邊工具列，
+ * 鍵盤和字卡牆各佔一整行。「我的東西」、家長面板是 position: fixed，不算格子裡的東西。
+ *   平板橫 1180×820：頂列寬約 460、工具列（收起來＋隨便給我一個＋搜尋框）約 650，排得進一行；
+ *     60 ＋ 鍵盤 232 ＝ 292，字卡區 820 − 292 ＝ 528px 高（鍵維持 62px）。
+ *   手機橫 844×390：頂列約 400、工具列（收起來＋搜尋框）約 340；54 ＋ 162 ＝ 216，字卡區 174px。
+ * 直的平板、直的手機高度夠，照一般的上下排：平板直 60 ＋ 62 ＋ 372 ＝ 494（字卡區 686）；手機直 60 ＋ 102 ＋ 388 ＝ 550（字卡區 294）。
+ */
+@media (min-width: 1050px), (max-height: 500px) and (orientation: landscape) {
+  .home.exploring.zy-on { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
+  .home.exploring.zy-on .home-bar { grid-column: 1; grid-row: 1; padding-right: 0; }
+  .home.exploring.zy-on .home-find { grid-column: 2; grid-row: 1; padding-top: 4px; padding-bottom: 4px; padding-left: 16px; }
+  .home.exploring.zy-on .zy-pad, .home.exploring.zy-on .grid { grid-column: 1 / -1; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .home.exploring.zy-on .home-find { padding-top: 5px; padding-bottom: 5px; padding-left: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
