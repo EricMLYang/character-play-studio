@@ -2,12 +2,15 @@ export type StoryOption = { char: string; emoji: string; text: string; ok?: bool
 export type ReadPage = { id: string; text: string }
 export type ChoicePage = { id: string; ask: string; options: StoryOption[]; all?: boolean }
 export type StoryPage = ReadPage | ChoicePage
-export type Story = { id: string; title: string; hero: string; emoji: string; pages: StoryPage[] }
+/** hero：public/hero/ 的主角（封面、今天的路）；cover：主演只有道具圖時封面改用這兩張（'prop:<名字>'） */
+export type Story = { id: string; title: string; hero: string; cover?: { idle: string; happy: string }; emoji: string; pages: StoryPage[] }
 export type Sticker = { beat: string; char: string; emoji: string }
 
 export const BLANK: string
 export const STORIES: Story[]
 export function storyById(id: string): Story | undefined
+export function coverOf(story: Story, open?: boolean): string
+export const STORY_NAMES: string[]
 export function isChoice(page: StoryPage): page is ChoicePage
 export function beatOf(page: StoryPage, option?: StoryOption): string
 export function filled(page: ChoicePage, option: StoryOption): string

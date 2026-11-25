@@ -15,7 +15,7 @@ registerHooks({
 })
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const { STORIES, BLANK, STORY_FIXED, storyById, isChoice, beatOf, filled, askLead, advances, beatsOf, stickersOf, choiceChars, storyChars, storiesNeeding, storyLines, validStory } = await import('../shared/stories.mjs')
+const { STORIES, BLANK, STORY_FIXED, STORY_NAMES, coverOf, storyById, isChoice, beatOf, filled, askLead, advances, beatsOf, stickersOf, choiceChars, storyChars, storiesNeeding, storyLines, validStory } = await import('../shared/stories.mjs')
 const { readStory, validBook, charStars } = await import('../shared/domain.mjs')
 const { recordEvent } = await import('../shared/play-events.mjs')
 const { FIXED_LINES } = await import('../shared/voice-lines.mjs')
@@ -41,10 +41,14 @@ test('故事裡每一個字都在孩子端的字庫裡：他點任何一個字�
 
 test('故事避開多音字（句子是 say 唸的，唸錯會教錯）', () => {
   const risky = new Set([...'長樂重行還得地背空相分種乾'])
+  // 名字的唸法是固定的（孫悟空的「空」）：先把 STORY_NAMES 裡的名字拿掉再查，名字以外照樣不准用
+  const strip = (text) => STORY_NAMES.reduce((t, name) => t.replaceAll(name, ''), text)
   for (const story of STORIES) {
-    const hit = storyChars(story).filter((c) => risky.has(c))
+    const texts = [story.title, ...story.pages.flatMap((page) => (isChoice(page) ? [page.ask, ...page.options.flatMap((o) => [o.char, o.text])] : [page.text]))]
+    const hit = [...new Set([...strip(texts.join('｜'))].filter((c) => risky.has(c)))]
     assert.deepEqual(hit, [], `「${story.title}」有多音字：${hit.join('')}`)
   }
+  assert.equal(strip('孫悟空在空中'), '在空中', '名字以外的「空」照樣會被擋')
 })
 
 test('選的頁：一個空格、至少兩個選項、選得到往下走的那一個，填好的整句記得進小書紀錄', () => {
@@ -52,7 +56,14 @@ test('選的頁：一個空格、至少兩個選項、選得到往下走的那�
   for (const story of STORIES) {
     assert.ok(!ids.has(story.id), `故事 id 重複：${story.id}`)
     ids.add(story.id)
-    assert.ok(POSES[story.hero]?.includes('happy'), `${story.id} 的主角 ${story.hero} 要有 happy 姿勢（封面用）`)
+    assert.ok(POSES[story.hero]?.includes('happy'), `${story.id} 的主角 ${story.hero} 要有 happy 姿勢（封面、今天的路用）`)
+    // 封面：一般是主角的 idle／happy；主演只有道具圖的書（cover）兩張圖都要真的在 public/props/
+    for (const open of [false, true]) {
+      const art = coverOf(story, open)
+      if (!story.cover) { assert.equal(art, `hero:${story.hero}/${open ? 'happy' : 'idle'}`); continue }
+      assert.match(art, /^prop:[\w-]+$/, `${story.id} 的 cover 要寫成 'prop:<名字>'`)
+      assert.ok(fs.existsSync(path.join(ROOT, 'public/props', `${art.slice(5)}.png`)), `${story.id} 的封面圖 ${art} 不在 public/props/`)
+    }
     assert.ok(!isChoice(story.pages[0]), `${story.id} 第一頁要是讀的頁（選的頁沒有自己的戲）`)
     const pageIds = new Set()
     for (const page of story.pages) {
@@ -74,7 +85,7 @@ test('選的頁：一個空格、至少兩個選項、選得到往下走的那�
   }
   assert.equal(filled(STORIES[0].pages[1], STORIES[0].pages[1].options[0]), '給他火！')
   assert.equal(askLead(STORIES[0].pages[1]), '給他')
-  assert.deepEqual(storiesNeeding('燈').map((s) => s.id), ['dark'])
+  assert.deepEqual(storiesNeeding('雷').map((s) => s.id), ['dark'])
 })
 
 test('每一段戲都有劇本，而且剛好唸那一句（規則在 scripts/story-check.mjs，npm run story:check 會多列出接不起來的地方）', async () => {

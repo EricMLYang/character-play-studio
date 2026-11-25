@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CharEntry, Progress } from '../types'
 import AnimPlayer from '../anim/AnimPlayer'
-import type { Clip } from '../anim/clip'
+import { PROP_PREFIX, propSrc, type Clip } from '../anim/clip'
 import { hasScenes, loadScenes, type Scenes } from '../story/scenes'
 import { lineOf } from '../story/scene'
 import { preloadVoice, say, stopSpeech, voiceDuration } from '../lib/audio'
 import { blip, cheer, magic, tap, whoosh } from '../lib/sfx'
-import { BLANK, STORY_FIXED, advances, askLead, beatOf, filled, isChoice, type ChoicePage, type Story as Tale, type StoryOption } from '../../shared/stories.mjs'
+import { BLANK, STORY_FIXED, advances, askLead, beatOf, coverOf, filled, isChoice, type ChoicePage, type Story as Tale, type StoryOption } from '../../shared/stories.mjs'
 import { litIndex, missing, nextBook, shelfOf, yourTurn, type Book } from './stories'
 import { Confetti, SubBar, emojiArt } from './ui'
 import { stopAfter, type Stop, type StopGo } from './today'
@@ -229,7 +229,7 @@ export default function Story({ library, progress, path, onWalk, onPick, onBack,
             <article key={b.story.id} className={'story-book' + (b.open ? '' : ' locked') + (suggested === b ? ' next' : '')}>
               <button className="story-cover" onClick={() => (b.open ? begin(b) : locked(b))} aria-label={b.open ? `讀「${b.story.title}」` : `「${b.story.title}」還沒打開`}>
                 <span className="story-cover-art" aria-hidden>
-                  <img src={`/hero/${b.story.hero}/${b.open ? 'happy' : 'idle'}.png`} alt="" draggable={false} />
+                  <img src={coverSrc(b.story, b.open)} alt="" draggable={false} />
                   <Emoji emoji={b.story.emoji} className="story-cover-emoji" />
                 </span>
                 <b className="story-cover-title">{b.story.title}</b>
@@ -258,7 +258,7 @@ export default function Story({ library, progress, path, onWalk, onPick, onBack,
         <SubBar title={`📚 ${tale.title}`} onBack={leave} backLabel="← 故事屋" />
         <div className="story-done">
           <Confetti />
-          <b className="story-done-title"><img src={`/hero/${tale.hero}/happy.png`} alt="" draggable={false} />讀完了！</b>
+          <b className="story-done-title"><img src={coverSrc(tale)} alt="" draggable={false} />讀完了！</b>
           <div className="story-album">
             {book.stickers.map((s, i) => (
               <button key={s.beat} className={'story-sticker' + (s.got ? ' got' : '') + (fresh.includes(s.beat) ? ' fresh' : '')} style={{ ['--i' as any]: i }}
@@ -297,7 +297,7 @@ export default function Story({ library, progress, path, onWalk, onPick, onBack,
             {clip
               ? <StoryStage clip={clip} run={run} playing={step === 'play'} onTime={setT} onEnd={ended} />
               : <div className="story-title-card">
-                  <img src={`/hero/${tale.hero}/happy.png`} alt="" draggable={false} />
+                  <img src={coverSrc(tale)} alt="" draggable={false} />
                   <b>{tale.title}</b>
                 </div>}
             {step === 'wait' && (
@@ -372,6 +372,12 @@ function StoryStage({ clip, run, playing, onTime, onEnd }: { clip: Clip; run: nu
     <AnimPlayer key={run} clip={clip} playing={playing && !over} t={t}
       onTime={(v) => { setT(v); onTime(v) }} onEnd={() => { setOver(true); onEnd() }} />
   )
+}
+
+/** 封面那張圖的網址：一般是主角的 idle／happy；主演是公版人物（只有道具圖）的書用 cover 寫的那兩張 */
+function coverSrc(story: Tale, open = true) {
+  const art = coverOf(story, open)
+  return art.startsWith(PROP_PREFIX) ? propSrc(art) : `/hero/${art.slice('hero:'.length)}.png`
 }
 
 /** 有 3D 圖就用圖（貼紙放大了才好看），沒有就用 emoji 字 */

@@ -20,6 +20,9 @@
  *     ok 的選項選了故事才往下走，其他的演完回來再選；all: true 是每個都要選過一次（順序他決定），不用標 ok。
  *     emoji 是這個結果的貼紙。
  *   每一頁演什麼在 src/story/scenes/<id>.ts：讀的頁用頁的 id，選項用「頁 id:字」（beatOf）。
+ *   hero 是 public/hero/ 的主角：封面用他的 idle／happy，今天的路「讀一讀」那一站也是他站在那裡。
+ *   主演是公版人物（年獸、孫悟空、豬八戒，只有 public/props/ 的道具圖）時另外寫 cover: { idle, happy }（'prop:<名字>'），
+ *   封面改用這兩張（coverOf）；hero 照樣要填一位 public/hero/ 的主角，給今天的路用。
  *
  * 多音字：句子是這台 Mac 的 say 唸的，避開 長、樂、重、行、還、得、地、背、空、相、分、種、乾。
  */
@@ -273,9 +276,82 @@ export const STORIES = [
       { id: 'hug', text: '大家一起抱抱媽媽。' },
     ],
   },
+  {
+    // 2026-11-25：主角館改成公版人物、有專門畫的九個姿勢以後，他比較愛拼了——爸爸要年獸、孫悟空、豬八戒也到故事屋來。
+    // 主角館演的是「一吼就冒出紅的東西嚇到自己」；這本是楊捷睿不怕他，先找出他怕什麼顏色，再發現他只是餓了。
+    // 選項第一次用顏色的字（紅、粉、黑）。選項盡量挑他看過的字：這本只差「紅」就打開（紅有動畫可看）
+    id: 'nian', title: '年獸來了', hero: 'yang', cover: { idle: 'prop:nian', happy: 'prop:nian-dance' }, emoji: '🧨',
+    pages: [
+      { id: 'night', text: '過年的夜晚，年獸來了！' },
+      { id: 'roar', text: '年獸大叫！楊捷睿不怕！' },
+      { id: 'scare', ask: '年獸怕＿的！', options: [
+        { char: '紅', emoji: '🧣', text: '年獸好怕紅的！他跑了！', ok: true },
+        { char: '粉', emoji: '🌸', text: '不怕粉的！他愛粉的花！' },
+        { char: '黑', emoji: '🎩', text: '不怕黑的！可是他看不見了！' },
+      ] },
+      { id: 'cry', text: '年獸哭了。他只是好餓。' },
+      { id: 'feed', ask: '給他吃＿！', options: [
+        { char: '餃', emoji: '🥟', text: '好吃的餃子！年獸笑了！', ok: true },
+        { char: '糖', emoji: '🍭', text: '好甜的糖！他的嘴打不開了！' },
+        { char: '燈', emoji: '🏮', text: '他吃了燈！肚子裡有光！' },
+      ] },
+      { id: 'red', text: '年獸不怕紅的了！' },
+      { id: 'party', text: '大家一起過年！' },
+    ],
+  },
+  {
+    // 2026-11-25：孫悟空的七十二變——他讀的字就是孫悟空變的東西。主角館演的是拔毛變分身疊羅漢；
+    // 這本是偷吃了豬八戒的果子、變東西躲他，再用猴毛變吃的賠他。「空」是多音字，只准出現在「孫悟空」這個名字裡（測試有寫）
+    id: 'wukong', title: '孫悟空會變', hero: 'raccoon', cover: { idle: 'prop:wukong', happy: 'prop:wukong-happy' }, emoji: 'prop:peach',
+    pages: [
+      { id: 'steal', text: '孫悟空偷吃豬八戒的果子。' },
+      { id: 'back', text: '豬八戒回來了！快變！' },
+      { id: 'hide', ask: '孫悟空變＿！', options: [
+        { char: '蟲', emoji: '🐛', text: '變小蟲了！豬八戒看不見他！', ok: true },
+        { char: '石', emoji: '🪨', text: '豬八戒坐在石上。他太胖了！' },
+        { char: '花', emoji: '🌸', text: '豬八戒聞花。花跑到鼻子裡了！' },
+      ] },
+      { id: 'hungry', text: '果子沒了。豬八戒好餓！' },
+      { id: 'hair', ask: '猴毛變＿！', options: [
+        { char: '瓜', emoji: '🍉', text: '毛變大瓜了！豬八戒吃好多！', ok: true },
+        { char: '蜂', emoji: '🐝', text: '好多蜂！豬八戒快跑！' },
+        { char: '蟹', emoji: '🦀', text: '蟹拉他的鼻子！鼻子好大！' },
+      ] },
+      { id: 'full', text: '豬八戒吃太多了。他笑了。' },
+      { id: 'cloud', text: '他們坐雲回家。雲飛好慢！' },
+    ],
+  },
+  {
+    // 2026-11-25：豬八戒——貪吃、圓肚子。主角館演的是「吃西瓜、踩到自己丟的皮」；這本是瓜在河的對面：
+    // 選項第一次用動作的字過河（游、跳、走），吃太多回不來，再選坐什麼回去。這本只差「游」就打開
+    id: 'bajie', title: '豬八戒吃瓜', hero: 'raccoon', cover: { idle: 'prop:bajie', happy: 'prop:bajie-melon' }, emoji: 'prop:watermelon-slice',
+    pages: [
+      { id: 'hungry', text: '豬八戒好餓。他的肚子在叫。' },
+      { id: 'river', text: '看！河的對面有好多瓜！' },
+      { id: 'cross', ask: '豬八戒＿過河！', options: [
+        { char: '游', emoji: '🛟', text: '肚子大大的，游過去了！', ok: true },
+        { char: '跳', emoji: '💦', text: '跳不過去！好多水！' },
+        { char: '走', emoji: '🐟', text: '走到水裡了！他不見了！' },
+      ] },
+      { id: 'eat', text: '到了！豬八戒吃瓜，吃了好多！' },
+      { id: 'big', text: '肚子太大了！他游不回去了！' },
+      { id: 'back', ask: '他坐＿過河！', options: [
+        { char: '瓜', emoji: '🍉', text: '坐在瓜皮上，過河了！', ok: true },
+        { char: '龜', emoji: '🐢', text: '龜太小了！龜起不來！' },
+        { char: '蝶', emoji: '🦋', text: '蝶拉不起來！蝶累了！' },
+      ] },
+      { id: 'home', text: '到家了。肚子叫了。他想再吃！' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
+
+/** 封面那張圖（跟劇本裡角色的寫法一樣：'hero:<id>/<姿勢>' 或 'prop:<名字>'）。open＝打得開、讀完了，用開心的那張 */
+export const coverOf = (story, open = true) => story.cover?.[open ? 'happy' : 'idle'] ?? `hero:${story.hero}/${open ? 'happy' : 'idle'}`
+
+/** 多音字只准出現在這幾個名字裡（名字的唸法是固定的）：檢查多音字前先把名字拿掉 */
+export const STORY_NAMES = ['孫悟空']
 
 /** 這一頁是不是「選的頁」 */
 export const isChoice = (page) => Array.isArray(page.options)

@@ -26,6 +26,9 @@ description: 幫孩子端的「故事屋」寫新故事，或替一本故事寫�
    - **全部都要**（`all: true`）：每個都要選過一次，順序他決定。
 3. 選項的字挑**看得到、演得出來**的（東西、動物、動作），而且意思差很多，選錯才好笑。
 4. 主角從 `public/hero/` 挑，名字要是字庫裡的字（楊捷睿 yang、爸爸 eric、小豬 pig、機器人 robot、小龍 dino、超人 cape、小車 car）。
+   主演是主角館的公版人物（年獸 `prop:nian*`、孫悟空 `prop:wukong*`、豬八戒 `prop:bajie*`，只有 `public/props/` 的圖）時，故事資料另外寫
+   `cover: { idle: 'prop:…', happy: 'prop:…' }` 當封面，`hero` 照樣填一位 `public/hero/` 的主角（今天的路那一站用）。範本：nian、wukong、bajie。
+   prop 圖的角色引擎不會自己踩步伐、也不會閒著動，走路與等待的小動作要手寫；名字裡有多音字（孫悟空的「空」）要加進 `shared/stories.mjs` 的 `STORY_NAMES`。
 5. `emoji` 是那個結果的貼紙：要有 3D 圖（下面「emoji」）。
 6. 寫完跑 `npm run voice` 做音檔（拿得到每一句的真實長度）。
 
@@ -104,3 +107,5 @@ npm run play        # http://127.0.0.1:5199/#/story（隔離資料，不會寫�
 ```
 
 不要對著 5180 試玩。Chrome 分頁在背景時動畫不會跑，驗動畫用 `anim:shot`，不要用播放。
+
+新增場景檔以後，一直開著的 5180 不一定會發現（`src/story/scenes/index.ts` 用 `import.meta.glob` 收檔）：`touch src/story/scenes/index.ts` 讓它重讀，再看書架右上角的「N / M 本」對不對。
