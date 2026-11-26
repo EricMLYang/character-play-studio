@@ -632,6 +632,8 @@ emoji 沒有、或硬湊會教錯的東西（楊桃畫成 ⭐，他會學成楊�
 | `snowwhite`、`snowwhite-happy`、`snowwhite-shock`、`snowwhite-apple`、`snowwhite-bite`、`snowwhite-sleep`、`snowwhite-yawn`、`snowwhite-sneeze`、`snowwhite-angry` | 白雪公主（公版，格林童話）：原創造型——黑髮麻花辮、雪花髮夾、淺藍冬裝白毛邊、白披風白靴（不是動畫電影那套）；都朝左、同一個比例可以 swap：拉裙擺行禮／開心跳／嚇一跳／捧著紅蘋果看／咬一大口兩頰鼓鼓／仰躺昏睡、旁邊一顆咬過的蘋果／坐著伸懶腰打呵欠／打噴嚏把蘋果塊噴出去／生氣跺腳 | 主角館「白雪公主」（還沒寫） |
 | `duckling`、`duckling-cry`、`duckling-flower`、`duckling-look`、`duckling-shock`、`duckling-sad`、`duckling-dizzy`、`swan`、`swan-happy` | 醜小鴨（公版，安徒生童話）：灰撲撲毛亂亂、頭頂三根呆毛的小鴨，都朝左；小鴨七張同一個比例可以 swap：害羞低頭／大哭噴淚／頭上插黃花擺姿勢／彎腰低頭看倒影／嚇一跳炸毛／垂頭喪氣地走／頭暈坐地。`swan`／`swan-happy` 是他長大以後的白天鵝（抬頭挺胸／張開大翅膀大笑、頭上那朵黃花），兩張同一個比例，size 要給得比小鴨大 | 主角館「醜小鴨」（還沒寫） |
 | `mermaid`、`mermaid-leap`、`mermaid-shock`、`mermaid-wobble`、`mermaid-boots`、`mermaid-flop`、`mermaid-cry`、`mermaid-dizzy`、`mermaid-angry` | 小美人魚（公版，安徒生童話）：原創造型——深藍包包頭、橘色海星髮夾、藍白條紋泳衣、金魚一樣的金橘色尾巴（不是動畫電影那套）；都朝左、同一個比例可以 swap：坐在石頭上揮手／從水裡跳起來、有水花／嚇一跳／用尾巴尖站著搖搖晃晃／尾巴套兩隻黃雨鞋叉腰得意／趴地摔成大字、頭上轉星星／坐著大哭／頭暈坐地／生氣尾巴拍地 | 主角館「小美人魚」（還沒寫） |
+| `top-red`、`top-red-spin`、`top-blue`、`top-blue-spin`、`top-green`、`top-green-spin` | 三顆傳統玩具陀螺（上寬下尖、頂上一根短軸，不照任何品牌的造型）：紅色金星、藍色閃電、草綠色小花，各有靜止與高速旋轉（歪一邊、花紋糊成橫條、白色速度線）兩張；六張同一個比例可以 swap。速度線是白的，淺色背景上很淡 | 故事屋「生日陀螺大戰」（top：楊捷睿／爸爸／媽媽的陀螺） |
+| `top-arena`、`birthday-cake`、`cream-splat` | 圓形對戰盤（淺灰藍色的淺盤，斜上方看）；插著五根蠟燭的兩層草莓生日蛋糕；一坨濺開的鮮奶油（黏著草莓和糖粒，貼在臉上用） | 故事屋「生日陀螺大戰」 |
 
 注意：寬扁的道具（`metro`）size 要寫很大（長邊）：捷運 size 112 才比人高一點。原圖只有 400 像素寬，放到滿畫面會有點軟。
 

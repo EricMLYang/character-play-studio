@@ -1,0 +1,7 @@
+{
+  "about": "第三十張道具表（2026-11-26，Codex 生圖，洋紅底 3×3）：楊捷睿生日故事「生日陀螺大戰」用的——三顆傳統玩具陀螺（上寬下尖、頂上一根短軸，不照任何品牌的造型）各有靜止與高速旋轉兩張：紅色金星（楊捷睿的）、藍色閃電（爸爸的）、草綠色小花（媽媽的，故事裡放得很大）；六張同一個比例可以 swap。再加圓形對戰盤、插蠟燭的草莓生日蛋糕、一坨濺開的鮮奶油（黏著草莓和糖粒，貼在臉上用）。清單在 scripts/sheets/props-30.txt；來源、版面規則見 assets/prop-sheets/README.md。",
+  "file": "props-30.png",
+  "key": "#FF00FF",
+  "props": ["top-red", "top-red-spin", "top-blue", "top-blue-spin", "top-green", "top-green-spin", "top-arena", "birthday-cake", "cream-splat"],
+  "together": [["top-red", "top-red-spin", "top-blue", "top-blue-spin", "top-green", "top-green-spin"]]
+}
