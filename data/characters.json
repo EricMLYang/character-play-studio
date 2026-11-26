@@ -14928,6 +14928,52 @@
       "priority": 383,
       "media": [],
       "feedback": []
+    },
+    {
+      "char": "陀",
+      "zhuyin": "ㄊㄨㄛˊ",
+      "meaning": "spinning top",
+      "emoji": "🌀",
+      "words": [
+        {
+          "text": "陀螺",
+          "emoji": "🌀"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "陀是陀螺的陀，陀螺一直繞圈圈，繞到自己頭都暈了。"
+      },
+      "status": "seed",
+      "priority": 384,
+      "media": [],
+      "feedback": []
+    },
+    {
+      "char": "螺",
+      "zhuyin": "ㄌㄨㄛˊ",
+      "meaning": "spiral shell; snail; spinning top",
+      "emoji": "🐚",
+      "words": [
+        {
+          "text": "陀螺",
+          "emoji": "🌀"
+        },
+        {
+          "text": "海螺",
+          "emoji": "🐚"
+        }
+      ],
+      "concept": {
+        "object": "",
+        "morph": "",
+        "hook": "螺是海螺的螺，把海螺貼在耳朵上，會聽到海浪嘩啦啦。"
+      },
+      "status": "seed",
+      "priority": 385,
+      "media": [],
+      "feedback": []
     }
   ],
   "production": {
