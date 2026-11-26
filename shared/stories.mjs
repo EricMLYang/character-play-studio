@@ -343,6 +343,39 @@ export const STORIES = [
       { id: 'home', text: '到家了。肚子叫了。他想再吃！' },
     ],
   },
+  {
+    // 2026-11-26：楊捷睿的生日禮物（生日是 11-27）。爸爸要一本「楊捷睿跟爸爸媽媽玩戰鬥陀螺」的故事，比平常長、三個選的頁：
+    // 跟爸爸比（陀螺有什麼力量）→ 媽媽搬出超大的陀螺（叫陀螺做什麼）→ 大陀螺掉到蛋糕上、奶油亂飛（三個人都要中一次）。
+    // 字庫為這本加了「陀、螺」；「鬥」不在字庫，書名用「大戰」；「轉」是多音字，整本不用。
+    // 陀螺畫成傳統的玩具陀螺（prop:top-red／top-blue／top-green），不照任何品牌的造型。選項九個字他都看過，上架就打得開。
+    id: 'top', title: '生日陀螺大戰', hero: 'yang', emoji: '🎂',
+    pages: [
+      { id: 'birthday', text: '今天是楊捷睿的生日！' },
+      { id: 'gift', text: '爸爸媽媽給他一個陀螺。' },
+      { id: 'spin', text: '他一拉，陀螺好快！' },
+      { id: 'dad', text: '爸爸也有陀螺。他要和楊捷睿大戰！' },
+      { id: 'power', ask: '楊捷睿的陀螺有＿！', options: [
+        { char: '火', emoji: '🔥', text: '火陀螺！爸爸的陀螺飛了！', ok: true },
+        { char: '冰', emoji: '🧊', text: '冰陀螺！陀螺和爸爸都變冰了！' },
+        { char: '水', emoji: '💦', text: '水陀螺！爸爸的臉都是水！' },
+      ] },
+      { id: 'win', text: '爸爸的陀螺不見了。爸爸哭了！' },
+      { id: 'mom', text: '媽媽也要玩。媽媽的陀螺好大！' },
+      { id: 'fight', ask: '叫陀螺＿！', options: [
+        { char: '跳', emoji: '👑', text: '跳到大陀螺的頭上了！大陀螺好怕！', ok: true },
+        { char: '打', emoji: '💥', text: '打不過！大陀螺太大了！' },
+        { char: '親', emoji: '💋', text: '陀螺親大陀螺。大陀螺臉紅了！' },
+      ] },
+      { id: 'sky', text: '大陀螺飛上天，到蛋糕上了！' },
+      { id: 'splat', ask: '蛋糕飛到＿的臉上！', all: true, options: [
+        { char: '爸', emoji: '👓', text: '爸爸看不見了！' },
+        { char: '媽', emoji: '🍓', text: '媽媽的頭上有蛋糕！好美！' },
+        { char: '他', emoji: '😋', text: '他用嘴接到了！好好吃！' },
+      ] },
+      { id: 'cream', text: '大家的臉都是蛋糕！大家都笑了！' },
+      { id: 'end', text: '楊捷睿，生日快樂！爸爸媽媽愛你！' },
+    ],
+  },
 ]
 
 export const storyById = (id) => STORIES.find((s) => s.id === id)
@@ -350,8 +383,8 @@ export const storyById = (id) => STORIES.find((s) => s.id === id)
 /** 封面那張圖（跟劇本裡角色的寫法一樣：'hero:<id>/<姿勢>' 或 'prop:<名字>'）。open＝打得開、讀完了，用開心的那張 */
 export const coverOf = (story, open = true) => story.cover?.[open ? 'happy' : 'idle'] ?? `hero:${story.hero}/${open ? 'happy' : 'idle'}`
 
-/** 多音字只准出現在這幾個名字裡（名字的唸法是固定的）：檢查多音字前先把名字拿掉 */
-export const STORY_NAMES = ['孫悟空']
+/** 多音字只准出現在這幾個名字與固定的詞裡（唸法是固定的）：檢查多音字前先把它們拿掉 */
+export const STORY_NAMES = ['孫悟空', '生日快樂']
 
 /** 這一頁是不是「選的頁」 */
 export const isChoice = (page) => Array.isArray(page.options)
